@@ -35,25 +35,25 @@ function scan($text, & $pos, $end) : Token {
         switch ($text[$pos++]) {
             case "#":
                 scanSingleLineComment($text, $pos, $end);
-                return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
+                continue;
 
             case " ":
             case "\t":
-                return new Token(TokenKind::Whitespace, $startPos, $tokenPos, $pos-$startPos);
             case "\r":
             case "\n":
-                // TODO trivia should prepend tokens
-                return new Token(TokenKind::Newline, $startPos, $tokenPos, $pos-$startPos);
+                continue;
 
             case "/":
                 // TODO trivia should prepend tokens
                 if (isSingleLineComment($text, $pos, $end)) {
                     scanSingleLineComment($text, $pos, $end);
-                    return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
+                    continue;
+//                    return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
                 } else if (isDelimitedComment($text, $pos, $end)) {
                     $pos++;
                     scanDelimitedComment($text, $pos, $end);
-                    return new Token(TokenKind::DelimitedComment, $startPos, $tokenPos, $pos-$startPos);
+                    continue;
+//                    return new Token(TokenKind::DelimitedComment, $startPos, $tokenPos, $pos-$startPos);
                 } else if (isCompoundAssignment($text, $pos, $end)) {
                     $pos++;
                     return new Token(TokenKind::CompoundDivideAssignment, $startPos, $tokenPos, $pos-$startPos);

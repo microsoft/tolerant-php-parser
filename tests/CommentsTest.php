@@ -20,38 +20,15 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 2, 2, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 3, 3, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 4, 4, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 5, 5, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 6, 6, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::SingleLineComment, 7, 7, 9),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 16, 16, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 17, 17, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::SingleLineComment, 18, 18, 8),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 26, 26, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 27, 27, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::SingleLineComment, 28, 28, 10),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 38, 38, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 39, 39, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::DelimitedComment, 40, 40, 14),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 54, 54, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 55, 55, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 56, 56, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Whitespace, 57, 57, 1),
-            new PhpParser\Token(PhpParser\TokenKind::DivideOperator, 58, 58, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Unknown, 5, 56, 52),
+            new PhpParser\Token(PhpParser\TokenKind::DivideOperator, 57, 58, 2),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 59, 59, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 60, 60, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 61, 61, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Newline, 62, 62, 1),
-
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 63, 63, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Unknown, 61, 63, 3),
             new PhpParser\Token(PhpParser\TokenKind::CompoundDivideAssignment, 64, 64, 2),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 66, 66, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 67, 67, 1),
-            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 68, 68, 0)
+            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 68, 78, 10)
         );
 
         foreach ($tokensArray as $index=>$token) {
