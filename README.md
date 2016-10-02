@@ -1,5 +1,9 @@
 # Tolerant PHP Parser
-This is the _**start**_ of a PHP parser designed, from the beginning, for IDE usage scenarios.
+This is an early prototype of a PHP parser designed, from the beginning, for IDE usage scenarios. There is
+still a ton of work to be done, so at this point, this repo mostly serves as 
+an experiment and the start of a conversation.
+
+![image](https://cloud.githubusercontent.com/assets/762848/19023056/d801d776-8899-11e6-8b29-949952aadc23.png)
 
 ## Design Goals
 * Error tolerant design (in IDE scenarios, code is, by definition, incomplete)
