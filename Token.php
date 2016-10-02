@@ -40,5 +40,8 @@ class TokenKind
     const EndOfFileToken = 1;
     const SingleLineComment = 2;
     const Newline = 3;
+    const DelimitedComment = 4;
+    const CompoundDivideAssignment = 6;
+    const DivideOperator = 7;
 }
 

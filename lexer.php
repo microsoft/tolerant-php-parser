@@ -2,7 +2,7 @@
 namespace PhpParser;
 use \SplFixedArray;
 
-require_once("./Token.php");
+require_once(__DIR__ . "/Token.php");
 
 function getTokensArray($filename) {
     $fileContents = file_get_contents($filename);
@@ -44,13 +44,15 @@ function scan($text, & $pos, $end) : Token {
 
             case "/":
                 // TODO trivia should prepend tokens
-                if (isSingleLineComment()) {
-                    scanSingleLineComment();
+                if (isSingleLineComment($text, $pos, $end)) {
+                    scanSingleLineComment($text, $pos, $end);
                     return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
-                } else if (isDelimitedComment()) {
-                    scanDelimitedComment();
+                } else if (isDelimitedComment($text, $pos, $end)) {
+                    $pos++;
+                    scanDelimitedComment($text, $pos, $end);
                     return new Token(TokenKind::DelimitedComment, $startPos, $tokenPos, $pos-$startPos);
-                } else if (isCompoundAssignment()) {
+                } else if (isCompoundAssignment($text, $pos, $end)) {
+                    $pos++;
                     return new Token(TokenKind::CompoundDivideAssignment, $startPos, $tokenPos, $pos-$startPos);
                 }
                 return new Token(TokenKind::DivideOperator, $startPos, $tokenPos, $pos-$startPos);
@@ -73,3 +75,43 @@ function scanSingleLineComment($text, & $pos, $end) {
 function isNewLineChar($char) {
     return $char === "\n" || $char === "\r";
 }
+
+function isSingleLineComment($text, & $pos, $end) {
+    if ($pos >= $end) {
+        return false;
+    }
+    if ($text[$pos] === "/") {
+        return true;
+    }
+
+    return false;
+}
+
+function isDelimitedComment($text, $pos, $end) {
+    if ($pos >= $end) {
+        return false;
+    }
+    if ($text[$pos] === "*") {
+        return true;
+    }
+    return false;
+}
+
+function scanDelimitedComment($text, & $pos, $end) {
+    while ($pos < $end) {
+        if (($pos + 1 < $end && $text[$pos] === "*" && $text[$pos+1] === "/")) {
+            $pos+=2;
+            return;
+        }
+        $pos++;
+    }
+    return;
+}
+
+function isCompoundAssignment($text, & $pos, $end) {
+    if ($pos < $end ) {
+        return $text[$pos] === "=";
+    }
+    return false;
+}
+
