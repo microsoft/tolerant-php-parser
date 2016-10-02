@@ -36,6 +36,7 @@ class Token
 // TODO enum equivalent?
 class TokenKind
 {
-    const Error = 0;
+    const Unknown = 0;
+    const EndOfFileToken = 1;
 }
 

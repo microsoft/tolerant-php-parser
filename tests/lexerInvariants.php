@@ -5,18 +5,9 @@ use PHPUnit\Framework\TestCase;
 require_once(__DIR__ . "/../lexer.php");
 require_once(__DIR__ . "/../Token.php");
 
-
 class LexerInvariantsTest extends TestCase {
     // TODO test w/ multiple files
     const FILENAME = __dir__ . "/testfile.php";
-    
-    public function testInvariants() {
-        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
-
-        foreach ($tokensArray as $token) {
-            $this->assertEquals($token->kind, 0);
-        }
-    }
 
     public function testTokenLengthSum() {
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
@@ -120,9 +111,64 @@ class LexerInvariantsTest extends TestCase {
         }
     }
 
+    public function testEOFTokenTextHasZeroLength() {
+        $tokenKind = new PhpParser\TokenKind;
+        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
+
+        $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken(self::FILENAME);
+        $this->assertEquals(
+            0, strlen($tokenText),
+            "Invariant: End-of-file token text should have zero length"
+        );
+    }
+
+    public function testTokensArrayEndsWithEOFToken() {
+        $tokenKind = new PhpParser\TokenKind;
+        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
+
+        $this->assertEquals(
+            $tokensArray[count($tokensArray) - 1]->kind, $tokenKind::EndOfFileToken,
+            "Invariant: Tokens array should always end with end of file token"
+        );
+    }
+
+    public function testTokensArrayOnlyContainsExactlyOneEOFToken () {
+        $tokenKind = new PhpParser\TokenKind;        
+        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
+
+        $eofTokenCount = 0;
+
+        foreach ($tokensArray as $index=>$token) {
+            if ($token->kind == $tokenKind::EndOfFileToken) {
+                $eofTokenCount++;
+            }
+        }
+        $this->assertEquals(
+            1, $eofTokenCount,
+            "Invariant: Tokens array should contain exactly one EOF token"
+        );
+    }
+
+    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken () {
+        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
+        
+        $prevToken;
+        foreach ($tokensArray as $index=>$token) {
+            if ($index === 0) {
+                $prevToken = $token;
+                continue;
+            }
+
+            $this->assertEquals(
+                $prevToken->fullStart + $prevToken->length, $token->fullStart,
+                "Invariant: Token FullStart should begin immediately after previous token end"
+            );
+            $prevToken = $token;
+        }
+    }
+
     public function testWithDifferentEncodings() {
         // TODO test with different encodings
         throw new Exception("Not implemented");
     }
-
 }

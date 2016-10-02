@@ -7,18 +7,33 @@ require_once("./Token.php");
 function getTokensArray($filename) {
     $tokenKind = new TokenKind;
     $fileContents = file_get_contents($filename);
-    $strLen = strlen($fileContents);
+    $end = strlen($fileContents);
 
     // TODO figure out how to optimize memory
-    $tokensArray = new SplFixedArray($strLen);
+    // $tokensArray = new SplFixedArray($strLen);
+    $tokensArray = array();
+    $token;
+    $pos = 0;
+    do {
+        $token = scan($fileContents, $pos, $end);
+        array_push($tokensArray, $token);
+    } while ($token->kind != $tokenKind::EndOfFileToken);
 
-    for ($i = 0; $i < $strLen; $i++) {
-        $char = $fileContents[$i];
-        switch ($char) {
+    return $tokensArray;
+}
+
+function scan($text, & $pos, $end) : Token {
+    $startPos = $pos;
+    $tokenKind = new TokenKind;
+    while (true) {
+        $tokenPos = $pos;
+        if ($pos >= $end) {
+            return new Token($tokenKind::EndOfFileToken, $startPos, $tokenPos, $pos-$startPos);
+        }
+
+        switch ($text[$pos++]) {
             default:
-                $tokensArray[$i] = new Token($tokenKind::Error, $i, $i, 1);
-                break;
+                return new Token($tokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
         }
     }
-    return $tokensArray;
 }
