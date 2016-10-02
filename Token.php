@@ -43,5 +43,6 @@ class TokenKind
     const DelimitedComment = 4;
     const CompoundDivideAssignment = 6;
     const DivideOperator = 7;
+    const Whitespace = 8;
 }
 

@@ -37,6 +37,9 @@ function scan($text, & $pos, $end) : Token {
                 scanSingleLineComment($text, $pos, $end);
                 return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
 
+            case " ":
+            case "\t":
+                return new Token(TokenKind::Whitespace, $startPos, $tokenPos, $pos-$startPos);
             case "\r":
             case "\n":
                 // TODO trivia should prepend tokens

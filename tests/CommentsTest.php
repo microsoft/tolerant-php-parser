@@ -40,7 +40,7 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::Newline, 55, 55, 1),
 
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 56, 56, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 57, 57, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Whitespace, 57, 57, 1),
             new PhpParser\Token(PhpParser\TokenKind::DivideOperator, 58, 58, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 59, 59, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 60, 60, 1),
