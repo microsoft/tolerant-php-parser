@@ -38,5 +38,6 @@ class TokenKind
 {
     const Unknown = 0;
     const EndOfFileToken = 1;
+    const SingleLineComment = 2;
 }
 

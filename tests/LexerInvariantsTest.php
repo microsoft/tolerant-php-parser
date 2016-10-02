@@ -1,9 +1,10 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
 // TODO autoload classes
 require_once(__DIR__ . "/../lexer.php");
 require_once(__DIR__ . "/../Token.php");
+
+use PHPUnit\Framework\TestCase;
+use PhpParser\TokenKind;
 
 class LexerInvariantsTest extends TestCase {
     // TODO test w/ multiple files
@@ -112,7 +113,6 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testEOFTokenTextHasZeroLength() {
-        $tokenKind = new PhpParser\TokenKind;
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
 
         $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken(self::FILENAME);
@@ -123,23 +123,21 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokensArrayEndsWithEOFToken() {
-        $tokenKind = new PhpParser\TokenKind;
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
 
         $this->assertEquals(
-            $tokensArray[count($tokensArray) - 1]->kind, $tokenKind::EndOfFileToken,
+            $tokensArray[count($tokensArray) - 1]->kind, TokenKind::EndOfFileToken,
             "Invariant: Tokens array should always end with end of file token"
         );
     }
 
     public function testTokensArrayOnlyContainsExactlyOneEOFToken () {
-        $tokenKind = new PhpParser\TokenKind;        
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
 
         $eofTokenCount = 0;
 
         foreach ($tokensArray as $index=>$token) {
-            if ($token->kind == $tokenKind::EndOfFileToken) {
+            if ($token->kind == TokenKind::EndOfFileToken) {
                 $eofTokenCount++;
             }
         }
@@ -169,6 +167,8 @@ class LexerInvariantsTest extends TestCase {
 
     public function testWithDifferentEncodings() {
         // TODO test with different encodings
-        throw new Exception("Not implemented");
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 }

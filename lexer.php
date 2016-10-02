@@ -5,7 +5,6 @@ use \SplFixedArray;
 require_once("./Token.php");
 
 function getTokensArray($filename) {
-    $tokenKind = new TokenKind;
     $fileContents = file_get_contents($filename);
     $end = strlen($fileContents);
 
@@ -17,23 +16,38 @@ function getTokensArray($filename) {
     do {
         $token = scan($fileContents, $pos, $end);
         array_push($tokensArray, $token);
-    } while ($token->kind != $tokenKind::EndOfFileToken);
+    } while ($token->kind != TokenKind::EndOfFileToken);
 
     return $tokensArray;
 }
 
 function scan($text, & $pos, $end) : Token {
     $startPos = $pos;
-    $tokenKind = new TokenKind;
     while (true) {
         $tokenPos = $pos;
         if ($pos >= $end) {
-            return new Token($tokenKind::EndOfFileToken, $startPos, $tokenPos, $pos-$startPos);
+            return new Token(TokenKind::EndOfFileToken, $startPos, $tokenPos, $pos-$startPos);
         }
 
         switch ($text[$pos++]) {
+            case "#":
+                scanSingleLineComment($text, $pos, $end);
+                return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
             default:
-                return new Token($tokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
+                return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
         }
     }
+}
+
+function scanSingleLineComment($text, & $pos, $end) {
+    while (true) {
+        if ($pos >= $end || isNewLineChar($text[$pos])) {
+            return;
+        }
+        $pos++;
+    }
+}
+
+function isNewLineChar($char) {
+    return $char === "\n" || $char === "\r";
 }
