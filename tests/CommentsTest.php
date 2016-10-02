@@ -28,7 +28,8 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::CompoundDivideAssignment, 64, 64, 2),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 66, 66, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 67, 67, 1),
-            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 68, 78, 10)
+            new PhpParser\Token(PhpParser\TokenKind::VariableName, 68, 70, 6),
+            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 74, 84, 10)
         );
 
         foreach ($tokensArray as $index=>$token) {

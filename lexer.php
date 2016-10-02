@@ -1,5 +1,6 @@
 <?php
 namespace PhpParser;
+use DoctrineTest\InstantiatorTestAsset\ExceptionAsset;
 use \SplFixedArray;
 
 require_once(__DIR__ . "/Token.php");
@@ -31,8 +32,10 @@ function scan($text, & $pos, $end) : Token {
         }
 
         // TODO skip past <?php
+        $char = $text[$pos];
+        $pos++;
 
-        switch ($text[$pos++]) {
+        switch ($char) {
             case "#":
                 scanSingleLineComment($text, $pos, $end);
                 continue;
@@ -44,23 +47,31 @@ function scan($text, & $pos, $end) : Token {
                 continue;
 
             case "/":
-                // TODO trivia should prepend tokens
                 if (isSingleLineComment($text, $pos, $end)) {
                     scanSingleLineComment($text, $pos, $end);
                     continue;
-//                    return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
                 } else if (isDelimitedComment($text, $pos, $end)) {
                     $pos++;
                     scanDelimitedComment($text, $pos, $end);
                     continue;
-//                    return new Token(TokenKind::DelimitedComment, $startPos, $tokenPos, $pos-$startPos);
                 } else if (isCompoundAssignment($text, $pos, $end)) {
                     $pos++;
                     return new Token(TokenKind::CompoundDivideAssignment, $startPos, $tokenPos, $pos-$startPos);
                 }
                 return new Token(TokenKind::DivideOperator, $startPos, $tokenPos, $pos-$startPos);
 
+            case "$":
+                if (isName($text, $pos, $end)) {
+                    $pos++;
+                    scanName($text, $pos, $end);
+                    return new Token(TokenKind::VariableName, $startPos, $tokenPos, $pos-$startPos);
+                }
+                throw new \Exception("Not implemented");
+
             default:
+//                if (isName($text, $pos, $end)) {
+//                    throw new \Exception("namespaces not implemented");
+//                }
                 return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
         }
     }
@@ -118,3 +129,50 @@ function isCompoundAssignment($text, & $pos, $end) {
     return false;
 }
 
+function isName($text, & $pos, $end) {
+    if ($pos < $end) {
+        return isNameNonDigit($text[$pos]);
+    }
+    return false;
+}
+
+function scanName($text, & $pos, $end) {
+    while ($pos < $end) {
+        $char = $text[$pos];
+        if (isNameNonDigit($char) || isDigit($char)) {
+            $pos++;
+            continue;
+        }
+        return;
+    }
+}
+
+function isNameNonDigit($char) : bool {
+    return isNonDigit($char) || isValidNameUnicodeChar($char);
+}
+
+/**
+ * valid chars: U+0080–U+00ff
+ * @param $char
+ * @return bool
+ */
+function isValidNameUnicodeChar($char) {
+    return $char >= "\u{0080}" && $char <= "\u{00ff}";
+}
+
+/**
+ * NonDigit is defined as '_' or 'a-z' or 'A-Z'
+ * @param $char
+ * @return bool
+ */
+function isNonDigit($char) : bool {
+    $asciiCode = ord($char);
+    return ($asciiCode >= 65 && $asciiCode <= 90)
+        || ($asciiCode >= 97 && $asciiCode <= 122)
+        || ($asciiCode === 95);
+}
+
+function isDigit($char) : bool {
+    $asciiCode = ord($char);
+    return ($asciiCode >= 48 && $asciiCode <= 57);
+}

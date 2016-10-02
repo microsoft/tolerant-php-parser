@@ -7,4 +7,5 @@
 */
 a /b;
 a/=3;
+$int
 // hello

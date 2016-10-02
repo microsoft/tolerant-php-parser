@@ -44,5 +44,6 @@ class TokenKind
     const CompoundDivideAssignment = 6;
     const DivideOperator = 7;
     const Whitespace = 8;
+    const VariableName = 9;
 }
 
