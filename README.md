@@ -3,8 +3,7 @@ This is an early prototype of a PHP parser designed, from the beginning, for IDE
 still a ton of work to be done, so at this point, this repo mostly serves as 
 an experiment and the start of a conversation.
 
-![image](https://cloud.githubusercontent.com/assets/762848/19023056/d801d776-8899-11e6-8b29-949952aadc23.png)
-
+![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 ## Design Goals
 * Error tolerant design (in IDE scenarios, code is, by definition, incomplete)
 * Performant (should be able to parse several MB of source code per second,
