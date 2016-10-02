@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../Token.php");
 
 class SanityTest extends TestCase {
     // TODO test w/ multiple files
-    const FILENAME = __dir__ . "/testfile.php";
+    const FILENAME = __dir__ . "/fixtures/testfile.php";
 
     /**
      * TODO not actually a test - just a convenience during initial development

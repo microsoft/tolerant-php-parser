@@ -2,12 +2,12 @@
 use PHPUnit\Framework\TestCase;
 
 // TODO autoload classes
-require_once(__DIR__ . "/../../lexer.php");
-require_once(__DIR__ . "/../../Token.php");
+require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../Token.php");
 
 class CommentsTest extends TestCase {
     // TODO test w/ multiple files
-    const FILENAME = __dir__ . "/commentsFile.php";
+    const FILENAME = __dir__ . "/fixtures/commentsFile.php";
 
     /**
      * TODO not actually a test - just a convenience during initial development
