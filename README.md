@@ -2,10 +2,11 @@
 This is the _**start**_ of a PHP parser designed, from the beginning, for IDE usage scenarios.
 
 ## Design Goals
-* Error tolerant design (in IDE scenarios, code is, by definition, incomplete,
-so supporting )
+* Error tolerant design (in IDE scenarios, code is, by definition, incomplete)
 * Performant (should be able to parse several MB of source code per second,
  to leave room for other features). 
+  * Memory-efficient data structures
+  * Allow for incremental parsing in the future
 * Adheres to [PHP language spec](https://github.com/php/php-langspec),
 supports both PHP5 and PHP7 grammars
 * Generated AST provides properties necessary for semantic and transformational
@@ -13,9 +14,9 @@ operations, which also need to be performant
 ([< 100 ms UI response time](https://www.computer.org/csdl/proceedings/afips/1968/5072/00/50720267.pdf),
 so each language server operation should be < 50 ms to leave room for all the
  other stuff going on in parallel.)
- * Simple and maintainable over time - parsers have a tendency to get *really*
- confusing, really fast, so we should try to avoid this.
- * Written in PHP - support  
+* Simple and maintainable over time - parsers have a tendency to get *really*
+ confusing, really fast, so readability and debug-ability is high priority.
+* Written in PHP - make it as easy as possible for the PHP community to contribute
 
 ## Approach
 This approach borrows heavily from the designs of Roslyn and TypeScript. However,
