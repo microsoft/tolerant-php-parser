@@ -13,6 +13,9 @@ class SanityTest extends TestCase {
      * TODO not actually a test - just a convenience during initial development
      */
     public function testSanityCheck() {
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
 
         foreach ($tokensArray as $index=>$token) {

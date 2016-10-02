@@ -23,16 +23,38 @@ function getTokensArray($filename) {
 
 function scan($text, & $pos, $end) : Token {
     $startPos = $pos;
+
     while (true) {
         $tokenPos = $pos;
         if ($pos >= $end) {
             return new Token(TokenKind::EndOfFileToken, $startPos, $tokenPos, $pos-$startPos);
         }
 
+        // TODO skip past <?php
+
         switch ($text[$pos++]) {
             case "#":
                 scanSingleLineComment($text, $pos, $end);
                 return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
+
+            case "\r":
+            case "\n":
+                // TODO trivia should prepend tokens
+                return new Token(TokenKind::Newline, $startPos, $tokenPos, $pos-$startPos);
+
+            case "/":
+                // TODO trivia should prepend tokens
+                if (isSingleLineComment()) {
+                    scanSingleLineComment();
+                    return new Token(TokenKind::SingleLineComment, $startPos, $tokenPos, $pos-$startPos);
+                } else if (isDelimitedComment()) {
+                    scanDelimitedComment();
+                    return new Token(TokenKind::DelimitedComment, $startPos, $tokenPos, $pos-$startPos);
+                } else if (isCompoundAssignment()) {
+                    return new Token(TokenKind::CompoundDivideAssignment, $startPos, $tokenPos, $pos-$startPos);
+                }
+                return new Token(TokenKind::DivideOperator, $startPos, $tokenPos, $pos-$startPos);
+
             default:
                 return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
         }

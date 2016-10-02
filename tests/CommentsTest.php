@@ -12,7 +12,7 @@ class CommentsTest extends TestCase {
     /**
      * TODO not actually a test - just a convenience during initial development
      */
-    public function testSanityCheck() {
+    public function testCommentsFile() {
         $tokensArray = PhpParser\getTokensArray(self::FILENAME);
         $expected = array(
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 0, 0, 1),
@@ -20,11 +20,11 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 2, 2, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 3, 3, 1),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 4, 4, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 5, 5, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 6, 6, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Newline, 5, 5, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Newline, 6, 6, 1),
             new PhpParser\Token(PhpParser\TokenKind::SingleLineComment, 7, 7, 9),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 16, 16, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 17, 17, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Newline, 16, 16, 1),
+            new PhpParser\Token(PhpParser\TokenKind::Newline, 17, 17, 1),
             new PhpParser\Token(PhpParser\TokenKind::SingleLineComment, 18, 18, 8),
             new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 26, 26, 0)
         );
