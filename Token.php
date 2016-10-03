@@ -166,4 +166,6 @@ class TokenKind
     const DotDotDotToken = 254;
     const BackslashToken = 255;
     const ColonColonToken = 256;
+
+    // TODO type annotations - PHP7
 }
