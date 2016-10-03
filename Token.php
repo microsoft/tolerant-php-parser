@@ -77,7 +77,7 @@ class TokenKind
     const ForeachKeyword = 133;
     const FunctionKeyword = 134;
     const GlobalKeyword = 135;
-    const GotKeyword = 136;
+    const GotoKeyword = 136;
     const IfKeyword = 137;
     const ImplementsKeyword = 138;
     const IncludeKeyword = 139;
@@ -165,4 +165,5 @@ class TokenKind
     const LessThanEqualsGreaterThanToken = 253;
     const DotDotDotToken = 254;
     const BackslashToken = 255;
+    const ColonColonToken = 256;
 }

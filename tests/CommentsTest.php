@@ -23,11 +23,11 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::Name, 5, 56, 52),
             new PhpParser\Token(PhpParser\TokenKind::SlashToken, 57, 58, 2),
             new PhpParser\Token(PhpParser\TokenKind::Name, 59, 59, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 60, 60, 1),
+            new PhpParser\Token(PhpParser\TokenKind::SemicolonToken, 60, 60, 1),
             new PhpParser\Token(PhpParser\TokenKind::Name, 61, 63, 3),
             new PhpParser\Token(PhpParser\TokenKind::SlashEqualsToken, 64, 64, 2),
             new PhpParser\Token(PhpParser\TokenKind::Unknown, 66, 66, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 67, 67, 1),
+            new PhpParser\Token(PhpParser\TokenKind::SemicolonToken, 67, 67, 1),
             new PhpParser\Token(PhpParser\TokenKind::VariableName, 68, 70, 6),
             new PhpParser\Token(PhpParser\TokenKind::AndKeyword, 74, 76, 5),
             new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 79, 89, 10)

@@ -46,6 +46,17 @@ function scan($text, & $pos, $end) : Token {
             case "\n":
                 continue;
 
+            case "[":
+            case "]":
+            case "(":
+            case ")":
+            case "{":
+            case "}":
+            case ";":
+            case "~":
+                $tokenKind = OPERATORS_AND_PUNCTUATORS[$char];
+                return new Token($tokenKind, $startPos, $tokenPos, $pos - $startPos);
+
             case "/":
                 if (isSingleLineComment($text, $pos, $end)) {
                     scanSingleLineComment($text, $pos, $end);
@@ -66,7 +77,7 @@ function scan($text, & $pos, $end) : Token {
                     scanName($text, $pos, $end);
                     return new Token(TokenKind::VariableName, $startPos, $tokenPos, $pos-$startPos);
                 }
-                throw new \Exception("Not implemented");
+                return new Token(TokenKind::DollarToken, $startPos, $tokenPos, $pos-$startPos);
 
             default:
                 if (isName($text, $pos-1, $end)) {
@@ -229,7 +240,7 @@ const KEYWORDS = array(
     "foreach" => TokenKind::ForeachKeyword,
     "function" => TokenKind::FunctionKeyword,
     "global" => TokenKind::GlobalKeyword,
-    "goto" => TokenKind::GotKeyword,
+    "goto" => TokenKind::GotoKeyword,
     "if" => TokenKind::IfKeyword,
     "implements" => TokenKind::ImplementsKeyword,
     "include" => TokenKind::IncludeKeyword,

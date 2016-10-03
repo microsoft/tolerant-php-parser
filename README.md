@@ -51,7 +51,8 @@ in order to minimize potential risk:
 
 ## Lexer
 The lexer produces tokens out PHP, based on the following lexical grammar:
-https://github.com/php/php-langspec/blob/master/spec/19-grammar.md
+* https://github.com/php/php-langspec/blob/master/spec/19-grammar.md
+* http://php.net/manual/en/tokens.php
 
 ### Tokens
 Tokens take the following form:
