@@ -45,5 +45,7 @@ class TokenKind
     const DivideOperator = 7;
     const Whitespace = 8;
     const VariableName = 9;
+    const Name = 10;
+    const Keyword = 11;
 }
 

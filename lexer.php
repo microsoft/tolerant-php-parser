@@ -69,12 +69,36 @@ function scan($text, & $pos, $end) : Token {
                 throw new \Exception("Not implemented");
 
             default:
-//                if (isName($text, $pos, $end)) {
-//                    throw new \Exception("namespaces not implemented");
-//                }
+                if (isName($text, $pos-1, $end)) {
+                    //$pos++;
+                    scanName($text, $pos, $end);
+                    $token = new Token(TokenKind::Name, $startPos, $tokenPos, $pos-$startPos);
+                    if (isKeyword($token->getTextForToken($text))) {
+                        $token->kind = TokenKind::Keyword;
+                    }
+                    return $token;
+                }
                 return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
         }
     }
+}
+
+const KEYWORDS = array (
+    "abstract", "and", "array", "as",
+    "break","callable", "case", "catch", "class", "clone",
+    "const", "continue", "declare", "default", "die", "do", "echo",
+    "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif",
+    "endswitch", "endwhile", "eval", "exit", "extends", "final", "finally",
+    "for", "foreach", "function", "global", "goto", "if", "implements",
+    "include", "include_once", "instanceof", "insteadof", "interface", "isset",
+    "list", "namespace", "new", "or", "print", "private", "protected",
+    "public", "require", "require_once", "return", "static", "switch",
+    "throw", "trait", "try", "unset", "use", "var", "while", "xor", "yield from", "yield"
+
+);
+
+function isKeyword($text) {
+    return in_array(strtolower($text), KEYWORDS);
 }
 
 function scanSingleLineComment($text, & $pos, $end) {
@@ -129,7 +153,8 @@ function isCompoundAssignment($text, & $pos, $end) {
     return false;
 }
 
-function isName($text, & $pos, $end) {
+
+function isName($text, $pos, $end) {
     if ($pos < $end) {
         return isNameNonDigit($text[$pos]);
     }
