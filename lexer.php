@@ -56,9 +56,9 @@ function scan($text, & $pos, $end) : Token {
                     continue;
                 } else if (isCompoundAssignment($text, $pos, $end)) {
                     $pos++;
-                    return new Token(TokenKind::CompoundDivideAssignment, $startPos, $tokenPos, $pos-$startPos);
+                    return new Token(TokenKind::SlashEqualsToken, $startPos, $tokenPos, $pos-$startPos);
                 }
-                return new Token(TokenKind::DivideOperator, $startPos, $tokenPos, $pos-$startPos);
+                return new Token(TokenKind::SlashToken, $startPos, $tokenPos, $pos-$startPos);
 
             case "$":
                 if (isName($text, $pos, $end)) {
@@ -73,8 +73,9 @@ function scan($text, & $pos, $end) : Token {
                     //$pos++;
                     scanName($text, $pos, $end);
                     $token = new Token(TokenKind::Name, $startPos, $tokenPos, $pos-$startPos);
-                    if (isKeyword($token->getTextForToken($text))) {
-                        $token->kind = TokenKind::Keyword;
+                    $tokenText = $token->getTextForToken($text);
+                    if (isKeyword($tokenText)) {
+                        $token->kind = KEYWORDS[$tokenText];
                     }
                     return $token;
                 }
@@ -83,22 +84,12 @@ function scan($text, & $pos, $end) : Token {
     }
 }
 
-const KEYWORDS = array (
-    "abstract", "and", "array", "as",
-    "break","callable", "case", "catch", "class", "clone",
-    "const", "continue", "declare", "default", "die", "do", "echo",
-    "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif",
-    "endswitch", "endwhile", "eval", "exit", "extends", "final", "finally",
-    "for", "foreach", "function", "global", "goto", "if", "implements",
-    "include", "include_once", "instanceof", "insteadof", "interface", "isset",
-    "list", "namespace", "new", "or", "print", "private", "protected",
-    "public", "require", "require_once", "return", "static", "switch",
-    "throw", "trait", "try", "unset", "use", "var", "while", "xor", "yield from", "yield"
-
-);
-
 function isKeyword($text) {
-    return in_array(strtolower($text), KEYWORDS);
+    return array_key_exists(strtolower($text), KEYWORDS);
+}
+
+function isOperatorOrPunctuator($text) {
+    return in_array(strtolower($text), OPERATORS_AND_PUNCTUATORS);
 }
 
 function scanSingleLineComment($text, & $pos, $end) {
@@ -201,3 +192,131 @@ function isDigit($char) : bool {
     $asciiCode = ord($char);
     return ($asciiCode >= 48 && $asciiCode <= 57);
 }
+
+const KEYWORDS = array(
+    "abstract" => TokenKind::AbstractKeyword,
+    "and" => TokenKind::AndKeyword,
+    "array" => TokenKind::ArrayKeyword,
+    "as" => TokenKind::AsKeyword,
+    "break" => TokenKind::BreakKeyword,
+    "callable" => TokenKind::CallableKeyword,
+    "case" => TokenKind::CaseKeyword,
+    "catch" => TokenKind::CatchKeyword,
+    "class" => TokenKind::ClassKeyword,
+    "clone" => TokenKind::CloneKeyword,
+    "const" => TokenKind::ConstKeyword,
+    "continue" => TokenKind::ContinueKeyword,
+    "declare" => TokenKind::DeclareKeyword,
+    "default" => TokenKind::DefaultKeyword,
+    "die" => TokenKind::DieKeyword,
+    "do" => TokenKind::DoKeyword,
+    "echo" => TokenKind::EchoKeyword,
+    "else" => TokenKind::ElseKeyword,
+    "elseif" => TokenKind::ElseIfKeyword,
+    "empty" => TokenKind::EmptyKeyword,
+    "enddeclare" => TokenKind::EndDeclareKeyword,
+    "endfor" => TokenKind::EndForKeyword,
+    "endforeach" => TokenKind::EndForEachKeyword,
+    "endif" => TokenKind::EndIfKeyword,
+    "endswitch" => TokenKind::EndSwitchKeyword,
+    "endwhile" => TokenKind::EndWhileKeyword,
+    "eval" => TokenKind::EvalKeyword,
+    "exit" => TokenKind::ExitKeyword,
+    "extends" => TokenKind::ExtendsKeyword,
+    "final" => TokenKind::FinalKeyword,
+    "finally" => TokenKind::FinallyKeyword,
+    "for" => TokenKind::ForKeyword,
+    "foreach" => TokenKind::ForeachKeyword,
+    "function" => TokenKind::FunctionKeyword,
+    "global" => TokenKind::GlobalKeyword,
+    "goto" => TokenKind::GotKeyword,
+    "if" => TokenKind::IfKeyword,
+    "implements" => TokenKind::ImplementsKeyword,
+    "include" => TokenKind::IncludeKeyword,
+    "include_once" => TokenKind::IncludeOnceKeyword,
+    "instanceof" => TokenKind::InstanceOfKeyword,
+    "insteadof" => TokenKind::InsteadOfKeyword,
+    "interface" => TokenKind::InterfaceKeyword,
+    "isset" => TokenKind::IsSetKeyword,
+    "list" => TokenKind::ListKeyword,
+    "namespace" => TokenKind::NamespaceKeyword,
+    "new" => TokenKind::NewKeyword,
+    "or" => TokenKind::OrKeyword,
+    "print" => TokenKind::PrintKeyword,
+    "private" => TokenKind::PrivateKeyword,
+    "protected" => TokenKind::ProtectedKeyword,
+    "public" => TokenKind::PublicKeyword,
+    "require" => TokenKind::RequireKeyword,
+    "require_once" => TokenKind::RequireOnceKeyword,
+    "return" => TokenKind::ReturnKeyword,
+    "static" => TokenKind::StaticKeyword,
+    "switch" => TokenKind::SwitchKeyword,
+    "throw" => TokenKind::ThrowKeyword,
+    "trait" => TokenKind::TraitKeyword,
+    "try" => TokenKind::TryKeyword,
+    "unset" => TokenKind::UnsetKeyword,
+    "use" => TokenKind::UseKeyword,
+    "var" => TokenKind::VarKeyword,
+    "while" => TokenKind::WhileKeyword,
+    "xor" => TokenKind::XorKeyword,
+    "yield" => TokenKind::YieldKeyword,
+    "yield from" => TokenKind::YieldFromKeyword
+);
+
+const OPERATORS_AND_PUNCTUATORS = array(
+    "[" => TokenKind::OpenBracketToken,
+    "]" => TokenKind::CloseBracketToken,
+    "(" => TokenKind::OpenParenToken,
+    ")" => TokenKind::CloseParenToken,
+    "{" => TokenKind::OpenBraceToken,
+    "}" => TokenKind::CloseBraceToken,
+    "." => TokenKind::DotToken,
+    "->" => TokenKind::ArrowToken,
+    "++" => TokenKind::PlusPlusToken,
+    "--" => TokenKind::MinusMinusToken,
+    "**" => TokenKind::AsteriskAsteriskToken,
+    "*" => TokenKind::AsteriskToken,
+    "+" => TokenKind::PlusToken,
+    "-" => TokenKind::MinusToken,
+    "~" => TokenKind::TildeToken,
+    "!" => TokenKind::ExclamationToken,
+    "$" => TokenKind::DollarToken,
+    "/" => TokenKind::SlashToken,
+    "%" => TokenKind::PercentToken,
+    "<<" => TokenKind::LessThanLessThanToken,
+    ">>" => TokenKind::GreaterThanGreaterThanToken,
+    "<" => TokenKind::LessThanToken,
+    ">" => TokenKind::GreaterThanToken,
+    "<=" => TokenKind::LessThanEqualsToken,
+    ">=" => TokenKind::GreaterThanEqualsToken,
+    "==" => TokenKind::EqualsEqualsToken,
+    "===" => TokenKind::EqualsEqualsEqualsToken,
+    "!=" => TokenKind::ExclamationEqualsToken,
+    "!==" => TokenKind::ExclamationEqualsEqualsToken,
+    "^" => TokenKind::CaretToken,
+    "|" => TokenKind::BarToken,
+    "&" => TokenKind::AmpersandToken,
+    "&&" => TokenKind::ApersandAmpersandToken,
+    "||" => TokenKind::BarBarToken,
+    "?" => TokenKind::QuestionToken,
+    ":" => TokenKind::ColonToken,
+    ";" => TokenKind::SemicolonToken,
+    "=" => TokenKind::EqualsToken,
+    "**=" => TokenKind::AsteriskAsteriskEqualsToken,
+    "*=" => TokenKind::AsteriskEqualsToken,
+    "/=" => TokenKind::SlashEqualsToken,
+    "%=" => TokenKind::PercentEqualsToken,
+    "+=" => TokenKind::PlusEqualsToken,
+    "-=" => TokenKind::MinusEqualsToken,
+    ".=" => TokenKind::DotEqualsToken,
+    "<<=" => TokenKind::LessThanLessThanEqualsToken,
+    ">>=" => TokenKind::GreaterThanGreaterThanEqualsToken,
+    "&=" => TokenKind::AmpersandEqualsToken,
+    "^=" => TokenKind::CaretEqualsToken,
+    "|=" => TokenKind::BarEqualsToken,
+    "," => TokenKind::CommaToken,
+    "??" => TokenKind::QuestionQuestionToken,
+    "<=>" => TokenKind::LessThanEqualsGreaterThanToken,
+    "..." => TokenKind::DotDotDotToken,
+    "\\" => TokenKind::BackslashToken
+);
