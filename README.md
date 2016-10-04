@@ -12,8 +12,8 @@ an experiment and the start of a conversation.
   * Allow for incremental parsing in the future
 * Adheres to [PHP language spec](https://github.com/php/php-langspec),
 supports both PHP5 and PHP7 grammars
-* Generated AST provides properties necessary for semantic and transformational
-operations, which also need to be performant 
+* Generated AST provides properties (fully representative, etc.) necessary for semantic and transformational
+operations, which also need to be performant.
 ([< 100 ms UI response time](https://www.computer.org/csdl/proceedings/afips/1968/5072/00/50720267.pdf),
 so each language server operation should be < 50 ms to leave room for all the
  other stuff going on in parallel.)
@@ -54,18 +54,21 @@ The lexer produces tokens out PHP, based on the following lexical grammar:
 * https://github.com/php/php-langspec/blob/master/spec/19-grammar.md
 * http://php.net/manual/en/tokens.php
 
-### Tokens
+### Tokens (Model)
 Tokens take the following form:
 ```
 Token: {
     Kind: Id, // the classification of the token
     FullStart: 0, // the start of the token, including trivia
     Start: 3, // the start of the token, excluding trivia
-    Length: 6 // the length of the token from
+    Length: 6 // the length of the token (from FullStart)
 }
 ```
 
-### Helper functions
+### Tokens (Representation)
+> TODO
+
+#### Helper functions
 In order to be as efficient as possible, we do not store full content in memory.
 Instead, each token is uniquely defined by four integers, and we take advantage of helper
 functions to extract further information.
@@ -84,14 +87,128 @@ we define and continuously test the set of invariants defined below:
 * `GetTriviaForToken` returns a string of length equivalent to `(Start - FullStart)`
 * `GetFullTextForToken` returns a string of length equivalent to `Length`
 * `GetTextForToken` returns a string of length equivalent to `Length - (Start - FullStart)`
+* See the code for an up-to-date list...
 
 ## Parser
+### Node (Model)
+Nodes include the following information:
+```
+Node: {
+  Kind: Id,
+  Parent: ParentNode,
+  Children: List<Children>
+}
+```
+
+### Node (Representation)
+> TODO - discerning between Model and Representation
+(Model == How we will intaract with it, Representation == underlying data structures)
+
+### Abstract Syntax Tree
+An example tree is below. The tree Nodes (represented by tokens), and Tokens (represented by squares)
+![image](https://cloud.githubusercontent.com/assets/762848/19092929/e10e60aa-8a3d-11e6-8b90-51eabe5d1d8e.png)
+
+Below, we define a set of invariants. This set of invariants provides a consistent foundation that makes it
+easier to confidently reason about the tree as we continue to build up our understanding.
+
+For instance, the following properties hold true about every Node (N) and Token (T).
+```
+POS(N) -> POS(FirstChild(N))
+POS(T) -> T.Start
+WIDTH(N) -> SUM(Child_i(N))
+WIDTH(T) -> T.Width
+```
+
+
 ### Invariants
+* Invariants for all Tokens hold true 
 * The tree contains every token
 * span of any node is sum of spans of child nodes and tokens
 * The tree length exactly matches the file length
 * Every leaf node of the tree is a token
+* Every Node contains at least one Token
 
+### Building up the Tree
+
+#### Error Tokens
+We define two types of `Error` tokens:
+* **Skipped Tokens:** extra token that no one knows how to deal with
+* **Missing Tokens:** Grammar expects a token to be there, but it does not exist
+
+##### Example 1
+Let's say we run the following through `parseIf`
+```php
+if (expression) { }
+```
+
+```php
+function parseIf($str, $parent) {
+    $n = new IfNode();
+    $n->ifKeyword = eat("if");
+    $n->openParen = eat("(");
+    $n->expression = parseExpression();
+    $n->closeParen = eat(")");
+    $n->block = parseBlock();
+    $n->parent = $parent;
+}
+```
+
+This above should generate the `IfNode` successfully. But let's say we run the following through,
+which is missing a close paren token. 
+```php
+if (expression { }
+```
+
+In this case, `eat(")")` will generate a `MissingToken` because the grammar expects a
+token to  be there, but it does not exist.
+
+##### Example 2
+```php
+class A {
+    function foo() {
+        return;
+    
+    public function bar() {
+
+    }
+}
+```
+
+In this case, the `foo` function block is not closed. A skipped token will be similarly generated,
+but the logic will be a little different, in order to provide a gracefully degrading experience.
+In particular, the tree that we expect here looks something like this:
+
+![image](https://cloud.githubusercontent.com/assets/762848/19094553/727fd634-8a45-11e6-9491-97f3a6b9a35e.png)
+
+This is achieved by continually keeping track of the current `ParseContext`. That is to say,
+every time we venture into a child, that child is aware of its parent. Whenever the child gets to a token
+that they themselves don't know how to handle (e.g. a `MethodNode` doesn't know what `public` means), they ask their parent if they know how to handle it, and 
+continue walking up the tree. If we've walked the entire spine, and every node is similarly confused, a
+`SkippedToken` will be generated. 
+
+In this case, however, a `SkippedToken` is not generated because `ClassNode` will know what `public` means.
+Instead, the method will say "okay, I'm done", generate a `MissingToken`, and `public` will be subsequently handled
+by the `ClassNode`.
+
+##### Example 3
+Building on Example 2... in the following case, no one knows how to handle an 
+ampersand, and so this token will become a `SkippedToken`
+```php
+class A {
+    function foo() {
+        return;
+    & // <- SkippedToken
+    }
+    public function bar() {
+
+    }
+}
+```
+
+#### Other notes
+Just as it's imporant to understand the assumptions that *will* hold true,
+it is also important to understand the assumptions that will not hold true.
+One such **non-invariant** is that not every token generated by the lexer ends up in the tree.
 
 ## Open Questions
 Some open Qs:
