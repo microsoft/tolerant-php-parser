@@ -29,17 +29,17 @@ same runtime characteristics as .NET and JS.
 To ensure a sufficient level of correctness at every step of the way, the
 parser should be developed using the following incremental approach:
 
-* [ ] **Iteration 1:** Write lexer that does not support PHP grammar, but supports EOF 
+* [ ] **Phase 1:** Write lexer that does not support PHP grammar, but supports EOF 
 and Unknown tokens. Write tests for all invariants.
-* [ ] **Iteration 2:** Support PHP lexical grammar, lots of tests
-* [ ] **Iteration 3:** Write a parser that does not support PHP grammar, but produces tree of 
+* [ ] **Phase 2:** Support PHP lexical grammar, lots of tests
+* [ ] **Phase 3:** Write a parser that does not support PHP grammar, but produces tree of 
 Error Nodes. Write tests for all invariants.
-* [ ] **Iteration 4:** Support PHP syntactic grammar, lots of tests
-* [ ] **Iteration 5:** Real-world validation of correctness - benchmark against other parsers 
+* [ ] **Phase 4:** Support PHP syntactic grammar, lots of tests
+* [ ] **Phase 5:** Real-world validation of correctness - benchmark against other parsers 
 (investigate any instance of disagreement)
-* [ ] **Iteration 6:** Real-world validation of performance - benchmark against large 
+* [ ] **Phase 6:** Real-world validation of performance - benchmark against large 
 PHP applications
-* [ ] **Iteration 7:** Performance optimization
+* [ ] **Phase 7:** Performance optimization
 
 This approach, however, makes a few assumptions that we should validate upfront, if possible,
 in order to minimize potential risk:
