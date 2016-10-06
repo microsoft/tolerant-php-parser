@@ -22,7 +22,7 @@ class Parser {
         $this->tokensArray = $this->lexer->getTokensArray($filename);
 
         $sourceFile = new SourceFileNode();
-        $sourceFile->children = $this->parseList(ParseContext::SourceElements);
+        $sourceFile->children = $this->parseList($sourceFile, ParseContext::SourceElements, $this->parseStatement());
         $sourceFile->parent = null;
 
         return $sourceFile;
@@ -36,14 +36,17 @@ class Parser {
 
     }
 
-    function parseList(int $nextParseContext) {
+    function parseList($parentNode, int $nextParseContext, $parseElementFn) {
         $savedParseContext = $this->currentParseContext;
         $this->updateCurrentParseContext($nextParseContext);
 
         $nodeArray = array();
         while (!$this->isListTerminator($nextParseContext)) {
             if ($this->isListElement($nextParseContext)) {
-                $element = $this->parseListElement($nextParseContext);
+                $element = $this->parseListElement($parseElementFn);
+                if ($element instanceof Node) {
+                    $element->parent = $parentNode;
+                }
                 array_push($nodeArray, $element);
                 $this->advanceToken();
                 continue;
@@ -63,6 +66,23 @@ class Parser {
         $this->currentParseContext = $savedParseContext;
 
         return $nodeArray;
+    }
+
+    function parseStatement() {
+        return function() {
+            switch($this->getCurrentToken()->kind) {
+                case TokenKind::ClassKeyword:
+                    return $this->parseClassDeclaration();
+                default:
+                    return $this->getCurrentToken();
+            }
+        };
+    }
+
+    function parseClassDeclaration() {
+        $node = new ClassNode();
+        $node->children = array($this->getCurrentToken());
+        return $node;
     }
 
     /**
@@ -110,13 +130,17 @@ class Parser {
         $this->currentParseContext |= 1 << $context;
     }
 
-    function parseListElement($context) {
+    function parseListElement($parseElementFn) {
         // TODO
-        return $this->getCurrentToken();
+        return $parseElementFn();
     }
 
     function isListElement($context) {
         // TODO
+        switch ($context) {
+            case ParseContext::SourceElements:
+                return $this->getCurrentToken()->kind === TokenKind::ClassKeyword;
+        }
         return false;
     }
 
@@ -139,7 +163,19 @@ class SourceFileNode extends Node {
     }
 }
 
-class Statement extends Node {
+class ClassNode extends Node {
+
+}
+
+class BlockNode extends Node {
+
+}
+
+class StatementNode extends Node {
+}
+
+class MethodNode extends Node {
+
 }
 
 class Node {
@@ -190,6 +226,7 @@ class Node {
 class NodeKind {
     const SourceFileNode = 0;
     const ClassNode = 1;
+    const BlockNode = 2;
 }
 
 

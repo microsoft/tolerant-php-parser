@@ -3,6 +3,7 @@
 require_once(__DIR__ . "/../lexer.php");
 require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
+require_once(__DIR__ . "/LexerInvariantsTest.php");
 
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
@@ -31,8 +32,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         }
     }
 
-    public function testSourceFileNodeLengthEqualsDocumentLength()
-    {
+    public function testSourceFileNodeLengthEqualsDocumentLength() {
         foreach (self::FILENAMES as $filename) {
             $sourceFileNode = $this->parser->parseSourceFile($filename);
             $this->assertEquals(
@@ -60,8 +60,8 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach (self::FILENAMES as $filename) {
             $sourceFileNode = $this->parser->parseSourceFile($filename);
 
-            $treeElements = array($sourceFileNode);
-            array_push($treeElements, $sourceFileNode->getAllChildren());
+            $treeElements = $sourceFileNode->getAllChildren();
+            array_push($treeElements, $sourceFileNode);
 
             foreach ($treeElements as $element) {
                 if ($element instanceof Node) {
@@ -77,6 +77,69 @@ class ParserInvariantsTest extends LexerInvariantsTest {
                         $expectedLength, $element->getLength(),
                         "Invariant: Span of any Node is span of child nodes and tokens."
                     );
+                }
+            }
+        }
+    }
+
+    public function testParentOfNodeHasSameChildNode() {
+        foreach (self::FILENAMES as $filename) {
+            $sourceFileNode = $this->parser->parseSourceFile($filename);
+            foreach ($sourceFileNode->getAllChildren() as $child) {
+                if ($child instanceof Node) {
+                    $this->assertContains(
+                        $child, $child->parent->children,
+                        "Invariant: Parent of Node contains same child node."
+                    );
+                }
+            }
+        }
+    }
+
+    public function testEachChildHasExactlyOneParent() {
+        foreach (self::FILENAMES as $filename) {
+            $sourceFileNode = $this->parser->parseSourceFile($filename);
+
+            $treeElements = $sourceFileNode->getAllChildren();
+            array_push($treeElements, $sourceFileNode);
+
+            foreach ($sourceFileNode->getAllChildren() as $child) {
+                $count = 0;
+                foreach ($treeElements as $element) {
+                    if ($element instanceof Node) {
+                        if (in_array($child, $element->children)) {
+                            $count++;
+                        }
+                    }
+                }
+                $this->assertEquals(
+                    1, $count,
+                    "Invariant: each child has exactly one parent.");
+            }
+        }
+    }
+
+    public function testRootNodeHasNoParent() {
+        foreach (self::FILENAMES as $filename) {
+            $sourceFileNode = $this->parser->parseSourceFile($filename);
+            $this->assertEquals(
+                null, $sourceFileNode->parent,
+                "Invariant: Root node of tree has no parent.");
+        }
+    }
+
+    public function testRootNodeIsNeverAChild() {
+        foreach (self::FILENAMES as $filename) {
+            $sourceFileNode = $this->parser->parseSourceFile($filename);
+
+            $treeElements = $sourceFileNode->getAllChildren();
+            array_push($treeElements, $sourceFileNode);
+
+            foreach($treeElements as $element) {
+                if ($element instanceof Node) {
+                    $this->assertNotContains(
+                        $sourceFileNode, $element->children,
+                        "Invariant: root node of tree is never a child.");
                 }
             }
         }
