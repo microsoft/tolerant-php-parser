@@ -3,11 +3,12 @@ use PHPUnit\Framework\TestCase;
 
 // TODO autoload classes
 require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
 class SanityTest extends TestCase {
     // TODO test w/ multiple files
-    const FILENAME = __dir__ . "/fixtures/testfile.php";
+    const FILENAME = __dir__ . "/cases/testfile.php";
 
     /**
      * TODO not actually a test - just a convenience during initial development

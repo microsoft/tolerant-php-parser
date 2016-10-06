@@ -3,21 +3,28 @@ use PHPUnit\Framework\TestCase;
 
 // TODO autoload classes
 require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
 class CommentsTest extends TestCase {
     // TODO test w/ multiple files
-    const FILENAME = __dir__ . "/fixtures/commentsFile.php";
-    const PARSER_POC_FILE = __dir__ . "/fixtures/parserPocFile.php";
+    const FILENAME = __dir__ . "/cases/commentsFile.php";
+    const PARSER_POC_FILE = __dir__ . "/cases/parserPocFile.php";
+
+    private $lexer;
+
+    public function setUp() {
+        $this->lexer = new \PhpParser\Lexer();
+    }
 
     /**
      * TODO not actually a test - just a convenience during initial development
      */
     public function testCommentsFile() {
-        $tokensArray = PhpParser\getTokensArray(self::FILENAME);
+        $tokensArray = $this->lexer->getTokensArray(self::FILENAME);
         $expected = array(
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 0, 0, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 1, 1, 1),
+            new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
+            new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),
             new PhpParser\Token(PhpParser\TokenKind::Name, 2, 2, 3),
             new PhpParser\Token(PhpParser\TokenKind::Name, 5, 56, 52),
             new PhpParser\Token(PhpParser\TokenKind::SlashToken, 57, 58, 2),
@@ -38,10 +45,10 @@ class CommentsTest extends TestCase {
     }
 
     public function testParserPocFile() {
-        $tokensArray = PhpParser\getTokensArray(self::PARSER_POC_FILE);
+        $tokensArray = $this->lexer->getTokensArray(self::PARSER_POC_FILE);
         $expected = array(
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 0, 0, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 1, 1, 1),
+            new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
+            new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),
             new PhpParser\Token(PhpParser\TokenKind::Name, 2, 2, 3),
             new PhpParser\Token(PhpParser\TokenKind::ClassKeyword, 5, 7, 7),
             new PhpParser\Token(PhpParser\TokenKind::Name, 12, 13, 2),

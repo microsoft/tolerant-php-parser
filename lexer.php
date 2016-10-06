@@ -1,207 +1,228 @@
 <?php
 namespace PhpParser;
-use DoctrineTest\InstantiatorTestAsset\ExceptionAsset;
-use \SplFixedArray;
 
 require_once(__DIR__ . "/Token.php");
 
-function getTokensArray($filename) {
-    $fileContents = file_get_contents($filename);
-    $end = strlen($fileContents);
+class Lexer {
 
-    // TODO figure out how to optimize memory
-    // $tokensArray = new SplFixedArray($strLen);
-    $tokensArray = array();
-    $token;
-    $pos = 0;
-    do {
-        $token = scan($fileContents, $pos, $end);
-        array_push($tokensArray, $token);
-    } while ($token->kind != TokenKind::EndOfFileToken);
+    function getTokensArray($filename) {
+        $fileContents = file_get_contents($filename);
+        $end = strlen($fileContents);
 
-    return $tokensArray;
-}
+        // TODO figure out how to optimize memory
+        // $tokensArray = new SplFixedArray($strLen);
+        $tokensArray = array();
 
-function scan($text, & $pos, $end) : Token {
-    $startPos = $pos;
+        $pos = 0;
+        do {
+            $token = $this->scan($fileContents, $pos, $end);
+            array_push($tokensArray, $token);
+        } while ($token->kind != TokenKind::EndOfFileToken);
 
-    while (true) {
-        $tokenPos = $pos;
-        if ($pos >= $end) {
-            return new Token(TokenKind::EndOfFileToken, $startPos, $tokenPos, $pos-$startPos);
-        }
-
-        // TODO skip past <?php
-        $char = $text[$pos];
-        $pos++;
-
-        switch ($char) {
-            case "#":
-                scanSingleLineComment($text, $pos, $end);
-                continue;
-
-            case " ":
-            case "\t":
-            case "\r":
-            case "\n":
-                continue;
-
-            case "[":
-            case "]":
-            case "(":
-            case ")":
-            case "{":
-            case "}":
-            case ";":
-            case "~":
-                $tokenKind = OPERATORS_AND_PUNCTUATORS[$char];
-                return new Token($tokenKind, $startPos, $tokenPos, $pos - $startPos);
-
-            case "/":
-                if (isSingleLineComment($text, $pos, $end)) {
-                    scanSingleLineComment($text, $pos, $end);
-                    continue;
-                } else if (isDelimitedComment($text, $pos, $end)) {
-                    $pos++;
-                    scanDelimitedComment($text, $pos, $end);
-                    continue;
-                } else if (isCompoundAssignment($text, $pos, $end)) {
-                    $pos++;
-                    return new Token(TokenKind::SlashEqualsToken, $startPos, $tokenPos, $pos-$startPos);
-                }
-                return new Token(TokenKind::SlashToken, $startPos, $tokenPos, $pos-$startPos);
-
-            case "$":
-                if (isName($text, $pos, $end)) {
-                    $pos++;
-                    scanName($text, $pos, $end);
-                    return new Token(TokenKind::VariableName, $startPos, $tokenPos, $pos-$startPos);
-                }
-                return new Token(TokenKind::DollarToken, $startPos, $tokenPos, $pos-$startPos);
-
-            default:
-                if (isName($text, $pos-1, $end)) {
-                    //$pos++;
-                    scanName($text, $pos, $end);
-                    $token = new Token(TokenKind::Name, $startPos, $tokenPos, $pos-$startPos);
-                    $tokenText = $token->getTextForToken($text);
-                    if (isKeyword($tokenText)) {
-                        $token->kind = KEYWORDS[$tokenText];
-                    }
-                    return $token;
-                }
-                return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos-$startPos);
-        }
-    }
-}
-
-function isKeyword($text) {
-    return array_key_exists(strtolower($text), KEYWORDS);
-}
-
-function isOperatorOrPunctuator($text) {
-    return in_array(strtolower($text), OPERATORS_AND_PUNCTUATORS);
-}
-
-function scanSingleLineComment($text, & $pos, $end) {
-    while (true) {
-        if ($pos >= $end || isNewLineChar($text[$pos])) {
-            return;
-        }
-        $pos++;
-    }
-}
-
-function isNewLineChar($char) {
-    return $char === "\n" || $char === "\r";
-}
-
-function isSingleLineComment($text, & $pos, $end) {
-    if ($pos >= $end) {
-        return false;
-    }
-    if ($text[$pos] === "/") {
-        return true;
+        return $tokensArray;
     }
 
-    return false;
-}
+    public function scan($text, & $pos, $end) : Token {
+        $startPos = $pos;
 
-function isDelimitedComment($text, $pos, $end) {
-    if ($pos >= $end) {
-        return false;
-    }
-    if ($text[$pos] === "*") {
-        return true;
-    }
-    return false;
-}
+        while (true) {
+            $tokenPos = $pos;
+            if ($pos >= $end) {
+                return new Token(TokenKind::EndOfFileToken, $startPos, $tokenPos, $pos - $startPos);
+            }
 
-function scanDelimitedComment($text, & $pos, $end) {
-    while ($pos < $end) {
-        if (($pos + 1 < $end && $text[$pos] === "*" && $text[$pos+1] === "/")) {
-            $pos+=2;
-            return;
-        }
-        $pos++;
-    }
-    return;
-}
-
-function isCompoundAssignment($text, & $pos, $end) {
-    if ($pos < $end ) {
-        return $text[$pos] === "=";
-    }
-    return false;
-}
-
-
-function isName($text, $pos, $end) {
-    if ($pos < $end) {
-        return isNameNonDigit($text[$pos]);
-    }
-    return false;
-}
-
-function scanName($text, & $pos, $end) {
-    while ($pos < $end) {
-        $char = $text[$pos];
-        if (isNameNonDigit($char) || isDigit($char)) {
+            // TODO skip past <?php
+            $char = $text[$pos];
             $pos++;
-            continue;
+
+            switch ($char) {
+                case "#":
+                    $this->scanSingleLineComment($text, $pos, $end);
+                    continue;
+
+                case " ":
+                case "\t":
+                case "\r":
+                case "\n":
+                    continue;
+
+                // TODO Potential-compound
+                case ".":
+                case "*":
+                case "+":
+                case "-":
+                case "!":
+                case "%":
+                case "<":
+                case ">":
+                case "^":
+                case "|":
+                case "&":
+                case "?":
+                case ":":
+                case "=":
+                case ",":
+
+                // Non-compound
+                case "[":
+                case "]":
+                case "(":
+                case ")":
+                case "{":
+                case "}":
+                case ";":
+                case "~":
+                case "\\":
+                    $tokenKind = OPERATORS_AND_PUNCTUATORS[$char];
+                    return new Token($tokenKind, $startPos, $tokenPos, $pos - $startPos);
+
+                case "/":
+                    if ($this->isSingleLineComment($text, $pos, $end)) {
+                        $this->scanSingleLineComment($text, $pos, $end);
+                        continue;
+                    } else if ($this->isDelimitedComment($text, $pos, $end)) {
+                        $pos++;
+                        $this->scanDelimitedComment($text, $pos, $end);
+                        continue;
+                    } else if ($this->isCompoundAssignment($text, $pos, $end)) {
+                        $pos++;
+                        return new Token(TokenKind::SlashEqualsToken, $startPos, $tokenPos, $pos - $startPos);
+                    }
+                    return new Token(TokenKind::SlashToken, $startPos, $tokenPos, $pos - $startPos);
+
+                case "$":
+                    if ($this->isName($text, $pos, $end)) {
+                        $pos++;
+                        $this->scanName($text, $pos, $end);
+                        return new Token(TokenKind::VariableName, $startPos, $tokenPos, $pos - $startPos);
+                    }
+                    return new Token(TokenKind::DollarToken, $startPos, $tokenPos, $pos - $startPos);
+
+                default:
+                    if ($this->isName($text, $pos - 1, $end)) {
+                        //$pos++;
+                        $this->scanName($text, $pos, $end);
+                        $token = new Token(TokenKind::Name, $startPos, $tokenPos, $pos - $startPos);
+                        $tokenText = $token->getTextForToken($text);
+                        if ($this->isKeyword($tokenText)) {
+                            $token->kind = KEYWORDS[$tokenText];
+                        }
+                        return $token;
+                    }
+                    return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos - $startPos);
+            }
+        }
+    }
+
+    function isKeyword($text) {
+        return array_key_exists(strtolower($text), KEYWORDS);
+    }
+
+    function isOperatorOrPunctuator($text) {
+        return in_array(strtolower($text), OPERATORS_AND_PUNCTUATORS);
+    }
+
+    function scanSingleLineComment($text, & $pos, $end) {
+        while (true) {
+            if ($pos >= $end || $this->isNewLineChar($text[$pos])) {
+                return;
+            }
+            $pos++;
+        }
+    }
+
+    function isNewLineChar($char) {
+        return $char === "\n" || $char === "\r";
+    }
+
+    function isSingleLineComment($text, & $pos, $end) {
+        if ($pos >= $end) {
+            return false;
+        }
+        if ($text[$pos] === "/") {
+            return true;
+        }
+
+        return false;
+    }
+
+    function isDelimitedComment($text, $pos, $end) {
+        if ($pos >= $end) {
+            return false;
+        }
+        if ($text[$pos] === "*") {
+            return true;
+        }
+        return false;
+    }
+
+    function scanDelimitedComment($text, & $pos, $end) {
+        while ($pos < $end) {
+            if (($pos + 1 < $end && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
+                $pos += 2;
+                return;
+            }
+            $pos++;
         }
         return;
     }
-}
 
-function isNameNonDigit($char) : bool {
-    return isNonDigit($char) || isValidNameUnicodeChar($char);
-}
+    function isCompoundAssignment($text, & $pos, $end) {
+        if ($pos < $end) {
+            return $text[$pos] === "=";
+        }
+        return false;
+    }
 
-/**
- * valid chars: U+0080–U+00ff
- * @param $char
- * @return bool
- */
-function isValidNameUnicodeChar($char) {
-    return $char >= "\u{0080}" && $char <= "\u{00ff}";
-}
 
-/**
- * NonDigit is defined as '_' or 'a-z' or 'A-Z'
- * @param $char
- * @return bool
- */
-function isNonDigit($char) : bool {
-    $asciiCode = ord($char);
-    return ($asciiCode >= 65 && $asciiCode <= 90)
+    function isName($text, $pos, $end) {
+        if ($pos < $end) {
+            return $this->isNameNonDigit($text[$pos]);
+        }
+        return false;
+    }
+
+    function scanName($text, & $pos, $end) {
+        while ($pos < $end) {
+            $char = $text[$pos];
+            if ($this->isNameNonDigit($char) || $this->isDigit($char)) {
+                $pos++;
+                continue;
+            }
+            return;
+        }
+    }
+
+    function isNameNonDigit($char) : bool {
+        return $this->isNonDigit($char) || $this->isValidNameUnicodeChar($char);
+    }
+
+    /**
+     * valid chars: U+0080–U+00ff
+     * @param $char
+     * @return bool
+     */
+    function isValidNameUnicodeChar($char) {
+        return $char >= "\u{0080}" && $char <= "\u{00ff}";
+    }
+
+    /**
+     * NonDigit is defined as '_' or 'a-z' or 'A-Z'
+     * @param $char
+     * @return bool
+     */
+    function isNonDigit($char) : bool {
+        $asciiCode = ord($char);
+        return ($asciiCode >= 65 && $asciiCode <= 90)
         || ($asciiCode >= 97 && $asciiCode <= 122)
         || ($asciiCode === 95);
-}
+    }
 
-function isDigit($char) : bool {
-    $asciiCode = ord($char);
-    return ($asciiCode >= 48 && $asciiCode <= 57);
+    function isDigit($char) : bool {
+        $asciiCode = ord($char);
+        return ($asciiCode >= 48 && $asciiCode <= 57);
+    }
+
 }
 
 const KEYWORDS = array(

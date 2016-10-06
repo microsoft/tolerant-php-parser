@@ -1,6 +1,7 @@
 <?php
 // TODO autoload classes
 require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
 use PHPUnit\Framework\TestCase;
@@ -9,14 +10,23 @@ use PhpParser\TokenKind;
 class LexerInvariantsTest extends TestCase {
     // TODO test w/ multiple files
     const FILENAMES = array (
-        __dir__ . "/fixtures/testfile.php",
-        __dir__ . "/fixtures/commentsFile.php"
+        __dir__ . "/cases/testfile.php",
+        __dir__ . "/cases/commentsFile.php"
     );
+    
+    protected $lexer;
+    protected $fileToTokensArrayMap;
+
+    public function setUp() {
+        $this->lexer = new \PhpParser\Lexer();
+        $this->fileToTokensArrayMap = array();
+        foreach (self::FILENAMES as $filename) {
+            $this->fileToTokensArrayMap[$filename] = $this->lexer->getTokensArray($filename);
+        }
+    }
 
     public function testTokenLengthSum() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
-
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $tokenLengthSum = 0;
             foreach ($tokensArray as $token) {
                 $tokenLengthSum += $token->length;
@@ -29,8 +39,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenStartGeqFullStart() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
 
             foreach ($tokensArray as $token) {
                 $this->assertGreaterThanOrEqual(
@@ -41,8 +50,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenContentMatchesFileSpan() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
             foreach ($tokensArray as $token) {
                 $this->assertEquals(
@@ -55,8 +63,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenFullTextMatchesTriviaPlusText() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
             foreach ($tokensArray as $token) {
                 $this->assertEquals(
@@ -69,8 +76,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenFullTextConcatenationMatchesDocumentText() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
 
             $tokenFullTextConcatenation = "";
@@ -87,8 +93,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testGetTokenFullTextLengthMatchesLength() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
 
             foreach ($tokensArray as $token) {
@@ -102,8 +107,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenTextLengthMatchesLengthMinusStartPlusFullStart() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
 
             foreach ($tokensArray as $token) {
@@ -117,8 +121,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenTriviaLengthMatchesStartMinusFullStart() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
             $fileContents = file_get_contents($filename);
 
             foreach ($tokensArray as $token) {
@@ -132,8 +135,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testEOFTokenTextHasZeroLength() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
 
             $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken($filename);
             $this->assertEquals(
@@ -144,8 +146,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokensArrayEndsWithEOFToken() {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
 
             $this->assertEquals(
                 $tokensArray[count($tokensArray) - 1]->kind, TokenKind::EndOfFileToken,
@@ -155,8 +156,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokensArrayOnlyContainsExactlyOneEOFToken () {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
 
             $eofTokenCount = 0;
 
@@ -173,8 +173,7 @@ class LexerInvariantsTest extends TestCase {
     }
 
     public function testTokenFullStartBeginsImmediatelyAfterPreviousToken () {
-        foreach (self::FILENAMES as $filename) {
-            $tokensArray = PhpParser\getTokensArray($filename);
+        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
 
             $prevToken;
             foreach ($tokensArray as $index => $token) {

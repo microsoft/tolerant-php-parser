@@ -2,18 +2,16 @@
 
 namespace PhpParser;
 /**
- * 
+ *
  */
-class Token
-{
+class Token {
     // TODO optimize memory - ideally this would be a struct of 4 ints
     public $kind;
     public $fullStart;
     public $start;
     public $length;
 
-    public function __construct($kind, $fullStart, $start, $length)
-    {
+    public function __construct($kind, $fullStart, $start, $length) {
         $this->kind = $kind;
         $this->fullStart = $fullStart;
         $this->start = $start;
@@ -34,13 +32,15 @@ class Token
 }
 
 // TODO enum equivalent?
-class TokenKind
-{
+class TokenKind {
     const Unknown = 0;
     const EndOfFileToken = 1;
 
     const Name = 2;
     const VariableName = 3;
+
+    const SkippedToken = 4;
+    const MissingToken = 5;
 
     const AbstractKeyword = 101;
     const AndKeyword = 102;
