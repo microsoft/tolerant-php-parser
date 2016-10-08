@@ -9,4 +9,5 @@ a /b;
 a/=3;
 $int
 and
+b****=
 // hello

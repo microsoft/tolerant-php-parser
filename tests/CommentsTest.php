@@ -36,7 +36,10 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::SemicolonToken, 67, 67, 1),
             new PhpParser\Token(PhpParser\TokenKind::VariableName, 68, 70, 6),
             new PhpParser\Token(PhpParser\TokenKind::AndKeyword, 74, 76, 5),
-            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 79, 89, 10)
+            new PhpParser\Token(PhpParser\TokenKind::Name, 79, 81, 3),
+            new PhpParser\Token(PhpParser\TokenKind::AsteriskAsteriskToken, 82, 82, 2),
+            new PhpParser\Token(PhpParser\TokenKind::AsteriskAsteriskEqualsToken, 84, 84, 3),
+            new PhpParser\Token(PhpParser\TokenKind::EndOfFileToken, 87, 97, 10)
         );
 
         foreach ($tokensArray as $index=>$token) {

@@ -46,22 +46,25 @@ class Lexer {
                     $pos++;
                     continue;
 
-                // TODO Potential-compound
-                case ".":
-                case "*":
-                case "+":
-                case "-":
-                case "!":
-                case "%":
-                case "<":
-                case ">":
-                case "^":
-                case "|":
-                case "&":
-                case "?":
-                case ":":
-                case "=":
-                case ",":
+                // Potential 3-char compound
+                case ".": // ..., .=, .
+                case "<": // <=>, <=, <<=, <<, <
+                case "=": // ===, ==, =
+                case ">": // >>=, >>, >=, >
+                case "*": // **=, **, *=, *
+                case "!": // !==, !=, !
+
+                // Potential 2-char compound
+                case "+": // +=, ++, +
+                case "-": // -= , --, ->, -
+                case "%": // %=, %
+                case "^": // ^=, ^
+                case "|": // |=, ||, |
+                case "&": // &=, &&, &
+                case "?": // ??, ?
+
+                case ":": // : (TODO should this actually be treated as compound?)
+                case ",": // , (TODO should this actually be treated as compound?)
 
                 // Non-compound
                 case "[":
@@ -73,9 +76,21 @@ class Lexer {
                 case ";":
                 case "~":
                 case "\\":
-                    $tokenKind = OPERATORS_AND_PUNCTUATORS[$char];
-                    $pos++;
-                    return new Token($tokenKind, $fullStart, $start, $pos - $fullStart);
+                    // TODO this can be made more performant, but we're going for simple/correct first.
+                    for ($tokenEnd = 2; $tokenEnd >= 0; $tokenEnd--) {
+                        if ($pos + $tokenEnd >= $endOfFilePos) {
+                            continue;
+                        }
+
+                        $textSubstring = substr($text, $pos, $tokenEnd + 1);
+                        if ($this->isOperatorOrPunctuator($textSubstring)) {
+                            $tokenKind = OPERATORS_AND_PUNCTUATORS[$textSubstring];
+                            $pos += $tokenEnd + 1;
+                            return new Token($tokenKind, $fullStart, $start, $pos - $fullStart);
+                        }
+                    }
+
+                    throw new \Exception("Unknown token kind");
 
                 case "/":
                     if ($this->isSingleLineCommentStart($text, $pos, $endOfFilePos)) {
@@ -120,12 +135,12 @@ class Lexer {
      * @param $text
      * @return int
      */
-    function getTokenKindForKeyword($text) : int {
-        return KEYWORDS[strtolower($text)];
+    function getTokenKindForKeyword($nameText) : int {
+        return KEYWORDS[strtolower($nameText)];
     }
 
-    function isKeyword($text) : bool {
-        return isset(KEYWORDS[strtolower($text)]);
+    function isKeyword($nameText) : bool {
+        return isset(KEYWORDS[strtolower($nameText)]);
     }
 
     function isOperatorOrPunctuator($text): bool {
