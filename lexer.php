@@ -7,7 +7,7 @@ class Lexer {
 
     function getTokensArray($filename) {
         $fileContents = file_get_contents($filename);
-        $end = strlen($fileContents);
+        $endOfFilePos = strlen($fileContents);
 
         // TODO figure out how to optimize memory
         // $tokensArray = new SplFixedArray($strLen);
@@ -15,35 +15,35 @@ class Lexer {
 
         $pos = 0;
         do {
-            $token = $this->scan($fileContents, $pos, $end);
+            $token = $this->scanNextToken($fileContents, $pos, $endOfFilePos);
             array_push($tokensArray, $token);
         } while ($token->kind != TokenKind::EndOfFileToken);
 
         return $tokensArray;
     }
 
-    public function scan($text, & $pos, $end) : Token {
-        $startPos = $pos;
+    public function scanNextToken(string $text, int & $pos, int $endOfFilePos) : Token {
+        $fullStart = $pos;
 
         while (true) {
-            $tokenPos = $pos;
-            if ($pos >= $end) {
-                return new Token(TokenKind::EndOfFileToken, $startPos, $tokenPos, $pos - $startPos);
+            $start = $pos;
+            if ($pos >= $endOfFilePos) {
+                return new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos - $fullStart);
             }
 
             // TODO skip past <?php
             $char = $text[$pos];
-            $pos++;
 
             switch ($char) {
                 case "#":
-                    $this->scanSingleLineComment($text, $pos, $end);
+                    $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                     continue;
 
                 case " ":
                 case "\t":
                 case "\r":
                 case "\n":
+                    $pos++;
                     continue;
 
                 // TODO Potential-compound
@@ -74,118 +74,107 @@ class Lexer {
                 case "~":
                 case "\\":
                     $tokenKind = OPERATORS_AND_PUNCTUATORS[$char];
-                    return new Token($tokenKind, $startPos, $tokenPos, $pos - $startPos);
+                    $pos++;
+                    return new Token($tokenKind, $fullStart, $start, $pos - $fullStart);
 
                 case "/":
-                    if ($this->isSingleLineComment($text, $pos, $end)) {
-                        $this->scanSingleLineComment($text, $pos, $end);
+                    if ($this->isSingleLineCommentStart($text, $pos, $endOfFilePos)) {
+                        $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                         continue;
-                    } else if ($this->isDelimitedComment($text, $pos, $end)) {
-                        $pos++;
-                        $this->scanDelimitedComment($text, $pos, $end);
+                    } else if ($this->isDelimitedCommentStart($text, $pos, $endOfFilePos)) {
+                        $this->scanDelimitedComment($text, $pos, $endOfFilePos);
                         continue;
-                    } else if ($this->isCompoundAssignment($text, $pos, $end)) {
-                        $pos++;
-                        return new Token(TokenKind::SlashEqualsToken, $startPos, $tokenPos, $pos - $startPos);
+                    } else if (isset($text[$pos+1]) && $text[$pos+1] === "=") {
+                        $pos+=2;
+                        return new Token(TokenKind::SlashEqualsToken, $fullStart, $start, $pos - $fullStart);
                     }
-                    return new Token(TokenKind::SlashToken, $startPos, $tokenPos, $pos - $startPos);
+                    $pos++;
+                    return new Token(TokenKind::SlashToken, $fullStart, $start, $pos - $fullStart);
 
                 case "$":
-                    if ($this->isName($text, $pos, $end)) {
-                        $pos++;
-                        $this->scanName($text, $pos, $end);
-                        return new Token(TokenKind::VariableName, $startPos, $tokenPos, $pos - $startPos);
+                    $pos++;
+                    if ($this->isNameStart($text, $pos, $endOfFilePos)) {
+                        $this->scanName($text, $pos, $endOfFilePos);
+                        return new Token(TokenKind::VariableName, $fullStart, $start, $pos - $fullStart);
                     }
-                    return new Token(TokenKind::DollarToken, $startPos, $tokenPos, $pos - $startPos);
+                    return new Token(TokenKind::DollarToken, $fullStart, $start, $pos - $fullStart);
 
                 default:
-                    if ($this->isName($text, $pos - 1, $end)) {
-                        //$pos++;
-                        $this->scanName($text, $pos, $end);
-                        $token = new Token(TokenKind::Name, $startPos, $tokenPos, $pos - $startPos);
+                    if ($this->isNameStart($text, $pos, $endOfFilePos)) {
+                        $this->scanName($text, $pos, $endOfFilePos);
+                        $token = new Token(TokenKind::Name, $fullStart, $start, $pos - $fullStart);
                         $tokenText = $token->getTextForToken($text);
                         if ($this->isKeyword($tokenText)) {
-                            $token->kind = KEYWORDS[$tokenText];
+                            $token->kind = $this->getTokenKindForKeyword($tokenText);
                         }
                         return $token;
                     }
-                    return new Token(TokenKind::Unknown, $startPos, $tokenPos, $pos - $startPos);
+                    $pos++;
+                    return new Token(TokenKind::Unknown, $fullStart, $start, $pos - $fullStart);
             }
         }
     }
 
-    function isKeyword($text) {
-        return array_key_exists(strtolower($text), KEYWORDS);
+    /**
+     * Returns case-insensitive token kind given a string.
+     * @param $text
+     * @return int
+     */
+    function getTokenKindForKeyword($text) : int {
+        return KEYWORDS[strtolower($text)];
     }
 
-    function isOperatorOrPunctuator($text) {
-        return in_array(strtolower($text), OPERATORS_AND_PUNCTUATORS);
+    function isKeyword($text) : bool {
+        return isset(KEYWORDS[strtolower($text)]);
     }
 
-    function scanSingleLineComment($text, & $pos, $end) {
-        while (true) {
-            if ($pos >= $end || $this->isNewLineChar($text[$pos])) {
+    function isOperatorOrPunctuator($text): bool {
+        return isset(OPERATORS_AND_PUNCTUATORS[$text]);
+    }
+
+    function isSingleLineCommentStart($text, $pos, $endOfFilePos) : bool {
+        return
+            $pos+1 < $endOfFilePos &&
+            $text[$pos] === "/" &&
+            $text[$pos+1] === "/";
+    }
+
+    function scanSingleLineComment($text, & $pos, $endOfFilePos) {
+        while ($pos < $endOfFilePos) {
+            if ($this->isNewLineChar($text[$pos])) {
                 return;
             }
             $pos++;
         }
     }
 
-    function isNewLineChar($char) {
-        return $char === "\n" || $char === "\r";
+    function isDelimitedCommentStart($text, $pos, $endOfFilePos) : bool {
+        return
+            $pos + 1 < $endOfFilePos &&
+            $text[$pos] === "/" &&
+            $text[$pos+1] === "*";
     }
 
-    function isSingleLineComment($text, & $pos, $end) {
-        if ($pos >= $end) {
-            return false;
-        }
-        if ($text[$pos] === "/") {
-            return true;
-        }
-
-        return false;
-    }
-
-    function isDelimitedComment($text, $pos, $end) {
-        if ($pos >= $end) {
-            return false;
-        }
-        if ($text[$pos] === "*") {
-            return true;
-        }
-        return false;
-    }
-
-    function scanDelimitedComment($text, & $pos, $end) {
-        while ($pos < $end) {
-            if (($pos + 1 < $end && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
+    function scanDelimitedComment($text, & $pos, $endOfFilePos) {
+        while ($pos < $endOfFilePos) {
+            if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
                 $pos += 2;
                 return;
             }
             $pos++;
         }
-        return;
     }
 
-    function isCompoundAssignment($text, & $pos, $end) {
-        if ($pos < $end) {
-            return $text[$pos] === "=";
-        }
-        return false;
+    function isNameStart($text, $pos, $endOfFilePos) : bool {
+        return
+            $pos < $endOfFilePos &&
+            $this->isNameNonDigitChar($text[$pos]);
     }
 
-
-    function isName($text, $pos, $end) {
-        if ($pos < $end) {
-            return $this->isNameNonDigit($text[$pos]);
-        }
-        return false;
-    }
-
-    function scanName($text, & $pos, $end) {
-        while ($pos < $end) {
+    function scanName($text, & $pos, $endOfFilePos) {
+        while ($pos < $endOfFilePos) {
             $char = $text[$pos];
-            if ($this->isNameNonDigit($char) || $this->isDigit($char)) {
+            if ($this->isNameNonDigitChar($char) || $this->isDigitChar($char)) {
                 $pos++;
                 continue;
             }
@@ -193,8 +182,16 @@ class Lexer {
         }
     }
 
-    function isNameNonDigit($char) : bool {
-        return $this->isNonDigit($char) || $this->isValidNameUnicodeChar($char);
+    function isNewLineChar($char) : bool {
+        return
+            $char === "\n" ||
+            $char === "\r";
+    }
+
+    function isNameNonDigitChar($char) : bool {
+        return
+            $this->isNonDigitChar($char) ||
+            $this->isValidNameUnicodeChar($char);
     }
 
     /**
@@ -202,8 +199,10 @@ class Lexer {
      * @param $char
      * @return bool
      */
-    function isValidNameUnicodeChar($char) {
-        return $char >= "\u{0080}" && $char <= "\u{00ff}";
+    function isValidNameUnicodeChar($char) : bool {
+        return
+            $char >= "\u{0080}" &&
+            $char <= "\u{00ff}";
     }
 
     /**
@@ -211,18 +210,20 @@ class Lexer {
      * @param $char
      * @return bool
      */
-    function isNonDigit($char) : bool {
+    function isNonDigitChar($char) : bool {
         $asciiCode = ord($char);
-        return ($asciiCode >= 65 && $asciiCode <= 90)
-        || ($asciiCode >= 97 && $asciiCode <= 122)
-        || ($asciiCode === 95);
+        return
+            ($asciiCode >= 65 && $asciiCode <= 90) ||
+            ($asciiCode >= 97 && $asciiCode <= 122) ||
+            $asciiCode === 95;
     }
 
-    function isDigit($char) : bool {
+    function isDigitChar($char) : bool {
         $asciiCode = ord($char);
-        return ($asciiCode >= 48 && $asciiCode <= 57);
+        return
+            $asciiCode >= 48 &&
+            $asciiCode <= 57;
     }
-
 }
 
 const KEYWORDS = array(
