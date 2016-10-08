@@ -9,6 +9,8 @@ class Parser {
     private $tokensArray;
     private $pos;
     private $currentParseContext;
+    public $sourceFile;
+
 
     public function __construct() {
         $this->lexer = new Lexer();
@@ -21,8 +23,12 @@ class Parser {
         // for now it's easier to debug if we're just passing around the array
         $this->tokensArray = $this->lexer->getTokensArray($filename);
 
-        $sourceFile = new SourceFileNode();
+        $sourceFile = new SourceFileNode(file_get_contents($filename));
+        $this->sourceFile = & $sourceFile;
         $sourceFile->children = $this->parseList($sourceFile, ParseContext::SourceElements, $this->parseStatement());
+        array_push($sourceFile->children, $this->getCurrentToken());
+        $this->advanceToken();
+
         $sourceFile->parent = null;
 
         return $sourceFile;
@@ -42,13 +48,12 @@ class Parser {
 
         $nodeArray = array();
         while (!$this->isListTerminator($nextParseContext)) {
-            if ($this->isListElement($nextParseContext)) {
-                $element = $this->parseListElement($parseElementFn);
+            if ($this->isListElement($nextParseContext, $this->getCurrentToken())) {
+                $element = $this->parseListElement($parseElementFn, $parentNode);
                 if ($element instanceof Node) {
                     $element->parent = $parentNode;
                 }
                 array_push($nodeArray, $element);
-                $this->advanceToken();
                 continue;
             }
 
@@ -61,27 +66,94 @@ class Parser {
             $this->advanceToken();
         }
 
-        array_push($nodeArray, $this->getCurrentToken());
-
         $this->currentParseContext = $savedParseContext;
 
         return $nodeArray;
     }
 
     function parseStatement() {
-        return function() {
+        return function($parentNode) {
             switch($this->getCurrentToken()->kind) {
                 case TokenKind::ClassKeyword:
-                    return $this->parseClassDeclaration();
+                    return $this->parseClassDeclaration($parentNode);
                 default:
-                    return $this->getCurrentToken();
+                    $token = $this->getCurrentToken();
+                    $this->advanceToken();
+                    return $token;
             }
         };
     }
 
-    function parseClassDeclaration() {
+    function parseClassDeclaration($parentNode) : ClassNode {
         $node = new ClassNode();
-        $node->children = array($this->getCurrentToken());
+        $node->children = array();
+        array_push($node->children, $this->eat(TokenKind::ClassKeyword));
+        array_push($node->children, $this->eat(TokenKind::Name));
+        array_push($node->children, $this->parseClassMembers($node));
+        $node->parent = $parentNode;
+        return $node;
+    }
+
+    function parseClassMembers($parentNode) : ClassMembersNode {
+        $node = new ClassMembersNode();
+        $node->children = array();
+        array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
+        $this->array_push_list($node->children, $this->parseList($node, ParseContext::ClassMembers, $this->parseClassElement()));
+        array_push($node->children, $this->eat(TokenKind::CloseBraceToken));
+        $node->parent = $parentNode;
+        return $node;
+    }
+
+    function array_push_list(& $array, $list) {
+        foreach ($list as $item) {
+            array_push($array, $item);
+        }
+    }
+
+    function parseBlockElement() {
+        return function() {
+            switch($this->getCurrentToken()->kind) {
+                default:
+                    $token = $this->getCurrentToken();
+                    $this->advanceToken();
+                    return $token;
+            }
+        };
+    }
+
+    function parseClassElement() {
+        return function($parentNode) {
+            switch($this->getCurrentToken()->kind) {
+                case (TokenKind::FunctionKeyword):
+                    return $this->parseMethodDeclaration($parentNode);
+                default:
+                    $token = $this->getCurrentToken();
+                    $this->advanceToken();
+                    return $token;
+            }
+        };
+    }
+
+    function parseMethodDeclaration($parentNode) {
+        $node = new MethodNode();
+        $node->children = array();
+        array_push($node->children, $this->eat(TokenKind::FunctionKeyword));
+        array_push($node->children, $this->eat(TokenKind::Name));
+        array_push($node->children, $this->eat(TokenKind::OpenParenToken));
+        array_push($node->children, $this->eat(TokenKind::VariableName));
+        array_push($node->children, $this->eat(TokenKind::CloseParenToken));
+        array_push($node->children, $this->parseMethodBlock($node));
+        $node->parent = $parentNode;
+        return $node;
+    }
+
+    function parseMethodBlock($parentNode) {
+        $node = new MethodBlockNode();
+        $node->children = array();
+        array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
+        $this->array_push_list($node->children, $this->parseList($node, ParseContext::BlockStatements, $this->parseBlockElement()));
+        array_push($node->children, $this->eat(TokenKind::CloseBraceToken));
+        $node->parent = $parentNode;
         return $node;
     }
 
@@ -93,7 +165,7 @@ class Parser {
     function isCurrentTokenValidInEnclosingContexts() {
         for ($contextKind = 0; $contextKind < ParseContext::Count; $contextKind++) {
             if ($this->isInParseContext($contextKind)) {
-                if ($this->isListElement($contextKind) || $this->isListTerminator($contextKind)) {
+                if ($this->isListElement($contextKind, $this->getCurrentToken()) || $this->isListTerminator($contextKind)) {
                     return true;
                 }
             }
@@ -106,11 +178,13 @@ class Parser {
         return ($this->currentParseContext & (1 << $contextToCheck));
     }
 
-    function eat(TokenKind $kind) {
-        if ($this->getCurrentToken() === $kind) {
-            return true;
+    function eat(int $kind) {
+        $token = $this->getCurrentToken();
+        if ($token->kind === $kind) {
+            $this->advanceToken();
+            return $token;
         }
-        return false;
+        return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
 
     function getCurrentToken() : Token {
@@ -120,47 +194,167 @@ class Parser {
     function advanceToken() {
         $this->pos++;
     }
-
-    function getCurrentParseContext() {
-        global $currentParseContext;
-        return $currentParseContext;
-    }
-
+    
     function updateCurrentParseContext($context) {
         $this->currentParseContext |= 1 << $context;
     }
 
-    function parseListElement($parseElementFn) {
+    function parseListElement($parseElementFn, $parentNode) {
         // TODO
-        return $parseElementFn();
+        return $parseElementFn($parentNode);
     }
 
-    function isListElement($context) {
+    function isListElement($context, $token) {
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
-                return $this->getCurrentToken()->kind === TokenKind::ClassKeyword;
+            case ParseContext::BlockStatements:
+                return $this->isStartOfStatement($token);
+
+            case ParseContext::ClassMembers:
+                return $this->isClassMemberDeclarationStart($token);
         }
         return false;
     }
 
+    function isClassMemberDeclarationStart(Token $token) {
+        switch ($token->kind) {
+            // const-modifier
+            case TokenKind::ConstKeyword:
+
+            // visibility-modifier
+            case TokenKind::PublicKeyword:
+            case TokenKind::ProtectedKeyword:
+            case TokenKind::PrivateKeyword:
+
+            // static-modifier
+            case TokenKind::StaticKeyword:
+
+            // class-modifier
+            case TokenKind::AbstractKeyword:
+            case TokenKind::FinalKeyword:
+
+            case TokenKind::VarKeyword:
+
+            case TokenKind::FunctionKeyword:
+
+            case TokenKind::UseKeyword:
+                return true;
+
+        }
+
+        return false;
+    }
+
+    function isStartOfStatement(Token $token) {
+        // https://github.com/php/php-langspec/blob/master/spec/19-grammar.md#statements
+        switch ($token->kind) {
+            // Compound Statements
+            case TokenKind::OpenBraceToken:
+
+            // Labeled Statements
+            case TokenKind::Name:
+            case TokenKind::CaseKeyword:
+            case TokenKind::DefaultKeyword:
+
+            // Expression Statements
+            case TokenKind::SemicolonToken:
+            case TokenKind::IfKeyword:
+            case TokenKind::SwitchKeyword:
+
+            // Iteration Statements
+            case TokenKind::WhileKeyword:
+            case TokenKind::DoKeyword:
+            case TokenKind::ForKeyword:
+            case TokenKind::ForeachKeyword:
+
+            // Jump Statements
+            case TokenKind::GotoKeyword:
+            case TokenKind::ContinueKeyword:
+            case TokenKind::BreakKeyword:
+            case TokenKind::ReturnKeyword:
+            case TokenKind::ThrowKeyword:
+
+            // The try Statement
+            case TokenKind::TryKeyword:
+
+            // The declare Statement
+            case TokenKind::DeclareKeyword:
+
+            // const-declaration
+            case TokenKind::ConstKeyword:
+
+            // function-definition
+            case TokenKind::FunctionKeyword:
+
+            // class-declaration
+            case TokenKind::ClassKeyword:
+            case TokenKind::AbstractKeyword:
+            case TokenKind::FinalKeyword:
+
+            // interface-declaration
+            case TokenKind::InterfaceKeyword:
+
+            // trait-declaration
+            case TokenKind::TraitKeyword:
+
+            // namespace-definition
+            case TokenKind::NamespaceKeyword:
+
+            // namespace-use-declaration
+            case TokenKind::UseKeyword:
+
+            // global-declaration
+            case TokenKind::GlobalKeyword:
+
+            // function-static-declaration
+            case TokenKind::StaticKeyword:
+                return true;
+
+            default:
+                return $this->isStartOfExpression($token);
+        }
+    }
+
+    function isStartOfExpression($token) {
+        // TODO
+        return false;
+    }
+
     function isListTerminator(int $parseContext) {
-        if ($this->getCurrentToken()->kind === TokenKind::EndOfFileToken) {
+        $tokenKind = $this->getCurrentToken()->kind;
+        if ($tokenKind === TokenKind::EndOfFileToken) {
             // Being at the end of the file ends all lists.
             return true;
         }
 
         switch ($parseContext) {
-            default:
-                return false;
+            case ParseContext::SourceElements:
+            case ParseContext::ClassMembers:
+                if ($tokenKind === TokenKind::CloseBraceToken) {
+                    return true;
+                }
+                break;
         }
+        return false;
     }
 }
 
+
 class SourceFileNode extends Node {
-    public function __construct() {
+    public $document;
+    public function __construct($document) {
+        $this->document = $document;
         $this->kind = NodeKind::SourceFileNode;
     }
+}
+
+class MethodBlockNode extends Node {
+
+}
+
+class ClassMembersNode extends Node {
+
 }
 
 class ClassNode extends Node {
@@ -233,7 +427,8 @@ class NodeKind {
 class ParseContext {
     const SourceElements = 0;
     const BlockStatements = 1;
-    const Count = 2;
+    const ClassMembers = 2;
+    const Count = 3;
 }
 
 /*

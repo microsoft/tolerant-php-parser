@@ -12,7 +12,8 @@ use PhpParser\Node;
 class ParserInvariantsTest extends LexerInvariantsTest {
     // TODO test w/ multiple files
     const FILENAMES = array (
-        __dir__ . "/cases/parserPocFile.php"
+        __dir__ . "/cases/parserPocFile.php",
+        __dir__ . "/cases/parserPocFile2.php"
     );
 
     private $parser;
@@ -107,7 +108,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
                 $count = 0;
                 foreach ($treeElements as $element) {
                     if ($element instanceof Node) {
-                        if (in_array($child, $element->children)) {
+                        if (in_array($child, $element->children, true)) {
                             $count++;
                         }
                     }
