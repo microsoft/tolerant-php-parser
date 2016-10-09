@@ -1,0 +1,18 @@
+[
+    {
+        "kind": "PlusToken",
+        "textLength": 1
+    },
+    {
+        "kind": "OpenBracketToken",
+        "textLength": 1
+    },
+    {
+        "kind": "CloseBracketToken",
+        "textLength": 1
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "kind": "YieldKeyword",
+        "textLength": 5
+    },
+    {
+        "kind": "Name",
+        "textLength": 4
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]
