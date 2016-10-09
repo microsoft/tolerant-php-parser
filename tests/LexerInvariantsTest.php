@@ -8,190 +8,197 @@ use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 
 class LexerInvariantsTest extends TestCase {
-    // TODO test w/ multiple files
     const FILENAMES = array (
         __dir__ . "/cases/testfile.php",
         __dir__ . "/cases/commentsFile.php"
     );
-    
-    protected $lexer;
-    protected $fileToTokensArrayMap;
 
-    public function setUp() {
-        $this->lexer = new \PhpParser\Lexer();
-        $this->fileToTokensArrayMap = array();
+    public static function tokensArrayProvider() {
+        $lexer = new \PhpParser\Lexer();
+        $fileToTokensMap = array();
         foreach (self::FILENAMES as $filename) {
-            $this->fileToTokensArrayMap[$filename] = $this->lexer->getTokensArray($filename);
+            $fileToTokensMap[basename($filename)] = [$filename, $lexer->getTokensArray($filename)];
+        }
+        return $fileToTokensMap;
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenLengthSum($filename, $tokensArray) {
+        $tokenLengthSum = 0;
+        foreach ($tokensArray as $token) {
+            $tokenLengthSum += $token->length;
+        }
+
+        $this->assertEquals(
+            filesize($filename), $tokenLengthSum,
+            "Invariant: Sum of the lengths of all the tokens should be equivalent to the length of the document.");
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenStartGeqFullStart($filename, $tokensArray) {
+        foreach ($tokensArray as $token) {
+            $this->assertGreaterThanOrEqual(
+                $token->fullStart, $token->start,
+                "Invariant: A token's Start is always >= FullStart.");
         }
     }
 
-    public function testTokenLengthSum() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $tokenLengthSum = 0;
-            foreach ($tokensArray as $token) {
-                $tokenLengthSum += $token->length;
-            }
-
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenContentMatchesFileSpan($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
+        foreach ($tokensArray as $token) {
             $this->assertEquals(
-                filesize($filename), $tokenLengthSum,
-                "Invariant: Sum of the lengths of all the tokens should be equivalent to the length of the document.");
-        }
-    }
-
-    public function testTokenStartGeqFullStart() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-
-            foreach ($tokensArray as $token) {
-                $this->assertGreaterThanOrEqual(
-                    $token->fullStart, $token->start,
-                    "Invariant: A token's Start is always >= FullStart.");
-            }
-        }
-    }
-
-    public function testTokenContentMatchesFileSpan() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-            foreach ($tokensArray as $token) {
-                $this->assertEquals(
-                    substr($fileContents, $token->fullStart, $token->length),
-                    $token->getFullTextForToken($fileContents),
-                    "Invariant: A token's content exactly matches the range of the file its span specifies"
-                );
-            }
-        }
-    }
-
-    public function testTokenFullTextMatchesTriviaPlusText() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-            foreach ($tokensArray as $token) {
-                $this->assertEquals(
-                    $token->getFullTextForToken($fileContents),
-                    $token->getTriviaForToken($fileContents) . $token->getTextForToken($fileContents),
-                    "Invariant: FullText of each token matches Trivia plus Text"
-                );
-            }
-        }
-    }
-
-    public function testTokenFullTextConcatenationMatchesDocumentText() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-
-            $tokenFullTextConcatenation = "";
-            foreach ($tokensArray as $token) {
-                $tokenFullTextConcatenation .= $token->getFullTextForToken($fileContents);
-            }
-
-            $this->assertEquals(
-                $fileContents,
-                $tokenFullTextConcatenation,
-                "Invariant: Concatenating FullText of each token returns the document"
+                substr($fileContents, $token->fullStart, $token->length),
+                $token->getFullTextForToken($fileContents),
+                "Invariant: A token's content exactly matches the range of the file its span specifies"
             );
         }
     }
 
-    public function testGetTokenFullTextLengthMatchesLength() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-
-            foreach ($tokensArray as $token) {
-                $this->assertEquals(
-                    $token->length,
-                    strlen($token->getFullTextForToken($fileContents)),
-                    "Invariant: a token's FullText length is equivalent to Length"
-                );
-            }
-        }
-    }
-
-    public function testTokenTextLengthMatchesLengthMinusStartPlusFullStart() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-
-            foreach ($tokensArray as $token) {
-                $this->assertEquals(
-                    $token->length - ($token->start - $token->fullStart),
-                    strlen($token->getTextForToken($fileContents)),
-                    "Invariant: a token's FullText length is equivalent to Length - (Start - FullStart)"
-                );
-            }
-        }
-    }
-
-    public function testTokenTriviaLengthMatchesStartMinusFullStart() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-            $fileContents = file_get_contents($filename);
-
-            foreach ($tokensArray as $token) {
-                $this->assertEquals(
-                    $token->start - $token->fullStart,
-                    strlen($token->getTriviaForToken($fileContents)),
-                    "Invariant: a token's Trivia length is equivalent to (Start - FullStart)"
-                );
-            }
-        }
-    }
-
-    public function testEOFTokenTextHasZeroLength() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-
-            $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken($filename);
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenFullTextMatchesTriviaPlusText($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
+        foreach ($tokensArray as $token) {
             $this->assertEquals(
-                0, strlen($tokenText),
-                "Invariant: End-of-file token text should have zero length"
+                $token->getFullTextForToken($fileContents),
+                $token->getTriviaForToken($fileContents) . $token->getTextForToken($fileContents),
+                "Invariant: FullText of each token matches Trivia plus Text"
             );
         }
     }
 
-    public function testTokensArrayEndsWithEOFToken() {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenFullTextConcatenationMatchesDocumentText($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
 
+        $tokenFullTextConcatenation = "";
+        foreach ($tokensArray as $token) {
+            $tokenFullTextConcatenation .= $token->getFullTextForToken($fileContents);
+        }
+
+        $this->assertEquals(
+            $fileContents,
+            $tokenFullTextConcatenation,
+            "Invariant: Concatenating FullText of each token returns the document"
+        );
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testGetTokenFullTextLengthMatchesLength($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
+
+        foreach ($tokensArray as $token) {
             $this->assertEquals(
-                $tokensArray[count($tokensArray) - 1]->kind, TokenKind::EndOfFileToken,
-                "Invariant: Tokens array should always end with end of file token"
+                $token->length,
+                strlen($token->getFullTextForToken($fileContents)),
+                "Invariant: a token's FullText length is equivalent to Length"
             );
         }
     }
 
-    public function testTokensArrayOnlyContainsExactlyOneEOFToken () {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenTextLengthMatchesLengthMinusStartPlusFullStart($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
 
-            $eofTokenCount = 0;
+        foreach ($tokensArray as $token) {
+            $this->assertEquals(
+                $token->length - ($token->start - $token->fullStart),
+                strlen($token->getTextForToken($fileContents)),
+                "Invariant: a token's FullText length is equivalent to Length - (Start - FullStart)"
+            );
+        }
+    }
 
-            foreach ($tokensArray as $index => $token) {
-                if ($token->kind == TokenKind::EndOfFileToken) {
-                    $eofTokenCount++;
-                }
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenTriviaLengthMatchesStartMinusFullStart($filename, $tokensArray) {
+        $fileContents = file_get_contents($filename);
+
+        foreach ($tokensArray as $token) {
+            $this->assertEquals(
+                $token->start - $token->fullStart,
+                strlen($token->getTriviaForToken($fileContents)),
+                "Invariant: a token's Trivia length is equivalent to (Start - FullStart)"
+            );
+        }
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testEOFTokenTextHasZeroLength($filename, $tokensArray) {
+        $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken($filename);
+        $this->assertEquals(
+            0, strlen($tokenText),
+            "Invariant: End-of-file token text should have zero length"
+        );
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokensArrayEndsWithEOFToken($filename, $tokensArray) {
+        $this->assertEquals(
+            $tokensArray[count($tokensArray) - 1]->kind, TokenKind::EndOfFileToken,
+            "Invariant: Tokens array should always end with end of file token"
+        );
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokensArrayOnlyContainsExactlyOneEOFToken ($filename, $tokensArray) {
+        $eofTokenCount = 0;
+
+        foreach ($tokensArray as $index => $token) {
+            if ($token->kind == TokenKind::EndOfFileToken) {
+                $eofTokenCount++;
             }
-            $this->assertEquals(
-                1, $eofTokenCount,
-                "Invariant: Tokens array should contain exactly one EOF token"
-            );
         }
+        $this->assertEquals(
+            1, $eofTokenCount,
+            "Invariant: Tokens array should contain exactly one EOF token"
+        );
     }
 
-    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken () {
-        foreach ($this->fileToTokensArrayMap as $filename=>$tokensArray) {
-
-            $prevToken;
-            foreach ($tokensArray as $index => $token) {
-                if ($index === 0) {
-                    $prevToken = $token;
-                    continue;
-                }
-
-                $this->assertEquals(
-                    $prevToken->fullStart + $prevToken->length, $token->fullStart,
-                    "Invariant: Token FullStart should begin immediately after previous token end"
-                );
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken ($filename, $tokensArray) {
+        $prevToken;
+        foreach ($tokensArray as $index => $token) {
+            if ($index === 0) {
                 $prevToken = $token;
+                continue;
             }
+
+            $this->assertEquals(
+                $prevToken->fullStart + $prevToken->length, $token->fullStart,
+                "Invariant: Token FullStart should begin immediately after previous token end"
+            );
+            $prevToken = $token;
         }
     }
 
-    public function testWithDifferentEncodings() {
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testWithDifferentEncodings($filename, $tokensArray) {
         // TODO test with different encodings
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
