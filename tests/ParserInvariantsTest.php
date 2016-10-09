@@ -145,4 +145,21 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             }
         }
     }
+
+    public function testEveryNodeHasAKind() {
+        foreach (self::FILENAMES as $filename) {
+            $sourceFileNode = $this->parser->parseSourceFile($filename);
+
+            $treeElements = $sourceFileNode->getAllChildren();
+            array_push($treeElements, $sourceFileNode);
+
+            foreach($treeElements as $element) {
+                if ($element instanceof Node) {
+                    $this->assertNotNull(
+                        $element->kind,
+                        "Invariant: Every Node has a Kind");
+                }
+            }
+        }
+    }
 }

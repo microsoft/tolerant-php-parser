@@ -239,6 +239,56 @@ class Lexer {
             $asciiCode >= 48 &&
             $asciiCode <= 57;
     }
+
+    function isNonzeroDigitChar($char) : bool {
+        $asciiCode = ord($char);
+        return
+            $asciiCode > 48 &&
+            $asciiCode <= 57;
+    }
+
+    function isOctalDigitChar($char) : bool {
+        $asciiCode = ord($char);
+        return
+            $asciiCode >= 48 &&
+            $asciiCode <= 55;
+    }
+
+    function isBinaryDigitChar($char) : bool {
+        $asciiCode = ord($char);
+        return
+            $asciiCode === 48 ||
+            $asciiCode === 49;
+    }
+
+    function isHexadecimalDigit($char) {
+        // 0  1  2  3  4  5  6  7  8  9
+        // a  b  c  d  e  f
+        // A  B  C  D  E  F
+    }
+
+    function isDecimalLiteralStart($text, $pos, $endOfFilePos) {
+        // nonzero-digit
+    }
+
+    function isOctalLiteralStart($text, $pos, $endOfFilePos) {
+        // 0
+        // need to lookahead to resolve ambiguity w/ hexadecimal literal
+    }
+
+    function isHexadecimalLiteralStart($text, $pos, $endOfFilePos) {
+        // 0x  0X
+    }
+
+    function isBinaryLiteralStart($text, $pos, $endOfFilePos) {
+        // 0b, 0B
+    }
+
+    function isFloatingLiteralStart($text, $pos, $endOfFilePos) {
+        // . or digit
+        // ambiguity of first char - start of octal literal or decimal?
+        // is there some ordering to the grammar that helps resolve this?
+    }
 }
 
 const KEYWORDS = array(

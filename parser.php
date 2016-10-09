@@ -341,38 +341,7 @@ class Parser {
 }
 
 
-class SourceFileNode extends Node {
-    public $document;
-    public function __construct($document) {
-        $this->document = $document;
-        $this->kind = NodeKind::SourceFileNode;
-    }
-}
-
-class MethodBlockNode extends Node {
-
-}
-
-class ClassMembersNode extends Node {
-
-}
-
-class ClassNode extends Node {
-
-}
-
-class BlockNode extends Node {
-
-}
-
-class StatementNode extends Node {
-}
-
-class MethodNode extends Node {
-
-}
-
-class Node {
+class Node implements \JsonSerializable  {
     public $kind;
     public $parent;
     public $children;
@@ -415,12 +384,73 @@ class Node {
         }
         throw new \Exception("Unknown type in AST");
     }
+
+    public function jsonSerialize() {
+        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
+        $kindName = $this->kind;
+        foreach ($constants as $name=>$val) {
+            if ($val == $this->kind) {
+                $kindName = $name;
+            }
+        }
+
+        return ["$kindName" => $this->children];
+    }
+}
+
+class SourceFileNode extends Node {
+    public $document;
+    public function __construct($document) {
+        $this->document = $document;
+        $this->kind = NodeKind::SourceFileNode;
+    }
+}
+
+class MethodBlockNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::MethodBlockNode;
+    }
+}
+
+class ClassMembersNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::ClassMembersNode;
+    }
+}
+
+class ClassNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::ClassNode;
+    }
+}
+
+class BlockNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::MethodBlockNode;
+    }
+}
+
+class StatementNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::StatementNode;
+    }
+}
+
+class MethodNode extends Node {
+    public function __construct() {
+        $this->kind = NodeKind::MethodNode;
+    }
 }
 
 class NodeKind {
     const SourceFileNode = 0;
     const ClassNode = 1;
     const BlockNode = 2;
+    const MethodBlockNode = 3;
+    const MethodNode = 4;
+    const StatementNode = 5;
+    const ClassMembersNode = 6;
+    const Count = 7;
 }
 
 

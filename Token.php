@@ -4,7 +4,7 @@ namespace PhpParser;
 /**
  *
  */
-class Token {
+class Token implements \JsonSerializable {
     // TODO optimize memory - ideally this would be a struct of 4 ints
     public $kind;
     public $fullStart;
@@ -28,6 +28,24 @@ class Token {
 
     public function getFullTextForToken(string $document) : string {
         return substr($document, $this->fullStart, $this->length);
+    }
+
+    function jsonSerialize() {
+        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
+        $kindName = $this->kind;
+        foreach ($constants as $name=>$val) {
+            if ($val == $this->kind) {
+                $kindName = $name;
+            }
+        }
+
+        return [
+            "kind" => $kindName,
+            "textLength" => $this->length - ($this->start - $this->fullStart)
+//            "fullStart" => $this->fullStart,
+//            "start" => $this->start,
+//            "length" => $this->length
+        ];
     }
 }
 
