@@ -1,7 +1,7 @@
 [
     {
-        "kind": "YieldFromKeyword",
-        "textLength": 11
+        "kind": "YieldKeyword",
+        "textLength": 5
     },
     {
         "kind": "EndOfFileToken",

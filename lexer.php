@@ -119,8 +119,8 @@ class Lexer {
                         $this->scanName($text, $pos, $endOfFilePos);
                         $token = new Token(TokenKind::Name, $fullStart, $start, $pos - $fullStart);
                         $tokenText = $token->getTextForToken($text);
-                        if ($this->isKeyword($tokenText)) {
-                            $token->kind = $this->getTokenKindForKeyword($tokenText);
+                        if ($this->isKeywordStart($tokenText)) {
+                            $token = $this->getKeywordTokenFromNameToken($token, $tokenText, $text, $pos, $endOfFilePos);
                         }
                         return $token;
                     }
@@ -130,17 +130,23 @@ class Lexer {
         }
     }
 
-    /**
-     * Returns case-insensitive token kind given a string.
-     * @param $text
-     * @return int
-     */
-    function getTokenKindForKeyword($nameText) : int {
-        return KEYWORDS[strtolower($nameText)];
+    function getKeywordTokenFromNameToken($token, $keywordStart, $text, & $pos, $endOfFilePos) {
+        $token->kind = KEYWORDS[strtolower($keywordStart)];
+        if ($token->kind === TokenKind::YieldKeyword) {
+            $savedPos = $pos;
+            $nextToken = $this->scanNextToken($text, $pos, $endOfFilePos);
+            if (preg_replace('/\s+/','', strtolower($nextToken->getFullTextForToken($text))) === "from") {
+                $token->kind = TokenKind::YieldFromKeyword;
+                $token->length = $pos - $token->fullStart;
+            } else {
+                $pos = $savedPos;
+            }
+        }
+        return $token;
     }
 
-    function isKeyword($nameText) : bool {
-        return isset(KEYWORDS[strtolower($nameText)]);
+    function isKeywordStart($text) : bool {
+        return isset(KEYWORDS[strtolower($text)]);
     }
 
     function isOperatorOrPunctuator($text): bool {

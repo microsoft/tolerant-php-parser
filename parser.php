@@ -11,7 +11,6 @@ class Parser {
     private $currentParseContext;
     public $sourceFile;
 
-
     public function __construct() {
         $this->lexer = new Lexer();
     }
