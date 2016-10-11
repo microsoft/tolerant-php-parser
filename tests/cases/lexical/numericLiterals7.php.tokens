@@ -1,1 +1,10 @@
-// TODO
+[
+    {
+        "kind": "HexadecimalLiteralToken",
+        "textLength": 8
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]

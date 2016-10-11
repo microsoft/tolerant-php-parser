@@ -1,1 +1,10 @@
-// TODO
+[
+    {
+        "kind": "FloatingLiteralToken",
+        "textLength": 3
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]

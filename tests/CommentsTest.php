@@ -32,7 +32,7 @@ class CommentsTest extends TestCase {
             new PhpParser\Token(PhpParser\TokenKind::SemicolonToken, 60, 60, 1),
             new PhpParser\Token(PhpParser\TokenKind::Name, 61, 63, 3),
             new PhpParser\Token(PhpParser\TokenKind::SlashEqualsToken, 64, 64, 2),
-            new PhpParser\Token(PhpParser\TokenKind::Unknown, 66, 66, 1),
+            new PhpParser\Token(PhpParser\TokenKind::DecimalLiteralToken, 66, 66, 1),
             new PhpParser\Token(PhpParser\TokenKind::SemicolonToken, 67, 67, 1),
             new PhpParser\Token(PhpParser\TokenKind::VariableName, 68, 70, 6),
             new PhpParser\Token(PhpParser\TokenKind::AndKeyword, 74, 76, 5),

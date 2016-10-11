@@ -2,6 +2,7 @@
 namespace PhpParser;
 
 require_once(__DIR__ . "/Token.php");
+require_once(__DIR__ . "/characterCodes.php");
 
 class Lexer {
 
@@ -32,50 +33,56 @@ class Lexer {
             }
 
             // TODO skip past <?php
-            $char = $text[$pos];
+            $char = ord($text[$pos]);
 
             switch ($char) {
-                case "#":
+                case CharacterCodes::_hash:
                     $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                     continue;
 
-                case " ":
-                case "\t":
-                case "\r":
-                case "\n":
+                case ord(" "):
+                case CharacterCodes::_tab:
+                case ord("\r"):
+                case ord("\n"):
                     $pos++;
                     continue;
 
                 // Potential 3-char compound
-                case ".": // ..., .=, .
-                case "<": // <=>, <=, <<=, <<, <
-                case "=": // ===, ==, =
-                case ">": // >>=, >>, >=, >
-                case "*": // **=, **, *=, *
-                case "!": // !==, !=, !
+                case CharacterCodes::_dot: // ..., .=, . // TODO also applies to floating point literals
+                    if (isset($text[$pos+1]) && $this->isDigitChar($text[$pos+1])) {
+                        $kind = $this->scanNumericLiteral($text, $pos, $endOfFilePos);
+                        return new Token($kind, $fullStart, $start, $pos-$fullStart);
+                    }
+                    // Otherwise fall through to compounds
+
+                case CharacterCodes::_lessThan: // <=>, <=, <<=, <<, <
+                case CharacterCodes::_equals: // ===, ==, =
+                case CharacterCodes::_greaterThan: // >>=, >>, >=, >
+                case CharacterCodes::_asterisk: // **=, **, *=, *
+                case CharacterCodes::_exclamation: // !==, !=, !
 
                 // Potential 2-char compound
-                case "+": // +=, ++, +
-                case "-": // -= , --, ->, -
-                case "%": // %=, %
-                case "^": // ^=, ^
-                case "|": // |=, ||, |
-                case "&": // &=, &&, &
-                case "?": // ??, ?
+                case CharacterCodes::_plus: // +=, ++, +
+                case CharacterCodes::_minus: // -= , --, ->, -
+                case CharacterCodes::_percent: // %=, %
+                case CharacterCodes::_caret: // ^=, ^
+                case CharacterCodes::_bar: // |=, ||, |
+                case CharacterCodes::_ampersand: // &=, &&, &
+                case CharacterCodes::_question: // ??, ?
 
-                case ":": // : (TODO should this actually be treated as compound?)
-                case ",": // , (TODO should this actually be treated as compound?)
+                case CharacterCodes::_colon: // : (TODO should this actually be treated as compound?)
+                case CharacterCodes::_comma: // , (TODO should this actually be treated as compound?)
 
                 // Non-compound
-                case "[":
-                case "]":
-                case "(":
-                case ")":
-                case "{":
-                case "}":
-                case ";":
-                case "~":
-                case "\\":
+                case CharacterCodes::_openBracket:
+                case CharacterCodes::_closeBracket:
+                case CharacterCodes::_openParen:
+                case CharacterCodes::_closeParen:
+                case CharacterCodes::_openBrace:
+                case CharacterCodes::_closeBrace:
+                case CharacterCodes::_semicolon:
+                case CharacterCodes::_tilde:
+                case CharacterCodes::_backslash:
                     // TODO this can be made more performant, but we're going for simple/correct first.
                     for ($tokenEnd = 2; $tokenEnd >= 0; $tokenEnd--) {
                         if ($pos + $tokenEnd >= $endOfFilePos) {
@@ -92,7 +99,7 @@ class Lexer {
 
                     throw new \Exception("Unknown token kind");
 
-                case "/":
+                case CharacterCodes::_slash:
                     if ($this->isSingleLineCommentStart($text, $pos, $endOfFilePos)) {
                         $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                         continue;
@@ -106,7 +113,7 @@ class Lexer {
                     $pos++;
                     return new Token(TokenKind::SlashToken, $fullStart, $start, $pos - $fullStart);
 
-                case "$":
+                case CharacterCodes::_dollar:
                     $pos++;
                     if ($this->isNameStart($text, $pos, $endOfFilePos)) {
                         $this->scanName($text, $pos, $endOfFilePos);
@@ -123,6 +130,9 @@ class Lexer {
                             $token = $this->getKeywordTokenFromNameToken($token, $tokenText, $text, $pos, $endOfFilePos);
                         }
                         return $token;
+                    } else if ($this->isDigitChar($text[$pos])) {
+                        $kind = $this->scanNumericLiteral($text, $pos, $endOfFilePos);
+                        return new Token($kind, $fullStart, $start, $pos - $fullStart);
                     }
                     $pos++;
                     return new Token(TokenKind::Unknown, $fullStart, $start, $pos - $fullStart);
@@ -232,68 +242,248 @@ class Lexer {
      * @return bool
      */
     function isNonDigitChar($char) : bool {
-        $asciiCode = ord($char);
+        $charCode = ord($char);
         return
-            ($asciiCode >= 65 && $asciiCode <= 90) ||
-            ($asciiCode >= 97 && $asciiCode <= 122) ||
-            $asciiCode === 95;
+            ($charCode >= CharacterCodes::a && $charCode <= CharacterCodes::z) ||
+            ($charCode >= CharacterCodes::A && $charCode <= CharacterCodes::Z) ||
+            $charCode === CharacterCodes::_underscore;
     }
 
     function isDigitChar($char) : bool {
-        $asciiCode = ord($char);
+        $charCode = ord($char);
         return
-            $asciiCode >= 48 &&
-            $asciiCode <= 57;
+            $charCode >= CharacterCodes::_0 &&
+            $charCode <= CharacterCodes::_9;
     }
 
     function isNonzeroDigitChar($char) : bool {
-        $asciiCode = ord($char);
+        $charCode = ord($char);
         return
-            $asciiCode > 48 &&
-            $asciiCode <= 57;
+            $charCode >= CharacterCodes::_1 &&
+            $charCode <= CharacterCodes::_9;
     }
 
     function isOctalDigitChar($char) : bool {
-        $asciiCode = ord($char);
+        $charCode = ord($char);
         return
-            $asciiCode >= 48 &&
-            $asciiCode <= 55;
+            $charCode >= CharacterCodes::_0 &&
+            $charCode <= CharacterCodes::_7;
     }
 
     function isBinaryDigitChar($char) : bool {
-        $asciiCode = ord($char);
+        $charCode = ord($char);
         return
-            $asciiCode === 48 ||
-            $asciiCode === 49;
+            $charCode === CharacterCodes::_0 ||
+            $charCode === CharacterCodes::_1;
     }
 
     function isHexadecimalDigit($char) {
         // 0  1  2  3  4  5  6  7  8  9
         // a  b  c  d  e  f
         // A  B  C  D  E  F
+        $charCode = ord($char);
+        return
+            $charCode >= CharacterCodes::_0 && $charCode <= CharacterCodes::_9 ||
+            $charCode >= CharacterCodes::a && $charCode <= CharacterCodes::f ||
+            $charCode >= CharacterCodes::A && $charCode <= CharacterCodes::F;
+    }
+
+    function scanNumericLiteral($text, & $pos, $endOfFilePos) : int {
+        if ($this->isBinaryLiteralStart($text, $pos, $endOfFilePos)) {
+            $pos+=2;
+            $prevPos = $pos;
+            $isValidBinaryLiteral = $this->scanBinaryLiteral($text, $pos, $endOfFilePos);
+            if ($prevPos === $pos || !$isValidBinaryLiteral) {
+                // invalid binary literal
+                return TokenKind::InvalidBinaryLiteral;
+
+            }
+            return TokenKind::BinaryLiteralToken;
+        } else if ($this->isHexadecimalLiteralStart($text, $pos, $endOfFilePos)) {
+            $pos += 2;
+            $prevPos = $pos;
+            $isValidHexLiteral = $this->scanHexadecimalLiteral($text, $pos, $endOfFilePos);
+            if ($prevPos === $pos || !$isValidHexLiteral) {
+                return TokenKind::InvalidHexadecimalLiteral;
+                // invalid hexadecimal literal
+            }
+            return TokenKind::HexadecimalLiteralToken;
+        } else if ($this->isDigitChar($text[$pos]) || $text[$pos] === ".") {
+            // TODO throw error if there is no number past the dot.
+            $prevPos = $pos;
+            $isValidFloatingLiteral = $this->scanFloatingPointLiteral($text, $pos, $endOfFilePos);
+
+            if ($isValidFloatingLiteral) {
+                return TokenKind::FloatingLiteralToken;
+            }
+
+            // Reset, try scanning octal literal
+            $pos = $prevPos;
+
+            if ($text[$pos] === "0") {
+                $isValidOctalLiteral = $this->scanOctalLiteral($text, $pos, $endOfFilePos);
+
+                // Check that it's not a 0 decimal literal
+                if ($pos === $prevPos+1) {
+                    return TokenKind::DecimalLiteralToken;
+                }
+
+                if (!$isValidOctalLiteral) {
+                    return TokenKind::InvalidOctalLiteralToken;
+                }
+
+                return TokenKind::OctalLiteralToken;
+            }
+
+            $this->scanDecimalLiteral($text, $pos, $endOfFilePos);
+            return TokenKind::DecimalLiteralToken;
+        }
+        // TODO throw error
+        return TokenKind::Unknown;
     }
 
     function isDecimalLiteralStart($text, $pos, $endOfFilePos) {
         // nonzero-digit
+        return $this->isNonzeroDigitChar($text[$pos]);
     }
 
     function isOctalLiteralStart($text, $pos, $endOfFilePos) {
         // 0
         // need to lookahead to resolve ambiguity w/ hexadecimal literal
+        return
+            $text[$pos] === "0";
+    }
+
+    function scanBinaryLiteral($text, & $pos, $endOfFilePos) {
+        $isValid = true;
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
+            if ($this->isBinaryDigitChar($char)) {
+                $pos++;
+                continue;
+            } else if ($this->isDigitChar($char)) {
+                $pos++;
+                // REPORT ERROR;
+                $isValid = false;
+                continue;
+            }
+            break;
+        }
+        return $isValid;
+    }
+
+    function scanHexadecimalLiteral($text, & $pos, $endOfFilePos) {
+        $isValid = true;
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
+            if ($this->isHexadecimalDigit($char)) {
+                $pos++;
+                continue;
+            } else if ($this->isDigitChar($char) || $this->isNameNonDigitChar($char)) {
+                $pos++;
+                // REPORT ERROR;
+                $isValid = false;
+                continue;
+            }
+            break;
+        }
+        return $isValid;
     }
 
     function isHexadecimalLiteralStart($text, $pos, $endOfFilePos) {
         // 0x  0X
+        return
+            isset($text[$pos+1]) &&
+            $text[$pos] === "0" &&
+            strtolower($text[$pos+1]) == "x";
     }
 
     function isBinaryLiteralStart($text, $pos, $endOfFilePos) {
         // 0b, 0B
+        return
+            isset($text[$pos+1]) &&
+            $text[$pos] === "0" &&
+            strtolower($text[$pos+1]) == "b";
     }
 
-    function isFloatingLiteralStart($text, $pos, $endOfFilePos) {
-        // . or digit
-        // ambiguity of first char - start of octal literal or decimal?
-        // is there some ordering to the grammar that helps resolve this?
+    function scanDecimalLiteral($text, & $pos, $endOfFilePos) {
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
+            if ($this->isDigitChar($char)) {
+                $pos++;
+                continue;
+            }
+            return;
+        }
+    }
+
+    private function scanOctalLiteral($text, & $pos, $endOfFilePos) {
+        $isValid = true;
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
+
+            if ($this->isOctalDigitChar($char)) {
+                $pos++;
+                continue;
+            } else if ($this->isDigitChar($char)) {
+                $pos++;
+                $isValid = false;
+                continue;
+            }
+            break;
+        }
+        return $isValid;
+    }
+
+     function scanFloatingPointLiteral($text, & $pos, $endOfFilePos) {
+         $hasDot = false;
+         $expStart = null;
+         $hasSign = false;
+         while ($pos < $endOfFilePos) {
+             $char = $text[$pos];
+
+             if ($this->isDigitChar($char)) {
+                 $pos++;
+                 continue;
+             } else if ($char === ".") {
+                 if ($hasDot || $expStart !== null) {
+                     // Dot not valid, done scanning
+                     break;
+                 }
+                 $hasDot = true;
+                 $pos++;
+                 continue;
+             } else if ($char === "e" || $char === "E") {
+                 if ($expStart !== null) {
+                     // exponential not valid here, done scanning
+                     break;
+                 }
+                 $expStart = $pos;
+                 $pos++;
+                 continue;
+             } else if ($char === "+" || $char === "-") {
+                 if ($expStart !== null && $expStart === $pos-1) {
+                     $hasSign = true;
+                     $pos++;
+                     continue;
+                 }
+                 // sign not valid here, done scanning
+                 break;
+             }
+             // unexpected character, done scanning
+             break;
+         }
+
+         if ($expStart !== null) {
+             $expectedMinPos = $hasSign ? $expStart + 3 : $expStart + 2;
+             if ($pos >= $expectedMinPos) {
+                 return true;
+             }
+             // exponential is invalid, reset position
+             $pos = $expStart;
+         }
+
+         return $hasDot;
     }
 }
 

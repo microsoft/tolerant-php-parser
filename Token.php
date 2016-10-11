@@ -185,5 +185,14 @@ class TokenKind {
     const BackslashToken = 255;
     const ColonColonToken = 256;
 
+    const DecimalLiteralToken = 301;
+    const OctalLiteralToken = 302;
+    const HexadecimalLiteralToken = 303;
+    const BinaryLiteralToken = 304;
+    const FloatingLiteralToken = 305;
+    const InvalidOctalLiteralToken = 306;
+    const InvalidHexadecimalLiteral = 307;
+    const InvalidBinaryLiteral = 308;
+
     // TODO type annotations - PHP7
 }

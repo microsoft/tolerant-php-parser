@@ -1,1 +1,18 @@
-// TODO
+[
+    {
+        "kind": "DollarToken",
+        "textLength": 1
+    },
+    {
+        "kind": "DecimalLiteralToken",
+        "textLength": 2
+    },
+    {
+        "kind": "FunctionKeyword",
+        "textLength": 8
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]
