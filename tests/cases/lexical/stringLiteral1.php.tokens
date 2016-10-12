@@ -1,0 +1,10 @@
+[
+    {
+        "kind": "StringLiteralToken",
+        "textLength": 7
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]

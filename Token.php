@@ -193,6 +193,8 @@ class TokenKind {
     const InvalidOctalLiteralToken = 306;
     const InvalidHexadecimalLiteral = 307;
     const InvalidBinaryLiteral = 308;
+    const StringLiteralToken = 309;
+    const UnterminatedStringLiteralToken = 310;
 
     // TODO type annotations - PHP7
 }

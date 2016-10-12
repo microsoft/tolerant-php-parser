@@ -55,7 +55,7 @@ class Lexer {
                     }
                     // Otherwise fall through to compounds
 
-                case CharacterCodes::_lessThan: // <=>, <=, <<=, <<, <
+                case CharacterCodes::_lessThan: // <=>, <=, <<=, <<, < // TODO heredoc and nowdoc
                 case CharacterCodes::_equals: // ===, ==, =
                 case CharacterCodes::_greaterThan: // >>=, >>, >=, >
                 case CharacterCodes::_asterisk: // **=, **, *=, *
@@ -120,6 +120,20 @@ class Lexer {
                         return new Token(TokenKind::VariableName, $fullStart, $start, $pos - $fullStart);
                     }
                     return new Token(TokenKind::DollarToken, $fullStart, $start, $pos - $fullStart);
+
+                case CharacterCodes::_singleQuote:
+                    $quoteStart = true;
+                case CharacterCodes::b:
+                case CharacterCodes::B:
+                    if ($text[$pos] === "'" || (isset($text[$pos+1]) && $text[$pos+1] == "'")) {
+                        $pos+= isset($quoteStart) ? 1 : 2;
+                        if ($this->scanStringLiteral($text, $pos, $endOfFilePos)) {
+                            return new Token(TokenKind::StringLiteralToken, $fullStart, $start, $pos-$fullStart);
+                        }
+                        return new Token(TokenKind::UnterminatedStringLiteralToken, $fullStart, $start, $pos-$fullStart);
+                    }
+
+                    // Flow through to default case
 
                 default:
                     if ($this->isNameStart($text, $pos, $endOfFilePos)) {
@@ -484,6 +498,40 @@ class Lexer {
          }
 
          return $hasDot;
+    }
+
+    function scanStringLiteral($text, & $pos, $endOfFilePos) {
+        // TODO validate with multiple character sets
+
+        $isTerminated = false;
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
+            if ($this->isNewLineChar($char)) {
+                // unterminated string
+                // TODO REPORT ERROR
+                break;
+            } else if ($this->isSingleQuoteEscapeSequence($text, $pos)) {
+                $pos+=2;
+                continue;
+            } else if ($text[$pos] === "'") {
+                $pos++;
+                $isTerminated = true;
+                break;
+            } else {
+                $pos++;
+                continue;
+            }
+        }
+
+        return $isTerminated;
+    }
+
+    function isSingleQuoteEscapeSequence($text, $pos) {
+        return
+            isset($text[$pos+1]) &&
+            $text[$pos] === "\\" &&
+            ($text[$pos] === "'" || $text[$pos] === "\\");
+
     }
 }
 
