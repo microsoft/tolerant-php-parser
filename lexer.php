@@ -123,6 +123,7 @@ class Lexer {
 
                 case CharacterCodes::_singleQuote:
                     $quoteStart = true;
+                    // Flow through to b/B
                 case CharacterCodes::b:
                 case CharacterCodes::B:
                     if ($text[$pos] === "'" || (isset($text[$pos+1]) && $text[$pos+1] == "'")) {
@@ -530,7 +531,19 @@ class Lexer {
         return
             isset($text[$pos+1]) &&
             $text[$pos] === "\\" &&
-            ($text[$pos] === "'" || $text[$pos] === "\\");
+            in_array($text[$pos+1], self::SQ_ESCAPE_SEQ_CHARS);
+
+    }
+
+    const SQ_ESCAPE_SEQ_CHARS = array(
+        "'", "\\"
+    );
+
+    function isDoubleQuoteEscapeSequence($text, $pos) {
+
+    }
+
+    function isSimpleEscapeSequence($text, $pos) {
 
     }
 }
