@@ -13,15 +13,13 @@ class CommentsTest extends TestCase {
 
     private $lexer;
 
-    public function setUp() {
-        $this->lexer = new \PhpParser\Lexer();
-    }
-
     /**
      * TODO not actually a test - just a convenience during initial development
      */
     public function testCommentsFile() {
-        $tokensArray = $this->lexer->getTokensArray(self::FILENAME);
+        $this->lexer = new \PhpParser\Lexer(self::FILENAME);
+        $tokensArray = $this->lexer->getTokensArray();
+
         $expected = array(
             new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
             new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),
@@ -48,7 +46,8 @@ class CommentsTest extends TestCase {
     }
 
     public function testParserPocFile() {
-        $tokensArray = $this->lexer->getTokensArray(self::PARSER_POC_FILE);
+        $this->lexer = new \PhpParser\Lexer(self::PARSER_POC_FILE);
+        $tokensArray = $this->lexer->getTokensArray();
         $expected = array(
             new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
             new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),

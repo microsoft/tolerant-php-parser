@@ -6,24 +6,34 @@ require_once(__DIR__ . "/characterCodes.php");
 
 class Lexer {
 
-    function getTokensArray($filename) {
-        $fileContents = file_get_contents($filename);
-        $endOfFilePos = strlen($fileContents);
+    private $pos;
+    private $endOfFilePos;
+    private $fileContents;
+
+    public function __construct($filename) {
+        $this->fileContents = file_get_contents($filename);
+        $this->endOfFilePos = strlen($this->fileContents);
+        $this->pos = 0;
+    }
+
+    function getTokensArray() {
 
         // TODO figure out how to optimize memory
         // $tokensArray = new SplFixedArray($strLen);
         $tokensArray = array();
 
-        $pos = 0;
         do {
-            $token = $this->scanNextToken($fileContents, $pos, $endOfFilePos);
+            $token = $this->scanNextToken();
             array_push($tokensArray, $token);
         } while ($token->kind != TokenKind::EndOfFileToken);
 
         return $tokensArray;
     }
 
-    public function scanNextToken(string $text, int & $pos, int $endOfFilePos) : Token {
+    public function scanNextToken() : Token {
+        $pos = & $this->pos;
+        $endOfFilePos = & $this->endOfFilePos;
+        $text = & $this->fileContents;
         $fullStart = $pos;
 
         while (true) {

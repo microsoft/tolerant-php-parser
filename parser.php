@@ -8,21 +8,15 @@ class Parser {
 
     private $lexer;
 
-    private $tokensArray;
-    private $pos;
     private $currentParseContext;
     public $sourceFile;
 
-    public function __construct() {
-        $this->lexer = new Lexer();
+    public function __construct($filename) {
+        $this->lexer = new Lexer($filename);
     }
 
-    public function parseSourceFile($filename) : Node {
+    public function parseSourceFile() : Node {
         $this->reset();
-
-        // TODO parser should drive scanner one token at a time, but
-        // for now it's easier to debug if we're just passing around the array
-        $this->tokensArray = $this->lexer->getTokensArray($filename);
 
         $sourceFile = new Node(NodeKind::SourceFileNode);
         $this->sourceFile = & $sourceFile;
@@ -36,11 +30,10 @@ class Parser {
     }
 
     function reset() {
-        $this->pos = 0;
+        $this->advanceToken();
 
         // Stores the current parse context, which includes the current and enclosing lists.
         $this->currentParseContext = 0;
-
     }
 
     /**
@@ -192,12 +185,14 @@ class Parser {
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
 
+    private $token;
+
     function getCurrentToken() : Token {
-        return $this->tokensArray[$this->pos];
+        return $this->token;
     }
 
     function advanceToken() {
-        $this->pos++;
+        $this->token = $this->lexer->scanNextToken();
     }
 
     function updateCurrentParseContext($context) {

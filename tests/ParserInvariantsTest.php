@@ -17,18 +17,18 @@ class ParserInvariantsTest extends LexerInvariantsTest {
 
     public static function sourceFileNodeProvider() {
         $testFiles = array();
-        $parser = new \PhpParser\Parser();
         foreach (self::FILENAMES as $filename) {
-            $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile($filename)];
+            $parser = new \PhpParser\Parser($filename);
+            $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile()];
         }
         return $testFiles;
     }
 
     public static function tokensArrayProvider() {
         $testFiles = array();
-        $parser = new \PhpParser\Parser();
         foreach (self::FILENAMES as $filename) {
-            $sourceFileNode = $parser->parseSourceFile($filename);
+            $parser = new \PhpParser\Parser($filename);
+            $sourceFileNode = $parser->parseSourceFile();
             $tokensArray = array();
             foreach ($sourceFileNode->getAllChildren() as $child) {
                 if ($child instanceof \PhpParser\Token) {
