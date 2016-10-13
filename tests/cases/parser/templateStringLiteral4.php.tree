@@ -1,0 +1,12 @@
+{
+    "SourceFileNode": [
+        {
+            "kind": "NoSubstitutionTemplateLiteral",
+            "textLength": 2
+        },
+        {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    ]
+}

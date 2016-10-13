@@ -9,6 +9,7 @@ class Lexer {
     private $pos;
     private $endOfFilePos;
     private $fileContents;
+    private $token;
 
     public function __construct($filename) {
         $this->fileContents = file_get_contents($filename);
@@ -31,6 +32,11 @@ class Lexer {
     }
 
     public function scanNextToken() : Token {
+        $this->token = $this->scan();
+        return $this->token;
+    }
+
+    private function scan() : Token {
         $pos = & $this->pos;
         $endOfFilePos = & $this->endOfFilePos;
         $text = & $this->fileContents;
@@ -131,6 +137,9 @@ class Lexer {
                     }
                     return new Token(TokenKind::DollarToken, $fullStart, $start, $pos - $fullStart);
 
+                case CharacterCodes::_doubleQuote:
+                    $kind = $this->scanTemplateAndSetTokenValue($text, $pos, $endOfFilePos, false);
+                    return new Token($kind, $fullStart, $start, $pos - $fullStart);
                 case CharacterCodes::_singleQuote:
                     $quoteStart = true;
                     // Flow through to b/B
@@ -549,12 +558,70 @@ class Lexer {
         "'", "\\"
     );
 
-    function isDoubleQuoteEscapeSequence($text, $pos) {
+    const DQ_ESCAPE_SEQ_CHARS = array(
+        "\"", "\\"
+    );
 
+    function isDoubleQuoteEscapeSequence($text, $pos) {
+        return
+            isset($text[$pos+1]) &&
+            $text[$pos] === "\\" &&
+            in_array($text[$pos+1], self::DQ_ESCAPE_SEQ_CHARS);
     }
 
-    function isSimpleEscapeSequence($text, $pos) {
+    function reScanTemplateToken($token): Token {
+        $this->pos = $token->fullStart + $token->length;
+        $start = $this->pos;
+        $kind = $this->scanTemplateAndSetTokenValue($this->fileContents, $this->pos, $this->endOfFilePos, true);
+        return new Token($kind, $start, $start, $this->pos-$start);
+    }
 
+    function scanTemplateAndSetTokenValue($text, & $pos, $endOfFilePos, $isRescan): int {
+        $startedWithDoubleQuote = ord($text[$pos]) === CharacterCodes::_doubleQuote && !$isRescan;
+        $isTerminated = false;
+
+        if ($startedWithDoubleQuote) {
+            $pos++;
+        }
+
+        while (true) {
+            if ($pos >= $endOfFilePos) {
+                // UNTERMINATED, report error
+                return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
+            }
+
+
+            $char = ord($text[$pos]);
+
+            // '"'
+            if ($char === CharacterCodes::_doubleQuote) {
+                $pos++;
+                $isTerminated = true;
+                return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
+            }
+
+            // '$' -> start of a variable
+            if ($char === CharacterCodes::_dollar) {
+                return $startedWithDoubleQuote ? TokenKind::TemplateStringStart : TokenKind::TemplateStringMiddle;
+            }
+
+            // Escape character
+            if ($char === CharacterCodes::_backslash) {
+                // TODO scan escape sequence
+                $pos+=2;
+                continue;
+            }
+
+            if ($char === ord("\n") || $char === ord("\r")) {
+                // UNTERMINATED, report error
+                return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
+            }
+
+            $pos++;
+        }
+
+        // TODO throw error
+        return TokenKind::Unknown;
     }
 }
 

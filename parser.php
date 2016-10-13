@@ -204,6 +204,8 @@ class Parser {
             switch($this->getCurrentToken()->kind) {
                 case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
+                case TokenKind::TemplateStringStart:
+                    return $this->parseTemplateString($parentNode);
                 default:
                     $token = $this->getCurrentToken();
                     $this->advanceToken();
@@ -385,8 +387,35 @@ class Parser {
     }
 
     function isExpressionStart($token) {
-        // TODO
+        switch($token->kind) {
+            case TokenKind::NoSubstitutionTemplateLiteral:
+            case TokenKind::TemplateStringStart:
+            return true;
+        }
+
         return false;
+    }
+
+    private function parseTemplateString($parentNode) {
+        $templateNode = new Node(NodeKind::TemplateExpression);
+        $templateNode->parent = $parentNode;
+        $templateNode->children = array();
+        do {
+            array_push($templateNode->children, $this->getCurrentToken());
+            $this->advanceToken();
+            $token = $this->getCurrentToken();
+
+            if ($token->kind === TokenKind::VariableName) {
+                array_push($templateNode->children, $token);
+                // $this->advanceToken();
+                // $token = $this->getCurrentToken();
+                $this->token = $this->lexer->reScanTemplateToken($token);
+                $token = $this->getCurrentToken();
+            }
+        } while ($token->kind === TokenKind::TemplateStringMiddle);
+
+        array_push($templateNode->children, $this->eat(TokenKind::TemplateStringEnd));
+        return $templateNode;
     }
 }
 

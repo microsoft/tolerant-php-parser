@@ -1,0 +1,24 @@
+{
+    "SourceFileNode": [
+        {
+            "TemplateExpression": [
+                {
+                    "kind": "TemplateStringStart",
+                    "textLength": 1
+                },
+                {
+                    "kind": "VariableName",
+                    "textLength": 6
+                },
+                {
+                    "kind": "TemplateStringEnd",
+                    "textLength": 1
+                }
+            ]
+        },
+        {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    ]
+}

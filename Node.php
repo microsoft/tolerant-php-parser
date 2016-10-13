@@ -72,4 +72,5 @@ class NodeKind {
     const StatementNode = 5;
     const ClassMembersNode = 6;
     const Count = 7;
+    const TemplateExpression = 8;
 }
