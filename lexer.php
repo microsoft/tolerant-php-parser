@@ -138,15 +138,20 @@ class Lexer {
                     return new Token(TokenKind::DollarToken, $fullStart, $start, $pos - $fullStart);
 
                 case CharacterCodes::_doubleQuote:
-                    $kind = $this->scanTemplateAndSetTokenValue($text, $pos, $endOfFilePos, false);
-                    return new Token($kind, $fullStart, $start, $pos - $fullStart);
+                    $doubleQuote = true;
                 case CharacterCodes::_singleQuote:
                     $quoteStart = true;
                     // Flow through to b/B
                 case CharacterCodes::b:
                 case CharacterCodes::B:
-                    if ($text[$pos] === "'" || (isset($text[$pos+1]) && $text[$pos+1] == "'")) {
-                        $pos+= isset($quoteStart) ? 1 : 2;
+                    if ($text[$pos] === "'" || $text[$pos] === "\"" || (isset($text[$pos+1]) && ($text[$pos+1] === "'" || $text[$pos+1] === "\""))) {
+                        $pos += isset($quoteStart) ? 0 : 1;
+                        if ($text[$pos] === "\"") {
+                            $kind = $this->scanTemplateAndSetTokenValue($text, $pos, $endOfFilePos, false);
+                            return new Token($kind, $fullStart, $start, $pos - $fullStart);
+                        }
+
+                        $pos++;
                         if ($this->scanStringLiteral($text, $pos, $endOfFilePos)) {
                             return new Token(TokenKind::StringLiteralToken, $fullStart, $start, $pos-$fullStart);
                         }
@@ -559,7 +564,7 @@ class Lexer {
     );
 
     const DQ_ESCAPE_SEQ_CHARS = array(
-        "\"", "\\"
+        "\"", "\\", "$", 'e', "f", "n", "r", "t", "v"
     );
 
     function isDoubleQuoteEscapeSequence($text, $pos) {
@@ -587,7 +592,7 @@ class Lexer {
         while (true) {
             if ($pos >= $endOfFilePos) {
                 // UNTERMINATED, report error
-                return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
+                return $startedWithDoubleQuote ? TokenKind::UnterminatedNoSubstitutionTemplateLiteral : TokenKind::UnterminatedTemplateStringEnd;
             }
 
 
@@ -608,13 +613,14 @@ class Lexer {
             // Escape character
             if ($char === CharacterCodes::_backslash) {
                 // TODO scan escape sequence
-                $pos+=2;
+                $pos++;
+                $this->scanDqEscapeSequence($text, $pos, $endOfFilePos);
                 continue;
             }
 
             if ($char === ord("\n") || $char === ord("\r")) {
                 // UNTERMINATED, report error
-                return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
+                return $startedWithDoubleQuote ? TokenKind::UnterminatedNoSubstitutionTemplateLiteral : TokenKind::UnterminatedTemplateStringEnd;
             }
 
             $pos++;
@@ -622,6 +628,66 @@ class Lexer {
 
         // TODO throw error
         return TokenKind::Unknown;
+    }
+
+    private function scanDqEscapeSequence($text, & $pos, $endOfFilePos) {
+        if ($pos >= $endOfFilePos) {
+            // ERROR
+            return;
+        }
+        $char = ord($text[$pos]);
+        switch ($char) {
+            // dq-simple-escape-sequence
+            case CharacterCodes::_doubleQuote:
+            case CharacterCodes::_backslash:
+            case CharacterCodes::_dollar:
+            case CharacterCodes::e:
+            case CharacterCodes::f:
+            case CharacterCodes::r:
+            case CharacterCodes::t:
+            case CharacterCodes::v:
+                $pos++;
+                return;
+
+            // dq-hexadecimal-escape-sequence
+            case CharacterCodes::x:
+            case CharacterCodes::X:
+                $pos++;
+                for ($i = 0; $i<2; $i++) {
+                    if (isset($text[$pos]) && $this->isHexadecimalDigit($text[$pos])) {
+                        $pos++;
+                    }
+                }
+                return;
+
+            // dq-unicode-escape-sequence
+            case CharacterCodes::u:
+                $pos++;
+                if (isset($text[$pos]) && ord($text[$pos]) === CharacterCodes::_openBrace) {
+                    $this->scanHexadecimalLiteral($text, $pos, $endOfFilePos);
+                    if (isset($text[$pos]) && ord($text[$pos]) === CharacterCodes::_closeBrace) {
+                        $pos++;
+                        return;
+                    }
+                    // OTHERWISE ERROR
+
+                }
+                return;
+            default:
+                // dq-octal-digit-escape-sequence
+                if ($this->isOctalDigitChar($text[$pos])) {
+                    for ($i = $pos; $i < $pos + 3; $i++) {
+                        if (!(isset($text[$i]) || $this->isOctalDigitChar($text[$i]))) {
+                            return;
+                        }
+                        $pos++;
+                        return;
+                    }
+                }
+
+                $pos++;
+                return;
+        }
     }
 }
 

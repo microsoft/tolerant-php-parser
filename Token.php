@@ -200,6 +200,8 @@ class TokenKind {
     const TemplateStringMiddle = 312;
     const TemplateStringEnd = 313;
     const NoSubstitutionTemplateLiteral = 314;
+    const UnterminatedNoSubstitutionTemplateLiteral = 315;
+    const UnterminatedTemplateStringEnd = 316;
 
     // TODO type annotations - PHP7
 }
