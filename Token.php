@@ -59,6 +59,8 @@ class TokenKind {
 
     const SkippedToken = 4;
     const MissingToken = 5;
+    const QualifiedName = 6;
+
 
     const AbstractKeyword = 101;
     const AndKeyword = 102;
@@ -160,7 +162,7 @@ class TokenKind {
     const CaretToken = 231;
     const BarToken = 232;
     const AmpersandToken = 233;
-    const ApersandAmpersandToken = 234;
+    const AmpersandAmpersandToken = 234;
     const BarBarToken = 235;
     const QuestionToken = 235;
     const ColonToken = 236;

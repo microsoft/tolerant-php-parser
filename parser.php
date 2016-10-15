@@ -1,8 +1,26 @@
 <?php
 
+
+
 namespace PhpParser;
 
-require_once('Node.php');
+// TODO make this less hacky
+spl_autoload_register(function ($class) {
+    if (file_exists($filepath = __DIR__ . "/Node/" . basename($class) . ".php")) {
+        require_once $filepath;
+    } else if (file_exists($filepath = __DIR__ . "/" . basename($class) . ".php")) {
+        require_once $filepath;
+    }
+});
+
+use PhpParser\Node\ClassMembersNode;
+use PhpParser\Node\ClassNode;
+use PhpParser\Node\EmptyStatementNode;
+use PhpParser\Node\MethodBlockNode;
+use PhpParser\Node\MethodNode;
+use PhpParser\Node\Node;
+use PhpParser\Node\SourceFile;
+use PhpParser\Node\TemplateExpressionNode;
 
 class Parser {
 
@@ -18,7 +36,7 @@ class Parser {
     public function parseSourceFile() : Node {
         $this->reset();
 
-        $sourceFile = new Node(NodeKind::SourceFileNode);
+        $sourceFile = new SourceFile();
         $this->sourceFile = & $sourceFile;
         $sourceFile->children = $this->parseList($sourceFile, ParseContext::SourceElements);
         array_push($sourceFile->children, $this->getCurrentToken());
@@ -206,10 +224,12 @@ class Parser {
                     return $this->parseClassDeclaration($parentNode);
                 case TokenKind::TemplateStringStart:
                     return $this->parseTemplateString($parentNode);
+
+                case TokenKind::SemicolonToken:
+                    return $this->parseEmptyStatement($parentNode);
+
                 default:
-                    $token = $this->getCurrentToken();
-                    $this->advanceToken();
-                    return $token;
+                    return $this->parsePrimaryExpression($parentNode);
             }
         };
     }
@@ -239,7 +259,7 @@ class Parser {
     }
 
     function parseClassDeclaration($parentNode) : Node {
-        $node = new Node(NodeKind::ClassNode);
+        $node = new ClassNode();
         $node->children = array();
         array_push($node->children, $this->eat(TokenKind::ClassKeyword));
         array_push($node->children, $this->eat(TokenKind::Name));
@@ -249,7 +269,7 @@ class Parser {
     }
 
     function parseClassMembers($parentNode) : Node {
-        $node = new Node(NodeKind::ClassMembersNode);
+        $node = new ClassMembersNode();
         $node->children = array();
         array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
         $this->array_push_list($node->children, $this->parseList($node, ParseContext::ClassMembers));
@@ -259,7 +279,7 @@ class Parser {
     }
 
     function parseMethodDeclaration($parentNode) {
-        $node = new Node(NodeKind::MethodNode);
+        $node = new MethodNode();
         $node->children = array();
         array_push($node->children, $this->eat(TokenKind::FunctionKeyword));
         array_push($node->children, $this->eat(TokenKind::Name));
@@ -272,7 +292,7 @@ class Parser {
     }
 
     function parseMethodBlock($parentNode) {
-        $node = new Node(NodeKind::MethodBlockNode);
+        $node = new MethodBlockNode();
         $node->children = array();
         array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
         $this->array_push_list($node->children, $this->parseList($node, ParseContext::BlockStatements));
@@ -397,7 +417,7 @@ class Parser {
     }
 
     private function parseTemplateString($parentNode) {
-        $templateNode = new Node(NodeKind::TemplateExpression);
+        $templateNode = new TemplateExpressionNode();
         $templateNode->parent = $parentNode;
         $templateNode->children = array();
         do {
@@ -416,6 +436,135 @@ class Parser {
 
         array_push($templateNode->children, $this->eat(TokenKind::TemplateStringEnd));
         return $templateNode;
+    }
+
+    private function isPrimaryExpressionStart() {
+        switch ($this->getCurrentToken()) {
+            // variable-name
+            case TokenKind::VariableName: // TODO special case $this
+
+            // qualified-name
+            case TokenKind::QualifiedName: // TODO Qualified name
+
+            // literal
+            case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
+            case TokenKind::OctalLiteralToken:
+            case TokenKind::HexadecimalLiteralToken:
+            case TokenKind::BinaryLiteralToken:
+            case TokenKind::FloatingLiteralToken:
+            case TokenKind::InvalidOctalLiteralToken:
+            case TokenKind::InvalidHexadecimalLiteral:
+            case TokenKind::InvalidBinaryLiteral:
+
+            case TokenKind::StringLiteralToken: // TODO merge unterminated
+            case TokenKind::UnterminatedStringLiteralToken:
+            case TokenKind::NoSubstitutionTemplateLiteral:
+            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+
+            case TokenKind::TemplateStringStart: //TODO - parse this as an expression
+
+
+            // TODO constant-expression
+
+            // intrinsic-construct
+            case TokenKind::EchoKeyword:
+            case TokenKind::ListKeyword:
+            case TokenKind::UnsetKeyword:
+
+            // intrinsic-operator
+            case TokenKind::ArrayKeyword:
+            case TokenKind::EmptyKeyword:
+            case TokenKind::EvalKeyword:
+            case TokenKind::ExitKeyword:
+            case TokenKind::DieKeyword:
+            case TokenKind::IsSetKeyword:
+            case TokenKind::PrintKeyword:
+
+            // anonymous-function-creation-expression
+            case TokenKind::StaticKeyword:
+            case TokenKind::FunctionKeyword:
+
+            // ( expression )
+            case TokenKind::OpenParenToken:
+                return true; // TODO
+        }
+        return false;
+    }
+
+    private function parsePrimaryExpression($parentNode) {
+        switch ($this->getCurrentToken()) {
+           /* // variable-name
+            case TokenKind::VariableName: // TODO special case $this
+                return $this->parseVariableNameExpression($parentNode);
+
+                // qualified-name
+            case TokenKind::QualifiedName: // TODO Qualified name
+                return $this->parseQualifiedNameExpression($parentNode);
+
+                // literal
+            case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
+            case TokenKind::OctalLiteralToken:
+            case TokenKind::HexadecimalLiteralToken:
+            case TokenKind::BinaryLiteralToken:
+            case TokenKind::FloatingLiteralToken:
+            case TokenKind::InvalidOctalLiteralToken:
+            case TokenKind::InvalidHexadecimalLiteral:
+            case TokenKind::InvalidBinaryLiteral:
+
+            case TokenKind::StringLiteralToken: // TODO merge unterminated
+            case TokenKind::UnterminatedStringLiteralToken:
+            case TokenKind::NoSubstitutionTemplateLiteral:
+            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+                return $this->parseLiteralExpression($parentNode);
+
+
+            case TokenKind::TemplateStringStart:
+                return $this->parseTemplateString($parentNode);
+
+
+            // TODO constant-expression
+
+                // intrinsic-construct
+            case TokenKind::EchoKeyword:
+            case TokenKind::ListKeyword:
+            case TokenKind::UnsetKeyword:
+                return $this->parseIntrinsicConstructExpression($parentNode);
+
+                // intrinsic-operator
+            case TokenKind::ArrayKeyword:
+            case TokenKind::EmptyKeyword:
+            case TokenKind::EvalKeyword:
+            case TokenKind::ExitKeyword:
+            case TokenKind::DieKeyword:
+            case TokenKind::IsSetKeyword:
+            case TokenKind::PrintKeyword:
+//                return $this->
+
+                // anonymous-function-creation-expression
+            case TokenKind::StaticKeyword:
+            case TokenKind::FunctionKeyword:
+
+                // ( expression )
+            case TokenKind::OpenParenToken:
+                return true;*/
+
+            default:
+                // TODO
+                $token = $this->getCurrentToken();
+                $this->advanceToken();
+                return $token;
+        }
+    }
+
+    private function parseEmptyStatement($parentNode) {
+        $node = new EmptyStatementNode();
+        $node->children = array();
+        array_push($node->children, $this->eat(TokenKind::SemicolonToken));
+        $node->parent = $parentNode;
+        return $node;
+    }
+
+    private function parseLiteralExpression($parentNode) {
     }
 }
 

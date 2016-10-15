@@ -5,9 +5,9 @@ require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 require_once(__DIR__ . "/LexerInvariantsTest.php");
 
+use PhpParser\Node\Node;
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
-use PhpParser\Node;
 
 class ParserInvariantsTest extends LexerInvariantsTest {
     const FILENAMES = array (

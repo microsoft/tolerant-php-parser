@@ -1,11 +1,14 @@
 <?php
 
-namespace PhpParser;
+namespace PhpParser\Node;
 
-class Node implements \JsonSerializable  {
+//require_once (__DIR__ . "/../NodeKind.php");
+
+use PhpParser\Token;
+
+class Node implements \JsonSerializable {
     public $kind;
     public $parent;
-    public $children;
 
     public function __construct(int $kind) {
         $this->kind = $kind;
@@ -14,7 +17,7 @@ class Node implements \JsonSerializable  {
     public function getLength() {
         $length = 0;
 
-        foreach ($this->children as $child) {
+        foreach ($this->getChildren() as $child) {
             if ($child instanceof Node) {
                 $length += $child->getLength();
             } else if ($child instanceof Token) {
@@ -27,7 +30,7 @@ class Node implements \JsonSerializable  {
     public function getAllChildren() {
         $allChildren = array();
 
-        foreach ($this->children as $child) {
+        foreach ($this->getChildren() as $child) {
             if ($child instanceof Node) {
                 array_push($allChildren, $child);
                 foreach ($child->getAllChildren() as $subChild) {
@@ -40,8 +43,25 @@ class Node implements \JsonSerializable  {
         return $allChildren;
     }
 
+    private function getChildren() {
+        $result = array();
+        foreach (call_user_func('get_object_vars', $this) as $i=>$val) {
+            if ($i === "parent" || $i == "kind") {
+                continue;
+            }
+            if (is_array($val)) {
+                foreach ($val as $child) {
+                    array_push($result, $child);
+                }
+                continue;
+            }
+            array_push($result, $val);
+        }
+        return $result;
+    }
+
     public function getStart() {
-        $child = $this->children[0];
+        $child = $this->getChildren()[0];
         if ($child instanceof Node) {
             return $child->getStart();
         } else if ($child instanceof Token) {
@@ -59,18 +79,6 @@ class Node implements \JsonSerializable  {
             }
         }
 
-        return ["$kindName" => $this->children];
+        return ["$kindName" => $this->getChildren()];
     }
-}
-
-class NodeKind {
-    const SourceFileNode = 0;
-    const ClassNode = 1;
-    const BlockNode = 2;
-    const MethodBlockNode = 3;
-    const MethodNode = 4;
-    const StatementNode = 5;
-    const ClassMembersNode = 6;
-    const Count = 7;
-    const TemplateExpression = 8;
 }
