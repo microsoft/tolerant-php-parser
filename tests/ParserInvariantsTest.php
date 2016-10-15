@@ -57,7 +57,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach ($sourceFileNode->getAllChildren() as $child) {
             if ($child instanceof Node) {
                 $this->assertGreaterThanOrEqual(
-                    1, count($child->children),
+                    1, count($child->getChildren()),
                     "Invariant: All Nodes have at least one child."
                 );
             }
@@ -74,7 +74,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach ($treeElements as $element) {
             if ($element instanceof Node) {
                 $expectedLength = 0;
-                foreach ($element->children as $child) {
+                foreach ($element->getChildren() as $child) {
                     if ($child instanceof Node) {
                         $expectedLength += $child->getLength();
                     } else if ($child instanceof \PhpParser\Token) {
@@ -96,7 +96,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach ($sourceFileNode->getAllChildren() as $child) {
             if ($child instanceof Node) {
                 $this->assertContains(
-                    $child, $child->parent->children,
+                    $child, $child->parent->getChildren(),
                     "Invariant: Parent of Node contains same child node."
                 );
             }
@@ -115,7 +115,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             $count = 0;
             foreach ($treeElements as $element) {
                 if ($element instanceof Node) {
-                    if (in_array($child, $element->children, true)) {
+                    if (in_array($child, $element->getChildren(), true)) {
                         $count++;
                     }
                 }
@@ -145,7 +145,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach($treeElements as $element) {
             if ($element instanceof Node) {
                 $this->assertNotContains(
-                    $sourceFileNode, $element->children,
+                    $sourceFileNode, $element->getChildren(),
                     "Invariant: root node of tree is never a child.");
             }
         }

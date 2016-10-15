@@ -13,6 +13,9 @@ class Parameter extends Node {
     /** @var Token */
     public $variableName;
 
+    /** @var Token */
+    public $equalsToken;
+
     /** @var null | Expression */
     public $default;
 

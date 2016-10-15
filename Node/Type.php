@@ -20,7 +20,7 @@ class Parameter extends Node {
     /** @var Type */
     public $returnTypeOpt;
 
-    public function __construct(int $a = 3) {
+    public function __construct() {
         parent::__construct(NodeKind::FunctionNode);
     }
 }

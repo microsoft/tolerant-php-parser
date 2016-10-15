@@ -758,7 +758,18 @@ const KEYWORDS = array(
     "while" => TokenKind::WhileKeyword,
     "xor" => TokenKind::XorKeyword,
     "yield" => TokenKind::YieldKeyword,
-    "yield from" => TokenKind::YieldFromKeyword
+    "yield from" => TokenKind::YieldFromKeyword,
+
+    // RESERVED WORDS:
+    // http://php.net/manual/en/reserved.other-reserved-words.php
+    "int" => TokenKind::IntReservedWord,
+    "float" => TokenKind::FloatReservedWord,
+    "bool" => TokenKind::BoolReservedWord,
+    "string" => TokenKind::StringReservedWord,
+    "true" => TokenKind::TrueReservedWord,
+    "null" => TokenKind::NullReservedWord
+
+    // TODO soft reserved words?
 );
 
 const OPERATORS_AND_PUNCTUATORS = array(

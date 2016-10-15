@@ -43,7 +43,7 @@ class Node implements \JsonSerializable {
         return $allChildren;
     }
 
-    private function getChildren() {
+    public function getChildren() {
         $result = array();
         foreach (call_user_func('get_object_vars', $this) as $i=>$val) {
             if ($i === "parent" || $i == "kind") {

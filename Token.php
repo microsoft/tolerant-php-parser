@@ -205,5 +205,14 @@ class TokenKind {
     const UnterminatedNoSubstitutionTemplateLiteral = 315;
     const UnterminatedTemplateStringEnd = 316;
 
+    // RESERVED WORDS
+    const IntReservedWord = 317;
+    const FloatReservedWord = 318;
+    const TrueReservedWord = 319;
+    const StringReservedWord = 320;
+    const BoolReservedWord = 321;
+    const NullReservedWord = 322;
+
+
     // TODO type annotations - PHP7
 }

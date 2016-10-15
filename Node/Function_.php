@@ -13,12 +13,14 @@ class Function_ extends Node {
     public $name;
     /** @var Token */
     public $openParen;
-    /** @var Parameter[] */
+    /** @var DelimitedList[] */
     public $parameters;
     /** @var Token */
     public $closeParen;
     /** @var null | Name */
     public $returnTypeOpt;
+    /** @var null | MethodBlockNode */
+    public $compoundStatement;
 
     public function __construct() {
         parent::__construct(NodeKind::FunctionNode);
