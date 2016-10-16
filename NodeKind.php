@@ -18,4 +18,6 @@ class NodeKind {
     const Expression = 12;
     const Name = 13;
     const ParameterNode = 14;
+    const QualifiedName = 15;
+    const RelativeSpecifier = 16;
 }

@@ -60,6 +60,18 @@ class Node implements \JsonSerializable {
         return $result;
     }
 
+    public function getChildrenKvPairs() {
+        $result = array();
+        foreach (call_user_func('get_object_vars', $this) as $i=>$val) {
+            if ($i === "parent" || $i == "kind") {
+                continue;
+            }
+
+            $result[$i] = $val;
+        }
+        return $result;
+    }
+
     public function getStart() {
         $child = $this->getChildren()[0];
         if ($child instanceof Node) {

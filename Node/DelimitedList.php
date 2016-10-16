@@ -10,7 +10,6 @@ class DelimitedList extends Node {
 
     public function __construct() {
         parent::__construct(NodeKind::DelimitedList);
-        $this->children = array();
     }
 
     public function getValues() {
@@ -23,6 +22,12 @@ class DelimitedList extends Node {
     }
 
     public function addToken($node) {
+        if ($node === null) {
+            return;
+        }
+        if (!isset($this->children)) {
+            $this->children = array();
+        }
         array_push($this->children, $node);
     }
 }

@@ -19,6 +19,8 @@ class MethodNode extends Node {
     public $parameters;
     /** @var Token */
     public $closeParen;
+    /** @var Token */
+    public $colonToken;
     /** @var null | Name */
     public $returnTypeOpt;
     /** @var null | MethodBlockNode */
