@@ -16,6 +16,7 @@ class ParserGrammarTest extends TestCase {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $parser = new \PhpParser\Parser($testCaseFile);
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
+//        file_put_contents($expectedTokensFile, $tokens);
         $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 

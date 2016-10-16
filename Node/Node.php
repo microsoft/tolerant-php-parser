@@ -91,6 +91,6 @@ class Node implements \JsonSerializable {
             }
         }
 
-        return ["$kindName" => $this->getChildren()];
+        return ["$kindName" => $this->getChildrenKvPairs()];
     }
 }

@@ -1,5 +1,98 @@
-class A {
-    function A () : \Exception {
-
+{
+    "SourceFileNode": {
+        "children": [
+            {
+                "ClassNode": {
+                    "children": [
+                        {
+                            "kind": "ClassKeyword",
+                            "textLength": 5
+                        },
+                        {
+                            "kind": "Name",
+                            "textLength": 1
+                        },
+                        {
+                            "ClassMembersNode": {
+                                "children": [
+                                    {
+                                        "kind": "OpenBraceToken",
+                                        "textLength": 1
+                                    },
+                                    {
+                                        "MethodNode": {
+                                            "modifiers": [],
+                                            "functionKeyword": {
+                                                "kind": "FunctionKeyword",
+                                                "textLength": 8
+                                            },
+                                            "byRefToken": null,
+                                            "name": {
+                                                "kind": "Name",
+                                                "textLength": 1
+                                            },
+                                            "openParen": {
+                                                "kind": "OpenParenToken",
+                                                "textLength": 1
+                                            },
+                                            "parameters": null,
+                                            "closeParen": {
+                                                "kind": "CloseParenToken",
+                                                "textLength": 1
+                                            },
+                                            "colonToken": {
+                                                "kind": "ColonToken",
+                                                "textLength": 1
+                                            },
+                                            "returnTypeOpt": {
+                                                "QualifiedName": {
+                                                    "globalSpecifier": {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 9
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "compoundStatement": {
+                                                "MethodBlockNode": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "OpenBraceToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "kind": "CloseBraceToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "kind": "CloseBraceToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "EndOfFileToken",
+                "textLength": 0
+            }
+        ]
     }
 }

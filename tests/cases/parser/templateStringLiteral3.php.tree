@@ -1,12 +1,14 @@
 {
-    "SourceFileNode": [
-        {
-            "kind": "NoSubstitutionTemplateLiteral",
-            "textLength": 7
-        },
-        {
-            "kind": "EndOfFileToken",
-            "textLength": 0
-        }
-    ]
+    "SourceFileNode": {
+        "children": [
+            {
+                "kind": "NoSubstitutionTemplateLiteral",
+                "textLength": 7
+            },
+            {
+                "kind": "EndOfFileToken",
+                "textLength": 0
+            }
+        ]
+    }
 }

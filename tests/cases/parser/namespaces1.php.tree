@@ -1,11 +1,152 @@
-namespace Hello {
-    function A() {
-        echo "hello";
+{
+    "SourceFileNode": {
+        "children": [
+            {
+                "kind": "NamespaceKeyword",
+                "textLength": 9
+            },
+            {
+                "kind": "Name",
+                "textLength": 5
+            },
+            {
+                "kind": "OpenBraceToken",
+                "textLength": 1
+            },
+            {
+                "kind": "FunctionKeyword",
+                "textLength": 8
+            },
+            {
+                "kind": "Name",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "OpenBraceToken",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 4
+            },
+            {
+                "kind": "NoSubstitutionTemplateLiteral",
+                "textLength": 7
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "FunctionKeyword",
+                "textLength": 8
+            },
+            {
+                "kind": "Name",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "OpenBraceToken",
+                "textLength": 1
+            },
+            {
+                "kind": "NamespaceKeyword",
+                "textLength": 9
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "Name",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "NamespaceKeyword",
+                "textLength": 9
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "Name",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "SkippedToken",
+                "textLength": 1
+            },
+            {
+                "kind": "EndOfFileToken",
+                "textLength": 0
+            }
+        ]
     }
-
-    function B() {
-        namespace\A();
-    }
-
-namespace\B();
 }

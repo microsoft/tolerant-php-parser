@@ -1,6 +1,129 @@
-class A {
-    public function boo($awesome, $sauce) : int {
-        ;
-        ;
+{
+    "SourceFileNode": {
+        "children": [
+            {
+                "ClassNode": {
+                    "children": [
+                        {
+                            "kind": "ClassKeyword",
+                            "textLength": 5
+                        },
+                        {
+                            "kind": "Name",
+                            "textLength": 1
+                        },
+                        {
+                            "ClassMembersNode": {
+                                "children": [
+                                    {
+                                        "kind": "OpenBraceToken",
+                                        "textLength": 1
+                                    },
+                                    {
+                                        "MethodNode": {
+                                            "modifiers": [
+                                                {
+                                                    "kind": "PublicKeyword",
+                                                    "textLength": 6
+                                                }
+                                            ],
+                                            "functionKeyword": {
+                                                "kind": "FunctionKeyword",
+                                                "textLength": 8
+                                            },
+                                            "byRefToken": null,
+                                            "name": {
+                                                "kind": "Name",
+                                                "textLength": 3
+                                            },
+                                            "openParen": {
+                                                "kind": "OpenParenToken",
+                                                "textLength": 1
+                                            },
+                                            "parameters": {
+                                                "DelimitedList": {
+                                                    "children": [
+                                                        {
+                                                            "ParameterNode": {
+                                                                "typeOpt": null,
+                                                                "byRefToken": null,
+                                                                "variableName": {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 8
+                                                                },
+                                                                "equalsToken": null,
+                                                                "default": null
+                                                            }
+                                                        },
+                                                        {
+                                                            "kind": "CommaToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "ParameterNode": {
+                                                                "typeOpt": null,
+                                                                "byRefToken": null,
+                                                                "variableName": {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 6
+                                                                },
+                                                                "equalsToken": null,
+                                                                "default": null
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "closeParen": {
+                                                "kind": "CloseParenToken",
+                                                "textLength": 1
+                                            },
+                                            "colonToken": {
+                                                "kind": "ColonToken",
+                                                "textLength": 1
+                                            },
+                                            "returnTypeOpt": {
+                                                "kind": "IntReservedWord",
+                                                "textLength": 3
+                                            },
+                                            "compoundStatement": {
+                                                "MethodBlockNode": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "OpenBraceToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "kind": "CloseBraceToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "kind": "CloseBraceToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "EndOfFileToken",
+                "textLength": 0
+            }
+        ]
     }
 }

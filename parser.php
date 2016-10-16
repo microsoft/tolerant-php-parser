@@ -688,6 +688,9 @@ class Parser {
             // TODO ERROR CASE - no delimeter, but a param follows
         }
         $node->parent = $parentNode;
+        if ($node->children === null) {
+            return null;
+        }
         return $node;
     }
 
@@ -707,6 +710,9 @@ class Parser {
                 function ($parentNode) {
                     return $this->eat(TokenKind::Name);
                 }, $node);
+        if ($node->nameParts === null) {
+            return null;
+        }
         return $node;
     }
 
