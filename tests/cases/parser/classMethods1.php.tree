@@ -52,7 +52,7 @@
                                             "colonToken": null,
                                             "returnTypeOpt": null,
                                             "compoundStatement": {
-                                                "MethodBlockNode": {
+                                                "CompoundStatementNode": {
                                                     "children": [
                                                         {
                                                             "kind": "OpenBraceToken",

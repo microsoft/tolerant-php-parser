@@ -6,7 +6,7 @@ class NodeKind {
     const SourceFileNode = 0;
     const ClassNode = 1;
     const BlockNode = 2;
-    const MethodBlockNode = 3;
+    const CompoundStatementNode = 3;
     const MethodNode = 4;
     const StatementNode = 5;
     const ClassMembersNode = 6;

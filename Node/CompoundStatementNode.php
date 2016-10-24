@@ -4,10 +4,10 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class MethodBlockNode extends Node {
+class CompoundStatementNode extends Node {
     public $children;
 
     public function __construct() {
-        parent::__construct(NodeKind::MethodBlockNode);
+        parent::__construct(NodeKind::CompoundStatementNode);
     }
 }

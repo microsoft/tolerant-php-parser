@@ -61,7 +61,7 @@
                                                 }
                                             },
                                             "compoundStatement": {
-                                                "MethodBlockNode": {
+                                                "CompoundStatementNode": {
                                                     "children": [
                                                         {
                                                             "kind": "OpenBraceToken",

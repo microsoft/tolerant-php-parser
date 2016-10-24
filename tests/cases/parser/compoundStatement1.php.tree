@@ -1,0 +1,44 @@
+{
+    "SourceFileNode": {
+        "children": [
+            {
+                "CompoundStatementNode": {
+                    "children": [
+                        {
+                            "kind": "OpenBraceToken",
+                            "textLength": 1
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "kind": "CloseBraceToken",
+                            "textLength": 1
+                        }
+                    ]
+                }
+            },
+            {
+                "kind": "EndOfFileToken",
+                "textLength": 0
+            }
+        ]
+    }
+}

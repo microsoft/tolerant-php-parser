@@ -21,6 +21,6 @@ class FunctionDefinition extends Node {
     public $colonToken;
     /** @var null | Name */
     public $returnTypeOpt;
-    /** @var null | MethodBlockNode */
+    /** @var null | CompoundStatementNode */
     public $compoundStatement;
 }

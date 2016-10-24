@@ -24,23 +24,41 @@
                     "colonToken": null,
                     "returnTypeOpt": null,
                     "compoundStatement": {
-                        "MethodBlockNode": {
+                        "CompoundStatementNode": {
                             "children": [
                                 {
                                     "kind": "OpenBraceToken",
                                     "textLength": 1
                                 },
                                 {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     "kind": "CloseBraceToken",

@@ -20,7 +20,7 @@ use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
 use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
-use PhpParser\Node\MethodBlockNode;
+use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\MethodNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
@@ -163,11 +163,10 @@ class Parser {
     function getParseListElementFn($context) {
         switch ($context) {
             case ParseContext::SourceElements:
+            case ParseContext::BlockStatements:
                 return $this->parseStatement();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
-            case ParseContext::BlockStatements:
-                return $this->parseBlockElement();
             default:
                 throw new \Exception("Unrecognized parse context");
         }
@@ -236,13 +235,17 @@ class Parser {
     function parseStatement() {
         return function($parentNode) {
             switch($this->getCurrentToken()->kind) {
+                case TokenKind::OpenBraceToken:
+                    return $this->parseCompoundStatement($parentNode);
                 case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
-                case TokenKind::TemplateStringStart:
-                    return $this->parseTemplateString($parentNode);
-
                 case TokenKind::FunctionKeyword:
                     return $this->parseFunctionDeclaration($parentNode);
+
+
+
+                case TokenKind::TemplateStringStart:
+                    return $this->parseTemplateString($parentNode);
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
@@ -328,7 +331,7 @@ class Parser {
             }
             $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
             $node->variableName = $this->eat(TokenKind::VariableName);
-            $node->equalsToken = $this->eatOptional(TokenKind::EqualsEqualsEqualsToken);
+            $node->equalsToken = $this->eatOptional(TokenKind::EqualsToken);
             if ($node->equalsToken !== null) {
                 $node->default = $this->parseConstantExpression($node);
             }
@@ -338,8 +341,8 @@ class Parser {
         };
     }
 
-    function parseMethodBlock($parentNode) {
-        $node = new MethodBlockNode();
+    function parseCompoundStatement($parentNode) {
+        $node = new CompoundStatementNode();
         $node->children = array();
         array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
         $this->array_push_list($node->children, $this->parseList($node, ParseContext::BlockStatements));
@@ -748,7 +751,7 @@ class Parser {
                 TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
                 TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
         }
-        $node->compoundStatement = $this->parseMethodBlock($node);
+        $node->compoundStatement = $this->parseCompoundStatement($node);
     }
 }
 
