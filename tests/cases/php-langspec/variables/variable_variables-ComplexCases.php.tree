@@ -1,0 +1,34 @@
+/* Auto-generated from php/php-langspec tests */
+
+$v = array(10, 20);
+$a = 'v';
+$$a[0] = 5;				
+
+var_dump($v);
+unset($v, $a);
+
+$v = array(10, 20);
+$a = 'v';
+${$a[0]} = 5;			
+var_dump($v);
+unset($v, $a);
+
+$v = array(10, 20);
+$a = 'v';
+${$a}[0] = 5;			
+var_dump($v);
+unset($v, $a);
+//*/
+
+class C1
+{
+	public static $pr1 = 'v';
+	public $pr2;
+
+	public function __toString()
+	{
+		return 'w';
+	}
+}
+
+///*

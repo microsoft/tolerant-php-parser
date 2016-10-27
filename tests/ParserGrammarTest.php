@@ -32,4 +32,26 @@ class ParserGrammarTest extends TestCase {
         return $testProviderArray;
     }
 
+    /**
+     * @dataProvider outTreeProvider
+     */
+    public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
+        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
+        $parser = new \PhpParser\Parser($testCaseFile);
+        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
+//        file_put_contents($expectedTokensFile, $tokens);
+        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
+    }
+
+    public function outTreeProvider() {
+        $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
+        $tokensExpected = glob(__dir__ . "/cases/php-langspec/**/*.php.tree");
+
+        $testProviderArray = array();
+        foreach ($testCases as $index=>$testCase) {
+            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+        }
+
+        return $testProviderArray;
+    }
 }
