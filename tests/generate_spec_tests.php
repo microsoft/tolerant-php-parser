@@ -30,6 +30,9 @@ foreach ($testCases as $idx=>$filename) {
             if (!file_exists($fileToWrite . ".tree")) {
                 file_put_contents($fileToWrite . ".tree", $code);
             }
+            if (!file_exists($fileToWrite . ".tokens")) {
+                file_put_contents($fileToWrite . ".tokens", $code);
+            }
         }
     } else {
         $codeRegex = '/(?<=--FILE--)\X*?(?=--EXPECT)/';
@@ -39,6 +42,9 @@ foreach ($testCases as $idx=>$filename) {
         file_put_contents($fileToWrite, $code);
         if (!file_exists($fileToWrite . ".tree")) {
             file_put_contents($fileToWrite . ".tree", $code);
+        }
+        if (!file_exists($fileToWrite . ".tokens")) {
+            file_put_contents($fileToWrite . ".tokens", $code);
         }
     }
 }
