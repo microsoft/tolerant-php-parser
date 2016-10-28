@@ -1,5 +1,6 @@
 /* Auto-generated from php/php-langspec tests */
-echo "Inside >" . __CLASS__ . "<\n";
-echo "Inside >" . __METHOD__ . "<\n";
-echo "Inside >" . __FUNCTION__ . "<\n";
+
+trait T1 {}		// allowed to be empty
+
+class C1 { use T1; }
 

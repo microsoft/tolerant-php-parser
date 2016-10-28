@@ -1,22 +1,34 @@
 /* Auto-generated from php/php-langspec tests */
 
-trait T5
+trait T6
 {
-    public static $prop;
+	public function f()
+	{
+		echo "Inside " . __METHOD__ . "\n";
+
+		static $v = 0;			// static is class-specific
+		echo "\$v = " . $v++ . "\n";
+    }
 }
 
-class C5a
+class C6a
 {
-    use T5;
+	use T6;
 }
 
-class C5b
+class C6b
 {
-    use T5;
+	use T6;
 }
 
-C5a::$prop = 123;
-C5b::$prop = "red";
-echo C5a::$prop . "\n";	// ==> 123
-echo C5b::$prop . "\n";	// ==> red
+$v1 = new C6a;
+$v1->f();		// method run twice with same $v
+$v1->f();
+
+echo "-------\n";
+
+$v2 = new C6b;
+$v2->f();		// method run three times with a different $v
+$v2->f();
+$v2->f();
 

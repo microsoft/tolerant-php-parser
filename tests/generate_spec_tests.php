@@ -1,5 +1,6 @@
 <?php
 
+//$testCases = array('C:\src\php-investigations\tolerant-php-parser\tests\..\php-langspec\tests\traits\traits.phpt');
 $testCases = glob(__DIR__ . "\\..\\php-langspec\\tests\\**\\*.phpt");
 $outTestCaseDir = __DIR__ . "\\cases\\php-langspec\\";
 mkdir($outTestCaseDir);
@@ -13,8 +14,8 @@ foreach ($testCases as $idx=>$filename) {
     $baseName = basename(basename($filename), ".phpt");
     mkdir($dirPrefix);
 
-    $titleRegex = '/(?<!--FILE--)(?<=== )\X*?(?= =\X*?--EXPECT)/';
-    $codeRegex = '/(?<!--FILE--)(?<=";)\X*?(?=echo "==|--EXPECT)/';
+    $titleRegex = '/(?<=={15} |-{15} )\X*?(?= ={15}| -{15})(?=[\w\W]*--EXPECT)/';
+    $codeRegex = '/(?<=={15}\\\n";|-{15}\\\n";)\X*?(?=echo "=* |echo "-* |--EXPECT)/';
 
     preg_match_all($titleRegex, $myFile, $titles);
     preg_match_all($codeRegex, $myFile, $codes);
@@ -22,7 +23,9 @@ foreach ($testCases as $idx=>$filename) {
     if (count($titles[0]) >= 1) {
         foreach ($titles[0] as $idx=>$title) {
             $fileToWrite = $dirPrefix . $baseName . "-" . pascalCase($title) . ".php";
+
             $code = "/* Auto-generated from php/php-langspec tests */" . $codes[0][$idx];
+//            echo $title, $code;
             file_put_contents($fileToWrite, $code);
             if (!file_exists($fileToWrite . ".tree")) {
                 file_put_contents($fileToWrite . ".tree", $code);

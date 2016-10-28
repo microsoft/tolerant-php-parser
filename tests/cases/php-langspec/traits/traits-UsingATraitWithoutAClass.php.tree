@@ -1,34 +1,32 @@
 /* Auto-generated from php/php-langspec tests */
 
-trait T6
+trait T7
 {
-	public function f()
+	public static $pubs = 123;
+
+	function f()	// implicitly public
 	{
+		echo "Inside " . __TRAIT__ . "\n";
+		echo "Inside " . __CLASS__ . "\n";
 		echo "Inside " . __METHOD__ . "\n";
+		var_dump($this);
+	}
 
-		static $v = 0;			// static is class-specific
-		echo "\$v = " . $v++ . "\n";
-    }
+	public static function g()
+	{
+		echo "Inside " . __TRAIT__ . "\n";
+		echo "Inside " . __CLASS__ . "\n";
+		echo "Inside " . __METHOD__ . "\n";
+	}
 }
 
-class C6a
-{
-	use T6;
-}
-
-class C6b
-{
-	use T6;
-}
-
-$v1 = new C6a;
-$v1->f();		// method run twice with same $v
-$v1->f();
+T7::f(); 	// calls f like a static function with class name being the trait name
 
 echo "-------\n";
+T7::g();
 
-$v2 = new C6b;
-$v2->f();		// method run three times with a different $v
-$v2->f();
-$v2->f();
+/*
+echo "-------\n";
+var_dump(T7::pubs); // doesn't work for static properties
+*/
 

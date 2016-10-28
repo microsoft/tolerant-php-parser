@@ -1,52 +1,22 @@
 /* Auto-generated from php/php-langspec tests */
 
-
-trait Tx1
+trait T5
 {
-	function k()
-	{
-		echo "Inside " . __TRAIT__ . "\n";
-		echo "Inside " . __CLASS__ . "\n";
-		echo "Inside " . __METHOD__ . "\n";
-	}
+    public static $prop;
 }
 
-trait Tx2
+class C5a
 {
-	function m()
-	{
-		echo "Inside " . __TRAIT__ . "\n";
-		echo "Inside " . __CLASS__ . "\n";
-		echo "Inside " . __METHOD__ . "\n";
-	}
+    use T5;
 }
 
-trait T4
+class C5b
 {
-	use Tx1, Tx2;
-	use T2a, T2b, T3
-	{
-		Tx1::k as kk;
-		T2a::f insteadof T2b;
-	}
+    use T5;
 }
 
-class C4
-{
-	use T4;
-}
-
-$c4 = new C4;
-
-echo "-------\n";
-$c4->f();
-
-echo "-------\n";
-$c4->m1();
-
-echo "-------\n";
-$c4->k();
-
-echo "-------\n";
-$c4->m();
+C5a::$prop = 123;
+C5b::$prop = "red";
+echo C5a::$prop . "\n";	// ==> 123
+echo C5b::$prop . "\n";	// ==> red
 

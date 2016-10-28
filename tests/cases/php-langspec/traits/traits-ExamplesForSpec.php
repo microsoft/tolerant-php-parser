@@ -1,32 +1,35 @@
 /* Auto-generated from php/php-langspec tests */
 
-trait T7
+trait T9a
 {
-	public static $pubs = 123;
+	public function compute(/* ... */) { /* ... */ }
+}
 
-	function f()	// implicitly public
-	{
-		echo "Inside " . __TRAIT__ . "\n";
-		echo "Inside " . __CLASS__ . "\n";
-		echo "Inside " . __METHOD__ . "\n";
-		var_dump($this);
-	}
+trait T9b
+{
+	public function compute(/* ... */) { /* ... */ }
+}
 
-	public static function g()
+trait T9c
+{
+	public function sort(/* ... */) { /* ... */ }
+}
+
+trait T9d
+{
+	use T9c;
+	use T9a, T9b
 	{
-		echo "Inside " . __TRAIT__ . "\n";
-		echo "Inside " . __CLASS__ . "\n";
-		echo "Inside " . __METHOD__ . "\n";
+		T9a::compute insteadof T9b;
+		T9c::sort as private sorter;
 	}
 }
 
-T7::f(); 	// calls f like a static function with class name being the trait name
-
-echo "-------\n";
-T7::g();
-
-/*
-echo "-------\n";
-var_dump(T7::pubs); // doesn't work for static properties
-*/
-
+trait T10
+{
+	private $prop1 = 1000;
+	protected static $prop2;
+	var $prop3;
+	public function compute() {}
+	public static function getData() {}
+}
