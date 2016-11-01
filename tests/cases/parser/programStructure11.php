@@ -1,4 +1,7 @@
 <?php
 
-echo "// hello ?>";
+/* hello ?>
+,kjlk
+*/
 
+echo "hello world";

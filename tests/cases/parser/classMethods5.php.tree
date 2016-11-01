@@ -1,6 +1,6 @@
 {
     "SourceFileNode": {
-        "children": [
+        "scriptSectionList": [
             {
                 "ClassNode": {
                     "children": [
