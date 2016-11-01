@@ -213,6 +213,12 @@ class TokenKind {
     const BoolReservedWord = 321;
     const NullReservedWord = 322;
 
+    const ScriptSectionStartTag = 323;
+    const ScriptSectionEndTag = 324;
+
+
+    // TODO how to handle incremental parsing w/ this?
+    const ScriptSectionPrependedText = 325;
 
     // TODO type annotations - PHP7
 }

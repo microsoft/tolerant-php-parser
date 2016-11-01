@@ -20,4 +20,5 @@ class NodeKind {
     const ParameterNode = 14;
     const QualifiedName = 15;
     const RelativeSpecifier = 16;
+    const ScriptSection = 17;
 }

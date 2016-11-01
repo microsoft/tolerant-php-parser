@@ -26,7 +26,7 @@ use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
-use PhpParser\Node\SourceFile;
+use PhpParser\Node\Script;
 use PhpParser\Node\TemplateExpressionNode;
 
 class Parser {
@@ -43,10 +43,10 @@ class Parser {
     public function parseSourceFile() : Node {
         $this->reset();
 
-        $sourceFile = new SourceFile();
+        $sourceFile = new Script();
         $this->sourceFile = & $sourceFile;
-        $sourceFile->children = $this->parseList($sourceFile, ParseContext::SourceElements);
-        array_push($sourceFile->children, $this->getCurrentToken());
+        $sourceFile->scriptSectionList = $this->parseList($sourceFile, ParseContext::SourceElements);
+        array_push($sourceFile->scriptSectionList, $this->getCurrentToken());
         $this->advanceToken();
 
         $sourceFile->parent = null;
@@ -151,6 +151,8 @@ class Parser {
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
+                return $this->isStatementStart($token) ||
+                $this->isScriptStartOrEnd($token);
             case ParseContext::BlockStatements:
                 return $this->isStatementStart($token);
 
@@ -752,6 +754,12 @@ class Parser {
                 TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
         }
         $node->compoundStatement = $this->parseCompoundStatement($node);
+    }
+
+    private function isScriptStartOrEnd(Token $token) {
+        return
+            $token->kind === TokenKind::ScriptSectionStartTag ||
+            $token->kind === TokenKind::ScriptSectionEndTag;
     }
 }
 

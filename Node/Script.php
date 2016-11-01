@@ -4,8 +4,8 @@ namespace PhpParser\Node;
 
 use PhpParser\NodeKind;
 
-class SourceFile extends Node {
-    public $children;
+class Script extends Node {
+    public $scriptSectionList;
 
     public function __construct() {
         parent::__construct(NodeKind::SourceFileNode);

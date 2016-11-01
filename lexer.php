@@ -6,7 +6,7 @@ require_once(__DIR__ . "/characterCodes.php");
 
 class Lexer {
 
-    private $pos;
+    public $pos;
     private $endOfFilePos;
     private $fileContents;
     private $token;
@@ -84,7 +84,7 @@ class Lexer {
                 case CharacterCodes::_caret: // ^=, ^
                 case CharacterCodes::_bar: // |=, ||, |
                 case CharacterCodes::_ampersand: // &=, &&, &
-                case CharacterCodes::_question: // ??, ?
+                case CharacterCodes::_question: // ??, ?, end-tag
 
                 case CharacterCodes::_colon: // : (TODO should this actually be treated as compound?)
                 case CharacterCodes::_comma: // , (TODO should this actually be treated as compound?)
@@ -100,7 +100,8 @@ class Lexer {
                 case CharacterCodes::_tilde:
                 case CharacterCodes::_backslash:
                     // TODO this can be made more performant, but we're going for simple/correct first.
-                    for ($tokenEnd = 2; $tokenEnd >= 0; $tokenEnd--) {
+                    // TODO
+                    for ($tokenEnd = 4; $tokenEnd >= 0; $tokenEnd--) {
                         if ($pos + $tokenEnd >= $endOfFilePos) {
                             continue;
                         }
@@ -827,5 +828,8 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "??" => TokenKind::QuestionQuestionToken,
     "<=>" => TokenKind::LessThanEqualsGreaterThanToken,
     "..." => TokenKind::DotDotDotToken,
-    "\\" => TokenKind::BackslashToken
+    "\\" => TokenKind::BackslashToken,
+    "<?=" => TokenKind::ScriptSectionStartTag,
+    "<?php" => TokenKind::ScriptSectionStartTag,
+    "?>" => TokenKind::ScriptSectionEndTag
 );
