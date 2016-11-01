@@ -1,4 +1,7 @@
-<?php
 function a () {
-    ;
+
 }
+
+<?php
+
+<?php

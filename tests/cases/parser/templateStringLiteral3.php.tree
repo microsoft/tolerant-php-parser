@@ -2,13 +2,28 @@
     "SourceFileNode": {
         "scriptSectionList": [
             {
-                "kind": "NoSubstitutionTemplateLiteral",
-                "textLength": 7
-            },
-            {
-                "kind": "EndOfFileToken",
-                "textLength": 0
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 5
+                    },
+                    "statementList": [
+                        {
+                            "kind": "NoSubstitutionTemplateLiteral",
+                            "textLength": 7
+                        }
+                    ],
+                    "endTag": null
+                }
             }
-        ]
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
     }
 }

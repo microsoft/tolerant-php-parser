@@ -2,43 +2,58 @@
     "SourceFileNode": {
         "scriptSectionList": [
             {
-                "CompoundStatementNode": {
-                    "children": [
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 5
+                    },
+                    "statementList": [
                         {
-                            "kind": "OpenBraceToken",
-                            "textLength": 1
-                        },
-                        {
-                            "EmptyStatement": {
+                            "CompoundStatementNode": {
                                 "children": [
                                     {
-                                        "kind": "SemicolonToken",
+                                        "kind": "OpenBraceToken",
+                                        "textLength": 1
+                                    },
+                                    {
+                                        "EmptyStatement": {
+                                            "children": [
+                                                {
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "EmptyStatement": {
+                                            "children": [
+                                                {
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "kind": "CloseBraceToken",
                                         "textLength": 1
                                     }
                                 ]
                             }
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "kind": "CloseBraceToken",
-                            "textLength": 1
                         }
-                    ]
+                    ],
+                    "endTag": null
                 }
-            },
-            {
-                "kind": "EndOfFileToken",
-                "textLength": 0
             }
-        ]
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
     }
 }

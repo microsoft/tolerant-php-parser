@@ -1,3 +1,4 @@
+<?php
 namespace Hello {
     function A() {
         echo "hello";

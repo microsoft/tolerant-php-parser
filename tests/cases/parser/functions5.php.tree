@@ -2,47 +2,62 @@
     "SourceFileNode": {
         "scriptSectionList": [
             {
-                "FunctionNode": {
-                    "functionKeyword": {
-                        "kind": "FunctionKeyword",
-                        "textLength": 8
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
                     },
-                    "byRefToken": null,
-                    "name": {
-                        "kind": "Name",
-                        "textLength": 6
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 5
                     },
-                    "openParen": {
-                        "kind": "OpenParenToken",
-                        "textLength": 1
-                    },
-                    "parameters": null,
-                    "closeParen": {
-                        "kind": "CloseParenToken",
-                        "textLength": 1
-                    },
-                    "colonToken": null,
-                    "returnTypeOpt": null,
-                    "compoundStatement": {
-                        "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
+                    "statementList": [
+                        {
+                            "FunctionNode": {
+                                "functionKeyword": {
+                                    "kind": "FunctionKeyword",
+                                    "textLength": 8
+                                },
+                                "byRefToken": null,
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 6
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                {
-                                    "kind": "CloseBraceToken",
+                                "parameters": null,
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
                                     "textLength": 1
+                                },
+                                "colonToken": null,
+                                "returnTypeOpt": null,
+                                "compoundStatement": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
                                 }
-                            ]
+                            }
                         }
-                    }
+                    ],
+                    "endTag": null
                 }
-            },
-            {
-                "kind": "EndOfFileToken",
-                "textLength": 0
             }
-        ]
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
     }
 }

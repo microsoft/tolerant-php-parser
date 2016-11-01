@@ -27,6 +27,7 @@ use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
 use PhpParser\Node\Script;
+use PhpParser\Node\ScriptSection;
 use PhpParser\Node\TemplateExpressionNode;
 
 class Parser {
@@ -45,13 +46,39 @@ class Parser {
 
         $sourceFile = new Script();
         $this->sourceFile = & $sourceFile;
-        $sourceFile->scriptSectionList = $this->parseList($sourceFile, ParseContext::SourceElements);
-        array_push($sourceFile->scriptSectionList, $this->getCurrentToken());
+        $sourceFile->scriptSectionList = array();
+        while ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
+            array_push($sourceFile->scriptSectionList, $this->parseScriptSection($sourceFile));
+        }
+        $this->sourceFile->endOfFileToken = $this->eat(TokenKind::EndOfFileToken);
         $this->advanceToken();
 
         $sourceFile->parent = null;
 
         return $sourceFile;
+    }
+
+    function parseScriptSection($parent) {
+        $scriptSection = new ScriptSection();
+        $scriptSection->parent = $parent;
+        $token = $this->getCurrentToken();
+        $scriptSection->text = new Token(TokenKind::ScriptSectionPrependedText, $token->fullStart, $token->fullStart, 0);
+
+        while ($token->kind !== TokenKind::EndOfFileToken) {
+            if ($token->kind === TokenKind::ScriptSectionStartTag) {
+                $scriptSection->startTag = $this->eat(TokenKind::ScriptSectionStartTag);
+                $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
+                $scriptSection->endTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
+                break;
+            }
+
+            $scriptSection->text->length += $token->length;
+
+            $this->advanceToken();
+            $token = $this->getCurrentToken();
+        }
+
+        return $scriptSection;
     }
 
     function reset() {
@@ -137,13 +164,14 @@ class Parser {
         }
 
         switch ($parseContext) {
+            case ParseContext::SourceElements:
+                return $tokenKind === TokenKind::ScriptSectionEndTag;
+
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
-                if ($tokenKind === TokenKind::CloseBraceToken) {
-                    return true;
-                }
-                break;
+                return $tokenKind === TokenKind::CloseBraceToken;
         }
+        // TODO warn about unhandled parse context
         return false;
     }
 
