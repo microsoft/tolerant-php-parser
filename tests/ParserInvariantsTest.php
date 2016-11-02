@@ -10,14 +10,13 @@ use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 
 class ParserInvariantsTest extends LexerInvariantsTest {
-    const FILENAMES = array (
-        __dir__ . "/cases/parserPocFile.php",
-        __dir__ . "/cases/parserPocFile2.php"
-    );
+    const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
 
     public static function sourceFileNodeProvider() {
         $testFiles = array();
-        foreach (self::FILENAMES as $filename) {
+        $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
+
+        foreach ($testCases as $filename) {
             $parser = new \PhpParser\Parser($filename);
             $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile()];
         }
@@ -26,7 +25,9 @@ class ParserInvariantsTest extends LexerInvariantsTest {
 
     public static function tokensArrayProvider() {
         $testFiles = array();
-        foreach (self::FILENAMES as $filename) {
+        $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
+
+        foreach ($testCases as $filename) {
             $parser = new \PhpParser\Parser($filename);
             $sourceFileNode = $parser->parseSourceFile();
             $tokensArray = array();
