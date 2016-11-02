@@ -212,7 +212,7 @@ class Lexer {
 
     function scanSingleLineComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if ($this->isNewLineChar($text[$pos])) {
+            if ($this->isNewLineChar($text[$pos]) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
                 return;
             }
             $pos++;
@@ -689,6 +689,12 @@ class Lexer {
                 $pos++;
                 return;
         }
+    }
+
+    private function isScriptEndTag($text, $pos, $endOfFilePos) {
+        return
+            ord($text[$pos]) === CharacterCodes::_question &&
+            isset($text[$pos+1]) && ord($text[$pos+1]) === CharacterCodes::_greaterThan;
     }
 }
 

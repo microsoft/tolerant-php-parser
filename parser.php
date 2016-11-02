@@ -179,8 +179,9 @@ class Parser {
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
-                return $this->isStatementStart($token) ||
-                $this->isScriptStartOrEnd($token);
+                return
+                    $this->isStatementStart($token) ||
+                    $this->isScriptStart($token);
             case ParseContext::BlockStatements:
                 return $this->isStatementStart($token);
 
@@ -784,10 +785,9 @@ class Parser {
         $node->compoundStatement = $this->parseCompoundStatement($node);
     }
 
-    private function isScriptStartOrEnd(Token $token) {
+    private function isScriptStart(Token $token) {
         return
-            $token->kind === TokenKind::ScriptSectionStartTag ||
-            $token->kind === TokenKind::ScriptSectionEndTag;
+            $token->kind === TokenKind::ScriptSectionStartTag;
     }
 }
 

@@ -1,4 +1,43 @@
-<?php
-
-echo "// hello ?>";
-
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 5
+                    },
+                    "statementList": [
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 4
+                        },
+                        {
+                            "kind": "NoSubstitutionTemplateLiteral",
+                            "textLength": 13
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

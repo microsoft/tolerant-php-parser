@@ -1,9 +1,143 @@
-<h1><?=
-    $awesome = a();
-
-    function a () {
-        return 5;
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 4
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 3
+                    },
+                    "statementList": [
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 8
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "kind": "Name",
+                            "textLength": 1
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "FunctionNode": {
+                                "functionKeyword": {
+                                    "kind": "FunctionKeyword",
+                                    "textLength": 8
+                                },
+                                "byRefToken": null,
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "parameters": null,
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colonToken": null,
+                                "returnTypeOpt": null,
+                                "compoundStatement": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "kind": "ReturnKeyword",
+                                                "textLength": 6
+                                            },
+                                            {
+                                                "kind": "SkippedToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "EmptyStatement": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 4
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 8
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "endTag": {
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
+                    }
+                }
+            },
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 7
+                    },
+                    "startTag": null,
+                    "statementList": null,
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
     }
-    echo $awesome;
-    ?>
-</h1>
+}
