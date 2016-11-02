@@ -835,7 +835,7 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "<=>" => TokenKind::LessThanEqualsGreaterThanToken,
     "..." => TokenKind::DotDotDotToken,
     "\\" => TokenKind::BackslashToken,
-    "<?=" => TokenKind::ScriptSectionStartTag,
-    "<?php" => TokenKind::ScriptSectionStartTag,
-    "?>" => TokenKind::ScriptSectionEndTag
+    "<?=" => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
+    "<?php" => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
+    "?>" => TokenKind::ScriptSectionEndTag // TODO, technically not an operator
 );

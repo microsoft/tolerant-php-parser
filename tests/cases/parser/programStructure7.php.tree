@@ -13,7 +13,7 @@
                     },
                     "statementList": [
                         {
-                            "kind": "ScriptSectionStartTag",
+                            "kind": "SkippedToken",
                             "textLength": 5
                         }
                     ],

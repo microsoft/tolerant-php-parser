@@ -59,6 +59,12 @@ class Parser {
     }
 
     function parseScriptSection($parent) {
+        // TODO - for the sake of simplicity, this doesn't actually match the spec.
+        // The spec defines a script-section to be:
+        //     text_opt start-tag statement-list_opt end-tag_opt text_opt
+        //
+        // However, currently, a script section does not include the trailing text_opt.
+        // Consider changing this in the future.
         $scriptSection = new ScriptSection();
         $scriptSection->parent = $parent;
         $token = $this->getCurrentToken();
@@ -180,8 +186,7 @@ class Parser {
         switch ($context) {
             case ParseContext::SourceElements:
                 return
-                    $this->isStatementStart($token) ||
-                    $this->isScriptStart($token);
+                    $this->isStatementStart($token);
             case ParseContext::BlockStatements:
                 return $this->isStatementStart($token);
 
@@ -783,11 +788,6 @@ class Parser {
                 TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
         }
         $node->compoundStatement = $this->parseCompoundStatement($node);
-    }
-
-    private function isScriptStart(Token $token) {
-        return
-            $token->kind === TokenKind::ScriptSectionStartTag;
     }
 }
 

@@ -23,7 +23,7 @@
                             }
                         },
                         {
-                            "kind": "ScriptSectionStartTag",
+                            "kind": "SkippedToken",
                             "textLength": 3
                         },
                         {
