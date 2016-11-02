@@ -9,12 +9,20 @@
                     },
                     "startTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 5
+                        "textLength": 6
                     },
                     "statementList": [
                         {
                             "kind": "SkippedToken",
-                            "textLength": 5
+                            "textLength": 1
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "kind": "Name",
+                            "textLength": 3
                         }
                     ],
                     "endTag": null

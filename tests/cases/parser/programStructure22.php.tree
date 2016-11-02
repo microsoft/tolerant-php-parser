@@ -9,29 +9,18 @@
                     },
                     "startTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 6
+                        "textLength": 3
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 4
-                        },
-                        {
                             "kind": "NoSubstitutionTemplateLiteral",
-                            "textLength": 13
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
+                            "textLength": 7
                         }
                     ],
-                    "endTag": null
+                    "endTag": {
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
+                    }
                 }
             }
         ],

@@ -5,11 +5,11 @@
                 "ScriptSection": {
                     "text": {
                         "kind": "ScriptSectionPrependedText",
-                        "textLength": 13
+                        "textLength": 17
                     },
                     "startTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 5
+                        "textLength": 6
                     },
                     "statementList": [
                         {

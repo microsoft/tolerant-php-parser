@@ -1,3 +1,21 @@
-// TODO: This should all be parsed as text because whitespace
-// is required after <?php in order to be valid.
-<?php?>
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 7
+                    },
+                    "startTag": null,
+                    "statementList": null,
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

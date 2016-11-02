@@ -9,7 +9,7 @@
                     },
                     "startTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 5
+                        "textLength": 6
                     },
                     "statementList": [],
                     "endTag": {

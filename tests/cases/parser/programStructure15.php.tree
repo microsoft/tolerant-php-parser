@@ -1,2 +1,21 @@
-// TODO - there should be no start tag detected here.
-hi<?php
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 7
+                    },
+                    "startTag": null,
+                    "statementList": null,
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
