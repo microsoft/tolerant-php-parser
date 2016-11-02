@@ -21,9 +21,7 @@ class CommentsTest extends TestCase {
         $tokensArray = $this->lexer->getTokensArray();
 
         $expected = array(
-            new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
-            new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Name, 2, 2, 3),
+            new PhpParser\Token(PhpParser\TokenKind::ScriptSectionStartTag, 0, 0, 5),
             new PhpParser\Token(PhpParser\TokenKind::Name, 5, 56, 52),
             new PhpParser\Token(PhpParser\TokenKind::SlashToken, 57, 58, 2),
             new PhpParser\Token(PhpParser\TokenKind::Name, 59, 59, 1),
@@ -49,9 +47,7 @@ class CommentsTest extends TestCase {
         $this->lexer = new \PhpParser\Lexer(self::PARSER_POC_FILE);
         $tokensArray = $this->lexer->getTokensArray();
         $expected = array(
-            new PhpParser\Token(PhpParser\TokenKind::LessThanToken, 0, 0, 1),
-            new PhpParser\Token(PhpParser\TokenKind::QuestionToken, 1, 1, 1),
-            new PhpParser\Token(PhpParser\TokenKind::Name, 2, 2, 3),
+            new PhpParser\Token(PhpParser\TokenKind::ScriptSectionStartTag, 0, 0, 5),
             new PhpParser\Token(PhpParser\TokenKind::ClassKeyword, 5, 7, 7),
             new PhpParser\Token(PhpParser\TokenKind::Name, 12, 13, 2),
             new PhpParser\Token(PhpParser\TokenKind::OpenBraceToken, 14, 16, 3),
