@@ -1,0 +1,59 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "NamedLabelStatement": {
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 5
+                                },
+                                "colon": {
+                                    "kind": "ColonToken",
+                                    "textLength": 1
+                                },
+                                "statement": {
+                                    "NamedLabelStatement": {
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 4
+                                        },
+                                        "colon": {
+                                            "kind": "ColonToken",
+                                            "textLength": 1
+                                        },
+                                        "statement": {
+                                            "EmptyStatement": {
+                                                "children": [
+                                                    {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
