@@ -4,7 +4,7 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EmptyStatementNode extends Node {
+class EmptyStatementNode extends StatementNode {
     public $children;
 
     public function __construct() {

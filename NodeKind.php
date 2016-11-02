@@ -21,4 +21,5 @@ class NodeKind {
     const QualifiedName = 15;
     const RelativeSpecifier = 16;
     const ScriptSection = 17;
+    const NamedLabelStatement = 18;
 }

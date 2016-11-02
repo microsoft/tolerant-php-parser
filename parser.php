@@ -22,6 +22,7 @@ use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\MethodNode;
+use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
@@ -288,17 +289,19 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return $this->parseFunctionDeclaration($parentNode);
 
-
-
+                case TokenKind::Name:
+                    if ($this->lookahead(TokenKind::Name, TokenKind::ColonToken)) {
+                        return $this->parseNamedLabelStatement($parentNode);
+                    }
+                    break;
                 case TokenKind::TemplateStringStart:
                     return $this->parseTemplateString($parentNode);
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
-
-                default:
-                    return $this->parsePrimaryExpression($parentNode);
             }
+
+            return $this->parsePrimaryExpression($parentNode);
         };
     }
 
@@ -588,7 +591,8 @@ class Parser {
     }
 
     private function parsePrimaryExpression($parentNode) {
-        switch ($this->getCurrentToken()) {
+        $token = $this->getCurrentToken();
+        switch ($token->kind) {
            /* // variable-name
             case TokenKind::VariableName: // TODO special case $this
                 return $this->parseVariableNameExpression($parentNode);
@@ -643,10 +647,11 @@ class Parser {
                 // ( expression )
             case TokenKind::OpenParenToken:
                 return true;*/
+            case TokenKind::EndOfFileToken:
+                return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
 
             default:
                 // TODO
-                $token = $this->getCurrentToken();
                 $this->advanceToken();
                 return $token;
         }
@@ -798,6 +803,30 @@ class Parser {
                 TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
         }
         $node->compoundStatement = $this->parseCompoundStatement($node);
+    }
+
+    private function parseNamedLabelStatement($parentNode) {
+        $namedLabelStatement = new NamedLabelStatementNode();
+        $namedLabelStatement->parent = $parentNode;
+        $namedLabelStatement->name = $this->eat(TokenKind::Name);
+        $namedLabelStatement->colon = $this->eat(TokenKind::ColonToken);
+        $namedLabelStatement->statement = ($this->parseStatement())($namedLabelStatement); // TODO this is ugly
+        return $namedLabelStatement;
+    }
+
+    private function lookahead(int ...$expectedKinds) : bool {
+        $startPos = $this->lexer->pos;
+        $startToken = $this->getCurrentToken();
+        $success = true;
+        foreach ($expectedKinds as $kind) {
+            if ($this->eatOptional($kind) === null) {
+                $success = false;
+                break;
+            }
+        }
+        $this->lexer->pos = $startPos;
+        $this->token = $startToken;
+        return $success;
     }
 }
 
