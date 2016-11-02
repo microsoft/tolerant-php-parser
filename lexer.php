@@ -11,6 +11,8 @@ class Lexer {
     private $fileContents;
     private $token;
 
+    private $inScriptSection = false;
+
     public function __construct($filename) {
         $this->fileContents = file_get_contents($filename);
         $this->endOfFilePos = strlen($this->fileContents);
@@ -101,15 +103,22 @@ class Lexer {
                 case CharacterCodes::_backslash:
                     // TODO this can be made more performant, but we're going for simple/correct first.
                     // TODO
-                    for ($tokenEnd = 4; $tokenEnd >= 0; $tokenEnd--) {
+                    for ($tokenEnd = 5; $tokenEnd >= 0; $tokenEnd--) {
                         if ($pos + $tokenEnd >= $endOfFilePos) {
                             continue;
                         }
 
-                        $textSubstring = substr($text, $pos, $tokenEnd + 1);
+                        $textSubstring = strtolower(substr($text, $pos, $tokenEnd + 1));
                         if ($this->isOperatorOrPunctuator($textSubstring)) {
                             $tokenKind = OPERATORS_AND_PUNCTUATORS[$textSubstring];
                             $pos += $tokenEnd + 1;
+
+                            if ($tokenKind === TokenKind::ScriptSectionStartTag) {
+                                $this->inScriptSection = true;
+                            } else if ($this->inScriptSection && $tokenKind === TokenKind::ScriptSectionEndTag) {
+                                $this->inScriptSection = false;
+                            }
+
                             return new Token($tokenKind, $fullStart, $start, $pos - $fullStart);
                         }
                     }
@@ -212,7 +221,7 @@ class Lexer {
 
     function scanSingleLineComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if ($this->isNewLineChar($text[$pos]) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
+            if ($this->isNewLineChar($text[$pos]) || $this->isScriptStartOrEndTag($text, $pos, $endOfFilePos)) {
                 return;
             }
             $pos++;
@@ -228,7 +237,9 @@ class Lexer {
 
     function scanDelimitedComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
+            if ($this->isScriptStartTag($text, $pos, $endOfFilePos)) {
+                return;
+            } else if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
                 $pos += 2;
                 return;
             }
@@ -691,10 +702,30 @@ class Lexer {
         }
     }
 
-    private function isScriptEndTag($text, $pos, $endOfFilePos) {
+    private function isScriptStartOrEndTag($text, $pos, $endOfFilePos) {
         return
+            $this->isScriptStartTag($text, $pos, $endOfFilePos) ||
+            $this->isScriptEndTag($text, $pos, $endOfFilePos);
+    }
+
+    private function isScriptStartTag($text, $pos, $endOfFilePos) {
+        if (!$this->inScriptSection &&
+            ord($text[$pos]) === CharacterCodes::_lessThan && // TODO use regex to detect newline or whitespace char
+            isset($text[$pos+4]) && strtolower(substr($text, $pos, 5)) === "<?php") {
+            $this->inScriptSection = true;
+            return true;
+        }
+        return false;
+    }
+
+    private function isScriptEndTag($text, $pos, $endOfFilePos) {
+        if ($this->inScriptSection &&
             ord($text[$pos]) === CharacterCodes::_question &&
-            isset($text[$pos+1]) && ord($text[$pos+1]) === CharacterCodes::_greaterThan;
+            isset($text[$pos+1]) && ord($text[$pos+1]) === CharacterCodes::_greaterThan) {
+            $this->inScriptSection = false;
+            return true;
+        }
+        return false;
     }
 }
 
@@ -836,6 +867,9 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "..." => TokenKind::DotDotDotToken,
     "\\" => TokenKind::BackslashToken,
     "<?=" => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
-    "<?php" => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
+    "<?php " => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
+    "<?php\t" => TokenKind::ScriptSectionStartTag, // TODO add tests
+    "<?php\n" => TokenKind::ScriptSectionStartTag,
+    "<?php\r" => TokenKind::ScriptSectionStartTag,
     "?>" => TokenKind::ScriptSectionEndTag // TODO, technically not an operator
 );

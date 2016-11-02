@@ -21,9 +21,11 @@ class ParserGrammarTest extends TestCase {
         $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
+    const FILE_PATTERN = __DIR__ . "/cases/parser/*";
+
     public function treeProvider() {
-        $testCases = glob(__dir__ . "/cases/parser/*.php");
-        $tokensExpected = glob(__dir__ . "/cases/parser/*.php.tree");
+        $testCases = glob(self::FILE_PATTERN . ".php");
+        $tokensExpected = glob(self::FILE_PATTERN . ".php.tree");
 
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {

@@ -68,11 +68,21 @@ class Parser {
         $scriptSection = new ScriptSection();
         $scriptSection->parent = $parent;
         $token = $this->getCurrentToken();
-        $scriptSection->text = new Token(TokenKind::ScriptSectionPrependedText, $token->fullStart, $token->fullStart, 0);
+        $scriptSection->text =
+            new Token(
+                TokenKind::ScriptSectionPrependedText,
+                $token->fullStart,
+                $token->fullStart,
+                0
+            );
 
         while ($token->kind !== TokenKind::EndOfFileToken) {
             if ($token->kind === TokenKind::ScriptSectionStartTag) {
                 $scriptSection->startTag = $this->eat(TokenKind::ScriptSectionStartTag);
+                $preTextLength = $scriptSection->startTag->start - $scriptSection->startTag->fullStart;
+                $scriptSection->startTag->length -= $preTextLength;
+                $scriptSection->startTag->fullStart += $preTextLength;
+                $scriptSection->text->length += $preTextLength;
                 $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
                 $scriptSection->endTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
                 break;
