@@ -16,11 +16,14 @@ spl_autoload_register(function ($class) {
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\DelimitedList;
+use PhpParser\Node\ElseClauseNode;
+use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
 use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
+use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\MethodNode;
 use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
@@ -294,6 +297,10 @@ class Parser {
                         return $this->parseNamedLabelStatement($parentNode);
                     }
                     break;
+
+                case TokenKind::IfKeyword:
+                    return $this->parseIfStatement($parentNode);
+
                 case TokenKind::TemplateStringStart:
                     return $this->parseTemplateString($parentNode);
 
@@ -827,6 +834,69 @@ class Parser {
         $this->lexer->pos = $startPos;
         $this->token = $startToken;
         return $success;
+    }
+
+    private function parseIfStatement($parentNode) {
+        $ifStatement = new IfStatementNode();
+        $ifStatement->parent = $parentNode;
+        $ifStatement->ifKeyword = $this->eat(TokenKind::IfKeyword);
+        $ifStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $ifStatement->expression = $this->parseExpression($ifStatement);
+        $ifStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $ifStatement->statement = ($this->parseStatement())($ifStatement);
+        $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
+        while ($this->lookahead(TokenKind::ElseKeyword, TokenKind::IfKeyword) || $this->lookahead(TokenKind::ElseIfKeyword)) {
+            array_push($ifStatement->elseIfClauses, $this->parseElseIfClause($ifStatement));
+        }
+
+        if ($this->lookahead(TokenKind::ElseKeyword)) {
+            $ifStatement->elseClause = $this->parseElseClause($ifStatement);
+        }
+
+        return $ifStatement;
+    }
+
+    private function parseExpression($parentNode) {
+        // TODO
+        $token = $this->getCurrentToken();
+        $expression = new Expression();
+        $expression->parent = $parentNode;
+        $expression->children = array();
+
+        if ($token->kind === TokenKind::VariableName) {
+            array_push($expression->children, $token) ;
+        } else {
+            array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
+        }
+        $this->advanceToken();
+        return $expression;
+    }
+
+    private function parseElseIfClause($parentNode) {
+        $elseIfClause = new ElseIfClauseNode();
+        $elseIfClause->parent = $parentNode;
+        $elseIfClause->elseIfKeyword = array();
+        $firstToken = $this->eatOptional(TokenKind::ElseIfKeyword);
+        if ($firstToken !== null) {
+            array_push($elseIfClause->elseIfKeyword, $firstToken);
+        }
+        else {
+            array_push($elseIfClause->elseIfKeyword, $this->eat(TokenKind::ElseKeyword));
+            array_push($elseIfClause->elseIfKeyword, $this->eat(TokenKind::IfKeyword));
+        }
+        $elseIfClause->openParen = $this->eat(TokenKind::OpenParenToken);
+        $elseIfClause->expression = $this->parseExpression($elseIfClause);
+        $elseIfClause->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $elseIfClause->statement = ($this->parseStatement())($parentNode);
+        return $elseIfClause;
+    }
+
+    private function parseElseClause($parentNode) {
+        $elseClause = new ElseClauseNode();
+        $elseClause->parent = $parentNode;
+        $elseClause->elseKeyword = $this->eat(TokenKind::ElseKeyword);
+        $elseClause->statement = ($this->parseStatement())($parentNode); // TODO this is getting ridiculous
+        return $elseClause;
     }
 }
 

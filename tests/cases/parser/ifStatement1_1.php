@@ -2,6 +2,4 @@
 
 if ($awesome) {
     ;
-} else if ($awesome) {
-
 }

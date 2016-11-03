@@ -18,7 +18,8 @@ class ParserGrammarTest extends TestCase {
         $parser = new \PhpParser\Parser($testCaseFile);
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
 //        file_put_contents($expectedTokensFile, $tokens);
-        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
+        $fileContents = file_get_contents($testCaseFile);
+        $this->assertEquals($expectedTokens, $tokens, "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";

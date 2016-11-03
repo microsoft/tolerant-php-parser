@@ -22,4 +22,7 @@ class NodeKind {
     const RelativeSpecifier = 16;
     const ScriptSection = 17;
     const NamedLabelStatement = 18;
+    const IfStatementNode = 19;
+    const ElseIfClauseNode = 20;
+    const ElseClauseNode = 21;
 }
