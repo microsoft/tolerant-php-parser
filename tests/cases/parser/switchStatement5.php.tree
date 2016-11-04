@@ -1,0 +1,92 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "SwitchStatementNode": {
+                                "switchKeyword": {
+                                    "kind": "SwitchKeyword",
+                                    "textLength": 6
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": {
+                                    "kind": "ColonToken",
+                                    "textLength": 1
+                                },
+                                "openBrace": null,
+                                "caseStatements": [
+                                    {
+                                        "CaseStatementNode": {
+                                            "caseKeyword": {
+                                                "kind": "DefaultKeyword",
+                                                "textLength": 7
+                                            },
+                                            "expression": null,
+                                            "defaultLabelTerminator": {
+                                                "kind": "ColonToken",
+                                                "textLength": 1
+                                            },
+                                            "statementList": [
+                                                {
+                                                    "EmptyStatement": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "SemicolonToken",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "closeBrace": null,
+                                "endswitch": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

@@ -25,4 +25,7 @@ class NodeKind {
     const IfStatementNode = 19;
     const ElseIfClauseNode = 20;
     const ElseClauseNode = 21;
+    const CaseStatementNode = 22;
+    const DefaultStatementNode = 23;
+    const SwitchStatementNode = 24;
 }

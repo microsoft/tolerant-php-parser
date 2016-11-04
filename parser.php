@@ -13,6 +13,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
+use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\DelimitedList;
@@ -32,6 +33,7 @@ use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
 use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
+use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 
 class Parser {
@@ -189,26 +191,38 @@ class Parser {
 
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
-                return $tokenKind === TokenKind::CloseBraceToken;
+            case ParseContext::SwitchStatementElements:
+                return $tokenKind === TokenKind::CloseBraceToken || $tokenKind === TokenKind::EndSwitchKeyword;
             case ParseContext::IfClause2Elements:
                 return
                     $tokenKind === TokenKind::ElseIfKeyword ||
                     $tokenKind === TokenKind::EndIfKeyword;
+
+            case ParseContext::CaseStatementElements:
+                return
+                    $tokenKind === TokenKind::CaseKeyword ||
+                    $tokenKind === TokenKind::DefaultKeyword;
         }
         // TODO warn about unhandled parse context
         return false;
     }
 
-    function isValidListElement($context, $token) {
+    function isValidListElement($context, Token $token) {
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
             case ParseContext::BlockStatements:
             case ParseContext::IfClause2Elements:
+            case ParseContext::CaseStatementElements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
                 return $this->isClassMemberDeclarationStart($token);
+
+            case ParseContext::SwitchStatementElements:
+                return
+                    $token->kind === TokenKind::CaseKeyword ||
+                    $token->kind === TokenKind::DefaultKeyword;
         }
         return false;
     }
@@ -218,9 +232,13 @@ class Parser {
             case ParseContext::SourceElements:
             case ParseContext::BlockStatements:
             case ParseContext::IfClause2Elements:
+            case ParseContext::CaseStatementElements:
                 return $this->parseStatement();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
+
+            case ParseContext::SwitchStatementElements:
+                return $this->parseCaseOrDefaultStatement();
             default:
                 throw new \Exception("Unrecognized parse context");
         }
@@ -254,11 +272,13 @@ class Parser {
      * @param int $kind
      * @return Token
      */
-    function eat(int $kind) {
+    function eat(...$kinds) {
         $token = $this->getCurrentToken();
-        if ($token->kind === $kind) {
-            $this->advanceToken();
-            return $token;
+        foreach ($kinds as $kind) {
+            if ($token->kind === $kind) {
+                $this->advanceToken();
+                return $token;
+            }
         }
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
@@ -289,21 +309,30 @@ class Parser {
     function parseStatement() {
         return function($parentNode) {
             switch($this->getCurrentToken()->kind) {
+                // compound-statement
                 case TokenKind::OpenBraceToken:
                     return $this->parseCompoundStatement($parentNode);
-                case TokenKind::ClassKeyword:
-                    return $this->parseClassDeclaration($parentNode);
-                case TokenKind::FunctionKeyword:
-                    return $this->parseFunctionDeclaration($parentNode);
 
+                // labeled-statement
                 case TokenKind::Name:
                     if ($this->lookahead(TokenKind::Name, TokenKind::ColonToken)) {
                         return $this->parseNamedLabelStatement($parentNode);
                     }
                     break;
 
+                // expression-statement
                 case TokenKind::IfKeyword:
                     return $this->parseIfStatement($parentNode);
+                case TokenKind::SwitchKeyword:
+                    return $this->parseSwitchStatement($parentNode);
+
+                // function-declaration
+                case TokenKind::FunctionKeyword:
+                    return $this->parseFunctionDeclaration($parentNode);
+
+                // class-declaration
+                case TokenKind::ClassKeyword:
+                    return $this->parseClassDeclaration($parentNode);
 
                 case TokenKind::TemplateStringStart:
                     return $this->parseTemplateString($parentNode);
@@ -454,8 +483,8 @@ class Parser {
 
             // Labeled Statements
             case TokenKind::Name:
-            case TokenKind::CaseKeyword:
-            case TokenKind::DefaultKeyword:
+//            case TokenKind::CaseKeyword: // TODO update spec
+//            case TokenKind::DefaultKeyword:
 
             // Expression Statements
             case TokenKind::SemicolonToken:
@@ -796,9 +825,6 @@ class Parser {
         return null;
     }
 
-    /**
-     * @param $node
-     */
     private function parseFunctionDefinition(FunctionDefinition & $node) {
         $node->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
@@ -839,8 +865,6 @@ class Parser {
         $this->token = $startToken;
         return $success;
     }
-
-    private $inIfStatement;
 
     private function parseIfStatement($parentNode) {
         $ifStatement = new IfStatementNode();
@@ -909,6 +933,50 @@ class Parser {
         return $elseClause;
     }
 
+    private function parseSwitchStatement($parentNode) {
+        $switchStatement = new SwitchStatementNode();
+        $switchStatement->parent = $parentNode;
+        $switchStatement->switchKeyword = $this->eat(TokenKind::SwitchKeyword);
+        $switchStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $switchStatement->expression = $this->parseExpression($switchStatement);
+        $switchStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $switchStatement->openBrace = $this->eatOptional(TokenKind::OpenBraceToken);
+        $switchStatement->colon = $this->eatOptional(TokenKind::ColonToken);
+        $switchStatement->caseStatements = $this->parseList($switchStatement, ParseContext::SwitchStatementElements);
+        if ($switchStatement->colon !== null) {
+            $switchStatement->endswitch = $this->eat(TokenKind::EndSwitchKeyword);
+            $switchStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        } else {
+            $switchStatement->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+        }
+
+        return $switchStatement;
+    }
+
+    private function parseSwitchKeyword($parentNode) {
+        $switchStatement = new SwitchStatement();
+    }
+
+    private function parseSwitchElement() {
+    }
+
+    private function parseCaseOrDefaultStatement() {
+        return function($parentNode) {
+            $caseStatement = new CaseStatementNode();
+            $caseStatement->parent = $parentNode;
+            // TODO add error checking
+            $caseStatement->caseKeyword = $this->eat(TokenKind::CaseKeyword, TokenKind::DefaultKeyword);
+            if ($caseStatement->caseKeyword->kind === TokenKind::CaseKeyword) {
+                $caseStatement->expression = $this->parseExpression($caseStatement);
+            }
+            $caseStatement->defaultLabelTerminator = $this->eat(TokenKind::ColonToken, TokenKind::SemicolonToken);
+            $caseStatement->statementList = $this->parseList($caseStatement, ParseContext::CaseStatementElements);
+            return $caseStatement;
+        };
+    }
+
+    
+
     private function parseExpression($parentNode) {
         // TODO currently only parses variable names to help w/ testing, but eventually implement
         $token = $this->getCurrentToken();
@@ -920,6 +988,7 @@ class Parser {
             array_push($expression->children, $token) ;
         } else {
             array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
+            array_push($expression->children, new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length));
         }
         $this->advanceToken();
         return $expression;
@@ -931,5 +1000,7 @@ class ParseContext {
     const BlockStatements = 1;
     const ClassMembers = 2;
     const IfClause2Elements = 3;
-    const Count = 4;
+    const SwitchStatementElements = 4;
+    const CaseStatementElements = 5;
+    const Count = 6;
 }
