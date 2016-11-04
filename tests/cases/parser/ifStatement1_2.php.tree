@@ -36,7 +36,8 @@
                                     "kind": "CloseParenToken",
                                     "textLength": 1
                                 },
-                                "statement": {
+                                "colon": null,
+                                "statements": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
@@ -91,7 +92,8 @@
                                                 "kind": "CloseParenToken",
                                                 "textLength": 1
                                             },
-                                            "statement": {
+                                            "colon": null,
+                                            "statements": {
                                                 "CompoundStatementNode": {
                                                     "children": [
                                                         {
@@ -118,7 +120,9 @@
                                         }
                                     }
                                 ],
-                                "elseClause": null
+                                "elseClause": null,
+                                "endifKeyword": null,
+                                "semicolon": null
                             }
                         }
                     ],

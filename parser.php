@@ -190,6 +190,10 @@ class Parser {
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
                 return $tokenKind === TokenKind::CloseBraceToken;
+            case ParseContext::IfClause2Elements:
+                return
+                    $tokenKind === TokenKind::ElseIfKeyword ||
+                    $tokenKind === TokenKind::EndIfKeyword;
         }
         // TODO warn about unhandled parse context
         return false;
@@ -199,9 +203,8 @@ class Parser {
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
-                return
-                    $this->isStatementStart($token);
             case ParseContext::BlockStatements:
+            case ParseContext::IfClause2Elements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
@@ -214,6 +217,7 @@ class Parser {
         switch ($context) {
             case ParseContext::SourceElements:
             case ParseContext::BlockStatements:
+            case ParseContext::IfClause2Elements:
                 return $this->parseStatement();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
@@ -836,6 +840,8 @@ class Parser {
         return $success;
     }
 
+    private $inIfStatement;
+
     private function parseIfStatement($parentNode) {
         $ifStatement = new IfStatementNode();
         $ifStatement->parent = $parentNode;
@@ -843,7 +849,12 @@ class Parser {
         $ifStatement->openParen = $this->eat(TokenKind::OpenParenToken);
         $ifStatement->expression = $this->parseExpression($ifStatement);
         $ifStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
-        $ifStatement->statement = ($this->parseStatement())($ifStatement);
+        if ($this->lookahead(TokenKind::ColonToken)) {
+            $ifStatement->colon = $this->eat(TokenKind::ColonToken);
+            $ifStatement->statements = $this->parseList($ifStatement, ParseContext::IfClause2Elements);
+        } else {
+            $ifStatement->statements = ($this->parseStatement())($ifStatement);
+        }
         $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
         while ($this->lookahead(TokenKind::ElseKeyword, TokenKind::IfKeyword) || $this->lookahead(TokenKind::ElseIfKeyword)) {
             array_push($ifStatement->elseIfClauses, $this->parseElseIfClause($ifStatement));
@@ -853,23 +864,12 @@ class Parser {
             $ifStatement->elseClause = $this->parseElseClause($ifStatement);
         }
 
-        return $ifStatement;
-    }
-
-    private function parseExpression($parentNode) {
-        // TODO
-        $token = $this->getCurrentToken();
-        $expression = new Expression();
-        $expression->parent = $parentNode;
-        $expression->children = array();
-
-        if ($token->kind === TokenKind::VariableName) {
-            array_push($expression->children, $token) ;
-        } else {
-            array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
+        $ifStatement->endifKeyword = $this->eatOptional(TokenKind::EndIfKeyword);
+        if ($ifStatement->endifKeyword) {
+            $ifStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
         }
-        $this->advanceToken();
-        return $expression;
+
+        return $ifStatement;
     }
 
     private function parseElseIfClause($parentNode) {
@@ -887,7 +887,12 @@ class Parser {
         $elseIfClause->openParen = $this->eat(TokenKind::OpenParenToken);
         $elseIfClause->expression = $this->parseExpression($elseIfClause);
         $elseIfClause->closeParen = $this->eat(TokenKind::CloseParenToken);
-        $elseIfClause->statement = ($this->parseStatement())($parentNode);
+        if ($this->lookahead(TokenKind::ColonToken)) {
+            $elseIfClause->colon = $this->eat(TokenKind::ColonToken);
+            $elseIfClause->statements = $this->parseList($elseIfClause, ParseContext::IfClause2Elements);
+        } else {
+            $elseIfClause->statements = ($this->parseStatement())($elseIfClause);
+        }
         return $elseIfClause;
     }
 
@@ -895,8 +900,29 @@ class Parser {
         $elseClause = new ElseClauseNode();
         $elseClause->parent = $parentNode;
         $elseClause->elseKeyword = $this->eat(TokenKind::ElseKeyword);
-        $elseClause->statement = ($this->parseStatement())($parentNode); // TODO this is getting ridiculous
+        if ($this->lookahead(TokenKind::ColonToken)) {
+            $elseClause->colon = $this->eat(TokenKind::ColonToken);
+            $elseClause->statements = $this->parseList($elseClause, ParseContext::IfClause2Elements);
+        } else {
+            $elseClause->statements = ($this->parseStatement())($elseClause);
+        }
         return $elseClause;
+    }
+
+    private function parseExpression($parentNode) {
+        // TODO currently only parses variable names to help w/ testing, but eventually implement
+        $token = $this->getCurrentToken();
+        $expression = new Expression();
+        $expression->parent = $parentNode;
+        $expression->children = array();
+
+        if ($token->kind === TokenKind::VariableName) {
+            array_push($expression->children, $token) ;
+        } else {
+            array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
+        }
+        $this->advanceToken();
+        return $expression;
     }
 }
 
@@ -904,5 +930,6 @@ class ParseContext {
     const SourceElements = 0;
     const BlockStatements = 1;
     const ClassMembers = 2;
-    const Count = 3;
+    const IfClause2Elements = 3;
+    const Count = 4;
 }

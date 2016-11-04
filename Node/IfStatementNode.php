@@ -13,12 +13,18 @@ class IfStatementNode extends StatementNode {
     public $expression;
     /**@var Token */
     public $closeParen;
-    /**@var StatementNode */
-    public $statement;
+    /** @var Token | null */
+    public $colon;
+    /**@var StatementNode | StatementNode[] */
+    public $statements;
     /** @var ElseIfClauseNode[] */
     public $elseIfClauses;
-    /**@var ElseClauseNode */
+    /**@var ElseClauseNode | null */
     public $elseClause;
+    /**@var Token | null */
+    public $endifKeyword;
+    /**@var Token | null */
+    public $semicolon;
 
     public function __construct() {
         parent::__construct(NodeKind::IfStatementNode);
