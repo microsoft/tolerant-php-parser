@@ -320,7 +320,7 @@ class Parser {
                     }
                     break;
 
-                // expression-statement
+                // selection-statement
                 case TokenKind::IfKeyword:
                     return $this->parseIfStatement($parentNode);
                 case TokenKind::SwitchKeyword:
@@ -951,13 +951,6 @@ class Parser {
         }
 
         return $switchStatement;
-    }
-
-    private function parseSwitchKeyword($parentNode) {
-        $switchStatement = new SwitchStatement();
-    }
-
-    private function parseSwitchElement() {
     }
 
     private function parseCaseOrDefaultStatement() {
