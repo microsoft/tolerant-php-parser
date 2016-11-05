@@ -198,6 +198,34 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
+    public function testSkippedTokenLengthGreaterThanZero ($filename, $tokensArray) {
+        foreach ($tokensArray as $token) {
+            if ($token->kind === TokenKind::SkippedToken) {
+                $this->assertGreaterThan(
+                    0, $token->length,
+                    "Invariant: SkippedToken length should be greater than 0"
+                );
+            }
+        }
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
+    public function testMissingTokenLengthEqualsZero ($filename, $tokensArray) {
+        foreach ($tokensArray as $token) {
+            if ($token->kind === TokenKind::MissingToken) {
+                $this->assertEquals(
+                    0, $token->length,
+                    "Invariant: MissingToken length should be equal to 0"
+                );
+            }
+        }
+    }
+
+    /**
+     * @dataProvider tokensArrayProvider
+     */
     public function testWithDifferentEncodings($filename, $tokensArray) {
         // TODO test with different encodings
         $this->markTestIncomplete(
