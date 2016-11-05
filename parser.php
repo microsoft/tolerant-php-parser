@@ -22,6 +22,9 @@ use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
+use PhpParser\Node\ForeachKey;
+use PhpParser\Node\ForeachStatement;
+use PhpParser\Node\ForeachValue;
 use PhpParser\Node\ForStatement;
 use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
@@ -208,9 +211,13 @@ class Parser {
                 return
                     $tokenKind === TokenKind::CaseKeyword ||
                     $tokenKind === TokenKind::DefaultKeyword;
+
             case ParseContext::ForStatementElements:
                 return
                     $tokenKind === TokenKind::EndForKeyword;
+
+            case ParseContext::ForeachStatementElements:
+                return $tokenKind === TokenKind::EndForEachKeyword;
         }
         // TODO warn about unhandled parse context
         return false;
@@ -226,6 +233,7 @@ class Parser {
             case ParseContext::CaseStatementElements:
             case ParseContext::WhileStatementElements:
             case ParseContext::ForStatementElements:
+            case ParseContext::ForeachStatementElements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
@@ -247,6 +255,7 @@ class Parser {
             case ParseContext::CaseStatementElements:
             case ParseContext::WhileStatementElements:
             case ParseContext::ForStatementElements:
+            case ParseContext::ForeachStatementElements:
                 return $this->parseStatementFn();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
@@ -351,7 +360,8 @@ class Parser {
                     return $this->parseDoStatement($parentNode);
                 case TokenKind::ForKeyword: // for-statement
                     return $this->parseForStatement($parentNode);
-//                case TokenKind::ForeachKeyword: // foreach-statement
+                case TokenKind::ForeachKeyword: // foreach-statement
+                    return $this->parseForeachStatement($parentNode);
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -1035,7 +1045,7 @@ class Parser {
                 array_push($expression->children, $token);
             } else {
                 array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
-                array_push($expression->children, new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length));
+                return $expression;
             }
             $this->advanceToken();
             return $expression;
@@ -1076,6 +1086,56 @@ class Parser {
         }
         return $forStatement;
     }
+
+    private function parseForeachStatement($parentNode) {
+        $foreachStatement = new ForeachStatement();
+        $foreachStatement->parent = $parentNode;
+        $foreachStatement->foreach = $this->eat(TokenKind::ForeachKeyword);
+        $foreachStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $foreachStatement->forEachCollectionName = $this->parseExpression($foreachStatement);
+        $foreachStatement->asKeyword = $this->eat(TokenKind::AsKeyword);
+        $foreachStatement->foreachKey = $this->tryParseForeachKey($foreachStatement);
+        $foreachStatement->foreachValue = $this->parseForeachValue($foreachStatement);
+        $foreachStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $foreachStatement->colon = $this->eatOptional(TokenKind::ColonToken);
+        if ($foreachStatement->colon !== null) {
+            $foreachStatement->statements = $this->parseList($foreachStatement, ParseContext::ForeachStatementElements);
+            $foreachStatement->endForeach = $this->eat(TokenKind::EndForEachKeyword);
+            $foreachStatement->endForeachSemicolon = $this->eat(TokenKind::SemicolonToken);
+        } else {
+            $foreachStatement->statements = $this->parseStatement($foreachStatement);
+        }
+        return $foreachStatement;
+    }
+
+    private function tryParseForeachKey($parentNode) {
+        if (!$this->isExpressionStart($this->getCurrentToken())) {
+            return null;
+        }
+
+        $startPos = $this->lexer->pos;
+        $startToken = $this->getCurrentToken();
+        $foreachKey = new ForeachKey();
+        $foreachKey->parent = $parentNode;
+        $foreachKey->expression = $this->parseExpression($foreachKey);
+
+        if (!$this->lookahead(TokenKind::DoubleArrowToken)) {
+            $this->lexer->pos = $startPos;
+            $this->token = $startToken;
+            return null;
+        }
+
+        $foreachKey->arrow = $this->eat(TokenKind::DoubleArrowToken);
+        return $foreachKey;
+    }
+
+    private function parseForeachValue($parentNode) {
+        $foreachValue = new ForeachValue();
+        $foreachValue->parent = $parentNode;
+        $foreachValue->ampersand = $this->eatOptional(TokenKind::AmpersandToken);
+        $foreachValue->expression = $this->parseExpression($foreachValue);
+        return $foreachValue;
+    }
 }
 
 class ParseContext {
@@ -1087,5 +1147,6 @@ class ParseContext {
     const CaseStatementElements = 5;
     const WhileStatementElements = 6;
     const ForStatementElements = 7;
-    const Count = 8;
+    const ForeachStatementElements = 8;
+    const Count = 9;
 }

@@ -13,12 +13,51 @@
                     },
                     "statementList": [
                         {
-                            "DoWhileStatementNode": {
-                                "do": {
-                                    "kind": "DoKeyword",
+                            "ForeachStatementNode": {
+                                "foreach": {
+                                    "kind": "ForeachKeyword",
+                                    "textLength": 7
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "forEachCollectionName": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "asKeyword": {
+                                    "kind": "AsKeyword",
                                     "textLength": 2
                                 },
-                                "statement": {
+                                "foreachKey": null,
+                                "foreachValue": {
+                                    "ForeachValueNode": {
+                                        "ampersand": null,
+                                        "expression": {
+                                            "Expression": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
@@ -46,38 +85,14 @@
                                                 }
                                             },
                                             {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
                                             }
                                         ]
                                     }
                                 },
-                                "whileToken": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                },
-                                "openParen": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                },
-                                "expression": {
-                                    "Expression": {
-                                        "children": [
-                                            {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
-                                            }
-                                        ]
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
+                                "endForeach": null,
+                                "endForeachSemicolon": null
                             }
                         }
                     ],

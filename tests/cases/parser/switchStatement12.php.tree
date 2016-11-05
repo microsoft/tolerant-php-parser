@@ -54,17 +54,13 @@
                                                         {
                                                             "kind": "MissingToken",
                                                             "textLength": 0
-                                                        },
-                                                        {
-                                                            "kind": "SkippedToken",
-                                                            "textLength": 1
                                                         }
                                                     ]
                                                 }
                                             },
                                             "defaultLabelTerminator": {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
+                                                "kind": "ColonToken",
+                                                "textLength": 1
                                             },
                                             "statementList": []
                                         }

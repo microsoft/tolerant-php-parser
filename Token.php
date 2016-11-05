@@ -186,6 +186,7 @@ class TokenKind {
     const DotDotDotToken = 254;
     const BackslashToken = 255;
     const ColonColonToken = 256;
+    const DoubleArrowToken = 257; // TODO missing from spec
 
     const DecimalLiteralToken = 301;
     const OctalLiteralToken = 302;

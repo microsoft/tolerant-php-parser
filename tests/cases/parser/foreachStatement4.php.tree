@@ -1,0 +1,114 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ForeachStatementNode": {
+                                "foreach": {
+                                    "kind": "ForeachKeyword",
+                                    "textLength": 7
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "forEachCollectionName": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "asKeyword": {
+                                    "kind": "AsKeyword",
+                                    "textLength": 2
+                                },
+                                "foreachKey": {
+                                    "ForeachKeyNode": {
+                                        "expression": {
+                                            "Expression": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "arrow": {
+                                            "kind": "DoubleArrowToken",
+                                            "textLength": 2
+                                        }
+                                    }
+                                },
+                                "foreachValue": {
+                                    "ForeachValueNode": {
+                                        "ampersand": {
+                                            "kind": "AmpersandToken",
+                                            "textLength": 1
+                                        },
+                                        "expression": {
+                                            "Expression": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": {
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "endForeach": null,
+                                "endForeachSemicolon": null
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

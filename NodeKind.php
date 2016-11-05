@@ -31,4 +31,7 @@ class NodeKind {
     const WhileStatementNode = 25;
     const DoWhileStatementNode = 26;
     const ForStatementNode = 27;
+    const ForeachStatementNode = 28;
+    const ForeachKeyNode = 29;
+    const ForeachValueNode = 30;
 }

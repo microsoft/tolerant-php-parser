@@ -28,10 +28,6 @@
                                             {
                                                 "kind": "MissingToken",
                                                 "textLength": 0
-                                            },
-                                            {
-                                                "kind": "SkippedToken",
-                                                "textLength": 0
                                             }
                                         ]
                                     }

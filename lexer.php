@@ -819,6 +819,7 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "}" => TokenKind::CloseBraceToken,
     "." => TokenKind::DotToken,
     "->" => TokenKind::ArrowToken,
+    "=>" => TokenKind::DoubleArrowToken,
     "++" => TokenKind::PlusPlusToken,
     "--" => TokenKind::MinusMinusToken,
     "**" => TokenKind::AsteriskAsteriskToken,
