@@ -1,0 +1,97 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "DoWhileStatementNode": {
+                                "do": {
+                                    "kind": "DoKeyword",
+                                    "textLength": 2
+                                },
+                                "statement": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "EmptyStatement": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "EmptyStatement": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            }
+                                        ]
+                                    }
+                                },
+                                "whileToken": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "openParen": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            {
+                                                "kind": "SkippedToken",
+                                                "textLength": 0
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

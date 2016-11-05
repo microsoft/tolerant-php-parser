@@ -17,6 +17,7 @@ use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\DelimitedList;
+use PhpParser\Node\DoStatement;
 use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
@@ -336,7 +337,8 @@ class Parser {
                 // iteration-statement
                 case TokenKind::WhileKeyword: // while-statement
                     return $this->parseWhileStatement($parentNode);
-//                case TokenKind::DoKeyword: // do-statement
+                case TokenKind::DoKeyword: // do-statement
+                    return $this->parseDoStatement($parentNode);
 //                case TokenKind::ForKeyword: // for-statement
 //                case TokenKind::ForeachKeyword: // foreach-statement
 
@@ -1015,6 +1017,19 @@ class Parser {
         }
         $this->advanceToken();
         return $expression;
+    }
+
+    private function parseDoStatement($parentNode) {
+        $doStatement = new DoStatement();
+        $doStatement->parent = $parentNode;
+        $doStatement->do = $this->eat(TokenKind::DoKeyword);
+        $doStatement->statement = ($this->parseStatement())($doStatement);
+        $doStatement->whileToken = $this->eat(TokenKind::WhileKeyword);
+        $doStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $doStatement->expression = $this->parseExpression($doStatement);
+        $doStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $doStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        return $doStatement;
     }
 }
 

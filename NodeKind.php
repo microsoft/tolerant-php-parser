@@ -29,4 +29,5 @@ class NodeKind {
     const DefaultStatementNode = 23;
     const SwitchStatementNode = 24;
     const WhileStatementNode = 25;
+    const DoWhileStatementNode = 26;
 }
