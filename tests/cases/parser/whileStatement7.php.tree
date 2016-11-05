@@ -1,0 +1,62 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "WhileStatementNode": {
+                                "whileToken": {
+                                    "kind": "WhileKeyword",
+                                    "textLength": 5
+                                },
+                                "openParen": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            {
+                                                "kind": "SkippedToken",
+                                                "textLength": 0
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "colon": null,
+                                "statements": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                },
+                                "endWhile": null,
+                                "semicolon": null
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

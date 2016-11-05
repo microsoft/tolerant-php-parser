@@ -35,6 +35,7 @@ use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
 use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
+use PhpParser\Node\WhileStatement;
 
 class Parser {
 
@@ -198,6 +199,9 @@ class Parser {
                     $tokenKind === TokenKind::ElseIfKeyword ||
                     $tokenKind === TokenKind::EndIfKeyword;
 
+            case ParseContext::WhileStatementElements:
+                Return $tokenKind === TokenKind::EndWhileKeyword;
+
             case ParseContext::CaseStatementElements:
                 return
                     $tokenKind === TokenKind::CaseKeyword ||
@@ -208,12 +212,14 @@ class Parser {
     }
 
     function isValidListElement($context, Token $token) {
+
         // TODO
         switch ($context) {
             case ParseContext::SourceElements:
             case ParseContext::BlockStatements:
             case ParseContext::IfClause2Elements:
             case ParseContext::CaseStatementElements:
+            case ParseContext::WhileStatementElements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
@@ -233,6 +239,7 @@ class Parser {
             case ParseContext::BlockStatements:
             case ParseContext::IfClause2Elements:
             case ParseContext::CaseStatementElements:
+            case ParseContext::WhileStatementElements:
                 return $this->parseStatement();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
@@ -325,6 +332,13 @@ class Parser {
                     return $this->parseIfStatement($parentNode);
                 case TokenKind::SwitchKeyword:
                     return $this->parseSwitchStatement($parentNode);
+
+                // iteration-statement
+                case TokenKind::WhileKeyword: // while-statement
+                    return $this->parseWhileStatement($parentNode);
+//                case TokenKind::DoKeyword: // do-statement
+//                case TokenKind::ForKeyword: // for-statement
+//                case TokenKind::ForeachKeyword: // foreach-statement
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -968,7 +982,23 @@ class Parser {
         };
     }
 
-    
+    private function parseWhileStatement($parentNode) {
+        $whileStatement = new WhileStatement();
+        $whileStatement->parent = $parentNode;
+        $whileStatement->whileToken = $this->eat(TokenKind::WhileKeyword);
+        $whileStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $whileStatement->expression = $this->parseExpression($whileStatement);
+        $whileStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $whileStatement->colon = $this->eatOptional(TokenKind::ColonToken);
+        if ($whileStatement->colon !== null) {
+            $whileStatement->statements = $this->parseList($whileStatement, ParseContext::WhileStatementElements);
+            $whileStatement->endWhile = $this->eat(TokenKind::EndWhileKeyword);
+            $whileStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        } else {
+            $whileStatement->statements = ($this->parseStatement())($whileStatement);
+        }
+        return $whileStatement;
+    }
 
     private function parseExpression($parentNode) {
         // TODO currently only parses variable names to help w/ testing, but eventually implement
@@ -995,5 +1025,6 @@ class ParseContext {
     const IfClause2Elements = 3;
     const SwitchStatementElements = 4;
     const CaseStatementElements = 5;
-    const Count = 6;
+    const WhileStatementElements = 6;
+    const Count = 7;
 }

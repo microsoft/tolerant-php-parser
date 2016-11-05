@@ -1,0 +1,68 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "WhileStatementNode": {
+                                "whileToken": {
+                                    "kind": "WhileKeyword",
+                                    "textLength": 5
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 8
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "endWhile": null,
+                                "semicolon": null
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
