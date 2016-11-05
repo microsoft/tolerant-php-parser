@@ -98,7 +98,7 @@
                                                                                             "textLength": 1
                                                                                         },
                                                                                         {
-                                                                                            "kind": "SkippedToken",
+                                                                                            "kind": "VariableName",
                                                                                             "textLength": 5
                                                                                         },
                                                                                         {

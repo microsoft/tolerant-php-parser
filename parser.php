@@ -22,6 +22,7 @@ use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
+use PhpParser\Node\ForStatement;
 use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
@@ -207,6 +208,9 @@ class Parser {
                 return
                     $tokenKind === TokenKind::CaseKeyword ||
                     $tokenKind === TokenKind::DefaultKeyword;
+            case ParseContext::ForStatementElements:
+                return
+                    $tokenKind === TokenKind::EndForKeyword;
         }
         // TODO warn about unhandled parse context
         return false;
@@ -221,6 +225,7 @@ class Parser {
             case ParseContext::IfClause2Elements:
             case ParseContext::CaseStatementElements:
             case ParseContext::WhileStatementElements:
+            case ParseContext::ForStatementElements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
@@ -241,7 +246,8 @@ class Parser {
             case ParseContext::IfClause2Elements:
             case ParseContext::CaseStatementElements:
             case ParseContext::WhileStatementElements:
-                return $this->parseStatement();
+            case ParseContext::ForStatementElements:
+                return $this->parseStatementFn();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
 
@@ -314,7 +320,11 @@ class Parser {
         $this->currentParseContext |= 1 << $context;
     }
 
-    function parseStatement() {
+    function parseStatement($parentNode) {
+        return ($this->parseStatementFn())($parentNode);
+    }
+
+    function parseStatementFn() {
         return function($parentNode) {
             switch($this->getCurrentToken()->kind) {
                 // compound-statement
@@ -339,7 +349,8 @@ class Parser {
                     return $this->parseWhileStatement($parentNode);
                 case TokenKind::DoKeyword: // do-statement
                     return $this->parseDoStatement($parentNode);
-//                case TokenKind::ForKeyword: // for-statement
+                case TokenKind::ForKeyword: // for-statement
+                    return $this->parseForStatement($parentNode);
 //                case TokenKind::ForeachKeyword: // foreach-statement
 
                 // function-declaration
@@ -562,13 +573,19 @@ class Parser {
     }
 
     function isExpressionStart($token) {
-        switch($token->kind) {
-            case TokenKind::NoSubstitutionTemplateLiteral:
-            case TokenKind::TemplateStringStart:
-            return true;
-        }
+        return ($this->isExpressionStartFn())($token);
+    }
 
-        return false;
+    function isExpressionStartFn() {
+        return function($token) {
+            switch($token->kind) {
+                case TokenKind::NoSubstitutionTemplateLiteral:
+                case TokenKind::TemplateStringStart:
+                case TokenKind::VariableName:
+                    return true;
+            }
+            return false;
+        };
     }
 
     private function parseTemplateString($parentNode) {
@@ -863,7 +880,7 @@ class Parser {
         $namedLabelStatement->parent = $parentNode;
         $namedLabelStatement->name = $this->eat(TokenKind::Name);
         $namedLabelStatement->colon = $this->eat(TokenKind::ColonToken);
-        $namedLabelStatement->statement = ($this->parseStatement())($namedLabelStatement); // TODO this is ugly
+        $namedLabelStatement->statement = $this->parseStatement($namedLabelStatement); // TODO this is ugly
         return $namedLabelStatement;
     }
 
@@ -893,7 +910,7 @@ class Parser {
             $ifStatement->colon = $this->eat(TokenKind::ColonToken);
             $ifStatement->statements = $this->parseList($ifStatement, ParseContext::IfClause2Elements);
         } else {
-            $ifStatement->statements = ($this->parseStatement())($ifStatement);
+            $ifStatement->statements = $this->parseStatement($ifStatement);
         }
         $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
         while ($this->lookahead(TokenKind::ElseKeyword, TokenKind::IfKeyword) || $this->lookahead(TokenKind::ElseIfKeyword)) {
@@ -931,7 +948,7 @@ class Parser {
             $elseIfClause->colon = $this->eat(TokenKind::ColonToken);
             $elseIfClause->statements = $this->parseList($elseIfClause, ParseContext::IfClause2Elements);
         } else {
-            $elseIfClause->statements = ($this->parseStatement())($elseIfClause);
+            $elseIfClause->statements = $this->parseStatement($elseIfClause);
         }
         return $elseIfClause;
     }
@@ -944,7 +961,7 @@ class Parser {
             $elseClause->colon = $this->eat(TokenKind::ColonToken);
             $elseClause->statements = $this->parseList($elseClause, ParseContext::IfClause2Elements);
         } else {
-            $elseClause->statements = ($this->parseStatement())($elseClause);
+            $elseClause->statements = $this->parseStatement($elseClause);
         }
         return $elseClause;
     }
@@ -997,39 +1014,67 @@ class Parser {
             $whileStatement->endWhile = $this->eat(TokenKind::EndWhileKeyword);
             $whileStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
         } else {
-            $whileStatement->statements = ($this->parseStatement())($whileStatement);
+            $whileStatement->statements = $this->parseStatement($whileStatement);
         }
         return $whileStatement;
     }
 
-    private function parseExpression($parentNode) {
-        // TODO currently only parses variable names to help w/ testing, but eventually implement
-        $token = $this->getCurrentToken();
-        $expression = new Expression();
-        $expression->parent = $parentNode;
-        $expression->children = array();
+    function parseExpression($parentNode) {
+        return ($this->parseExpressionFn())($parentNode);
+    }
 
-        if ($token->kind === TokenKind::VariableName) {
-            array_push($expression->children, $token) ;
-        } else {
-            array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
-            array_push($expression->children, new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length));
-        }
-        $this->advanceToken();
-        return $expression;
+    function parseExpressionFn() {
+        return function ($parentNode) {
+            // TODO currently only parses variable names to help w/ testing, but eventually implement
+            $token = $this->getCurrentToken();
+            $expression = new Expression();
+            $expression->parent = $parentNode;
+            $expression->children = array();
+
+            if ($token->kind === TokenKind::VariableName) {
+                array_push($expression->children, $token);
+            } else {
+                array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
+                array_push($expression->children, new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length));
+            }
+            $this->advanceToken();
+            return $expression;
+        };
     }
 
     private function parseDoStatement($parentNode) {
         $doStatement = new DoStatement();
         $doStatement->parent = $parentNode;
         $doStatement->do = $this->eat(TokenKind::DoKeyword);
-        $doStatement->statement = ($this->parseStatement())($doStatement);
+        $doStatement->statement = $this->parseStatement($doStatement);
         $doStatement->whileToken = $this->eat(TokenKind::WhileKeyword);
         $doStatement->openParen = $this->eat(TokenKind::OpenParenToken);
         $doStatement->expression = $this->parseExpression($doStatement);
         $doStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
         $doStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
         return $doStatement;
+    }
+
+    private function parseForStatement($parentNode) {
+        $forStatement = new ForStatement();
+        $forStatement->parent = $parentNode;
+        $forStatement->for = $this->eat(TokenKind::ForKeyword);
+        $forStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $forStatement->forInitializer = $this->parseDelimitedList(TokenKind::CommaToken, $this->isExpressionStartFn(), $this->parseExpressionFn(), $forStatement);
+        $forStatement->exprGroupSemicolon1 = $this->eat(TokenKind::SemicolonToken);
+        $forStatement->forControl = $this->parseDelimitedList(TokenKind::CommaToken, $this->isExpressionStartFn(), $this->parseExpressionFn(), $forStatement);
+        $forStatement->exprGroupSemicolon2 = $this->eat(TokenKind::SemicolonToken);
+        $forStatement->forEndOfLoop = $this->parseDelimitedList(TokenKind::CommaToken, $this->isExpressionStartFn(), $this->parseExpressionFn(), $forStatement);
+        $forStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $forStatement->colon = $this->eatOptional(TokenKind::ColonToken);
+        if ($forStatement->colon !== null) {
+            $forStatement->statements = $this->parseList($forStatement, ParseContext::ForStatementElements);
+            $forStatement->endFor = $this->eat(TokenKind::EndForKeyword);
+            $forStatement->endForSemicolon = $this->eat(TokenKind::SemicolonToken);
+        } else {
+            $forStatement->statements = $this->parseStatement($forStatement);
+        }
+        return $forStatement;
     }
 }
 
@@ -1041,5 +1086,6 @@ class ParseContext {
     const SwitchStatementElements = 4;
     const CaseStatementElements = 5;
     const WhileStatementElements = 6;
-    const Count = 7;
+    const ForStatementElements = 7;
+    const Count = 8;
 }

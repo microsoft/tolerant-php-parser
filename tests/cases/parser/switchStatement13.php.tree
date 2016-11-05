@@ -89,7 +89,7 @@
                                             },
                                             "statementList": [
                                                 {
-                                                    "kind": "SkippedToken",
+                                                    "kind": "VariableName",
                                                     "textLength": 2
                                                 },
                                                 {

@@ -13,7 +13,7 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
+                            "kind": "VariableName",
                             "textLength": 8
                         },
                         {
@@ -103,7 +103,7 @@
                             "textLength": 4
                         },
                         {
-                            "kind": "SkippedToken",
+                            "kind": "VariableName",
                             "textLength": 8
                         },
                         {

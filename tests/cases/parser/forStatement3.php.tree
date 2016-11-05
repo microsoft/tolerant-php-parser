@@ -1,0 +1,120 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ForStatementNode": {
+                                "for": {
+                                    "kind": "ForKeyword",
+                                    "textLength": 3
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "forInitializer": {
+                                    "DelimitedList": {
+                                        "children": [
+                                            {
+                                                "Expression": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "exprGroupSemicolon1": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                },
+                                "forControl": {
+                                    "DelimitedList": {
+                                        "children": [
+                                            {
+                                                "Expression": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "exprGroupSemicolon2": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                },
+                                "forEndOfLoop": {
+                                    "DelimitedList": {
+                                        "children": [
+                                            {
+                                                "Expression": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": {
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "endFor": null,
+                                "endForSemicolon": null
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
