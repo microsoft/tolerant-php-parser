@@ -37,4 +37,5 @@ class NodeKind {
     const GotoStatementNode = 31;
     const BreakOrContinueStatementNode = 32;
     const ReturnStatement = 33;
+    const ThrowStatement = 34;
 }

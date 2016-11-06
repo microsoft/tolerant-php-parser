@@ -43,6 +43,7 @@ use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
 use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
+use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\WhileStatement;
 
 class Parser {
@@ -374,7 +375,8 @@ class Parser {
                     return $this->parseBreakOrContinueStatement($parentNode);
                 case TokenKind::ReturnKeyword: // return-statement
                     return $this->parseReturnStatement($parentNode);
-//                case TokenKind::ThrowKeyword: // throw-statement
+                case TokenKind::ThrowKeyword: // throw-statement
+                    return $this->parseThrowStatement($parentNode);
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -1189,11 +1191,22 @@ class Parser {
         $returnStatement->parent = $parentNode;
         $returnStatement->returnKeyword = $this->eat(TokenKind::ReturnKeyword);
         if ($this->isExpressionStart($this->getCurrentToken())) {
-            $returnStatement->expression = $this->parseExpression($returnStatement); // TODO error for failures to parse expressions when not optional
+            $returnStatement->expression = $this->parseExpression($returnStatement);
         }
         $returnStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
 
         return $returnStatement;
+    }
+
+    private function parseThrowStatement($parentNode) {
+        $throwStatement = new ThrowStatement();
+        $throwStatement->parent = $parentNode;
+        $throwStatement->throwKeyword = $this->eat(TokenKind::ThrowKeyword);
+        // TODO error for failures to parse expressions when not optional
+        $throwStatement->expression = $this->parseExpression($throwStatement);
+        $throwStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $throwStatement;
     }
 }
 
