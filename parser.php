@@ -16,7 +16,7 @@ spl_autoload_register(function ($class) {
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
-use PhpParser\Node\ContinueStatement;
+use PhpParser\Node\BreakOrContinueStatement;
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\DoStatement;
 use PhpParser\Node\ElseClauseNode;
@@ -369,8 +369,8 @@ class Parser {
                 case TokenKind::GotoKeyword: // goto-statement
                     return $this->parseGotoStatement($parentNode);
                 case TokenKind::ContinueKeyword: // continue-statement
-                    return $this->parseContinueStatement($parentNode);
-//                case TokenKind::BreakKeyword: // break-statement
+                case TokenKind::BreakKeyword: // break-statement
+                    return $this->parseBreakOrContinueStatement($parentNode);
 //                case TokenKind::ReturnKeyword: // return-statement
 //                case TokenKind::ThrowKeyword: // throw-statement
 
@@ -1157,11 +1157,11 @@ class Parser {
         return $gotoStatement;
     }
 
-    private function parseContinueStatement($parentNode) {
+    private function parseBreakOrContinueStatement($parentNode) {
         // TODO should be error checking if on top level
-        $continueStatement = new ContinueStatement();
+        $continueStatement = new BreakOrContinueStatement();
         $continueStatement->parent = $parentNode;
-        $continueStatement->continue = $this->eat(TokenKind::ContinueKeyword);
+        $continueStatement->breakOrContinueKeyword = $this->eat(TokenKind::ContinueKeyword, TokenKind::BreakKeyword);
 
         // TODO this level of granularity is unnecessary - integer-literal should be sufficient
         $continueStatement->breakoutLevel =

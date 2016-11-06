@@ -112,8 +112,8 @@
                                                                                         "textLength": 1
                                                                                     },
                                                                                     {
-                                                                                        "ContinueStatementNode": {
-                                                                                            "continue": {
+                                                                                        "BreakOrContinueStatementNode": {
+                                                                                            "breakOrContinueKeyword": {
                                                                                                 "kind": "ContinueKeyword",
                                                                                                 "textLength": 8
                                                                                             },

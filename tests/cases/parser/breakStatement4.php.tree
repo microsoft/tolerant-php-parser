@@ -114,12 +114,12 @@
                                                                                     {
                                                                                         "BreakOrContinueStatementNode": {
                                                                                             "breakOrContinueKeyword": {
-                                                                                                "kind": "ContinueKeyword",
-                                                                                                "textLength": 8
+                                                                                                "kind": "BreakKeyword",
+                                                                                                "textLength": 5
                                                                                             },
                                                                                             "breakoutLevel": {
-                                                                                                "kind": "BinaryLiteralToken",
-                                                                                                "textLength": 4
+                                                                                                "kind": "OctalLiteralToken",
+                                                                                                "textLength": 2
                                                                                             },
                                                                                             "semicolon": {
                                                                                                 "kind": "SemicolonToken",

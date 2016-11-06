@@ -48,13 +48,16 @@
                                             {
                                                 "BreakOrContinueStatementNode": {
                                                     "breakOrContinueKeyword": {
-                                                        "kind": "ContinueKeyword",
-                                                        "textLength": 8
+                                                        "kind": "BreakKeyword",
+                                                        "textLength": 5
                                                     },
-                                                    "breakoutLevel": null,
+                                                    "breakoutLevel": {
+                                                        "kind": "HexadecimalLiteralToken",
+                                                        "textLength": 3
+                                                    },
                                                     "semicolon": {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
                                                     }
                                                 }
                                             },

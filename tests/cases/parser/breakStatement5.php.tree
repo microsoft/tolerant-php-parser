@@ -79,63 +79,19 @@
                                                                     "textLength": 1
                                                                 },
                                                                 {
-                                                                    "ForStatementNode": {
-                                                                        "for": {
-                                                                            "kind": "ForKeyword",
+                                                                    "BreakOrContinueStatementNode": {
+                                                                        "breakOrContinueKeyword": {
+                                                                            "kind": "BreakKeyword",
+                                                                            "textLength": 5
+                                                                        },
+                                                                        "breakoutLevel": {
+                                                                            "kind": "FloatingLiteralToken",
                                                                             "textLength": 3
                                                                         },
-                                                                        "openParen": {
-                                                                            "kind": "OpenParenToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "forInitializer": null,
-                                                                        "exprGroupSemicolon1": {
+                                                                        "semicolon": {
                                                                             "kind": "SemicolonToken",
                                                                             "textLength": 1
-                                                                        },
-                                                                        "forControl": null,
-                                                                        "exprGroupSemicolon2": {
-                                                                            "kind": "SemicolonToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "forEndOfLoop": null,
-                                                                        "closeParen": {
-                                                                            "kind": "CloseParenToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "colon": null,
-                                                                        "statements": {
-                                                                            "CompoundStatementNode": {
-                                                                                "children": [
-                                                                                    {
-                                                                                        "kind": "OpenBraceToken",
-                                                                                        "textLength": 1
-                                                                                    },
-                                                                                    {
-                                                                                        "BreakOrContinueStatementNode": {
-                                                                                            "breakOrContinueKeyword": {
-                                                                                                "kind": "ContinueKeyword",
-                                                                                                "textLength": 8
-                                                                                            },
-                                                                                            "breakoutLevel": {
-                                                                                                "kind": "BinaryLiteralToken",
-                                                                                                "textLength": 4
-                                                                                            },
-                                                                                            "semicolon": {
-                                                                                                "kind": "SemicolonToken",
-                                                                                                "textLength": 1
-                                                                                            }
-                                                                                        }
-                                                                                    },
-                                                                                    {
-                                                                                        "kind": "CloseBraceToken",
-                                                                                        "textLength": 1
-                                                                                    }
-                                                                                ]
-                                                                            }
-                                                                        },
-                                                                        "endFor": null,
-                                                                        "endForSemicolon": null
+                                                                        }
                                                                     }
                                                                 },
                                                                 {

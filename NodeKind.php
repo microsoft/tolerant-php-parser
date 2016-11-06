@@ -35,5 +35,5 @@ class NodeKind {
     const ForeachKeyNode = 29;
     const ForeachValueNode = 30;
     const GotoStatementNode = 31;
-    const ContinueStatementNode = 32;
+    const BreakOrContinueStatementNode = 32;
 }
