@@ -16,6 +16,7 @@ spl_autoload_register(function ($class) {
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
+use PhpParser\Node\ContinueStatement;
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\DoStatement;
 use PhpParser\Node\ElseClauseNode;
@@ -367,7 +368,8 @@ class Parser {
                 // jump-statement
                 case TokenKind::GotoKeyword: // goto-statement
                     return $this->parseGotoStatement($parentNode);
-//                case TokenKind::ContinueKeyword: // continue-statement
+                case TokenKind::ContinueKeyword: // continue-statement
+                    return $this->parseContinueStatement($parentNode);
 //                case TokenKind::BreakKeyword: // break-statement
 //                case TokenKind::ReturnKeyword: // return-statement
 //                case TokenKind::ThrowKeyword: // throw-statement
@@ -1153,6 +1155,31 @@ class Parser {
         $gotoStatement->name = $this->eat(TokenKind::Name);
         $gotoStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
         return $gotoStatement;
+    }
+
+    private function parseContinueStatement($parentNode) {
+        // TODO should be error checking if on top level
+        $continueStatement = new ContinueStatement();
+        $continueStatement->parent = $parentNode;
+        $continueStatement->continue = $this->eat(TokenKind::ContinueKeyword);
+
+        // TODO this level of granularity is unnecessary - integer-literal should be sufficient
+        $continueStatement->breakoutLevel =
+            $this->eatOptional(
+                TokenKind::BinaryLiteralToken,
+                TokenKind::DecimalLiteralToken,
+                TokenKind::InvalidHexadecimalLiteral,
+                TokenKind::InvalidBinaryLiteral,
+                TokenKind::FloatingLiteralToken,
+                TokenKind::HexadecimalLiteralToken,
+                TokenKind::OctalLiteralToken,
+                TokenKind::InvalidOctalLiteralToken,
+                // TODO the parser should be permissive of floating literals, but rule validation should produce error
+                TokenKind::FloatingLiteralToken
+                );
+        $continueStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $continueStatement;
     }
 }
 

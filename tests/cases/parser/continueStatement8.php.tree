@@ -1,0 +1,85 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ForStatementNode": {
+                                "for": {
+                                    "kind": "ForKeyword",
+                                    "textLength": 3
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "forInitializer": null,
+                                "exprGroupSemicolon1": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                },
+                                "forControl": null,
+                                "exprGroupSemicolon2": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                },
+                                "forEndOfLoop": null,
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "ContinueStatementNode": {
+                                                    "continue": {
+                                                        "kind": "ContinueKeyword",
+                                                        "textLength": 8
+                                                    },
+                                                    "breakoutLevel": {
+                                                        "kind": "HexadecimalLiteralToken",
+                                                        "textLength": 3
+                                                    },
+                                                    "semicolon": {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "endFor": null,
+                                "endForSemicolon": null
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
