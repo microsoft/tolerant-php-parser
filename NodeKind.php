@@ -34,4 +34,5 @@ class NodeKind {
     const ForeachStatementNode = 28;
     const ForeachKeyNode = 29;
     const ForeachValueNode = 30;
+    const GotoStatementNode = 31;
 }

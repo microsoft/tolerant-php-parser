@@ -29,6 +29,7 @@ use PhpParser\Node\ForStatement;
 use PhpParser\Node\Function_;
 use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
+use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\MethodNode;
 use PhpParser\Node\NamedLabelStatementNode;
@@ -362,6 +363,14 @@ class Parser {
                     return $this->parseForStatement($parentNode);
                 case TokenKind::ForeachKeyword: // foreach-statement
                     return $this->parseForeachStatement($parentNode);
+
+                // jump-statement
+                case TokenKind::GotoKeyword: // goto-statement
+                    return $this->parseGotoStatement($parentNode);
+//                case TokenKind::ContinueKeyword: // continue-statement
+//                case TokenKind::BreakKeyword: // break-statement
+//                case TokenKind::ReturnKeyword: // return-statement
+//                case TokenKind::ThrowKeyword: // throw-statement
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -1135,6 +1144,15 @@ class Parser {
         $foreachValue->ampersand = $this->eatOptional(TokenKind::AmpersandToken);
         $foreachValue->expression = $this->parseExpression($foreachValue);
         return $foreachValue;
+    }
+
+    private function parseGotoStatement($parentNode) {
+        $gotoStatement = new GotoStatement();
+        $gotoStatement->parent = $parentNode;
+        $gotoStatement->goto = $this->eat(TokenKind::GotoKeyword);
+        $gotoStatement->name = $this->eat(TokenKind::Name);
+        $gotoStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        return $gotoStatement;
     }
 }
 

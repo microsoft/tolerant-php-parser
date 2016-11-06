@@ -1,0 +1,57 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "GotoStatementNode": {
+                                "goto": {
+                                    "kind": "GotoKeyword",
+                                    "textLength": 4
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 4
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        },
+                        {
+                            "GotoStatementNode": {
+                                "goto": {
+                                    "kind": "GotoKeyword",
+                                    "textLength": 4
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 5
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
