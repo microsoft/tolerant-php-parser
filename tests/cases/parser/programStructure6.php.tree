@@ -72,8 +72,17 @@
                                                 "textLength": 1
                                             },
                                             {
-                                                "kind": "ReturnKeyword",
-                                                "textLength": 6
+                                                "ReturnStatement": {
+                                                    "returnKeyword": {
+                                                        "kind": "ReturnKeyword",
+                                                        "textLength": 6
+                                                    },
+                                                    "expression": null,
+                                                    "semicolon": {
+                                                        "kind": "MissingToken",
+                                                        "textLength": 0
+                                                    }
+                                                }
                                             },
                                             {
                                                 "kind": "SkippedToken",

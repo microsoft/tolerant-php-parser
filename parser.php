@@ -38,6 +38,7 @@ use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
+use PhpParser\Node\ReturnStatement;
 use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
 use PhpParser\Node\SwitchStatementNode;
@@ -371,7 +372,8 @@ class Parser {
                 case TokenKind::ContinueKeyword: // continue-statement
                 case TokenKind::BreakKeyword: // break-statement
                     return $this->parseBreakOrContinueStatement($parentNode);
-//                case TokenKind::ReturnKeyword: // return-statement
+                case TokenKind::ReturnKeyword: // return-statement
+                    return $this->parseReturnStatement($parentNode);
 //                case TokenKind::ThrowKeyword: // throw-statement
 
                 // function-declaration
@@ -1180,6 +1182,18 @@ class Parser {
         $continueStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
 
         return $continueStatement;
+    }
+
+    private function parseReturnStatement($parentNode) {
+        $returnStatement = new ReturnStatement();
+        $returnStatement->parent = $parentNode;
+        $returnStatement->returnKeyword = $this->eat(TokenKind::ReturnKeyword);
+        if ($this->isExpressionStart($this->getCurrentToken())) {
+            $returnStatement->expression = $this->parseExpression($returnStatement); // TODO error for failures to parse expressions when not optional
+        }
+        $returnStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $returnStatement;
     }
 }
 
