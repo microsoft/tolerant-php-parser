@@ -18,6 +18,8 @@ use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\BreakOrContinueStatement;
+use PhpParser\Node\DeclareDirective;
+use PhpParser\Node\DeclareStatement;
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\DoStatement;
 use PhpParser\Node\ElseClauseNode;
@@ -225,6 +227,9 @@ class Parser {
 
             case ParseContext::ForeachStatementElements:
                 return $tokenKind === TokenKind::EndForEachKeyword;
+
+            case ParseContext::DeclareStatementElements:
+                return $tokenKind === TokenKind::EndDeclareKeyword;
         }
         // TODO warn about unhandled parse context
         return false;
@@ -241,6 +246,7 @@ class Parser {
             case ParseContext::WhileStatementElements:
             case ParseContext::ForStatementElements:
             case ParseContext::ForeachStatementElements:
+            case ParseContext::DeclareStatementElements:
                 return $this->isStatementStart($token);
 
             case ParseContext::ClassMembers:
@@ -263,6 +269,7 @@ class Parser {
             case ParseContext::WhileStatementElements:
             case ParseContext::ForStatementElements:
             case ParseContext::ForeachStatementElements:
+            case ParseContext::DeclareStatementElements:
                 return $this->parseStatementFn();
             case ParseContext::ClassMembers:
                 return $this->parseClassElement();
@@ -383,6 +390,9 @@ class Parser {
 
                 case TokenKind::TryKeyword: // try-statement
                     return $this->parseTryStatement($parentNode);
+
+                case TokenKind::DeclareKeyword: // declare-statement
+                    return $this->parseDeclareStatement($parentNode);
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -1254,6 +1264,52 @@ class Parser {
 
         return $finallyClause;
     }
+
+    private function parseDeclareStatement($parentNode) {
+        $declareStatement = new DeclareStatement();
+        $declareStatement->parent = $parentNode;
+        $declareStatement->declareKeyword = $this->eat(TokenKind::DeclareKeyword);
+        $declareStatement->openParen = $this->eat(TokenKind::OpenParenToken);
+        $declareStatement->declareDirective = $this->parseDeclareDirective($declareStatement);
+        $declareStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        if ($this->lookahead(TokenKind::SemicolonToken)) {
+            $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        } else if ($this->lookahead(TokenKind::ColonToken)) {
+            $declareStatement->colon = $this->eat(TokenKind::ColonToken);
+            $declareStatement->statements = $this->parseList($declareStatement, ParseContext::DeclareStatementElements);
+            $declareStatement->enddeclareKeyword = $this->eat(TokenKind::EndDeclareKeyword);
+            $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        } else {
+            $declareStatement->statements = $this->parseStatement($declareStatement);
+        }
+
+        return $declareStatement;
+    }
+
+    private function parseDeclareDirective($parentNode) {
+        $declareDirective = new DeclareDirective();
+        $declareDirective->parent = $parentNode;
+        $declareDirective->name = $this->eat(TokenKind::Name);
+        $declareDirective->equals = $this->eat(TokenKind::EqualsToken);
+        $declareDirective->literal =
+            $this->eat(
+                TokenKind::DecimalLiteralToken,
+                TokenKind::OctalLiteralToken,
+                TokenKind::HexadecimalLiteralToken,
+                TokenKind::BinaryLiteralToken,
+                TokenKind::FloatingLiteralToken,
+                TokenKind::InvalidOctalLiteralToken,
+                TokenKind::InvalidHexadecimalLiteral,
+                TokenKind::InvalidBinaryLiteral,
+                TokenKind::StringLiteralToken,
+                TokenKind::UnterminatedStringLiteralToken,
+                TokenKind::NoSubstitutionTemplateLiteral,
+                TokenKind::UnterminatedNoSubstitutionTemplateLiteral
+            ); // TODO simplify
+
+        return $declareDirective;
+    }
 }
 
 class ParseContext {
@@ -1266,5 +1322,6 @@ class ParseContext {
     const WhileStatementElements = 6;
     const ForStatementElements = 7;
     const ForeachStatementElements = 8;
-    const Count = 9;
+    const DeclareStatementElements = 9;
+    const Count = 10;
 }

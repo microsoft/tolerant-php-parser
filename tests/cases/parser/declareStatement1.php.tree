@@ -1,0 +1,64 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "DeclareStatementNode": {
+                                "declareKeyword": {
+                                    "kind": "DeclareKeyword",
+                                    "textLength": 7
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "declareDirective": {
+                                    "DeclareDirectiveNode": {
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 5
+                                        },
+                                        "equals": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "literal": {
+                                            "kind": "DecimalLiteralToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colon": null,
+                                "statements": null,
+                                "enddeclareKeyword": null,
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

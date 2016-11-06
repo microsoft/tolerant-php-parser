@@ -40,4 +40,6 @@ class NodeKind {
     const ThrowStatement = 34;
     const CatchClauseNode = 35;
     const FinallyClauseNode = 36;
+    const DeclareStatementNode = 37;
+    const DeclareDirectiveNode = 38;
 }
