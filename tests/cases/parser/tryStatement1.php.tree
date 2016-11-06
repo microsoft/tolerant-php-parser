@@ -1,0 +1,151 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "IfStatementNode": {
+                                "tryKeyword": {
+                                    "kind": "TryKeyword",
+                                    "textLength": 3
+                                },
+                                "compoundStatement": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "EmptyStatement": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "catchClauses": [
+                                    {
+                                        "CatchClauseNode": {
+                                            "catch": {
+                                                "kind": "CatchKeyword",
+                                                "textLength": 5
+                                            },
+                                            "openParen": {
+                                                "kind": "OpenParenToken",
+                                                "textLength": 1
+                                            },
+                                            "qualifiedName": {
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 5
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "variableName": {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            },
+                                            "closeParen": {
+                                                "kind": "CloseParenToken",
+                                                "textLength": 1
+                                            },
+                                            "compoundStatement": {
+                                                "CompoundStatementNode": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "OpenBraceToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "EmptyStatement": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "SemicolonToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        {
+                                                            "kind": "CloseBraceToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "finallyClause": {
+                                    "FinallyClauseNode": {
+                                        "finallyToken": {
+                                            "kind": "FinallyKeyword",
+                                            "textLength": 7
+                                        },
+                                        "compoundStatement": {
+                                            "CompoundStatementNode": {
+                                                "children": [
+                                                    {
+                                                        "kind": "OpenBraceToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "EmptyStatement": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "SemicolonToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CloseBraceToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

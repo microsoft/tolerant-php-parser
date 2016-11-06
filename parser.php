@@ -14,6 +14,7 @@ spl_autoload_register(function ($class) {
 });
 
 use PhpParser\Node\CaseStatementNode;
+use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\BreakOrContinueStatement;
@@ -23,6 +24,7 @@ use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
+use PhpParser\Node\FinallyClause;
 use PhpParser\Node\ForeachKey;
 use PhpParser\Node\ForeachStatement;
 use PhpParser\Node\ForeachValue;
@@ -44,6 +46,7 @@ use PhpParser\Node\ScriptSection;
 use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
+use PhpParser\Node\TryStatement;
 use PhpParser\Node\WhileStatement;
 
 class Parser {
@@ -377,6 +380,9 @@ class Parser {
                     return $this->parseReturnStatement($parentNode);
                 case TokenKind::ThrowKeyword: // throw-statement
                     return $this->parseThrowStatement($parentNode);
+
+                case TokenKind::TryKeyword: // try-statement
+                    return $this->parseTryStatement($parentNode);
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
@@ -1207,6 +1213,46 @@ class Parser {
         $throwStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
 
         return $throwStatement;
+    }
+
+    private function parseTryStatement($parentNode) {
+        $tryStatement = new TryStatement();
+        $tryStatement->parent = $parentNode;
+        $tryStatement->tryKeyword = $this->eat(TokenKind::TryKeyword);
+        $tryStatement->compoundStatement = $this->parseCompoundStatement($tryStatement); // TODO verifiy this is only compound
+
+        $tryStatement->catchClauses = array(); // TODO - should be some standard for empty arrays vs. null?
+        while ($this->lookahead(TokenKind::CatchKeyword)) {
+            array_push($tryStatement->catchClauses, $this->parseCatchClause($tryStatement));
+        }
+
+        if ($this->lookahead(TokenKind::FinallyKeyword)) {
+            $tryStatement->finallyClause = $this->parseFinallyClause($tryStatement);
+        }
+
+        return $tryStatement;
+    }
+
+    private function parseCatchClause($parentNode) {
+        $catchClause = new CatchClause();
+        $catchClause->parent = $parentNode;
+        $catchClause->catch = $this->eat(TokenKind::CatchKeyword);
+        $catchClause->openParen = $this->eat(TokenKind::OpenParenToken);
+        $catchClause->qualifiedName = $this->parseQualifiedName($catchClause); // TODO generate missing token or error if null
+        $catchClause->variableName = $this->eat(TokenKind::VariableName);
+        $catchClause->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $catchClause->compoundStatement = $this->parseCompoundStatement($catchClause);
+
+        return $catchClause;
+    }
+
+    private function parseFinallyClause($parentNode) {
+        $finallyClause = new FinallyClause();
+        $finallyClause->parent = $parentNode;
+        $finallyClause->finallyToken = $this->eat(TokenKind::FinallyKeyword);
+        $finallyClause->compoundStatement = $this->parseCompoundStatement($finallyClause);
+
+        return $finallyClause;
     }
 }
 

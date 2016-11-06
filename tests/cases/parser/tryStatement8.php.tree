@@ -1,0 +1,85 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "IfStatementNode": {
+                                "tryKeyword": {
+                                    "kind": "TryKeyword",
+                                    "textLength": 3
+                                },
+                                "compoundStatement": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "catchClauses": [
+                                    {
+                                        "CatchClauseNode": {
+                                            "catch": {
+                                                "kind": "CatchKeyword",
+                                                "textLength": 5
+                                            },
+                                            "openParen": {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            "qualifiedName": null,
+                                            "variableName": {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            "closeParen": {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            "compoundStatement": {
+                                                "CompoundStatementNode": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "OpenBraceToken",
+                                                            "textLength": 1
+                                                        },
+                                                        {
+                                                            "kind": "CloseBraceToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "finallyClause": null
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

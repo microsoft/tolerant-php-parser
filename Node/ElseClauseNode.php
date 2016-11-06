@@ -5,7 +5,7 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ElseClauseNode extends Node {
-    /** @var Token[] */
+    /** @var Token */
     public $elseKeyword;
     /** @var Token */
     public $colon;

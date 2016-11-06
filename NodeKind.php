@@ -38,4 +38,6 @@ class NodeKind {
     const BreakOrContinueStatementNode = 32;
     const ReturnStatement = 33;
     const ThrowStatement = 34;
+    const CatchClauseNode = 35;
+    const FinallyClauseNode = 36;
 }
