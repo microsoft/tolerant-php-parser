@@ -36,7 +36,7 @@ use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
-use PhpParser\Node\MethodNode;
+use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
@@ -462,40 +462,47 @@ class Parser {
     }
 
     function parseFunctionDeclaration($parentNode) {
-        $node = new Function_();
-        $this->parseFunctionDefinition($node);
-        $node->parent = $parentNode;
-        return $node;
+        $functionNode = new Function_();
+        $this->parseFunctionDefinition($functionNode);
+        $functionNode->parent = $parentNode;
+        return $functionNode;
     }
 
     function parseMethodDeclaration($parentNode) {
-        $node = new MethodNode();
-        $node->modifiers = $this->parseModifiers();
-        $this->parseFunctionDefinition($node);
-        $node->parent = $parentNode;
-        return $node;
+        $methodDeclaration = new MethodDeclaration();
+        $methodDeclaration->modifiers = $this->parseModifiers();
+        $this->parseFunctionDefinition($methodDeclaration);
+        $methodDeclaration->parent = $parentNode;
+        return $methodDeclaration;
     }
 
     function parseParameterFn() {
         return function ($parentNode) {
             $node = new Parameter();
             $node->parent = $parentNode;
-            $node->typeOpt = $this->parseQualifiedName($node);
-            if (!isset($node->typeOpt)) {
-                $node->typeOpt = $this->eatOptional(
-                TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
-                TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
-            }
+            $node->typeDeclaration = $this->tryParseTypeDeclaration($node);
             $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+            // TODO add post-parse rule that prevents assignment
+            // TODO add post-parse rule that requires only last parameter be variadic
+            $node->dotDotDotToken = $this->eatOptional(TokenKind::DotDotDotToken);
             $node->variableName = $this->eat(TokenKind::VariableName);
             $node->equalsToken = $this->eatOptional(TokenKind::EqualsToken);
             if ($node->equalsToken !== null) {
-                $node->default = $this->parseConstantExpression($node);
+                // TODO add post-parse rule that checks for invalid assignments
+                $node->default = $this->parseExpression($node);
             }
-                return $node;
-//            }
-//            return null;
+            return $node;
         };
+    }
+
+    function tryParseTypeDeclaration($parentNode) {
+        $typeDeclaration = $this->parseQualifiedName($parentNode);
+        if ($typeDeclaration === null) {
+            $typeDeclaration = $this->eatOptional(
+                TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
+                TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
+        }
+        return $typeDeclaration;
     }
 
     function parseCompoundStatement($parentNode) {
@@ -809,14 +816,18 @@ class Parser {
     private function isParameterStartFn() {
         return function($token) {
             switch ($token->kind) {
+                case TokenKind::DotDotDotToken:
+
                 case TokenKind::ArrayKeyword:
                 case TokenKind::CallableKeyword:
 
+                // qualified-name
                 case TokenKind::Name: // http://php.net/manual/en/language.namespaces.rules.php
                 case TokenKind::BackslashToken:
                 case TokenKind::NamespaceKeyword:
                     // All of these can be the start of a qualified name
 
+                // scalar-type
                 case TokenKind::BoolReservedWord:
                 case TokenKind::FloatReservedWord:
                 case TokenKind::IntReservedWord:
@@ -829,15 +840,6 @@ class Parser {
             }
             return false;
         };
-    }
-
-    private function parseConstantExpression($parentNode) {
-        $node = new Expression();
-        $node->parent = $parentNode;
-        $node->children = array();
-        // TODO
-        array_push($node->children, $this->eat(TokenKind::DecimalLiteralToken));
-        return $node;
     }
 
     private function parseDelimitedList($delimeter, $isElementStartFn, $parseElementFn, $parentNode) {
@@ -899,19 +901,16 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionDefinition(FunctionDefinition & $node) {
+    private function parseFunctionDefinition(FunctionDefinition $node) {
         $node->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
         $node->name = $this->eat(TokenKind::Name);
         $node->openParen = $this->eat(TokenKind::OpenParenToken);
         $node->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $node);
         $node->closeParen = $this->eat(TokenKind::CloseParenToken);
-        $node->colonToken = $this->eatOptional(TokenKind::ColonToken);
-        $node->returnTypeOpt = $this->parseQualifiedName($node);
-        if (!isset($node->returnTypeOpt)) {
-            $node->returnTypeOpt = $this->eatOptional(
-                TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
-                TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
+        if ($this->lookahead(TokenKind::ColonToken)) {
+            $node->colonToken = $this->eat(TokenKind::ColonToken);
+            $node->returnType = $this->tryParseTypeDeclaration($node) ?? $this->eat(TokenKind::VoidReservedWord);
         }
         $node->compoundStatement = $this->parseCompoundStatement($node);
     }

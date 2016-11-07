@@ -33,7 +33,7 @@
                                     "textLength": 1
                                 },
                                 "colonToken": null,
-                                "returnTypeOpt": null,
+                                "returnType": null,
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
                                         "children": [

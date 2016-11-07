@@ -39,20 +39,8 @@
                                                         "kind": "VariableName",
                                                         "textLength": 2
                                                     },
-                                                    "equalsToken": {
-                                                        "kind": "EqualsToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "default": {
-                                                        "Expression": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "MissingToken",
-                                                                    "textLength": 0
-                                                                }
-                                                            ]
-                                                        }
-                                                    }
+                                                    "equalsToken": null,
+                                                    "default": null
                                                 }
                                             },
                                             {
@@ -62,8 +50,14 @@
                                             {
                                                 "ParameterNode": {
                                                     "typeDeclaration": null,
-                                                    "byRefToken": null,
-                                                    "dotDotDotToken": null,
+                                                    "byRefToken": {
+                                                        "kind": "AmpersandToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "dotDotDotToken": {
+                                                        "kind": "DotDotDotToken",
+                                                        "textLength": 3
+                                                    },
                                                     "variableName": {
                                                         "kind": "VariableName",
                                                         "textLength": 2

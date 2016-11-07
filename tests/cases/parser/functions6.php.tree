@@ -32,8 +32,9 @@
                                         "children": [
                                             {
                                                 "ParameterNode": {
-                                                    "typeOpt": null,
+                                                    "typeDeclaration": null,
                                                     "byRefToken": null,
+                                                    "dotDotDotToken": null,
                                                     "variableName": {
                                                         "kind": "VariableName",
                                                         "textLength": 2
@@ -46,8 +47,8 @@
                                                         "Expression": {
                                                             "children": [
                                                                 {
-                                                                    "kind": "DecimalLiteralToken",
-                                                                    "textLength": 1
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 2
                                                                 }
                                                             ]
                                                         }
@@ -60,8 +61,9 @@
                                             },
                                             {
                                                 "ParameterNode": {
-                                                    "typeOpt": null,
+                                                    "typeDeclaration": null,
                                                     "byRefToken": null,
+                                                    "dotDotDotToken": null,
                                                     "variableName": {
                                                         "kind": "VariableName",
                                                         "textLength": 2
@@ -78,7 +80,7 @@
                                     "textLength": 1
                                 },
                                 "colonToken": null,
-                                "returnTypeOpt": null,
+                                "returnType": null,
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
                                         "children": [

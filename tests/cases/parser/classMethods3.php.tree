@@ -56,8 +56,9 @@
                                                                 "children": [
                                                                     {
                                                                         "ParameterNode": {
-                                                                            "typeOpt": null,
+                                                                            "typeDeclaration": null,
                                                                             "byRefToken": null,
+                                                                            "dotDotDotToken": null,
                                                                             "variableName": {
                                                                                 "kind": "VariableName",
                                                                                 "textLength": 8
@@ -72,8 +73,9 @@
                                                                     },
                                                                     {
                                                                         "ParameterNode": {
-                                                                            "typeOpt": null,
+                                                                            "typeDeclaration": null,
                                                                             "byRefToken": null,
+                                                                            "dotDotDotToken": null,
                                                                             "variableName": {
                                                                                 "kind": "VariableName",
                                                                                 "textLength": 6
@@ -90,7 +92,7 @@
                                                             "textLength": 1
                                                         },
                                                         "colonToken": null,
-                                                        "returnTypeOpt": null,
+                                                        "returnType": null,
                                                         "compoundStatement": {
                                                             "CompoundStatementNode": {
                                                                 "children": [

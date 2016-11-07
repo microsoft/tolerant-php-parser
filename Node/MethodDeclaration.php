@@ -4,7 +4,7 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class MethodNode extends FunctionDefinition {
+class MethodDeclaration extends FunctionDefinition {
     /** @var Token[] */
     public $modifiers;
 

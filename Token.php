@@ -220,6 +220,7 @@ class TokenKind {
 
     // TODO how to handle incremental parsing w/ this?
     const ScriptSectionPrependedText = 325;
+    const VoidReservedWord = 326;
 
     // TODO type annotations - PHP7
 }

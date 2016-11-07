@@ -20,7 +20,7 @@ class FunctionDefinition extends Node {
     /** @var Token */
     public $colonToken;
     /** @var null | Name */
-    public $returnTypeOpt;
+    public $returnType;
     /** @var null | CompoundStatementNode */
     public $compoundStatement;
 }

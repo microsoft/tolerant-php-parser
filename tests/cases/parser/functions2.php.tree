@@ -36,7 +36,7 @@
                                     "kind": "ColonToken",
                                     "textLength": 1
                                 },
-                                "returnTypeOpt": {
+                                "returnType": {
                                     "kind": "IntReservedWord",
                                     "textLength": 3
                                 },

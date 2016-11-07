@@ -55,7 +55,7 @@
                                                             "kind": "ColonToken",
                                                             "textLength": 1
                                                         },
-                                                        "returnTypeOpt": {
+                                                        "returnType": {
                                                             "QualifiedName": {
                                                                 "globalSpecifier": {
                                                                     "kind": "BackslashToken",

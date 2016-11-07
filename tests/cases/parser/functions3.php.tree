@@ -32,7 +32,7 @@
                                         "children": [
                                             {
                                                 "ParameterNode": {
-                                                    "typeOpt": {
+                                                    "typeDeclaration": {
                                                         "QualifiedName": {
                                                             "globalSpecifier": null,
                                                             "relativeSpecifier": null,
@@ -49,6 +49,7 @@
                                                         }
                                                     },
                                                     "byRefToken": null,
+                                                    "dotDotDotToken": null,
                                                     "variableName": {
                                                         "kind": "VariableName",
                                                         "textLength": 2
@@ -63,11 +64,12 @@
                                             },
                                             {
                                                 "ParameterNode": {
-                                                    "typeOpt": {
+                                                    "typeDeclaration": {
                                                         "kind": "IntReservedWord",
                                                         "textLength": 3
                                                     },
                                                     "byRefToken": null,
+                                                    "dotDotDotToken": null,
                                                     "variableName": {
                                                         "kind": "VariableName",
                                                         "textLength": 2
@@ -87,7 +89,7 @@
                                     "kind": "ColonToken",
                                     "textLength": 1
                                 },
-                                "returnTypeOpt": {
+                                "returnType": {
                                     "kind": "IntReservedWord",
                                     "textLength": 3
                                 },

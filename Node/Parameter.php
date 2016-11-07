@@ -5,15 +5,17 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class Parameter extends Node {
-    /** @var Token */
-    public $typeOpt;
-    /** @var Token */
+    /** @var QualifiedName | Token | null */
+    public $typeDeclaration;
+    /** @var Token | null */
     public $byRefToken;
+    /** @var Token | null */
+    public $dotDotDotToken;
 
     /** @var Token */
     public $variableName;
 
-    /** @var Token */
+    /** @var Token | null */
     public $equalsToken;
 
     /** @var null | Expression */
