@@ -38,24 +38,10 @@
                                 },
                                 "colon": null,
                                 "statements": {
-                                    "CompoundStatementNode": {
+                                    "EmptyStatement": {
                                         "children": [
                                             {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "EmptyStatement": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "SemicolonToken",
-                                                            "textLength": 1
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
+                                                "kind": "SemicolonToken",
                                                 "textLength": 1
                                             }
                                         ]
@@ -84,7 +70,7 @@
                                                         "children": [
                                                             {
                                                                 "kind": "VariableName",
-                                                                "textLength": 5
+                                                                "textLength": 8
                                                             }
                                                         ]
                                                     }
@@ -93,35 +79,32 @@
                                                     "kind": "CloseParenToken",
                                                     "textLength": 1
                                                 },
-                                                "colon": null,
-                                                "statements": {
-                                                    "CompoundStatementNode": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "OpenBraceToken",
-                                                                "textLength": 1
-                                                            },
-                                                            {
-                                                                "EmptyStatement": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "SemicolonToken",
-                                                                            "textLength": 1
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            },
-                                                            {
-                                                                "kind": "CloseBraceToken",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
-                                                    }
+                                                "colon": {
+                                                    "kind": "ColonToken",
+                                                    "textLength": 1
                                                 },
+                                                "statements": [
+                                                    {
+                                                        "EmptyStatement": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "SemicolonToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
                                                 "elseIfClauses": [],
                                                 "elseClause": null,
-                                                "endifKeyword": null,
-                                                "semicolon": null
+                                                "endifKeyword": {
+                                                    "kind": "EndIfKeyword",
+                                                    "textLength": 5
+                                                },
+                                                "semicolon": {
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
+                                                }
                                             }
                                         }
                                     }

@@ -953,7 +953,7 @@ class Parser {
             $ifStatement->statements = $this->parseStatement($ifStatement);
         }
         $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
-        while ($this->lookahead(TokenKind::ElseKeyword, TokenKind::IfKeyword) || $this->lookahead(TokenKind::ElseIfKeyword)) {
+        while ($this->lookahead(TokenKind::ElseIfKeyword)) {
             array_push($ifStatement->elseIfClauses, $this->parseElseIfClause($ifStatement));
         }
 
