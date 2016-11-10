@@ -92,17 +92,19 @@
                                                             "textLength": 4
                                                         },
                                                         {
-                                                            "kind": "SkippedToken",
-                                                            "textLength": 7
-                                                        },
-                                                        {
-                                                            "EmptyStatement": {
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "SemicolonToken",
-                                                                        "textLength": 1
+                                                            "ExpressionStatement": {
+                                                                "expression": {
+                                                                    "Expression": {
+                                                                        "children": {
+                                                                            "kind": "NoSubstitutionTemplateLiteral",
+                                                                            "textLength": 7
+                                                                        }
                                                                     }
-                                                                ]
+                                                                },
+                                                                "semicolon": {
+                                                                    "kind": "SemicolonToken",
+                                                                    "textLength": 1
+                                                                }
                                                             }
                                                         },
                                                         {

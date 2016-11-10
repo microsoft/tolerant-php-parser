@@ -13,8 +13,20 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 7
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": {
+                                            "kind": "NoSubstitutionTemplateLiteral",
+                                            "textLength": 7
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
                         }
                     ],
                     "endTag": {

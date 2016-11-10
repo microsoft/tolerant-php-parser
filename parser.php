@@ -645,7 +645,20 @@ class Parser {
                     return $this->lookahead(TokenKind::BackslashToken);
                 // literal
                 case TokenKind::TemplateStringStart:
-                // case TokenKind::NoSubstitutionTemplateLiteral:
+
+                case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
+                case TokenKind::OctalLiteralToken:
+                case TokenKind::HexadecimalLiteralToken:
+                case TokenKind::BinaryLiteralToken:
+                case TokenKind::FloatingLiteralToken:
+                case TokenKind::InvalidOctalLiteralToken:
+                case TokenKind::InvalidHexadecimalLiteral:
+                case TokenKind::InvalidBinaryLiteral:
+
+                case TokenKind::StringLiteralToken: // TODO merge unterminated
+                case TokenKind::UnterminatedStringLiteralToken:
+                case TokenKind::NoSubstitutionTemplateLiteral:
+                case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
                     return true;
             }
             return false;
@@ -809,6 +822,12 @@ class Parser {
     }
 
     private function parseLiteralExpression($parentNode) {
+        // TODO validate input token
+        $expression = new Expression();
+        $expression->parent = $parentNode;
+        $expression->children = $this->getCurrentToken();
+        $this->advanceToken();
+        return $expression;
     }
 
     private function isMethodModifier($token) {

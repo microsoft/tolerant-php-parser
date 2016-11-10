@@ -17,17 +17,19 @@
                             "textLength": 4
                         },
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 13
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": {
+                                            "kind": "NoSubstitutionTemplateLiteral",
+                                            "textLength": 13
+                                        }
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         }
                     ],

@@ -115,25 +115,18 @@
                                                         "kind": "ReturnKeyword",
                                                         "textLength": 6
                                                     },
-                                                    "expression": null,
-                                                    "semicolon": {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "kind": "SkippedToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "EmptyStatement": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "SemicolonToken",
-                                                            "textLength": 1
+                                                    "expression": {
+                                                        "Expression": {
+                                                            "children": {
+                                                                "kind": "DecimalLiteralToken",
+                                                                "textLength": 1
+                                                            }
                                                         }
-                                                    ]
+                                                    },
+                                                    "semicolon": {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
                                                 }
                                             },
                                             {
