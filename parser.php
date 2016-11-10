@@ -633,9 +633,19 @@ class Parser {
     function isExpressionStartFn() {
         return function($token) {
             switch($token->kind) {
-                // case TokenKind::NoSubstitutionTemplateLiteral:
-                case TokenKind::TemplateStringStart:
+                // variable-name
                 case TokenKind::VariableName:
+                    return true;
+                // qualified-name
+                case TokenKind::Name:
+                case TokenKind::BackslashToken:
+                    return true;
+                case TokenKind::NamespaceKeyword:
+                    // TODO currently only supports qualified-names, but eventually parse namespace declarations
+                    return $this->lookahead(TokenKind::BackslashToken);
+                // literal
+                case TokenKind::TemplateStringStart:
+                // case TokenKind::NoSubstitutionTemplateLiteral:
                     return true;
             }
             return false;
@@ -670,7 +680,7 @@ class Parser {
             case TokenKind::VariableName: // TODO special case $this
 
             // qualified-name
-            case TokenKind::QualifiedName: // TODO Qualified name
+            case TokenKind::Name: // TODO Qualified name
 
             // literal
             case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
@@ -725,33 +735,30 @@ class Parser {
                 return $this->parseVariableNameExpression($parentNode);
 
             // qualified-name
-//            case TokenKind::QualifiedName: // TODO Qualified name
-//                return $this->parseQualifiedNameExpression($parentNode);
+            case TokenKind::Name: // TODO Qualified name
+            case TokenKind::BackslashToken:
+            case TokenKind::NamespaceKeyword:
+                return $this->parseQualifiedNameExpression($parentNode);
 
             // literal
             case TokenKind::TemplateStringStart:
                 return $this->parseTemplateString($parentNode);
 
+            case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
+            case TokenKind::OctalLiteralToken:
+            case TokenKind::HexadecimalLiteralToken:
+            case TokenKind::BinaryLiteralToken:
+            case TokenKind::FloatingLiteralToken:
+            case TokenKind::InvalidOctalLiteralToken:
+            case TokenKind::InvalidHexadecimalLiteral:
+            case TokenKind::InvalidBinaryLiteral:
+
+            case TokenKind::StringLiteralToken: // TODO merge unterminated
+            case TokenKind::UnterminatedStringLiteralToken:
+            case TokenKind::NoSubstitutionTemplateLiteral:
+            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+                return $this->parseLiteralExpression($parentNode);
             /*
-                        case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
-                        case TokenKind::OctalLiteralToken:
-                        case TokenKind::HexadecimalLiteralToken:
-                        case TokenKind::BinaryLiteralToken:
-                        case TokenKind::FloatingLiteralToken:
-                        case TokenKind::InvalidOctalLiteralToken:
-                        case TokenKind::InvalidHexadecimalLiteral:
-                        case TokenKind::InvalidBinaryLiteral:
-
-                        case TokenKind::StringLiteralToken: // TODO merge unterminated
-                        case TokenKind::UnterminatedStringLiteralToken:
-                        case TokenKind::NoSubstitutionTemplateLiteral:
-                        case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
-                            return $this->parseLiteralExpression($parentNode);
-
-
-                        case TokenKind::TemplateStringStart:
-                            return $this->parseTemplateString($parentNode);
-
 
                         // TODO constant-expression
 
@@ -1331,6 +1338,13 @@ class Parser {
             return $expression;
         }
         $this->advanceToken();
+        return $expression;
+    }
+
+    private function parseQualifiedNameExpression($parentNode) {
+        $expression = new Expression();
+        $expression->parent = $parentNode;
+        $expression->children = $this->parseQualifiedName($expression);
         return $expression;
     }
 }

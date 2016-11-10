@@ -24,16 +24,22 @@
                             "ExpressionStatement": {
                                 "expression": {
                                     "Expression": {
-                                        "children": [
-                                            {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
-                                            },
-                                            {
-                                                "kind": "SkippedToken",
-                                                "textLength": 3
+                                        "children": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 3
+                                                            }
+                                                        ]
+                                                    }
+                                                }
                                             }
-                                        ]
+                                        }
                                     }
                                 },
                                 "semicolon": {
