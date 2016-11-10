@@ -1,0 +1,15 @@
+[submodule "validation/existing-parsers/php-parser"]
+	path = validation/existing-parsers/php-parser
+	url = http://github.com/nikic/php-parser
+[submodule "validation/existing-parsers/nikic"]
+	path = validation/existing-parsers/nikic
+	url = https://github.com/nikic/php-parser
+[submodule "validation/existing-parsers/glayzzle"]
+	path = validation/existing-parsers/glayzzle
+	url = https://github.com/glayzzle/php-parser
+[submodule "validation/frameworks/WordPress"]
+	path = validation/frameworks/WordPress
+	url = https://github.com/WordPress/WordPress
+[submodule "validation/frameworks/math-php"]
+	path = validation/frameworks/math-php
+	url = https://github.com/markrogoyski/math-php
