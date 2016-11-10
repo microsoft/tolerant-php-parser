@@ -1,0 +1,57 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "EchoExpression": {
+                                        "echoKeyword": {
+                                            "kind": "EchoKeyword",
+                                            "textLength": 4
+                                        },
+                                        "expressions": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "Variable": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 2
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

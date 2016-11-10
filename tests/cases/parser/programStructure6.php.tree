@@ -15,7 +15,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",
@@ -37,21 +37,17 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
-                                        "children": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
                                                     }
-                                                }
+                                                ]
                                             }
                                         }
                                     }
@@ -116,7 +112,7 @@
                                                         "textLength": 6
                                                     },
                                                     "expression": {
-                                                        "Expression": {
+                                                        "Literal": {
                                                             "children": {
                                                                 "kind": "DecimalLiteralToken",
                                                                 "textLength": 1
@@ -139,19 +135,29 @@
                             }
                         },
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 4
-                        },
-                        {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
-                                        "children": [
-                                            {
-                                                "kind": "VariableName",
-                                                "textLength": 8
+                                    "EchoExpression": {
+                                        "echoKeyword": {
+                                            "kind": "EchoKeyword",
+                                            "textLength": 4
+                                        },
+                                        "expressions": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "Variable": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 8
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
                                             }
-                                        ]
+                                        }
                                     }
                                 },
                                 "semicolon": {

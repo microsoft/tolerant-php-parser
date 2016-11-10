@@ -13,16 +13,26 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 4
-                        },
-                        {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
-                                        "children": {
-                                            "kind": "NoSubstitutionTemplateLiteral",
-                                            "textLength": 13
+                                    "EchoExpression": {
+                                        "echoKeyword": {
+                                            "kind": "EchoKeyword",
+                                            "textLength": 4
+                                        },
+                                        "expressions": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "Literal": {
+                                                            "children": {
+                                                                "kind": "NoSubstitutionTemplateLiteral",
+                                                                "textLength": 13
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
                                         }
                                     }
                                 },

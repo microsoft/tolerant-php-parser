@@ -23,7 +23,7 @@
                                     "textLength": 1
                                 },
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",
@@ -76,7 +76,7 @@
                                                 "textLength": 1
                                             },
                                             "expression": {
-                                                "Expression": {
+                                                "Variable": {
                                                     "children": [
                                                         {
                                                             "kind": "VariableName",
@@ -120,7 +120,7 @@
                                                 "textLength": 1
                                             },
                                             "expression": {
-                                                "Expression": {
+                                                "Variable": {
                                                     "children": [
                                                         {
                                                             "kind": "VariableName",

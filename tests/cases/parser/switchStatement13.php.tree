@@ -23,7 +23,7 @@
                                     "textLength": 1
                                 },
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",
@@ -49,7 +49,7 @@
                                                 "textLength": 4
                                             },
                                             "expression": {
-                                                "Expression": {
+                                                "Variable": {
                                                     "children": [
                                                         {
                                                             "kind": "VariableName",
@@ -91,7 +91,7 @@
                                                 {
                                                     "ExpressionStatement": {
                                                         "expression": {
-                                                            "Expression": {
+                                                            "Variable": {
                                                                 "children": [
                                                                     {
                                                                         "kind": "VariableName",

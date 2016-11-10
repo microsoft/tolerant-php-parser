@@ -23,7 +23,7 @@
                                     "textLength": 0
                                 },
                                 "forEachCollectionName": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",
@@ -39,7 +39,7 @@
                                 "foreachKey": {
                                     "ForeachKeyNode": {
                                         "expression": {
-                                            "Expression": {
+                                            "Variable": {
                                                 "children": [
                                                     {
                                                         "kind": "VariableName",
@@ -58,7 +58,7 @@
                                     "ForeachValueNode": {
                                         "ampersand": null,
                                         "expression": {
-                                            "Expression": {
+                                            "Variable": {
                                                 "children": [
                                                     {
                                                         "kind": "VariableName",

@@ -19,7 +19,7 @@
                                     "textLength": 6
                                 },
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",

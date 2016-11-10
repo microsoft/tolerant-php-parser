@@ -23,7 +23,7 @@
                                     "textLength": 1
                                 },
                                 "forEachCollectionName": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",
@@ -41,7 +41,7 @@
                                     "ForeachValueNode": {
                                         "ampersand": null,
                                         "expression": {
-                                            "Expression": {
+                                            "Variable": {
                                                 "children": [
                                                     {
                                                         "kind": "VariableName",
@@ -60,7 +60,7 @@
                                 "statements": {
                                     "ExpressionStatement": {
                                         "expression": {
-                                            "Expression": {
+                                            "UnknownExpression": {
                                                 "children": [
                                                     {
                                                         "kind": "MissingToken",
@@ -90,7 +90,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",

@@ -22,6 +22,7 @@ use PhpParser\Node\DeclareDirective;
 use PhpParser\Node\DeclareStatement;
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\DoStatement;
+use PhpParser\Node\EchoExpression;
 use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyStatementNode;
@@ -37,6 +38,7 @@ use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
+use PhpParser\Node\Literal;
 use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
@@ -51,6 +53,8 @@ use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\TryStatement;
+use PhpParser\Node\UnknownExpression;
+use PhpParser\Node\Variable;
 use PhpParser\Node\WhileStatement;
 
 class Parser {
@@ -659,7 +663,23 @@ class Parser {
                 case TokenKind::UnterminatedStringLiteralToken:
                 case TokenKind::NoSubstitutionTemplateLiteral:
                 case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
-                    return true;
+
+                // intrinsic-construct
+                case TokenKind::EchoKeyword:
+//                case TokenKind::ListKeyword:
+//                case TokenKind::UnsetKeyword:
+
+                // intrinsic-operator
+//                case TokenKind::ArrayKeyword:
+//                case TokenKind::EmptyKeyword:
+//                case TokenKind::EvalKeyword:
+//                case TokenKind::ExitKeyword:
+//                case TokenKind::DieKeyword:
+//                case TokenKind::IsSetKeyword:
+//                case TokenKind::PrintKeyword:
+
+
+                return true;
             }
             return false;
         };
@@ -745,13 +765,13 @@ class Parser {
         switch ($token->kind) {
             // variable-name
             case TokenKind::VariableName: // TODO special case $this
-                return $this->parseVariableNameExpression($parentNode);
+                return $this->parseVariable($parentNode);
 
             // qualified-name
             case TokenKind::Name: // TODO Qualified name
             case TokenKind::BackslashToken:
             case TokenKind::NamespaceKeyword:
-                return $this->parseQualifiedNameExpression($parentNode);
+                return $this->parseQualifiedName($parentNode);
 
             // literal
             case TokenKind::TemplateStringStart:
@@ -771,12 +791,14 @@ class Parser {
             case TokenKind::NoSubstitutionTemplateLiteral:
             case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
                 return $this->parseLiteralExpression($parentNode);
-            /*
 
-                        // TODO constant-expression
+            // TODO constant-expression
 
-                            // intrinsic-construct
-                        case TokenKind::EchoKeyword:
+            // intrinsic-construct
+            case TokenKind::EchoKeyword:
+                return $this->parseEchoExpression($parentNode);
+
+                            /*
                         case TokenKind::ListKeyword:
                         case TokenKind::UnsetKeyword:
                             return $this->parseIntrinsicConstructExpression($parentNode);
@@ -802,7 +824,7 @@ class Parser {
                 return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
 
             default:
-                $expression = new Expression();
+                $expression = new UnknownExpression();
                 $expression->parent = $parentNode;
                 $expression->children = array(
                     new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0),
@@ -823,7 +845,7 @@ class Parser {
 
     private function parseLiteralExpression($parentNode) {
         // TODO validate input token
-        $expression = new Expression();
+        $expression = new Literal();
         $expression->parent = $parentNode;
         $expression->children = $this->getCurrentToken();
         $this->advanceToken();
@@ -1344,9 +1366,9 @@ class Parser {
         return $declareDirective;
     }
 
-    private function parseVariableNameExpression($parentNode) {
+    private function parseVariable($parentNode) {
         $token = $this->getCurrentToken();
-        $expression = new Expression();
+        $expression = new Variable();
         $expression->parent = $parentNode;
         $expression->children = array();
 
@@ -1360,11 +1382,19 @@ class Parser {
         return $expression;
     }
 
-    private function parseQualifiedNameExpression($parentNode) {
-        $expression = new Expression();
-        $expression->parent = $parentNode;
-        $expression->children = $this->parseQualifiedName($expression);
-        return $expression;
+    private function parseEchoExpression($parentNode) {
+        $echoExpression = new EchoExpression();
+        $echoExpression->parent = $parentNode;
+        $echoExpression->echoKeyword = $this->eat(TokenKind::EchoKeyword);
+        $echoExpression->expressions =
+            $this->parseDelimitedList(
+                TokenKind::CommaToken,
+                $this->isExpressionStartFn(),
+                $this->parseExpressionFn(),
+                $echoExpression
+                );
+
+        return $echoExpression;
     }
 }
 

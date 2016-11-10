@@ -23,7 +23,7 @@
                                     "textLength": 1
                                 },
                                 "forEachCollectionName": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",

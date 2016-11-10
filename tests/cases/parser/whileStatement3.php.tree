@@ -76,7 +76,7 @@
                                                                                 "textLength": 1
                                                                             },
                                                                             "expression": {
-                                                                                "Expression": {
+                                                                                "Variable": {
                                                                                     "children": [
                                                                                         {
                                                                                             "kind": "VariableName",
@@ -100,7 +100,7 @@
                                                                                         {
                                                                                             "ExpressionStatement": {
                                                                                                 "expression": {
-                                                                                                    "Expression": {
+                                                                                                    "Variable": {
                                                                                                         "children": [
                                                                                                             {
                                                                                                                 "kind": "VariableName",
@@ -122,21 +122,17 @@
                                                                                         {
                                                                                             "ExpressionStatement": {
                                                                                                 "expression": {
-                                                                                                    "Expression": {
-                                                                                                        "children": {
-                                                                                                            "QualifiedName": {
-                                                                                                                "globalSpecifier": null,
-                                                                                                                "relativeSpecifier": null,
-                                                                                                                "nameParts": {
-                                                                                                                    "DelimitedList": {
-                                                                                                                        "children": [
-                                                                                                                            {
-                                                                                                                                "kind": "Name",
-                                                                                                                                "textLength": 1
-                                                                                                                            }
-                                                                                                                        ]
+                                                                                                    "QualifiedName": {
+                                                                                                        "globalSpecifier": null,
+                                                                                                        "relativeSpecifier": null,
+                                                                                                        "nameParts": {
+                                                                                                            "DelimitedList": {
+                                                                                                                "children": [
+                                                                                                                    {
+                                                                                                                        "kind": "Name",
+                                                                                                                        "textLength": 1
                                                                                                                     }
-                                                                                                                }
+                                                                                                                ]
                                                                                                             }
                                                                                                         }
                                                                                                     }

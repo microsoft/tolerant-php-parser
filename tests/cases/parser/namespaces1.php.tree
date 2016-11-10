@@ -15,32 +15,28 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
-                                        "children": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": {
-                                                    "RelativeSpecifier": {
-                                                        "namespaceKeyword": {
-                                                            "kind": "NamespaceKeyword",
-                                                            "textLength": 9
-                                                        },
-                                                        "backslash": {
-                                                            "kind": "MissingToken",
-                                                            "textLength": 0
-                                                        }
-                                                    }
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": {
+                                            "RelativeSpecifier": {
+                                                "namespaceKeyword": {
+                                                    "kind": "NamespaceKeyword",
+                                                    "textLength": 9
                                                 },
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 5
-                                                            }
-                                                        ]
-                                                    }
+                                                "backslash": {
+                                                    "kind": "MissingToken",
+                                                    "textLength": 0
                                                 }
+                                            }
+                                        },
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 5
+                                                    }
+                                                ]
                                             }
                                         }
                                     }
@@ -88,16 +84,26 @@
                                                             "textLength": 1
                                                         },
                                                         {
-                                                            "kind": "SkippedToken",
-                                                            "textLength": 4
-                                                        },
-                                                        {
                                                             "ExpressionStatement": {
                                                                 "expression": {
-                                                                    "Expression": {
-                                                                        "children": {
-                                                                            "kind": "NoSubstitutionTemplateLiteral",
-                                                                            "textLength": 7
+                                                                    "EchoExpression": {
+                                                                        "echoKeyword": {
+                                                                            "kind": "EchoKeyword",
+                                                                            "textLength": 4
+                                                                        },
+                                                                        "expressions": {
+                                                                            "DelimitedList": {
+                                                                                "children": [
+                                                                                    {
+                                                                                        "Literal": {
+                                                                                            "children": {
+                                                                                                "kind": "NoSubstitutionTemplateLiteral",
+                                                                                                "textLength": 7
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            }
                                                                         }
                                                                     }
                                                                 },
@@ -148,32 +154,28 @@
                                                         {
                                                             "ExpressionStatement": {
                                                                 "expression": {
-                                                                    "Expression": {
-                                                                        "children": {
-                                                                            "QualifiedName": {
-                                                                                "globalSpecifier": null,
-                                                                                "relativeSpecifier": {
-                                                                                    "RelativeSpecifier": {
-                                                                                        "namespaceKeyword": {
-                                                                                            "kind": "NamespaceKeyword",
-                                                                                            "textLength": 9
-                                                                                        },
-                                                                                        "backslash": {
-                                                                                            "kind": "BackslashToken",
-                                                                                            "textLength": 1
-                                                                                        }
-                                                                                    }
+                                                                    "QualifiedName": {
+                                                                        "globalSpecifier": null,
+                                                                        "relativeSpecifier": {
+                                                                            "RelativeSpecifier": {
+                                                                                "namespaceKeyword": {
+                                                                                    "kind": "NamespaceKeyword",
+                                                                                    "textLength": 9
                                                                                 },
-                                                                                "nameParts": {
-                                                                                    "DelimitedList": {
-                                                                                        "children": [
-                                                                                            {
-                                                                                                "kind": "Name",
-                                                                                                "textLength": 1
-                                                                                            }
-                                                                                        ]
-                                                                                    }
+                                                                                "backslash": {
+                                                                                    "kind": "BackslashToken",
+                                                                                    "textLength": 1
                                                                                 }
+                                                                            }
+                                                                        },
+                                                                        "nameParts": {
+                                                                            "DelimitedList": {
+                                                                                "children": [
+                                                                                    {
+                                                                                        "kind": "Name",
+                                                                                        "textLength": 1
+                                                                                    }
+                                                                                ]
                                                                             }
                                                                         }
                                                                     }
@@ -214,32 +216,28 @@
                                     {
                                         "ExpressionStatement": {
                                             "expression": {
-                                                "Expression": {
-                                                    "children": {
-                                                        "QualifiedName": {
-                                                            "globalSpecifier": null,
-                                                            "relativeSpecifier": {
-                                                                "RelativeSpecifier": {
-                                                                    "namespaceKeyword": {
-                                                                        "kind": "NamespaceKeyword",
-                                                                        "textLength": 9
-                                                                    },
-                                                                    "backslash": {
-                                                                        "kind": "BackslashToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": {
+                                                        "RelativeSpecifier": {
+                                                            "namespaceKeyword": {
+                                                                "kind": "NamespaceKeyword",
+                                                                "textLength": 9
                                                             },
-                                                            "nameParts": {
-                                                                "DelimitedList": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "Name",
-                                                                            "textLength": 1
-                                                                        }
-                                                                    ]
-                                                                }
+                                                            "backslash": {
+                                                                "kind": "BackslashToken",
+                                                                "textLength": 1
                                                             }
+                                                        }
+                                                    },
+                                                    "nameParts": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
                                                         }
                                                     }
                                                 }

@@ -23,21 +23,17 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
-                                        "children": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 3
-                                                            }
-                                                        ]
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 3
                                                     }
-                                                }
+                                                ]
                                             }
                                         }
                                     }

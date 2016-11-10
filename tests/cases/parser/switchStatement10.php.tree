@@ -19,7 +19,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Expression": {
+                                    "Variable": {
                                         "children": [
                                             {
                                                 "kind": "VariableName",

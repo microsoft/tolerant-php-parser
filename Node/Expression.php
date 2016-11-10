@@ -5,9 +5,8 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 
 class Expression extends Node {
-    public $children = array();
-    public function __construct() {
-        parent::__construct(NodeKind::Expression);
+    public function __construct(int $kind) {
+        parent::__construct($kind);
     }
 
 }
