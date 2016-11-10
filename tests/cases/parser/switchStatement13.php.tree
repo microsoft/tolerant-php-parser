@@ -89,8 +89,22 @@
                                             },
                                             "statementList": [
                                                 {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
+                                                    "ExpressionStatement": {
+                                                        "expression": {
+                                                            "Expression": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        "semicolon": {
+                                                            "kind": "MissingToken",
+                                                            "textLength": 0
+                                                        }
+                                                    }
                                                 },
                                                 {
                                                     "kind": "SkippedToken",

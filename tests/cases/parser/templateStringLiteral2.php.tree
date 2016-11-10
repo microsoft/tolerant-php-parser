@@ -13,29 +13,37 @@
                     },
                     "statementList": [
                         {
-                            "TemplateExpression": {
-                                "children": [
-                                    {
-                                        "kind": "TemplateStringStart",
-                                        "textLength": 15
-                                    },
-                                    {
-                                        "kind": "VariableName",
-                                        "textLength": 6
-                                    },
-                                    {
-                                        "kind": "TemplateStringMiddle",
-                                        "textLength": 3
-                                    },
-                                    {
-                                        "kind": "VariableName",
-                                        "textLength": 5
-                                    },
-                                    {
-                                        "kind": "TemplateStringEnd",
-                                        "textLength": 3
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "TemplateExpression": {
+                                        "children": [
+                                            {
+                                                "kind": "TemplateStringStart",
+                                                "textLength": 15
+                                            },
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 6
+                                            },
+                                            {
+                                                "kind": "TemplateStringMiddle",
+                                                "textLength": 3
+                                            },
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 5
+                                            },
+                                            {
+                                                "kind": "TemplateStringEnd",
+                                                "textLength": 3
+                                            }
+                                        ]
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
                             }
                         }
                     ],

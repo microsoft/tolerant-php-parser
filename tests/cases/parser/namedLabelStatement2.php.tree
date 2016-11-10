@@ -23,8 +23,16 @@
                                     "textLength": 1
                                 },
                                 "statement": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        },
+                                        "semicolon": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        }
+                                    }
                                 }
                             }
                         }

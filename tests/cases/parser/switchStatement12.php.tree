@@ -49,14 +49,8 @@
                                                 "textLength": 4
                                             },
                                             "expression": {
-                                                "Expression": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "MissingToken",
-                                                            "textLength": 0
-                                                        }
-                                                    ]
-                                                }
+                                                "kind": "MissingToken",
+                                                "textLength": 0
                                             },
                                             "defaultLabelTerminator": {
                                                 "kind": "ColonToken",

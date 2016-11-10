@@ -17,7 +17,7 @@
                             "textLength": 4
                         },
                         {
-                            "kind": "NoSubstitutionTemplateLiteral",
+                            "kind": "SkippedToken",
                             "textLength": 13
                         },
                         {

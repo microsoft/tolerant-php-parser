@@ -13,16 +13,48 @@
                     },
                     "statementList": [
                         {
-                            "kind": "VariableName",
-                            "textLength": 8
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 8
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
                         },
                         {
                             "kind": "SkippedToken",
                             "textLength": 1
                         },
                         {
-                            "kind": "Name",
-                            "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            {
+                                                "kind": "SkippedToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
                         },
                         {
                             "kind": "SkippedToken",
@@ -112,17 +144,21 @@
                             "textLength": 4
                         },
                         {
-                            "kind": "VariableName",
-                            "textLength": 8
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 8
+                                            }
+                                        ]
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         }
                     ],

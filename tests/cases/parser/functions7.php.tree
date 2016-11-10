@@ -44,14 +44,8 @@
                                                         "textLength": 1
                                                     },
                                                     "default": {
-                                                        "Expression": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "MissingToken",
-                                                                    "textLength": 0
-                                                                }
-                                                            ]
-                                                        }
+                                                        "kind": "MissingToken",
+                                                        "textLength": 0
                                                     }
                                                 }
                                             },

@@ -29,17 +29,21 @@
                             }
                         },
                         {
-                            "kind": "VariableName",
-                            "textLength": 5
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 5
+                                            }
+                                        ]
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         }
                     ],

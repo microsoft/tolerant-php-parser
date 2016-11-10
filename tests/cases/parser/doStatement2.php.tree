@@ -100,14 +100,8 @@
                                     "textLength": 0
                                 },
                                 "expression": {
-                                    "Expression": {
-                                        "children": [
-                                            {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
-                                            }
-                                        ]
-                                    }
+                                    "kind": "MissingToken",
+                                    "textLength": 0
                                 },
                                 "closeParen": {
                                     "kind": "MissingToken",

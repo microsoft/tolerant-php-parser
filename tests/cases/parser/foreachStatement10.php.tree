@@ -58,8 +58,26 @@
                                 },
                                 "colon": null,
                                 "statements": {
-                                    "kind": "EqualsToken",
-                                    "textLength": 1
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "Expression": {
+                                                "children": [
+                                                    {
+                                                        "kind": "MissingToken",
+                                                        "textLength": 0
+                                                    },
+                                                    {
+                                                        "kind": "SkippedToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "semicolon": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        }
+                                    }
                                 },
                                 "endForeach": null,
                                 "endForeachSemicolon": null
@@ -70,8 +88,22 @@
                             "textLength": 1
                         },
                         {
-                            "kind": "VariableName",
-                            "textLength": 2
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
                         },
                         {
                             "kind": "SkippedToken",

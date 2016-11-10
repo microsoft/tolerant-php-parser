@@ -42,4 +42,6 @@ class NodeKind {
     const FinallyClauseNode = 36;
     const DeclareStatementNode = 37;
     const DeclareDirectiveNode = 38;
+    const VariableExpression = 39;
+    const ExpressionStatement = 40;
 }

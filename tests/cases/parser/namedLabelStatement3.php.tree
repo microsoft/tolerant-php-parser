@@ -13,8 +13,26 @@
                     },
                     "statementList": [
                         {
-                            "kind": "Name",
-                            "textLength": 5
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Expression": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            {
+                                                "kind": "SkippedToken",
+                                                "textLength": 5
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
                         }
                     ],
                     "endTag": null

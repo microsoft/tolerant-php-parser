@@ -13,21 +13,29 @@
                     },
                     "statementList": [
                         {
-                            "TemplateExpression": {
-                                "children": [
-                                    {
-                                        "kind": "TemplateStringStart",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "kind": "VariableName",
-                                        "textLength": 6
-                                    },
-                                    {
-                                        "kind": "TemplateStringEnd",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "TemplateExpression": {
+                                        "children": [
+                                            {
+                                                "kind": "TemplateStringStart",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 6
+                                            },
+                                            {
+                                                "kind": "TemplateStringEnd",
+                                                "textLength": 1
+                                            }
+                                        ]
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
                             }
                         }
                     ],

@@ -13,7 +13,7 @@
                     },
                     "statementList": [
                         {
-                            "kind": "NoSubstitutionTemplateLiteral",
+                            "kind": "SkippedToken",
                             "textLength": 7
                         }
                     ],

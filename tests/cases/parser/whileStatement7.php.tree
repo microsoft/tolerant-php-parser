@@ -23,14 +23,8 @@
                                     "textLength": 0
                                 },
                                 "expression": {
-                                    "Expression": {
-                                        "children": [
-                                            {
-                                                "kind": "MissingToken",
-                                                "textLength": 0
-                                            }
-                                        ]
-                                    }
+                                    "kind": "MissingToken",
+                                    "textLength": 0
                                 },
                                 "closeParen": {
                                     "kind": "MissingToken",
@@ -38,8 +32,16 @@
                                 },
                                 "colon": null,
                                 "statements": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        },
+                                        "semicolon": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        }
+                                    }
                                 },
                                 "endWhile": null,
                                 "semicolon": null
