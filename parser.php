@@ -56,6 +56,7 @@ use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\TryStatement;
 use PhpParser\Node\UnknownExpression;
+use PhpParser\Node\UnsetIntrinsicExpression;
 use PhpParser\Node\Variable;
 use PhpParser\Node\WhileStatement;
 
@@ -669,7 +670,7 @@ class Parser {
                 // intrinsic-construct
                 case TokenKind::EchoKeyword:
                 case TokenKind::ListKeyword:
-//                case TokenKind::UnsetKeyword:
+                case TokenKind::UnsetKeyword:
 
                 // intrinsic-operator
 //                case TokenKind::ArrayKeyword:
@@ -801,28 +802,28 @@ class Parser {
                 return $this->parseEchoExpression($parentNode);
             case TokenKind::ListKeyword:
                 return $this->parseListIntrinsicExpression($parentNode);
-                            /*
-                        case TokenKind::ListKeyword:
-                        case TokenKind::UnsetKeyword:
-                            return $this->parseIntrinsicConstructExpression($parentNode);
+            case TokenKind::UnsetKeyword:
+                return $this->parseUnsetIntrinsicExpression($parentNode);
 
-                            // intrinsic-operator
-                        case TokenKind::ArrayKeyword:
-                        case TokenKind::EmptyKeyword:
-                        case TokenKind::EvalKeyword:
-                        case TokenKind::ExitKeyword:
-                        case TokenKind::DieKeyword:
-                        case TokenKind::IsSetKeyword:
-                        case TokenKind::PrintKeyword:
-            //                return $this->
+            /*
 
-                            // anonymous-function-creation-expression
-                        case TokenKind::StaticKeyword:
-                        case TokenKind::FunctionKeyword:
+            // intrinsic-operator
+        case TokenKind::ArrayKeyword:
+        case TokenKind::EmptyKeyword:
+        case TokenKind::EvalKeyword:
+        case TokenKind::ExitKeyword:
+        case TokenKind::DieKeyword:
+        case TokenKind::IsSetKeyword:
+        case TokenKind::PrintKeyword:
+//                return $this->
 
-                            // ( expression )
-                        case TokenKind::OpenParenToken:
-                            return true;*/
+            // anonymous-function-creation-expression
+        case TokenKind::StaticKeyword:
+        case TokenKind::FunctionKeyword:
+
+            // ( expression )
+        case TokenKind::OpenParenToken:
+            return true;*/
             case TokenKind::EndOfFileToken:
                 return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
 
@@ -1392,12 +1393,7 @@ class Parser {
         $echoExpression->parent = $parentNode;
         $echoExpression->echoKeyword = $this->eat(TokenKind::EchoKeyword);
         $echoExpression->expressions =
-            $this->parseDelimitedList(
-                TokenKind::CommaToken,
-                $this->isExpressionStartFn(),
-                $this->parseExpressionFn(),
-                $echoExpression
-                );
+            $this->parseExpressionList($echoExpression);
 
         return $echoExpression;
     }
@@ -1457,6 +1453,27 @@ class Parser {
 
             return $arrayElement;
         };
+    }
+
+    private function parseExpressionList($parentExpression) {
+        return $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isExpressionStartFn(),
+            $this->parseExpressionFn(),
+            $parentExpression
+        );
+    }
+
+    private function parseUnsetIntrinsicExpression($parentNode) {
+        $unsetExpression = new UnsetIntrinsicExpression();
+        $unsetExpression->parent = $parentNode;
+
+        $unsetExpression->unsetKeyword = $this->eat(TokenKind::UnsetKeyword);
+        $unsetExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $unsetExpression->expressions = $this->parseExpressionList($unsetExpression);
+        $unsetExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $unsetExpression;
     }
 }
 
