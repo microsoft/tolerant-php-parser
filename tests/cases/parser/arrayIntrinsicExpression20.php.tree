@@ -1,0 +1,82 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ArrayIntrinsicExpression": {
+                                        "arrayKeyword": {
+                                            "kind": "ArrayKeyword",
+                                            "textLength": 5
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "arrayElements": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "ArrayElement": {
+                                                            "elementKey": {
+                                                                "Literal": {
+                                                                    "children": {
+                                                                        "kind": "NoSubstitutionTemplateLiteral",
+                                                                        "textLength": 2
+                                                                    }
+                                                                }
+                                                            },
+                                                            "arrowToken": {
+                                                                "kind": "DoubleArrowToken",
+                                                                "textLength": 2
+                                                            },
+                                                            "byRef": null,
+                                                            "elementValue": {
+                                                                "Variable": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

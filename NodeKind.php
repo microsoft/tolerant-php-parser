@@ -49,4 +49,5 @@ class NodeKind {
     const UnknownExpression = 43;
     const ListIntrinsicExpression = 44;
     const ArrayElement = 45;
+    const ArrayIntrinsicExpression = 46;
 }

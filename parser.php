@@ -14,6 +14,7 @@ spl_autoload_register(function ($class) {
 });
 
 use PhpParser\Node\ArrayElement;
+use PhpParser\Node\ArrayIntrinsicExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
@@ -673,7 +674,7 @@ class Parser {
                 case TokenKind::UnsetKeyword:
 
                 // intrinsic-operator
-//                case TokenKind::ArrayKeyword:
+                case TokenKind::ArrayKeyword:
 //                case TokenKind::EmptyKeyword:
 //                case TokenKind::EvalKeyword:
 //                case TokenKind::ExitKeyword:
@@ -805,10 +806,12 @@ class Parser {
             case TokenKind::UnsetKeyword:
                 return $this->parseUnsetIntrinsicExpression($parentNode);
 
-            /*
 
             // intrinsic-operator
-        case TokenKind::ArrayKeyword:
+            case TokenKind::ArrayKeyword:
+                return $this->parseArrayIntrinsicExpression($parentNode);
+
+            /*
         case TokenKind::EmptyKeyword:
         case TokenKind::EvalKeyword:
         case TokenKind::ExitKeyword:
@@ -1404,13 +1407,7 @@ class Parser {
         $listExpression->listKeyword = $this->eat(TokenKind::ListKeyword);
         $listExpression->openParen = $this->eat(TokenKind::OpenParenToken);
         $listExpression->listElements =
-            $this->parseDelimitedList(
-                TokenKind::CommaToken,
-                $this->isArrayElementStartFn(),
-                $this->parseArrayElementFn(),
-                $listExpression,
-                true
-            );
+            $this->parseArrayElementList($listExpression);
         $listExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $listExpression;
@@ -1474,6 +1471,28 @@ class Parser {
         $unsetExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $unsetExpression;
+    }
+
+    private function parseArrayIntrinsicExpression($parentNode) {
+        $arrayExpression = new ArrayIntrinsicExpression();
+        $arrayExpression->parent = $parentNode;
+
+        $arrayExpression->arrayKeyword = $this->eat(TokenKind::ArrayKeyword);
+        $arrayExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression);
+        $arrayExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $arrayExpression;
+    }
+
+    private function parseArrayElementList($listExpression) {
+        return $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isArrayElementStartFn(),
+            $this->parseArrayElementFn(),
+            $listExpression,
+            true
+        );
     }
 }
 

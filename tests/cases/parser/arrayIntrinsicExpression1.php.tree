@@ -15,55 +15,6 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "ListIntrinsicExpression": {
-                                        "listKeyword": {
-                                            "kind": "ListKeyword",
-                                            "textLength": 4
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "listElements": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
-                                                                "Literal": {
-                                                                    "children": {
-                                                                        "kind": "DecimalLiteralToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
                                     "ArrayIntrinsicExpression": {
                                         "arrayKeyword": {
                                             "kind": "ArrayKeyword",
@@ -82,11 +33,34 @@
                                                             "arrowToken": null,
                                                             "byRef": null,
                                                             "elementValue": {
-                                                                "Literal": {
-                                                                    "children": {
-                                                                        "kind": "DecimalLiteralToken",
-                                                                        "textLength": 1
-                                                                    }
+                                                                "Variable": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "ArrayElement": {
+                                                            "elementKey": null,
+                                                            "arrowToken": null,
+                                                            "byRef": null,
+                                                            "elementValue": {
+                                                                "Variable": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    ]
                                                                 }
                                                             }
                                                         }
