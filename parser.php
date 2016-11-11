@@ -27,6 +27,7 @@ use PhpParser\Node\DoStatement;
 use PhpParser\Node\EchoExpression;
 use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
+use PhpParser\Node\EmptyIntrinsicExpression;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\Expression;
 use PhpParser\Node\ExpressionStatement;
@@ -675,7 +676,7 @@ class Parser {
 
                 // intrinsic-operator
                 case TokenKind::ArrayKeyword:
-//                case TokenKind::EmptyKeyword:
+                case TokenKind::EmptyKeyword:
 //                case TokenKind::EvalKeyword:
 //                case TokenKind::ExitKeyword:
 //                case TokenKind::DieKeyword:
@@ -811,8 +812,9 @@ class Parser {
             case TokenKind::ArrayKeyword:
                 return $this->parseArrayIntrinsicExpression($parentNode);
 
+            case TokenKind::EmptyKeyword:
+                return $this->parseEmptyIntrinsicExpression($parentNode);
             /*
-        case TokenKind::EmptyKeyword:
         case TokenKind::EvalKeyword:
         case TokenKind::ExitKeyword:
         case TokenKind::DieKeyword:
@@ -1493,6 +1495,18 @@ class Parser {
             $listExpression,
             true
         );
+    }
+
+    private function parseEmptyIntrinsicExpression($parentNode) {
+        $emptyExpression = new EmptyIntrinsicExpression();
+        $emptyExpression->parent = $parentNode;
+
+        $emptyExpression->emptyKeyword = $this->eat(TokenKind::EmptyKeyword);
+        $emptyExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $emptyExpression->expression = $this->parseExpression($emptyExpression);
+        $emptyExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $emptyExpression;
     }
 }
 
