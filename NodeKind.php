@@ -51,4 +51,5 @@ class NodeKind {
     const ArrayElement = 45;
     const ArrayIntrinsicExpression = 46;
     const EmptyIntrinsicExpression = 47;
+    const EvalIntrinsicExpression = 48;
 }
