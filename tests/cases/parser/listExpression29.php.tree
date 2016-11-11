@@ -21,8 +21,8 @@
                                             "textLength": 4
                                         },
                                         "openParen": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
                                         },
                                         "listElements": {
                                             "DelimitedList": {
@@ -31,28 +31,10 @@
                                                         "ArrayElement": {
                                                             "elementKey": null,
                                                             "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
-                                                                "Variable": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "VariableName",
-                                                                            "textLength": 2
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
+                                                            "byRef": {
+                                                                "kind": "AmpersandToken",
+                                                                "textLength": 1
+                                                            },
                                                             "elementValue": {
                                                                 "Variable": {
                                                                     "children": [
@@ -78,6 +60,42 @@
                                     "kind": "MissingToken",
                                     "textLength": 0
                                 }
+                            }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 2
+                        },
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Variable": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
                             }
                         }
                     ],

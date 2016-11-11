@@ -21,8 +21,8 @@
                                             "textLength": 4
                                         },
                                         "openParen": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
                                         },
                                         "listElements": {
                                             "DelimitedList": {
@@ -31,28 +31,10 @@
                                                         "ArrayElement": {
                                                             "elementKey": null,
                                                             "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
-                                                                "Variable": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "VariableName",
-                                                                            "textLength": 2
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
+                                                            "byRef": {
+                                                                "kind": "AmpersandToken",
+                                                                "textLength": 1
+                                                            },
                                                             "elementValue": {
                                                                 "Variable": {
                                                                     "children": [
@@ -69,14 +51,14 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
                                 }
                             }
                         }

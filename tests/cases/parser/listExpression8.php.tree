@@ -1,2 +1,127 @@
-<?php
-list (list($d,)) = $c;
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ListIntrinsicExpression": {
+                                        "listKeyword": {
+                                            "kind": "ListKeyword",
+                                            "textLength": 4
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "listElements": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "ArrayElement": {
+                                                            "elementKey": null,
+                                                            "arrowToken": null,
+                                                            "byRef": null,
+                                                            "elementValue": {
+                                                                "ListIntrinsicExpression": {
+                                                                    "listKeyword": {
+                                                                        "kind": "ListKeyword",
+                                                                        "textLength": 4
+                                                                    },
+                                                                    "openParen": {
+                                                                        "kind": "OpenParenToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "listElements": {
+                                                                        "DelimitedList": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "ArrayElement": {
+                                                                                        "elementKey": null,
+                                                                                        "arrowToken": null,
+                                                                                        "byRef": null,
+                                                                                        "elementValue": {
+                                                                                            "Variable": {
+                                                                                                "children": [
+                                                                                                    {
+                                                                                                        "kind": "VariableName",
+                                                                                                        "textLength": 2
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "kind": "CommaToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "closeParen": {
+                                                                        "kind": "CloseParenToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 1
+                        },
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Variable": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

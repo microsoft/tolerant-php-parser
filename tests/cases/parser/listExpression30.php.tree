@@ -21,18 +21,15 @@
                                             "textLength": 4
                                         },
                                         "openParen": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
                                         },
                                         "listElements": {
                                             "DelimitedList": {
                                                 "children": [
                                                     {
                                                         "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
+                                                            "elementKey": {
                                                                 "Variable": {
                                                                     "children": [
                                                                         {
@@ -41,18 +38,15 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
+                                                            },
+                                                            "arrowToken": {
+                                                                "kind": "DoubleArrowToken",
+                                                                "textLength": 2
+                                                            },
+                                                            "byRef": {
+                                                                "kind": "AmpersandToken",
+                                                                "textLength": 1
+                                                            },
                                                             "elementValue": {
                                                                 "Variable": {
                                                                     "children": [
@@ -69,14 +63,14 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
                                 }
                             }
                         }

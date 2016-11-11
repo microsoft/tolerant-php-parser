@@ -13,6 +13,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
+use PhpParser\Node\ArrayElement;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
@@ -38,6 +39,7 @@ use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
+use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\Literal;
 use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
@@ -666,7 +668,7 @@ class Parser {
 
                 // intrinsic-construct
                 case TokenKind::EchoKeyword:
-//                case TokenKind::ListKeyword:
+                case TokenKind::ListKeyword:
 //                case TokenKind::UnsetKeyword:
 
                 // intrinsic-operator
@@ -797,7 +799,8 @@ class Parser {
             // intrinsic-construct
             case TokenKind::EchoKeyword:
                 return $this->parseEchoExpression($parentNode);
-
+            case TokenKind::ListKeyword:
+                return $this->parseListIntrinsicExpression($parentNode);
                             /*
                         case TokenKind::ListKeyword:
                         case TokenKind::UnsetKeyword:
@@ -905,14 +908,16 @@ class Parser {
         };
     }
 
-    private function parseDelimitedList($delimeter, $isElementStartFn, $parseElementFn, $parentNode) {
+    private function parseDelimitedList($delimeter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
         $node = new DelimitedList();
         $token = $this->getCurrentToken();
         do {
-            if (!$isElementStartFn($token)) {
+            if ($isElementStartFn($token)) {
+                $node->addToken($parseElementFn($node));
+            } else if (!$allowEmptyElements || ($allowEmptyElements && !$this->lookahead($delimeter))) {
                 break;
             }
-            $node->addToken($parseElementFn($node));
+
             $delimeterToken = $this->eatOptional($delimeter);
             if ($delimeterToken !== null) {
                 $node->addToken($delimeterToken);
@@ -1395,6 +1400,63 @@ class Parser {
                 );
 
         return $echoExpression;
+    }
+
+    private function parseListIntrinsicExpression($parentNode) {
+        $listExpression = new ListIntrinsicExpression();
+        $listExpression->parent = $parentNode;
+        $listExpression->listKeyword = $this->eat(TokenKind::ListKeyword);
+        $listExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $listExpression->listElements =
+            $this->parseDelimitedList(
+                TokenKind::CommaToken,
+                $this->isArrayElementStartFn(),
+                $this->parseArrayElementFn(),
+                $listExpression,
+                true
+            );
+        $listExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $listExpression;
+    }
+
+    private function isArrayElementStart($token) {
+        return ($this->isArrayElementStartFn())($token);
+    }
+
+    private function isArrayElementStartFn() {
+        return function ($token) {
+            return $token->kind === TokenKind::AmpersandToken || $this->isExpressionStart($token);
+        };
+    }
+
+    private function parseArrayElement($parentNode) {
+        return ($this->parseArrayElementFn())($parentNode);
+    }
+
+    private function parseArrayElementFn() {
+        return function($parentNode) {
+            $arrayElement = new ArrayElement();
+            $arrayElement->parent = $parentNode;
+
+            $token = $this->getCurrentToken();
+            if ($this->lookahead(TokenKind::AmpersandToken)) {
+                $arrayElement->byRef = $this->eat(TokenKind::AmpersandToken);
+                $arrayElement->elementValue = $this->parseExpression($arrayElement);
+            } else {
+                $expression = $this->parseExpression($arrayElement);
+                if ($this->lookahead(TokenKind::DoubleArrowToken)) {
+                    $arrayElement->elementKey = $expression;
+                    $arrayElement->arrowToken = $this->eat(TokenKind::DoubleArrowToken);
+                    $arrayElement->byRef = $this->eatOptional(TokenKind::AmpersandToken); // TODO not okay for list expressions
+                    $arrayElement->elementValue = $this->parseExpression($arrayElement);
+                } else {
+                    $arrayElement->elementValue = $expression;
+                }
+            }
+
+            return $arrayElement;
+        };
     }
 }
 

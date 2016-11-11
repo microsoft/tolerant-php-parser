@@ -47,4 +47,6 @@ class NodeKind {
     const EchoExpression = 41;
     const Literal = 42;
     const UnknownExpression = 43;
+    const ListIntrinsicExpression = 44;
+    const ArrayElement = 45;
 }
