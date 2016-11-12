@@ -52,4 +52,5 @@ class NodeKind {
     const ArrayIntrinsicExpression = 46;
     const EmptyIntrinsicExpression = 47;
     const EvalIntrinsicExpression = 48;
+    const ParenthesizedExpression = 49;
 }

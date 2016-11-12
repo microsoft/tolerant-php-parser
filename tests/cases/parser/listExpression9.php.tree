@@ -153,21 +153,27 @@
                             }
                         },
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ParenthesizedExpression": {
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "expression": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         }
                     ],

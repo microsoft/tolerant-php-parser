@@ -48,6 +48,7 @@ use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
+use PhpParser\Node\ParenthesizedExpression;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
 use PhpParser\Node\ReturnStatement;
@@ -684,6 +685,8 @@ class Parser {
 //                case TokenKind::IsSetKeyword:
 //                case TokenKind::PrintKeyword:
 
+                // ( expression )
+                case TokenKind::OpenParenToken:
 
                 return true;
             }
@@ -817,6 +820,10 @@ class Parser {
                 return $this->parseEmptyIntrinsicExpression($parentNode);
             case TokenKind::EvalKeyword:
                 return $this->parseEvalIntrinsicExpression($parentNode);
+
+            // ( expression )
+            case TokenKind::OpenParenToken:
+                return $this->parseParenthesizedExpression($parentNode);
             /*
         case TokenKind::ExitKeyword:
         case TokenKind::DieKeyword:
@@ -1521,6 +1528,17 @@ class Parser {
         $evalExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $evalExpression;
+    }
+
+    private function parseParenthesizedExpression($parentNode) {
+        $parenthesizedExpression = new ParenthesizedExpression();
+        $parenthesizedExpression->parent = $parentNode;
+
+        $parenthesizedExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $parenthesizedExpression->expression = $this->parseExpression($parentNode);
+        $parenthesizedExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $parenthesizedExpression;
     }
 }
 
