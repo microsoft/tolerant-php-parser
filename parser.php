@@ -15,6 +15,7 @@ spl_autoload_register(function ($class) {
 
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\ArrayIntrinsicExpression;
+use PhpParser\Node\BinaryExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
@@ -1163,9 +1164,58 @@ class Parser {
 
     function parseExpressionFn() {
         return function ($parentNode) {
-            // TODO currently only parses variable names to help w/ testing, but eventually implement
-            return $this->parsePrimaryExpression($parentNode);
+            return $this->parseBinaryExpressionOrHigher(0, $parentNode);
         };
+    }
+
+    private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
+        $leftOperand = $this->parsePrimaryExpression($parentNode);
+
+        while (true) {
+            $token = $this->getCurrentToken();
+            $newPrecedence = $this->getBinaryOperatorPrecedence($token);
+
+            $shouldConsumeCurrentOperator = $newPrecedence > $precedence;
+            if (!$shouldConsumeCurrentOperator) {
+                break;
+            }
+
+            $this->advanceToken();
+            $leftOperand = $this->makeBinaryExpression(
+                $leftOperand,
+                $token,
+                $this->parseBinaryExpressionOrHigher($newPrecedence, null),
+                $parentNode);
+        }
+        return $leftOperand;
+    }
+
+    private function getBinaryOperatorPrecedence($token) {
+        switch ($token->kind) {
+            // additive-expression
+            case TokenKind::PlusToken:
+            case TokenKind::MinusToken:
+            case TokenKind::DotToken:
+                return 1;
+
+            // multiplicative-expression
+            case TokenKind::AsteriskToken:
+            case TokenKind::SlashToken:
+            case TokenKind::PercentToken:
+                return 2;
+        }
+        return -1;
+    }
+
+    private function makeBinaryExpression($leftOperand, $operatorToken, $rightOperand, $parentNode) {
+        $binaryExpression = new BinaryExpression();
+        $binaryExpression->parent = $parentNode;
+        $leftOperand->parent = $binaryExpression;
+        $rightOperand->parent = $binaryExpression;
+        $binaryExpression->leftOperand = $leftOperand;
+        $binaryExpression->operator = $operatorToken;
+        $binaryExpression->rightOperand = $rightOperand;
+        return $binaryExpression;
     }
 
     private function parseDoStatement($parentNode) {

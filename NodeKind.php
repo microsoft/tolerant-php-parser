@@ -56,4 +56,5 @@ class NodeKind {
     const ExitIntrinsicExpression = 50;
     const PrintIntrinsicExpression = 51;
     const IssetIntrinsicExpression = 52;
+    const BinaryExpression = 53;
 }
