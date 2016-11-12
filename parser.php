@@ -30,6 +30,7 @@ use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyIntrinsicExpression;
 use PhpParser\Node\EmptyStatementNode;
 use PhpParser\Node\EvalIntrinsicExpression;
+use PhpParser\Node\ExitIntrinsicExpression;
 use PhpParser\Node\Expression;
 use PhpParser\Node\ExpressionStatement;
 use PhpParser\Node\FinallyClause;
@@ -680,8 +681,8 @@ class Parser {
                 case TokenKind::ArrayKeyword:
                 case TokenKind::EmptyKeyword:
                 case TokenKind::EvalKeyword:
-//                case TokenKind::ExitKeyword:
-//                case TokenKind::DieKeyword:
+                case TokenKind::ExitKeyword:
+                case TokenKind::DieKeyword:
 //                case TokenKind::IsSetKeyword:
 //                case TokenKind::PrintKeyword:
 
@@ -821,12 +822,15 @@ class Parser {
             case TokenKind::EvalKeyword:
                 return $this->parseEvalIntrinsicExpression($parentNode);
 
+            case TokenKind::ExitKeyword:
+            case TokenKind::DieKeyword:
+                return $this->parseExitIntrinsicExpression($parentNode);
+
             // ( expression )
             case TokenKind::OpenParenToken:
                 return $this->parseParenthesizedExpression($parentNode);
+
             /*
-        case TokenKind::ExitKeyword:
-        case TokenKind::DieKeyword:
         case TokenKind::IsSetKeyword:
         case TokenKind::PrintKeyword:
 //                return $this->
@@ -1535,10 +1539,26 @@ class Parser {
         $parenthesizedExpression->parent = $parentNode;
 
         $parenthesizedExpression->openParen = $this->eat(TokenKind::OpenParenToken);
-        $parenthesizedExpression->expression = $this->parseExpression($parentNode);
+        $parenthesizedExpression->expression = $this->parseExpression($parenthesizedExpression);
         $parenthesizedExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $parenthesizedExpression;
+    }
+
+    private function parseExitIntrinsicExpression($parentNode) {
+        $exitExpression = new ExitIntrinsicExpression();
+        $exitExpression->parent = $parentNode;
+
+        $exitExpression->exitOrDieKeyword = $this->eat(TokenKind::ExitKeyword, TokenKind::DieKeyword);
+        $exitExpression->openParen = $this->eatOptional(TokenKind::OpenParenToken);
+        if ($exitExpression->openParen !== null) {
+            if ($this->isExpressionStart($this->getCurrentToken())){
+                $exitExpression->expression = $this->parseExpression($exitExpression);
+            }
+            $exitExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+        }
+
+        return $exitExpression;
     }
 }
 

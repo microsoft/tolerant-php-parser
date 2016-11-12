@@ -1,0 +1,50 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ExitIntrinsicExpression": {
+                                        "exitOrDieKeyword": {
+                                            "kind": "DieKeyword",
+                                            "textLength": 3
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "expression": null,
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
