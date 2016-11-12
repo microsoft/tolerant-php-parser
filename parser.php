@@ -43,6 +43,7 @@ use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
+use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\Literal;
 use PhpParser\Node\MethodDeclaration;
@@ -684,7 +685,7 @@ class Parser {
                 case TokenKind::EvalKeyword:
                 case TokenKind::ExitKeyword:
                 case TokenKind::DieKeyword:
-//                case TokenKind::IsSetKeyword:
+                case TokenKind::IsSetKeyword:
                 case TokenKind::PrintKeyword:
 
                 // ( expression )
@@ -827,6 +828,9 @@ class Parser {
             case TokenKind::DieKeyword:
                 return $this->parseExitIntrinsicExpression($parentNode);
 
+            case TokenKind::IsSetKeyword:
+                return $this->parseIssetIntrinsicExpression($parentNode);
+
             case TokenKind::PrintKeyword:
                 return $this->parsePrintIntrinsicExpression($parentNode);
 
@@ -835,7 +839,6 @@ class Parser {
                 return $this->parseParenthesizedExpression($parentNode);
 
             /*
-        case TokenKind::IsSetKeyword:
 //                return $this->
 
             // anonymous-function-creation-expression
@@ -1572,6 +1575,18 @@ class Parser {
         $printExpression->expression = $this->parseExpression($printExpression);
 
         return $printExpression;
+    }
+
+    private function parseIssetIntrinsicExpression($parentNode) {
+        $issetExpression = new IssetIntrinsicExpression();
+        $issetExpression->parent = $parentNode;
+
+        $issetExpression->issetKeyword = $this->eat(TokenKind::IsSetKeyword);
+        $issetExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $issetExpression->expressions = $this->parseExpressionList($issetExpression);
+        $issetExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $issetExpression;
     }
 }
 

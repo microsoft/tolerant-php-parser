@@ -55,4 +55,5 @@ class NodeKind {
     const ParenthesizedExpression = 49;
     const ExitIntrinsicExpression = 50;
     const PrintIntrinsicExpression = 51;
+    const IssetIntrinsicExpression = 52;
 }
