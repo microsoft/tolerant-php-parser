@@ -15,16 +15,8 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "EvalIntrinsicExpression": {
-                                        "evalKeyword": {
-                                            "kind": "EvalKeyword",
-                                            "textLength": 4
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "expression": {
+                                    "BinaryExpression": {
+                                        "leftOperand": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
                                                     "Variable": {
@@ -37,7 +29,7 @@
                                                     }
                                                 },
                                                 "operator": {
-                                                    "kind": "PlusToken",
+                                                    "kind": "LessThanToken",
                                                     "textLength": 1
                                                 },
                                                 "rightOperand": {
@@ -52,9 +44,37 @@
                                                 }
                                             }
                                         },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
+                                        "operator": {
+                                            "kind": "EqualsEqualsEqualsToken",
+                                            "textLength": 3
+                                        },
+                                        "rightOperand": {
+                                            "BinaryExpression": {
+                                                "leftOperand": {
+                                                    "Variable": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "VariableName",
+                                                                "textLength": 2
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "operator": {
+                                                    "kind": "LessThanToken",
+                                                    "textLength": 1
+                                                },
+                                                "rightOperand": {
+                                                    "Variable": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "VariableName",
+                                                                "textLength": 2
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 },

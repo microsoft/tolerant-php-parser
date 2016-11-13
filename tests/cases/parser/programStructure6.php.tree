@@ -15,39 +15,35 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Variable": {
-                                        "children": [
-                                            {
-                                                "kind": "VariableName",
-                                                "textLength": 8
-                                            }
-                                        ]
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
                                                 "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 1
+                                                        "kind": "VariableName",
+                                                        "textLength": 8
                                                     }
                                                 ]
+                                            }
+                                        },
+                                        "operator": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "rightOperand": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -59,21 +55,27 @@
                             }
                         },
                         {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ParenthesizedExpression": {
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "expression": {
+                                            "kind": "MissingToken",
+                                            "textLength": 0
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
                                     }
-                                ]
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         },
                         {

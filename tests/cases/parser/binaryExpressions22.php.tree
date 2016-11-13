@@ -15,16 +15,22 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "EvalIntrinsicExpression": {
-                                        "evalKeyword": {
-                                            "kind": "EvalKeyword",
-                                            "textLength": 4
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
+                                        "operator": {
+                                            "kind": "EqualsEqualsEqualsToken",
+                                            "textLength": 3
                                         },
-                                        "expression": {
+                                        "rightOperand": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
                                                     "Variable": {
@@ -37,7 +43,7 @@
                                                     }
                                                 },
                                                 "operator": {
-                                                    "kind": "PlusToken",
+                                                    "kind": "LessThanToken",
                                                     "textLength": 1
                                                 },
                                                 "rightOperand": {
@@ -51,11 +57,29 @@
                                                     }
                                                 }
                                             }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 3
+                        },
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "Variable": {
+                                        "children": [
+                                            {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        ]
                                     }
                                 },
                                 "semicolon": {

@@ -15,16 +15,22 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "EvalIntrinsicExpression": {
-                                        "evalKeyword": {
-                                            "kind": "EvalKeyword",
-                                            "textLength": 4
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
+                                        "operator": {
+                                            "kind": "QuestionQuestionToken",
+                                            "textLength": 2
                                         },
-                                        "expression": {
+                                        "rightOperand": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
                                                     "Variable": {
@@ -37,8 +43,8 @@
                                                     }
                                                 },
                                                 "operator": {
-                                                    "kind": "PlusToken",
-                                                    "textLength": 1
+                                                    "kind": "QuestionQuestionToken",
+                                                    "textLength": 2
                                                 },
                                                 "rightOperand": {
                                                     "Variable": {
@@ -51,10 +57,6 @@
                                                     }
                                                 }
                                             }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
                                     }
                                 },

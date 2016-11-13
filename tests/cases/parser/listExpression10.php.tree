@@ -15,152 +15,148 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "ListIntrinsicExpression": {
-                                        "listKeyword": {
-                                            "kind": "ListKeyword",
-                                            "textLength": 4
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "listElements": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
-                                                                "ListIntrinsicExpression": {
-                                                                    "listKeyword": {
-                                                                        "kind": "ListKeyword",
-                                                                        "textLength": 4
-                                                                    },
-                                                                    "openParen": {
-                                                                        "kind": "OpenParenToken",
-                                                                        "textLength": 1
-                                                                    },
-                                                                    "listElements": {
-                                                                        "DelimitedList": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "ArrayElement": {
-                                                                                        "elementKey": null,
-                                                                                        "arrowToken": null,
-                                                                                        "byRef": null,
-                                                                                        "elementValue": {
-                                                                                            "Variable": {
-                                                                                                "children": [
-                                                                                                    {
-                                                                                                        "kind": "VariableName",
-                                                                                                        "textLength": 2
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "ListIntrinsicExpression": {
+                                                "listKeyword": {
+                                                    "kind": "ListKeyword",
+                                                    "textLength": 4
+                                                },
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "listElements": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "ArrayElement": {
+                                                                    "elementKey": null,
+                                                                    "arrowToken": null,
+                                                                    "byRef": null,
+                                                                    "elementValue": {
+                                                                        "ListIntrinsicExpression": {
+                                                                            "listKeyword": {
+                                                                                "kind": "ListKeyword",
+                                                                                "textLength": 4
+                                                                            },
+                                                                            "openParen": {
+                                                                                "kind": "OpenParenToken",
+                                                                                "textLength": 1
+                                                                            },
+                                                                            "listElements": {
+                                                                                "DelimitedList": {
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "ArrayElement": {
+                                                                                                "elementKey": null,
+                                                                                                "arrowToken": null,
+                                                                                                "byRef": null,
+                                                                                                "elementValue": {
+                                                                                                    "Variable": {
+                                                                                                        "children": [
+                                                                                                            {
+                                                                                                                "kind": "VariableName",
+                                                                                                                "textLength": 2
+                                                                                                            }
+                                                                                                        ]
                                                                                                     }
-                                                                                                ]
+                                                                                                }
                                                                                             }
+                                                                                        },
+                                                                                        {
+                                                                                            "kind": "CommaToken",
+                                                                                            "textLength": 1
                                                                                         }
-                                                                                    }
-                                                                                },
-                                                                                {
-                                                                                    "kind": "CommaToken",
-                                                                                    "textLength": 1
+                                                                                    ]
                                                                                 }
-                                                                            ]
+                                                                            },
+                                                                            "closeParen": {
+                                                                                "kind": "CloseParenToken",
+                                                                                "textLength": 1
+                                                                            }
                                                                         }
-                                                                    },
-                                                                    "closeParen": {
-                                                                        "kind": "CloseParenToken",
-                                                                        "textLength": 1
                                                                     }
                                                                 }
                                                             }
-                                                        }
+                                                        ]
                                                     }
-                                                ]
+                                                },
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
+                                                }
                                             }
                                         },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 1
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ArrayIntrinsicExpression": {
-                                        "arrayKeyword": {
-                                            "kind": "ArrayKeyword",
-                                            "textLength": 5
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
+                                        "operator": {
+                                            "kind": "EqualsToken",
                                             "textLength": 1
                                         },
-                                        "arrayElements": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ArrayElement": {
-                                                            "elementKey": null,
-                                                            "arrowToken": null,
-                                                            "byRef": null,
-                                                            "elementValue": {
-                                                                "ArrayIntrinsicExpression": {
-                                                                    "arrayKeyword": {
-                                                                        "kind": "ArrayKeyword",
-                                                                        "textLength": 5
-                                                                    },
-                                                                    "openParen": {
-                                                                        "kind": "OpenParenToken",
-                                                                        "textLength": 1
-                                                                    },
-                                                                    "arrayElements": {
-                                                                        "DelimitedList": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "ArrayElement": {
-                                                                                        "elementKey": null,
-                                                                                        "arrowToken": null,
-                                                                                        "byRef": null,
-                                                                                        "elementValue": {
-                                                                                            "Literal": {
-                                                                                                "children": {
-                                                                                                    "kind": "DecimalLiteralToken",
-                                                                                                    "textLength": 1
+                                        "rightOperand": {
+                                            "ArrayIntrinsicExpression": {
+                                                "arrayKeyword": {
+                                                    "kind": "ArrayKeyword",
+                                                    "textLength": 5
+                                                },
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "arrayElements": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "ArrayElement": {
+                                                                    "elementKey": null,
+                                                                    "arrowToken": null,
+                                                                    "byRef": null,
+                                                                    "elementValue": {
+                                                                        "ArrayIntrinsicExpression": {
+                                                                            "arrayKeyword": {
+                                                                                "kind": "ArrayKeyword",
+                                                                                "textLength": 5
+                                                                            },
+                                                                            "openParen": {
+                                                                                "kind": "OpenParenToken",
+                                                                                "textLength": 1
+                                                                            },
+                                                                            "arrayElements": {
+                                                                                "DelimitedList": {
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "ArrayElement": {
+                                                                                                "elementKey": null,
+                                                                                                "arrowToken": null,
+                                                                                                "byRef": null,
+                                                                                                "elementValue": {
+                                                                                                    "Literal": {
+                                                                                                        "children": {
+                                                                                                            "kind": "DecimalLiteralToken",
+                                                                                                            "textLength": 1
+                                                                                                        }
+                                                                                                    }
                                                                                                 }
                                                                                             }
                                                                                         }
-                                                                                    }
+                                                                                    ]
                                                                                 }
-                                                                            ]
+                                                                            },
+                                                                            "closeParen": {
+                                                                                "kind": "CloseParenToken",
+                                                                                "textLength": 1
+                                                                            }
                                                                         }
-                                                                    },
-                                                                    "closeParen": {
-                                                                        "kind": "CloseParenToken",
-                                                                        "textLength": 1
                                                                     }
                                                                 }
                                                             }
-                                                        }
+                                                        ]
                                                     }
-                                                ]
+                                                },
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
+                                                }
                                             }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
                                     }
                                 },

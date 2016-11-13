@@ -17,34 +17,39 @@
                                 "expression": {
                                     "BinaryExpression": {
                                         "leftOperand": {
-                                            "ListIntrinsicExpression": {
-                                                "listKeyword": {
-                                                    "kind": "ListKeyword",
-                                                    "textLength": 4
-                                                },
-                                                "openParen": {
-                                                    "kind": "OpenParenToken",
-                                                    "textLength": 1
-                                                },
-                                                "listElements": null,
-                                                "closeParen": {
-                                                    "kind": "CloseParenToken",
+                                            "Literal": {
+                                                "children": {
+                                                    "kind": "DecimalLiteralToken",
                                                     "textLength": 1
                                                 }
                                             }
                                         },
                                         "operator": {
-                                            "kind": "EqualsToken",
-                                            "textLength": 1
+                                            "kind": "LessThanLessThanToken",
+                                            "textLength": 2
                                         },
                                         "rightOperand": {
-                                            "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
+                                            "BinaryExpression": {
+                                                "leftOperand": {
+                                                    "Literal": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
+                                                        }
                                                     }
-                                                ]
+                                                },
+                                                "operator": {
+                                                    "kind": "PlusToken",
+                                                    "textLength": 1
+                                                },
+                                                "rightOperand": {
+                                                    "Literal": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }

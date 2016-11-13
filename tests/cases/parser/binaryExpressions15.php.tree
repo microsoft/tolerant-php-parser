@@ -15,16 +15,22 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "EvalIntrinsicExpression": {
-                                        "evalKeyword": {
-                                            "kind": "EvalKeyword",
-                                            "textLength": 4
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
+                                        "operator": {
+                                            "kind": "EqualsToken",
                                             "textLength": 1
                                         },
-                                        "expression": {
+                                        "rightOperand": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
                                                     "Variable": {
@@ -37,24 +43,18 @@
                                                     }
                                                 },
                                                 "operator": {
-                                                    "kind": "PlusToken",
+                                                    "kind": "EqualsToken",
                                                     "textLength": 1
                                                 },
                                                 "rightOperand": {
-                                                    "Variable": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "VariableName",
-                                                                "textLength": 2
-                                                            }
-                                                        ]
+                                                    "Literal": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
+                                                        }
                                                     }
                                                 }
                                             }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
                                     }
                                 },
