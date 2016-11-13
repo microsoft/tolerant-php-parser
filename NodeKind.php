@@ -58,4 +58,5 @@ class NodeKind {
     const IssetIntrinsicExpression = 52;
     const BinaryExpression = 53;
     const UnaryOpExpression = 54;
+    const ErrorControlExpression = 55;
 }

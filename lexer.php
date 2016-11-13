@@ -92,6 +92,7 @@ class Lexer {
                 case CharacterCodes::_comma: // , (TODO should this actually be treated as compound?)
 
                 // Non-compound
+                case CharacterCodes::_at: // @
                 case CharacterCodes::_openBracket:
                 case CharacterCodes::_closeBracket:
                 case CharacterCodes::_openParen:

@@ -30,6 +30,7 @@ use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\EmptyIntrinsicExpression;
 use PhpParser\Node\EmptyStatementNode;
+use PhpParser\Node\ErrorControlExpression;
 use PhpParser\Node\EvalIntrinsicExpression;
 use PhpParser\Node\ExitIntrinsicExpression;
 use PhpParser\Node\Expression;
@@ -654,6 +655,9 @@ class Parser {
                 case TokenKind::MinusToken:
                 case TokenKind::ExclamationToken:
                 case TokenKind::TildeToken:
+
+                // error-control-expression
+                case TokenKind::AtSymbolToken:
                     return true;
 
                 // variable-name
@@ -1188,10 +1192,11 @@ class Parser {
             case TokenKind::ExclamationToken:
             case TokenKind::TildeToken:
                 return $this->parseUnaryOpExpression($parentNode);
-/*
+
             // error-control-expression
             case TokenKind::AtSymbolToken:
                 return $this->parseErrorControlExpression($parentNode);
+/*
 
             case TokenKind::BacktickToken:
                 return $this->parseShellCommandExpression($parentNode);
@@ -1802,12 +1807,19 @@ class Parser {
         $unaryOpExpression->parent = $parentNode;
         $unaryOpExpression->operator =
             $this->eat(TokenKind::PlusToken, TokenKind::MinusToken, TokenKind::ExclamationToken, TokenKind::TildeToken);
-        if ($this->isExpressionStart($this->getCurrentToken())) {
-
-        }
         $unaryOpExpression->operand = $this->parseUnaryExpressionOrHigher($unaryOpExpression);
 
         return $unaryOpExpression;
+    }
+
+    private function parseErrorControlExpression($parentNode) {
+        $errorControlExpression = new ErrorControlExpression();
+        $errorControlExpression->parent = $parentNode;
+
+        $errorControlExpression->operator = $this->eat(TokenKind::AtSymbolToken);
+        $errorControlExpression->operand = $this->parseUnaryExpressionOrHigher($errorControlExpression);
+
+        return $errorControlExpression;
     }
 }
 
