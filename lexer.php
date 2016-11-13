@@ -115,7 +115,7 @@ class Lexer {
 
                             if ($tokenKind === TokenKind::ScriptSectionStartTag) {
                                 $this->inScriptSection = true;
-                            } else if ($this->inScriptSection && $tokenKind === TokenKind::ScriptSectionEndTag) {
+                            } elseif ($this->inScriptSection && $tokenKind === TokenKind::ScriptSectionEndTag) {
                                 $this->inScriptSection = false;
                             }
 
@@ -129,10 +129,10 @@ class Lexer {
                     if ($this->isSingleLineCommentStart($text, $pos, $endOfFilePos)) {
                         $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                         continue;
-                    } else if ($this->isDelimitedCommentStart($text, $pos, $endOfFilePos)) {
+                    } elseif ($this->isDelimitedCommentStart($text, $pos, $endOfFilePos)) {
                         $this->scanDelimitedComment($text, $pos, $endOfFilePos);
                         continue;
-                    } else if (isset($text[$pos+1]) && $text[$pos+1] === "=") {
+                    } elseif (isset($text[$pos+1]) && $text[$pos+1] === "=") {
                         $pos+=2;
                         return new Token(TokenKind::SlashEqualsToken, $fullStart, $start, $pos - $fullStart);
                     }
@@ -179,7 +179,7 @@ class Lexer {
                             $token = $this->getKeywordTokenFromNameToken($token, $tokenText, $text, $pos, $endOfFilePos);
                         }
                         return $token;
-                    } else if ($this->isDigitChar($text[$pos])) {
+                    } elseif ($this->isDigitChar($text[$pos])) {
                         $kind = $this->scanNumericLiteral($text, $pos, $endOfFilePos);
                         return new Token($kind, $fullStart, $start, $pos - $fullStart);
                     }
@@ -239,7 +239,7 @@ class Lexer {
         while ($pos < $endOfFilePos) {
             if ($this->isScriptStartTag($text, $pos, $endOfFilePos)) {
                 return;
-            } else if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
+            } elseif (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
                 $pos += 2;
                 return;
             }
@@ -350,7 +350,7 @@ class Lexer {
 
             }
             return TokenKind::BinaryLiteralToken;
-        } else if ($this->isHexadecimalLiteralStart($text, $pos, $endOfFilePos)) {
+        } elseif ($this->isHexadecimalLiteralStart($text, $pos, $endOfFilePos)) {
             $pos += 2;
             $prevPos = $pos;
             $isValidHexLiteral = $this->scanHexadecimalLiteral($text, $pos, $endOfFilePos);
@@ -359,7 +359,7 @@ class Lexer {
                 // invalid hexadecimal literal
             }
             return TokenKind::HexadecimalLiteralToken;
-        } else if ($this->isDigitChar($text[$pos]) || $text[$pos] === ".") {
+        } elseif ($this->isDigitChar($text[$pos]) || $text[$pos] === ".") {
             // TODO throw error if there is no number past the dot.
             $prevPos = $pos;
             $isValidFloatingLiteral = $this->scanFloatingPointLiteral($text, $pos, $endOfFilePos);
@@ -412,7 +412,7 @@ class Lexer {
             if ($this->isBinaryDigitChar($char)) {
                 $pos++;
                 continue;
-            } else if ($this->isDigitChar($char)) {
+            } elseif ($this->isDigitChar($char)) {
                 $pos++;
                 // REPORT ERROR;
                 $isValid = false;
@@ -430,7 +430,7 @@ class Lexer {
             if ($this->isHexadecimalDigit($char)) {
                 $pos++;
                 continue;
-            } else if ($this->isDigitChar($char) || $this->isNameNonDigitChar($char)) {
+            } elseif ($this->isDigitChar($char) || $this->isNameNonDigitChar($char)) {
                 $pos++;
                 // REPORT ERROR;
                 $isValid = false;
@@ -476,7 +476,7 @@ class Lexer {
             if ($this->isOctalDigitChar($char)) {
                 $pos++;
                 continue;
-            } else if ($this->isDigitChar($char)) {
+            } elseif ($this->isDigitChar($char)) {
                 $pos++;
                 $isValid = false;
                 continue;
@@ -496,7 +496,7 @@ class Lexer {
              if ($this->isDigitChar($char)) {
                  $pos++;
                  continue;
-             } else if ($char === ".") {
+             } elseif ($char === ".") {
                  if ($hasDot || $expStart !== null) {
                      // Dot not valid, done scanning
                      break;
@@ -504,7 +504,7 @@ class Lexer {
                  $hasDot = true;
                  $pos++;
                  continue;
-             } else if ($char === "e" || $char === "E") {
+             } elseif ($char === "e" || $char === "E") {
                  if ($expStart !== null) {
                      // exponential not valid here, done scanning
                      break;
@@ -512,7 +512,7 @@ class Lexer {
                  $expStart = $pos;
                  $pos++;
                  continue;
-             } else if ($char === "+" || $char === "-") {
+             } elseif ($char === "+" || $char === "-") {
                  if ($expStart !== null && $expStart === $pos-1) {
                      $hasSign = true;
                      $pos++;
@@ -547,10 +547,10 @@ class Lexer {
                 // unterminated string
                 // TODO REPORT ERROR
                 break;
-            } else if ($this->isSingleQuoteEscapeSequence($text, $pos)) {
+            } elseif ($this->isSingleQuoteEscapeSequence($text, $pos)) {
                 $pos+=2;
                 continue;
-            } else if ($text[$pos] === "'") {
+            } elseif ($text[$pos] === "'") {
                 $pos++;
                 $isTerminated = true;
                 break;

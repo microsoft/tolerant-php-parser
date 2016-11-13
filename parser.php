@@ -8,7 +8,7 @@ namespace PhpParser;
 spl_autoload_register(function ($class) {
     if (file_exists($filepath = __DIR__ . "/Node/" . basename($class) . ".php")) {
         require_once $filepath;
-    } else if (file_exists($filepath = __DIR__ . "/" . basename($class) . ".php")) {
+    } elseif (file_exists($filepath = __DIR__ . "/" . basename($class) . ".php")) {
         require_once $filepath;
     }
 });
@@ -940,7 +940,7 @@ class Parser {
         do {
             if ($isElementStartFn($token)) {
                 $node->addToken($parseElementFn($node));
-            } else if (!$allowEmptyElements || ($allowEmptyElements && !$this->lookahead($delimeter))) {
+            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->lookahead($delimeter))) {
                 break;
             }
 
@@ -1528,7 +1528,7 @@ class Parser {
 
         if ($this->lookahead(TokenKind::SemicolonToken)) {
             $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
-        } else if ($this->lookahead(TokenKind::ColonToken)) {
+        } elseif ($this->lookahead(TokenKind::ColonToken)) {
             $declareStatement->colon = $this->eat(TokenKind::ColonToken);
             $declareStatement->statements = $this->parseList($declareStatement, ParseContext::DeclareStatementElements);
             $declareStatement->enddeclareKeyword = $this->eat(TokenKind::EndDeclareKeyword);

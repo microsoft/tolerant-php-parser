@@ -20,7 +20,7 @@ class Node implements \JsonSerializable {
         foreach ($this->getChildren() as $child) {
             if ($child instanceof Node) {
                 $length += $child->getLength();
-            } else if ($child instanceof Token) {
+            } elseif ($child instanceof Token) {
                 $length += $child->length;
             }
         }
@@ -36,7 +36,7 @@ class Node implements \JsonSerializable {
                 foreach ($child->getAllChildren() as $subChild) {
                     array_push($allChildren, $subChild);
                 }
-            } else if ($child instanceof Token) {
+            } elseif ($child instanceof Token) {
                 array_push($allChildren, $child);
             }
         }
@@ -76,7 +76,7 @@ class Node implements \JsonSerializable {
         $child = $this->getChildren()[0];
         if ($child instanceof Node) {
             return $child->getStart();
-        } else if ($child instanceof Token) {
+        } elseif ($child instanceof Token) {
             return $child->start;
         }
         throw new \Exception("Unknown type in AST");

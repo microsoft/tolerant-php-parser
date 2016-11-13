@@ -79,7 +79,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
                 foreach ($element->getChildren() as $child) {
                     if ($child instanceof Node) {
                         $expectedLength += $child->getLength();
-                    } else if ($child instanceof \PhpParser\Token) {
+                    } elseif ($child instanceof \PhpParser\Token) {
                         $expectedLength += $child->length;
                     }
                 }
