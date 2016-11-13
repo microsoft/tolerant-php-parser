@@ -1171,11 +1171,50 @@ class Parser {
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
         $leftOperand = $this->parsePrimaryExpression($parentNode);
 
+        list($prevNewPrecedence, $prevAssociativity) = self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
+
         while (true) {
             $token = $this->getCurrentToken();
-            $newPrecedence = $this->getBinaryOperatorPrecedence($token);
 
-            $shouldConsumeCurrentOperator = $newPrecedence > $precedence;
+            list($newPrecedence, $associativity) = $this->getBinaryOperatorPrecedenceAndAssociativity($token);
+
+            // Expressions using operators w/o associativity (equality, relational, instanceof)
+            // cannot reference identical expression types within one of their operands.
+            //
+            // Example:
+            //   $a < $b < $c // CASE 1: INVALID
+            //   $a < $b === $c < $d // CASE 2: VALID
+            //
+            // In CASE 1, it is expected that we stop parsing the expression after the $b token.
+            if ($prevAssociativity === Associativity::None && $prevNewPrecedence === $newPrecedence) {
+                break;
+            }
+
+            // Precedence and associativity properties determine whether we recurse, and continue
+            // building up the current operand, or whether we pop out.
+            //
+            // Example:
+            //   $a + $b + $c // CASE 1: additive-expression (left-associative)
+            //   $a = $b = $c // CASE 2: equality-expression (right-associative)
+            //
+            // CASE 1:
+            // The additive-expression is left-associative, which means we expect the grouping to be:
+            //   ($a + $b) + $c
+            //
+            // Because both + operators have the same precedence, and the + operator is left associative,
+            // we expect the second + operator NOT to be consumed because $newPrecedence > $precedence => FALSE
+            //
+            // CASE 2:
+            // The equality-expression is right-associative, which means we expect the grouping to be:
+            //   $a = ($b = $c)
+            //
+            // Because both = operators have the same precedence, and the = operator is right-associative,
+            // we expect the second = operator to be consumed because $newPrecedence >= $precedence => TRUE
+            $shouldConsumeCurrentOperator =
+                $associativity === Associativity::Right ?
+                    $newPrecedence >= $precedence:
+                    $newPrecedence > $precedence;
+
             if (!$shouldConsumeCurrentOperator) {
                 break;
             }
@@ -1186,25 +1225,104 @@ class Parser {
                 $token,
                 $this->parseBinaryExpressionOrHigher($newPrecedence, null),
                 $parentNode);
+
+            $prevNewPrecedence = $newPrecedence;
+            $prevAssociativity = $associativity;
         }
         return $leftOperand;
     }
 
-    private function getBinaryOperatorPrecedence($token) {
-        switch ($token->kind) {
-            // additive-expression
-            case TokenKind::PlusToken:
-            case TokenKind::MinusToken:
-            case TokenKind::DotToken:
-                return 1;
+    const OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY =
+        [
+            // logical-inc-OR-expression-2 (L)
+            TokenKind::OrKeyword => [6, Associativity::Left],
 
-            // multiplicative-expression
-            case TokenKind::AsteriskToken:
-            case TokenKind::SlashToken:
-            case TokenKind::PercentToken:
-                return 2;
+            // logical-exc-OR-expression-2 (L)
+            TokenKind::XorKeyword=> [7, Associativity::Left],
+
+            // logical-AND-expression-2 (L)
+            TokenKind::AndKeyword=> [8, Associativity::Left],
+
+            // simple-assignment-expression (R)
+            // TODO byref-assignment-expression
+            TokenKind::EqualsToken => [9, Associativity::Right],
+
+            // compound-assignment-expression (R)
+            TokenKind::AsteriskAsteriskEqualsToken => [9, Associativity::Right],
+            TokenKind::AsteriskEqualsToken => [9, Associativity::Right],
+            TokenKind::SlashEqualsToken => [9, Associativity::Right],
+            TokenKind::PercentEqualsToken => [9, Associativity::Right],
+            TokenKind::PlusEqualsToken => [9, Associativity::Right],
+            TokenKind::MinusEqualsToken => [9, Associativity::Right],
+            TokenKind::DotEqualsToken => [9, Associativity::Right],
+            TokenKind::LessThanLessThanEqualsToken => [9, Associativity::Right],
+            TokenKind::GreaterThanGreaterThanEqualsToken => [9, Associativity::Right],
+            TokenKind::AmpersandEqualsToken => [9, Associativity::Right],
+            TokenKind::CaretEqualsToken => [9, Associativity::Right],
+            TokenKind::BarEqualsToken => [9, Associativity::Right],
+
+            // TODO coalesce-expression (R)
+            TokenKind::QuestionQuestionToken => [9, Associativity::Right],
+
+            // TODO conditional-expression (L)
+//            TokenKind::QuestionToken => [9, Associativity::Left],
+//            TokenKind::ColonToken => [9, Associativity::Left],
+
+            //logical-inc-OR-expression-1 (L)
+            TokenKind::BarBarToken => [10, Associativity::Left],
+
+            // logical-AND-expression-1 (L)
+            TokenKind::AmpersandAmpersandToken => [11, Associativity::Left],
+
+            // bitwise-inc-OR-expression (L)
+            TokenKind::BarToken => [12, Associativity::Left],
+
+            // bitwise-exc-OR-expression (L)
+            TokenKind::CaretToken => [13, Associativity::Left],
+
+            // bitwise-AND-expression (L)
+            TokenKind::AmpersandToken => [14, Associativity::Left],
+
+            // equality-expression (X)
+            TokenKind::EqualsEqualsToken => [15, Associativity::None],
+            TokenKind::ExclamationEqualsToken => [15, Associativity::None],
+            TokenKind::LessThanGreaterThanToken => [15, Associativity::None],
+            TokenKind::EqualsEqualsEqualsToken => [15, Associativity::None],
+            TokenKind::ExclamationEqualsEqualsToken => [15, Associativity::None],
+
+            // relational-expression (X)
+            TokenKind::LessThanToken => [16, Associativity::None],
+            TokenKind::GreaterThanToken => [16, Associativity::None],
+            TokenKind::LessThanEqualsToken => [16, Associativity::None],
+            TokenKind::GreaterThanEqualsToken => [16, Associativity::None],
+            TokenKind::LessThanEqualsGreaterThanToken => [16, Associativity::None],
+
+            // shift-expression (L)
+            TokenKind::LessThanLessThanToken => [17, Associativity::Left],
+            TokenKind::GreaterThanGreaterThanToken => [17, Associativity::Left],
+
+            // additive-expression (L)
+            TokenKind::PlusToken => [18, Associativity::Left],
+            TokenKind::MinusToken => [18, Associativity::Left],
+            TokenKind::DotToken =>[18, Associativity::Left],
+
+            // multiplicative-expression (L)
+            TokenKind::AsteriskToken => [19, Associativity::Left],
+            TokenKind::SlashToken => [19, Associativity::Left],
+            TokenKind::PercentToken => [19, Associativity::Left],
+
+            // instanceof-expression (X)
+            TokenKind::InstanceOfKeyword => [20, Associativity::None]
+        ];
+
+    const UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY = [-1, -1];
+
+    private function getBinaryOperatorPrecedenceAndAssociativity($token) {
+        if (isset(self::OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY[$token->kind])) {
+            return self::OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY[$token->kind];
         }
-        return -1;
+
+        return self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
     }
 
     private function makeBinaryExpression($leftOperand, $operatorToken, $rightOperand, $parentNode) {
@@ -1638,6 +1756,12 @@ class Parser {
 
         return $issetExpression;
     }
+}
+
+class Associativity {
+    const None = 0;
+    const Left = 1;
+    const Right = 2;
 }
 
 class ParseContext {

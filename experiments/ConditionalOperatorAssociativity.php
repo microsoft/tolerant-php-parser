@@ -31,6 +31,3 @@ if ($label === "one") {
 } else {
     echo "Left-associative :(";
 }
-
-$a = 1=== 2? false : $d = 3;
-echo $d;
