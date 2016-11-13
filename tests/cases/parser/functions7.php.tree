@@ -44,8 +44,14 @@
                                                         "textLength": 1
                                                     },
                                                     "default": {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
+                                                        "UnknownExpression": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "MissingToken",
+                                                                    "textLength": 0
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 }
                                             },

@@ -188,6 +188,8 @@ class TokenKind {
     const ColonColonToken = 256;
     const DoubleArrowToken = 257; // TODO missing from spec
     const LessThanGreaterThanToken = 258; // TODO missing from spec
+    const AtSymbolToken = 259;
+    const BacktickToken = 260;
 
     const DecimalLiteralToken = 301;
     const OctalLiteralToken = 302;

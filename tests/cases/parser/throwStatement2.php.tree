@@ -19,8 +19,14 @@
                                     "textLength": 5
                                 },
                                 "expression": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
+                                    "UnknownExpression": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            }
+                                        ]
+                                    }
                                 },
                                 "semicolon": {
                                     "kind": "SemicolonToken",

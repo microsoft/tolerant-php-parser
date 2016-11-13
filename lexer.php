@@ -873,5 +873,7 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "<?php\t" => TokenKind::ScriptSectionStartTag, // TODO add tests
     "<?php\n" => TokenKind::ScriptSectionStartTag,
     "<?php\r" => TokenKind::ScriptSectionStartTag,
-    "?>" => TokenKind::ScriptSectionEndTag // TODO, technically not an operator
+    "?>" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
+    "@" => TokenKind::AtSymbolToken, // TODO not in spec
+    "`" => TokenKind::BacktickToken
 );

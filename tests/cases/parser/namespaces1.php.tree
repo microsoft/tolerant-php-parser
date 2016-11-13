@@ -195,8 +195,14 @@
                                                                             "textLength": 1
                                                                         },
                                                                         "expression": {
-                                                                            "kind": "MissingToken",
-                                                                            "textLength": 0
+                                                                            "UnknownExpression": {
+                                                                                "children": [
+                                                                                    {
+                                                                                        "kind": "MissingToken",
+                                                                                        "textLength": 0
+                                                                                    }
+                                                                                ]
+                                                                            }
                                                                         },
                                                                         "closeParen": {
                                                                             "kind": "CloseParenToken",
@@ -263,8 +269,14 @@
                                                         "textLength": 1
                                                     },
                                                     "expression": {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
+                                                        "UnknownExpression": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "MissingToken",
+                                                                    "textLength": 0
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     "closeParen": {
                                                         "kind": "CloseParenToken",

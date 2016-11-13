@@ -63,6 +63,7 @@ use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\TryStatement;
+use PhpParser\Node\UnaryOpExpression;
 use PhpParser\Node\UnknownExpression;
 use PhpParser\Node\UnsetIntrinsicExpression;
 use PhpParser\Node\Variable;
@@ -648,6 +649,13 @@ class Parser {
     function isExpressionStartFn() {
         return function($token) {
             switch($token->kind) {
+                // unary-op-expression
+                case TokenKind::PlusToken:
+                case TokenKind::MinusToken:
+                case TokenKind::ExclamationToken:
+                case TokenKind::TildeToken:
+                    return true;
+
                 // variable-name
                 case TokenKind::VariableName:
                     return true;
@@ -692,7 +700,7 @@ class Parser {
                 // ( expression )
                 case TokenKind::OpenParenToken:
 
-                return true;
+                    return true;
             }
             return false;
         };
@@ -856,10 +864,8 @@ class Parser {
                 $expression = new UnknownExpression();
                 $expression->parent = $parentNode;
                 $expression->children = array(
-                    new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0),
-                    new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length)
+                    new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0)
                 );
-                $this->advanceToken();
                 return $expression;
         }
     }
@@ -1153,13 +1159,18 @@ class Parser {
         return $whileStatement;
     }
 
-    function parseExpression($parentNode, $force=false) {
+    function parseExpression($parentNode, $force = false) {
         $token = $this->getCurrentToken();
-        if ($force || $this->isExpressionStart($token)) {
-            return ($this->parseExpressionFn())($parentNode);
+        $expression = ($this->parseExpressionFn())($parentNode);
+        if ($force && $expression->kind === NodeKind::UnknownExpression) {
+            array_push(
+                $expression->children,
+                new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length)
+            );
+            $this->advanceToken();
         }
 
-        return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+        return $expression;
     }
 
     function parseExpressionFn() {
@@ -1168,8 +1179,37 @@ class Parser {
         };
     }
 
+    private function parseUnaryExpressionOrHigher($parentNode) {
+        $token = $this->getCurrentToken();
+        switch ($token->kind) {
+            // unary-op-expression
+            case TokenKind::PlusToken:
+            case TokenKind::MinusToken:
+            case TokenKind::ExclamationToken:
+            case TokenKind::TildeToken:
+                return $this->parseUnaryOpExpression($parentNode);
+/*
+            // error-control-expression
+            case TokenKind::AtSymbolToken:
+                return $this->parseErrorControlExpression($parentNode);
+
+            case TokenKind::BacktickToken:
+                return $this->parseShellCommandExpression($parentNode);
+
+            case TokenKind::OpenParenToken:
+                // TODO
+//                return $this->parseCastExpression($parentNode);
+                break;
+            case TokenKind::PlusPlusToken:
+            case TokenKind::MinusMinusToken:
+                return $this->parsePrefixUpdateExpression($parentNode);*/
+        }
+
+        return $this->parsePrimaryExpression($parentNode);
+    }
+
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
-        $leftOperand = $this->parsePrimaryExpression($parentNode);
+        $leftOperand = $this->parseUnaryExpressionOrHigher($parentNode);
 
         list($prevNewPrecedence, $prevAssociativity) = self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
 
@@ -1755,6 +1795,19 @@ class Parser {
         $issetExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $issetExpression;
+    }
+
+    private function parseUnaryOpExpression($parentNode) {
+        $unaryOpExpression = new UnaryOpExpression();
+        $unaryOpExpression->parent = $parentNode;
+        $unaryOpExpression->operator =
+            $this->eat(TokenKind::PlusToken, TokenKind::MinusToken, TokenKind::ExclamationToken, TokenKind::TildeToken);
+        if ($this->isExpressionStart($this->getCurrentToken())) {
+
+        }
+        $unaryOpExpression->operand = $this->parseUnaryExpressionOrHigher($unaryOpExpression);
+
+        return $unaryOpExpression;
     }
 }
 

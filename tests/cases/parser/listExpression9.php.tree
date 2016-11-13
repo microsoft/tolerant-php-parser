@@ -126,10 +126,6 @@
                                                     {
                                                         "kind": "MissingToken",
                                                         "textLength": 0
-                                                    },
-                                                    {
-                                                        "kind": "SkippedToken",
-                                                        "textLength": 3
                                                     }
                                                 ]
                                             }
@@ -141,6 +137,10 @@
                                     "textLength": 0
                                 }
                             }
+                        },
+                        {
+                            "kind": "SkippedToken",
+                            "textLength": 3
                         },
                         {
                             "ExpressionStatement": {
@@ -175,8 +175,14 @@
                                             "textLength": 1
                                         },
                                         "expression": {
-                                            "kind": "MissingToken",
-                                            "textLength": 0
+                                            "UnknownExpression": {
+                                                "children": [
+                                                    {
+                                                        "kind": "MissingToken",
+                                                        "textLength": 0
+                                                    }
+                                                ]
+                                            }
                                         },
                                         "closeParen": {
                                             "kind": "CloseParenToken",
