@@ -53,6 +53,7 @@ use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\ParenthesizedExpression;
+use PhpParser\Node\PrefixUpdateExpression;
 use PhpParser\Node\PrintIntrinsicExpression;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
@@ -658,6 +659,11 @@ class Parser {
 
                 // error-control-expression
                 case TokenKind::AtSymbolToken:
+
+                // prefix-increment-expression
+                case TokenKind::PlusPlusToken:
+                    // prefix-decrement-expression
+                case TokenKind::MinusMinusToken:
                     return true;
 
                 // variable-name
@@ -1196,6 +1202,13 @@ class Parser {
             // error-control-expression
             case TokenKind::AtSymbolToken:
                 return $this->parseErrorControlExpression($parentNode);
+
+            // prefix-increment-expression
+            case TokenKind::PlusPlusToken:
+            // prefix-decrement-expression
+            case TokenKind::MinusMinusToken:
+                return $this->parsePrefixUpdateExpression($parentNode);
+
 /*
 
             case TokenKind::BacktickToken:
@@ -1204,10 +1217,7 @@ class Parser {
             case TokenKind::OpenParenToken:
                 // TODO
 //                return $this->parseCastExpression($parentNode);
-                break;
-            case TokenKind::PlusPlusToken:
-            case TokenKind::MinusMinusToken:
-                return $this->parsePrefixUpdateExpression($parentNode);*/
+                break;*/
         }
 
         return $this->parsePrimaryExpression($parentNode);
@@ -1820,6 +1830,16 @@ class Parser {
         $errorControlExpression->operand = $this->parseUnaryExpressionOrHigher($errorControlExpression);
 
         return $errorControlExpression;
+    }
+
+    private function parsePrefixUpdateExpression($parentNode) {
+        $prefixUpdateExpression = new PrefixUpdateExpression();
+        $prefixUpdateExpression->parent = $parentNode;
+
+        $prefixUpdateExpression->incrementOrDecrementOperator = $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
+        $prefixUpdateExpression->operand = $this->parseVariable($prefixUpdateExpression);
+
+        return $prefixUpdateExpression;
     }
 }
 

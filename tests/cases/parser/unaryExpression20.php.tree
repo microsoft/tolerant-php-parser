@@ -17,33 +17,7 @@
                                 "expression": {
                                     "PrefixUpdateExpression": {
                                         "incrementOrDecrementOperator": {
-                                            "kind": "PlusPlusToken",
-                                            "textLength": 2
-                                        },
-                                        "operand": {
-                                            "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "PrefixUpdateExpression": {
-                                        "incrementOrDecrementOperator": {
-                                            "kind": "PlusPlusToken",
+                                            "kind": "MinusMinusToken",
                                             "textLength": 2
                                         },
                                         "operand": {

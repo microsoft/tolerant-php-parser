@@ -17,7 +17,7 @@
                                 "expression": {
                                     "PrefixUpdateExpression": {
                                         "incrementOrDecrementOperator": {
-                                            "kind": "PlusPlusToken",
+                                            "kind": "MinusMinusToken",
                                             "textLength": 2
                                         },
                                         "operand": {
@@ -41,20 +41,32 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "PrefixUpdateExpression": {
-                                        "incrementOrDecrementOperator": {
-                                            "kind": "PlusPlusToken",
-                                            "textLength": 2
+                                    "ParenthesizedExpression": {
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
                                         },
-                                        "operand": {
-                                            "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
+                                        "expression": {
+                                            "PrefixUpdateExpression": {
+                                                "incrementOrDecrementOperator": {
+                                                    "kind": "PlusPlusToken",
+                                                    "textLength": 2
+                                                },
+                                                "operand": {
+                                                    "Variable": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "VariableName",
+                                                                "textLength": 2
+                                                            }
+                                                        ]
                                                     }
-                                                ]
+                                                }
                                             }
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
                                         }
                                     }
                                 },
