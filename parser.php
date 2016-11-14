@@ -13,9 +13,11 @@ spl_autoload_register(function ($class) {
     }
 });
 
+use PhpParser\Node\ArgumentExpression;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\ArrayIntrinsicExpression;
 use PhpParser\Node\BinaryExpression;
+use PhpParser\Node\CallExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassMembersNode;
@@ -1223,7 +1225,8 @@ class Parser {
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
-        return $this->parsePostfixExpressionRest($expression);
+        $expression = $this->parsePostfixExpressionRest($expression);
+        return $this->parseCallExpressionRest($expression);
     }
 
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
@@ -1903,6 +1906,44 @@ class Parser {
                 return $this->parseVariable($parentNode); // TODO should be simple-variable
         }
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+    }
+
+    private function isArgumentExpressionStartFn() {
+        return function($token) {
+            return
+                $token->kind === TokenKind::DotDotDotToken ? true : $this->isExpressionStart($token);
+        };
+    }
+
+    private function parseArgumentExpressionFn() {
+        return function ($parentNode) {
+            $argumentExpression = new ArgumentExpression();
+            $argumentExpression->parent = $parentNode;
+            $argumentExpression->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+            $argumentExpression->dotDotDotToken = $this->eatOptional(TokenKind::DotDotDotToken);
+            $argumentExpression->expression = $this->parseExpression($argumentExpression);
+            return $argumentExpression;
+        };
+    }
+
+    private function parseCallExpressionRest($expression) {
+        while ($this->getCurrentToken()->kind === TokenKind::OpenParenToken) {
+            $callExpression = new CallExpression();
+            $callExpression->parent = $expression->parent;
+            $expression->parent = $callExpression;
+            $callExpression->callableExpression = $expression;
+            $callExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+            $callExpression->argumentExpressionList =
+                $this->parseDelimitedList(
+                    TokenKind::CommaToken,
+                    $this->isArgumentExpressionStartFn(),
+                    $this->parseArgumentExpressionFn(),
+                    $callExpression
+                    );
+            $callExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+            $expression = $callExpression;
+        }
+        return $expression;
     }
 }
 

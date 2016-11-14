@@ -63,4 +63,6 @@ class NodeKind {
     const SubscriptExpression = 57;
     const MemberAccessExpression = 58;
     const BracedExpression = 59;
+    const ArgumentExpression = 60;
+    const CallExpression = 61;
 }

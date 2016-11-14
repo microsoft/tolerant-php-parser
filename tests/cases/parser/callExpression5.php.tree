@@ -1,0 +1,117 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "CallExpression": {
+                                        "callableExpression": {
+                                            "Variable": {
+                                                "children": [
+                                                    {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "argumentExpressionList": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "ArgumentExpression": {
+                                                            "byRefToken": null,
+                                                            "dotDotDotToken": null,
+                                                            "expression": {
+                                                                "BinaryExpression": {
+                                                                    "leftOperand": {
+                                                                        "Variable": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "kind": "VariableName",
+                                                                                    "textLength": 2
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "operator": {
+                                                                        "kind": "EqualsToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "rightOperand": {
+                                                                        "Literal": {
+                                                                            "children": {
+                                                                                "kind": "DecimalLiteralToken",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "ArgumentExpression": {
+                                                            "byRefToken": null,
+                                                            "dotDotDotToken": null,
+                                                            "expression": {
+                                                                "Variable": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
