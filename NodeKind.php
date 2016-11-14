@@ -61,4 +61,6 @@ class NodeKind {
     const ErrorControlExpression = 55;
     const PrefixUpdateExpression = 56;
     const SubscriptExpression = 57;
+    const MemberAccessExpression = 58;
+    const BracedExpression = 59;
 }

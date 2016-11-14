@@ -48,6 +48,7 @@ use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\Literal;
+use PhpParser\Node\MemberAccessExpression;
 use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
@@ -1873,10 +1874,35 @@ class Parser {
 
                     $expression = $subscriptExpression;
                     break;
+
+                case TokenKind::ArrowToken:
+                    $memberAccessExpression = new MemberAccessExpression();
+                    $memberAccessExpression->parent = $expression->parent;
+                    $expression->parent = $memberAccessExpression;
+
+                    $memberAccessExpression->dereferencableExpression = $expression;
+                    $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken);
+                    $memberAccessExpression->memberName = $this->parseMemberName($memberAccessExpression);
+
+                    $expression = $memberAccessExpression;
+                    break;
+
                 default:
                     return $expression;
             }
         }
+    }
+
+    private function parseMemberName($parentNode) {
+        $token = $this->getCurrentToken();
+        switch ($token->kind) {
+            case TokenKind::Name:
+                $this->advanceToken();
+                return $token;
+            case TokenKind::VariableName:
+                return $this->parseVariable($parentNode); // TODO should be simple-variable
+        }
+        return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
 }
 
