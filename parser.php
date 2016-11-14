@@ -61,6 +61,7 @@ use PhpParser\Node\ReturnStatement;
 use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
 use PhpParser\Node\StatementNode;
+use PhpParser\Node\SubscriptExpression;
 use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
@@ -1220,7 +1221,8 @@ class Parser {
                 break;*/
         }
 
-        return $this->parsePrimaryExpression($parentNode);
+        $expression = $this->parsePrimaryExpression($parentNode);
+        return $this->parsePostfixExpressionRest($expression);
     }
 
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
@@ -1840,6 +1842,41 @@ class Parser {
         $prefixUpdateExpression->operand = $this->parseVariable($prefixUpdateExpression);
 
         return $prefixUpdateExpression;
+    }
+
+    private function parsePostfixExpressionRest($expression) {
+        if (!($expression instanceof Variable ||
+            $expression instanceof ParenthesizedExpression
+//            $expression instanceof ArrayCreationExpression || // TODO
+//            $expression instanceof StringLiteral // TODO
+        )) {
+            return $expression;
+        }
+
+        while (true) {
+            $token = $this->getCurrentToken();
+            switch ($token->kind) {
+                case TokenKind::OpenBracketToken:
+                case TokenKind::OpenBraceToken:
+                    $subscriptExpression = new SubscriptExpression();
+                    $subscriptExpression->parent = $expression->parent;
+                    $expression->parent = $subscriptExpression;
+
+                    $subscriptExpression->postfixExpression = $expression;
+                    $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken, TokenKind::OpenBraceToken);
+                    $subscriptExpression->accessExpression = $this->parseExpression($subscriptExpression);
+                    if ($subscriptExpression->openBracketOrBrace->kind === TokenKind::OpenBraceToken) {
+                        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBraceToken);
+                    } else {
+                        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBracketToken);
+                    }
+
+                    $expression = $subscriptExpression;
+                    break;
+                default:
+                    return $expression;
+            }
+        }
     }
 }
 

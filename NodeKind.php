@@ -60,4 +60,5 @@ class NodeKind {
     const UnaryOpExpression = 54;
     const ErrorControlExpression = 55;
     const PrefixUpdateExpression = 56;
+    const SubscriptExpression = 57;
 }
