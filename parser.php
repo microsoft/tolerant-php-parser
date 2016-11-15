@@ -56,6 +56,7 @@ use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\ParenthesizedExpression;
+use PhpParser\Node\PostfixUpdateExpression;
 use PhpParser\Node\PrefixUpdateExpression;
 use PhpParser\Node\PrintIntrinsicExpression;
 use PhpParser\Node\QualifiedName;
@@ -1849,6 +1850,13 @@ class Parser {
     }
 
     private function parsePostfixExpressionRest($expression) {
+        $token = $this->getCurrentToken();
+        switch ($token->kind) {
+            case TokenKind::PlusPlusToken:
+            case TokenKind::MinusMinusToken:
+                return $this->parseParsePostfixUpdateExpression($expression);
+        }
+
         if (!($expression instanceof Variable ||
             $expression instanceof ParenthesizedExpression
 //            $expression instanceof ArrayCreationExpression || // TODO
@@ -1889,7 +1897,7 @@ class Parser {
 
                     $expression = $memberAccessExpression;
                     break;
-
+                    
                 default:
                     return $expression;
             }
@@ -1944,6 +1952,16 @@ class Parser {
             $expression = $callExpression;
         }
         return $expression;
+    }
+
+    private function parseParsePostfixUpdateExpression($prefixExpression) {
+        $postfixUpdateExpression = new PostfixUpdateExpression();
+        $postfixUpdateExpression->operand = $prefixExpression;
+        $postfixUpdateExpression->parent = $prefixExpression->parent;
+        $prefixExpression->parent = $postfixUpdateExpression;
+        $postfixUpdateExpression->incrementOrDecrementOperator =
+            $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
+        return $postfixUpdateExpression;
     }
 }
 

@@ -65,4 +65,5 @@ class NodeKind {
     const BracedExpression = 59;
     const ArgumentExpression = 60;
     const CallExpression = 61;
+    const PostfixUpdateExpression = 62;
 }
