@@ -1922,7 +1922,10 @@ class Parser {
                 $this->advanceToken();
                 return $token;
             case TokenKind::VariableName:
+            case TokenKind::DollarToken:
                 return $this->parseSimpleVariable($parentNode); // TODO should be simple-variable
+            case TokenKind::OpenBraceToken:
+                return $this->parseBracedExpression($parentNode);
         }
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
