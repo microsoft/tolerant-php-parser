@@ -32,12 +32,11 @@
                             "ExpressionStatement": {
                                 "expression": {
                                     "Variable": {
-                                        "children": [
-                                            {
-                                                "kind": "VariableName",
-                                                "textLength": 5
-                                            }
-                                        ]
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 5
+                                        }
                                     }
                                 },
                                 "semicolon": {

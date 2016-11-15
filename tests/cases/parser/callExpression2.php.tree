@@ -18,12 +18,11 @@
                                     "CallExpression": {
                                         "callableExpression": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
                                             }
                                         },
                                         "openParen": {
@@ -39,12 +38,11 @@
                                                             "dotDotDotToken": null,
                                                             "expression": {
                                                                 "Variable": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "VariableName",
-                                                                            "textLength": 2
-                                                                        }
-                                                                    ]
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
                                                                 }
                                                             }
                                                         }

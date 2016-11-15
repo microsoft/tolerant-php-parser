@@ -27,12 +27,11 @@
                                         "children": [
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             },
                                             {
@@ -41,12 +40,11 @@
                                             },
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             },
                                             {
@@ -55,12 +53,11 @@
                                             },
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             }
                                         ]
@@ -75,12 +72,11 @@
                                         "children": [
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             },
                                             {
@@ -89,12 +85,11 @@
                                             },
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             }
                                         ]
@@ -109,12 +104,11 @@
                                         "children": [
                                             {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             }
                                         ]

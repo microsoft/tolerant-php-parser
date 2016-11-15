@@ -26,12 +26,11 @@
                                         },
                                         "expression": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 6
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 6
+                                                }
                                             }
                                         },
                                         "closeParen": {

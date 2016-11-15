@@ -17,6 +17,7 @@ use PhpParser\Node\ArgumentExpression;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\ArrayIntrinsicExpression;
 use PhpParser\Node\BinaryExpression;
+use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
@@ -673,6 +674,7 @@ class Parser {
 
                 // variable-name
                 case TokenKind::VariableName:
+                case TokenKind::DollarToken:
                     return true;
                 // qualified-name
                 case TokenKind::Name:
@@ -801,7 +803,8 @@ class Parser {
         switch ($token->kind) {
             // variable-name
             case TokenKind::VariableName: // TODO special case $this
-                return $this->parseVariable($parentNode);
+            case TokenKind::DollarToken:
+                return $this->parseSimpleVariable($parentNode);
 
             // qualified-name
             case TokenKind::Name: // TODO Qualified name
@@ -1626,20 +1629,28 @@ class Parser {
         return $declareDirective;
     }
 
-    private function parseVariable($parentNode) {
+    private function parseSimpleVariable($parentNode) {
         $token = $this->getCurrentToken();
-        $expression = new Variable();
-        $expression->parent = $parentNode;
-        $expression->children = array();
+        $variable = new Variable();
+        $variable->parent = $parentNode;
 
-        if ($token->kind === TokenKind::VariableName) {
-            array_push($expression->children, $token);
+        if ($token->kind === TokenKind::DollarToken) {
+            $variable->dollar = $this->eat(TokenKind::DollarToken);
+            $token = $this->getCurrentToken();
+
+            $variable->name =
+                $token->kind === TokenKind::OpenBraceToken ?
+                    $this->parseBracedExpression($variable) :
+                    $this->parseSimpleVariable($variable);
+
+        } elseif ($token->kind === TokenKind::VariableName) {
+            // TODO consider splitting into dollar and name
+            $variable->name = $this->eat(TokenKind::VariableName);
         } else {
-            array_push($expression->children, new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0));
-            return $expression;
+            $variable->name = new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
         }
-        $this->advanceToken();
-        return $expression;
+
+        return $variable;
     }
 
     private function parseEchoExpression($parentNode) {
@@ -1844,7 +1855,7 @@ class Parser {
         $prefixUpdateExpression->parent = $parentNode;
 
         $prefixUpdateExpression->incrementOrDecrementOperator = $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
-        $prefixUpdateExpression->operand = $this->parseVariable($prefixUpdateExpression);
+        $prefixUpdateExpression->operand = $this->parseSimpleVariable($prefixUpdateExpression);
 
         return $prefixUpdateExpression;
     }
@@ -1911,7 +1922,7 @@ class Parser {
                 $this->advanceToken();
                 return $token;
             case TokenKind::VariableName:
-                return $this->parseVariable($parentNode); // TODO should be simple-variable
+                return $this->parseSimpleVariable($parentNode); // TODO should be simple-variable
         }
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
@@ -1962,6 +1973,17 @@ class Parser {
         $postfixUpdateExpression->incrementOrDecrementOperator =
             $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
         return $postfixUpdateExpression;
+    }
+
+    private function parseBracedExpression($parentNode) {
+        $bracedExpression = new BracedExpression();
+        $bracedExpression->parent = $parentNode;
+
+        $bracedExpression->openBrace = $this->eat(TokenKind::OpenBraceToken);
+        $bracedExpression->expression = $this->parseExpression($bracedExpression);
+        $bracedExpression->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+
+        return $bracedExpression;
     }
 }
 

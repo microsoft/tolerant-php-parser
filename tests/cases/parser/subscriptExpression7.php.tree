@@ -18,12 +18,11 @@
                                     "SubscriptExpression": {
                                         "postfixExpression": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
                                             }
                                         },
                                         "openBracketOrBrace": {

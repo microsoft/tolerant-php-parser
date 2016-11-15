@@ -77,12 +77,11 @@
                                                                             },
                                                                             "expression": {
                                                                                 "Variable": {
-                                                                                    "children": [
-                                                                                        {
-                                                                                            "kind": "VariableName",
-                                                                                            "textLength": 8
-                                                                                        }
-                                                                                    ]
+                                                                                    "dollar": null,
+                                                                                    "name": {
+                                                                                        "kind": "VariableName",
+                                                                                        "textLength": 8
+                                                                                    }
                                                                                 }
                                                                             },
                                                                             "closeParen": {
@@ -103,12 +102,11 @@
                                                                                                     "MemberAccessExpression": {
                                                                                                         "dereferencableExpression": {
                                                                                                             "Variable": {
-                                                                                                                "children": [
-                                                                                                                    {
-                                                                                                                        "kind": "VariableName",
-                                                                                                                        "textLength": 5
-                                                                                                                    }
-                                                                                                                ]
+                                                                                                                "dollar": null,
+                                                                                                                "name": {
+                                                                                                                    "kind": "VariableName",
+                                                                                                                    "textLength": 5
+                                                                                                                }
                                                                                                             }
                                                                                                         },
                                                                                                         "arrowToken": {

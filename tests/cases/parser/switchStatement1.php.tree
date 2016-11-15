@@ -24,12 +24,11 @@
                                 },
                                 "expression": {
                                     "Variable": {
-                                        "children": [
-                                            {
-                                                "kind": "VariableName",
-                                                "textLength": 2
-                                            }
-                                        ]
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        }
                                     }
                                 },
                                 "closeParen": {
@@ -50,12 +49,11 @@
                                             },
                                             "expression": {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             },
                                             "defaultLabelTerminator": {
@@ -108,12 +106,11 @@
                                             },
                                             "expression": {
                                                 "Variable": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    ]
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
                                                 }
                                             },
                                             "defaultLabelTerminator": {

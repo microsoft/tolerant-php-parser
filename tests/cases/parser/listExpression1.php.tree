@@ -36,12 +36,11 @@
                                                                     "byRef": null,
                                                                     "elementValue": {
                                                                         "Variable": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "VariableName",
-                                                                                    "textLength": 2
-                                                                                }
-                                                                            ]
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -57,12 +56,11 @@
                                                                     "byRef": null,
                                                                     "elementValue": {
                                                                         "Variable": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "VariableName",
-                                                                                    "textLength": 2
-                                                                                }
-                                                                            ]
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -82,12 +80,11 @@
                                         },
                                         "rightOperand": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
                                             }
                                         }
                                     }

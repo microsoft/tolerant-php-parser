@@ -25,12 +25,11 @@
                                                 "children": [
                                                     {
                                                         "Variable": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 3
-                                                                }
-                                                            ]
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 3
+                                                            }
                                                         }
                                                     }
                                                 ]

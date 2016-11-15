@@ -24,12 +24,11 @@
                                 },
                                 "expression": {
                                     "Variable": {
-                                        "children": [
-                                            {
-                                                "kind": "VariableName",
-                                                "textLength": 8
-                                            }
-                                        ]
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 8
+                                        }
                                     }
                                 },
                                 "closeParen": {
@@ -81,12 +80,11 @@
                                                 },
                                                 "expression": {
                                                     "Variable": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "VariableName",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 8
+                                                        }
                                                     }
                                                 },
                                                 "closeParen": {

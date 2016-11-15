@@ -22,12 +22,11 @@
                                         },
                                         "operand": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "MissingToken",
+                                                    "textLength": 0
+                                                }
                                             }
                                         }
                                     }
@@ -54,12 +53,11 @@
                                                 },
                                                 "operand": {
                                                     "Variable": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "VariableName",
-                                                                "textLength": 2
-                                                            }
-                                                        ]
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
                                                     }
                                                 }
                                             }

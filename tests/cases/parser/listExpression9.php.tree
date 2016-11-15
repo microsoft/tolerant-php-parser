@@ -82,12 +82,11 @@
                                                                                                 "byRef": null,
                                                                                                 "elementValue": {
                                                                                                     "Variable": {
-                                                                                                        "children": [
-                                                                                                            {
-                                                                                                                "kind": "VariableName",
-                                                                                                                "textLength": 2
-                                                                                                            }
-                                                                                                        ]
+                                                                                                        "dollar": null,
+                                                                                                        "name": {
+                                                                                                            "kind": "VariableName",
+                                                                                                            "textLength": 2
+                                                                                                        }
                                                                                                     }
                                                                                                 }
                                                                                             }
@@ -145,45 +144,28 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 1
+                                    "CallExpression": {
+                                        "callableExpression": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
                                                     }
-                                                ]
+                                                }
                                             }
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ParenthesizedExpression": {
+                                        },
                                         "openParen": {
                                             "kind": "OpenParenToken",
                                             "textLength": 1
                                         },
-                                        "expression": {
-                                            "UnknownExpression": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
-                                        },
+                                        "argumentExpressionList": null,
                                         "closeParen": {
                                             "kind": "CloseParenToken",
                                             "textLength": 1

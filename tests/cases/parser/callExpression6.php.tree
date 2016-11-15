@@ -18,12 +18,11 @@
                                     "CallExpression": {
                                         "callableExpression": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
                                             }
                                         },
                                         "openParen": {
@@ -41,12 +40,11 @@
                                                                 "BinaryExpression": {
                                                                     "leftOperand": {
                                                                         "Variable": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "VariableName",
-                                                                                    "textLength": 2
-                                                                                }
-                                                                            ]
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
                                                                         }
                                                                     },
                                                                     "operator": {
@@ -78,12 +76,11 @@
                                                             },
                                                             "expression": {
                                                                 "Variable": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "VariableName",
-                                                                            "textLength": 2
-                                                                        }
-                                                                    ]
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
                                                                 }
                                                             }
                                                         }

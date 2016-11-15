@@ -25,12 +25,11 @@
                                                 "children": [
                                                     {
                                                         "Variable": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 3
-                                                                }
-                                                            ]
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 3
+                                                            }
                                                         }
                                                     },
                                                     {
@@ -39,12 +38,11 @@
                                                     },
                                                     {
                                                         "Variable": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 6
-                                                                }
-                                                            ]
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 6
+                                                            }
                                                         }
                                                     },
                                                     {
