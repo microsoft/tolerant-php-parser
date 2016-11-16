@@ -1871,74 +1871,46 @@ class Parser {
     }
 
     private function parsePostfixExpressionRest($expression) {
-        $token = $this->getCurrentToken();
-        switch ($token->kind) {
-            case TokenKind::PlusPlusToken:
-            case TokenKind::MinusMinusToken:
-                return $this->parseParsePostfixUpdateExpression($expression);
+        $tokenKind = $this->getCurrentToken()->kind;
+
+        if ($tokenKind === TokenKind::PlusPlusToken ||
+            $tokenKind === TokenKind::MinusMinusToken) {
+            return $this->parseParsePostfixUpdateExpression($expression);
         }
 
         if (!($expression instanceof Variable ||
             $expression instanceof ParenthesizedExpression ||
             $expression instanceof QualifiedName ||
             $expression instanceof CallExpression ||
-            $expression instanceof StringLiteral
-//            $expression instanceof ArrayCreationExpression || // TODO
+            $expression instanceof StringLiteral ||
+            $expression instanceof ArrayIntrinsicExpression
         )) {
             return $expression;
         }
 
-        if ($token->kind === TokenKind::ColonColonToken) {
-            $scopedPropertyAccessExpression = new ScopedPropertyAccessExpression();
-            $scopedPropertyAccessExpression->parent = $expression->parent;
-            $expression->parent = $scopedPropertyAccessExpression;
-
-            $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression;
-            $scopedPropertyAccessExpression->doubleColon = $this->eat(TokenKind::ColonColonToken);
-            $scopedPropertyAccessExpression->memberName = $this->parseMemberName($scopedPropertyAccessExpression);
-
-            $expression = $scopedPropertyAccessExpression;
+        if ($tokenKind === TokenKind::ColonColonToken) {
+            $expression = $this->parseScopedPropertyAccessExpression($expression);
         }
 
         while (true) {
-            $token = $this->getCurrentToken();
-            switch ($token->kind) {
-                case TokenKind::OpenBracketToken:
-                case TokenKind::OpenBraceToken:
-                    $subscriptExpression = new SubscriptExpression();
-                    $subscriptExpression->parent = $expression->parent;
-                    $expression->parent = $subscriptExpression;
+            $tokenKind = $this->getCurrentToken()->kind;
 
-                    $subscriptExpression->postfixExpression = $expression;
-                    $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken, TokenKind::OpenBraceToken);
-                    $subscriptExpression->accessExpression = $this->parseExpression($subscriptExpression);
-                    if ($subscriptExpression->openBracketOrBrace->kind === TokenKind::OpenBraceToken) {
-                        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBraceToken);
-                    } else {
-                        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBracketToken);
-                    }
-
-                    $expression = $subscriptExpression;
-                    break;
-
-                case TokenKind::ArrowToken:
-                    $memberAccessExpression = new MemberAccessExpression();
-                    $memberAccessExpression->parent = $expression->parent;
-                    $expression->parent = $memberAccessExpression;
-
-                    $memberAccessExpression->dereferencableExpression = $expression;
-                    $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken);
-                    $memberAccessExpression->memberName = $this->parseMemberName($memberAccessExpression);
-
-                    $expression = $memberAccessExpression;
-                    break;
-
-                case TokenKind::OpenParenToken:
-                    return $this->parseCallExpressionRest($expression);
-
-                default:
-                    return $expression;
+            if ($tokenKind === TokenKind::OpenBraceToken ||
+                $tokenKind === TokenKind::OpenBracketToken) {
+                $expression = $this->parseSubscriptExpression($expression);
+                continue;
             }
+
+            if ($expression instanceof ArrayIntrinsicExpression) {
+                return $expression;
+            } else if ($tokenKind === TokenKind::ArrowToken) {
+                $expression = $this->parseMemberAccessExpression($expression);
+                continue;
+            } else if ($tokenKind === TokenKind::OpenParenToken) {
+                return $this->parseCallExpressionRest($expression);
+            }
+
+            return $expression;
         }
     }
 
@@ -2016,6 +1988,47 @@ class Parser {
         $bracedExpression->closeBrace = $this->eat(TokenKind::CloseBraceToken);
 
         return $bracedExpression;
+    }
+
+    private function parseSubscriptExpression($expression) : SubscriptExpression {
+        $subscriptExpression = new SubscriptExpression();
+        $subscriptExpression->parent = $expression->parent;
+        $expression->parent = $subscriptExpression;
+
+        $subscriptExpression->postfixExpression = $expression;
+        $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken, TokenKind::OpenBraceToken);
+        $subscriptExpression->accessExpression = $this->parseExpression($subscriptExpression);
+        if ($subscriptExpression->openBracketOrBrace->kind === TokenKind::OpenBraceToken) {
+            $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBraceToken);
+        } else {
+            $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBracketToken);
+        }
+
+        return $subscriptExpression;
+    }
+
+    private function parseMemberAccessExpression($expression):MemberAccessExpression {
+        $memberAccessExpression = new MemberAccessExpression();
+        $memberAccessExpression->parent = $expression->parent;
+        $expression->parent = $memberAccessExpression;
+
+        $memberAccessExpression->dereferencableExpression = $expression;
+        $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken);
+        $memberAccessExpression->memberName = $this->parseMemberName($memberAccessExpression);
+
+        return $memberAccessExpression;
+    }
+
+    private function parseScopedPropertyAccessExpression($expression):ScopedPropertyAccessExpression {
+        $scopedPropertyAccessExpression = new ScopedPropertyAccessExpression();
+        $scopedPropertyAccessExpression->parent = $expression->parent;
+        $expression->parent = $scopedPropertyAccessExpression;
+
+        $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression;
+        $scopedPropertyAccessExpression->doubleColon = $this->eat(TokenKind::ColonColonToken);
+        $scopedPropertyAccessExpression->memberName = $this->parseMemberName($scopedPropertyAccessExpression);
+
+        return $scopedPropertyAccessExpression;
     }
 }
 

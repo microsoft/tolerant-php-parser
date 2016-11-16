@@ -1,3 +1,175 @@
-<?php
-// TODO eventually warn about duplicate entry
-$d = array(0=>$a,0=>$b, 1=>$c+$b);
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
+                                            }
+                                        },
+                                        "operator": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "rightOperand": {
+                                            "ArrayIntrinsicExpression": {
+                                                "arrayKeyword": {
+                                                    "kind": "ArrayKeyword",
+                                                    "textLength": 5
+                                                },
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "arrayElements": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "ArrayElement": {
+                                                                    "elementKey": {
+                                                                        "NumericLiteral": {
+                                                                            "children": {
+                                                                                "kind": "DecimalLiteralToken",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "arrowToken": {
+                                                                        "kind": "DoubleArrowToken",
+                                                                        "textLength": 2
+                                                                    },
+                                                                    "byRef": null,
+                                                                    "elementValue": {
+                                                                        "Variable": {
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "kind": "CommaToken",
+                                                                "textLength": 1
+                                                            },
+                                                            {
+                                                                "ArrayElement": {
+                                                                    "elementKey": {
+                                                                        "NumericLiteral": {
+                                                                            "children": {
+                                                                                "kind": "DecimalLiteralToken",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "arrowToken": {
+                                                                        "kind": "DoubleArrowToken",
+                                                                        "textLength": 2
+                                                                    },
+                                                                    "byRef": null,
+                                                                    "elementValue": {
+                                                                        "Variable": {
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "kind": "CommaToken",
+                                                                "textLength": 1
+                                                            },
+                                                            {
+                                                                "ArrayElement": {
+                                                                    "elementKey": {
+                                                                        "NumericLiteral": {
+                                                                            "children": {
+                                                                                "kind": "DecimalLiteralToken",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "arrowToken": {
+                                                                        "kind": "DoubleArrowToken",
+                                                                        "textLength": 2
+                                                                    },
+                                                                    "byRef": null,
+                                                                    "elementValue": {
+                                                                        "BinaryExpression": {
+                                                                            "leftOperand": {
+                                                                                "Variable": {
+                                                                                    "dollar": null,
+                                                                                    "name": {
+                                                                                        "kind": "VariableName",
+                                                                                        "textLength": 2
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            "operator": {
+                                                                                "kind": "PlusToken",
+                                                                                "textLength": 1
+                                                                            },
+                                                                            "rightOperand": {
+                                                                                "Variable": {
+                                                                                    "dollar": null,
+                                                                                    "name": {
+                                                                                        "kind": "VariableName",
+                                                                                        "textLength": 2
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
