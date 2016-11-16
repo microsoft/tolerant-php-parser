@@ -17,7 +17,7 @@
                                 "expression": {
                                     "BinaryExpression": {
                                         "leftOperand": {
-                                            "Literal": {
+                                            "NumericLiteral": {
                                                 "children": {
                                                     "kind": "DecimalLiteralToken",
                                                     "textLength": 1
@@ -31,7 +31,7 @@
                                         "rightOperand": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
-                                                    "Literal": {
+                                                    "NumericLiteral": {
                                                         "children": {
                                                             "kind": "DecimalLiteralToken",
                                                             "textLength": 1
@@ -43,7 +43,7 @@
                                                     "textLength": 1
                                                 },
                                                 "rightOperand": {
-                                                    "Literal": {
+                                                    "NumericLiteral": {
                                                         "children": {
                                                             "kind": "DecimalLiteralToken",
                                                             "textLength": 1

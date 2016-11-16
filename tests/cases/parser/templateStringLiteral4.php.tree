@@ -15,7 +15,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Literal": {
+                                    "StringLiteral": {
                                         "children": {
                                             "kind": "NoSubstitutionTemplateLiteral",
                                             "textLength": 2

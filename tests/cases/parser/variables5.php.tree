@@ -27,7 +27,7 @@
                                                     "textLength": 1
                                                 },
                                                 "expression": {
-                                                    "Literal": {
+                                                    "StringLiteral": {
                                                         "children": {
                                                             "kind": "NoSubstitutionTemplateLiteral",
                                                             "textLength": 7

@@ -52,7 +52,7 @@
                                                                         "textLength": 1
                                                                     },
                                                                     "rightOperand": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1

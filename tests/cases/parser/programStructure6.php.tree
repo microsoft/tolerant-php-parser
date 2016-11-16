@@ -120,7 +120,7 @@
                                                         "textLength": 6
                                                     },
                                                     "expression": {
-                                                        "Literal": {
+                                                        "NumericLiteral": {
                                                             "children": {
                                                                 "kind": "DecimalLiteralToken",
                                                                 "textLength": 1

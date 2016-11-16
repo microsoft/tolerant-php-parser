@@ -25,7 +25,7 @@
                                             "textLength": 1
                                         },
                                         "expression": {
-                                            "Literal": {
+                                            "NumericLiteral": {
                                                 "children": {
                                                     "kind": "DecimalLiteralToken",
                                                     "textLength": 1

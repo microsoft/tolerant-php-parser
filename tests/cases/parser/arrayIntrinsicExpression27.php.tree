@@ -30,7 +30,7 @@
                                                     {
                                                         "ArrayElement": {
                                                             "elementKey": {
-                                                                "Literal": {
+                                                                "NumericLiteral": {
                                                                     "children": {
                                                                         "kind": "DecimalLiteralToken",
                                                                         "textLength": 1
@@ -60,7 +60,7 @@
                                                     {
                                                         "ArrayElement": {
                                                             "elementKey": {
-                                                                "Literal": {
+                                                                "NumericLiteral": {
                                                                     "children": {
                                                                         "kind": "DecimalLiteralToken",
                                                                         "textLength": 1
@@ -92,7 +92,7 @@
                                                             "elementKey": {
                                                                 "BinaryExpression": {
                                                                     "leftOperand": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1
@@ -104,7 +104,7 @@
                                                                         "textLength": 1
                                                                     },
                                                                     "rightOperand": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1

@@ -45,7 +45,7 @@ class NodeKind {
     const Variable = 39;
     const ExpressionStatement = 40;
     const EchoExpression = 41;
-    const Literal = 42;
+//    const Literal = 42;
     const UnknownExpression = 43;
     const ListIntrinsicExpression = 44;
     const ArrayElement = 45;
@@ -66,4 +66,7 @@ class NodeKind {
     const ArgumentExpression = 60;
     const CallExpression = 61;
     const PostfixUpdateExpression = 62;
+    const ScopedPropertyAccessExpression = 63;
+    const NumericLiteral = 64;
+    const StringLiteral = 65;
 }

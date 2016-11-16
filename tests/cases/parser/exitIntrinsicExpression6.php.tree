@@ -34,7 +34,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "Literal": {
+                                    "NumericLiteral": {
                                         "children": {
                                             "kind": "DecimalLiteralToken",
                                             "textLength": 1

@@ -50,7 +50,8 @@ use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
-use PhpParser\Node\Literal;
+use PhpParser\Node\NumericLiteral;
+use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MemberAccessExpression;
 use PhpParser\Node\MethodDeclaration;
 use PhpParser\Node\NamedLabelStatementNode;
@@ -63,6 +64,7 @@ use PhpParser\Node\PrintIntrinsicExpression;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
 use PhpParser\Node\ReturnStatement;
+use PhpParser\Node\ScopedPropertyAccessExpression;
 use PhpParser\Node\Script;
 use PhpParser\Node\ScriptSection;
 use PhpParser\Node\StatementNode;
@@ -824,12 +826,13 @@ class Parser {
             case TokenKind::InvalidOctalLiteralToken:
             case TokenKind::InvalidHexadecimalLiteral:
             case TokenKind::InvalidBinaryLiteral:
+                return $this->parseNumericLiteralExpression($parentNode);
 
             case TokenKind::StringLiteralToken: // TODO merge unterminated
             case TokenKind::UnterminatedStringLiteralToken:
             case TokenKind::NoSubstitutionTemplateLiteral:
             case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
-                return $this->parseLiteralExpression($parentNode);
+                return $this->parseStringLiteralExpression($parentNode);
 
             // TODO constant-expression
 
@@ -896,13 +899,21 @@ class Parser {
         return $node;
     }
 
-    private function parseLiteralExpression($parentNode) {
+    private function parseStringLiteralExpression($parentNode) {
         // TODO validate input token
-        $expression = new Literal();
+        $expression = new StringLiteral();
         $expression->parent = $parentNode;
         $expression->children = $this->getCurrentToken();
         $this->advanceToken();
         return $expression;
+    }
+
+    private function parseNumericLiteralExpression($parentNode) {
+        $numericLiteral = new NumericLiteral();
+        $numericLiteral->parent = $parentNode;
+        $numericLiteral->children = $this->getCurrentToken();
+        $this->advanceToken();
+        return $numericLiteral;
     }
 
     private function isMethodModifier($token) {
@@ -998,7 +1009,7 @@ class Parser {
                     return $token->kind === TokenKind::Name;
                 },
                 function ($parentNode) {
-                    return $this->eat(TokenKind::Name);
+                    return $this->eat(TokenKind::Name); // TODO support keyword name
                 }, $node);
         if ($node->nameParts === null) {
             return null;
@@ -1022,7 +1033,7 @@ class Parser {
     private function parseFunctionDefinition(FunctionDefinition $node) {
         $node->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
-        $node->name = $this->eat(TokenKind::Name);
+        $node->name = $this->eat(TokenKind::Name); // TODO support keyword names
         $node->openParen = $this->eat(TokenKind::OpenParenToken);
         $node->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $node);
         $node->closeParen = $this->eat(TokenKind::CloseParenToken);
@@ -1229,8 +1240,7 @@ class Parser {
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
-        $expression = $this->parsePostfixExpressionRest($expression);
-        return $this->parseCallExpressionRest($expression);
+        return $this->parsePostfixExpressionRest($expression);
     }
 
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
@@ -1869,11 +1879,25 @@ class Parser {
         }
 
         if (!($expression instanceof Variable ||
-            $expression instanceof ParenthesizedExpression
+            $expression instanceof ParenthesizedExpression ||
+            $expression instanceof QualifiedName ||
+            $expression instanceof CallExpression ||
+            $expression instanceof StringLiteral
 //            $expression instanceof ArrayCreationExpression || // TODO
-//            $expression instanceof StringLiteral // TODO
         )) {
             return $expression;
+        }
+
+        if ($token->kind === TokenKind::ColonColonToken) {
+            $scopedPropertyAccessExpression = new ScopedPropertyAccessExpression();
+            $scopedPropertyAccessExpression->parent = $expression->parent;
+            $expression->parent = $scopedPropertyAccessExpression;
+
+            $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression;
+            $scopedPropertyAccessExpression->doubleColon = $this->eat(TokenKind::ColonColonToken);
+            $scopedPropertyAccessExpression->memberName = $this->parseMemberName($scopedPropertyAccessExpression);
+
+            $expression = $scopedPropertyAccessExpression;
         }
 
         while (true) {
@@ -1908,7 +1932,10 @@ class Parser {
 
                     $expression = $memberAccessExpression;
                     break;
-                    
+
+                case TokenKind::OpenParenToken:
+                    return $this->parseCallExpressionRest($expression);
+
                 default:
                     return $expression;
             }
@@ -1926,6 +1953,8 @@ class Parser {
                 return $this->parseSimpleVariable($parentNode); // TODO should be simple-variable
             case TokenKind::OpenBraceToken:
                 return $this->parseBracedExpression($parentNode);
+            default:
+                // TODO support keyword names
         }
         return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
     }
@@ -1965,7 +1994,7 @@ class Parser {
             $callExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
             $expression = $callExpression;
         }
-        return $expression;
+        return $this->parsePostfixExpressionRest($expression);
     }
 
     private function parseParsePostfixUpdateExpression($prefixExpression) {

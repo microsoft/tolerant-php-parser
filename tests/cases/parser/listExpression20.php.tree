@@ -32,7 +32,7 @@
                                                             {
                                                                 "ArrayElement": {
                                                                     "elementKey": {
-                                                                        "Literal": {
+                                                                        "StringLiteral": {
                                                                             "children": {
                                                                                 "kind": "NoSubstitutionTemplateLiteral",
                                                                                 "textLength": 2

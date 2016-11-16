@@ -849,6 +849,7 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "||" => TokenKind::BarBarToken,
     "?" => TokenKind::QuestionToken,
     ":" => TokenKind::ColonToken,
+    "::" => TokenKind::ColonColonToken,
     ";" => TokenKind::SemicolonToken,
     "=" => TokenKind::EqualsToken,
     "**=" => TokenKind::AsteriskAsteriskEqualsToken,

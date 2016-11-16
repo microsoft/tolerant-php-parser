@@ -35,7 +35,7 @@
                                                                     "arrowToken": null,
                                                                     "byRef": null,
                                                                     "elementValue": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1
@@ -76,7 +76,7 @@
                                                                     "arrowToken": null,
                                                                     "byRef": null,
                                                                     "elementValue": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1

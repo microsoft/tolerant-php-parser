@@ -95,7 +95,7 @@
                                                                             "DelimitedList": {
                                                                                 "children": [
                                                                                     {
-                                                                                        "Literal": {
+                                                                                        "StringLiteral": {
                                                                                             "children": {
                                                                                                 "kind": "NoSubstitutionTemplateLiteral",
                                                                                                 "textLength": 7

@@ -32,7 +32,7 @@
                                                             {
                                                                 "ArrayElement": {
                                                                     "elementKey": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1
@@ -62,7 +62,7 @@
                                                             {
                                                                 "ArrayElement": {
                                                                     "elementKey": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1
@@ -92,7 +92,7 @@
                                                             {
                                                                 "ArrayElement": {
                                                                     "elementKey": {
-                                                                        "Literal": {
+                                                                        "NumericLiteral": {
                                                                             "children": {
                                                                                 "kind": "DecimalLiteralToken",
                                                                                 "textLength": 1

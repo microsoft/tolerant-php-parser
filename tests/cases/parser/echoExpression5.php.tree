@@ -50,7 +50,7 @@
                                                         "textLength": 1
                                                     },
                                                     {
-                                                        "Literal": {
+                                                        "StringLiteral": {
                                                             "children": {
                                                                 "kind": "NoSubstitutionTemplateLiteral",
                                                                 "textLength": 2
