@@ -51,6 +51,7 @@ use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\NumericLiteral;
+use PhpParser\Node\ObjectCreationExpression;
 use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MemberAccessExpression;
 use PhpParser\Node\MethodDeclaration;
@@ -659,6 +660,9 @@ class Parser {
     function isExpressionStartFn() {
         return function($token) {
             switch($token->kind) {
+                case TokenKind::NewKeyword:
+                    return true;
+
                 // unary-op-expression
                 case TokenKind::PlusToken:
                 case TokenKind::MinusToken:
@@ -1237,6 +1241,10 @@ class Parser {
                 // TODO
 //                return $this->parseCastExpression($parentNode);
                 break;*/
+
+            // postfix-expression
+            case TokenKind::NewKeyword:
+                return $this->parseObjectCreationExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -1957,12 +1965,7 @@ class Parser {
             $callExpression->callableExpression = $expression;
             $callExpression->openParen = $this->eat(TokenKind::OpenParenToken);
             $callExpression->argumentExpressionList =
-                $this->parseDelimitedList(
-                    TokenKind::CommaToken,
-                    $this->isArgumentExpressionStartFn(),
-                    $this->parseArgumentExpressionFn(),
-                    $callExpression
-                    );
+                $this->parseArgumentExpressionList($callExpression);
             $callExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
             $expression = $callExpression;
         }
@@ -2029,6 +2032,39 @@ class Parser {
         $scopedPropertyAccessExpression->memberName = $this->parseMemberName($scopedPropertyAccessExpression);
 
         return $scopedPropertyAccessExpression;
+    }
+
+    private function parseObjectCreationExpression($parentNode) {
+        $objectCreationExpression = new ObjectCreationExpression();
+        $objectCreationExpression->parent = $parentNode;
+        $objectCreationExpression->newKeword = $this->eat(TokenKind::NewKeyword);
+        $objectCreationExpression->classTypeDesignator =
+            $this->parseQualifiedName($objectCreationExpression) ??
+            $this->eatOptional(TokenKind::ClassKeyword) ??
+            $this->parseSimpleVariable($objectCreationExpression);
+
+        $objectCreationExpression->openParen = $this->eatOptional(TokenKind::OpenParenToken);
+        if ($objectCreationExpression->openParen !== null) {
+            $objectCreationExpression->argumentExpressionList = $this->parseArgumentExpressionList($objectCreationExpression);
+            $objectCreationExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+        }
+
+        // TODO parse extends, implements
+
+        if ($this->getCurrentToken()->kind === TokenKind::OpenBraceToken) {
+            $objectCreationExpression->classMembers = $this->parseClassMembers($objectCreationExpression);
+        }
+
+        return $objectCreationExpression;
+    }
+
+    private function parseArgumentExpressionList($parentNode) {
+        return $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isArgumentExpressionStartFn(),
+            $this->parseArgumentExpressionFn(),
+            $parentNode
+        );
     }
 }
 

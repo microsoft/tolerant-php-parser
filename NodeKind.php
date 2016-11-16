@@ -69,4 +69,5 @@ class NodeKind {
     const ScopedPropertyAccessExpression = 63;
     const NumericLiteral = 64;
     const StringLiteral = 65;
+    const ObjectCreationExpression = 66;
 }

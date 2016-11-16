@@ -1,0 +1,64 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ObjectCreationExpression": {
+                                        "newKeword": {
+                                            "kind": "NewKeyword",
+                                            "textLength": 3
+                                        },
+                                        "classTypeDesignator": {
+                                            "Variable": {
+                                                "dollar": {
+                                                    "kind": "DollarToken",
+                                                    "textLength": 1
+                                                },
+                                                "name": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "openParen": null,
+                                        "argumentExpressionList": null,
+                                        "closeParen": null,
+                                        "classBaseClause": null,
+                                        "classInterfaceClause": null,
+                                        "classMembers": null
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
