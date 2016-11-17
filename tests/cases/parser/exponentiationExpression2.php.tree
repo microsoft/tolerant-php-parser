@@ -1,0 +1,81 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "UnaryOpExpression": {
+                                                "operator": {
+                                                    "kind": "MinusToken",
+                                                    "textLength": 1
+                                                },
+                                                "operand": {
+                                                    "BinaryExpression": {
+                                                        "leftOperand": {
+                                                            "NumericLiteral": {
+                                                                "children": {
+                                                                    "kind": "DecimalLiteralToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            }
+                                                        },
+                                                        "operator": {
+                                                            "kind": "AsteriskAsteriskToken",
+                                                            "textLength": 2
+                                                        },
+                                                        "rightOperand": {
+                                                            "NumericLiteral": {
+                                                                "children": {
+                                                                    "kind": "DecimalLiteralToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "operator": {
+                                            "kind": "PlusToken",
+                                            "textLength": 1
+                                        },
+                                        "rightOperand": {
+                                            "NumericLiteral": {
+                                                "children": {
+                                                    "kind": "DecimalLiteralToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

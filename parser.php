@@ -74,6 +74,7 @@ use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\TryStatement;
+use PhpParser\Node\UnaryExpression;
 use PhpParser\Node\UnaryOpExpression;
 use PhpParser\Node\UnknownExpression;
 use PhpParser\Node\UnsetIntrinsicExpression;
@@ -1302,13 +1303,41 @@ class Parser {
                 break;
             }
 
+            // Unlike every other binary expression, exponentiation operators take precedence over unary operators.
+            //
+            // Example:
+            //   -3**2 => -9
+            //
+            // In these cases, we strip the UnaryExpression operator, and reassign $leftOperand to
+            // $unaryExpression->operand.
+            //
+            // After we finish building the BinaryExpression, we rebuild the UnaryExpression so that it includes
+            // the original operator, and the newly constructed exponentiation-expression as the operand.
+            $shouldOperatorTakePrecedenceOverUnary =
+                $token->kind === TokenKind::AsteriskAsteriskToken && $leftOperand instanceof UnaryExpression;
+
+            if ($shouldOperatorTakePrecedenceOverUnary) {
+                $unaryExpression = $leftOperand;
+                $leftOperand = $unaryExpression->operand;
+            }
+
             $this->advanceToken();
+            
             $leftOperand = $this->makeBinaryExpression(
                 $leftOperand,
                 $token,
                 $this->parseBinaryExpressionOrHigher($newPrecedence, null),
                 $parentNode);
 
+            // Rebuild the unary expression if we deconstructed it earlier.
+            if ($shouldOperatorTakePrecedenceOverUnary) {
+                $leftOperand->parent = $unaryExpression;
+                $unaryExpression->operand = $leftOperand;
+                $leftOperand = $unaryExpression;
+            }
+
+            // Hold onto these values, so we know whether we've hit duplicate non-associative operators,
+            // and need to terminate early.
             $prevNewPrecedence = $newPrecedence;
             $prevAssociativity = $associativity;
         }
@@ -1395,7 +1424,10 @@ class Parser {
             TokenKind::PercentToken => [19, Associativity::Left],
 
             // instanceof-expression (X)
-            TokenKind::InstanceOfKeyword => [20, Associativity::None]
+            TokenKind::InstanceOfKeyword => [20, Associativity::None],
+
+            // exponentiation-expression (R)
+            TokenKind::AsteriskAsteriskToken => [21, Associativity::Right]
         ];
 
     const UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY = [-1, -1];
