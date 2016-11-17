@@ -724,6 +724,11 @@ class Parser {
                 // ( expression )
                 case TokenKind::OpenParenToken:
 
+                // reserved words
+                case TokenKind::NullReservedWord:
+                case TokenKind::FalseReservedWord:
+                case TokenKind::TrueReservedWord:
+
                     return true;
             }
             return false;
@@ -872,6 +877,13 @@ class Parser {
             // ( expression )
             case TokenKind::OpenParenToken:
                 return $this->parseParenthesizedExpression($parentNode);
+
+            // reserved words
+            case TokenKind::FalseReservedWord:
+            case TokenKind::TrueReservedWord:
+            case TokenKind::NullReservedWord:
+                $this->advanceToken();
+                return $token;
 
             /*
 //                return $this->

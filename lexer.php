@@ -806,6 +806,7 @@ const KEYWORDS = array(
     "bool" => TokenKind::BoolReservedWord,
     "string" => TokenKind::StringReservedWord,
     "true" => TokenKind::TrueReservedWord,
+    "false" => TokenKind::FalseReservedWord,
     "null" => TokenKind::NullReservedWord
 
     // TODO soft reserved words?
