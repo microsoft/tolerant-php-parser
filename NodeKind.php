@@ -70,4 +70,6 @@ class NodeKind {
     const NumericLiteral = 64;
     const StringLiteral = 65;
     const ObjectCreationExpression = 66;
+    const TernaryExpression = 67;
+    const ReservedWord = 68;
 }

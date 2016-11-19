@@ -164,7 +164,6 @@ class TokenKind {
     const AmpersandToken = 233;
     const AmpersandAmpersandToken = 234;
     const BarBarToken = 235;
-    const QuestionToken = 235;
     const ColonToken = 236;
     const SemicolonToken = 237;
     const EqualsToken = 238;
@@ -190,6 +189,7 @@ class TokenKind {
     const LessThanGreaterThanToken = 258; // TODO missing from spec
     const AtSymbolToken = 259;
     const BacktickToken = 260;
+    const QuestionToken = 261;
 
     const DecimalLiteralToken = 301;
     const OctalLiteralToken = 302;

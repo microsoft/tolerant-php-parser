@@ -52,6 +52,7 @@ use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
+use PhpParser\Node\ReservedWord;
 use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MemberAccessExpression;
 use PhpParser\Node\MethodDeclaration;
@@ -72,6 +73,7 @@ use PhpParser\Node\StatementNode;
 use PhpParser\Node\SubscriptExpression;
 use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
+use PhpParser\Node\TernaryExpression;
 use PhpParser\Node\ThrowStatement;
 use PhpParser\Node\TryStatement;
 use PhpParser\Node\UnaryExpression;
@@ -882,8 +884,7 @@ class Parser {
             case TokenKind::FalseReservedWord:
             case TokenKind::TrueReservedWord:
             case TokenKind::NullReservedWord:
-                $this->advanceToken();
-                return $token;
+                return $this->parseReservedWordExpression($parentNode);
 
             /*
 //                return $this->
@@ -931,6 +932,14 @@ class Parser {
         $numericLiteral->children = $this->getCurrentToken();
         $this->advanceToken();
         return $numericLiteral;
+    }
+
+    private function parseReservedWordExpression($parentNode) {
+        $reservedWord = new ReservedWord();
+        $reservedWord->parent = $parentNode;
+        $reservedWord->children = $this->getCurrentToken();
+        $this->advanceToken();
+        return $reservedWord;
     }
 
     private function isMethodModifier($token) {
@@ -1334,12 +1343,14 @@ class Parser {
             }
 
             $this->advanceToken();
-            
-            $leftOperand = $this->makeBinaryExpression(
-                $leftOperand,
-                $token,
-                $this->parseBinaryExpressionOrHigher($newPrecedence, null),
-                $parentNode);
+
+            $leftOperand = $token->kind === TokenKind::QuestionToken ?
+                $this->parseTernaryExpression($leftOperand, $token) :
+                $this->makeBinaryExpression(
+                    $leftOperand,
+                    $token,
+                    $this->parseBinaryExpressionOrHigher($newPrecedence, null),
+                    $parentNode);
 
             // Rebuild the unary expression if we deconstructed it earlier.
             if ($shouldOperatorTakePrecedenceOverUnary) {
@@ -1385,61 +1396,61 @@ class Parser {
             TokenKind::CaretEqualsToken => [9, Associativity::Right],
             TokenKind::BarEqualsToken => [9, Associativity::Right],
 
+            // TODO conditional-expression (L)
+            TokenKind::QuestionToken => [10, Associativity::Left],
+//            TokenKind::ColonToken => [9, Associativity::Left],
+
             // TODO coalesce-expression (R)
             TokenKind::QuestionQuestionToken => [9, Associativity::Right],
 
-            // TODO conditional-expression (L)
-//            TokenKind::QuestionToken => [9, Associativity::Left],
-//            TokenKind::ColonToken => [9, Associativity::Left],
-
             //logical-inc-OR-expression-1 (L)
-            TokenKind::BarBarToken => [10, Associativity::Left],
+            TokenKind::BarBarToken => [12, Associativity::Left],
 
             // logical-AND-expression-1 (L)
-            TokenKind::AmpersandAmpersandToken => [11, Associativity::Left],
+            TokenKind::AmpersandAmpersandToken => [13, Associativity::Left],
 
             // bitwise-inc-OR-expression (L)
-            TokenKind::BarToken => [12, Associativity::Left],
+            TokenKind::BarToken => [14, Associativity::Left],
 
             // bitwise-exc-OR-expression (L)
-            TokenKind::CaretToken => [13, Associativity::Left],
+            TokenKind::CaretToken => [15, Associativity::Left],
 
             // bitwise-AND-expression (L)
-            TokenKind::AmpersandToken => [14, Associativity::Left],
+            TokenKind::AmpersandToken => [16, Associativity::Left],
 
             // equality-expression (X)
-            TokenKind::EqualsEqualsToken => [15, Associativity::None],
-            TokenKind::ExclamationEqualsToken => [15, Associativity::None],
-            TokenKind::LessThanGreaterThanToken => [15, Associativity::None],
-            TokenKind::EqualsEqualsEqualsToken => [15, Associativity::None],
-            TokenKind::ExclamationEqualsEqualsToken => [15, Associativity::None],
+            TokenKind::EqualsEqualsToken => [17, Associativity::None],
+            TokenKind::ExclamationEqualsToken => [17, Associativity::None],
+            TokenKind::LessThanGreaterThanToken => [17, Associativity::None],
+            TokenKind::EqualsEqualsEqualsToken => [17, Associativity::None],
+            TokenKind::ExclamationEqualsEqualsToken => [17, Associativity::None],
 
             // relational-expression (X)
-            TokenKind::LessThanToken => [16, Associativity::None],
-            TokenKind::GreaterThanToken => [16, Associativity::None],
-            TokenKind::LessThanEqualsToken => [16, Associativity::None],
-            TokenKind::GreaterThanEqualsToken => [16, Associativity::None],
-            TokenKind::LessThanEqualsGreaterThanToken => [16, Associativity::None],
+            TokenKind::LessThanToken => [18, Associativity::None],
+            TokenKind::GreaterThanToken => [18, Associativity::None],
+            TokenKind::LessThanEqualsToken => [18, Associativity::None],
+            TokenKind::GreaterThanEqualsToken => [18, Associativity::None],
+            TokenKind::LessThanEqualsGreaterThanToken => [18, Associativity::None],
 
             // shift-expression (L)
-            TokenKind::LessThanLessThanToken => [17, Associativity::Left],
-            TokenKind::GreaterThanGreaterThanToken => [17, Associativity::Left],
+            TokenKind::LessThanLessThanToken => [19, Associativity::Left],
+            TokenKind::GreaterThanGreaterThanToken => [19, Associativity::Left],
 
             // additive-expression (L)
-            TokenKind::PlusToken => [18, Associativity::Left],
-            TokenKind::MinusToken => [18, Associativity::Left],
-            TokenKind::DotToken =>[18, Associativity::Left],
+            TokenKind::PlusToken => [20, Associativity::Left],
+            TokenKind::MinusToken => [20, Associativity::Left],
+            TokenKind::DotToken =>[20, Associativity::Left],
 
             // multiplicative-expression (L)
-            TokenKind::AsteriskToken => [19, Associativity::Left],
-            TokenKind::SlashToken => [19, Associativity::Left],
-            TokenKind::PercentToken => [19, Associativity::Left],
+            TokenKind::AsteriskToken => [21, Associativity::Left],
+            TokenKind::SlashToken => [21, Associativity::Left],
+            TokenKind::PercentToken => [21, Associativity::Left],
 
             // instanceof-expression (X)
-            TokenKind::InstanceOfKeyword => [20, Associativity::None],
+            TokenKind::InstanceOfKeyword => [22, Associativity::None],
 
             // exponentiation-expression (R)
-            TokenKind::AsteriskAsteriskToken => [21, Associativity::Right]
+            TokenKind::AsteriskAsteriskToken => [23, Associativity::Right]
         ];
 
     const UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY = [-1, -1];
@@ -2109,6 +2120,19 @@ class Parser {
             $this->parseArgumentExpressionFn(),
             $parentNode
         );
+    }
+
+    private function parseTernaryExpression($leftOperand, $questionToken):TernaryExpression {
+        $ternaryExpression = new TernaryExpression();
+        $ternaryExpression->parent = $leftOperand->parent;
+        $leftOperand->parent = $ternaryExpression;
+        $ternaryExpression->condition = $leftOperand;
+        $ternaryExpression->questionToken = $questionToken;
+        $ternaryExpression->ifExpression = $this->parseExpression($ternaryExpression);
+        $ternaryExpression->colonToken = $this->eat(TokenKind::ColonToken);
+        $ternaryExpression->elseExpression = $this->parseBinaryExpressionOrHigher(9, $ternaryExpression);
+        $leftOperand = $ternaryExpression;
+        return $leftOperand;
     }
 }
 
