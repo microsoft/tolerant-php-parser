@@ -72,4 +72,5 @@ class NodeKind {
     const ObjectCreationExpression = 66;
     const TernaryExpression = 67;
     const ReservedWord = 68;
+    const ClassInterfaceClause = 69;
 }

@@ -21,6 +21,7 @@ use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
+use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\BreakOrContinueStatement;
@@ -481,6 +482,7 @@ class Parser {
         $classNode = new ClassNode();
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
         $classNode->name = $this->eat(TokenKind::Name);
+        $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
         $classNode->parent = $parentNode;
         return $classNode;
@@ -1019,26 +1021,48 @@ class Parser {
         return $node;
     }
 
+    private function isQualifiedNameStart($token) {
+        return ($this->isQualifiedNameStartFn())($token);
+    }
+
+    private function isQualifiedNameStartFn() {
+        return function ($token) {
+            switch ($token->kind) {
+                case TokenKind::BackslashToken:
+                case TokenKind::NamespaceKeyword:
+                case TokenKind::Name:
+                    return true;
+            }
+            return false;
+        };
+    }
+
     private function parseQualifiedName($parentNode) {
-        $node = new QualifiedName();
-        $node->parent = $parentNode;
-        $node->relativeSpecifier = $this->parseRelativeSpecifier($node);
-        if (!isset($node->relativeSpecifier)) {
-            $node->globalSpecifier = $this->eatOptional(TokenKind::BackslashToken);
-        }
-        $node->nameParts =
-            $this->parseDelimitedList(
-                TokenKind::BackslashToken,
-                function ($token) {
-                    return $token->kind === TokenKind::Name;
-                },
-                function ($parentNode) {
-                    return $this->eat(TokenKind::Name); // TODO support keyword name
-                }, $node);
-        if ($node->nameParts === null) {
-            return null;
-        }
-        return $node;
+        return ($this->parseQualifiedNameFn())($parentNode);
+    }
+
+    private function parseQualifiedNameFn() {
+        return function ($parentNode) {
+            $node = new QualifiedName();
+            $node->parent = $parentNode;
+            $node->relativeSpecifier = $this->parseRelativeSpecifier($node);
+            if (!isset($node->relativeSpecifier)) {
+                $node->globalSpecifier = $this->eatOptional(TokenKind::BackslashToken);
+            }
+            $node->nameParts =
+                $this->parseDelimitedList(
+                    TokenKind::BackslashToken,
+                    function ($token) {
+                        return $token->kind === TokenKind::Name;
+                    },
+                    function ($parentNode) {
+                        return $this->eat(TokenKind::Name); // TODO support keyword name
+                    }, $node);
+            if ($node->nameParts === null) {
+                return null;
+            }
+            return $node;
+        };
     }
 
     private function parseRelativeSpecifier($parentNode) {
@@ -2131,6 +2155,24 @@ class Parser {
         $ternaryExpression->elseExpression = $this->parseBinaryExpressionOrHigher(9, $ternaryExpression);
         $leftOperand = $ternaryExpression;
         return $leftOperand;
+    }
+
+    private function parseClassInterfaceClause($parentNode) {
+        $classInterfaceClause = new ClassInterfaceClause();
+        $classInterfaceClause->parent = $parentNode;
+        $classInterfaceClause->implementsKeyword = $this->eatOptional(TokenKind::ImplementsKeyword);
+
+        if ($classInterfaceClause->implementsKeyword === null) {
+            return null;
+        }
+
+        $classInterfaceClause->interfaceNameList =
+            $this->parseDelimitedList(
+                TokenKind::CommaToken,
+                $this->isQualifiedNameStartFn(),
+                $this->parseQualifiedNameFn(),
+                $classInterfaceClause);
+        return $classInterfaceClause;
     }
 }
 
