@@ -44,8 +44,12 @@
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "expression": {
-                                                                "kind": "NullReservedWord",
-                                                                "textLength": 4
+                                                                "ReservedWord": {
+                                                                    "children": {
+                                                                        "kind": "NullReservedWord",
+                                                                        "textLength": 4
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     },
@@ -58,8 +62,12 @@
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "expression": {
-                                                                "kind": "TrueReservedWord",
-                                                                "textLength": 4
+                                                                "ReservedWord": {
+                                                                    "children": {
+                                                                        "kind": "TrueReservedWord",
+                                                                        "textLength": 4
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     },
@@ -72,8 +80,12 @@
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "expression": {
-                                                                "kind": "FalseReservedWord",
-                                                                "textLength": 5
+                                                                "ReservedWord": {
+                                                                    "children": {
+                                                                        "kind": "FalseReservedWord",
+                                                                        "textLength": 5
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }

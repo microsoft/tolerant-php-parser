@@ -478,23 +478,21 @@ class Parser {
     }
 
     function parseClassDeclaration($parentNode) : Node {
-        $node = new ClassNode();
-        $node->children = array();
-        array_push($node->children, $this->eat(TokenKind::ClassKeyword));
-        array_push($node->children, $this->eat(TokenKind::Name));
-        array_push($node->children, $this->parseClassMembers($node));
-        $node->parent = $parentNode;
-        return $node;
+        $classNode = new ClassNode();
+        $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
+        $classNode->name = $this->eat(TokenKind::Name);
+        $classNode->classMembers = $this->parseClassMembers($classNode);
+        $classNode->parent = $parentNode;
+        return $classNode;
     }
 
     function parseClassMembers($parentNode) : Node {
-        $node = new ClassMembersNode();
-        $node->children = array();
-        array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
-        $this->array_push_list($node->children, $this->parseList($node, ParseContext::ClassMembers));
-        array_push($node->children, $this->eat(TokenKind::CloseBraceToken));
-        $node->parent = $parentNode;
-        return $node;
+        $classMembers = new ClassMembersNode();
+        $classMembers->openBrace = $this->eat(TokenKind::OpenBraceToken);
+        $classMembers->classMemberDeclarations = $this->parseList($classMembers, ParseContext::ClassMembers);
+        $classMembers->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+        $classMembers->parent = $parentNode;
+        return $classMembers;
     }
 
     function parseFunctionDeclaration($parentNode) {

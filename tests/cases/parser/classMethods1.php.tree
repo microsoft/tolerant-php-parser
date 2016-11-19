@@ -14,78 +14,79 @@
                     "statementList": [
                         {
                             "ClassNode": {
-                                "children": [
-                                    {
-                                        "kind": "ClassKeyword",
-                                        "textLength": 5
-                                    },
-                                    {
-                                        "kind": "Name",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "ClassMembersNode": {
-                                            "children": [
-                                                {
-                                                    "kind": "OpenBraceToken",
-                                                    "textLength": 1
-                                                },
-                                                {
-                                                    "MethodNode": {
-                                                        "modifiers": [
-                                                            {
-                                                                "kind": "PublicKeyword",
-                                                                "textLength": 6
-                                                            },
-                                                            {
-                                                                "kind": "StaticKeyword",
-                                                                "textLength": 6
-                                                            }
-                                                        ],
-                                                        "functionKeyword": {
-                                                            "kind": "FunctionKeyword",
-                                                            "textLength": 8
+                                "classModifiers": null,
+                                "classKeyword": {
+                                    "kind": "ClassKeyword",
+                                    "textLength": 5
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "classBaseClause": null,
+                                "classInterfaceClause": null,
+                                "classMembers": {
+                                    "ClassMembersNode": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "classMemberDeclarations": [
+                                            {
+                                                "MethodNode": {
+                                                    "modifiers": [
+                                                        {
+                                                            "kind": "PublicKeyword",
+                                                            "textLength": 6
                                                         },
-                                                        "byRefToken": null,
-                                                        "name": {
-                                                            "kind": "Name",
-                                                            "textLength": 4
-                                                        },
-                                                        "openParen": {
-                                                            "kind": "OpenParenToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "parameters": null,
-                                                        "closeParen": {
-                                                            "kind": "CloseParenToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "colonToken": null,
-                                                        "returnType": null,
-                                                        "compoundStatement": {
-                                                            "CompoundStatementNode": {
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "OpenBraceToken",
-                                                                        "textLength": 1
-                                                                    },
-                                                                    {
-                                                                        "kind": "CloseBraceToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                ]
-                                                            }
+                                                        {
+                                                            "kind": "StaticKeyword",
+                                                            "textLength": 6
+                                                        }
+                                                    ],
+                                                    "functionKeyword": {
+                                                        "kind": "FunctionKeyword",
+                                                        "textLength": 8
+                                                    },
+                                                    "byRefToken": null,
+                                                    "name": {
+                                                        "kind": "Name",
+                                                        "textLength": 4
+                                                    },
+                                                    "openParen": {
+                                                        "kind": "OpenParenToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "parameters": null,
+                                                    "closeParen": {
+                                                        "kind": "CloseParenToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "colonToken": null,
+                                                    "returnType": null,
+                                                    "compoundStatement": {
+                                                        "CompoundStatementNode": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "OpenBraceToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                {
+                                                                    "kind": "CloseBraceToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
                                                         }
                                                     }
-                                                },
-                                                {
-                                                    "kind": "CloseBraceToken",
-                                                    "textLength": 1
                                                 }
-                                            ]
+                                            }
+                                        ],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
                                         }
                                     }
-                                ]
+                                }
                             }
                         }
                     ],

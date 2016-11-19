@@ -14,30 +14,30 @@
                     "statementList": [
                         {
                             "ClassNode": {
-                                "children": [
-                                    {
-                                        "kind": "ClassKeyword",
-                                        "textLength": 5
-                                    },
-                                    {
-                                        "kind": "Name",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "ClassMembersNode": {
-                                            "children": [
-                                                {
-                                                    "kind": "OpenBraceToken",
-                                                    "textLength": 1
-                                                },
-                                                {
-                                                    "kind": "CloseBraceToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
+                                "classModifiers": null,
+                                "classKeyword": {
+                                    "kind": "ClassKeyword",
+                                    "textLength": 5
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "classBaseClause": null,
+                                "classInterfaceClause": null,
+                                "classMembers": {
+                                    "ClassMembersNode": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "classMemberDeclarations": [],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
                                         }
                                     }
-                                ]
+                                }
                             }
                         },
                         {
@@ -120,55 +120,40 @@
                                             "textLength": 1
                                         },
                                         "rightOperand": {
-                                            "UnknownExpression": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "kind": "SkippedToken",
-                            "textLength": 3
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "CallExpression": {
-                                        "callableExpression": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
+                                            "ObjectCreationExpression": {
+                                                "newKeword": {
+                                                    "kind": "NewKeyword",
+                                                    "textLength": 3
+                                                },
+                                                "classTypeDesignator": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "Name",
+                                                                        "textLength": 1
+                                                                    }
+                                                                ]
                                                             }
-                                                        ]
+                                                        }
                                                     }
-                                                }
+                                                },
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "argumentExpressionList": null,
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "classBaseClause": null,
+                                                "classInterfaceClause": null,
+                                                "classMembers": null
                                             }
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "argumentExpressionList": null,
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
                                     }
                                 },
