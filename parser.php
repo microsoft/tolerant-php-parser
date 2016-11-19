@@ -21,6 +21,7 @@ use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\CatchClause;
+use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
@@ -482,6 +483,7 @@ class Parser {
         $classNode = new ClassNode();
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
         $classNode->name = $this->eat(TokenKind::Name);
+        $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
         $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
         $classNode->parent = $parentNode;
@@ -2173,6 +2175,19 @@ class Parser {
                 $this->parseQualifiedNameFn(),
                 $classInterfaceClause);
         return $classInterfaceClause;
+    }
+
+    private function parseClassBaseClause($parentNode) {
+        $classBaseClause = new ClassBaseClause();
+        $classBaseClause->parent = $parentNode;
+
+        $classBaseClause->extendsKeyword = $this->eatOptional(TokenKind::ExtendsKeyword);
+        if ($classBaseClause->extendsKeyword === null) {
+            return null;
+        }
+        $classBaseClause->baseClass = $this->parseQualifiedName($classBaseClause);
+
+        return $classBaseClause;
     }
 }
 
