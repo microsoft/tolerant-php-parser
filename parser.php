@@ -394,7 +394,7 @@ class Parser {
 
                 // labeled-statement
                 case TokenKind::Name:
-                    if ($this->lookahead(TokenKind::Name, TokenKind::ColonToken)) {
+                    if ($this->lookahead(TokenKind::ColonToken)) {
                         return $this->parseNamedLabelStatement($parentNode);
                     }
                     break;
@@ -439,9 +439,13 @@ class Parser {
                     return $this->parseFunctionDeclaration($parentNode);
 
                 // class-declaration
-                case TokenKind::ClassKeyword:
                 case TokenKind::FinalKeyword:
                 case TokenKind::AbstractKeyword:
+                    if (!$this->lookahead(TokenKind::ClassKeyword)) {
+                        $this->advanceToken();
+                        return new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length);
+                    }
+                case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
 
                 case TokenKind::SemicolonToken:
@@ -706,7 +710,7 @@ class Parser {
                     return true;
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
-                    return $this->lookahead(TokenKind::BackslashToken);
+                    return $this->checkToken(TokenKind::BackslashToken);
                 // literal
                 case TokenKind::TemplateStringStart:
 
@@ -1024,7 +1028,7 @@ class Parser {
         do {
             if ($isElementStartFn($token)) {
                 $node->addToken($parseElementFn($node));
-            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->lookahead($delimeter))) {
+            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimeter))) {
                 break;
             }
 
@@ -1101,19 +1105,25 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionDefinition(FunctionDefinition $node, $canBeAbstract = false) {
-        $node->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
-        $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
-        $node->name = $this->eat(TokenKind::Name); // TODO support keyword names
-        $node->openParen = $this->eat(TokenKind::OpenParenToken);
-        $node->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $node);
-        $node->closeParen = $this->eat(TokenKind::CloseParenToken);
-        if ($this->lookahead(TokenKind::ColonToken)) {
-            $node->colonToken = $this->eat(TokenKind::ColonToken);
-            $node->returnType = $this->tryParseTypeDeclaration($node) ?? $this->eat(TokenKind::VoidReservedWord);
+    private function parseFunctionDefinition(FunctionDefinition $functionDefinition, $canBeAbstract = false) {
+        $functionDefinition->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
+        $functionDefinition->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+        $functionDefinition->name = $this->eat(TokenKind::Name); // TODO support keyword names
+        $functionDefinition->openParen = $this->eat(TokenKind::OpenParenToken);
+        $functionDefinition->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $functionDefinition);
+        $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
+        if ($this->checkToken(TokenKind::ColonToken)) {
+            $functionDefinition->colonToken = $this->eat(TokenKind::ColonToken);
+            $functionDefinition->returnType = $this->tryParseTypeDeclaration($functionDefinition) ?? $this->eat(TokenKind::VoidReservedWord);
         }
 
-        $node->compoundStatementOrSemicolon = $this->parseCompoundStatement($node);
+        if ($canBeAbstract) {
+            $functionDefinition->compoundStatementOrSemicolon = $this->eatOptional(TokenKind::SemicolonToken);
+        }
+
+        if (!isset($functionDefinition->compoundStatementOrSemicolon)) {
+            $functionDefinition->compoundStatementOrSemicolon = $this->parseCompoundStatement($functionDefinition);
+        }
     }
 
     private function parseNamedLabelStatement($parentNode) {
@@ -1127,17 +1137,22 @@ class Parser {
 
     private function lookahead(int ...$expectedKinds) : bool {
         $startPos = $this->lexer->pos;
-        $startToken = $this->getCurrentToken();
-        $success = true;
+        $startToken = $this->token;
+        $succeeded = true;
         foreach ($expectedKinds as $kind) {
-            if ($this->eatOptional($kind) === null) {
-                $success = false;
+            $this->advanceToken();
+            if ($this->lexer->pos >= $this->lexer->endOfFilePos || $this->getCurrentToken()->kind !== $kind) {
+                $succeeded = false;
                 break;
             }
         }
         $this->lexer->pos = $startPos;
         $this->token = $startToken;
-        return $success;
+        return $succeeded;
+    }
+
+    private function checkToken($expectedKind) : bool {
+        return $this->getCurrentToken()->kind === $expectedKind;
     }
 
     private function parseIfStatement($parentNode) {
@@ -1147,18 +1162,18 @@ class Parser {
         $ifStatement->openParen = $this->eat(TokenKind::OpenParenToken);
         $ifStatement->expression = $this->parseExpression($ifStatement);
         $ifStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
-        if ($this->lookahead(TokenKind::ColonToken)) {
+        if ($this->checkToken(TokenKind::ColonToken)) {
             $ifStatement->colon = $this->eat(TokenKind::ColonToken);
             $ifStatement->statements = $this->parseList($ifStatement, ParseContext::IfClause2Elements);
         } else {
             $ifStatement->statements = $this->parseStatement($ifStatement);
         }
         $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
-        while ($this->lookahead(TokenKind::ElseIfKeyword)) {
+        while ($this->checkToken(TokenKind::ElseIfKeyword)) {
             array_push($ifStatement->elseIfClauses, $this->parseElseIfClause($ifStatement));
         }
 
-        if ($this->lookahead(TokenKind::ElseKeyword)) {
+        if ($this->checkToken(TokenKind::ElseKeyword)) {
             $ifStatement->elseClause = $this->parseElseClause($ifStatement);
         }
 
@@ -1185,7 +1200,7 @@ class Parser {
         $elseIfClause->openParen = $this->eat(TokenKind::OpenParenToken);
         $elseIfClause->expression = $this->parseExpression($elseIfClause);
         $elseIfClause->closeParen = $this->eat(TokenKind::CloseParenToken);
-        if ($this->lookahead(TokenKind::ColonToken)) {
+        if ($this->checkToken(TokenKind::ColonToken)) {
             $elseIfClause->colon = $this->eat(TokenKind::ColonToken);
             $elseIfClause->statements = $this->parseList($elseIfClause, ParseContext::IfClause2Elements);
         } else {
@@ -1198,7 +1213,7 @@ class Parser {
         $elseClause = new ElseClauseNode();
         $elseClause->parent = $parentNode;
         $elseClause->elseKeyword = $this->eat(TokenKind::ElseKeyword);
-        if ($this->lookahead(TokenKind::ColonToken)) {
+        if ($this->checkToken(TokenKind::ColonToken)) {
             $elseClause->colon = $this->eat(TokenKind::ColonToken);
             $elseClause->statements = $this->parseList($elseClause, ParseContext::IfClause2Elements);
         } else {
@@ -1587,7 +1602,7 @@ class Parser {
         $foreachKey->parent = $parentNode;
         $foreachKey->expression = $this->parseExpression($foreachKey);
 
-        if (!$this->lookahead(TokenKind::DoubleArrowToken)) {
+        if (!$this->checkToken(TokenKind::DoubleArrowToken)) {
             $this->lexer->pos = $startPos;
             $this->token = $startToken;
             return null;
@@ -1669,11 +1684,11 @@ class Parser {
         $tryStatement->compoundStatement = $this->parseCompoundStatement($tryStatement); // TODO verifiy this is only compound
 
         $tryStatement->catchClauses = array(); // TODO - should be some standard for empty arrays vs. null?
-        while ($this->lookahead(TokenKind::CatchKeyword)) {
+        while ($this->checkToken(TokenKind::CatchKeyword)) {
             array_push($tryStatement->catchClauses, $this->parseCatchClause($tryStatement));
         }
 
-        if ($this->lookahead(TokenKind::FinallyKeyword)) {
+        if ($this->checkToken(TokenKind::FinallyKeyword)) {
             $tryStatement->finallyClause = $this->parseFinallyClause($tryStatement);
         }
 
@@ -1710,9 +1725,9 @@ class Parser {
         $declareStatement->declareDirective = $this->parseDeclareDirective($declareStatement);
         $declareStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
 
-        if ($this->lookahead(TokenKind::SemicolonToken)) {
+        if ($this->checkToken(TokenKind::SemicolonToken)) {
             $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
-        } elseif ($this->lookahead(TokenKind::ColonToken)) {
+        } elseif ($this->checkToken(TokenKind::ColonToken)) {
             $declareStatement->colon = $this->eat(TokenKind::ColonToken);
             $declareStatement->statements = $this->parseList($declareStatement, ParseContext::DeclareStatementElements);
             $declareStatement->enddeclareKeyword = $this->eat(TokenKind::EndDeclareKeyword);
@@ -1814,12 +1829,12 @@ class Parser {
             $arrayElement->parent = $parentNode;
 
             $token = $this->getCurrentToken();
-            if ($this->lookahead(TokenKind::AmpersandToken)) {
+            if ($this->checkToken(TokenKind::AmpersandToken)) {
                 $arrayElement->byRef = $this->eat(TokenKind::AmpersandToken);
                 $arrayElement->elementValue = $this->parseExpression($arrayElement);
             } else {
                 $expression = $this->parseExpression($arrayElement);
-                if ($this->lookahead(TokenKind::DoubleArrowToken)) {
+                if ($this->checkToken(TokenKind::DoubleArrowToken)) {
                     $arrayElement->elementKey = $expression;
                     $arrayElement->arrowToken = $this->eat(TokenKind::DoubleArrowToken);
                     $arrayElement->byRef = $this->eatOptional(TokenKind::AmpersandToken); // TODO not okay for list expressions

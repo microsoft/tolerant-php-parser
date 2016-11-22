@@ -1,4 +1,97 @@
-<?php
-abstract class A {
-    abstract function A() : bool;
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ClassNode": {
+                                "abstractOrFinalModifier": {
+                                    "kind": "AbstractKeyword",
+                                    "textLength": 8
+                                },
+                                "classKeyword": {
+                                    "kind": "ClassKeyword",
+                                    "textLength": 5
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "classBaseClause": null,
+                                "classInterfaceClause": null,
+                                "classMembers": {
+                                    "ClassMembersNode": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "classMemberDeclarations": [
+                                            {
+                                                "MethodNode": {
+                                                    "modifiers": [
+                                                        {
+                                                            "kind": "AbstractKeyword",
+                                                            "textLength": 8
+                                                        }
+                                                    ],
+                                                    "functionKeyword": {
+                                                        "kind": "FunctionKeyword",
+                                                        "textLength": 8
+                                                    },
+                                                    "byRefToken": null,
+                                                    "name": {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    },
+                                                    "openParen": {
+                                                        "kind": "OpenParenToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "parameters": null,
+                                                    "closeParen": {
+                                                        "kind": "CloseParenToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "colonToken": {
+                                                        "kind": "ColonToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "returnType": {
+                                                        "kind": "BoolReservedWord",
+                                                        "textLength": 4
+                                                    },
+                                                    "compoundStatementOrSemicolon": {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
 }

@@ -1,3 +1,73 @@
-<?php
-
-function a ();
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "FunctionNode": {
+                                "functionKeyword": {
+                                    "kind": "FunctionKeyword",
+                                    "textLength": 8
+                                },
+                                "byRefToken": null,
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "parameters": null,
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
+                                },
+                                "colonToken": null,
+                                "returnType": null,
+                                "compoundStatementOrSemicolon": {
+                                    "CompoundStatementNode": {
+                                        "children": [
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            },
+                                            {
+                                                "EmptyStatement": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "SemicolonToken",
+                                                            "textLength": 1
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "kind": "MissingToken",
+                                                "textLength": 0
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

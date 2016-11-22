@@ -7,7 +7,7 @@ require_once(__DIR__ . "/characterCodes.php");
 class Lexer {
 
     public $pos;
-    private $endOfFilePos;
+    public $endOfFilePos;
     private $fileContents;
     private $token;
 
