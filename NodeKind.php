@@ -76,5 +76,8 @@ class NodeKind {
     const ClassBaseClause = 70;
     const ConstDeclaration = 71;
     const PropertyDeclaration = 72;
-    const MissingClassMemberDeclaration = 73;
+    const MissingClassOrInterfaceMemberDeclaration = 73;
+    const InterfaceDeclaration = 74;
+    const InterfaceBaseClause = 75;
+    const InterfaceMembers = 76;
 }

@@ -51,9 +51,12 @@ use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
+use PhpParser\Node\InterfaceBaseClause;
+use PhpParser\Node\InterfaceDeclaration;
+use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
-use PhpParser\Node\MissingClassMemberDeclaration;
+use PhpParser\Node\MissingClassOrInterfaceMemberDeclaration;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
 use PhpParser\Node\PropertyDeclaration;
@@ -241,8 +244,10 @@ class Parser {
             case ParseContext::SourceElements:
                 return $tokenKind === TokenKind::ScriptSectionEndTag;
 
+            case ParseContext::InterfaceMembers:
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
+                return $tokenKind === TokenKind::CloseBraceToken;
             case ParseContext::SwitchStatementElements:
                 return $tokenKind === TokenKind::CloseBraceToken || $tokenKind === TokenKind::EndSwitchKeyword;
             case ParseContext::IfClause2Elements:
@@ -289,6 +294,9 @@ class Parser {
             case ParseContext::ClassMembers:
                 return $this->isClassMemberDeclarationStart($token);
 
+            case ParseContext::InterfaceMembers:
+                return $this->isInterfaceMemberDeclarationStart($token);
+
             case ParseContext::SwitchStatementElements:
                 return
                     $token->kind === TokenKind::CaseKeyword ||
@@ -309,7 +317,10 @@ class Parser {
             case ParseContext::DeclareStatementElements:
                 return $this->parseStatementFn();
             case ParseContext::ClassMembers:
-                return $this->parseClassElement();
+                return $this->parseClassElementFn();
+
+            case ParseContext::InterfaceMembers:
+                return $this->parseInterfaceElementFn();
 
             case ParseContext::SwitchStatementElements:
                 return $this->parseCaseOrDefaultStatement();
@@ -448,6 +459,10 @@ class Parser {
                 case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
 
+                // interface-declaration
+                case TokenKind::InterfaceKeyword:
+                    return $this->parseInterfaceDeclaration($parentNode);
+
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
             }
@@ -460,7 +475,7 @@ class Parser {
         };
     }
 
-    function parseClassElement() {
+    function parseClassElementFn() {
         return function($parentNode) {
             $modifiers = $this->parseModifiers();
 
@@ -476,7 +491,7 @@ class Parser {
                     return $this->parsePropertyDeclaration($parentNode, $modifiers);
 
                 default:
-                    $missingClassMemberDeclaration = new MissingClassMemberDeclaration();
+                    $missingClassMemberDeclaration = new MissingClassOrInterfaceMemberDeclaration();
                     $missingClassMemberDeclaration->parent = $parentNode;
                     $missingClassMemberDeclaration->modifiers = $modifiers;
                     return $missingClassMemberDeclaration;
@@ -2206,11 +2221,7 @@ class Parser {
         }
 
         $classInterfaceClause->interfaceNameList =
-            $this->parseDelimitedList(
-                TokenKind::CommaToken,
-                $this->isQualifiedNameStartFn(),
-                $this->parseQualifiedNameFn(),
-                $classInterfaceClause);
+            $this->parseQualifiedNameList($classInterfaceClause);
         return $classInterfaceClause;
     }
 
@@ -2249,6 +2260,88 @@ class Parser {
 
         return $propertyDeclaration;
     }
+
+    private function parseQualifiedNameList($parentNode) {
+        return $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isQualifiedNameStartFn(),
+            $this->parseQualifiedNameFn(),
+            $parentNode);
+    }
+
+    private function parseInterfaceDeclaration($parentNode) {
+        $interfaceDeclaration = new InterfaceDeclaration();
+        $interfaceDeclaration->parent = $parentNode;
+        $interfaceDeclaration->interfaceKeyword = $this->eat(TokenKind::InterfaceKeyword);
+        $interfaceDeclaration->name = $this->eat(TokenKind::Name);
+        $interfaceDeclaration->interfaceBaseClause = $this->parseInterfaceBaseClause($interfaceDeclaration);
+        $interfaceDeclaration->interfaceMembers = $this->parseInterfaceMembers($interfaceDeclaration);
+        return $interfaceDeclaration;
+    }
+
+    function parseInterfaceMembers($parentNode) : Node {
+        $interfaceMembers = new InterfaceMembers();
+        $interfaceMembers->openBrace = $this->eat(TokenKind::OpenBraceToken);
+        $interfaceMembers->interfaceMemberDeclarations = $this->parseList($interfaceMembers, ParseContext::InterfaceMembers);
+        $interfaceMembers->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+        $interfaceMembers->parent = $parentNode;
+        return $interfaceMembers;
+    }
+
+    private function isInterfaceMemberDeclarationStart($token) {
+        switch ($token->kind) {
+            // visibility-modifier
+            case TokenKind::PublicKeyword:
+            case TokenKind::ProtectedKeyword:
+            case TokenKind::PrivateKeyword:
+
+            // static-modifier
+            case TokenKind::StaticKeyword:
+
+            // class-modifier
+            case TokenKind::AbstractKeyword:
+            case TokenKind::FinalKeyword:
+
+            case TokenKind::ConstKeyword:
+
+            case TokenKind::FunctionKeyword:
+                return true;
+        }
+        return false;
+    }
+
+    private function parseInterfaceElementFn() {
+        return function($parentNode) {
+            $modifiers = $this->parseModifiers();
+
+            $token = $this->getCurrentToken();
+            switch($token->kind) {
+                case TokenKind::ConstKeyword:
+                    return $this->parseConstDeclaration($parentNode, $modifiers);
+
+                case TokenKind::FunctionKeyword:
+                    return $this->parseMethodDeclaration($parentNode, $modifiers);
+
+                default:
+                    $missingInterfaceMemberDeclaration = new MissingClassOrInterfaceMemberDeclaration();
+                    $missingInterfaceMemberDeclaration->parent = $parentNode;
+                    $missingInterfaceMemberDeclaration->modifiers = $modifiers;
+                    return $missingInterfaceMemberDeclaration;
+            }
+        };
+    }
+
+    private function parseInterfaceBaseClause($parentNode) {
+        $interfaceBaseClause = new InterfaceBaseClause();
+        $interfaceBaseClause->parent = $parentNode;
+
+        $interfaceBaseClause->extendsKeyword = $this->eatOptional(TokenKind::ExtendsKeyword);
+        if (isset($interfaceBaseClause->extendsKeyword)) {
+            $interfaceBaseClause->interfaceNameList = $this->parseQualifiedNameList($interfaceBaseClause);
+        }
+
+        return $interfaceBaseClause;
+    }
 }
 
 class Associativity {
@@ -2268,5 +2361,6 @@ class ParseContext {
     const ForStatementElements = 7;
     const ForeachStatementElements = 8;
     const DeclareStatementElements = 9;
-    const Count = 10;
+    const InterfaceMembers = 10;
+    const Count = 11;
 }

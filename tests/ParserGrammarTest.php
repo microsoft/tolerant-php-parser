@@ -45,6 +45,8 @@ class ParserGrammarTest extends TestCase {
         $sourceFile = $parser->parseSourceFile();
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTokensFile, $tokens);
+
+        echo file_get_contents($testCaseFile);
         foreach ($sourceFile->getAllChildren() as $child) {
             if ($child instanceof Token) {
                 $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");

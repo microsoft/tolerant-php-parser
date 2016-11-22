@@ -1,0 +1,80 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "InterfaceDeclaration": {
+                                "interfaceKeyword": {
+                                    "kind": "InterfaceKeyword",
+                                    "textLength": 9
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "interfaceBaseClause": {
+                                    "InterfaceBaseClause": {
+                                        "extendsKeyword": {
+                                            "kind": "ExtendsKeyword",
+                                            "textLength": 7
+                                        },
+                                        "interfaceNameList": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": {
+                                                                "DelimitedList": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "interfaceMembers": {
+                                    "InterfaceMembers": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "interfaceMemberDeclarations": [],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
