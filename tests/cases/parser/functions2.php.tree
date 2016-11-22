@@ -40,7 +40,7 @@
                                     "kind": "IntReservedWord",
                                     "textLength": 3
                                 },
-                                "compoundStatement": {
+                                "compoundStatementOrSemicolon": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {

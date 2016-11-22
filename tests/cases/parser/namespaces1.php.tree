@@ -76,7 +76,7 @@
                                             },
                                             "colonToken": null,
                                             "returnType": null,
-                                            "compoundStatement": {
+                                            "compoundStatementOrSemicolon": {
                                                 "CompoundStatementNode": {
                                                     "children": [
                                                         {
@@ -144,7 +144,7 @@
                                             },
                                             "colonToken": null,
                                             "returnType": null,
-                                            "compoundStatement": {
+                                            "compoundStatementOrSemicolon": {
                                                 "CompoundStatementNode": {
                                                     "children": [
                                                         {

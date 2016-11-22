@@ -75,7 +75,7 @@
                                     "kind": "MissingToken",
                                     "textLength": 0
                                 },
-                                "compoundStatement": {
+                                "compoundStatementOrSemicolon": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {

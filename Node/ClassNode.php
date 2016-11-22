@@ -6,8 +6,8 @@ use PhpParser\Token;
 
 class ClassNode extends Node {
 
-    /** @var Token[] */
-    public $classModifiers;
+    /** @var Token */
+    public $abstractOrFinalModifier;
 
     /** @var Token */
     public $classKeyword;

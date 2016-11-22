@@ -14,7 +14,7 @@
                     "statementList": [
                         {
                             "ClassNode": {
-                                "classModifiers": null,
+                                "abstractOrFinalModifier": null,
                                 "classKeyword": {
                                     "kind": "ClassKeyword",
                                     "textLength": 5
@@ -60,7 +60,7 @@
                                                     },
                                                     "colonToken": null,
                                                     "returnType": null,
-                                                    "compoundStatement": {
+                                                    "compoundStatementOrSemicolon": {
                                                         "CompoundStatementNode": {
                                                             "children": [
                                                                 {
@@ -104,7 +104,7 @@
                                                     },
                                                     "colonToken": null,
                                                     "returnType": null,
-                                                    "compoundStatement": {
+                                                    "compoundStatementOrSemicolon": {
                                                         "CompoundStatementNode": {
                                                             "children": [
                                                                 {

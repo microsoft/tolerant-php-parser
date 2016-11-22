@@ -440,6 +440,8 @@ class Parser {
 
                 // class-declaration
                 case TokenKind::ClassKeyword:
+                case TokenKind::FinalKeyword:
+                case TokenKind::AbstractKeyword:
                     return $this->parseClassDeclaration($parentNode);
 
                 case TokenKind::SemicolonToken:
@@ -491,6 +493,7 @@ class Parser {
 
     function parseClassDeclaration($parentNode) : Node {
         $classNode = new ClassNode();
+        $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
         $classNode->name = $this->eat(TokenKind::Name);
         $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
@@ -1110,7 +1113,7 @@ class Parser {
             $node->returnType = $this->tryParseTypeDeclaration($node) ?? $this->eat(TokenKind::VoidReservedWord);
         }
 
-        $node->compoundStatement = $this->parseCompoundStatement($node);
+        $node->compoundStatementOrSemicolon = $this->parseCompoundStatement($node);
     }
 
     private function parseNamedLabelStatement($parentNode) {

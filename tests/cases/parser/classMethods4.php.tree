@@ -14,7 +14,7 @@
                     "statementList": [
                         {
                             "ClassNode": {
-                                "classModifiers": null,
+                                "abstractOrFinalModifier": null,
                                 "classKeyword": {
                                     "kind": "ClassKeyword",
                                     "textLength": 5
@@ -101,7 +101,7 @@
                                                         "kind": "IntReservedWord",
                                                         "textLength": 3
                                                     },
-                                                    "compoundStatement": {
+                                                    "compoundStatementOrSemicolon": {
                                                         "CompoundStatementNode": {
                                                             "children": [
                                                                 {

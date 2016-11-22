@@ -18,12 +18,11 @@
                                     "BinaryExpression": {
                                         "leftOperand": {
                                             "Variable": {
-                                                "children": [
-                                                    {
-                                                        "kind": "VariableName",
-                                                        "textLength": 8
-                                                    }
-                                                ]
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 8
+                                                }
                                             }
                                         },
                                         "operator": {
@@ -31,50 +30,33 @@
                                             "textLength": 1
                                         },
                                         "rightOperand": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
+                                            "CallExpression": {
+                                                "callableExpression": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "Name",
+                                                                        "textLength": 1
+                                                                    }
+                                                                ]
                                                             }
-                                                        ]
+                                                        }
                                                     }
+                                                },
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "argumentExpressionList": null,
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
                                                 }
                                             }
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "MissingToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ParenthesizedExpression": {
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "expression": {
-                                            "UnknownExpression": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
                                     }
                                 },
@@ -106,7 +88,7 @@
                                 },
                                 "colonToken": null,
                                 "returnType": null,
-                                "compoundStatement": {
+                                "compoundStatementOrSemicolon": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
@@ -155,12 +137,11 @@
                                                 "children": [
                                                     {
                                                         "Variable": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 8
-                                                                }
-                                                            ]
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 8
+                                                            }
                                                         }
                                                     }
                                                 ]
