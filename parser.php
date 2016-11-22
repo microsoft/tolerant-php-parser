@@ -26,6 +26,7 @@ use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
 use PhpParser\Node\BreakOrContinueStatement;
+use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\DeclareDirective;
 use PhpParser\Node\DeclareStatement;
 use PhpParser\Node\DelimitedList;
@@ -52,8 +53,10 @@ use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
+use PhpParser\Node\MissingClassMemberDeclaration;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
+use PhpParser\Node\PropertyDeclaration;
 use PhpParser\Node\ReservedWord;
 use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MemberAccessExpression;
@@ -453,17 +456,24 @@ class Parser {
 
     function parseClassElement() {
         return function($parentNode) {
-            switch($this->getCurrentToken()->kind) {
-                case TokenKind::PrivateKeyword:
-                case TokenKind::PublicKeyword:
-                case TokenKind::ProtectedKeyword:
+            $modifiers = $this->parseModifiers();
 
-                case (TokenKind::FunctionKeyword):
-                    return $this->parseMethodDeclaration($parentNode);
+            $token = $this->getCurrentToken();
+            switch($token->kind) {
+                case TokenKind::ConstKeyword:
+                    return $this->parseConstDeclaration($parentNode, $modifiers);
+
+                case TokenKind::FunctionKeyword:
+                    return $this->parseMethodDeclaration($parentNode, $modifiers);
+
+                case TokenKind::VariableName:
+                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
+
                 default:
-                    $token = $this->getCurrentToken(); // TODO new unsupported token
-                    $this->advanceToken();
-                    return $token;
+                    $missingClassMemberDeclaration = new MissingClassMemberDeclaration();
+                    $missingClassMemberDeclaration->parent = $parentNode;
+                    $missingClassMemberDeclaration->modifiers = $modifiers;
+                    return $missingClassMemberDeclaration;
             }
         };
     }
@@ -506,10 +516,10 @@ class Parser {
         return $functionNode;
     }
 
-    function parseMethodDeclaration($parentNode) {
+    function parseMethodDeclaration($parentNode, $modifiers) {
         $methodDeclaration = new MethodDeclaration();
-        $methodDeclaration->modifiers = $this->parseModifiers();
-        $this->parseFunctionDefinition($methodDeclaration);
+        $methodDeclaration->modifiers = $modifiers;
+        $this->parseFunctionDefinition($methodDeclaration, true);
         $methodDeclaration->parent = $parentNode;
         return $methodDeclaration;
     }
@@ -580,7 +590,7 @@ class Parser {
 
             case TokenKind::FunctionKeyword:
 
-            case TokenKind::UseKeyword:
+//            case TokenKind::UseKeyword:
                 return true;
 
         }
@@ -944,14 +954,22 @@ class Parser {
         return $reservedWord;
     }
 
-    private function isMethodModifier($token) {
+    private function isModifier($token) {
         switch($token->kind) {
+            // class-modifier
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
+
+            // visibility-modifier
             case TokenKind::PublicKeyword:
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
+
+            // static-modifier
             case TokenKind::StaticKeyword:
+
+            // var
+            case TokenKind::VarKeyword;
                 return true;
         }
         return false;
@@ -960,7 +978,7 @@ class Parser {
     private function parseModifiers() {
         $modifiers = array();
         $token = $this->getCurrentToken();
-        while ($this->isMethodModifier($token)) {
+        while ($this->isModifier($token)) {
             array_push($modifiers, $token);
             $this->advanceToken();
             $token = $this->getCurrentToken();
@@ -1080,7 +1098,7 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionDefinition(FunctionDefinition $node) {
+    private function parseFunctionDefinition(FunctionDefinition $node, $canBeAbstract = false) {
         $node->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
         $node->name = $this->eat(TokenKind::Name); // TODO support keyword names
@@ -1091,6 +1109,7 @@ class Parser {
             $node->colonToken = $this->eat(TokenKind::ColonToken);
             $node->returnType = $this->tryParseTypeDeclaration($node) ?? $this->eat(TokenKind::VoidReservedWord);
         }
+
         $node->compoundStatement = $this->parseCompoundStatement($node);
     }
 
@@ -2188,6 +2207,29 @@ class Parser {
         $classBaseClause->baseClass = $this->parseQualifiedName($classBaseClause);
 
         return $classBaseClause;
+    }
+
+    private function parseConstDeclaration($parentNode, $modifiers) {
+        $constDeclaration = new ConstDeclaration();
+        $constDeclaration->parent = $parentNode;
+
+        $constDeclaration->modifiers = $modifiers;
+        $constDeclaration->constKeyword = $this->eat(TokenKind::ConstKeyword);
+        $constDeclaration->constElements = $this->parseExpressionList($constDeclaration);
+        $constDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $constDeclaration;
+    }
+
+    private function parsePropertyDeclaration($parentNode, $modifiers) {
+        $propertyDeclaration = new PropertyDeclaration();
+        $propertyDeclaration->parent = $parentNode;
+
+        $propertyDeclaration->modifiers = $modifiers;
+        $propertyDeclaration->propertyElements = $this->parseExpressionList($propertyDeclaration);
+        $propertyDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $propertyDeclaration;
     }
 }
 

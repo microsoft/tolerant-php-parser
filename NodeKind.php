@@ -74,4 +74,7 @@ class NodeKind {
     const ReservedWord = 68;
     const ClassInterfaceClause = 69;
     const ClassBaseClause = 70;
+    const ConstDeclaration = 71;
+    const PropertyDeclaration = 72;
+    const MissingClassMemberDeclaration = 73;
 }

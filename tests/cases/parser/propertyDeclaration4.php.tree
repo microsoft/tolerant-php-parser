@@ -1,0 +1,103 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ClassNode": {
+                                "classModifiers": null,
+                                "classKeyword": {
+                                    "kind": "ClassKeyword",
+                                    "textLength": 5
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "classBaseClause": null,
+                                "classInterfaceClause": null,
+                                "classMembers": {
+                                    "ClassMembersNode": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "classMemberDeclarations": [
+                                            {
+                                                "PropertyDeclaration": {
+                                                    "modifiers": [
+                                                        {
+                                                            "kind": "StaticKeyword",
+                                                            "textLength": 6
+                                                        },
+                                                        {
+                                                            "kind": "PublicKeyword",
+                                                            "textLength": 6
+                                                        }
+                                                    ],
+                                                    "propertyElements": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "BinaryExpression": {
+                                                                        "leftOperand": {
+                                                                            "Variable": {
+                                                                                "dollar": null,
+                                                                                "name": {
+                                                                                    "kind": "VariableName",
+                                                                                    "textLength": 2
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "operator": {
+                                                                            "kind": "EqualsToken",
+                                                                            "textLength": 1
+                                                                        },
+                                                                        "rightOperand": {
+                                                                            "NumericLiteral": {
+                                                                                "children": {
+                                                                                    "kind": "DecimalLiteralToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "semicolon": {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
