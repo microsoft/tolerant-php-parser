@@ -1,3 +1,61 @@
-<?php
-
-use use;
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "NamespaceUseDeclaration": {
+                                "useKeyword": {
+                                    "kind": "UseKeyword",
+                                    "textLength": 3
+                                },
+                                "functionOrConst": null,
+                                "namespaceName": null,
+                                "namespaceAliasingClause": null,
+                                "openBrace": null,
+                                "groupClauses": null,
+                                "closeBrace": null,
+                                "semicolon": {
+                                    "kind": "MissingToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "NamespaceUseDeclaration": {
+                                "useKeyword": {
+                                    "kind": "UseKeyword",
+                                    "textLength": 3
+                                },
+                                "functionOrConst": null,
+                                "namespaceName": null,
+                                "namespaceAliasingClause": null,
+                                "openBrace": null,
+                                "groupClauses": null,
+                                "closeBrace": null,
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

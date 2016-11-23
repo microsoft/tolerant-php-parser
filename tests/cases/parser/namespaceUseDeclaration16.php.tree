@@ -1,3 +1,160 @@
-<?php
-// TODO error
-use function \a\b \ { function A as b, B as C };
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "NamespaceUseDeclaration": {
+                                "useKeyword": {
+                                    "kind": "UseKeyword",
+                                    "textLength": 3
+                                },
+                                "functionOrConst": {
+                                    "kind": "FunctionKeyword",
+                                    "textLength": 8
+                                },
+                                "namespaceName": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": {
+                                            "kind": "BackslashToken",
+                                            "textLength": 1
+                                        },
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "namespaceAliasingClause": null,
+                                "openBrace": {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                "groupClauses": {
+                                    "DelimitedList": {
+                                        "children": [
+                                            {
+                                                "NamespaceUseGroupClause": {
+                                                    "functionOrConst": {
+                                                        "kind": "FunctionKeyword",
+                                                        "textLength": 8
+                                                    },
+                                                    "namespaceName": {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": {
+                                                                "DelimitedList": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "namespaceAliasingClause": {
+                                                        "NamespaceAliasingClause": {
+                                                            "asKeyword": {
+                                                                "kind": "AsKeyword",
+                                                                "textLength": 2
+                                                            },
+                                                            "name": {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "kind": "CommaToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "NamespaceUseGroupClause": {
+                                                    "functionOrConst": null,
+                                                    "namespaceName": {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": {
+                                                                "DelimitedList": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "namespaceAliasingClause": {
+                                                        "NamespaceAliasingClause": {
+                                                            "asKeyword": {
+                                                                "kind": "AsKeyword",
+                                                                "textLength": 2
+                                                            },
+                                                            "name": {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "closeBrace": {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

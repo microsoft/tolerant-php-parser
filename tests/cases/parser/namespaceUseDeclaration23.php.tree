@@ -1,3 +1,77 @@
-<?php
-
-use namespace\c\d;
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "NamespaceUseDeclaration": {
+                                "useKeyword": {
+                                    "kind": "UseKeyword",
+                                    "textLength": 3
+                                },
+                                "functionOrConst": null,
+                                "namespaceName": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": {
+                                            "RelativeSpecifier": {
+                                                "namespaceKeyword": {
+                                                    "kind": "NamespaceKeyword",
+                                                    "textLength": 9
+                                                },
+                                                "backslash": {
+                                                    "kind": "BackslashToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        },
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "namespaceAliasingClause": null,
+                                "openBrace": null,
+                                "groupClauses": null,
+                                "closeBrace": null,
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

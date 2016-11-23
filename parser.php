@@ -57,7 +57,10 @@ use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\MissingClassOrInterfaceMemberDeclaration;
+use PhpParser\Node\NamespaceAliasingClause;
 use PhpParser\Node\NamespaceDefinition;
+use PhpParser\Node\NamespaceUseGroupClause;
+use PhpParser\Node\NamespaceUseDeclaration;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
 use PhpParser\Node\PropertyDeclaration;
@@ -468,6 +471,10 @@ class Parser {
                 // namespace-definition
                 case TokenKind::NamespaceKeyword:
                     return $this->parseNamespaceDefinition($parentNode);
+
+                // namespace-use-declaration
+                case TokenKind::UseKeyword:
+                    return $this->parseNamespaceUseDeclaration($parentNode);
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
@@ -2387,6 +2394,53 @@ class Parser {
                 $this->parseCompoundStatement($namespaceDefinition) : $this->eat(TokenKind::SemicolonToken);
 
         return $namespaceDefinition;
+    }
+
+    private function parseNamespaceUseDeclaration($parentNode) {
+        $namespaceUseDeclaration = new NamespaceUseDeclaration();
+        $namespaceUseDeclaration->parent = $parentNode;
+
+        $namespaceUseDeclaration->useKeyword = $this->eat(TokenKind::UseKeyword);
+        $namespaceUseDeclaration->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
+        $namespaceUseDeclaration->namespaceName = $this->parseQualifiedName($namespaceUseDeclaration);
+        if (!$this->checkToken(TokenKind::OpenBraceToken)) {
+            if ($this->checkToken(TokenKind::AsKeyword)) {
+                $namespaceUseDeclaration->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseDeclaration);
+            }
+        } else {
+            $namespaceUseDeclaration->openBrace = $this->eat(TokenKind::OpenBraceToken);
+            $namespaceUseDeclaration->groupClauses = $this->parseDelimitedList(
+                TokenKind::CommaToken,
+                function ($token) {
+                    return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
+                },
+                function ($parentNode) {
+                    $namespaceUseGroupClause = new NamespaceUseGroupClause();
+                    $namespaceUseGroupClause->parent = $parentNode;
+
+                    $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
+                    $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
+                    if ($this->checkToken(TokenKind::AsKeyword)) {
+                        $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
+                    }
+
+                    return $namespaceUseGroupClause;
+                },
+                $namespaceUseDeclaration
+            );
+            $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+
+        }
+        $namespaceUseDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        return $namespaceUseDeclaration;
+    }
+
+    private function parseNamespaceAliasingClause($parentNode) {
+        $namespaceAliasingClause = new NamespaceAliasingClause();
+        $namespaceAliasingClause->parent = $parentNode;
+        $namespaceAliasingClause->asKeyword = $this->eat(TokenKind::AsKeyword);
+        $namespaceAliasingClause->name = $this->eat(TokenKind::Name);
+        return $namespaceAliasingClause;
     }
 }
 

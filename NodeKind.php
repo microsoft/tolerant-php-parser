@@ -82,4 +82,7 @@ class NodeKind {
     const InterfaceMembers = 76;
     const ScriptInclusionExpressoin = 77;
     const NamespaceDefinition = 78;
+    const NamespaceUseDeclaration = 79;
+    const NamespaceAliasingClause = 80;
+    const NamespaceUseGroupClause = 81;
 }
