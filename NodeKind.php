@@ -81,4 +81,5 @@ class NodeKind {
     const InterfaceBaseClause = 75;
     const InterfaceMembers = 76;
     const ScriptInclusionExpressoin = 77;
+    const NamespaceDefinition = 78;
 }

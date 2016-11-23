@@ -57,6 +57,7 @@ use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
 use PhpParser\Node\MissingClassOrInterfaceMemberDeclaration;
+use PhpParser\Node\NamespaceDefinition;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
 use PhpParser\Node\PropertyDeclaration;
@@ -463,6 +464,10 @@ class Parser {
                 // interface-declaration
                 case TokenKind::InterfaceKeyword:
                     return $this->parseInterfaceDeclaration($parentNode);
+
+                // namespace-definition
+                case TokenKind::NamespaceKeyword:
+                    return $this->parseNamespaceDefinition($parentNode);
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
@@ -1107,7 +1112,7 @@ class Parser {
                     function ($parentNode) {
                         return $this->eat(TokenKind::Name); // TODO support keyword name
                     }, $node);
-            if ($node->nameParts === null) {
+            if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }
             return $node;
@@ -1153,7 +1158,7 @@ class Parser {
         $namedLabelStatement->parent = $parentNode;
         $namedLabelStatement->name = $this->eat(TokenKind::Name);
         $namedLabelStatement->colon = $this->eat(TokenKind::ColonToken);
-        $namedLabelStatement->statement = $this->parseStatement($namedLabelStatement); // TODO this is ugly
+        $namedLabelStatement->statement = $this->parseStatement($namedLabelStatement);
         return $namedLabelStatement;
     }
 
@@ -2365,6 +2370,23 @@ class Parser {
         }
 
         return $interfaceBaseClause;
+    }
+
+    private function parseNamespaceDefinition($parentNode) {
+        $namespaceDefinition = new NamespaceDefinition();
+        $namespaceDefinition->parent = $parentNode;
+
+        $namespaceDefinition->namespaceKeyword = $this->eat(TokenKind::NamespaceKeyword);
+
+        if (!$this->checkToken(TokenKind::NamespaceKeyword)) {
+            $namespaceDefinition->name = $this->parseQualifiedName($namespaceDefinition); // TODO only optional with compound statement block
+        }
+
+        $namespaceDefinition->compoundStatementOrSemicolon =
+            $this->checkToken(TokenKind::OpenBraceToken) ?
+                $this->parseCompoundStatement($namespaceDefinition) : $this->eat(TokenKind::SemicolonToken);
+
+        return $namespaceDefinition;
     }
 }
 
