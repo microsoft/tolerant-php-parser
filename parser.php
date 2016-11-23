@@ -512,17 +512,6 @@ class Parser {
         };
     }
 
-    function parseBlockElement() {
-        return function() {
-            switch($this->getCurrentToken()->kind) {
-                default:
-                    $token = $this->getCurrentToken(); // TODO new unsupported token
-                    $this->advanceToken();
-                    return $token;
-            }
-        };
-    }
-
     function parseClassDeclaration($parentNode) : Node {
         $classNode = new ClassNode();
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
@@ -669,7 +658,7 @@ class Parser {
             case TokenKind::DeclareKeyword:
 
             // const-declaration
-            case TokenKind::ConstKeyword:
+            // case TokenKind::ConstKeyword:
 
             // function-definition
             case TokenKind::FunctionKeyword:
@@ -683,7 +672,7 @@ class Parser {
             case TokenKind::InterfaceKeyword:
 
             // trait-declaration
-            case TokenKind::TraitKeyword:
+//            case TokenKind::TraitKeyword:
 
             // namespace-definition
             case TokenKind::NamespaceKeyword:
@@ -692,10 +681,10 @@ class Parser {
             case TokenKind::UseKeyword:
 
             // global-declaration
-            case TokenKind::GlobalKeyword:
+//            case TokenKind::GlobalKeyword:
 
             // function-static-declaration
-            case TokenKind::StaticKeyword:
+//            case TokenKind::StaticKeyword:
                 return true;
 
             default:
@@ -738,6 +727,7 @@ class Parser {
                 case TokenKind::VariableName:
                 case TokenKind::DollarToken:
                     return true;
+
                 // qualified-name
                 case TokenKind::Name:
                 case TokenKind::BackslashToken:
@@ -745,6 +735,7 @@ class Parser {
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
                     return $this->checkToken(TokenKind::BackslashToken);
+                
                 // literal
                 case TokenKind::TemplateStringStart:
 
@@ -783,7 +774,6 @@ class Parser {
                 case TokenKind::NullReservedWord:
                 case TokenKind::FalseReservedWord:
                 case TokenKind::TrueReservedWord:
-
                     return true;
             }
             return false;
@@ -810,59 +800,6 @@ class Parser {
 
         array_push($templateNode->children, $this->eat(TokenKind::TemplateStringEnd));
         return $templateNode;
-    }
-
-    private function isPrimaryExpressionStart() {
-        switch ($this->getCurrentToken()) {
-            // variable-name
-            case TokenKind::VariableName: // TODO special case $this
-
-            // qualified-name
-            case TokenKind::Name: // TODO Qualified name
-
-            // literal
-            case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
-            case TokenKind::OctalLiteralToken:
-            case TokenKind::HexadecimalLiteralToken:
-            case TokenKind::BinaryLiteralToken:
-            case TokenKind::FloatingLiteralToken:
-            case TokenKind::InvalidOctalLiteralToken:
-            case TokenKind::InvalidHexadecimalLiteral:
-            case TokenKind::InvalidBinaryLiteral:
-
-            case TokenKind::StringLiteralToken: // TODO merge unterminated
-            case TokenKind::UnterminatedStringLiteralToken:
-            case TokenKind::NoSubstitutionTemplateLiteral:
-            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
-
-            case TokenKind::TemplateStringStart: //TODO - parse this as an expression
-
-
-            // TODO constant-expression
-
-            // intrinsic-construct
-            case TokenKind::EchoKeyword:
-            case TokenKind::ListKeyword:
-            case TokenKind::UnsetKeyword:
-
-            // intrinsic-operator
-            case TokenKind::ArrayKeyword:
-            case TokenKind::EmptyKeyword:
-            case TokenKind::EvalKeyword:
-            case TokenKind::ExitKeyword:
-            case TokenKind::DieKeyword:
-            case TokenKind::IsSetKeyword:
-            case TokenKind::PrintKeyword:
-
-            // anonymous-function-creation-expression
-            case TokenKind::StaticKeyword:
-            case TokenKind::FunctionKeyword:
-
-            // ( expression )
-            case TokenKind::OpenParenToken:
-                return true; // TODO
-        }
-        return false;
     }
 
     private function parsePrimaryExpression($parentNode) {
@@ -1879,7 +1816,6 @@ class Parser {
             $arrayElement = new ArrayElement();
             $arrayElement->parent = $parentNode;
 
-            $token = $this->getCurrentToken();
             if ($this->checkToken(TokenKind::AmpersandToken)) {
                 $arrayElement->byRef = $this->eat(TokenKind::AmpersandToken);
                 $arrayElement->elementValue = $this->parseExpression($arrayElement);
