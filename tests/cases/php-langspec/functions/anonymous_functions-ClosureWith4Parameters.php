@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 interface I {}
 class C implements I {}

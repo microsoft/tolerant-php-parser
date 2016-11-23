@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $c = array("red", "white", "blue");
 $v = array(10, $c, NULL, array(FALSE, NULL, $c));

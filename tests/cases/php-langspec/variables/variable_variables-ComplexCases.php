@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $c1 = new C1;
 $c1->pr2 = 'v';

@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $v = array(NULL, FALSE, 123, 34e12, "Hello");
 var_dump($v);

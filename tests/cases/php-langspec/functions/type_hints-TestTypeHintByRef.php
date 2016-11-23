@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 function f6(C1 &$p1)
 {

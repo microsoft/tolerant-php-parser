@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 function g1(&$b)	// make $b alias whatever $a aliases
 {

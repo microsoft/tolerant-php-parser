@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $p->newProp = "abc";
 $s = serialize($p);		// dynamic property gets serialized if there is NO __sleep method;

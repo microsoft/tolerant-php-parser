@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $s1 = "color";
 $s2 = "shape";

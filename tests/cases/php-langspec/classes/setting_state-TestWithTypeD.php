@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $d = new D(20, 30);
 $v = var_export($d, TRUE);

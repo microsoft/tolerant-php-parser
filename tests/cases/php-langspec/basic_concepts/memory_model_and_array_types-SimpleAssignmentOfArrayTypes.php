@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $x = 123;
 $a = array(10, &$x, 'B' => new Point(1, 3));

@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 // "4" as key is taken as key 4
 // 9.2 as key is truncated to key 9

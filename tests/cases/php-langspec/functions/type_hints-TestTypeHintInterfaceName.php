@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 interface I1 {}
 interface I2 extends I1 {}

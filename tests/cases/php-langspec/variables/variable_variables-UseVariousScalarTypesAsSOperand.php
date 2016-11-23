@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 // $'s operand can be a value of any scalar type, but NOT a literal
 

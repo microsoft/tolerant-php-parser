@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $p = new Point(2, 5);
 echo "Point \$p = $p\n";

@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $a = new Point(1, 3);	// create first new point, and make $a an alias to it
 

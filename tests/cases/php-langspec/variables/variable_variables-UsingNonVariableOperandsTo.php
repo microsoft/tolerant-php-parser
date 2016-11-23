@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 const CON = 'v';
 //$CON = 5;				// seen as 1 token ($CON), not as $ and CON

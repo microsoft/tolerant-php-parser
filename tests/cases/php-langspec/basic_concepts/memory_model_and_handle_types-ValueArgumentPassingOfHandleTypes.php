@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 function f1($b) // pass-by-value creates second alias to first point
 {

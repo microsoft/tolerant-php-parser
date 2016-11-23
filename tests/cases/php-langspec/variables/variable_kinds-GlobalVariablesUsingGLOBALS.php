@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 $GLOBALS['done'] = FALSE;
 var_dump($done);

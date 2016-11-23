@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 class C1 {}
 class D1 extends C1 {}

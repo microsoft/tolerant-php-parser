@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 const MAX_HEIGHT2 = 10.5; 		// define two c-constants
 const UPPER_LIMIT2 = MAX_HEIGHT2;

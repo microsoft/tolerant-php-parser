@@ -1,4 +1,5 @@
 /* Auto-generated from php/php-langspec tests */
+<?php
 
 function doit($p1)	// assigned the value TRUE when called
 {
