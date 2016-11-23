@@ -61,6 +61,7 @@ use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\ObjectCreationExpression;
 use PhpParser\Node\PropertyDeclaration;
 use PhpParser\Node\ReservedWord;
+use PhpParser\Node\ScriptInclusionExpression;
 use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MemberAccessExpression;
 use PhpParser\Node\MethodDeclaration;
@@ -697,6 +698,12 @@ class Parser {
     function isExpressionStartFn() {
         return function($token) {
             switch($token->kind) {
+                // Script Inclusion Expression
+                case TokenKind::RequireKeyword:
+                case TokenKind::RequireOnceKeyword:
+                case TokenKind::IncludeKeyword:
+                case TokenKind::IncludeOnceKeyword:
+
                 case TokenKind::NewKeyword:
                     return true;
 
@@ -1306,6 +1313,23 @@ class Parser {
 
     function parseExpressionFn() {
         return function ($parentNode) {
+            $token = $this->getCurrentToken();
+            switch ($token->kind) {
+                case TokenKind::IncludeKeyword:
+                case TokenKind::IncludeOnceKeyword:
+                case TokenKind::RequireKeyword:
+                case TokenKind::RequireOnceKeyword:
+                    $scriptInclusionExpression = new ScriptInclusionExpression($parentNode);
+                    $scriptInclusionExpression->parent = $parentNode;
+                    $scriptInclusionExpression->requireOrIncludeKeyword =
+                        $this->eat (
+                            TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
+                            TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
+                            );
+                    $scriptInclusionExpression->expression  = $this->parseExpression($scriptInclusionExpression);
+                    return $scriptInclusionExpression;
+            }
+
             return $this->parseBinaryExpressionOrHigher(0, $parentNode);
         };
     }
