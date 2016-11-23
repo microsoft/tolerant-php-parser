@@ -82,7 +82,8 @@
                                             },
                                             "expression": null,
                                             "defaultLabelTerminator": {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "ColonToken",
                                                 "textLength": 0
                                             },
                                             "statementList": [
@@ -98,13 +99,15 @@
                                                             }
                                                         },
                                                         "semicolon": {
-                                                            "kind": "MissingToken",
+                                                            "error": "MissingToken",
+                                                            "kind": "SemicolonToken",
                                                             "textLength": 0
                                                         }
                                                     }
                                                 },
                                                 {
-                                                    "kind": "SkippedToken",
+                                                    "error": "SkippedToken",
+                                                    "kind": "ColonToken",
                                                     "textLength": 1
                                                 },
                                                 {

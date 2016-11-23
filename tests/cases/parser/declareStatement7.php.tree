@@ -33,7 +33,8 @@
                                             "textLength": 1
                                         },
                                         "literal": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "DecimalLiteralToken",
                                             "textLength": 0
                                         }
                                     }

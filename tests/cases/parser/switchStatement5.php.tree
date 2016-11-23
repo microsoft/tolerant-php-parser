@@ -69,11 +69,13 @@
                                 ],
                                 "closeBrace": null,
                                 "endswitch": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "EndSwitchKeyword",
                                     "textLength": 0
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

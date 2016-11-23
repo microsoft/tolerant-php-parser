@@ -42,7 +42,8 @@
                                             "textLength": 2
                                         },
                                         "memberName": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "MemberName",
                                             "textLength": 0
                                         }
                                     }

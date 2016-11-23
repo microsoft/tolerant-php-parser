@@ -40,16 +40,19 @@
                                                 "textLength": 5
                                             },
                                             "openParen": {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "OpenParenToken",
                                                 "textLength": 0
                                             },
                                             "qualifiedName": null,
                                             "variableName": {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "VariableName",
                                                 "textLength": 0
                                             },
                                             "closeParen": {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "CloseParenToken",
                                                 "textLength": 0
                                             },
                                             "compoundStatement": {

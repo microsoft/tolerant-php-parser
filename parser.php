@@ -227,8 +227,7 @@ class Parser {
             //            & // <- SkippedToken
             //         }
             //     }
-            $token = $this->getCurrentToken();
-            $token->kind = TokenKind::SkippedToken;
+            $token = new SkippedToken($this->getCurrentToken());
             array_push($nodeArray, $token);
             $this->advanceToken();
         }
@@ -370,7 +369,8 @@ class Parser {
                 return $token;
             }
         }
-        return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+        // TODO include optional grouping for token kinds
+        return new MissingToken($kinds[0], $token->fullStart);
     }
 
     function eatOptional(...$kinds) {
@@ -459,7 +459,7 @@ class Parser {
                 case TokenKind::AbstractKeyword:
                     if (!$this->lookahead(TokenKind::ClassKeyword)) {
                         $this->advanceToken();
-                        return new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length);
+                        return new SkippedToken($token);
                     }
                 case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
@@ -877,25 +877,13 @@ class Parser {
                 return $this->parseReservedWordExpression($parentNode);
 
             /*
-//                return $this->
-
             // anonymous-function-creation-expression
-        case TokenKind::StaticKeyword:
-        case TokenKind::FunctionKeyword:
-
-            // ( expression )
-        case TokenKind::OpenParenToken:
-            return true;*/
-            case TokenKind::EndOfFileToken:
-                return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+            case TokenKind::StaticKeyword:
+            case TokenKind::FunctionKeyword:
+            */
 
             default:
-                $expression = new UnknownExpression();
-                $expression->parent = $parentNode;
-                $expression->children = array(
-                    new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0)
-                );
-                return $expression;
+                return new MissingToken(TokenKind::Expression, $token->fullStart);
         }
     }
 
@@ -1248,12 +1236,13 @@ class Parser {
 
     function parseExpression($parentNode, $force = false) {
         $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::EndOfFileToken) {
+            return new MissingToken(TokenKind::Expression, $token->fullStart);
+        }
+
         $expression = ($this->parseExpressionFn())($parentNode);
-        if ($force && $expression->kind === NodeKind::UnknownExpression) {
-            array_push(
-                $expression->children,
-                new Token(TokenKind::SkippedToken, $token->fullStart, $token->start, $token->length)
-            );
+        if ($force && $expression instanceof MissingToken) {
+            $expression = [$expression, new SkippedToken($token)];
             $this->advanceToken();
         }
 
@@ -1769,7 +1758,7 @@ class Parser {
             // TODO consider splitting into dollar and name
             $variable->name = $this->eat(TokenKind::VariableName);
         } else {
-            $variable->name = new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+            $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
         }
 
         return $variable;
@@ -2039,7 +2028,7 @@ class Parser {
             default:
                 // TODO support keyword names
         }
-        return new Token(TokenKind::MissingToken, $token->fullStart, $token->fullStart, 0);
+        return new MissingToken(TokenKind::MemberName, $token->fullStart);
     }
 
     private function isArgumentExpressionStartFn() {

@@ -83,7 +83,8 @@
                                                                         "textLength": 1
                                                                     },
                                                                     {
-                                                                        "kind": "MissingToken",
+                                                                        "error": "MissingToken",
+                                                                        "kind": "CloseBraceToken",
                                                                         "textLength": 0
                                                                     }
                                                                 ]
@@ -101,13 +102,15 @@
                                     "textLength": 9
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "CloseBraceToken",
                             "textLength": 1
                         }
                     ],

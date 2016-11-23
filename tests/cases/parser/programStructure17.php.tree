@@ -13,11 +13,13 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "AsteriskToken",
                             "textLength": 1
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "SlashToken",
                             "textLength": 1
                         }
                     ],

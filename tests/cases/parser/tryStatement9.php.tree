@@ -60,7 +60,8 @@
                                                 }
                                             },
                                             "variableName": {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "VariableName",
                                                 "textLength": 0
                                             },
                                             "closeParen": {

@@ -84,30 +84,36 @@
                                                 }
                                             },
                                             {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "CloseBraceToken",
                                                 "textLength": 0
                                             }
                                         ]
                                     }
                                 },
                                 "whileToken": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "WhileKeyword",
                                     "textLength": 0
                                 },
                                 "openParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "OpenParenToken",
                                     "textLength": 0
                                 },
                                 "expression": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "Expression",
                                     "textLength": 0
                                 },
                                 "closeParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "CloseParenToken",
                                     "textLength": 0
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

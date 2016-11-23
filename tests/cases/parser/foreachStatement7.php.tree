@@ -40,14 +40,9 @@
                                     "ForeachValueNode": {
                                         "ampersand": null,
                                         "expression": {
-                                            "UnknownExpression": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
+                                            "textLength": 0
                                         }
                                     }
                                 },

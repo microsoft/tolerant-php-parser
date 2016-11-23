@@ -25,15 +25,18 @@
                                 "declareDirective": {
                                     "DeclareDirectiveNode": {
                                         "name": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "Name",
                                             "textLength": 0
                                         },
                                         "equals": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "EqualsToken",
                                             "textLength": 0
                                         },
                                         "literal": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "DecimalLiteralToken",
                                             "textLength": 0
                                         }
                                     }

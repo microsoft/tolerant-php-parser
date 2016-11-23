@@ -13,11 +13,13 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "LessThanToken",
                             "textLength": 1
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "QuestionToken",
                             "textLength": 1
                         },
                         {
@@ -39,7 +41,8 @@
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

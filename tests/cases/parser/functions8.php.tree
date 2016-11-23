@@ -72,7 +72,8 @@
                                     "textLength": 1
                                 },
                                 "returnType": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "VoidReservedWord",
                                     "textLength": 0
                                 },
                                 "compoundStatementOrSemicolon": {

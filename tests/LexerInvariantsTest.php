@@ -4,6 +4,8 @@ require_once(__DIR__ . "/../lexer.php");
 require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
+use PhpParser\MissingToken;
+use PhpParser\SkippedToken;
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 
@@ -200,7 +202,7 @@ class LexerInvariantsTest extends TestCase {
      */
     public function testSkippedTokenLengthGreaterThanZero ($filename, $tokensArray) {
         foreach ($tokensArray as $token) {
-            if ($token->kind === TokenKind::SkippedToken) {
+            if ($token instanceof SkippedToken) {
                 $this->assertGreaterThan(
                     0, $token->length,
                     "Invariant: SkippedToken length should be greater than 0"
@@ -214,7 +216,7 @@ class LexerInvariantsTest extends TestCase {
      */
     public function testMissingTokenLengthEqualsZero ($filename, $tokensArray) {
         foreach ($tokensArray as $token) {
-            if ($token->kind === TokenKind::MissingToken) {
+            if ($token instanceof MissingToken) {
                 $this->assertEquals(
                     0, $token->length,
                     "Invariant: MissingToken length should be equal to 0"

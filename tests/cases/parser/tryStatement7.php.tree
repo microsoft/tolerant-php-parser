@@ -22,7 +22,8 @@
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "OpenBraceToken",
                                                 "textLength": 0
                                             },
                                             {
@@ -35,19 +36,23 @@
                                                         "CompoundStatementNode": {
                                                             "children": [
                                                                 {
-                                                                    "kind": "MissingToken",
+                                                                    "error": "MissingToken",
+                                                                    "kind": "OpenBraceToken",
                                                                     "textLength": 0
                                                                 },
                                                                 {
-                                                                    "kind": "SkippedToken",
+                                                                    "error": "SkippedToken",
+                                                                    "kind": "CatchKeyword",
                                                                     "textLength": 5
                                                                 },
                                                                 {
-                                                                    "kind": "SkippedToken",
+                                                                    "error": "SkippedToken",
+                                                                    "kind": "FinallyKeyword",
                                                                     "textLength": 7
                                                                 },
                                                                 {
-                                                                    "kind": "MissingToken",
+                                                                    "error": "MissingToken",
+                                                                    "kind": "CloseBraceToken",
                                                                     "textLength": 0
                                                                 }
                                                             ]
@@ -58,7 +63,8 @@
                                                 }
                                             },
                                             {
-                                                "kind": "MissingToken",
+                                                "error": "MissingToken",
+                                                "kind": "CloseBraceToken",
                                                 "textLength": 0
                                             }
                                         ]

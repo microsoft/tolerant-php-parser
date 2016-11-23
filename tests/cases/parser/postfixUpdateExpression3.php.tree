@@ -32,7 +32,8 @@
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
@@ -49,7 +50,8 @@
                                             "Variable": {
                                                 "dollar": null,
                                                 "name": {
-                                                    "kind": "MissingToken",
+                                                    "error": "MissingToken",
+                                                    "kind": "VariableName",
                                                     "textLength": 0
                                                 }
                                             }

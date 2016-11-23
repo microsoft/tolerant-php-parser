@@ -30,19 +30,22 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseParenToken",
                                             "textLength": 0
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "CommaToken",
                             "textLength": 1
                         },
                         {
@@ -57,13 +60,15 @@
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "CloseParenToken",
                             "textLength": 1
                         },
                         {

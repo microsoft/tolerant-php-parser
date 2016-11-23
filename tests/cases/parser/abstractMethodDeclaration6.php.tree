@@ -13,7 +13,8 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "PublicKeyword",
                             "textLength": 6
                         },
                         {

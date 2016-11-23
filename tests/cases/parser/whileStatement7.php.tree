@@ -19,26 +19,31 @@
                                     "textLength": 5
                                 },
                                 "openParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "OpenParenToken",
                                     "textLength": 0
                                 },
                                 "expression": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "Expression",
                                     "textLength": 0
                                 },
                                 "closeParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "CloseParenToken",
                                     "textLength": 0
                                 },
                                 "colon": null,
                                 "statements": {
                                     "ExpressionStatement": {
                                         "expression": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
                                             "textLength": 0
                                         },
                                         "semicolon": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "SemicolonToken",
                                             "textLength": 0
                                         }
                                     }

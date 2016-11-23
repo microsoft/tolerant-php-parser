@@ -19,11 +19,13 @@
                                     "textLength": 4
                                 },
                                 "name": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "Name",
                                     "textLength": 0
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

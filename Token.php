@@ -31,13 +31,7 @@ class Token implements \JsonSerializable {
     }
 
     function jsonSerialize() {
-        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
-        $kindName = $this->kind;
-        foreach ($constants as $name=>$val) {
-            if ($val == $this->kind) {
-                $kindName = $name;
-            }
-        }
+        $kindName = $this->GetTokenKindNameFromValue($this->kind);
 
         return [
             "kind" => $kindName,
@@ -46,6 +40,42 @@ class Token implements \JsonSerializable {
 //            "start" => $this->start,
 //            "length" => $this->length
         ];
+    }
+
+    protected function GetTokenKindNameFromValue($kindName) {
+        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
+        foreach ($constants as $name => $val) {
+            if ($val == $kindName) {
+                $kindName = $name;
+            }
+        }
+        return $kindName;
+    }
+}
+
+class MissingToken extends Token {
+    public function __construct(int $kind, int $fullStart) {
+        parent::__construct($kind, $fullStart, $fullStart, 0);
+    }
+
+    function jsonSerialize() {
+        return array_merge(
+            ["error" => $this->GetTokenKindNameFromValue(TokenKind::MissingToken)],
+            parent::jsonSerialize()
+        );
+    }
+}
+
+class SkippedToken extends Token {
+    public function __construct(Token $token) {
+        parent::__construct($token->kind, $token->fullStart, $token->start, $token->length);
+    }
+
+    function jsonSerialize() {
+        return array_merge(
+            ["error" => $this->GetTokenKindNameFromValue(TokenKind::SkippedToken)],
+            parent::jsonSerialize()
+        );
     }
 }
 
@@ -225,6 +255,9 @@ class TokenKind {
     const ScriptSectionPrependedText = 325;
     const VoidReservedWord = 326;
     const FalseReservedWord = 327;
+
+    const MemberName = 328;
+    const Expression = 329;
 
     // TODO type annotations - PHP7
 }

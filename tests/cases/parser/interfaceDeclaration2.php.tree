@@ -31,12 +31,14 @@
                                 "interfaceMembers": {
                                     "InterfaceMembers": {
                                         "openBrace": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "OpenBraceToken",
                                             "textLength": 0
                                         },
                                         "interfaceMemberDeclarations": [],
                                         "closeBrace": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseBraceToken",
                                             "textLength": 0
                                         }
                                     }

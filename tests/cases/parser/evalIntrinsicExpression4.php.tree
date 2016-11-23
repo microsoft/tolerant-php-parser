@@ -34,7 +34,8 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseParenToken",
                                             "textLength": 0
                                         }
                                     }

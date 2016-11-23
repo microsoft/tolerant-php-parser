@@ -38,19 +38,22 @@
                                             }
                                         },
                                         "closeBracketOrBrace": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseBraceToken",
                                             "textLength": 0
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "CloseBracketToken",
                             "textLength": 1
                         },
                         {

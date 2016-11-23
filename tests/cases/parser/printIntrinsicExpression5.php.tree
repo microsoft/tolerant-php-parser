@@ -27,7 +27,8 @@
                                                     "textLength": 5
                                                 },
                                                 "expression": {
-                                                    "kind": "MissingToken",
+                                                    "error": "MissingToken",
+                                                    "kind": "Expression",
                                                     "textLength": 0
                                                 }
                                             }
@@ -35,7 +36,8 @@
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

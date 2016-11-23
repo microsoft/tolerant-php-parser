@@ -75,7 +75,8 @@
                                             "textLength": 2
                                         },
                                         "name": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "Name",
                                             "textLength": 0
                                         }
                                     }
@@ -84,7 +85,8 @@
                                 "groupClauses": null,
                                 "closeBrace": null,
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

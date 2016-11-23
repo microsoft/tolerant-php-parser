@@ -19,7 +19,8 @@
                                     "textLength": 7
                                 },
                                 "openParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "OpenParenToken",
                                     "textLength": 0
                                 },
                                 "forEachCollectionName": {
@@ -67,7 +68,8 @@
                                     }
                                 },
                                 "closeParen": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "CloseParenToken",
                                     "textLength": 0
                                 },
                                 "colon": {
@@ -97,11 +99,13 @@
                                     }
                                 ],
                                 "endForeach": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "EndForEachKeyword",
                                     "textLength": 0
                                 },
                                 "endForeachSemicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

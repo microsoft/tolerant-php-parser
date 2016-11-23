@@ -17,9 +17,19 @@ class ParserGrammarTest extends TestCase {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $parser = new \PhpParser\Parser($testCaseFile);
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
-        // file_put_contents($expectedTokensFile, str_replace("\n", "\r\n", $tokens));
         $fileContents = file_get_contents($testCaseFile);
-        $this->assertEquals($expectedTokens, $tokens, "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile");
+
+        $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
+
+        if ($expectedTokens[0] !== "{") {
+            $this->markTestIncomplete(
+                "This test has not been implemented yet.\r\n$outputStr"
+            );
+            return;
+        }
+
+        // file_put_contents($expectedTokensFile, str_replace("\n", "\r\n", $tokens));
+        $this->assertEquals($expectedTokens, $tokens, $outputStr);
     }
 
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";
@@ -50,8 +60,8 @@ class ParserGrammarTest extends TestCase {
         foreach ($sourceFile->getAllChildren() as $child) {
             if ($child instanceof Token) {
                 $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-                $this->assertNotEquals(\PhpParser\TokenKind::SkippedToken, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-                $this->assertNotEquals(\PhpParser\TokenKind::MissingToken, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
+                $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
+                $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
             }
         }
 //        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));

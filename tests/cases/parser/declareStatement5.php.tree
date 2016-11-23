@@ -69,11 +69,13 @@
                                     }
                                 ],
                                 "enddeclareKeyword": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "EndDeclareKeyword",
                                     "textLength": 0
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

@@ -33,7 +33,8 @@
                                         },
                                         "classMemberDeclarations": [
                                             {
-                                                "kind": "SkippedToken",
+                                                "error": "SkippedToken",
+                                                "kind": "ImplementsKeyword",
                                                 "textLength": 10
                                             }
                                         ],

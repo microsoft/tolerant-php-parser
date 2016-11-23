@@ -29,7 +29,8 @@
                                             "textLength": 5
                                         },
                                         "equals": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "EqualsToken",
                                             "textLength": 0
                                         },
                                         "literal": {

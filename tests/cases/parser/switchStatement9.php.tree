@@ -42,7 +42,8 @@
                                 },
                                 "caseStatements": [],
                                 "closeBrace": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "CloseBraceToken",
                                     "textLength": 0
                                 },
                                 "endswitch": null,

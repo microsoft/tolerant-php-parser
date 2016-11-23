@@ -57,13 +57,15 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseParenToken",
                                             "textLength": 0
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

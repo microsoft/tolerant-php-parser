@@ -53,7 +53,8 @@
                                             "textLength": 2
                                         },
                                         "name": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "Name",
                                             "textLength": 0
                                         }
                                     }

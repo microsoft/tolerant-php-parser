@@ -13,7 +13,8 @@
                     },
                     "statementList": [
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "CaseKeyword",
                             "textLength": 4
                         },
                         {
@@ -28,13 +29,15 @@
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }
                         },
                         {
-                            "kind": "SkippedToken",
+                            "error": "SkippedToken",
+                            "kind": "ColonToken",
                             "textLength": 1
                         },
                         {

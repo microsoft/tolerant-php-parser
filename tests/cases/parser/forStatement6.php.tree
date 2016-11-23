@@ -106,11 +106,13 @@
                                     }
                                 ],
                                 "endFor": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "EndForKeyword",
                                     "textLength": 0
                                 },
                                 "endForSemicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

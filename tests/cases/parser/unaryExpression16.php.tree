@@ -21,14 +21,9 @@
                                             "textLength": 1
                                         },
                                         "operand": {
-                                            "UnknownExpression": {
-                                                "children": [
-                                                    {
-                                                        "kind": "MissingToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
-                                            }
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
+                                            "textLength": 0
                                         }
                                     }
                                 },

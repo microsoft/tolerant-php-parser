@@ -21,12 +21,14 @@
                                             "textLength": 5
                                         },
                                         "openParen": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "OpenParenToken",
                                             "textLength": 0
                                         },
                                         "expressions": null,
                                         "closeParen": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "CloseParenToken",
                                             "textLength": 0
                                         }
                                     }

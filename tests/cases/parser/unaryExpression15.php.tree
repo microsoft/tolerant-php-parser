@@ -21,13 +21,15 @@
                                             "textLength": 1
                                         },
                                         "operand": {
-                                            "kind": "MissingToken",
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
                                             "textLength": 0
                                         }
                                     }
                                 },
                                 "semicolon": {
-                                    "kind": "MissingToken",
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
                                     "textLength": 0
                                 }
                             }

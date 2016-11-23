@@ -122,13 +122,15 @@
                                                                                                 }
                                                                                             },
                                                                                             "semicolon": {
-                                                                                                "kind": "MissingToken",
+                                                                                                "error": "MissingToken",
+                                                                                                "kind": "SemicolonToken",
                                                                                                 "textLength": 0
                                                                                             }
                                                                                         }
                                                                                     },
                                                                                     {
-                                                                                        "kind": "MissingToken",
+                                                                                        "error": "MissingToken",
+                                                                                        "kind": "CloseBraceToken",
                                                                                         "textLength": 0
                                                                                     }
                                                                                 ]
@@ -139,7 +141,8 @@
                                                                     }
                                                                 },
                                                                 {
-                                                                    "kind": "MissingToken",
+                                                                    "error": "MissingToken",
+                                                                    "kind": "CloseBraceToken",
                                                                     "textLength": 0
                                                                 }
                                                             ]

@@ -56,11 +56,13 @@
                                                 "CompoundStatementNode": {
                                                     "children": [
                                                         {
-                                                            "kind": "MissingToken",
+                                                            "error": "MissingToken",
+                                                            "kind": "OpenBraceToken",
                                                             "textLength": 0
                                                         },
                                                         {
-                                                            "kind": "MissingToken",
+                                                            "error": "MissingToken",
+                                                            "kind": "CloseBraceToken",
                                                             "textLength": 0
                                                         }
                                                     ]
