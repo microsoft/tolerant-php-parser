@@ -15,12 +15,12 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "ArrayIntrinsicExpression": {
+                                    "ArrayCreationExpression": {
                                         "arrayKeyword": {
                                             "kind": "ArrayKeyword",
                                             "textLength": 5
                                         },
-                                        "openParen": {
+                                        "openParenOrBracket": {
                                             "error": "MissingToken",
                                             "kind": "OpenParenToken",
                                             "textLength": 0
@@ -67,7 +67,7 @@
                                                 ]
                                             }
                                         },
-                                        "closeParen": {
+                                        "closeParenOrBracket": {
                                             "error": "MissingToken",
                                             "kind": "CloseParenToken",
                                             "textLength": 0

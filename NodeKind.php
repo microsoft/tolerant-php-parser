@@ -49,7 +49,7 @@ class NodeKind {
     const UnknownExpression = 43;
     const ListIntrinsicExpression = 44;
     const ArrayElement = 45;
-    const ArrayIntrinsicExpression = 46;
+    const ArrayCreationExpression = 46;
     const EmptyIntrinsicExpression = 47;
     const EvalIntrinsicExpression = 48;
     const ParenthesizedExpression = 49;

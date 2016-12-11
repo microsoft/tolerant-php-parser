@@ -15,7 +15,7 @@ spl_autoload_register(function ($class) {
 
 use PhpParser\Node\ArgumentExpression;
 use PhpParser\Node\ArrayElement;
-use PhpParser\Node\ArrayIntrinsicExpression;
+use PhpParser\Node\ArrayCreationExpression;
 use PhpParser\Node\BinaryExpression;
 use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
@@ -776,13 +776,16 @@ class Parser {
                 case TokenKind::NoSubstitutionTemplateLiteral:
                 case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
 
+                // array-creation-expression
+                case TokenKind::ArrayKeyword:
+                case TokenKind::OpenBracketToken:
+
                 // intrinsic-construct
                 case TokenKind::EchoKeyword:
                 case TokenKind::ListKeyword:
                 case TokenKind::UnsetKeyword:
 
                 // intrinsic-operator
-                case TokenKind::ArrayKeyword:
                 case TokenKind::EmptyKeyword:
                 case TokenKind::EvalKeyword:
                 case TokenKind::ExitKeyword:
@@ -861,6 +864,11 @@ class Parser {
 
             // TODO constant-expression
 
+            // array-creation-expression
+            case TokenKind::ArrayKeyword:
+            case TokenKind::OpenBracketToken:
+                return $this->parseArrayCreationExpression($parentNode);
+
             // intrinsic-construct
             case TokenKind::EchoKeyword:
                 return $this->parseEchoExpression($parentNode);
@@ -869,11 +877,7 @@ class Parser {
             case TokenKind::UnsetKeyword:
                 return $this->parseUnsetIntrinsicExpression($parentNode);
 
-
             // intrinsic-operator
-            case TokenKind::ArrayKeyword:
-                return $this->parseArrayIntrinsicExpression($parentNode);
-
             case TokenKind::EmptyKeyword:
                 return $this->parseEmptyIntrinsicExpression($parentNode);
             case TokenKind::EvalKeyword:
@@ -1868,14 +1872,21 @@ class Parser {
         return $unsetExpression;
     }
 
-    private function parseArrayIntrinsicExpression($parentNode) {
-        $arrayExpression = new ArrayIntrinsicExpression();
+    private function parseArrayCreationExpression($parentNode) {
+        $arrayExpression = new ArrayCreationExpression();
         $arrayExpression->parent = $parentNode;
 
-        $arrayExpression->arrayKeyword = $this->eat(TokenKind::ArrayKeyword);
-        $arrayExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $arrayExpression->arrayKeyword = $this->eatOptional(TokenKind::ArrayKeyword);
+
+        $arrayExpression->openParenOrBracket = $arrayExpression->arrayKeyword !== null
+            ? $this->eat(TokenKind::OpenParenToken)
+            : $this->eat(TokenKind::OpenBracketToken);
+
         $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression);
-        $arrayExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        $arrayExpression->closeParenOrBracket = $arrayExpression->arrayKeyword !== null
+            ? $this->eat(TokenKind::CloseParenToken)
+            : $this->eat(TokenKind::CloseBracketToken);
 
         return $arrayExpression;
     }
@@ -2006,7 +2017,7 @@ class Parser {
             $expression instanceof QualifiedName ||
             $expression instanceof CallExpression ||
             $expression instanceof StringLiteral ||
-            $expression instanceof ArrayIntrinsicExpression
+            $expression instanceof ArrayCreationExpression
         )) {
             return $expression;
         }
@@ -2024,7 +2035,7 @@ class Parser {
                 continue;
             }
 
-            if ($expression instanceof ArrayIntrinsicExpression) {
+            if ($expression instanceof ArrayCreationExpression) {
                 return $expression;
             } else if ($tokenKind === TokenKind::ArrowToken) {
                 $expression = $this->parseMemberAccessExpression($expression);

@@ -15,12 +15,12 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "ArrayIntrinsicExpression": {
+                                    "ArrayCreationExpression": {
                                         "arrayKeyword": {
                                             "kind": "ArrayKeyword",
                                             "textLength": 5
                                         },
-                                        "openParen": {
+                                        "openParenOrBracket": {
                                             "kind": "OpenParenToken",
                                             "textLength": 1
                                         },
@@ -33,12 +33,12 @@
                                                             "arrowToken": null,
                                                             "byRef": null,
                                                             "elementValue": {
-                                                                "ArrayIntrinsicExpression": {
+                                                                "ArrayCreationExpression": {
                                                                     "arrayKeyword": {
                                                                         "kind": "ArrayKeyword",
                                                                         "textLength": 5
                                                                     },
-                                                                    "openParen": {
+                                                                    "openParenOrBracket": {
                                                                         "kind": "OpenParenToken",
                                                                         "textLength": 1
                                                                     },
@@ -51,12 +51,12 @@
                                                                                         "arrowToken": null,
                                                                                         "byRef": null,
                                                                                         "elementValue": {
-                                                                                            "ArrayIntrinsicExpression": {
+                                                                                            "ArrayCreationExpression": {
                                                                                                 "arrayKeyword": {
                                                                                                     "kind": "ArrayKeyword",
                                                                                                     "textLength": 5
                                                                                                 },
-                                                                                                "openParen": {
+                                                                                                "openParenOrBracket": {
                                                                                                     "kind": "OpenParenToken",
                                                                                                     "textLength": 1
                                                                                                 },
@@ -82,7 +82,7 @@
                                                                                                         ]
                                                                                                     }
                                                                                                 },
-                                                                                                "closeParen": {
+                                                                                                "closeParenOrBracket": {
                                                                                                     "kind": "CloseParenToken",
                                                                                                     "textLength": 1
                                                                                                 }
@@ -97,7 +97,7 @@
                                                                             ]
                                                                         }
                                                                     },
-                                                                    "closeParen": {
+                                                                    "closeParenOrBracket": {
                                                                         "kind": "CloseParenToken",
                                                                         "textLength": 1
                                                                     }
@@ -108,7 +108,7 @@
                                                 ]
                                             }
                                         },
-                                        "closeParen": {
+                                        "closeParenOrBracket": {
                                             "kind": "CloseParenToken",
                                             "textLength": 1
                                         }
