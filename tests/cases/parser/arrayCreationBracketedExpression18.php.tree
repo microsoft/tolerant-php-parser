@@ -1,0 +1,67 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "ArrayCreationExpression": {
+                                        "arrayKeyword": null,
+                                        "openParenOrBracket": {
+                                            "kind": "OpenBracketToken",
+                                            "textLength": 1
+                                        },
+                                        "arrayElements": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "ArrayElement": {
+                                                            "elementKey": null,
+                                                            "arrowToken": null,
+                                                            "byRef": null,
+                                                            "elementValue": {
+                                                                "NumericLiteral": {
+                                                                    "children": {
+                                                                        "kind": "DecimalLiteralToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "closeParenOrBracket": {
+                                            "kind": "CloseBracketToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
