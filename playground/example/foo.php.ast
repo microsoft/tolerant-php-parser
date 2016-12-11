@@ -1,0 +1,180 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "fullStart": 0,
+                        "start": 0,
+                        "length": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "fullStart": 0,
+                        "start": 0,
+                        "length": 6
+                    },
+                    "statementList": [
+                        {
+                            "ClassNode": {
+                                "abstractOrFinalModifier": null,
+                                "classKeyword": {
+                                    "kind": "ClassKeyword",
+                                    "fullStart": 6,
+                                    "start": 24,
+                                    "length": 23
+                                },
+                                "name": {
+                                    "error": "MissingToken",
+                                    "kind": "Name",
+                                    "fullStart": 29,
+                                    "start": 29,
+                                    "length": 0
+                                },
+                                "classBaseClause": null,
+                                "classInterfaceClause": null,
+                                "classMembers": {
+                                    "ClassMembersNode": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "fullStart": 29,
+                                            "start": 30,
+                                            "length": 2
+                                        },
+                                        "classMemberDeclarations": [
+                                            {
+                                                "MethodNode": {
+                                                    "modifiers": [],
+                                                    "functionKeyword": {
+                                                        "kind": "FunctionKeyword",
+                                                        "fullStart": 31,
+                                                        "start": 37,
+                                                        "length": 14
+                                                    },
+                                                    "byRefToken": null,
+                                                    "name": {
+                                                        "kind": "Name",
+                                                        "fullStart": 45,
+                                                        "start": 46,
+                                                        "length": 2
+                                                    },
+                                                    "openParen": {
+                                                        "kind": "OpenParenToken",
+                                                        "fullStart": 47,
+                                                        "start": 48,
+                                                        "length": 2
+                                                    },
+                                                    "parameters": null,
+                                                    "closeParen": {
+                                                        "kind": "CloseParenToken",
+                                                        "fullStart": 49,
+                                                        "start": 49,
+                                                        "length": 1
+                                                    },
+                                                    "colonToken": null,
+                                                    "returnType": null,
+                                                    "compoundStatementOrSemicolon": {
+                                                        "CompoundStatementNode": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "OpenBraceToken",
+                                                                    "fullStart": 50,
+                                                                    "start": 51,
+                                                                    "length": 2
+                                                                },
+                                                                {
+                                                                    "error": "MissingToken",
+                                                                    "kind": "CloseBraceToken",
+                                                                    "fullStart": 52,
+                                                                    "start": 52,
+                                                                    "length": 0
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "MethodNode": {
+                                                    "modifiers": [
+                                                        {
+                                                            "kind": "PublicKeyword",
+                                                            "fullStart": 52,
+                                                            "start": 60,
+                                                            "length": 14
+                                                        }
+                                                    ],
+                                                    "functionKeyword": {
+                                                        "kind": "FunctionKeyword",
+                                                        "fullStart": 66,
+                                                        "start": 67,
+                                                        "length": 9
+                                                    },
+                                                    "byRefToken": null,
+                                                    "name": {
+                                                        "kind": "Name",
+                                                        "fullStart": 75,
+                                                        "start": 76,
+                                                        "length": 2
+                                                    },
+                                                    "openParen": {
+                                                        "kind": "OpenParenToken",
+                                                        "fullStart": 77,
+                                                        "start": 78,
+                                                        "length": 2
+                                                    },
+                                                    "parameters": null,
+                                                    "closeParen": {
+                                                        "kind": "CloseParenToken",
+                                                        "fullStart": 79,
+                                                        "start": 79,
+                                                        "length": 1
+                                                    },
+                                                    "colonToken": null,
+                                                    "returnType": null,
+                                                    "compoundStatementOrSemicolon": {
+                                                        "CompoundStatementNode": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "OpenBraceToken",
+                                                                    "fullStart": 80,
+                                                                    "start": 81,
+                                                                    "length": 2
+                                                                },
+                                                                {
+                                                                    "kind": "CloseBraceToken",
+                                                                    "fullStart": 82,
+                                                                    "start": 83,
+                                                                    "length": 2
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "closeBrace": {
+                                            "error": "MissingToken",
+                                            "kind": "CloseBraceToken",
+                                            "fullStart": 84,
+                                            "start": 84,
+                                            "length": 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "fullStart": 84,
+            "start": 86,
+            "length": 2
+        }
+    }
+}
