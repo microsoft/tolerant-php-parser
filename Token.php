@@ -33,13 +33,23 @@ class Token implements \JsonSerializable {
     function jsonSerialize() {
         $kindName = $this->GetTokenKindNameFromValue($this->kind);
 
-        return [
-            "kind" => $kindName,
-            "textLength" => $this->length - ($this->start - $this->fullStart)
-//            "fullStart" => $this->fullStart,
-//            "start" => $this->start,
-//            "length" => $this->length
-        ];
+        if (!isset($GLOBALS["SHORT_TOKEN_SERIALIZE"])) {
+            $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
+        }
+        
+        if ($GLOBALS["SHORT_TOKEN_SERIALIZE"]) {
+            return [
+                "kind" => $kindName,
+                "textLength" => $this->length - ($this->start - $this->fullStart)
+            ];
+        } else {
+            return [
+                "kind" => $kindName,
+                "fullStart" => $this->fullStart,
+                "start" => $this->start,
+                "length" => $this->length
+            ];
+        }        
     }
 
     protected function GetTokenKindNameFromValue($kindName) {

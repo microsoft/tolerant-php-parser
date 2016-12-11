@@ -16,7 +16,9 @@ class ParserGrammarTest extends TestCase {
     public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $parser = new \PhpParser\Parser($testCaseFile);
+        $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
+        $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
         $fileContents = file_get_contents($testCaseFile);
 
         $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";

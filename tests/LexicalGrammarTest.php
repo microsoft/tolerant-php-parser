@@ -16,7 +16,9 @@ class LexicalGrammarTest extends TestCase {
     public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $lexer = new \PhpParser\Lexer($testCaseFile);
+        $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($lexer->getTokensArray(), JSON_PRETTY_PRINT));
+        $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
         $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
