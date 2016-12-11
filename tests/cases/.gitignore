@@ -1,2 +1,1 @@
-php-langspec/*/*.php.tokens
-php-langspec/*/*.php.tree
+php-langspec/*/*.php.*

@@ -93,4 +93,8 @@ class Node implements \JsonSerializable {
 
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
+
+    public function validateRules() {
+        return [];
+    }
 }

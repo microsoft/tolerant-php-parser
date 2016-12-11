@@ -28,7 +28,7 @@ class ParserGrammarTest extends TestCase {
             return;
         }
 
-        // file_put_contents($expectedTokensFile, str_replace("\n", "\r\n", $tokens));
+//         file_put_contents($expectedTokensFile, str_replace("\n", "\r\n", $tokens));
         $this->assertEquals($expectedTokens, $tokens, $outputStr);
     }
 
@@ -44,6 +44,20 @@ class ParserGrammarTest extends TestCase {
         }
 
         return $testProviderArray;
+    }
+
+    /**
+     * @dataProvider outErrorTreeProvider
+     */
+    public function testSpecErrors($testCaseFile, $expectedErrorsFile) {
+        $parser = new \PhpParser\Parser($testCaseFile);
+        $sourceFile = $parser->parseSourceFile();
+        $errors = $parser->getErrors($sourceFile);
+        $tokens = str_replace("\r\n", "\n", json_encode($errors, JSON_PRETTY_PRINT));
+        file_put_contents($expectedErrorsFile, $tokens);
+
+        echo $tokens;
+        self::fail("GAH!");
     }
 
     /**
@@ -72,6 +86,23 @@ class ParserGrammarTest extends TestCase {
     public function outTreeProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         $tokensExpected = glob(__dir__ . "/cases/php-langspec/**/*.php.tree");
+
+        $testProviderArray = array();
+        foreach ($testCases as $index=>$testCase) {
+            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+        }
+
+        return $testProviderArray;
+    }
+
+    public function outErrorTreeProvider() {
+        $testCases = glob(__dir__ . "/cases/php-langspec/sara/*.php");
+        $tokensExpected = [];
+        foreach ($testCases as $case) {
+             $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".errors";
+        }
+
+        glob(__dir__ . "/cases/php-langspec/**/*.php.errors");
 
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {

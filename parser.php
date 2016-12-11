@@ -107,6 +107,29 @@ class Parser {
         $this->lexer = new Lexer($filename);
     }
 
+    public function getErrors(Node $ast) {
+        $errors = [];
+        $unexpectedTokens = [];
+        $missingTokens = [];
+        $invalid = [];
+        foreach ($ast->getChildren() as $child) {
+            if ($child instanceof Node) {
+                $childErrors = $this->getErrors($child);
+                $unexpectedTokens = array_merge($unexpectedTokens, $childErrors["skipped"]);
+                $missingTokens = array_merge($missingTokens, $childErrors["missing"]);
+                $invalid = array_merge($invalid, $childErrors["invalid"]);
+
+                $invalid = array_merge($invalid, $child->validateRules());
+
+            } elseif ($child instanceof SkippedToken) {
+                $unexpectedTokens[] = $child;
+            } elseif ($child instanceof MissingToken) {
+                $missingTokens[] = $child;
+            }
+        }
+        return ["skipped" => $unexpectedTokens, "missing" => $missingTokens, "invalid"=>$invalid];
+    }
+
     public function parseSourceFile() : Node {
         $this->reset();
 
