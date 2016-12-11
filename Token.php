@@ -31,7 +31,7 @@ class Token implements \JsonSerializable {
     }
 
     function jsonSerialize() {
-        $kindName = $this->GetTokenKindNameFromValue($this->kind);
+        $kindName = $this->getTokenKindNameFromValue($this->kind);
 
         if (!isset($GLOBALS["SHORT_TOKEN_SERIALIZE"])) {
             $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
@@ -52,7 +52,7 @@ class Token implements \JsonSerializable {
         }        
     }
 
-    protected function GetTokenKindNameFromValue($kindName) {
+    public static function getTokenKindNameFromValue($kindName) {
         $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
         foreach ($constants as $name => $val) {
             if ($val == $kindName) {
@@ -70,7 +70,7 @@ class MissingToken extends Token {
 
     function jsonSerialize() {
         return array_merge(
-            ["error" => $this->GetTokenKindNameFromValue(TokenKind::MissingToken)],
+            ["error" => $this->getTokenKindNameFromValue(TokenKind::MissingToken)],
             parent::jsonSerialize()
         );
     }
@@ -83,7 +83,7 @@ class SkippedToken extends Token {
 
     function jsonSerialize() {
         return array_merge(
-            ["error" => $this->GetTokenKindNameFromValue(TokenKind::SkippedToken)],
+            ["error" => $this->getTokenKindNameFromValue(TokenKind::SkippedToken)],
             parent::jsonSerialize()
         );
     }

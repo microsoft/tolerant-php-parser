@@ -50,13 +50,22 @@ class ParserGrammarTest extends TestCase {
 
     /**
      * @dataProvider outErrorTreeProvider
+     * @backupGlobals disabled
      */
     public function testSpecErrors($testCaseFile, $expectedErrorsFile) {
         $parser = new \PhpParser\Parser($testCaseFile);
         $sourceFile = $parser->parseSourceFile();
         $errors = $parser->getErrors($sourceFile);
+        $allErrors = $errors["skipped"];
+        foreach ($allErrors as $error) {
+            $GLOBALS["errorTokens"][Token::getTokenKindNameFromValue($error->kind)]++;
+        }
         $tokens = str_replace("\r\n", "\n", json_encode($errors, JSON_PRETTY_PRINT));
         file_put_contents($expectedErrorsFile, $tokens);
+
+        array_multisort($GLOBALS["errorTokens"], SORT_DESC, array_values($GLOBALS["errorTokens"]));
+        file_put_contents("errorCoverage.json", json_encode($GLOBALS["errorTokens"], JSON_PRETTY_PRINT));
+
 
         echo $tokens;
         self::fail("GAH!");
@@ -98,7 +107,15 @@ class ParserGrammarTest extends TestCase {
     }
 
     public function outErrorTreeProvider() {
-        $testCases = glob(__dir__ . "/cases/php-langspec/sara/*.php");
+
+        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
+        foreach ($constants as $name => $val) {
+            $GLOBALS["errorTokens"][$name] = 0;
+        }
+        var_dump($GLOBALS["errorTokens"]);
+
+
+        $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         $tokensExpected = [];
         foreach ($testCases as $case) {
              $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".errors";
