@@ -23,14 +23,16 @@ class ParserGrammarTest extends TestCase {
 
         $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
 
-        if ($expectedTokens[0] !== "{") {
+        if (
+//            !strpos($testCaseFile, "traits") &&
+            $expectedTokens[0] !== "{") {
             $this->markTestIncomplete(
                 "This test has not been implemented yet.\r\n$outputStr"
             );
             return;
         }
 
-//         file_put_contents($expectedTokensFile, str_replace("\n", "\r\n", $tokens));
+        //  file_put_contents($expectedTokensFile, str_replace("\r\n", "\n", $tokens));
         $this->assertEquals($expectedTokens, $tokens, $outputStr);
     }
 

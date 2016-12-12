@@ -25,6 +25,7 @@ use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
+use PhpParser\Node\TraitDeclaration;
 use PhpParser\Node\BreakOrContinueStatement;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\DeclareDirective;
@@ -56,7 +57,7 @@ use PhpParser\Node\InterfaceDeclaration;
 use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\IssetIntrinsicExpression;
 use PhpParser\Node\ListIntrinsicExpression;
-use PhpParser\Node\MissingClassOrInterfaceMemberDeclaration;
+use PhpParser\Node\MissingMemberDeclaration;
 use PhpParser\Node\NamespaceAliasingClause;
 use PhpParser\Node\NamespaceDefinition;
 use PhpParser\Node\NamespaceUseGroupClause;
@@ -88,6 +89,9 @@ use PhpParser\Node\SwitchStatementNode;
 use PhpParser\Node\TemplateExpressionNode;
 use PhpParser\Node\TernaryExpression;
 use PhpParser\Node\ThrowStatement;
+use PhpParser\Node\TraitMembers;
+use PhpParser\Node\TraitSelectOrAliasClause;
+use PhpParser\Node\TraitUseClause;
 use PhpParser\Node\TryStatement;
 use PhpParser\Node\UnaryExpression;
 use PhpParser\Node\UnaryOpExpression;
@@ -274,6 +278,7 @@ class Parser {
             case ParseContext::InterfaceMembers:
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
+            case ParseContext::TraitMembers:
                 return $tokenKind === TokenKind::CloseBraceToken;
             case ParseContext::SwitchStatementElements:
                 return $tokenKind === TokenKind::CloseBraceToken || $tokenKind === TokenKind::EndSwitchKeyword;
@@ -321,6 +326,9 @@ class Parser {
             case ParseContext::ClassMembers:
                 return $this->isClassMemberDeclarationStart($token);
 
+            case ParseContext::TraitMembers:
+                return $this->isTraitMemberDeclarationStart($token);
+
             case ParseContext::InterfaceMembers:
                 return $this->isInterfaceMemberDeclarationStart($token);
 
@@ -345,6 +353,9 @@ class Parser {
                 return $this->parseStatementFn();
             case ParseContext::ClassMembers:
                 return $this->parseClassElementFn();
+
+            case ParseContext::TraitMembers:
+                return $this->parseTraitElementFn();
 
             case ParseContext::InterfaceMembers:
                 return $this->parseInterfaceElementFn();
@@ -501,6 +512,10 @@ class Parser {
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
+
+                // trait-declaration
+                case TokenKind::TraitKeyword:
+                    return $this->parseTraitDeclaration($parentNode);
             }
 
             $expressionStatement = new ExpressionStatement();
@@ -526,8 +541,11 @@ class Parser {
                 case TokenKind::VariableName:
                     return $this->parsePropertyDeclaration($parentNode, $modifiers);
 
+                case TokenKind::UseKeyword:
+                    return $this->parseTraitUseClause($parentNode);
+
                 default:
-                    $missingClassMemberDeclaration = new MissingClassOrInterfaceMemberDeclaration();
+                    $missingClassMemberDeclaration = new MissingMemberDeclaration();
                     $missingClassMemberDeclaration->parent = $parentNode;
                     $missingClassMemberDeclaration->modifiers = $modifiers;
                     return $missingClassMemberDeclaration;
@@ -537,13 +555,13 @@ class Parser {
 
     function parseClassDeclaration($parentNode) : Node {
         $classNode = new ClassNode();
+        $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
         $classNode->name = $this->eat(TokenKind::Name);
         $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
         $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
-        $classNode->parent = $parentNode;
         return $classNode;
     }
 
@@ -637,7 +655,7 @@ class Parser {
 
             case TokenKind::FunctionKeyword:
 
-//            case TokenKind::UseKeyword:
+            case TokenKind::UseKeyword:
                 return true;
 
         }
@@ -695,7 +713,7 @@ class Parser {
             case TokenKind::InterfaceKeyword:
 
             // trait-declaration
-//            case TokenKind::TraitKeyword:
+            case TokenKind::TraitKeyword:
 
             // namespace-definition
             case TokenKind::NamespaceKeyword:
@@ -1009,6 +1027,7 @@ class Parser {
     }
 
     private function parseDelimitedList($delimeter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
+        // TODO consider allowing empty delimiter to be more tolerant
         $node = new DelimitedList();
         $token = $this->getCurrentToken();
         do {
@@ -2318,7 +2337,7 @@ class Parser {
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
                 default:
-                    $missingInterfaceMemberDeclaration = new MissingClassOrInterfaceMemberDeclaration();
+                    $missingInterfaceMemberDeclaration = new MissingMemberDeclaration();
                     $missingInterfaceMemberDeclaration->parent = $parentNode;
                     $missingInterfaceMemberDeclaration->modifiers = $modifiers;
                     return $missingInterfaceMemberDeclaration;
@@ -2401,6 +2420,129 @@ class Parser {
         $namespaceAliasingClause->name = $this->eat(TokenKind::Name);
         return $namespaceAliasingClause;
     }
+
+    private function parseTraitDeclaration($parentNode) {
+        $traitDeclaration = new TraitDeclaration();
+        $traitDeclaration->parent = $parentNode;
+
+        $traitDeclaration->traitKeyword = $this->eat(TokenKind::TraitKeyword);
+        $traitDeclaration->name = $this->eat(TokenKind::Name);
+
+        $traitDeclaration->traitMembers = $this->parseTraitMembers($traitDeclaration);
+
+        return $traitDeclaration;
+    }
+
+    private function parseTraitMembers($parentNode) {
+        $traitMembers = new TraitMembers();
+        $traitMembers->parent = $parentNode;
+
+        $traitMembers->openBrace = $this->eat(TokenKind::OpenBraceToken);
+
+        $traitMembers->traitMemberDeclarations = $this->parseList($traitMembers, ParseContext::TraitMembers);
+
+        $traitMembers->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+
+        return $traitMembers;
+    }
+
+    private function isTraitMemberDeclarationStart($token) {
+        switch ($token->kind) {
+            // property-declaration
+            case TokenKind::VariableName:
+
+            // modifiers
+            case TokenKind::PublicKeyword:
+            case TokenKind::ProtectedKeyword:
+            case TokenKind::PrivateKeyword:
+            case TokenKind::VarKeyword:
+            case TokenKind::StaticKeyword:
+            case TokenKind::AbstractKeyword:
+            case TokenKind::FinalKeyword:
+
+            // method-declaration
+            case TokenKind::FunctionKeyword:
+
+            // trait-use-clauses
+            case TokenKind::UseKeyword:
+                return true;
+        }
+        return false;
+    }
+
+    private function parseTraitElementFn() {
+        return function($parentNode) {
+            $modifiers = $this->parseModifiers();
+
+            $token = $this->getCurrentToken();
+            switch($token->kind) {
+                case TokenKind::FunctionKeyword:
+                    return $this->parseMethodDeclaration($parentNode, $modifiers);
+
+                case TokenKind::VariableName:
+                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
+
+                case TokenKind::UseKeyword:
+                    return $this->parseTraitUseClause($parentNode);
+
+                default:
+                    $missingTraitMemberDeclaration = new MissingMemberDeclaration();
+                    $missingTraitMemberDeclaration->parent = $parentNode;
+                    $missingTraitMemberDeclaration->modifiers = $modifiers;
+                    return $missingTraitMemberDeclaration;
+            }
+        };
+    }
+
+    private function parseTraitUseClause($parentNode) {
+        $traitUseClause = new TraitUseClause();
+        $traitUseClause->parent = $parentNode;
+
+        $traitUseClause->useKeyword = $this->eat(TokenKind::UseKeyword);
+        $traitUseClause->traitNameList = $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isQualifiedNameStartFn(),
+            $this->parseQualifiedNameFn(),
+            $traitUseClause
+            );
+
+        $traitUseClause->semicolonOrOpenBrace = $this->eat(TokenKind::OpenBraceToken, TokenKind::SemicolonToken);
+        if ($traitUseClause->semicolonOrOpenBrace->kind === TokenKind::OpenBraceToken) {
+            $traitUseClause->traitSelectAndAliasClauses = $this->parseDelimitedList(
+                TokenKind::SemicolonToken,
+                function ($token) {
+                    return $token->kind === TokenKind::Name;
+                },
+                function ($parentNode) {
+                    $traitSelectAndAliasClause = new TraitSelectOrAliasClause();
+                    $traitSelectAndAliasClause->parent = $parentNode;
+                    $traitSelectAndAliasClause->name = // TODO update spec
+                        $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+
+                    $traitSelectAndAliasClause->asOrInsteadOfKeyword = $this->eat(TokenKind::AsKeyword, TokenKind::InsteadOfKeyword);
+                    $traitSelectAndAliasClause->modifiers = $this->parseModifiers(); // TODO accept all modifiers, verify later
+
+                    $traitSelectAndAliasClause->targetName =
+                        $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+
+                    // TODO errors for insteadof/as
+                    return $traitSelectAndAliasClause;
+                },
+                $traitUseClause
+            );
+            $traitUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+        }
+
+        return $traitUseClause;
+    }
+
+    private function parseQualifiedNameOrScopedPropertyAccessExpression($parentNode) {
+        $qualifiedNameOrScopedProperty = $this->parseQualifiedName($parentNode);
+        if ($this->getCurrentToken()->kind === TokenKind::ColonColonToken) {
+            $qualifiedNameOrScopedProperty = $this->parseScopedPropertyAccessExpression($qualifiedNameOrScopedProperty);
+        }
+        return $qualifiedNameOrScopedProperty;
+    }
 }
 
 class Associativity {
@@ -2421,5 +2563,6 @@ class ParseContext {
     const ForeachStatementElements = 8;
     const DeclareStatementElements = 9;
     const InterfaceMembers = 10;
-    const Count = 11;
+    const TraitMembers = 11;
+    const Count = 12;
 }

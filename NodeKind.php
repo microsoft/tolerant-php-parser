@@ -76,7 +76,7 @@ class NodeKind {
     const ClassBaseClause = 70;
     const ConstDeclaration = 71;
     const PropertyDeclaration = 72;
-    const MissingClassOrInterfaceMemberDeclaration = 73;
+    const MissingMemberDeclaration = 73;
     const InterfaceDeclaration = 74;
     const InterfaceBaseClause = 75;
     const InterfaceMembers = 76;
@@ -85,4 +85,8 @@ class NodeKind {
     const NamespaceUseDeclaration = 79;
     const NamespaceAliasingClause = 80;
     const NamespaceUseGroupClause = 81;
+    const TraitMembers = 82;
+    const TraitDeclaration = 83;
+    const TraitUseClause = 84;
+    const TraitSelectOrAliasClause = 85;
 }

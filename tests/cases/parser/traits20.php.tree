@@ -1,0 +1,149 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "TraitDeclaration": {
+                                "traitKeyword": {
+                                    "kind": "TraitKeyword",
+                                    "textLength": 5
+                                },
+                                "name": {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                },
+                                "traitMembers": {
+                                    "TraitMembers": {
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "traitMemberDeclarations": [
+                                            {
+                                                "TraitUseClause": {
+                                                    "useKeyword": {
+                                                        "kind": "UseKeyword",
+                                                        "textLength": 3
+                                                    },
+                                                    "traitNameList": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "QualifiedName": {
+                                                                        "globalSpecifier": null,
+                                                                        "relativeSpecifier": null,
+                                                                        "nameParts": {
+                                                                            "DelimitedList": {
+                                                                                "children": [
+                                                                                    {
+                                                                                        "kind": "Name",
+                                                                                        "textLength": 1
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "semicolonOrOpenBrace": {
+                                                        "kind": "OpenBraceToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "traitSelectAndAliasClauses": {
+                                                        "DelimitedList": {
+                                                            "children": [
+                                                                {
+                                                                    "TraitSelectOrAliasClause": {
+                                                                        "name": {
+                                                                            "QualifiedName": {
+                                                                                "globalSpecifier": null,
+                                                                                "relativeSpecifier": null,
+                                                                                "nameParts": {
+                                                                                    "DelimitedList": {
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "kind": "Name",
+                                                                                                "textLength": 1
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "asOrInsteadOfKeyword": {
+                                                                            "kind": "AsKeyword",
+                                                                            "textLength": 2
+                                                                        },
+                                                                        "modifiers": [
+                                                                            {
+                                                                                "kind": "ProtectedKeyword",
+                                                                                "textLength": 9
+                                                                            },
+                                                                            {
+                                                                                "kind": "PublicKeyword",
+                                                                                "textLength": 6
+                                                                            }
+                                                                        ],
+                                                                        "targetName": {
+                                                                            "QualifiedName": {
+                                                                                "globalSpecifier": null,
+                                                                                "relativeSpecifier": null,
+                                                                                "nameParts": {
+                                                                                    "DelimitedList": {
+                                                                                        "children": [
+                                                                                            {
+                                                                                                "kind": "Name",
+                                                                                                "textLength": 1
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "kind": "SemicolonToken",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "closeBrace": {
+                                                        "kind": "CloseBraceToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
