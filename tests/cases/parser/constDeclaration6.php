@@ -1,4 +1,3 @@
 <?php
-class A {
-    const a = 3, const b = 3;
-}
+// TODO invalid expression
+const a = $a;

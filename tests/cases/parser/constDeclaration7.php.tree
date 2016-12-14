@@ -13,118 +13,30 @@
                     },
                     "statementList": [
                         {
-                            "ClassNode": {
-                                "abstractOrFinalModifier": null,
-                                "classKeyword": {
-                                    "kind": "ClassKeyword",
+                            "ConstDeclaration": {
+                                "constKeyword": {
+                                    "kind": "ConstKeyword",
                                     "textLength": 5
                                 },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 1
+                                "constElements": null,
+                                "semicolon": {
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "ConstDeclaration": {
+                                "constKeyword": {
+                                    "kind": "ConstKeyword",
+                                    "textLength": 5
                                 },
-                                "classBaseClause": null,
-                                "classInterfaceClause": null,
-                                "classMembers": {
-                                    "ClassMembersNode": {
-                                        "openBrace": {
-                                            "kind": "OpenBraceToken",
-                                            "textLength": 1
-                                        },
-                                        "classMemberDeclarations": [
-                                            {
-                                                "ConstDeclaration": {
-                                                    "modifiers": [],
-                                                    "constKeyword": {
-                                                        "kind": "ConstKeyword",
-                                                        "textLength": 5
-                                                    },
-                                                    "constElements": {
-                                                        "DelimitedList": {
-                                                            "children": [
-                                                                {
-                                                                    "BinaryExpression": {
-                                                                        "leftOperand": {
-                                                                            "QualifiedName": {
-                                                                                "globalSpecifier": null,
-                                                                                "relativeSpecifier": null,
-                                                                                "nameParts": {
-                                                                                    "DelimitedList": {
-                                                                                        "children": [
-                                                                                            {
-                                                                                                "kind": "Name",
-                                                                                                "textLength": 1
-                                                                                            }
-                                                                                        ]
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        "operator": {
-                                                                            "kind": "EqualsToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "rightOperand": {
-                                                                            "NumericLiteral": {
-                                                                                "children": {
-                                                                                    "kind": "DecimalLiteralToken",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "kind": "CommaToken",
-                                                                    "textLength": 1
-                                                                },
-                                                                {
-                                                                    "BinaryExpression": {
-                                                                        "leftOperand": {
-                                                                            "QualifiedName": {
-                                                                                "globalSpecifier": null,
-                                                                                "relativeSpecifier": null,
-                                                                                "nameParts": {
-                                                                                    "DelimitedList": {
-                                                                                        "children": [
-                                                                                            {
-                                                                                                "kind": "Name",
-                                                                                                "textLength": 1
-                                                                                            }
-                                                                                        ]
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        "operator": {
-                                                                            "kind": "EqualsToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "rightOperand": {
-                                                                            "StringLiteral": {
-                                                                                "children": {
-                                                                                    "kind": "NoSubstitutionTemplateLiteral",
-                                                                                    "textLength": 7
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            ]
-                                                        }
-                                                    },
-                                                    "semicolon": {
-                                                        "kind": "SemicolonToken",
-                                                        "textLength": 1
-                                                    }
-                                                }
-                                            }
-                                        ],
-                                        "closeBrace": {
-                                            "kind": "CloseBraceToken",
-                                            "textLength": 1
-                                        }
-                                    }
+                                "constElements": null,
+                                "semicolon": {
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
+                                    "textLength": 0
                                 }
                             }
                         }

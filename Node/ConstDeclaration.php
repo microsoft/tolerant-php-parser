@@ -4,15 +4,12 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ConstDeclaration extends Node {
-
-    /** @var Token[] */
-    public $modifiers;
+class ConstDeclaration extends StatementNode {
 
     /** @var Token */
     public $constKeyword;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList[] */
     public $constElements;
 
     /** @var Token */

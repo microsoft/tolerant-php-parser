@@ -1,5 +1,3 @@
 <?php
-class A {
-    // TODO expect missing assignment
-    const a;
-}
+
+const a = 3, b = 3;

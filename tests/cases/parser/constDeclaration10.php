@@ -1,5 +1,3 @@
 <?php
-class A {
-    // TODO expression not allowed
-    public const a = $a;
-}
+
+public const a = c;

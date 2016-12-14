@@ -74,7 +74,7 @@ class NodeKind {
     const ReservedWord = 68;
     const ClassInterfaceClause = 69;
     const ClassBaseClause = 70;
-    const ConstDeclaration = 71;
+    const ClassConstDeclaration = 71;
     const PropertyDeclaration = 72;
     const MissingMemberDeclaration = 73;
     const InterfaceDeclaration = 74;
@@ -89,4 +89,9 @@ class NodeKind {
     const TraitDeclaration = 83;
     const TraitUseClause = 84;
     const TraitSelectOrAliasClause = 85;
+    const ConstDeclaration = 86;
+    const ConstElement = 87;
+    const GlobalDeclaration = 88;
+    const FunctionStaticDeclaration = 89;
+    const StaticVariableDeclaration = 90;
 }

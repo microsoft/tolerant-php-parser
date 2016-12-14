@@ -25,9 +25,14 @@ use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
+use PhpParser\Node\ConstDeclaration;
+use PhpParser\Node\ConstElement;
+use PhpParser\Node\FunctionStaticDeclaration;
+use PhpParser\Node\GlobalDeclaration;
+use PhpParser\Node\StaticVariableDeclaration;
 use PhpParser\Node\TraitDeclaration;
 use PhpParser\Node\BreakOrContinueStatement;
-use PhpParser\Node\ConstDeclaration;
+use PhpParser\Node\ClassConstDeclaration;
 use PhpParser\Node\DeclareDirective;
 use PhpParser\Node\DeclareStatement;
 use PhpParser\Node\DelimitedList;
@@ -516,6 +521,18 @@ class Parser {
                 // trait-declaration
                 case TokenKind::TraitKeyword:
                     return $this->parseTraitDeclaration($parentNode);
+
+                // global-declaration
+                case TokenKind::GlobalKeyword:
+                    return $this->parseGlobalDeclaration($parentNode);
+                
+                // const-declaration
+                case TokenKind::ConstKeyword:
+                    return $this->parseConstDeclaration($parentNode);
+                
+                // function-static-declaration
+                case TokenKind::StaticKeyword:
+                    return $this->parseFunctionStaticDeclaration($parentNode);
             }
 
             $expressionStatement = new ExpressionStatement();
@@ -533,7 +550,7 @@ class Parser {
             $token = $this->getCurrentToken();
             switch($token->kind) {
                 case TokenKind::ConstKeyword:
-                    return $this->parseConstDeclaration($parentNode, $modifiers);
+                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
 
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
@@ -591,20 +608,20 @@ class Parser {
 
     function parseParameterFn() {
         return function ($parentNode) {
-            $node = new Parameter();
-            $node->parent = $parentNode;
-            $node->typeDeclaration = $this->tryParseTypeDeclaration($node);
-            $node->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+            $parameter = new Parameter();
+            $parameter->parent = $parentNode;
+            $parameter->typeDeclaration = $this->tryParseTypeDeclaration($parameter);
+            $parameter->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
             // TODO add post-parse rule that prevents assignment
             // TODO add post-parse rule that requires only last parameter be variadic
-            $node->dotDotDotToken = $this->eatOptional(TokenKind::DotDotDotToken);
-            $node->variableName = $this->eat(TokenKind::VariableName);
-            $node->equalsToken = $this->eatOptional(TokenKind::EqualsToken);
-            if ($node->equalsToken !== null) {
+            $parameter->dotDotDotToken = $this->eatOptional(TokenKind::DotDotDotToken);
+            $parameter->variableName = $this->eat(TokenKind::VariableName);
+            $parameter->equalsToken = $this->eatOptional(TokenKind::EqualsToken);
+            if ($parameter->equalsToken !== null) {
                 // TODO add post-parse rule that checks for invalid assignments
-                $node->default = $this->parseExpression($node);
+                $parameter->default = $this->parseExpression($parameter);
             }
-            return $node;
+            return $parameter;
         };
     }
 
@@ -699,7 +716,7 @@ class Parser {
             case TokenKind::DeclareKeyword:
 
             // const-declaration
-            // case TokenKind::ConstKeyword:
+            case TokenKind::ConstKeyword:
 
             // function-definition
             case TokenKind::FunctionKeyword:
@@ -722,10 +739,10 @@ class Parser {
             case TokenKind::UseKeyword:
 
             // global-declaration
-//            case TokenKind::GlobalKeyword:
+            case TokenKind::GlobalKeyword:
 
             // function-static-declaration
-//            case TokenKind::StaticKeyword:
+            case TokenKind::StaticKeyword:
                 return true;
 
             default:
@@ -1787,27 +1804,33 @@ class Parser {
     }
 
     private function parseSimpleVariable($parentNode) {
-        $token = $this->getCurrentToken();
-        $variable = new Variable();
-        $variable->parent = $parentNode;
+        return ($this->parseSimpleVariableFn())($parentNode);
+    }
 
-        if ($token->kind === TokenKind::DollarToken) {
-            $variable->dollar = $this->eat(TokenKind::DollarToken);
+    private function parseSimpleVariableFn() {
+        return function ($parentNode) {
             $token = $this->getCurrentToken();
+            $variable = new Variable();
+            $variable->parent = $parentNode;
 
-            $variable->name =
-                $token->kind === TokenKind::OpenBraceToken ?
-                    $this->parseBracedExpression($variable) :
-                    $this->parseSimpleVariable($variable);
+            if ($token->kind === TokenKind::DollarToken) {
+                $variable->dollar = $this->eat(TokenKind::DollarToken);
+                $token = $this->getCurrentToken();
 
-        } elseif ($token->kind === TokenKind::VariableName) {
-            // TODO consider splitting into dollar and name
-            $variable->name = $this->eat(TokenKind::VariableName);
-        } else {
-            $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
-        }
+                $variable->name =
+                    $token->kind === TokenKind::OpenBraceToken ?
+                        $this->parseBracedExpression($variable) :
+                        $this->parseSimpleVariable($variable);
 
-        return $variable;
+            } elseif ($token->kind === TokenKind::VariableName) {
+                // TODO consider splitting into dollar and name
+                $variable->name = $this->eat(TokenKind::VariableName);
+            } else {
+                $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
+            }
+
+            return $variable;
+        };
     }
 
     private function parseEchoExpression($parentNode) {
@@ -2252,16 +2275,16 @@ class Parser {
         return $classBaseClause;
     }
 
-    private function parseConstDeclaration($parentNode, $modifiers) {
-        $constDeclaration = new ConstDeclaration();
-        $constDeclaration->parent = $parentNode;
+    private function parseClassConstDeclaration($parentNode, $modifiers) {
+        $classConstDeclaration = new ClassConstDeclaration();
+        $classConstDeclaration->parent = $parentNode;
 
-        $constDeclaration->modifiers = $modifiers;
-        $constDeclaration->constKeyword = $this->eat(TokenKind::ConstKeyword);
-        $constDeclaration->constElements = $this->parseExpressionList($constDeclaration);
-        $constDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $classConstDeclaration->modifiers = $modifiers;
+        $classConstDeclaration->constKeyword = $this->eat(TokenKind::ConstKeyword);
+        $classConstDeclaration->constElements = $this->parseConstElements($classConstDeclaration);
+        $classConstDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
 
-        return $constDeclaration;
+        return $classConstDeclaration;
     }
 
     private function parsePropertyDeclaration($parentNode, $modifiers) {
@@ -2331,7 +2354,7 @@ class Parser {
             $token = $this->getCurrentToken();
             switch($token->kind) {
                 case TokenKind::ConstKeyword:
-                    return $this->parseConstDeclaration($parentNode, $modifiers);
+                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
 
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
@@ -2542,6 +2565,94 @@ class Parser {
             $qualifiedNameOrScopedProperty = $this->parseScopedPropertyAccessExpression($qualifiedNameOrScopedProperty);
         }
         return $qualifiedNameOrScopedProperty;
+    }
+
+    function parseGlobalDeclaration($parentNode) {
+        $globalDeclaration = new GlobalDeclaration();
+        $globalDeclaration->parent = $parentNode;
+
+        $globalDeclaration->globalKeyword = $this->eat(TokenKind::GlobalKeyword);
+        $globalDeclaration->variableNameList = $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isVariableNameStartFn(),
+            $this->parseSimpleVariableFn(),
+            $globalDeclaration
+        );
+
+        $globalDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $globalDeclaration;
+    }
+
+    function parseFunctionStaticDeclaration($parentNode) {
+        $functionStaticDeclaration = new FunctionStaticDeclaration();
+        $functionStaticDeclaration->parent = $parentNode;
+
+        $functionStaticDeclaration->staticKeyword = $this->eat(TokenKind::StaticKeyword);
+        $functionStaticDeclaration->staticVariableNameList = $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::VariableName;
+            },
+            $this->parseStaticVariableDeclarationFn(),
+            $functionStaticDeclaration
+        );
+        $functionStaticDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $functionStaticDeclaration;
+    }
+
+    function isVariableNameStartFn() {
+        return function ($token) {
+            return $token->kind === TokenKind::VariableName || $token->kind === TokenKind::DollarToken;
+        };
+    }
+
+    function parseStaticVariableDeclarationFn() {
+        return function ($parentNode) {
+            $staticVariableDeclaration = new StaticVariableDeclaration();
+            $staticVariableDeclaration->parent = $parentNode;
+            $staticVariableDeclaration->variableName = $this->eat(TokenKind::VariableName);
+            $staticVariableDeclaration->equalsToken = $this->eatOptional(TokenKind::EqualsToken);
+            if ($staticVariableDeclaration->equalsToken !== null) {
+                // TODO add post-parse rule that checks for invalid assignments
+                $staticVariableDeclaration->assignment = $this->parseExpression($staticVariableDeclaration);
+            }
+            return $staticVariableDeclaration;
+        };
+    }
+
+    function parseConstDeclaration($parentNode) {
+        $constDeclaration = new ConstDeclaration();
+        $constDeclaration->parent = $parentNode;
+
+        $constDeclaration->constKeyword = $this->eat(TokenKind::ConstKeyword);
+        $constDeclaration->constElements = $this->parseConstElements($constDeclaration);
+        $constDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+
+        return $constDeclaration;
+    }
+
+    function parseConstElements($parentNode) {
+        return $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::Name;
+            },
+            $this->parseConstElementFn(),
+            $parentNode);
+    }
+
+    function parseConstElementFn() {
+        return function ($parentNode) {
+            $constElement = new ConstElement();
+            $constElement->parent = $parentNode;
+            $constElement->name = $this->eat(TokenKind::Name);
+            $constElement->equalsToken = $this->eat(TokenKind::EqualsToken);
+            // TODO add post-parse rule that checks for invalid assignments
+            $constElement->assignment = $this->parseExpression($constElement);
+            return $constElement;
+        };
     }
 }
 
