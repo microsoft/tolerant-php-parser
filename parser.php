@@ -28,6 +28,7 @@ use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ClassNode;
+use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
 use PhpParser\Node\FunctionStaticDeclaration;
@@ -773,6 +774,7 @@ class Parser {
                 case TokenKind::IncludeOnceKeyword:
 
                 case TokenKind::NewKeyword:
+                case TokenKind::CloneKeyword:
                     return true;
 
                 // unary-op-expression
@@ -1416,9 +1418,13 @@ class Parser {
 //                return $this->parseCastExpression($parentNode);
                 break;*/
 
-            // postfix-expression
+            // object-creation-expression (postfix-expression)
             case TokenKind::NewKeyword:
                 return $this->parseObjectCreationExpression($parentNode);
+
+            // clone-expression (postfix-expression)
+            case TokenKind::CloneKeyword:
+                return $this->parseCloneExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -2767,6 +2773,16 @@ class Parser {
         $anonymousFunctionUseClause->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $anonymousFunctionUseClause;
+    }
+
+    private function parseCloneExpression($parentNode) {
+        $cloneExpression = new CloneExpression();
+        $cloneExpression->parent = $parentNode;
+
+        $cloneExpression->cloneKeyword = $this->eat(TokenKind::CloneKeyword);
+        $cloneExpression->expression = $this->parseUnaryExpressionOrHigher($cloneExpression);
+
+        return $cloneExpression;
     }
 }
 

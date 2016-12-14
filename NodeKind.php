@@ -98,4 +98,5 @@ class NodeKind {
     const AnonymousFunctionCreationExpression = 92;
     const AnonymousFunctionUseClause = 93;
     const UseVariableName = 94;
+    const CloneExpression = 95;
 }
