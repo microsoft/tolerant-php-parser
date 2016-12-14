@@ -13,6 +13,8 @@ spl_autoload_register(function ($class) {
     }
 });
 
+use PhpParser\Node\AnonymousFunctionCreationExpression;
+use PhpParser\Node\AnonymousFunctionUseClause;
 use PhpParser\Node\ArgumentExpression;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\ArrayCreationExpression;
@@ -54,7 +56,6 @@ use PhpParser\Node\ForeachStatement;
 use PhpParser\Node\ForeachValue;
 use PhpParser\Node\ForStatement;
 use PhpParser\Node\Function_;
-use PhpParser\Node\FunctionDefinition;
 use PhpParser\Node\CompoundStatementNode;
 use PhpParser\Node\GotoStatement;
 use PhpParser\Node\IfStatementNode;
@@ -103,6 +104,7 @@ use PhpParser\Node\UnaryExpression;
 use PhpParser\Node\UnaryOpExpression;
 use PhpParser\Node\UnknownExpression;
 use PhpParser\Node\UnsetIntrinsicExpression;
+use PhpParser\Node\UseVariableName;
 use PhpParser\Node\Variable;
 use PhpParser\Node\WhileStatement;
 
@@ -492,7 +494,10 @@ class Parser {
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
-                    return $this->parseFunctionDeclaration($parentNode);
+                    if ($this->lookahead(TokenKind::Name) || $this->lookahead(TokenKind::AmpersandToken, TokenKind::Name)) {
+                        return $this->parseFunctionDeclaration($parentNode);
+                    }
+                    break;
 
                 // class-declaration
                 case TokenKind::FinalKeyword:
@@ -533,7 +538,10 @@ class Parser {
                 
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
-                    return $this->parseFunctionStaticDeclaration($parentNode);
+                    if (!$this->lookahead(TokenKind::FunctionKeyword)) {
+                        return $this->parseFunctionStaticDeclaration($parentNode);
+                    }
+                    break;
             }
 
             $expressionStatement = new ExpressionStatement();
@@ -836,6 +844,10 @@ class Parser {
                 case TokenKind::NullReservedWord:
                 case TokenKind::FalseReservedWord:
                 case TokenKind::TrueReservedWord:
+
+                // anonymous-function-creation-expression
+                case TokenKind::StaticKeyword:
+                case TokenKind::FunctionKeyword:
                     return true;
             }
             return false;
@@ -939,10 +951,11 @@ class Parser {
             case TokenKind::NullReservedWord:
                 return $this->parseReservedWordExpression($parentNode);
 
-            /*
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
             case TokenKind::FunctionKeyword:
+                return $this->parseAnonymousFunctionCreationExpression($parentNode);
+            /*
             */
 
             default:
@@ -1128,13 +1141,21 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionDefinition(FunctionDefinition $functionDefinition, $canBeAbstract = false) {
+    private function parseFunctionDefinition(Node $functionDefinition, $canBeAbstract = false, $isAnonymous = false) {
         $functionDefinition->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $functionDefinition->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
-        $functionDefinition->name = $this->eat(TokenKind::Name); // TODO support keyword names
+        $functionDefinition->name = $isAnonymous ? $this->eatOptional(TokenKind::Name) : $this->eat(TokenKind::Name); // TODO support keyword names
+        if ($isAnonymous && isset($functionDefinition->name)) {
+            $functionDefinition->name = new SkippedToken($functionDefinition->name); // TODO instaed handle this during post-walk
+        }
+
         $functionDefinition->openParen = $this->eat(TokenKind::OpenParenToken);
         $functionDefinition->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $functionDefinition);
         $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
+        if ($isAnonymous) {
+            $functionDefinition->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDefinition);
+        }
+
         if ($this->checkToken(TokenKind::ColonToken)) {
             $functionDefinition->colonToken = $this->eat(TokenKind::ColonToken);
             $functionDefinition->returnType = $this->tryParseTypeDeclaration($functionDefinition) ?? $this->eat(TokenKind::VoidReservedWord);
@@ -2708,6 +2729,44 @@ class Parser {
         $castExpression->operand = $this->parseUnaryExpressionOrHigher($castExpression);
 
         return $castExpression;
+    }
+
+    private function parseAnonymousFunctionCreationExpression($parentNode) {
+        $anonymousFunctionCreationExpression = new AnonymousFunctionCreationExpression();
+        $anonymousFunctionCreationExpression->parent = $parentNode;
+
+        $anonymousFunctionCreationExpression->staticModifier = $this->eatOptional(TokenKind::StaticKeyword);
+        $this->parseFunctionDefinition($anonymousFunctionCreationExpression, false, true);
+
+        return $anonymousFunctionCreationExpression;
+    }
+
+    private function parseAnonymousFunctionUseClause($parentNode) {
+        $anonymousFunctionUseClause = new AnonymousFunctionUseClause();
+        $anonymousFunctionUseClause->parent = $parentNode;
+
+        $anonymousFunctionUseClause->useKeyword = $this->eatOptional(TokenKind::UseKeyword);
+        if ($anonymousFunctionUseClause->useKeyword === null) {
+            return null;
+        }
+        $anonymousFunctionUseClause->openParen = $this->eat(TokenKind::OpenParenToken);
+        $anonymousFunctionUseClause->useVariableNameList = $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::AmpersandToken || $token->kind === TokenKind::VariableName;
+            },
+            function ($parentNode) {
+                $useVariableName = new UseVariableName();
+                $useVariableName->parent = $parentNode;
+                $useVariableName->byRef = $this->eatOptional(TokenKind::AmpersandToken);
+                $useVariableName->variableName = $this->eat(TokenKind::VariableName);
+                return $useVariableName;
+            },
+            $anonymousFunctionUseClause
+        );
+        $anonymousFunctionUseClause->closeParen = $this->eat(TokenKind::CloseParenToken);
+
+        return $anonymousFunctionUseClause;
     }
 }
 

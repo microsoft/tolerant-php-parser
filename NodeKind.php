@@ -95,4 +95,7 @@ class NodeKind {
     const FunctionStaticDeclaration = 89;
     const StaticVariableDeclaration = 90;
     const CastExpression = 91;
+    const AnonymousFunctionCreationExpression = 92;
+    const AnonymousFunctionUseClause = 93;
+    const UseVariableName = 94;
 }

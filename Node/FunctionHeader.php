@@ -4,7 +4,7 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class FunctionDefinition extends Node {
+trait FunctionHeader {
     /** @var Token */
     public $functionKeyword;
     /** @var Token */
@@ -17,10 +17,4 @@ class FunctionDefinition extends Node {
     public $parameters;
     /** @var Token */
     public $closeParen;
-    /** @var Token */
-    public $colonToken;
-    /** @var null | Name */
-    public $returnType;
-    /** @var null | CompoundStatementNode | Token */
-    public $compoundStatementOrSemicolon;
 }

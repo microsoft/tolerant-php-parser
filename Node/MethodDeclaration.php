@@ -6,9 +6,11 @@ use PhpParser\SkippedToken;
 use PhpParser\Token;
 use PhpParser\TokenKind;
 
-class MethodDeclaration extends FunctionDefinition {
+class MethodDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
+    
+    use FunctionHeader, FunctionReturnType, FunctionBody;
 
     public function __construct() {
         parent::__construct(NodeKind::MethodNode);
