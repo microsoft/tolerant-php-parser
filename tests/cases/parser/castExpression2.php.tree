@@ -1,0 +1,74 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "CastExpression": {
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "castType": {
+                                            "kind": "IntReservedWord",
+                                            "textLength": 3
+                                        },
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        },
+                                        "operand": {
+                                            "CastExpression": {
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "castType": {
+                                                    "kind": "BoolReservedWord",
+                                                    "textLength": 4
+                                                },
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "operand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

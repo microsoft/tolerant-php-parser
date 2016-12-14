@@ -94,4 +94,5 @@ class NodeKind {
     const GlobalDeclaration = 88;
     const FunctionStaticDeclaration = 89;
     const StaticVariableDeclaration = 90;
+    const CastExpression = 91;
 }

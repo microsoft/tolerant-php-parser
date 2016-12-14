@@ -807,7 +807,14 @@ const KEYWORDS = array(
     "string" => TokenKind::StringReservedWord,
     "true" => TokenKind::TrueReservedWord,
     "false" => TokenKind::FalseReservedWord,
-    "null" => TokenKind::NullReservedWord
+    "null" => TokenKind::NullReservedWord,
+
+    "binary" => TokenKind::BinaryReservedWord,
+    "boolean" => TokenKind::BooleanReservedWord,
+    "double" => TokenKind::DoubleReservedWord,
+    "integer" => TokenKind::IntegerReservedWord,
+    "object" => TokenKind::ObjectReservedWord,
+    "real" => TokenKind::RealReservedWord
 
     // TODO soft reserved words?
 );

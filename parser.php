@@ -20,6 +20,7 @@ use PhpParser\Node\BinaryExpression;
 use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
 use PhpParser\Node\CaseStatementNode;
+use PhpParser\Node\CastExpression;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
@@ -1157,15 +1158,25 @@ class Parser {
         return $namedLabelStatement;
     }
 
-    private function lookahead(int ...$expectedKinds) : bool {
+    private function lookahead(...$expectedKinds) : bool {
         $startPos = $this->lexer->pos;
         $startToken = $this->token;
         $succeeded = true;
         foreach ($expectedKinds as $kind) {
             $this->advanceToken();
-            if ($this->lexer->pos >= $this->lexer->endOfFilePos || $this->getCurrentToken()->kind !== $kind) {
+            if (is_array($kind)) {
                 $succeeded = false;
-                break;
+                foreach ($kind as $kindOption) {
+                    if ($this->lexer->pos <= $this->lexer->endOfFilePos && $this->getCurrentToken()->kind === $kindOption) {
+                        $succeeded = true;
+                        break;
+                    }
+                }
+            } else {
+                if ($this->lexer->pos > $this->lexer->endOfFilePos || $this->getCurrentToken()->kind !== $kind) {
+                    $succeeded = false;
+                    break;
+                }
             }
         }
         $this->lexer->pos = $startPos;
@@ -1354,6 +1365,25 @@ class Parser {
             // prefix-decrement-expression
             case TokenKind::MinusMinusToken:
                 return $this->parsePrefixUpdateExpression($parentNode);
+
+            case TokenKind::OpenParenToken:
+                // TODO remove duplication
+                if ($this->lookahead(
+                    [TokenKind::ArrayKeyword,
+                    TokenKind::BinaryReservedWord,
+                    TokenKind::BoolReservedWord,
+                    TokenKind::BooleanReservedWord,
+                    TokenKind::DoubleReservedWord,
+                    TokenKind::IntReservedWord,
+                    TokenKind::IntegerReservedWord,
+                    TokenKind::FloatReservedWord,
+                    TokenKind::ObjectReservedWord,
+                    TokenKind::RealReservedWord,
+                    TokenKind::StringReservedWord,
+                    TokenKind::UnsetKeyword], TokenKind::CloseParenToken)) {
+                    return $this->parseCastExpression($parentNode);
+                }
+                break;
 
 /*
 
@@ -2653,6 +2683,31 @@ class Parser {
             $constElement->assignment = $this->parseExpression($constElement);
             return $constElement;
         };
+    }
+
+    private function parseCastExpression($parentNode) {
+        $castExpression = new CastExpression();
+        $castExpression->parent = $parentNode;
+
+        $castExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $castExpression->castType = $this->eat(
+            TokenKind::ArrayKeyword,
+            TokenKind::BinaryReservedWord,
+            TokenKind::BoolReservedWord,
+            TokenKind::BooleanReservedWord,
+            TokenKind::DoubleReservedWord,
+            TokenKind::IntReservedWord,
+            TokenKind::IntegerReservedWord,
+            TokenKind::FloatReservedWord,
+            TokenKind::ObjectReservedWord,
+            TokenKind::RealReservedWord,
+            TokenKind::StringReservedWord,
+            TokenKind::UnsetKeyword
+        );
+        $castExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+        $castExpression->operand = $this->parseUnaryExpressionOrHigher($castExpression);
+
+        return $castExpression;
     }
 }
 

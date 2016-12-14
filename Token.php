@@ -269,5 +269,12 @@ class TokenKind {
     const MemberName = 328;
     const Expression = 329;
 
+    const BinaryReservedWord = 330; // TODO better way
+    const BooleanReservedWord = 331;
+    const DoubleReservedWord = 332;
+    const IntegerReservedWord = 333;
+    const ObjectReservedWord = 334;
+    const RealReservedWord = 335;
+
     // TODO type annotations - PHP7
 }
