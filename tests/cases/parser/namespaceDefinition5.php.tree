@@ -13,18 +13,22 @@
                     },
                     "statementList": [
                         {
-                            "NamespaceDefinition": {
-                                "namespaceKeyword": {
-                                    "kind": "NamespaceKeyword",
-                                    "textLength": 9
-                                },
-                                "name": {
+                            "ExpressionStatement": {
+                                "expression": {
                                     "QualifiedName": {
-                                        "globalSpecifier": {
-                                            "kind": "BackslashToken",
-                                            "textLength": 1
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": {
+                                            "RelativeSpecifier": {
+                                                "namespaceKeyword": {
+                                                    "kind": "NamespaceKeyword",
+                                                    "textLength": 9
+                                                },
+                                                "backslash": {
+                                                    "kind": "BackslashToken",
+                                                    "textLength": 1
+                                                }
+                                            }
                                         },
-                                        "relativeSpecifier": null,
                                         "nameParts": {
                                             "DelimitedList": {
                                                 "children": [
@@ -37,7 +41,7 @@
                                         }
                                     }
                                 },
-                                "compoundStatementOrSemicolon": {
+                                "semicolon": {
                                     "kind": "SemicolonToken",
                                     "textLength": 1
                                 }

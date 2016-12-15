@@ -1,0 +1,72 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "AssignmentExpression": {
+                                        "leftOperand": {
+                                            "SubscriptExpression": {
+                                                "postfixExpression": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    }
+                                                },
+                                                "openBracketOrBrace": {
+                                                    "kind": "OpenBracketToken",
+                                                    "textLength": 1
+                                                },
+                                                "accessExpression": null,
+                                                "closeBracketOrBrace": {
+                                                    "kind": "CloseBracketToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        },
+                                        "operator": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "byRef": null,
+                                        "rightOperand": {
+                                            "NumericLiteral": {
+                                                "children": {
+                                                    "kind": "DecimalLiteralToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

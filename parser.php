@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace PhpParser;
 
 // TODO make this less hacky
@@ -517,7 +515,10 @@ class Parser {
 
                 // namespace-definition
                 case TokenKind::NamespaceKeyword:
-                    return $this->parseNamespaceDefinition($parentNode);
+                    if (!$this->lookahead(TokenKind::BackslashToken)) {
+                        return $this->parseNamespaceDefinition($parentNode);
+                    }
+                    break;
 
                 // namespace-use-declaration
                 case TokenKind::UseKeyword:
@@ -2235,7 +2236,10 @@ class Parser {
 
         $subscriptExpression->postfixExpression = $expression;
         $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken, TokenKind::OpenBraceToken);
-        $subscriptExpression->accessExpression = $this->parseExpression($subscriptExpression);
+        $subscriptExpression->accessExpression = $this->isExpressionStart($this->getCurrentToken())
+            ? $this->parseExpression($subscriptExpression)
+            : null; // TODO error if used in a getter
+
         if ($subscriptExpression->openBracketOrBrace->kind === TokenKind::OpenBraceToken) {
             $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBraceToken);
         } else {
