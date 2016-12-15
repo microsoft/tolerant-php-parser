@@ -18,6 +18,7 @@ use PhpParser\Node\AnonymousFunctionUseClause;
 use PhpParser\Node\ArgumentExpression;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\ArrayCreationExpression;
+use PhpParser\Node\AssignmentExpression;
 use PhpParser\Node\BinaryExpression;
 use PhpParser\Node\BracedExpression;
 use PhpParser\Node\CallExpression;
@@ -1502,11 +1503,16 @@ class Parser {
 
             $this->advanceToken();
 
+            if ($token->kind === TokenKind::EqualsToken) {
+                $byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+            }
+
             $leftOperand = $token->kind === TokenKind::QuestionToken ?
                 $this->parseTernaryExpression($leftOperand, $token) :
                 $this->makeBinaryExpression(
                     $leftOperand,
                     $token,
+                    $byRefToken ?? null,
                     $this->parseBinaryExpressionOrHigher($newPrecedence, null),
                     $parentNode);
 
@@ -1621,13 +1627,17 @@ class Parser {
         return self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
     }
 
-    private function makeBinaryExpression($leftOperand, $operatorToken, $rightOperand, $parentNode) {
-        $binaryExpression = new BinaryExpression();
+    private function makeBinaryExpression($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
+        $assignmentExpression = $operatorToken->kind === TokenKind::EqualsToken;
+        $binaryExpression = $assignmentExpression ? new AssignmentExpression() : new BinaryExpression();
         $binaryExpression->parent = $parentNode;
         $leftOperand->parent = $binaryExpression;
         $rightOperand->parent = $binaryExpression;
         $binaryExpression->leftOperand = $leftOperand;
         $binaryExpression->operator = $operatorToken;
+        if (isset($byRefToken)) {
+            $binaryExpression->byRef = $byRefToken;
+        }
         $binaryExpression->rightOperand = $rightOperand;
         return $binaryExpression;
     }

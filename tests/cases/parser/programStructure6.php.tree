@@ -15,7 +15,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "BinaryExpression": {
+                                    "AssignmentExpression": {
                                         "leftOperand": {
                                             "Variable": {
                                                 "dollar": null,
@@ -29,6 +29,7 @@
                                             "kind": "EqualsToken",
                                             "textLength": 1
                                         },
+                                        "byRef": null,
                                         "rightOperand": {
                                             "CallExpression": {
                                                 "callableExpression": {

@@ -58,7 +58,7 @@
                                                                             "textLength": 1
                                                                         },
                                                                         "assignment": {
-                                                                            "BinaryExpression": {
+                                                                            "AssignmentExpression": {
                                                                                 "leftOperand": {
                                                                                     "QualifiedName": {
                                                                                         "globalSpecifier": null,
@@ -79,6 +79,7 @@
                                                                                     "kind": "EqualsToken",
                                                                                     "textLength": 1
                                                                                 },
+                                                                                "byRef": null,
                                                                                 "rightOperand": {
                                                                                     "StringLiteral": {
                                                                                         "children": {

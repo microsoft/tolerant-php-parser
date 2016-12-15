@@ -15,7 +15,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "BinaryExpression": {
+                                    "AssignmentExpression": {
                                         "leftOperand": {
                                             "ListIntrinsicExpression": {
                                                 "listKeyword": {
@@ -107,6 +107,7 @@
                                             "kind": "EqualsToken",
                                             "textLength": 1
                                         },
+                                        "byRef": null,
                                         "rightOperand": {
                                             "Variable": {
                                                 "dollar": null,

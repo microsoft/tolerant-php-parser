@@ -44,7 +44,7 @@
                                                         "DelimitedList": {
                                                             "children": [
                                                                 {
-                                                                    "BinaryExpression": {
+                                                                    "AssignmentExpression": {
                                                                         "leftOperand": {
                                                                             "Variable": {
                                                                                 "dollar": null,
@@ -58,8 +58,9 @@
                                                                             "kind": "EqualsToken",
                                                                             "textLength": 1
                                                                         },
+                                                                        "byRef": null,
                                                                         "rightOperand": {
-                                                                            "BinaryExpression": {
+                                                                            "AssignmentExpression": {
                                                                                 "leftOperand": {
                                                                                     "Variable": {
                                                                                         "dollar": null,
@@ -73,6 +74,7 @@
                                                                                     "kind": "EqualsToken",
                                                                                     "textLength": 1
                                                                                 },
+                                                                                "byRef": null,
                                                                                 "rightOperand": {
                                                                                     "NumericLiteral": {
                                                                                         "children": {

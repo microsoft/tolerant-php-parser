@@ -15,7 +15,7 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "BinaryExpression": {
+                                    "AssignmentExpression": {
                                         "leftOperand": {
                                             "Variable": {
                                                 "dollar": null,
@@ -29,6 +29,7 @@
                                             "kind": "EqualsToken",
                                             "textLength": 1
                                         },
+                                        "byRef": null,
                                         "rightOperand": {
                                             "TernaryExpression": {
                                                 "condition": {
@@ -70,7 +71,7 @@
                                                             "textLength": 2
                                                         },
                                                         "rightOperand": {
-                                                            "BinaryExpression": {
+                                                            "AssignmentExpression": {
                                                                 "leftOperand": {
                                                                     "Variable": {
                                                                         "dollar": null,
@@ -84,6 +85,7 @@
                                                                     "kind": "EqualsToken",
                                                                     "textLength": 1
                                                                 },
+                                                                "byRef": null,
                                                                 "rightOperand": {
                                                                     "NumericLiteral": {
                                                                         "children": {
