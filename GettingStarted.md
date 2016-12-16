@@ -66,3 +66,9 @@ $errors =  $parser->getErrors($ast); # get errors from AST Node
 1. Fork and clone the repository
 2. `composer-install`
 3. `vendor\phpunit\phpunit tests` from the root project directory to run the tests
+
+## Running code coverage
+After enabling `xdebug`, run code coverage by executing:
+```
+php -d memory_limit=500M vendor/phpunit/phpunit/phpunit  --coverage-html tmp/ tests/
+```

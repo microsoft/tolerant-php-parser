@@ -1,0 +1,9 @@
+<phpunit>
+<filter>
+  <whitelist processUncoveredFilesFromWhitelist="true">
+    <directory suffix=".php">/Node</directory>
+    <file>parser.php</file>
+    <file>lexer.php</file>
+  </whitelist>
+</filter>
+</phpunit>
