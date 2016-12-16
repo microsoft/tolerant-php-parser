@@ -79,7 +79,6 @@ class ParserGrammarTest extends TestCase {
      * @dataProvider outTreeProvider
      */
     public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
-        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $parser = new \PhpParser\Parser($testCaseFile);
         $sourceFile = $parser->parseSourceFile();
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
@@ -100,8 +99,9 @@ class ParserGrammarTest extends TestCase {
 
     public function outTreeProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
-        $tokensExpected = glob(__dir__ . "/cases/php-langspec/**/*.php.tree");
-
+        foreach ($testCases as $case) {
+             $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".tree";
+        }
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {
             $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
@@ -124,8 +124,6 @@ class ParserGrammarTest extends TestCase {
         foreach ($testCases as $case) {
              $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".errors";
         }
-
-        glob(__dir__ . "/cases/php-langspec/**/*.php.errors");
 
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {
