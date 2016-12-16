@@ -68,11 +68,11 @@ connection.onDidChangeConfiguration((change) => {
 function validateTextDocument(textDocument: TextDocument): void {
 	var execSync = require('child_process').execSync;
 	var querystring = require('querystring');
-	var fileToRead = querystring.unescape(textDocument.uri).substr(8);
+	var fileToRead = querystring.unescape(textDocument.uri).substr(7);
 	if (fileToRead.startsWith("x")) {
 		return;
 	}
-	var cmd = `php ${__dirname}\\..\\..\\server\\src\\parse.php ${fileToRead}`;
+	var cmd = `php ${__dirname}/../../server/src/parse.php ${fileToRead}`;
 	var out = execSync(cmd).toString();
 	var outErrors = JSON.parse(out);
 	let diagnostics: Diagnostic[] = [];
