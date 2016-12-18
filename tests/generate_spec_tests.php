@@ -1,4 +1,9 @@
 <?php
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 
 //$testCases = array('C:\src\php-investigations\tolerant-php-parser\tests\..\php-langspec\tests\traits\traits.phpt');
 $testCases = glob(__DIR__ . "\\..\\php-langspec\\tests\\**\\*.phpt");

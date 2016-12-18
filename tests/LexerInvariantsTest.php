@@ -1,4 +1,9 @@
 <?php
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 // TODO autoload classes
 require_once(__DIR__ . "/../lexer.php");
 require_once(__DIR__ . "/../parser.php");
