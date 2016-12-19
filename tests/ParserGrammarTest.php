@@ -28,7 +28,7 @@ class ParserGrammarTest extends TestCase {
         $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
 
         if (
-//            !strpos($testCaseFile, "static") &&
+            // !strpos($testCaseFile, "programStructure") &&
             $expectedTokens[0] !== "{") {
             $this->markTestIncomplete(
                 "This test has not been implemented yet.\r\n$outputStr"
@@ -36,7 +36,7 @@ class ParserGrammarTest extends TestCase {
             return;
         }
 
-        //  file_put_contents($expectedTokensFile, str_replace("\r\n", "\n", $tokens));
+//          file_put_contents($expectedTokensFile, str_replace("\r\n", "\n", $tokens));
         $this->assertEquals($expectedTokens, $tokens, $outputStr);
     }
 
@@ -135,5 +135,37 @@ class ParserGrammarTest extends TestCase {
         }
 
         return $testProviderArray;
+    }
+
+    public function frameworkErrorProvider() {
+        $totalSize = 0;
+        $iterator = new RecursiveDirectoryIterator(__DIR__ . "/../validation/frameworks/Wordpress");
+        $testProviderArray = array();
+        foreach (new RecursiveIteratorIterator($iterator) as $file) {
+            if (strpos($file, ".php") !== false) {
+                $totalSize += $file->getSize();
+                $testProviderArray[$file->getBasename()] = [$file->getPathname()];
+            }
+        }
+
+        return $testProviderArray;
+    }
+
+    /**
+     * @dataProvider frameworkErrorProvider
+     */
+    public function testFrameworkErrors($testCaseFile) {
+        $parser = new \PhpParser\Parser($testCaseFile);
+        $sourceFile = $parser->parseSourceFile();
+
+        foreach ($sourceFile->getAllChildren() as $child) {
+            if ($child instanceof Token) {
+                $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: ");
+                $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: ");
+                $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: ");
+            }
+        }
+
+        echo json_encode($parser->getErrors($sourceFile));
     }
 }
