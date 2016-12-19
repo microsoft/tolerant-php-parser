@@ -549,11 +549,7 @@ class Lexer {
         $isTerminated = false;
         while ($pos < $endOfFilePos) {
             $char = $text[$pos];
-            if ($this->isNewLineChar($char)) {
-                // unterminated string
-                // TODO REPORT ERROR
-                break;
-            } elseif ($this->isSingleQuoteEscapeSequence($text, $pos)) {
+            if ($this->isSingleQuoteEscapeSequence($text, $pos)) {
                 $pos+=2;
                 continue;
             } elseif ($text[$pos] === "'") {
@@ -623,10 +619,11 @@ class Lexer {
                 return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
             }
 
+            // TODO temporarily disabled template string matching - will re-enable when it's implemented properly
             // '$' -> start of a variable
-            if ($char === CharacterCodes::_dollar) {
-                return $startedWithDoubleQuote ? TokenKind::TemplateStringStart : TokenKind::TemplateStringMiddle;
-            }
+//            if ($char === CharacterCodes::_dollar) {
+//                return $startedWithDoubleQuote ? TokenKind::TemplateStringStart : TokenKind::TemplateStringMiddle;
+//            }
 
             // Escape character
             if ($char === CharacterCodes::_backslash) {
@@ -634,11 +631,6 @@ class Lexer {
                 $pos++;
                 $this->scanDqEscapeSequence($text, $pos, $endOfFilePos);
                 continue;
-            }
-
-            if ($char === ord("\n") || $char === ord("\r")) {
-                // UNTERMINATED, report error
-                return $startedWithDoubleQuote ? TokenKind::UnterminatedNoSubstitutionTemplateLiteral : TokenKind::UnterminatedTemplateStringEnd;
             }
 
             $pos++;

@@ -1,15 +1,7 @@
 [
     {
-        "kind": "UnterminatedStringLiteralToken",
-        "textLength": 4
-    },
-    {
-        "kind": "Name",
-        "textLength": 2
-    },
-    {
-        "kind": "UnterminatedStringLiteralToken",
-        "textLength": 1
+        "kind": "StringLiteralToken",
+        "textLength": 9
     },
     {
         "kind": "EndOfFileToken",

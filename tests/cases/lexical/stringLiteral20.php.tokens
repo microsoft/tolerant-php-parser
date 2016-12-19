@@ -1,7 +1,7 @@
 [
     {
-        "kind": "StringLiteralToken",
-        "textLength": 10
+        "kind": "NoSubstitutionTemplateLiteral",
+        "textLength": 17
     },
     {
         "kind": "EndOfFileToken",
