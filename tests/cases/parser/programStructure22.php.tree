@@ -22,18 +22,24 @@
                                         }
                                     }
                                 },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
+                                "semicolon": null
+                            }
+                        },
+                        {
+                            "InlineHtml": {
+                                "scriptSectionEndTag": {
+                                    "kind": "ScriptSectionEndTag",
+                                    "textLength": 2
+                                },
+                                "text": {
+                                    "kind": "ScriptSectionPrependedText",
                                     "textLength": 0
-                                }
+                                },
+                                "scriptSectionStartTag": null
                             }
                         }
                     ],
-                    "endTag": {
-                        "kind": "ScriptSectionEndTag",
-                        "textLength": 2
-                    }
+                    "endTag": null
                 }
             }
         ],

@@ -155,22 +155,21 @@
                                     "textLength": 1
                                 }
                             }
+                        },
+                        {
+                            "InlineHtml": {
+                                "scriptSectionEndTag": {
+                                    "kind": "ScriptSectionEndTag",
+                                    "textLength": 2
+                                },
+                                "text": {
+                                    "kind": "ScriptSectionPrependedText",
+                                    "textLength": 7
+                                },
+                                "scriptSectionStartTag": null
+                            }
                         }
                     ],
-                    "endTag": {
-                        "kind": "ScriptSectionEndTag",
-                        "textLength": 2
-                    }
-                }
-            },
-            {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "ScriptSectionPrependedText",
-                        "textLength": 7
-                    },
-                    "startTag": null,
-                    "statementList": null,
                     "endTag": null
                 }
             }

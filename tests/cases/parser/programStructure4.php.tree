@@ -21,25 +21,23 @@
                                     }
                                 ]
                             }
-                        }
-                    ],
-                    "endTag": {
-                        "kind": "ScriptSectionEndTag",
-                        "textLength": 2
-                    }
-                }
-            },
-            {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "ScriptSectionPrependedText",
-                        "textLength": 34
-                    },
-                    "startTag": {
-                        "kind": "ScriptSectionStartTag",
-                        "textLength": 6
-                    },
-                    "statementList": [
+                        },
+                        {
+                            "InlineHtml": {
+                                "scriptSectionEndTag": {
+                                    "kind": "ScriptSectionEndTag",
+                                    "textLength": 2
+                                },
+                                "text": {
+                                    "kind": "ScriptSectionPrependedText",
+                                    "textLength": 34
+                                },
+                                "scriptSectionStartTag": {
+                                    "kind": "ScriptSectionStartTag",
+                                    "textLength": 6
+                                }
+                            }
+                        },
                         {
                             "EmptyStatement": {
                                 "children": [

@@ -11,24 +11,24 @@
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
                     },
-                    "statementList": [],
-                    "endTag": {
-                        "kind": "ScriptSectionEndTag",
-                        "textLength": 2
-                    }
-                }
-            },
-            {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "ScriptSectionPrependedText",
-                        "textLength": 21
-                    },
-                    "startTag": {
-                        "kind": "ScriptSectionStartTag",
-                        "textLength": 6
-                    },
-                    "statementList": [],
+                    "statementList": [
+                        {
+                            "InlineHtml": {
+                                "scriptSectionEndTag": {
+                                    "kind": "ScriptSectionEndTag",
+                                    "textLength": 2
+                                },
+                                "text": {
+                                    "kind": "ScriptSectionPrependedText",
+                                    "textLength": 21
+                                },
+                                "scriptSectionStartTag": {
+                                    "kind": "ScriptSectionStartTag",
+                                    "textLength": 6
+                                }
+                            }
+                        }
+                    ],
                     "endTag": null
                 }
             }

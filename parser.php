@@ -36,6 +36,7 @@ use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
+use PhpParser\Node\InlineHtml;
 use PhpParser\Node\StaticVariableDeclaration;
 use PhpParser\Node\TraitDeclaration;
 use PhpParser\Node\BreakOrContinueStatement;
@@ -284,8 +285,8 @@ class Parser {
         }
 
         switch ($parseContext) {
-            case ParseContext::SourceElements:
-                return $tokenKind === TokenKind::ScriptSectionEndTag;
+//            case ParseContext::SourceElements:
+//                return $tokenKind === TokenKind::ScriptSectionEndTag;
 
             case ParseContext::InterfaceMembers:
             case ParseContext::ClassMembers:
@@ -297,6 +298,7 @@ class Parser {
             case ParseContext::IfClause2Elements:
                 return
                     $tokenKind === TokenKind::ElseIfKeyword ||
+                    $tokenKind === TokenKind::ElseKeyword ||
                     $tokenKind === TokenKind::EndIfKeyword;
 
             case ParseContext::WhileStatementElements:
@@ -545,16 +547,19 @@ class Parser {
                 
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
-                    if (!$this->lookahead(TokenKind::FunctionKeyword)) {
+                    if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::OpenParenToken])) {
                         return $this->parseFunctionStaticDeclaration($parentNode);
                     }
                     break;
+
+                case TokenKind::ScriptSectionEndTag:
+                    return $this->parseInlineHtml($parentNode);
             }
 
             $expressionStatement = new ExpressionStatement();
             $expressionStatement->parent = $parentNode;
             $expressionStatement->expression = $this->parseExpression($expressionStatement, true);
-            $expressionStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
             return $expressionStatement;
         };
     }
@@ -759,6 +764,8 @@ class Parser {
 
             // function-static-declaration
             case TokenKind::StaticKeyword:
+
+            case TokenKind::ScriptSectionEndTag;
                 return true;
 
             default:
@@ -1241,7 +1248,7 @@ class Parser {
 
         $ifStatement->endifKeyword = $this->eatOptional(TokenKind::EndIfKeyword);
         if ($ifStatement->endifKeyword) {
-            $ifStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $ifStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         }
 
         return $ifStatement;
@@ -1296,7 +1303,7 @@ class Parser {
         $switchStatement->caseStatements = $this->parseList($switchStatement, ParseContext::SwitchStatementElements);
         if ($switchStatement->colon !== null) {
             $switchStatement->endswitch = $this->eat(TokenKind::EndSwitchKeyword);
-            $switchStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $switchStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         } else {
             $switchStatement->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
@@ -1330,7 +1337,7 @@ class Parser {
         if ($whileStatement->colon !== null) {
             $whileStatement->statements = $this->parseList($whileStatement, ParseContext::WhileStatementElements);
             $whileStatement->endWhile = $this->eat(TokenKind::EndWhileKeyword);
-            $whileStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $whileStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         } else {
             $whileStatement->statements = $this->parseStatement($whileStatement);
         }
@@ -1656,7 +1663,7 @@ class Parser {
         $doStatement->openParen = $this->eat(TokenKind::OpenParenToken);
         $doStatement->expression = $this->parseExpression($doStatement);
         $doStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
-        $doStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $doStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         return $doStatement;
     }
 
@@ -1675,7 +1682,7 @@ class Parser {
         if ($forStatement->colon !== null) {
             $forStatement->statements = $this->parseList($forStatement, ParseContext::ForStatementElements);
             $forStatement->endFor = $this->eat(TokenKind::EndForKeyword);
-            $forStatement->endForSemicolon = $this->eat(TokenKind::SemicolonToken);
+            $forStatement->endForSemicolon = $this->eatSemicolonOrAbortStatement();
         } else {
             $forStatement->statements = $this->parseStatement($forStatement);
         }
@@ -1696,7 +1703,7 @@ class Parser {
         if ($foreachStatement->colon !== null) {
             $foreachStatement->statements = $this->parseList($foreachStatement, ParseContext::ForeachStatementElements);
             $foreachStatement->endForeach = $this->eat(TokenKind::EndForEachKeyword);
-            $foreachStatement->endForeachSemicolon = $this->eat(TokenKind::SemicolonToken);
+            $foreachStatement->endForeachSemicolon = $this->eatSemicolonOrAbortStatement();
         } else {
             $foreachStatement->statements = $this->parseStatement($foreachStatement);
         }
@@ -1737,7 +1744,7 @@ class Parser {
         $gotoStatement->parent = $parentNode;
         $gotoStatement->goto = $this->eat(TokenKind::GotoKeyword);
         $gotoStatement->name = $this->eat(TokenKind::Name);
-        $gotoStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $gotoStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         return $gotoStatement;
     }
 
@@ -1761,7 +1768,7 @@ class Parser {
                 // TODO the parser should be permissive of floating literals, but rule validation should produce error
                 TokenKind::FloatingLiteralToken
                 );
-        $continueStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $continueStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $continueStatement;
     }
@@ -1773,7 +1780,7 @@ class Parser {
         if ($this->isExpressionStart($this->getCurrentToken())) {
             $returnStatement->expression = $this->parseExpression($returnStatement);
         }
-        $returnStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $returnStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $returnStatement;
     }
@@ -1784,7 +1791,7 @@ class Parser {
         $throwStatement->throwKeyword = $this->eat(TokenKind::ThrowKeyword);
         // TODO error for failures to parse expressions when not optional
         $throwStatement->expression = $this->parseExpression($throwStatement);
-        $throwStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $throwStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $throwStatement;
     }
@@ -1838,12 +1845,12 @@ class Parser {
         $declareStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         if ($this->checkToken(TokenKind::SemicolonToken)) {
-            $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $declareStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         } elseif ($this->checkToken(TokenKind::ColonToken)) {
             $declareStatement->colon = $this->eat(TokenKind::ColonToken);
             $declareStatement->statements = $this->parseList($declareStatement, ParseContext::DeclareStatementElements);
             $declareStatement->enddeclareKeyword = $this->eat(TokenKind::EndDeclareKeyword);
-            $declareStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+            $declareStatement->semicolon = $this->eatSemicolonOrAbortStatement();
         } else {
             $declareStatement->statements = $this->parseStatement($declareStatement);
         }
@@ -2115,14 +2122,24 @@ class Parser {
         $prefixUpdateExpression->incrementOrDecrementOperator = $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
         $prefixUpdateExpression->operand = $this->parseSimpleVariable($prefixUpdateExpression);
 
+        // TODO in progress
+        // $prefixUpdateExpression->operand = $this->parsePrimaryExpression($prefixUpdateExpression);
+
+        // if (!($prefixUpdateExpression->operand instanceof MissingToken)) {
+        //     $prefixUpdateExpression->operand = $this->parsePostfixExpressionRest($prefixUpdateExpression->operand, false);
+        // }
+
         return $prefixUpdateExpression;
     }
 
-    private function parsePostfixExpressionRest($expression) {
+    private function parsePostfixExpressionRest($expression, $allowUpdateExpression = true) {
         $tokenKind = $this->getCurrentToken()->kind;
 
-        if ($tokenKind === TokenKind::PlusPlusToken ||
-            $tokenKind === TokenKind::MinusMinusToken) {
+        if (
+            // TODO in progress
+            // $allowUpdateExpression && 
+            ($tokenKind === TokenKind::PlusPlusToken ||
+            $tokenKind === TokenKind::MinusMinusToken)) {
             return $this->parseParsePostfixUpdateExpression($expression);
         }
 
@@ -2467,7 +2484,7 @@ class Parser {
 
         $namespaceDefinition->compoundStatementOrSemicolon =
             $this->checkToken(TokenKind::OpenBraceToken) ?
-                $this->parseCompoundStatement($namespaceDefinition) : $this->eat(TokenKind::SemicolonToken);
+                $this->parseCompoundStatement($namespaceDefinition) : $this->eatSemicolonOrAbortStatement();
 
         return $namespaceDefinition;
     }
@@ -2507,7 +2524,7 @@ class Parser {
             $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
 
         }
-        $namespaceUseDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $namespaceUseDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
         return $namespaceUseDeclaration;
     }
 
@@ -2654,7 +2671,7 @@ class Parser {
             $globalDeclaration
         );
 
-        $globalDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $globalDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $globalDeclaration;
     }
@@ -2672,7 +2689,7 @@ class Parser {
             $this->parseStaticVariableDeclarationFn(),
             $functionStaticDeclaration
         );
-        $functionStaticDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $functionStaticDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $functionStaticDeclaration;
     }
@@ -2703,7 +2720,7 @@ class Parser {
 
         $constDeclaration->constKeyword = $this->eat(TokenKind::ConstKeyword);
         $constDeclaration->constElements = $this->parseConstElements($constDeclaration);
-        $constDeclaration->semicolon = $this->eat(TokenKind::SemicolonToken);
+        $constDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $constDeclaration;
     }
@@ -2801,6 +2818,35 @@ class Parser {
         $cloneExpression->expression = $this->parseUnaryExpressionOrHigher($cloneExpression);
 
         return $cloneExpression;
+    }
+
+    private function eatSemicolonOrAbortStatement() {
+        if ($this->getCurrentToken()->kind !== TokenKind::ScriptSectionEndTag) {
+            return $this->eat(TokenKind::SemicolonToken);
+        }
+        return null;
+    }
+
+    private function parseInlineHtml($parentNode) {
+        $inlineHtml = new InlineHtml();
+        $inlineHtml->parent = $parentNode;
+        $inlineHtml->scriptSectionEndTag = $this->eat(TokenKind::ScriptSectionEndTag);
+
+        $token = $this->getCurrentToken();
+        $start = $this->getCurrentToken()->fullStart;
+        while ($token->kind !== TokenKind::ScriptSectionStartTag && $token->kind !== TokenKind::EndOfFileToken) {
+            $this->advanceToken();
+            $token = $this->getCurrentToken();
+        }
+        $end = $token->start;
+        $inlineHtml->text = new Token(TokenKind::ScriptSectionPrependedText, $start, $start, $end - $start);
+
+        $this->token->length -= $this->token->start - $this->token->fullStart;
+        $this->token->fullStart = $end;
+
+        $inlineHtml->scriptSectionStartTag = $this->eatOptional(TokenKind::ScriptSectionStartTag);
+
+        return $inlineHtml;
     }
 }
 
