@@ -13,3 +13,12 @@
 [submodule "validation/frameworks/math-php"]
 	path = validation/frameworks/math-php
 	url = https://github.com/markrogoyski/math-php
+[submodule "validation/frameworks/symfony"]
+	path = validation/frameworks/symfony
+	url = https://github.com/symfony/symfony
+[submodule "validation/frameworks/CodeIgniter"]
+	path = validation/frameworks/CodeIgniter
+	url = https://github.com/bcit-ci/CodeIgniter
+[submodule "validation/frameworks/cakephp"]
+	path = validation/frameworks/cakephp
+	url = https://github.com/cakephp/cakephp

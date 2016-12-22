@@ -1,0 +1,74 @@
+{
+    "SourceFileNode": {
+        "scriptSectionList": [
+            {
+                "ScriptSection": {
+                    "text": {
+                        "kind": "ScriptSectionPrependedText",
+                        "textLength": 0
+                    },
+                    "startTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    },
+                    "statementList": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "PostfixUpdateExpression": {
+                                        "operand": {
+                                            "ScopedPropertyAccessExpression": {
+                                                "scopeResolutionQualifier": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "Name",
+                                                                        "textLength": 6
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "doubleColon": {
+                                                    "kind": "ColonColonToken",
+                                                    "textLength": 2
+                                                },
+                                                "memberName": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "incrementOrDecrementOperator": {
+                                            "kind": "PlusPlusToken",
+                                            "textLength": 2
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
+                        }
+                    ],
+                    "endTag": null
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

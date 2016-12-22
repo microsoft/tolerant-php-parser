@@ -17,39 +17,36 @@
                                 "expression": {
                                     "PostfixUpdateExpression": {
                                         "operand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
+                                            "ScopedPropertyAccessExpression": {
+                                                "scopeResolutionQualifier": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "Name",
+                                                                        "textLength": 4
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "doubleColon": {
+                                                    "kind": "ColonColonToken",
                                                     "textLength": 2
+                                                },
+                                                "memberName": {
+                                                    "kind": "Name",
+                                                    "textLength": 1
                                                 }
                                             }
                                         },
                                         "incrementOrDecrementOperator": {
                                             "kind": "PlusPlusToken",
                                             "textLength": 2
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "PrefixUpdateExpression": {
-                                        "incrementOrDecrementOperator": {
-                                            "kind": "MinusMinusToken",
-                                            "textLength": 2
-                                        },
-                                        "operand": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
                                         }
                                     }
                                 },

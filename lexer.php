@@ -15,13 +15,17 @@ class Lexer {
     public $endOfFilePos;
     private $fileContents;
     private $token;
+    public $filename;
 
-    private $inScriptSection = false;
+    public $inScriptSection = false;
+    private $keywordOrReservedWordTokens;
 
     public function __construct($filename) {
         $this->fileContents = file_get_contents($filename);
         $this->endOfFilePos = strlen($this->fileContents);
+        $this->filename = $filename;
         $this->pos = 0;
+        $this->keywordOrReservedWordTokens = array_merge(KEYWORDS, RESERVED_WORDS);
     }
 
     function getTokensArray() {
@@ -52,14 +56,32 @@ class Lexer {
         while (true) {
             $start = $pos;
             if ($pos >= $endOfFilePos) {
-                return new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos - $fullStart);
+                // TODO manage lookaheads w/ script section state
+                $token = $this->inScriptSection
+                    ? new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos-$fullStart)
+                    : new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
+                $this->inScriptSection = true;
+                return $token;
             }
 
             // TODO skip past <?php
             $char = ord($text[$pos]);
 
+            if (!$this->inScriptSection) {
+                // Keep scanning until we hit a script section start tag
+                if (!$this->isScriptStartTag($text, $pos, $endOfFilePos)) {
+                    $pos++;
+                    continue;
+                } else {
+                    // Mark that a script section has begun, and return the scanned text as InlineHtml
+                    $this->inScriptSection = true;
+                    return new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
+                }
+            }
+
             switch ($char) {
                 case CharacterCodes::_hash:
+                    // Trivia (like comments) prepends a scanned Token
                     $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                     continue;
 
@@ -119,9 +141,7 @@ class Lexer {
                             $tokenKind = OPERATORS_AND_PUNCTUATORS[$textSubstring];
                             $pos += $tokenEnd + 1;
 
-                            if ($tokenKind === TokenKind::ScriptSectionStartTag) {
-                                $this->inScriptSection = true;
-                            } elseif ($this->inScriptSection && $tokenKind === TokenKind::ScriptSectionEndTag) {
+                            if ($tokenKind === TokenKind::ScriptSectionEndTag) {
                                 $this->inScriptSection = false;
                             }
 
@@ -181,8 +201,9 @@ class Lexer {
                         $this->scanName($text, $pos, $endOfFilePos);
                         $token = new Token(TokenKind::Name, $fullStart, $start, $pos - $fullStart);
                         $tokenText = $token->getTextForToken($text);
-                        if ($this->isKeywordStart($tokenText)) {
-                            $token = $this->getKeywordTokenFromNameToken($token, $tokenText, $text, $pos, $endOfFilePos);
+                        $lowerText = strtolower($tokenText);
+                        if ($this->isKeywordOrReservedWordStart($lowerText)) {
+                            $token = $this->getKeywordOrReservedWordTokenFromNameToken($token, $lowerText, $text, $pos, $endOfFilePos);
                         }
                         return $token;
                     } elseif ($this->isDigitChar($text[$pos])) {
@@ -195,8 +216,8 @@ class Lexer {
         }
     }
 
-    function getKeywordTokenFromNameToken($token, $keywordStart, $text, & $pos, $endOfFilePos) {
-        $token->kind = KEYWORDS[strtolower($keywordStart)];
+    function getKeywordOrReservedWordTokenFromNameToken($token, $lowerKeywordStart, $text, & $pos, $endOfFilePos) {
+        $token->kind = $this->keywordOrReservedWordTokens[$lowerKeywordStart];
         if ($token->kind === TokenKind::YieldKeyword) {
             $savedPos = $pos;
             $nextToken = $this->scanNextToken($text, $pos, $endOfFilePos);
@@ -210,8 +231,8 @@ class Lexer {
         return $token;
     }
 
-    function isKeywordStart($text) : bool {
-        return isset(KEYWORDS[strtolower($text)]);
+    function isKeywordOrReservedWordStart($lowerText) : bool {
+        return isset($this->keywordOrReservedWordTokens[$lowerText]);
     }
 
     function isOperatorOrPunctuator($text): bool {
@@ -227,7 +248,7 @@ class Lexer {
 
     function scanSingleLineComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if ($this->isNewLineChar($text[$pos]) || $this->isScriptStartOrEndTag($text, $pos, $endOfFilePos)) {
+            if ($this->isNewLineChar($text[$pos]) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
                 return;
             }
             $pos++;
@@ -243,9 +264,7 @@ class Lexer {
 
     function scanDelimitedComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if ($this->isScriptStartTag($text, $pos, $endOfFilePos)) {
-                return;
-            } elseif (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
+            if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
                 $pos += 2;
                 return;
             }
@@ -615,7 +634,6 @@ class Lexer {
             // '"'
             if ($char === CharacterCodes::_doubleQuote) {
                 $pos++;
-                $isTerminated = true;
                 return $startedWithDoubleQuote ? TokenKind::NoSubstitutionTemplateLiteral : TokenKind::TemplateStringEnd;
             }
 
@@ -700,17 +718,11 @@ class Lexer {
         }
     }
 
-    private function isScriptStartOrEndTag($text, $pos, $endOfFilePos) {
-        return
-            $this->isScriptStartTag($text, $pos, $endOfFilePos) ||
-            $this->isScriptEndTag($text, $pos, $endOfFilePos);
-    }
-
     private function isScriptStartTag($text, $pos, $endOfFilePos) {
         if (!$this->inScriptSection &&
             ord($text[$pos]) === CharacterCodes::_lessThan && // TODO use regex to detect newline or whitespace char
-            isset($text[$pos+4]) && strtolower(substr($text, $pos, 5)) === "<?php") {
-            $this->inScriptSection = true;
+            (isset($text[$pos+5]) && strtolower(substr($text, $pos, 5)) === "<?php" &&  in_array($text[$pos+5],["\n", "\r", " ", "\t"])) ||
+            (isset($text[$pos+2]) && substr($text, $pos, 3) === "<?=")) {
             return true;
         }
         return false;
@@ -720,7 +732,6 @@ class Lexer {
         if ($this->inScriptSection &&
             ord($text[$pos]) === CharacterCodes::_question &&
             isset($text[$pos+1]) && ord($text[$pos+1]) === CharacterCodes::_greaterThan) {
-            $this->inScriptSection = false;
             return true;
         }
         return false;
@@ -796,25 +807,32 @@ const KEYWORDS = array(
     "yield" => TokenKind::YieldKeyword,
     "yield from" => TokenKind::YieldFromKeyword,
 
+
+    // TODO soft reserved words?
+);
+
+const RESERVED_WORDS = [
+    // http://php.net/manual/en/reserved.constants.php
+    // TRUE, FALSE, NULL are special predefined constants
+    // TODO - also consider adding other constants
+    "true" => TokenKind::TrueReservedWord,
+    "false" => TokenKind::FalseReservedWord,
+    "null" => TokenKind::NullReservedWord,
+
     // RESERVED WORDS:
     // http://php.net/manual/en/reserved.other-reserved-words.php
     "int" => TokenKind::IntReservedWord,
     "float" => TokenKind::FloatReservedWord,
     "bool" => TokenKind::BoolReservedWord,
     "string" => TokenKind::StringReservedWord,
-    "true" => TokenKind::TrueReservedWord,
-    "false" => TokenKind::FalseReservedWord,
-    "null" => TokenKind::NullReservedWord,
-
     "binary" => TokenKind::BinaryReservedWord,
     "boolean" => TokenKind::BooleanReservedWord,
     "double" => TokenKind::DoubleReservedWord,
     "integer" => TokenKind::IntegerReservedWord,
     "object" => TokenKind::ObjectReservedWord,
-    "real" => TokenKind::RealReservedWord
-
-    // TODO soft reserved words?
-);
+    "real" => TokenKind::RealReservedWord,
+    "void" => TokenKind::VoidReservedWord
+];
 
 const OPERATORS_AND_PUNCTUATORS = array(
     "[" => TokenKind::OpenBracketToken,

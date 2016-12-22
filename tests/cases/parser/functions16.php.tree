@@ -42,23 +42,6 @@
                                                     "equalsToken": null,
                                                     "default": null
                                                 }
-                                            },
-                                            {
-                                                "kind": "CommaToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "ParameterNode": {
-                                                    "typeDeclaration": null,
-                                                    "byRefToken": null,
-                                                    "dotDotDotToken": null,
-                                                    "variableName": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    },
-                                                    "equalsToken": null,
-                                                    "default": null
-                                                }
                                             }
                                         ]
                                     }
@@ -67,21 +50,51 @@
                                     "kind": "CloseParenToken",
                                     "textLength": 1
                                 },
-                                "colonToken": {
-                                    "kind": "ColonToken",
-                                    "textLength": 1
-                                },
-                                "returnType": {
-                                    "error": "MissingToken",
-                                    "kind": "ReturnType",
-                                    "textLength": 0
-                                },
+                                "colonToken": null,
+                                "returnType": null,
                                 "compoundStatementOrSemicolon": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
                                                 "kind": "OpenBraceToken",
                                                 "textLength": 1
+                                            },
+                                            {
+                                                "ReturnStatement": {
+                                                    "returnKeyword": {
+                                                        "kind": "ReturnKeyword",
+                                                        "textLength": 6
+                                                    },
+                                                    "expression": {
+                                                        "BinaryExpression": {
+                                                            "leftOperand": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
+                                                                }
+                                                            },
+                                                            "operator": {
+                                                                "kind": "AsteriskToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "rightOperand": {
+                                                                "NumericLiteral": {
+                                                                    "children": {
+                                                                        "kind": "DecimalLiteralToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "semicolon": {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
                                             },
                                             {
                                                 "kind": "CloseBraceToken",

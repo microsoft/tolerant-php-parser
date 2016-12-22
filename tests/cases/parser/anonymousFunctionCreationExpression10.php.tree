@@ -84,20 +84,8 @@
                                                     "textLength": 1
                                                 },
                                                 "returnType": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": {
-                                                            "DelimitedList": {
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "Name",
-                                                                        "textLength": 4
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    }
+                                                    "kind": "VoidReservedWord",
+                                                    "textLength": 4
                                                 },
                                                 "compoundStatementOrSemicolon": {
                                                     "CompoundStatementNode": {

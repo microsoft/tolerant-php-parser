@@ -120,12 +120,31 @@ class Parser {
     private $currentParseContext;
     public $sourceFile;
 
+    private $nameOrKeywordOrReservedWordTokens;
+    private $nameOrReservedWordTokens;
+    private $nameOrStaticOrReservedWordTokens;
+    private $reservedWordTokens;
+    private $keywordTokens;
+    // TODO consider validating parameter and return types on post-parse instead so we can be more permissive
+    private $parameterTypeDeclarationTokens;
+    private $returnTypeDeclarationTokens;
+
     public function __construct($filename) {
         $this->lexer = new Lexer($filename);
+
+        $this->reservedWordTokens = array_values(RESERVED_WORDS);
+        $this->keywordTokens = array_values(KEYWORDS);
+        $this->nameOrKeywordOrReservedWordTokens = array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
+        $this->nameOrReservedWordTokens = array_merge([TokenKind::Name], $this->reservedWordTokens);
+        $this->nameOrStaticOrReservedWordTokens = array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
+        $this->parameterTypeDeclarationTokens =
+            [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
+            TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
+            TokenKind::ObjectReservedWord]; // TODO update spec
+        $this->returnTypeDeclarationTokens = array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
     public function getErrors(Node $ast) {
-        $errors = [];
         $unexpectedTokens = [];
         $missingTokens = [];
         $invalid = [];
@@ -182,7 +201,19 @@ class Parser {
                 0
             );
 
+        // TODO in progress - simplify
         while ($token->kind !== TokenKind::EndOfFileToken) {
+            if ($token->kind === TokenKind::InlineHtml) {
+                $scriptSection->text = $this->eat(TokenKind::InlineHtml);
+                $scriptSection->text->kind = TokenKind::ScriptSectionPrependedText;
+                $scriptSection->startTag = $this->eatOptional(TokenKind::ScriptSectionStartTag);
+                $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
+                if (count($scriptSection->statementList) === 0 && !isset($scriptSection->startTag)) {
+                    $scriptSection->statementList = null;
+                }
+                $scriptSection->endTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
+                break;
+            }
             if ($token->kind === TokenKind::ScriptSectionStartTag) {
                 $scriptSection->startTag = $this->eat(TokenKind::ScriptSectionStartTag);
                 $preTextLength = $scriptSection->startTag->start - $scriptSection->startTag->fullStart;
@@ -411,6 +442,9 @@ class Parser {
      */
     function eat(...$kinds) {
         $token = $this->getCurrentToken();
+        if (is_array($kinds[0])) {
+            $kinds = $kinds[0];
+        }
         foreach ($kinds as $kind) {
             if ($token->kind === $kind) {
                 $this->advanceToken();
@@ -423,6 +457,9 @@ class Parser {
 
     function eatOptional(...$kinds) {
         $token = $this->getCurrentToken();
+        if (is_array($kinds[0])) {
+            $kinds = $kinds[0];
+        }
         if (in_array($token->kind, $kinds)) {
             $this->advanceToken();
             return $token;
@@ -500,7 +537,8 @@ class Parser {
 
                 // function-declaration
                 case TokenKind::FunctionKeyword:
-                    if ($this->lookahead(TokenKind::Name) || $this->lookahead(TokenKind::AmpersandToken, TokenKind::Name)) {
+                    // Check that this is not an anonymous-function-creation-expression
+                    if ($this->lookahead($this->nameOrKeywordOrReservedWordTokens) || $this->lookahead(TokenKind::AmpersandToken, $this->nameOrKeywordOrReservedWordTokens)) {
                         return $this->parseFunctionDeclaration($parentNode);
                     }
                     break;
@@ -547,7 +585,8 @@ class Parser {
                 
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
-                    if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::OpenParenToken])) {
+                    // Check that this is not an anonymous-function-creation-expression
+                    if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::OpenParenToken, TokenKind::ColonColonToken])) {
                         return $this->parseFunctionStaticDeclaration($parentNode);
                     }
                     break;
@@ -631,7 +670,7 @@ class Parser {
         return function ($parentNode) {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
-            $parameter->typeDeclaration = $this->tryParseTypeDeclaration($parameter);
+            $parameter->typeDeclaration = $this->tryParseParameterTypeDeclaration($parameter);
             $parameter->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
             // TODO add post-parse rule that prevents assignment
             // TODO add post-parse rule that requires only last parameter be variadic
@@ -646,14 +685,19 @@ class Parser {
         };
     }
 
-    function tryParseTypeDeclaration($parentNode) {
-        $typeDeclaration = $this->parseQualifiedName($parentNode);
-        if ($typeDeclaration === null) {
-            $typeDeclaration = $this->eatOptional(
-                TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
-                TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord);
-        }
-        return $typeDeclaration;
+    function parseReturnTypeDeclaration($parentNode) {
+        $returnTypeDeclaration =
+            $this->eatOptional($this->returnTypeDeclarationTokens)
+            ?? $this->parseQualifiedName($parentNode)
+            ?? new MissingToken(TokenKind::ReturnType, $this->getCurrentToken()->fullStart);
+
+        return $returnTypeDeclaration;
+    }
+
+    function tryParseParameterTypeDeclaration($parentNode) {
+        $parameterTypeDeclaration =
+            $this->eatOptional($this->parameterTypeDeclarationTokens) ?? $this->parseQualifiedName($parentNode);
+        return $parameterTypeDeclaration;
     }
 
     function parseCompoundStatement($parentNode) {
@@ -855,17 +899,12 @@ class Parser {
                 // ( expression )
                 case TokenKind::OpenParenToken:
 
-                // reserved words
-                case TokenKind::NullReservedWord:
-                case TokenKind::FalseReservedWord:
-                case TokenKind::TrueReservedWord:
-
                 // anonymous-function-creation-expression
                 case TokenKind::StaticKeyword:
                 case TokenKind::FunctionKeyword:
                     return true;
             }
-            return false;
+            return in_array($token->kind, $this->reservedWordTokens);
         };
     }
 
@@ -960,22 +999,30 @@ class Parser {
             case TokenKind::OpenParenToken:
                 return $this->parseParenthesizedExpression($parentNode);
 
-            // reserved words
-            case TokenKind::FalseReservedWord:
-            case TokenKind::TrueReservedWord:
-            case TokenKind::NullReservedWord:
-                return $this->parseReservedWordExpression($parentNode);
-
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
+                // handle `static::`, `static(`
+                if ($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) {
+                    return $this->parseQualifiedName($parentNode);
+                }
+                // Could be `static function` anonymous function creation expression, so flow through
             case TokenKind::FunctionKeyword:
                 return $this->parseAnonymousFunctionCreationExpression($parentNode);
-            /*
-            */
 
-            default:
-                return new MissingToken(TokenKind::Expression, $token->fullStart);
+            case TokenKind::TrueReservedWord:
+            case TokenKind::FalseReservedWord:
+            case TokenKind::NullReservedWord:
+                // handle `true::`, `true(`, `true\`
+                if ($this->lookahead([TokenKind::BackslashToken, TokenKind::ColonColonToken, TokenKind::OpenParenToken])) {
+                    return $this->parseQualifiedName($parentNode);
+                }
+                return $this->parseReservedWordExpression($parentNode);
         }
+        if (in_array($token->kind, RESERVED_WORDS)) {
+            return $this->parseQualifiedName($parentNode);
+        }
+
+        return new MissingToken(TokenKind::Expression, $token->fullStart);
     }
 
     private function parseEmptyStatement($parentNode) {
@@ -1048,27 +1095,19 @@ class Parser {
             switch ($token->kind) {
                 case TokenKind::DotDotDotToken:
 
-                case TokenKind::ArrayKeyword:
-                case TokenKind::CallableKeyword:
-
                 // qualified-name
                 case TokenKind::Name: // http://php.net/manual/en/language.namespaces.rules.php
                 case TokenKind::BackslashToken:
                 case TokenKind::NamespaceKeyword:
-                    // All of these can be the start of a qualified name
-
-                // scalar-type
-                case TokenKind::BoolReservedWord:
-                case TokenKind::FloatReservedWord:
-                case TokenKind::IntReservedWord:
-                case TokenKind::StringReservedWord:
 
                 case TokenKind::AmpersandToken:
 
                 case TokenKind::VariableName:
                     return true;
             }
-            return false;
+
+            // scalar-type
+            return in_array($token->kind, $this->parameterTypeDeclarationTokens);
         };
     }
 
@@ -1127,14 +1166,28 @@ class Parser {
             if (!isset($node->relativeSpecifier)) {
                 $node->globalSpecifier = $this->eatOptional(TokenKind::BackslashToken);
             }
+
             $node->nameParts =
                 $this->parseDelimitedList(
                     TokenKind::BackslashToken,
                     function ($token) {
-                        return $token->kind === TokenKind::Name;
+                        // a\static() <- VALID
+                        // a\static\b <- INVALID
+                        // a\function <- INVALID
+                        // a\true\b <-VALID
+                        // a\b\true <-VALID
+                        // a\static::b <-VALID
+                        // TODO more tests
+                        return $this->lookahead(TokenKind::BackslashToken)
+                            ? in_array($token->kind, $this->nameOrReservedWordTokens)
+                            : in_array($token->kind, $this->nameOrStaticOrReservedWordTokens);
                     },
                     function ($parentNode) {
-                        return $this->eat(TokenKind::Name); // TODO support keyword name
+                        $name = $this->lookahead(TokenKind::BackslashToken)
+                            ? $this->eat($this->nameOrReservedWordTokens)
+                            : $this->eat($this->nameOrStaticOrReservedWordTokens); // TODO support keyword name
+                        $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
+                        return $name;
                     }, $node);
             if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
@@ -1159,8 +1212,16 @@ class Parser {
     private function parseFunctionDefinition(Node $functionDefinition, $canBeAbstract = false, $isAnonymous = false) {
         $functionDefinition->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $functionDefinition->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
-        $functionDefinition->name = $isAnonymous ? $this->eatOptional(TokenKind::Name) : $this->eat(TokenKind::Name); // TODO support keyword names
+        $functionDefinition->name = $isAnonymous
+            ? $this->eatOptional($this->nameOrKeywordOrReservedWordTokens)
+            : $this->eat($this->nameOrKeywordOrReservedWordTokens);
+
+        if (isset($functionDefinition->name)){
+            $functionDefinition->name->kind = TokenKind::Name;
+        }
+
         if ($isAnonymous && isset($functionDefinition->name)) {
+            // Anonymous functions should not have names
             $functionDefinition->name = new SkippedToken($functionDefinition->name); // TODO instaed handle this during post-walk
         }
 
@@ -1173,7 +1234,7 @@ class Parser {
 
         if ($this->checkToken(TokenKind::ColonToken)) {
             $functionDefinition->colonToken = $this->eat(TokenKind::ColonToken);
-            $functionDefinition->returnType = $this->tryParseTypeDeclaration($functionDefinition) ?? $this->eat(TokenKind::VoidReservedWord);
+            $functionDefinition->returnType = $this->parseReturnTypeDeclaration($functionDefinition);
         }
 
         if ($canBeAbstract) {
@@ -2120,41 +2181,43 @@ class Parser {
         $prefixUpdateExpression->parent = $parentNode;
 
         $prefixUpdateExpression->incrementOrDecrementOperator = $this->eat(TokenKind::PlusPlusToken, TokenKind::MinusMinusToken);
-        $prefixUpdateExpression->operand = $this->parseSimpleVariable($prefixUpdateExpression);
 
-        // TODO in progress
-        // $prefixUpdateExpression->operand = $this->parsePrimaryExpression($prefixUpdateExpression);
+        $prefixUpdateExpression->operand = $this->parsePrimaryExpression($prefixUpdateExpression);
 
-        // if (!($prefixUpdateExpression->operand instanceof MissingToken)) {
-        //     $prefixUpdateExpression->operand = $this->parsePostfixExpressionRest($prefixUpdateExpression->operand, false);
-        // }
+        if (!($prefixUpdateExpression->operand instanceof MissingToken)) {
+            $prefixUpdateExpression->operand = $this->parsePostfixExpressionRest($prefixUpdateExpression->operand, false);
+        }
 
+        // TODO also check operand expression validity
         return $prefixUpdateExpression;
     }
 
     private function parsePostfixExpressionRest($expression, $allowUpdateExpression = true) {
         $tokenKind = $this->getCurrentToken()->kind;
-
-        if (
-            // TODO in progress
-            // $allowUpdateExpression && 
+        
+        // `--$a++` is invalid
+        if ($allowUpdateExpression &&
             ($tokenKind === TokenKind::PlusPlusToken ||
             $tokenKind === TokenKind::MinusMinusToken)) {
             return $this->parseParsePostfixUpdateExpression($expression);
         }
 
+        // TODO write tons of tests
         if (!($expression instanceof Variable ||
             $expression instanceof ParenthesizedExpression ||
             $expression instanceof QualifiedName ||
             $expression instanceof CallExpression ||
+            $expression instanceof MemberAccessExpression ||
+            $expression instanceof SubscriptExpression ||
+            $expression instanceof ScopedPropertyAccessExpression ||
             $expression instanceof StringLiteral ||
             $expression instanceof ArrayCreationExpression
         )) {
             return $expression;
         }
-
         if ($tokenKind === TokenKind::ColonColonToken) {
             $expression = $this->parseScopedPropertyAccessExpression($expression);
+            return $this->parsePostfixExpressionRest($expression);
         }
 
         while (true) {
@@ -2163,18 +2226,28 @@ class Parser {
             if ($tokenKind === TokenKind::OpenBraceToken ||
                 $tokenKind === TokenKind::OpenBracketToken) {
                 $expression = $this->parseSubscriptExpression($expression);
-                continue;
+                return $this->parsePostfixExpressionRest($expression);
             }
 
             if ($expression instanceof ArrayCreationExpression) {
+                // Remaining postfix expressions are invalid, so abort
                 return $expression;
-            } else if ($tokenKind === TokenKind::ArrowToken) {
-                $expression = $this->parseMemberAccessExpression($expression);
-                continue;
-            } else if ($tokenKind === TokenKind::OpenParenToken) {
-                return $this->parseCallExpressionRest($expression);
             }
 
+            if ($tokenKind === TokenKind::ArrowToken) {
+                $expression = $this->parseMemberAccessExpression($expression);
+                return $this->parsePostfixExpressionRest($expression);
+            }
+
+            if ($tokenKind === TokenKind::OpenParenToken) {
+                $expression = $this->parseCallExpressionRest($expression);
+
+                return $this->checkToken(TokenKind::OpenParenToken)
+                    ? $expression // $a()() should get parsed as CallExpr-ParenExpr, so do not recurse
+                    : $this->parsePostfixExpressionRest($expression);
+            }
+
+            // Reached the end of the postfix-expression, so return
             return $expression;
         }
     }
@@ -2190,8 +2263,13 @@ class Parser {
                 return $this->parseSimpleVariable($parentNode); // TODO should be simple-variable
             case TokenKind::OpenBraceToken:
                 return $this->parseBracedExpression($parentNode);
+
             default:
-                // TODO support keyword names
+                if (in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens)) {
+                    $this->advanceToken();
+                    $token->kind = TokenKind::Name;
+                    return $token;
+                }
         }
         return new MissingToken(TokenKind::MemberName, $token->fullStart);
     }
@@ -2215,18 +2293,15 @@ class Parser {
     }
 
     private function parseCallExpressionRest($expression) {
-        while ($this->getCurrentToken()->kind === TokenKind::OpenParenToken) {
-            $callExpression = new CallExpression();
-            $callExpression->parent = $expression->parent;
-            $expression->parent = $callExpression;
-            $callExpression->callableExpression = $expression;
-            $callExpression->openParen = $this->eat(TokenKind::OpenParenToken);
-            $callExpression->argumentExpressionList =
-                $this->parseArgumentExpressionList($callExpression);
-            $callExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
-            $expression = $callExpression;
-        }
-        return $this->parsePostfixExpressionRest($expression);
+        $callExpression = new CallExpression();
+        $callExpression->parent = $expression->parent;
+        $expression->parent = $callExpression;
+        $callExpression->callableExpression = $expression;
+        $callExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        $callExpression->argumentExpressionList =
+            $this->parseArgumentExpressionList($callExpression);
+        $callExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
+        return $callExpression;
     }
 
     private function parseParsePostfixUpdateExpression($prefixExpression) {
@@ -2333,7 +2408,7 @@ class Parser {
         $leftOperand->parent = $ternaryExpression;
         $ternaryExpression->condition = $leftOperand;
         $ternaryExpression->questionToken = $questionToken;
-        $ternaryExpression->ifExpression = $this->parseExpression($ternaryExpression);
+        $ternaryExpression->ifExpression = $this->isExpressionStart($this->getCurrentToken()) ? $this->parseExpression($ternaryExpression) : null;
         $ternaryExpression->colonToken = $this->eat(TokenKind::ColonToken);
         $ternaryExpression->elseExpression = $this->parseBinaryExpressionOrHigher(9, $ternaryExpression);
         $leftOperand = $ternaryExpression;
@@ -2729,7 +2804,7 @@ class Parser {
         return $this->parseDelimitedList(
             TokenKind::CommaToken,
             function ($token) {
-                return $token->kind === TokenKind::Name;
+                return in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens);
             },
             $this->parseConstElementFn(),
             $parentNode);
@@ -2739,7 +2814,9 @@ class Parser {
         return function ($parentNode) {
             $constElement = new ConstElement();
             $constElement->parent = $parentNode;
-            $constElement->name = $this->eat(TokenKind::Name);
+            $constElement->name = $this->getCurrentToken();
+            $this->advanceToken();
+            $constElement->name->kind = TokenKind::Name; // to support keyword names
             $constElement->equalsToken = $this->eat(TokenKind::EqualsToken);
             // TODO add post-parse rule that checks for invalid assignments
             $constElement->assignment = $this->parseExpression($constElement);

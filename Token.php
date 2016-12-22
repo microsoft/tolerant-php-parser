@@ -279,6 +279,8 @@ class TokenKind {
     const IntegerReservedWord = 333;
     const ObjectReservedWord = 334;
     const RealReservedWord = 335;
+    const ReturnType = 336;
+    const InlineHtml = 337;
 
     // TODO type annotations - PHP7
 }

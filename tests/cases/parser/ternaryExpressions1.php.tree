@@ -15,8 +15,8 @@
                         {
                             "ExpressionStatement": {
                                 "expression": {
-                                    "PostfixUpdateExpression": {
-                                        "operand": {
+                                    "TernaryExpression": {
+                                        "condition": {
                                             "Variable": {
                                                 "dollar": null,
                                                 "name": {
@@ -25,31 +25,22 @@
                                                 }
                                             }
                                         },
-                                        "incrementOrDecrementOperator": {
-                                            "kind": "PlusPlusToken",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "PrefixUpdateExpression": {
-                                        "incrementOrDecrementOperator": {
-                                            "kind": "MinusMinusToken",
-                                            "textLength": 2
+                                        "questionToken": {
+                                            "kind": "QuestionToken",
+                                            "textLength": 1
                                         },
-                                        "operand": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
+                                        "ifExpression": null,
+                                        "colonToken": {
+                                            "kind": "ColonToken",
+                                            "textLength": 1
+                                        },
+                                        "elseExpression": {
+                                            "NumericLiteral": {
+                                                "children": {
+                                                    "kind": "DecimalLiteralToken",
+                                                    "textLength": 1
+                                                }
+                                            }
                                         }
                                     }
                                 },

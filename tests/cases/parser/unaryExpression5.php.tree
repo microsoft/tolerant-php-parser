@@ -21,14 +21,9 @@
                                             "textLength": 2
                                         },
                                         "operand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "error": "MissingToken",
-                                                    "kind": "VariableName",
-                                                    "textLength": 0
-                                                }
-                                            }
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
+                                            "textLength": 0
                                         }
                                     }
                                 },
