@@ -136,36 +136,4 @@ class ParserGrammarTest extends TestCase {
 
         return $testProviderArray;
     }
-
-    public function frameworkErrorProvider() {
-        $totalSize = 0;
-        $iterator = new RecursiveDirectoryIterator(__DIR__ . "/../validation/frameworks/Wordpress");
-        $testProviderArray = array();
-        foreach (new RecursiveIteratorIterator($iterator) as $file) {
-            if (strpos($file, ".php") !== false) {
-                $totalSize += $file->getSize();
-                $testProviderArray[$file->getBasename()] = [$file->getPathname()];
-            }
-        }
-
-        return $testProviderArray;
-    }
-
-    /**
-     * @dataProvider frameworkErrorProvider
-     */
-    public function testFrameworkErrors($testCaseFile) {
-        $parser = new \PhpParser\Parser($testCaseFile);
-        $sourceFile = $parser->parseSourceFile();
-
-        foreach ($sourceFile->getAllChildren() as $child) {
-            if ($child instanceof Token) {
-                $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: ");
-                $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: ");
-                $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: ");
-            }
-        }
-
-        echo json_encode($parser->getErrors($sourceFile));
-    }
 }

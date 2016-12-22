@@ -68,7 +68,8 @@ connection.onDidChangeConfiguration((change) => {
 function validateTextDocument(textDocument: TextDocument): void {
 	var execSync = require('child_process').execSync;
 	var querystring = require('querystring');
-	var fileToRead = querystring.unescape(textDocument.uri).substr(7);
+	var path = require('path');
+	var fileToRead = path.normalize(querystring.unescape(textDocument.uri)).substr(6);
 	if (fileToRead.startsWith("x")) {
 		return;
 	}
