@@ -120,8 +120,6 @@ class ParserGrammarTest extends TestCase {
         foreach ($constants as $name => $val) {
             $GLOBALS["errorTokens"][$name] = 0;
         }
-        var_dump($GLOBALS["errorTokens"]);
-
 
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         $tokensExpected = [];
