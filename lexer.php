@@ -61,6 +61,9 @@ class Lexer {
                     ? new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos-$fullStart)
                     : new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
                 $this->inScriptSection = true;
+                if ($token->kind === TokenKind::InlineHtml && $pos-$fullStart === 0) {
+                    continue;
+                }
                 return $token;
             }
 
@@ -75,6 +78,9 @@ class Lexer {
                 } else {
                     // Mark that a script section has begun, and return the scanned text as InlineHtml
                     $this->inScriptSection = true;
+                    if ($pos-$fullStart === 0) {
+                        continue;
+                    }
                     return new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
                 }
             }

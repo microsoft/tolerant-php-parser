@@ -16,7 +16,7 @@ class ParserGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
-            exec("git checkout " . __DIR__ . "/cases/parser");
+            exec("git checkout " . __DIR__ . "/cases/parser/*.php.tree");
 //            $GLOBALS["SKIPPED"] = [];
 //            unlink("skipped.json");
         }
@@ -88,7 +88,7 @@ class ParserGrammarTest extends TestCase {
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTokensFile, $tokens);
 
-        echo file_get_contents($testCaseFile);
+//        echo file_get_contents($testCaseFile);
         foreach ($sourceFile->getAllChildren() as $child) {
             if ($child instanceof Token) {
                 $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");

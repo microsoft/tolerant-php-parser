@@ -17,7 +17,7 @@ class LexicalGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
-            exec("git checkout " . __DIR__ . "/cases/lexical");
+            exec("git checkout " . __DIR__ . "/cases/lexical/*.php.tokens");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {
@@ -40,7 +40,6 @@ class LexicalGrammarTest extends TestCase {
     public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $lexer = new \PhpParser\Lexer($testCaseFile);
-        $lexer->inScriptSection = true; // TODO update tests, remove this
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($lexer->getTokensArray(), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;

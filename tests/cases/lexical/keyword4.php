@@ -1,1 +1,2 @@
+<?php
 yield from

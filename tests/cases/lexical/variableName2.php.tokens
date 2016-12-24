@@ -1,5 +1,9 @@
 [
     {
+        "kind": "ScriptSectionStartTag",
+        "textLength": 6
+    },
+    {
         "kind": "VariableName",
         "textLength": 7
     },

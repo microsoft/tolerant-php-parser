@@ -1,5 +1,9 @@
 [
     {
+        "kind": "ScriptSectionStartTag",
+        "textLength": 6
+    },
+    {
         "kind": "NoSubstitutionTemplateLiteral",
         "textLength": 7
     },
