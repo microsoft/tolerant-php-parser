@@ -52,7 +52,7 @@ class ParserFrameworkValidationTests extends TestCase {
         $outFile = $directory . basename($testCaseFile);
         file_put_contents($outFile, $file);
 
-        foreach ($sourceFile->getAllChildren() as $child) {
+        foreach ($sourceFile->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Token) {
                 $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: ");
                 $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: ");

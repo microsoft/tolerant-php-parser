@@ -36,7 +36,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             $parser = new \PhpParser\Parser($filename);
             $sourceFileNode = $parser->parseSourceFile();
             $tokensArray = array();
-            foreach ($sourceFileNode->getAllChildren() as $child) {
+            foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
                 if ($child instanceof \PhpParser\Token) {
                     array_push($tokensArray, $child);
                 }
@@ -49,7 +49,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testSourceFileNodeLengthEqualsDocumentLength($filename, $sourceFileNode) {
+    public function testSourceFileNodeLengthEqualsDocumentLength($filename, Node $sourceFileNode) {
         $this->assertEquals(
             filesize($filename), $sourceFileNode->getLength(),
             "Invariant: The tree length exactly matches the file length.");
@@ -58,13 +58,13 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testNodesAllHaveAtLeastOneChild($filename, $sourceFileNode) {
+    public function testNodesAllHaveAtLeastOneChild($filename, Node $sourceFileNode) {
 
-        foreach ($sourceFileNode->getAllChildren() as $child) {
+        foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 $encode = json_encode($child);
                 $this->assertGreaterThanOrEqual(
-                    1, count($child->getChildren()),
+                    1, count($child->getChildNodesAndTokens()),
                     "Invariant: All Nodes have at least one child. $encode"
                 );
             }
@@ -74,14 +74,14 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testEveryNodeSpanIsSumOfChildSpans($filename, $sourceFileNode) {
-        $treeElements = $sourceFileNode->getAllChildren();
+    public function testEveryNodeSpanIsSumOfChildSpans($filename, Node $sourceFileNode) {
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
         array_push($treeElements, $sourceFileNode);
 
         foreach ($treeElements as $element) {
             if ($element instanceof Node) {
                 $expectedLength = 0;
-                foreach ($element->getChildren() as $child) {
+                foreach ($element->getChildNodesAndTokens() as $child) {
                     if ($child instanceof Node) {
                         $expectedLength += $child->getLength();
                     } elseif ($child instanceof \PhpParser\Token) {
@@ -99,11 +99,11 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testParentOfNodeHasSameChildNode($filename, $sourceFileNode) {
-        foreach ($sourceFileNode->getAllChildren() as $child) {
+    public function testParentOfNodeHasSameChildNode($filename, Node $sourceFileNode) {
+        foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 $this->assertContains(
-                    $child, $child->parent->getChildren(),
+                    $child, $child->parent->getChildNodesAndTokens(),
                     "Invariant: Parent of Node contains same child node."
                 );
             }
@@ -113,16 +113,15 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testEachChildHasExactlyOneParent($filename, $sourceFileNode) {
-
-        $treeElements = $sourceFileNode->getAllChildren();
+    public function testEachChildHasExactlyOneParent($filename, Node $sourceFileNode) {
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
         array_push($treeElements, $sourceFileNode);
 
-        foreach ($sourceFileNode->getAllChildren() as $child) {
+        foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             $count = 0;
             foreach ($treeElements as $element) {
                 if ($element instanceof Node) {
-                    if (in_array($child, $element->getChildren(), true)) {
+                    if (in_array($child, iterator_to_array($element->getChildNodesAndTokens()), true)) {
                         $count++;
                     }
                 }
@@ -136,7 +135,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testRootNodeHasNoParent($filename, $sourceFileNode) {
+    public function testRootNodeHasNoParent($filename, Node $sourceFileNode) {
         $this->assertEquals(
             null, $sourceFileNode->parent,
             "Invariant: Root node of tree has no parent.");
@@ -145,14 +144,14 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testRootNodeIsNeverAChild($filename, $sourceFileNode) {
-        $treeElements = $sourceFileNode->getAllChildren();
+    public function testRootNodeIsNeverAChild($filename, Node $sourceFileNode) {
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
         array_push($treeElements, $sourceFileNode);
 
         foreach($treeElements as $element) {
             if ($element instanceof Node) {
                 $this->assertNotContains(
-                    $sourceFileNode, $element->getChildren(),
+                    $sourceFileNode, $element->getChildNodesAndTokens(),
                     "Invariant: root node of tree is never a child.");
             }
         }
@@ -161,8 +160,8 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     /**
      * @dataProvider sourceFileNodeProvider
      */
-    public function testEveryNodeHasAKind($filename, $sourceFileNode) {
-        $treeElements = $sourceFileNode->getAllChildren();
+    public function testEveryNodeHasAKind($filename, Node $sourceFileNode) {
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
         array_push($treeElements, $sourceFileNode);
 
         foreach($treeElements as $element) {

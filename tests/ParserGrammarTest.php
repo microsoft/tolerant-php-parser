@@ -89,7 +89,7 @@ class ParserGrammarTest extends TestCase {
         file_put_contents($expectedTokensFile, $tokens);
 
 //        echo file_get_contents($testCaseFile);
-        foreach ($sourceFile->getAllChildren() as $child) {
+        foreach ($sourceFile->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Token) {
                 $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
                 $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");

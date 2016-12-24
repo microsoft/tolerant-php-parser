@@ -147,7 +147,7 @@ class Parser {
         $unexpectedTokens = [];
         $missingTokens = [];
         $invalid = [];
-        foreach ($ast->getChildren() as $child) {
+        foreach ($ast->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 $childErrors = $this->getErrors($child);
                 $unexpectedTokens = array_merge($unexpectedTokens, $childErrors["skipped"]);
@@ -165,7 +165,7 @@ class Parser {
         return ["skipped" => $unexpectedTokens, "missing" => $missingTokens, "invalid"=>$invalid];
     }
 
-    public function parseSourceFile() : Node {
+    public function parseSourceFile() : Script {
         $this->reset();
 
         $sourceFile = new Script();
