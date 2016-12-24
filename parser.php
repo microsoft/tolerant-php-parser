@@ -195,7 +195,7 @@ class Parser {
         $token = $this->getCurrentToken();
         $scriptSection->text =
             new Token(
-                TokenKind::ScriptSectionPrependedText,
+                TokenKind::InlineHtml,
                 $token->fullStart,
                 $token->fullStart,
                 0
@@ -205,7 +205,6 @@ class Parser {
         while ($token->kind !== TokenKind::EndOfFileToken) {
             if ($token->kind === TokenKind::InlineHtml) {
                 $scriptSection->text = $this->eat(TokenKind::InlineHtml);
-                $scriptSection->text->kind = TokenKind::ScriptSectionPrependedText;
                 $scriptSection->startTag = $this->eatOptional(TokenKind::ScriptSectionStartTag);
                 $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
                 if (count($scriptSection->statementList) === 0 && !isset($scriptSection->startTag)) {
@@ -2916,7 +2915,7 @@ class Parser {
             $token = $this->getCurrentToken();
         }
         $end = $token->start;
-        $inlineHtml->text = new Token(TokenKind::ScriptSectionPrependedText, $start, $start, $end - $start);
+        $inlineHtml->text = new Token(TokenKind::InlineHtml, $start, $start, $end - $start);
 
         $this->token->length -= $this->token->start - $this->token->fullStart;
         $this->token->fullStart = $end;

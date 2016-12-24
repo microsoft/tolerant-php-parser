@@ -4,7 +4,7 @@
             {
                 "ScriptSection": {
                     "text": {
-                        "kind": "ScriptSectionPrependedText",
+                        "kind": "InlineHtml",
                         "textLength": 13
                     },
                     "startTag": {
@@ -29,7 +29,7 @@
                                     "textLength": 2
                                 },
                                 "text": {
-                                    "kind": "ScriptSectionPrependedText",
+                                    "kind": "InlineHtml",
                                     "textLength": 34
                                 },
                                 "scriptSectionStartTag": {
