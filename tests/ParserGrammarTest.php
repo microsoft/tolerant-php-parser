@@ -17,6 +17,8 @@ class ParserGrammarTest extends TestCase {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
             exec("git checkout " . __DIR__ . "/cases/parser");
+//            $GLOBALS["SKIPPED"] = [];
+//            unlink("skipped.json");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {
@@ -26,6 +28,14 @@ class ParserGrammarTest extends TestCase {
                 }
                 parent::addFailure($test, $e, $time);
             }
+
+//            function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+//                if (!in_array($test->dataDescription(), $GLOBALS["SKIPPED"])) {
+//                    array_push($GLOBALS["SKIPPED"], $test->dataDescription());
+//                    file_put_contents("skipped.json", json_encode($GLOBALS["SKIPPED"], JSON_PRETTY_PRINT));
+//                }
+//                parent::addSkippedTest($test, $e, $time);
+//            }
         });
 
         $result = parent::run($result);
@@ -48,16 +58,6 @@ class ParserGrammarTest extends TestCase {
 
         $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
 
-        if (
-            // !strpos($testCaseFile, "programStructure") &&
-            $expectedTokens[0] !== "{") {
-            $this->markTestIncomplete(
-                "This test has not been implemented yet.\r\n$outputStr"
-            );
-            return;
-        }
-
-//          file_put_contents($expectedTokensFile, str_replace("\r\n", "\n", $tokens));
         $this->assertEquals($expectedTokens, $tokens, $outputStr);
     }
 
@@ -66,9 +66,13 @@ class ParserGrammarTest extends TestCase {
     public function treeProvider() {
         $testCases = glob(self::FILE_PATTERN . ".php");
         $tokensExpected = glob(self::FILE_PATTERN . ".php.tree");
+        $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {
+            if (in_array(basename($testCase), $skipped)) {
+                continue;
+            }
             $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
         }
 
@@ -92,9 +96,6 @@ class ParserGrammarTest extends TestCase {
                 $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
             }
         }
-//        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
-//        file_put_contents($expectedTokensFile, $tokens);
-//        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
     public function outTreeProvider() {
@@ -102,6 +103,7 @@ class ParserGrammarTest extends TestCase {
         foreach ($testCases as $case) {
              $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".tree";
         }
+
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {
             $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
