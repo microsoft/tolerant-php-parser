@@ -1,0 +1,18 @@
+[
+    {
+        "kind": "InlineHtml",
+        "textLength": 7
+    },
+    {
+        "kind": "ScriptSectionStartTag",
+        "textLength": 6
+    },
+    {
+        "kind": "UnterminatedNoSubstitutionTemplateLiteral",
+        "textLength": 3
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]

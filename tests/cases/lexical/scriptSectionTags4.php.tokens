@@ -1,0 +1,22 @@
+[
+    {
+        "kind": "InlineHtml",
+        "textLength": 7
+    },
+    {
+        "kind": "ScriptSectionStartTag",
+        "textLength": 6
+    },
+    {
+        "kind": "ScriptSectionEndTag",
+        "textLength": 2
+    },
+    {
+        "kind": "InlineHtml",
+        "textLength": 9
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]
