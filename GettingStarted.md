@@ -62,11 +62,33 @@ $ast = $parser->parseSourceFile(); # returns an AST representing source file
 $errors =  $parser->getErrors($ast); # get errors from AST Node
 ```
 
+## Play around with the AST!
+In order to help you get a sense for the features and shape of the tree, 
+we've also included a `Parser Playground Extension` that makes use of the parser
+to provide error tooltips. 
+1. Download the VSIX
+2. Point it to your PHP Path
+3. Disable other extensions in the workspace to ensure minimal interference
+
+If you see something that looks off, please file an issue, or better yet, contribute as a test case. 
+
 # Contributing
-1. Fork and clone the repository
+## Building and Running 
+1. Fork and clone the repository.
 2. `composer-install`
 3. `vendor\bin\phpunit` from the root project directory to run the tests to run all the test suites defined in `phpunit.xml`. 
 To run individual suites, run `vendor\bin\phpunit --testsuite <test suite name>`.
+Note that the validation test suite requires you to also include relevant submodules: `git submodule update --init --recursive`
+
+## Debugging
+For debugging, we recommend you install and configure Felix Becker's [PHP Debug extension](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug). For debugging the tests in this project,
+you can run the `Listen for XDebug` launch configuration included in this project, and then from the command line:
+```
+php -debug -d zend_extension=<my-path-to-extension> -d xdebug.remote_enable=1 -d xdebug.remote_autostart=1 vendor\phpunit\phpunit\phpunit <my-phpunit-arguments>
+```
+
+Additionally some of the tests output files for failed tests to make it easier to debug.
+See the notes in `phpunit.xml` for more info about this behavior.
 
 ## Running code coverage
 After enabling `xdebug`, run code coverage by executing:
