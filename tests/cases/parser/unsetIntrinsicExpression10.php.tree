@@ -1,71 +1,66 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "unsetKeyword": {
-                                            "kind": "UnsetKeyword",
-                                            "textLength": 5
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "expressions": null,
-                                        "closeParen": {
-                                            "error": "MissingToken",
-                                            "kind": "CloseParenToken",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "CommaToken",
-                            "textLength": 1
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "CommaToken",
-                            "textLength": 1
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "CloseParenToken",
-                            "textLength": 1
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "unsetKeyword": {
+                                "kind": "UnsetKeyword",
+                                "textLength": 5
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "expressions": null,
+                            "closeParen": {
+                                "error": "MissingToken",
+                                "kind": "CloseParenToken",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CommaToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CommaToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CloseParenToken",
+                "textLength": 1
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
                 }
             }
         ],

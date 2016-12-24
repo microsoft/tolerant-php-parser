@@ -1,71 +1,66 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "AssignmentExpression": {
-                                        "leftOperand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "AssignmentExpression": {
+                            "leftOperand": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
+                            },
+                            "operator": {
+                                "kind": "EqualsToken",
+                                "textLength": 1
+                            },
+                            "byRef": null,
+                            "rightOperand": {
+                                "AssignmentExpression": {
+                                    "leftOperand": {
+                                        "Variable": {
+                                            "dollar": null,
+                                            "name": {
+                                                "kind": "VariableName",
+                                                "textLength": 2
                                             }
-                                        },
-                                        "operator": {
-                                            "kind": "EqualsToken",
-                                            "textLength": 1
-                                        },
-                                        "byRef": null,
-                                        "rightOperand": {
-                                            "AssignmentExpression": {
-                                                "leftOperand": {
-                                                    "Variable": {
-                                                        "dollar": null,
-                                                        "name": {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    }
-                                                },
-                                                "operator": {
-                                                    "kind": "EqualsToken",
-                                                    "textLength": 1
-                                                },
-                                                "byRef": null,
-                                                "rightOperand": {
-                                                    "NumericLiteral": {
-                                                        "children": {
-                                                            "kind": "DecimalLiteralToken",
-                                                            "textLength": 1
-                                                        }
-                                                    }
-                                                }
+                                        }
+                                    },
+                                    "operator": {
+                                        "kind": "EqualsToken",
+                                        "textLength": 1
+                                    },
+                                    "byRef": null,
+                                    "rightOperand": {
+                                        "NumericLiteral": {
+                                            "children": {
+                                                "kind": "DecimalLiteralToken",
+                                                "textLength": 1
                                             }
                                         }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

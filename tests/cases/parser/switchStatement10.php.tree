@@ -1,57 +1,52 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "error": "SkippedToken",
-                            "kind": "CaseKeyword",
-                            "textLength": 4
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "ColonToken",
-                            "textLength": 1
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CaseKeyword",
+                "textLength": 4
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 2
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "ColonToken",
+                "textLength": 1
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
                 }
             }
         ],

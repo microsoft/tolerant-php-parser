@@ -1,55 +1,50 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ExitIntrinsicExpression": {
+                            "exitOrDieKeyword": {
+                                "kind": "ExitKeyword",
+                                "textLength": 4
+                            },
+                            "openParen": null,
+                            "expression": null,
+                            "closeParen": null
+                        }
                     },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ExitIntrinsicExpression": {
-                                        "exitOrDieKeyword": {
-                                            "kind": "ExitKeyword",
-                                            "textLength": 4
-                                        },
-                                        "openParen": null,
-                                        "expression": null,
-                                        "closeParen": null
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "NumericLiteral": {
-                                        "children": {
-                                            "kind": "DecimalLiteralToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "NumericLiteral": {
+                            "children": {
+                                "kind": "DecimalLiteralToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

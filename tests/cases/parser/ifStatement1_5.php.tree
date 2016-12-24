@@ -1,38 +1,33 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "ElseKeyword",
+                "textLength": 4
+            },
+            {
+                "CompoundStatementNode": {
+                    "children": [
                         {
-                            "error": "SkippedToken",
-                            "kind": "ElseKeyword",
-                            "textLength": 4
+                            "kind": "OpenBraceToken",
+                            "textLength": 1
                         },
                         {
-                            "CompoundStatementNode": {
-                                "children": [
-                                    {
-                                        "kind": "OpenBraceToken",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "kind": "CloseBraceToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
+                            "kind": "CloseBraceToken",
+                            "textLength": 1
                         }
-                    ],
-                    "endTag": null
+                    ]
                 }
             }
         ],

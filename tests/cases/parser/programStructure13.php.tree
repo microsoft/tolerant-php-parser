@@ -1,15 +1,14 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 7
                     },
-                    "startTag": null,
-                    "statementList": null,
-                    "endTag": null
+                    "scriptSectionStartTag": null
                 }
             }
         ],

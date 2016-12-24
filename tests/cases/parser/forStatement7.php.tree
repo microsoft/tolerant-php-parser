@@ -1,124 +1,119 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ForStatementNode": {
+                    "for": {
+                        "kind": "ForKeyword",
+                        "textLength": 3
                     },
-                    "statementList": [
-                        {
-                            "ForStatementNode": {
-                                "for": {
-                                    "kind": "ForKeyword",
-                                    "textLength": 3
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "forInitializer": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "Variable": {
-                                                    "dollar": null,
-                                                    "name": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    }
-                                },
-                                "exprGroupSemicolon1": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                },
-                                "forControl": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "Variable": {
-                                                    "dollar": null,
-                                                    "name": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    }
-                                },
-                                "exprGroupSemicolon2": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                },
-                                "forEndOfLoop": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "Variable": {
-                                                    "dollar": null,
-                                                    "name": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    }
-                                },
-                                "closeParen": {
-                                    "error": "MissingToken",
-                                    "kind": "CloseParenToken",
-                                    "textLength": 0
-                                },
-                                "colon": {
-                                    "kind": "ColonToken",
-                                    "textLength": 1
-                                },
-                                "statements": [
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "forInitializer": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
                                         }
                                     }
-                                ],
-                                "endFor": {
-                                    "kind": "EndForKeyword",
-                                    "textLength": 6
-                                },
-                                "endForSemicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
                                 }
+                            ]
+                        }
+                    },
+                    "exprGroupSemicolon1": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    },
+                    "forControl": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "exprGroupSemicolon2": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    },
+                    "forEndOfLoop": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "closeParen": {
+                        "error": "MissingToken",
+                        "kind": "CloseParenToken",
+                        "textLength": 0
+                    },
+                    "colon": {
+                        "kind": "ColonToken",
+                        "textLength": 1
+                    },
+                    "statements": [
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
                             }
                         }
                     ],
-                    "endTag": null
+                    "endFor": {
+                        "kind": "EndForKeyword",
+                        "textLength": 6
+                    },
+                    "endForSemicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

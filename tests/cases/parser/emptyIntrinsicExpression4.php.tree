@@ -1,53 +1,48 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EmptyIntrinsicExpression": {
-                                        "emptyKeyword": {
-                                            "kind": "EmptyKeyword",
-                                            "textLength": 5
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "expression": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        },
-                                        "closeParen": {
-                                            "error": "MissingToken",
-                                            "kind": "CloseParenToken",
-                                            "textLength": 0
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EmptyIntrinsicExpression": {
+                            "emptyKeyword": {
+                                "kind": "EmptyKeyword",
+                                "textLength": 5
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "expression": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
+                            },
+                            "closeParen": {
+                                "error": "MissingToken",
+                                "kind": "CloseParenToken",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,87 +1,82 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
+                    }
+                }
+            },
+            {
+                "CompoundStatementNode": {
+                    "children": [
                         {
-                            "CompoundStatementNode": {
+                            "kind": "OpenBraceToken",
+                            "textLength": 1
+                        },
+                        {
+                            "EmptyStatement": {
                                 "children": [
                                     {
-                                        "kind": "OpenBraceToken",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "kind": "CloseBraceToken",
+                                        "kind": "SemicolonToken",
                                         "textLength": 1
                                     }
                                 ]
                             }
                         },
                         {
-                            "CompoundStatementNode": {
+                            "EmptyStatement": {
                                 "children": [
                                     {
-                                        "kind": "OpenBraceToken",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "EmptyStatement": {
-                                            "children": [
-                                                {
-                                                    "kind": "SemicolonToken",
-                                                    "textLength": 1
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    {
-                                        "kind": "CloseBraceToken",
+                                        "kind": "SemicolonToken",
                                         "textLength": 1
                                     }
                                 ]
                             }
+                        },
+                        {
+                            "kind": "CloseBraceToken",
+                            "textLength": 1
                         }
-                    ],
-                    "endTag": null
+                    ]
+                }
+            },
+            {
+                "CompoundStatementNode": {
+                    "children": [
+                        {
+                            "kind": "OpenBraceToken",
+                            "textLength": 1
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "children": [
+                                    {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "kind": "CloseBraceToken",
+                            "textLength": 1
+                        }
+                    ]
                 }
             }
         ],

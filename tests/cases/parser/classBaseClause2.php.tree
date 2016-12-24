@@ -1,55 +1,50 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ClassNode": {
+                    "abstractOrFinalModifier": null,
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "ClassNode": {
-                                "abstractOrFinalModifier": null,
-                                "classKeyword": {
-                                    "kind": "ClassKeyword",
-                                    "textLength": 5
-                                },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 1
-                                },
-                                "classBaseClause": {
-                                    "ClassBaseClause": {
-                                        "extendsKeyword": {
-                                            "kind": "ExtendsKeyword",
-                                            "textLength": 7
-                                        },
-                                        "baseClass": null
-                                    }
-                                },
-                                "classInterfaceClause": null,
-                                "classMembers": {
-                                    "ClassMembersNode": {
-                                        "openBrace": {
-                                            "kind": "OpenBraceToken",
-                                            "textLength": 1
-                                        },
-                                        "classMemberDeclarations": [],
-                                        "closeBrace": {
-                                            "kind": "CloseBraceToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                }
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 1
+                    },
+                    "classBaseClause": {
+                        "ClassBaseClause": {
+                            "extendsKeyword": {
+                                "kind": "ExtendsKeyword",
+                                "textLength": 7
+                            },
+                            "baseClass": null
+                        }
+                    },
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "classMemberDeclarations": [],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    }
                 }
             }
         ],

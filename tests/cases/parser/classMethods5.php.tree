@@ -1,137 +1,132 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ClassNode": {
+                    "abstractOrFinalModifier": null,
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "ClassNode": {
-                                "abstractOrFinalModifier": null,
-                                "classKeyword": {
-                                    "kind": "ClassKeyword",
-                                    "textLength": 5
-                                },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 1
-                                },
-                                "classBaseClause": null,
-                                "classInterfaceClause": null,
-                                "classMembers": {
-                                    "ClassMembersNode": {
-                                        "openBrace": {
-                                            "kind": "OpenBraceToken",
-                                            "textLength": 1
-                                        },
-                                        "classMemberDeclarations": [
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 1
+                    },
+                    "classBaseClause": null,
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "classMemberDeclarations": [
+                                {
+                                    "MethodNode": {
+                                        "modifiers": [
                                             {
-                                                "MethodNode": {
-                                                    "modifiers": [
-                                                        {
-                                                            "kind": "PublicKeyword",
-                                                            "textLength": 6
-                                                        }
-                                                    ],
-                                                    "functionKeyword": {
-                                                        "kind": "FunctionKeyword",
-                                                        "textLength": 8
-                                                    },
-                                                    "byRefToken": null,
-                                                    "name": {
-                                                        "kind": "Name",
-                                                        "textLength": 3
-                                                    },
-                                                    "openParen": {
-                                                        "kind": "OpenParenToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "parameters": null,
-                                                    "closeParen": {
-                                                        "kind": "CloseParenToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "colonToken": null,
-                                                    "returnType": null,
-                                                    "compoundStatementOrSemicolon": {
-                                                        "CompoundStatementNode": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "OpenBraceToken",
-                                                                    "textLength": 1
-                                                                },
-                                                                {
-                                                                    "error": "MissingToken",
-                                                                    "kind": "CloseBraceToken",
-                                                                    "textLength": 0
-                                                                }
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "MethodNode": {
-                                                    "modifiers": [
-                                                        {
-                                                            "kind": "PublicKeyword",
-                                                            "textLength": 6
-                                                        }
-                                                    ],
-                                                    "functionKeyword": {
-                                                        "kind": "FunctionKeyword",
-                                                        "textLength": 8
-                                                    },
-                                                    "byRefToken": null,
-                                                    "name": {
-                                                        "kind": "Name",
-                                                        "textLength": 4
-                                                    },
-                                                    "openParen": {
-                                                        "kind": "OpenParenToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "parameters": null,
-                                                    "closeParen": {
-                                                        "kind": "CloseParenToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "colonToken": null,
-                                                    "returnType": null,
-                                                    "compoundStatementOrSemicolon": {
-                                                        "CompoundStatementNode": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "OpenBraceToken",
-                                                                    "textLength": 1
-                                                                },
-                                                                {
-                                                                    "kind": "CloseBraceToken",
-                                                                    "textLength": 1
-                                                                }
-                                                            ]
-                                                        }
-                                                    }
-                                                }
+                                                "kind": "PublicKeyword",
+                                                "textLength": 6
                                             }
                                         ],
-                                        "closeBrace": {
-                                            "kind": "CloseBraceToken",
+                                        "functionKeyword": {
+                                            "kind": "FunctionKeyword",
+                                            "textLength": 8
+                                        },
+                                        "byRefToken": null,
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 3
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
                                             "textLength": 1
+                                        },
+                                        "parameters": null,
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        },
+                                        "colonToken": null,
+                                        "returnType": null,
+                                        "compoundStatementOrSemicolon": {
+                                            "CompoundStatementNode": {
+                                                "children": [
+                                                    {
+                                                        "kind": "OpenBraceToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "error": "MissingToken",
+                                                        "kind": "CloseBraceToken",
+                                                        "textLength": 0
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "MethodNode": {
+                                        "modifiers": [
+                                            {
+                                                "kind": "PublicKeyword",
+                                                "textLength": 6
+                                            }
+                                        ],
+                                        "functionKeyword": {
+                                            "kind": "FunctionKeyword",
+                                            "textLength": 8
+                                        },
+                                        "byRefToken": null,
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 4
+                                        },
+                                        "openParen": {
+                                            "kind": "OpenParenToken",
+                                            "textLength": 1
+                                        },
+                                        "parameters": null,
+                                        "closeParen": {
+                                            "kind": "CloseParenToken",
+                                            "textLength": 1
+                                        },
+                                        "colonToken": null,
+                                        "returnType": null,
+                                        "compoundStatementOrSemicolon": {
+                                            "CompoundStatementNode": {
+                                                "children": [
+                                                    {
+                                                        "kind": "OpenBraceToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "CloseBraceToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
                                         }
                                     }
                                 }
+                            ],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    }
                 }
             }
         ],

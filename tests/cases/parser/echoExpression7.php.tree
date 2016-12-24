@@ -1,50 +1,45 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": {
-                                            "kind": "EchoKeyword",
-                                            "textLength": 4
-                                        },
-                                        "expressions": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 3
-                                                            }
-                                                        }
-                                                    }
-                                                ]
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 3
+                                                }
                                             }
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

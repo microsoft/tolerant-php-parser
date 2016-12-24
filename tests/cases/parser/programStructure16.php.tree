@@ -1,35 +1,33 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 16
                     },
-                    "startTag": {
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": {
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "InlineHtml": {
-                                "scriptSectionEndTag": {
-                                    "kind": "ScriptSectionEndTag",
-                                    "textLength": 2
-                                },
-                                "text": {
-                                    "kind": "InlineHtml",
-                                    "textLength": 21
-                                },
-                                "scriptSectionStartTag": {
-                                    "kind": "ScriptSectionStartTag",
-                                    "textLength": 6
-                                }
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "text": {
+                        "kind": "InlineHtml",
+                        "textLength": 21
+                    },
+                    "scriptSectionStartTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    }
                 }
             }
         ],

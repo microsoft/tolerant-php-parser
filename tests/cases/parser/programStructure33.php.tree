@@ -1,78 +1,76 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 1
                     },
-                    "startTag": {
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "IfStatementNode": {
+                    "ifKeyword": {
+                        "kind": "IfKeyword",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "IfStatementNode": {
-                                "ifKeyword": {
-                                    "kind": "IfKeyword",
-                                    "textLength": 2
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "ReservedWord": {
+                            "children": {
+                                "kind": "TrueReservedWord",
+                                "textLength": 4
+                            }
+                        }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
                                     "textLength": 1
                                 },
-                                "expression": {
-                                    "ReservedWord": {
-                                        "children": {
-                                            "kind": "TrueReservedWord",
+                                {
+                                    "InlineHtml": {
+                                        "scriptSectionEndTag": {
+                                            "kind": "ScriptSectionEndTag",
+                                            "textLength": 2
+                                        },
+                                        "text": {
+                                            "kind": "InlineHtml",
                                             "textLength": 4
+                                        },
+                                        "scriptSectionStartTag": {
+                                            "kind": "ScriptSectionStartTag",
+                                            "textLength": 6
                                         }
                                     }
                                 },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
+                                {
+                                    "kind": "CloseBraceToken",
                                     "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "InlineHtml": {
-                                                    "scriptSectionEndTag": {
-                                                        "kind": "ScriptSectionEndTag",
-                                                        "textLength": 2
-                                                    },
-                                                    "text": {
-                                                        "kind": "InlineHtml",
-                                                        "textLength": 4
-                                                    },
-                                                    "scriptSectionStartTag": {
-                                                        "kind": "ScriptSectionStartTag",
-                                                        "textLength": 6
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 1
-                                            }
-                                        ]
-                                    }
-                                },
-                                "elseIfClauses": [],
-                                "elseClause": null,
-                                "endifKeyword": null,
-                                "semicolon": null
-                            }
+                                }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "elseIfClauses": [],
+                    "elseClause": null,
+                    "endifKeyword": null,
+                    "semicolon": null
                 }
             }
         ],

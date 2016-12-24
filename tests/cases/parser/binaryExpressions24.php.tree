@@ -1,70 +1,65 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "BinaryExpression": {
-                                        "leftOperand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        },
-                                        "operator": {
-                                            "kind": "QuestionQuestionToken",
-                                            "textLength": 2
-                                        },
-                                        "rightOperand": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "BinaryExpression": {
+                            "leftOperand": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
                                     }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
                                 }
-                            }
-                        },
-                        {
-                            "ReturnStatement": {
-                                "returnKeyword": {
-                                    "kind": "ReturnKeyword",
-                                    "textLength": 6
-                                },
-                                "expression": {
-                                    "ReservedWord": {
-                                        "children": {
-                                            "kind": "NullReservedWord",
-                                            "textLength": 4
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
+                            },
+                            "operator": {
+                                "kind": "QuestionQuestionToken",
+                                "textLength": 2
+                            },
+                            "rightOperand": {
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "ReturnStatement": {
+                    "returnKeyword": {
+                        "kind": "ReturnKeyword",
+                        "textLength": 6
+                    },
+                    "expression": {
+                        "ReservedWord": {
+                            "children": {
+                                "kind": "NullReservedWord",
+                                "textLength": 4
+                            }
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

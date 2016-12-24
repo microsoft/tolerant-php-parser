@@ -1,75 +1,70 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "CallExpression": {
-                                        "callableExpression": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 2
-                                                            }
-                                                        ]
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "CallExpression": {
+                            "callableExpression": {
+                                "QualifiedName": {
+                                    "globalSpecifier": null,
+                                    "relativeSpecifier": null,
+                                    "nameParts": {
+                                        "DelimitedList": {
+                                            "children": [
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 2
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "argumentExpressionList": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "ArgumentExpression": {
+                                                "byRefToken": null,
+                                                "dotDotDotToken": null,
+                                                "expression": {
+                                                    "NumericLiteral": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
+                                                        }
                                                     }
                                                 }
                                             }
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "argumentExpressionList": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ArgumentExpression": {
-                                                            "byRefToken": null,
-                                                            "dotDotDotToken": null,
-                                                            "expression": {
-                                                                "NumericLiteral": {
-                                                                    "children": {
-                                                                        "kind": "DecimalLiteralToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
+                            },
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

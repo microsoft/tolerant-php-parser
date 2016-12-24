@@ -1,51 +1,46 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "GotoStatementNode": {
+                    "goto": {
+                        "kind": "GotoKeyword",
+                        "textLength": 4
                     },
-                    "statementList": [
-                        {
-                            "GotoStatementNode": {
-                                "goto": {
-                                    "kind": "GotoKeyword",
-                                    "textLength": 4
-                                },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 4
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        },
-                        {
-                            "GotoStatementNode": {
-                                "goto": {
-                                    "kind": "GotoKeyword",
-                                    "textLength": 4
-                                },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 5
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 4
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
+                }
+            },
+            {
+                "GotoStatementNode": {
+                    "goto": {
+                        "kind": "GotoKeyword",
+                        "textLength": 4
+                    },
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 5
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

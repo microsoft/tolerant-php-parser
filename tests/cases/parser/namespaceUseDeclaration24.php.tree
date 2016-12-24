@@ -1,55 +1,50 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "NamespaceUseDeclaration": {
+                    "useKeyword": {
+                        "kind": "UseKeyword",
+                        "textLength": 3
                     },
-                    "statementList": [
-                        {
-                            "NamespaceUseDeclaration": {
-                                "useKeyword": {
-                                    "kind": "UseKeyword",
-                                    "textLength": 3
-                                },
-                                "functionOrConst": null,
-                                "namespaceName": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": {
-                                            "kind": "BackslashToken",
+                    "functionOrConst": null,
+                    "namespaceName": {
+                        "QualifiedName": {
+                            "globalSpecifier": {
+                                "kind": "BackslashToken",
+                                "textLength": 1
+                            },
+                            "relativeSpecifier": null,
+                            "nameParts": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "kind": "Name",
                                             "textLength": 1
-                                        },
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 1
-                                                    }
-                                                ]
-                                            }
                                         }
-                                    }
-                                },
-                                "namespaceAliasingClause": null,
-                                "openBrace": null,
-                                "groupClauses": null,
-                                "closeBrace": null,
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "namespaceAliasingClause": null,
+                    "openBrace": null,
+                    "groupClauses": null,
+                    "closeBrace": null,
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

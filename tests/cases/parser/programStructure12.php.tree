@@ -1,54 +1,52 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 24
                     },
-                    "startTag": {
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "error": "SkippedToken",
-                            "kind": "LessThanToken",
-                            "textLength": 1
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "QuestionToken",
-                            "textLength": 1
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 3
-                                                    }
-                                                ]
-                                            }
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "LessThanToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "QuestionToken",
+                "textLength": 1
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "QualifiedName": {
+                            "globalSpecifier": null,
+                            "relativeSpecifier": null,
+                            "nameParts": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "kind": "Name",
+                                            "textLength": 3
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

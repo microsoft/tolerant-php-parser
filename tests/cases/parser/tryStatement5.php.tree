@@ -1,81 +1,76 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "IfStatementNode": {
+                    "tryKeyword": {
+                        "kind": "TryKeyword",
+                        "textLength": 3
                     },
-                    "statementList": [
+                    "compoundStatement": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    },
+                    "catchClauses": [
                         {
-                            "IfStatementNode": {
-                                "tryKeyword": {
-                                    "kind": "TryKeyword",
-                                    "textLength": 3
+                            "CatchClauseNode": {
+                                "catch": {
+                                    "kind": "CatchKeyword",
+                                    "textLength": 5
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "qualifiedName": null,
+                                "variableName": {
+                                    "kind": "VariableName",
+                                    "textLength": 2
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
                                 },
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
                                         "children": [
                                             {
+                                                "error": "MissingToken",
                                                 "kind": "OpenBraceToken",
-                                                "textLength": 1
+                                                "textLength": 0
                                             },
                                             {
+                                                "error": "MissingToken",
                                                 "kind": "CloseBraceToken",
-                                                "textLength": 1
+                                                "textLength": 0
                                             }
                                         ]
                                     }
-                                },
-                                "catchClauses": [
-                                    {
-                                        "CatchClauseNode": {
-                                            "catch": {
-                                                "kind": "CatchKeyword",
-                                                "textLength": 5
-                                            },
-                                            "openParen": {
-                                                "kind": "OpenParenToken",
-                                                "textLength": 1
-                                            },
-                                            "qualifiedName": null,
-                                            "variableName": {
-                                                "kind": "VariableName",
-                                                "textLength": 2
-                                            },
-                                            "closeParen": {
-                                                "kind": "CloseParenToken",
-                                                "textLength": 1
-                                            },
-                                            "compoundStatement": {
-                                                "CompoundStatementNode": {
-                                                    "children": [
-                                                        {
-                                                            "error": "MissingToken",
-                                                            "kind": "OpenBraceToken",
-                                                            "textLength": 0
-                                                        },
-                                                        {
-                                                            "error": "MissingToken",
-                                                            "kind": "CloseBraceToken",
-                                                            "textLength": 0
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    }
-                                ],
-                                "finallyClause": null
+                                }
                             }
                         }
                     ],
-                    "endTag": null
+                    "finallyClause": null
                 }
             }
         ],

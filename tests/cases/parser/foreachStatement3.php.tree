@@ -1,102 +1,97 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ForeachStatementNode": {
+                    "foreach": {
+                        "kind": "ForeachKeyword",
+                        "textLength": 7
                     },
-                    "statementList": [
-                        {
-                            "ForeachStatementNode": {
-                                "foreach": {
-                                    "kind": "ForeachKeyword",
-                                    "textLength": 7
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "forEachCollectionName": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "asKeyword": {
-                                    "kind": "AsKeyword",
-                                    "textLength": 2
-                                },
-                                "foreachKey": {
-                                    "ForeachKeyNode": {
-                                        "expression": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        },
-                                        "arrow": {
-                                            "kind": "DoubleArrowToken",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "foreachValue": {
-                                    "ForeachValueNode": {
-                                        "ampersand": null,
-                                        "expression": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "EmptyStatement": {
-                                        "children": [
-                                            {
-                                                "kind": "SemicolonToken",
-                                                "textLength": 1
-                                            }
-                                        ]
-                                    }
-                                },
-                                "endForeach": null,
-                                "endForeachSemicolon": null
-                            }
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "forEachCollectionName": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 2
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "asKeyword": {
+                        "kind": "AsKeyword",
+                        "textLength": 2
+                    },
+                    "foreachKey": {
+                        "ForeachKeyNode": {
+                            "expression": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
+                            },
+                            "arrow": {
+                                "kind": "DoubleArrowToken",
+                                "textLength": 2
+                            }
+                        }
+                    },
+                    "foreachValue": {
+                        "ForeachValueNode": {
+                            "ampersand": null,
+                            "expression": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "EmptyStatement": {
+                            "children": [
+                                {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    },
+                    "endForeach": null,
+                    "endForeachSemicolon": null
+                }
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
                 }
             }
         ],

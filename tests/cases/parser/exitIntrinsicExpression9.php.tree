@@ -1,38 +1,33 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ExitIntrinsicExpression": {
-                                        "exitOrDieKeyword": {
-                                            "kind": "DieKeyword",
-                                            "textLength": 3
-                                        },
-                                        "openParen": null,
-                                        "expression": null,
-                                        "closeParen": null
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ExitIntrinsicExpression": {
+                            "exitOrDieKeyword": {
+                                "kind": "DieKeyword",
+                                "textLength": 3
+                            },
+                            "openParen": null,
+                            "expression": null,
+                            "closeParen": null
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

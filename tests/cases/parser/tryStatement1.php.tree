@@ -1,22 +1,80 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "IfStatementNode": {
+                    "tryKeyword": {
+                        "kind": "TryKeyword",
+                        "textLength": 3
                     },
-                    "statementList": [
+                    "compoundStatement": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    },
+                    "catchClauses": [
                         {
-                            "IfStatementNode": {
-                                "tryKeyword": {
-                                    "kind": "TryKeyword",
-                                    "textLength": 3
+                            "CatchClauseNode": {
+                                "catch": {
+                                    "kind": "CatchKeyword",
+                                    "textLength": 5
+                                },
+                                "openParen": {
+                                    "kind": "OpenParenToken",
+                                    "textLength": 1
+                                },
+                                "qualifiedName": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 5
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "variableName": {
+                                    "kind": "VariableName",
+                                    "textLength": 2
+                                },
+                                "closeParen": {
+                                    "kind": "CloseParenToken",
+                                    "textLength": 1
                                 },
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
@@ -41,105 +99,42 @@
                                             }
                                         ]
                                     }
-                                },
-                                "catchClauses": [
-                                    {
-                                        "CatchClauseNode": {
-                                            "catch": {
-                                                "kind": "CatchKeyword",
-                                                "textLength": 5
-                                            },
-                                            "openParen": {
-                                                "kind": "OpenParenToken",
-                                                "textLength": 1
-                                            },
-                                            "qualifiedName": {
-                                                "QualifiedName": {
-                                                    "globalSpecifier": null,
-                                                    "relativeSpecifier": null,
-                                                    "nameParts": {
-                                                        "DelimitedList": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "Name",
-                                                                    "textLength": 5
-                                                                }
-                                                            ]
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            "variableName": {
-                                                "kind": "VariableName",
-                                                "textLength": 2
-                                            },
-                                            "closeParen": {
-                                                "kind": "CloseParenToken",
-                                                "textLength": 1
-                                            },
-                                            "compoundStatement": {
-                                                "CompoundStatementNode": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "OpenBraceToken",
-                                                            "textLength": 1
-                                                        },
-                                                        {
-                                                            "EmptyStatement": {
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "SemicolonToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                ]
-                                                            }
-                                                        },
-                                                        {
-                                                            "kind": "CloseBraceToken",
-                                                            "textLength": 1
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    }
-                                ],
-                                "finallyClause": {
-                                    "FinallyClauseNode": {
-                                        "finallyToken": {
-                                            "kind": "FinallyKeyword",
-                                            "textLength": 7
-                                        },
-                                        "compoundStatement": {
-                                            "CompoundStatementNode": {
-                                                "children": [
-                                                    {
-                                                        "kind": "OpenBraceToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "EmptyStatement": {
-                                                            "children": [
-                                                                {
-                                                                    "kind": "SemicolonToken",
-                                                                    "textLength": 1
-                                                                }
-                                                            ]
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CloseBraceToken",
-                                                        "textLength": 1
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }
                     ],
-                    "endTag": null
+                    "finallyClause": {
+                        "FinallyClauseNode": {
+                            "finallyToken": {
+                                "kind": "FinallyKeyword",
+                                "textLength": 7
+                            },
+                            "compoundStatement": {
+                                "CompoundStatementNode": {
+                                    "children": [
+                                        {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        {
+                                            "EmptyStatement": {
+                                                "children": [
+                                                    {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
                 }
             }
         ],

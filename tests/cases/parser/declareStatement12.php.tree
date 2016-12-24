@@ -1,61 +1,56 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "DeclareStatementNode": {
+                    "declareKeyword": {
+                        "kind": "DeclareKeyword",
+                        "textLength": 7
                     },
-                    "statementList": [
-                        {
-                            "DeclareStatementNode": {
-                                "declareKeyword": {
-                                    "kind": "DeclareKeyword",
-                                    "textLength": 7
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "declareDirective": {
-                                    "DeclareDirectiveNode": {
-                                        "name": {
-                                            "error": "MissingToken",
-                                            "kind": "Name",
-                                            "textLength": 0
-                                        },
-                                        "equals": {
-                                            "error": "MissingToken",
-                                            "kind": "EqualsToken",
-                                            "textLength": 0
-                                        },
-                                        "literal": {
-                                            "error": "MissingToken",
-                                            "kind": "DecimalLiteralToken",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": null,
-                                "enddeclareKeyword": null,
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "declareDirective": {
+                        "DeclareDirectiveNode": {
+                            "name": {
+                                "error": "MissingToken",
+                                "kind": "Name",
+                                "textLength": 0
+                            },
+                            "equals": {
+                                "error": "MissingToken",
+                                "kind": "EqualsToken",
+                                "textLength": 0
+                            },
+                            "literal": {
+                                "error": "MissingToken",
+                                "kind": "DecimalLiteralToken",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": null,
+                    "enddeclareKeyword": null,
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,61 +1,56 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "WhileStatementNode": {
+                    "whileToken": {
+                        "kind": "WhileKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "WhileStatementNode": {
-                                "whileToken": {
-                                    "kind": "WhileKeyword",
-                                    "textLength": 5
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 8
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 1
-                                            }
-                                        ]
-                                    }
-                                },
-                                "endWhile": null,
-                                "semicolon": null
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 8
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    },
+                    "endWhile": null,
+                    "semicolon": null
                 }
             }
         ],

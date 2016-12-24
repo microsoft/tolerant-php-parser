@@ -1,85 +1,80 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "SwitchStatementNode": {
+                    "switchKeyword": {
+                        "kind": "SwitchKeyword",
+                        "textLength": 6
                     },
-                    "statementList": [
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 2
+                            }
+                        }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": {
+                        "kind": "ColonToken",
+                        "textLength": 1
+                    },
+                    "openBrace": null,
+                    "caseStatements": [
                         {
-                            "SwitchStatementNode": {
-                                "switchKeyword": {
-                                    "kind": "SwitchKeyword",
-                                    "textLength": 6
+                            "CaseStatementNode": {
+                                "caseKeyword": {
+                                    "kind": "DefaultKeyword",
+                                    "textLength": 7
                                 },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": {
+                                "expression": null,
+                                "defaultLabelTerminator": {
                                     "kind": "ColonToken",
                                     "textLength": 1
                                 },
-                                "openBrace": null,
-                                "caseStatements": [
+                                "statementList": [
                                     {
-                                        "CaseStatementNode": {
-                                            "caseKeyword": {
-                                                "kind": "DefaultKeyword",
-                                                "textLength": 7
-                                            },
-                                            "expression": null,
-                                            "defaultLabelTerminator": {
-                                                "kind": "ColonToken",
-                                                "textLength": 1
-                                            },
-                                            "statementList": [
+                                        "EmptyStatement": {
+                                            "children": [
                                                 {
-                                                    "EmptyStatement": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "SemicolonToken",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
-                                                    }
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
                                                 }
                                             ]
                                         }
                                     }
-                                ],
-                                "closeBrace": null,
-                                "endswitch": {
-                                    "kind": "EndSwitchKeyword",
-                                    "textLength": 9
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
+                                ]
                             }
                         }
                     ],
-                    "endTag": null
+                    "closeBrace": null,
+                    "endswitch": {
+                        "kind": "EndSwitchKeyword",
+                        "textLength": 9
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

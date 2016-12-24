@@ -1,47 +1,42 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ScopedPropertyAccessExpression": {
-                                        "scopeResolutionQualifier": {
-                                            "StringLiteral": {
-                                                "children": {
-                                                    "kind": "NoSubstitutionTemplateLiteral",
-                                                    "textLength": 11
-                                                }
-                                            }
-                                        },
-                                        "doubleColon": {
-                                            "kind": "ColonColonToken",
-                                            "textLength": 2
-                                        },
-                                        "memberName": {
-                                            "kind": "Name",
-                                            "textLength": 7
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ScopedPropertyAccessExpression": {
+                            "scopeResolutionQualifier": {
+                                "StringLiteral": {
+                                    "children": {
+                                        "kind": "NoSubstitutionTemplateLiteral",
+                                        "textLength": 11
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
+                            },
+                            "doubleColon": {
+                                "kind": "ColonColonToken",
+                                "textLength": 2
+                            },
+                            "memberName": {
+                                "kind": "Name",
+                                "textLength": 7
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

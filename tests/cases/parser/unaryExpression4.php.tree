@@ -1,60 +1,55 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "UnaryOpExpression": {
-                                        "operator": {
-                                            "kind": "MinusToken",
-                                            "textLength": 1
-                                        },
-                                        "operand": {
-                                            "UnaryOpExpression": {
-                                                "operator": {
-                                                    "kind": "MinusToken",
-                                                    "textLength": 1
-                                                },
-                                                "operand": {
-                                                    "UnaryOpExpression": {
-                                                        "operator": {
-                                                            "kind": "MinusToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "operand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
-                                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "UnaryOpExpression": {
+                            "operator": {
+                                "kind": "MinusToken",
+                                "textLength": 1
+                            },
+                            "operand": {
+                                "UnaryOpExpression": {
+                                    "operator": {
+                                        "kind": "MinusToken",
+                                        "textLength": 1
+                                    },
+                                    "operand": {
+                                        "UnaryOpExpression": {
+                                            "operator": {
+                                                "kind": "MinusToken",
+                                                "textLength": 1
+                                            },
+                                            "operand": {
+                                                "Variable": {
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

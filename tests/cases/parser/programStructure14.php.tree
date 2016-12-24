@@ -1,32 +1,30 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 4
                     },
-                    "startTag": {
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": {
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "InlineHtml": {
-                                "scriptSectionEndTag": {
-                                    "kind": "ScriptSectionEndTag",
-                                    "textLength": 2
-                                },
-                                "text": {
-                                    "kind": "InlineHtml",
-                                    "textLength": 6
-                                },
-                                "scriptSectionStartTag": null
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "text": {
+                        "kind": "InlineHtml",
+                        "textLength": 6
+                    },
+                    "scriptSectionStartTag": null
                 }
             }
         ],

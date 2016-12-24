@@ -1,79 +1,74 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "IfStatementNode": {
+                    "ifKeyword": {
+                        "kind": "IfKeyword",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "IfStatementNode": {
-                                "ifKeyword": {
-                                    "kind": "IfKeyword",
-                                    "textLength": 2
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "ReservedWord": {
+                            "children": {
+                                "kind": "TrueReservedWord",
+                                "textLength": 4
+                            }
+                        }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
                                     "textLength": 1
                                 },
-                                "expression": {
-                                    "ReservedWord": {
-                                        "children": {
-                                            "kind": "TrueReservedWord",
-                                            "textLength": 4
+                                {
+                                    "InlineHtml": {
+                                        "scriptSectionEndTag": {
+                                            "kind": "ScriptSectionEndTag",
+                                            "textLength": 2
+                                        },
+                                        "text": {
+                                            "kind": "InlineHtml",
+                                            "textLength": 9
+                                        },
+                                        "scriptSectionStartTag": {
+                                            "kind": "ScriptSectionStartTag",
+                                            "textLength": 6
                                         }
                                     }
                                 },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "InlineHtml": {
-                                                    "scriptSectionEndTag": {
-                                                        "kind": "ScriptSectionEndTag",
-                                                        "textLength": 2
-                                                    },
-                                                    "text": {
-                                                        "kind": "InlineHtml",
-                                                        "textLength": 9
-                                                    },
-                                                    "scriptSectionStartTag": {
-                                                        "kind": "ScriptSectionStartTag",
-                                                        "textLength": 6
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "error": "MissingToken",
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 0
-                                            }
-                                        ]
-                                    }
-                                },
-                                "elseIfClauses": [],
-                                "elseClause": null,
-                                "endifKeyword": null,
-                                "semicolon": null
-                            }
+                                {
+                                    "error": "MissingToken",
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 0
+                                }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "elseIfClauses": [],
+                    "elseClause": null,
+                    "endifKeyword": null,
+                    "semicolon": null
                 }
             }
         ],

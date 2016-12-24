@@ -1,49 +1,44 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "PrintIntrinsicExpression": {
-                                        "printKeyword": {
-                                            "kind": "PrintKeyword",
-                                            "textLength": 5
-                                        },
-                                        "expression": {
-                                            "PrintIntrinsicExpression": {
-                                                "printKeyword": {
-                                                    "kind": "PrintKeyword",
-                                                    "textLength": 5
-                                                },
-                                                "expression": {
-                                                    "error": "MissingToken",
-                                                    "kind": "Expression",
-                                                    "textLength": 0
-                                                }
-                                            }
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "PrintIntrinsicExpression": {
+                            "printKeyword": {
+                                "kind": "PrintKeyword",
+                                "textLength": 5
+                            },
+                            "expression": {
+                                "PrintIntrinsicExpression": {
+                                    "printKeyword": {
+                                        "kind": "PrintKeyword",
+                                        "textLength": 5
+                                    },
+                                    "expression": {
+                                        "error": "MissingToken",
+                                        "kind": "Expression",
+                                        "textLength": 0
                                     }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

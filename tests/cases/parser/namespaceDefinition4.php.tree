@@ -1,47 +1,42 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "NamespaceDefinition": {
+                    "namespaceKeyword": {
+                        "kind": "NamespaceKeyword",
+                        "textLength": 9
                     },
-                    "statementList": [
-                        {
-                            "NamespaceDefinition": {
-                                "namespaceKeyword": {
-                                    "kind": "NamespaceKeyword",
-                                    "textLength": 9
-                                },
-                                "name": null,
-                                "compoundStatementOrSemicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "NamespaceDefinition": {
-                                "namespaceKeyword": {
-                                    "kind": "NamespaceKeyword",
-                                    "textLength": 9
-                                },
-                                "name": null,
-                                "compoundStatementOrSemicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "name": null,
+                    "compoundStatementOrSemicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "NamespaceDefinition": {
+                    "namespaceKeyword": {
+                        "kind": "NamespaceKeyword",
+                        "textLength": 9
+                    },
+                    "name": null,
+                    "compoundStatementOrSemicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

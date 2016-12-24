@@ -1,45 +1,37 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 3
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "StringLiteral": {
-                                        "children": {
-                                            "kind": "NoSubstitutionTemplateLiteral",
-                                            "textLength": 7
-                                        }
-                                    }
-                                },
-                                "semicolon": null
-                            }
-                        },
-                        {
-                            "InlineHtml": {
-                                "scriptSectionEndTag": {
-                                    "kind": "ScriptSectionEndTag",
-                                    "textLength": 2
-                                },
-                                "text": {
-                                    "kind": "InlineHtml",
-                                    "textLength": 0
-                                },
-                                "scriptSectionStartTag": null
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "StringLiteral": {
+                            "children": {
+                                "kind": "NoSubstitutionTemplateLiteral",
+                                "textLength": 7
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": null
+                }
+            },
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": {
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
+                    },
+                    "text": null,
+                    "scriptSectionStartTag": null
                 }
             }
         ],

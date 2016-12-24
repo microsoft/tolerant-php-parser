@@ -16,7 +16,7 @@ class ParserGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
-            exec("git checkout " . __DIR__ . "/cases/parser/*.php.tree");
+            $a = exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
 //            $GLOBALS["SKIPPED"] = [];
 //            unlink("skipped.json");
         }

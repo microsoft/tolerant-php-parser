@@ -1,56 +1,51 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "NamespaceUseDeclaration": {
+                    "useKeyword": {
+                        "kind": "UseKeyword",
+                        "textLength": 3
                     },
-                    "statementList": [
-                        {
-                            "NamespaceUseDeclaration": {
-                                "useKeyword": {
-                                    "kind": "UseKeyword",
-                                    "textLength": 3
-                                },
-                                "functionOrConst": null,
-                                "namespaceName": null,
-                                "namespaceAliasingClause": null,
-                                "openBrace": null,
-                                "groupClauses": null,
-                                "closeBrace": null,
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "NamespaceUseDeclaration": {
-                                "useKeyword": {
-                                    "kind": "UseKeyword",
-                                    "textLength": 3
-                                },
-                                "functionOrConst": null,
-                                "namespaceName": null,
-                                "namespaceAliasingClause": null,
-                                "openBrace": null,
-                                "groupClauses": null,
-                                "closeBrace": null,
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "functionOrConst": null,
+                    "namespaceName": null,
+                    "namespaceAliasingClause": null,
+                    "openBrace": null,
+                    "groupClauses": null,
+                    "closeBrace": null,
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "NamespaceUseDeclaration": {
+                    "useKeyword": {
+                        "kind": "UseKeyword",
+                        "textLength": 3
+                    },
+                    "functionOrConst": null,
+                    "namespaceName": null,
+                    "namespaceAliasingClause": null,
+                    "openBrace": null,
+                    "groupClauses": null,
+                    "closeBrace": null,
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

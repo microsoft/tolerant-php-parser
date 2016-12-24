@@ -1,60 +1,55 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ScopedPropertyAccessExpression": {
-                                        "scopeResolutionQualifier": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 4
-                                                            }
-                                                        ]
-                                                    }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ScopedPropertyAccessExpression": {
+                            "scopeResolutionQualifier": {
+                                "QualifiedName": {
+                                    "globalSpecifier": null,
+                                    "relativeSpecifier": null,
+                                    "nameParts": {
+                                        "DelimitedList": {
+                                            "children": [
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 4
                                                 }
-                                            }
-                                        },
-                                        "doubleColon": {
-                                            "kind": "ColonColonToken",
-                                            "textLength": 2
-                                        },
-                                        "memberName": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
+                                            ]
                                         }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                }
+                            },
+                            "doubleColon": {
+                                "kind": "ColonColonToken",
+                                "textLength": 2
+                            },
+                            "memberName": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,85 +1,80 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": {
-                                            "kind": "EchoKeyword",
-                                            "textLength": 4
-                                        },
-                                        "expressions": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ScopedPropertyAccessExpression": {
-                                                            "scopeResolutionQualifier": {
-                                                                "QualifiedName": {
-                                                                    "globalSpecifier": null,
-                                                                    "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "DelimitedList": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    }
-                                                                }
-                                                            },
-                                                            "doubleColon": {
-                                                                "kind": "ColonColonToken",
-                                                                "textLength": 2
-                                                            },
-                                                            "memberName": {
-                                                                "BracedExpression": {
-                                                                    "openBrace": {
-                                                                        "kind": "OpenBraceToken",
-                                                                        "textLength": 1
-                                                                    },
-                                                                    "expression": {
-                                                                        "StringLiteral": {
-                                                                            "children": {
-                                                                                "kind": "NoSubstitutionTemplateLiteral",
-                                                                                "textLength": 4
-                                                                            }
-                                                                        }
-                                                                    },
-                                                                    "closeBrace": {
-                                                                        "kind": "CloseBraceToken",
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "ScopedPropertyAccessExpression": {
+                                                "scopeResolutionQualifier": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "Name",
                                                                         "textLength": 1
                                                                     }
-                                                                }
+                                                                ]
                                                             }
                                                         }
                                                     }
-                                                ]
+                                                },
+                                                "doubleColon": {
+                                                    "kind": "ColonColonToken",
+                                                    "textLength": 2
+                                                },
+                                                "memberName": {
+                                                    "BracedExpression": {
+                                                        "openBrace": {
+                                                            "kind": "OpenBraceToken",
+                                                            "textLength": 1
+                                                        },
+                                                        "expression": {
+                                                            "StringLiteral": {
+                                                                "children": {
+                                                                    "kind": "NoSubstitutionTemplateLiteral",
+                                                                    "textLength": 4
+                                                                }
+                                                            }
+                                                        },
+                                                        "closeBrace": {
+                                                            "kind": "CloseBraceToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

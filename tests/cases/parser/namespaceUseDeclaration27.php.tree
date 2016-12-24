@@ -1,116 +1,111 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "AssignmentExpression": {
-                                        "leftOperand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        },
-                                        "operator": {
-                                            "kind": "EqualsToken",
-                                            "textLength": 1
-                                        },
-                                        "byRef": null,
-                                        "rightOperand": {
-                                            "StringLiteral": {
-                                                "children": {
-                                                    "kind": "NoSubstitutionTemplateLiteral",
-                                                    "textLength": 7
-                                                }
-                                            }
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "AssignmentExpression": {
+                            "leftOperand": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
-                            }
-                        },
-                        {
-                            "NamespaceUseDeclaration": {
-                                "useKeyword": {
-                                    "kind": "UseKeyword",
-                                    "textLength": 3
-                                },
-                                "functionOrConst": null,
-                                "namespaceName": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 1
-                                                    }
-                                                ]
-                                            }
-                                        }
+                            },
+                            "operator": {
+                                "kind": "EqualsToken",
+                                "textLength": 1
+                            },
+                            "byRef": null,
+                            "rightOperand": {
+                                "StringLiteral": {
+                                    "children": {
+                                        "kind": "NoSubstitutionTemplateLiteral",
+                                        "textLength": 7
                                     }
-                                },
-                                "namespaceAliasingClause": {
-                                    "NamespaceAliasingClause": {
-                                        "asKeyword": {
-                                            "kind": "AsKeyword",
-                                            "textLength": 2
-                                        },
-                                        "name": {
-                                            "error": "MissingToken",
-                                            "kind": "Name",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                "openBrace": null,
-                                "groupClauses": null,
-                                "closeBrace": null,
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 2
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
+                }
+            },
+            {
+                "NamespaceUseDeclaration": {
+                    "useKeyword": {
+                        "kind": "UseKeyword",
+                        "textLength": 3
+                    },
+                    "functionOrConst": null,
+                    "namespaceName": {
+                        "QualifiedName": {
+                            "globalSpecifier": null,
+                            "relativeSpecifier": null,
+                            "nameParts": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "kind": "Name",
+                                            "textLength": 1
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "namespaceAliasingClause": {
+                        "NamespaceAliasingClause": {
+                            "asKeyword": {
+                                "kind": "AsKeyword",
+                                "textLength": 2
+                            },
+                            "name": {
+                                "error": "MissingToken",
+                                "kind": "Name",
+                                "textLength": 0
+                            }
+                        }
+                    },
+                    "openBrace": null,
+                    "groupClauses": null,
+                    "closeBrace": null,
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 2
+                            }
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

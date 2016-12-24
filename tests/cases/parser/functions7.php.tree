@@ -1,99 +1,94 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "FunctionNode": {
+                    "functionKeyword": {
+                        "kind": "FunctionKeyword",
+                        "textLength": 8
                     },
-                    "statementList": [
-                        {
-                            "FunctionNode": {
-                                "functionKeyword": {
-                                    "kind": "FunctionKeyword",
-                                    "textLength": 8
-                                },
-                                "byRefToken": null,
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 6
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "parameters": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "ParameterNode": {
-                                                    "typeDeclaration": null,
-                                                    "byRefToken": null,
-                                                    "dotDotDotToken": null,
-                                                    "variableName": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    },
-                                                    "equalsToken": {
-                                                        "kind": "EqualsToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "default": {
-                                                        "error": "MissingToken",
-                                                        "kind": "Expression",
-                                                        "textLength": 0
-                                                    }
-                                                }
-                                            },
-                                            {
-                                                "kind": "CommaToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "ParameterNode": {
-                                                    "typeDeclaration": null,
-                                                    "byRefToken": null,
-                                                    "dotDotDotToken": null,
-                                                    "variableName": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    },
-                                                    "equalsToken": null,
-                                                    "default": null
-                                                }
-                                            }
-                                        ]
+                    "byRefToken": null,
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 6
+                    },
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "parameters": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "ParameterNode": {
+                                        "typeDeclaration": null,
+                                        "byRefToken": null,
+                                        "dotDotDotToken": null,
+                                        "variableName": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        },
+                                        "equalsToken": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "default": {
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
+                                            "textLength": 0
+                                        }
                                     }
                                 },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
+                                {
+                                    "kind": "CommaToken",
                                     "textLength": 1
                                 },
-                                "colonToken": null,
-                                "returnType": null,
-                                "compoundStatementOrSemicolon": {
-                                    "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 1
-                                            }
-                                        ]
+                                {
+                                    "ParameterNode": {
+                                        "typeDeclaration": null,
+                                        "byRefToken": null,
+                                        "dotDotDotToken": null,
+                                        "variableName": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        },
+                                        "equalsToken": null,
+                                        "default": null
                                     }
                                 }
-                            }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colonToken": null,
+                    "returnType": null,
+                    "compoundStatementOrSemicolon": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    }
                 }
             }
         ],

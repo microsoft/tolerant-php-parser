@@ -1,55 +1,50 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": {
-                                            "kind": "DollarToken",
-                                            "textLength": 1
-                                        },
-                                        "name": {
-                                            "BracedExpression": {
-                                                "openBrace": {
-                                                    "kind": "OpenBraceToken",
-                                                    "textLength": 1
-                                                },
-                                                "expression": {
-                                                    "StringLiteral": {
-                                                        "children": {
-                                                            "kind": "NoSubstitutionTemplateLiteral",
-                                                            "textLength": 7
-                                                        }
-                                                    }
-                                                },
-                                                "closeBrace": {
-                                                    "kind": "CloseBraceToken",
-                                                    "textLength": 1
-                                                }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "Variable": {
+                            "dollar": {
+                                "kind": "DollarToken",
+                                "textLength": 1
+                            },
+                            "name": {
+                                "BracedExpression": {
+                                    "openBrace": {
+                                        "kind": "OpenBraceToken",
+                                        "textLength": 1
+                                    },
+                                    "expression": {
+                                        "StringLiteral": {
+                                            "children": {
+                                                "kind": "NoSubstitutionTemplateLiteral",
+                                                "textLength": 7
                                             }
                                         }
+                                    },
+                                    "closeBrace": {
+                                        "kind": "CloseBraceToken",
+                                        "textLength": 1
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

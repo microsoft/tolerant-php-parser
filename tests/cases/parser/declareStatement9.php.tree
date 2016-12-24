@@ -1,79 +1,74 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "DeclareStatementNode": {
+                    "declareKeyword": {
+                        "kind": "DeclareKeyword",
+                        "textLength": 7
                     },
-                    "statementList": [
-                        {
-                            "DeclareStatementNode": {
-                                "declareKeyword": {
-                                    "kind": "DeclareKeyword",
-                                    "textLength": 7
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "declareDirective": {
+                        "DeclareDirectiveNode": {
+                            "name": {
+                                "kind": "Name",
+                                "textLength": 5
+                            },
+                            "equals": {
+                                "error": "MissingToken",
+                                "kind": "EqualsToken",
+                                "textLength": 0
+                            },
+                            "literal": {
+                                "kind": "BinaryLiteralToken",
+                                "textLength": 3
+                            }
+                        }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
                                     "textLength": 1
                                 },
-                                "declareDirective": {
-                                    "DeclareDirectiveNode": {
-                                        "name": {
-                                            "kind": "Name",
-                                            "textLength": 5
-                                        },
-                                        "equals": {
-                                            "error": "MissingToken",
-                                            "kind": "EqualsToken",
-                                            "textLength": 0
-                                        },
-                                        "literal": {
-                                            "kind": "BinaryLiteralToken",
-                                            "textLength": 3
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "CompoundStatementNode": {
+                                {
+                                    "EmptyStatement": {
                                         "children": [
                                             {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "EmptyStatement": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "SemicolonToken",
-                                                            "textLength": 1
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
+                                                "kind": "SemicolonToken",
                                                 "textLength": 1
                                             }
                                         ]
                                     }
                                 },
-                                "enddeclareKeyword": null,
-                                "semicolon": null
-                            }
+                                {
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 1
+                                }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "enddeclareKeyword": null,
+                    "semicolon": null
                 }
             }
         ],

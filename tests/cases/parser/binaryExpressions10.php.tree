@@ -1,107 +1,102 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "BinaryExpression": {
-                                        "leftOperand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
-                                        },
-                                        "operator": {
-                                            "kind": "EqualsEqualsEqualsToken",
-                                            "textLength": 3
-                                        },
-                                        "rightOperand": {
-                                            "BinaryExpression": {
-                                                "leftOperand": {
-                                                    "Variable": {
-                                                        "dollar": null,
-                                                        "name": {
-                                                            "kind": "VariableName",
-                                                            "textLength": 2
-                                                        }
-                                                    }
-                                                },
-                                                "operator": {
-                                                    "kind": "LessThanToken",
-                                                    "textLength": 1
-                                                },
-                                                "rightOperand": {
-                                                    "BinaryExpression": {
-                                                        "leftOperand": {
-                                                            "NumericLiteral": {
-                                                                "children": {
-                                                                    "kind": "DecimalLiteralToken",
-                                                                    "textLength": 1
-                                                                }
-                                                            }
-                                                        },
-                                                        "operator": {
-                                                            "kind": "PlusToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "rightOperand": {
-                                                            "NumericLiteral": {
-                                                                "children": {
-                                                                    "kind": "DecimalLiteralToken",
-                                                                    "textLength": 1
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "BinaryExpression": {
+                            "leftOperand": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
                                     }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
                                 }
-                            }
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "EqualsEqualsEqualsToken",
-                            "textLength": 3
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "NumericLiteral": {
-                                        "children": {
-                                            "kind": "DecimalLiteralToken",
-                                            "textLength": 1
+                            },
+                            "operator": {
+                                "kind": "EqualsEqualsEqualsToken",
+                                "textLength": 3
+                            },
+                            "rightOperand": {
+                                "BinaryExpression": {
+                                    "leftOperand": {
+                                        "Variable": {
+                                            "dollar": null,
+                                            "name": {
+                                                "kind": "VariableName",
+                                                "textLength": 2
+                                            }
+                                        }
+                                    },
+                                    "operator": {
+                                        "kind": "LessThanToken",
+                                        "textLength": 1
+                                    },
+                                    "rightOperand": {
+                                        "BinaryExpression": {
+                                            "leftOperand": {
+                                                "NumericLiteral": {
+                                                    "children": {
+                                                        "kind": "DecimalLiteralToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            },
+                                            "operator": {
+                                                "kind": "PlusToken",
+                                                "textLength": 1
+                                            },
+                                            "rightOperand": {
+                                                "NumericLiteral": {
+                                                    "children": {
+                                                        "kind": "DecimalLiteralToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "EqualsEqualsEqualsToken",
+                "textLength": 3
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "NumericLiteral": {
+                            "children": {
+                                "kind": "DecimalLiteralToken",
+                                "textLength": 1
+                            }
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

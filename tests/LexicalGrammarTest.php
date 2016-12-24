@@ -14,10 +14,11 @@ use PHPUnit\Framework\TestCase;
 
 
 class LexicalGrammarTest extends TestCase {
+    const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
-            exec("git checkout " . __DIR__ . "/cases/lexical/*.php.tokens");
+            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {

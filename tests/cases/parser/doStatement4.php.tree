@@ -1,87 +1,82 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "DoWhileStatementNode": {
+                    "do": {
+                        "kind": "DoKeyword",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "DoWhileStatementNode": {
-                                "do": {
-                                    "kind": "DoKeyword",
-                                    "textLength": 2
+                    "statement": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
                                 },
-                                "statement": {
-                                    "CompoundStatementNode": {
+                                {
+                                    "EmptyStatement": {
                                         "children": [
                                             {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "EmptyStatement": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "SemicolonToken",
-                                                            "textLength": 1
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "EmptyStatement": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "SemicolonToken",
-                                                            "textLength": 1
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
+                                                "kind": "SemicolonToken",
                                                 "textLength": 1
                                             }
                                         ]
                                     }
                                 },
-                                "whileToken": {
-                                    "kind": "WhileKeyword",
-                                    "textLength": 5
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "expression": {
-                                    "Variable": {
-                                        "dollar": null,
-                                        "name": {
-                                            "kind": "VariableName",
-                                            "textLength": 2
-                                        }
+                                {
+                                    "EmptyStatement": {
+                                        "children": [
+                                            {
+                                                "kind": "SemicolonToken",
+                                                "textLength": 1
+                                            }
+                                        ]
                                     }
                                 },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
+                                {
+                                    "kind": "CloseBraceToken",
                                     "textLength": 1
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
                                 }
+                            ]
+                        }
+                    },
+                    "whileToken": {
+                        "kind": "WhileKeyword",
+                        "textLength": 5
+                    },
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "Variable": {
+                            "dollar": null,
+                            "name": {
+                                "kind": "VariableName",
+                                "textLength": 2
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

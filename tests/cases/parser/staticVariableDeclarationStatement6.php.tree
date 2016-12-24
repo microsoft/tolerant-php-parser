@@ -1,73 +1,68 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "FunctionStaticDeclaration": {
+                    "staticKeyword": {
+                        "kind": "StaticKeyword",
+                        "textLength": 6
                     },
-                    "statementList": [
-                        {
-                            "FunctionStaticDeclaration": {
-                                "staticKeyword": {
-                                    "kind": "StaticKeyword",
-                                    "textLength": 6
-                                },
-                                "staticVariableNameList": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "StaticVariableDeclaration": {
-                                                    "variableName": {
-                                                        "kind": "VariableName",
-                                                        "textLength": 2
-                                                    },
-                                                    "equalsToken": {
-                                                        "kind": "EqualsToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "assignment": {
-                                                        "BinaryExpression": {
-                                                            "leftOperand": {
-                                                                "NumericLiteral": {
-                                                                    "children": {
-                                                                        "kind": "DecimalLiteralToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            },
-                                                            "operator": {
-                                                                "kind": "PlusToken",
-                                                                "textLength": 1
-                                                            },
-                                                            "rightOperand": {
-                                                                "NumericLiteral": {
-                                                                    "children": {
-                                                                        "kind": "DecimalLiteralToken",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            }
+                    "staticVariableNameList": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "StaticVariableDeclaration": {
+                                        "variableName": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        },
+                                        "equalsToken": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "assignment": {
+                                            "BinaryExpression": {
+                                                "leftOperand": {
+                                                    "NumericLiteral": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
+                                                },
+                                                "operator": {
+                                                    "kind": "PlusToken",
+                                                    "textLength": 1
+                                                },
+                                                "rightOperand": {
+                                                    "NumericLiteral": {
+                                                        "children": {
+                                                            "kind": "DecimalLiteralToken",
+                                                            "textLength": 1
                                                         }
                                                     }
                                                 }
                                             }
-                                        ]
+                                        }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
-                            }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,84 +1,79 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "CallExpression": {
-                                        "callableExpression": {
-                                            "ScopedPropertyAccessExpression": {
-                                                "scopeResolutionQualifier": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": {
-                                                            "DelimitedList": {
-                                                                "children": [
-                                                                    {
-                                                                        "kind": "Name",
-                                                                        "textLength": 4
-                                                                    }
-                                                                ]
-                                                            }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "CallExpression": {
+                            "callableExpression": {
+                                "ScopedPropertyAccessExpression": {
+                                    "scopeResolutionQualifier": {
+                                        "QualifiedName": {
+                                            "globalSpecifier": null,
+                                            "relativeSpecifier": null,
+                                            "nameParts": {
+                                                "DelimitedList": {
+                                                    "children": [
+                                                        {
+                                                            "kind": "Name",
+                                                            "textLength": 4
                                                         }
-                                                    }
-                                                },
-                                                "doubleColon": {
-                                                    "kind": "ColonColonToken",
-                                                    "textLength": 2
-                                                },
-                                                "memberName": {
-                                                    "BracedExpression": {
-                                                        "openBrace": {
-                                                            "kind": "OpenBraceToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "expression": {
-                                                            "StringLiteral": {
-                                                                "children": {
-                                                                    "kind": "NoSubstitutionTemplateLiteral",
-                                                                    "textLength": 3
-                                                                }
-                                                            }
-                                                        },
-                                                        "closeBrace": {
-                                                            "kind": "CloseBraceToken",
-                                                            "textLength": 1
-                                                        }
-                                                    }
+                                                    ]
                                                 }
                                             }
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "argumentExpressionList": null,
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
+                                        }
+                                    },
+                                    "doubleColon": {
+                                        "kind": "ColonColonToken",
+                                        "textLength": 2
+                                    },
+                                    "memberName": {
+                                        "BracedExpression": {
+                                            "openBrace": {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            "expression": {
+                                                "StringLiteral": {
+                                                    "children": {
+                                                        "kind": "NoSubstitutionTemplateLiteral",
+                                                        "textLength": 3
+                                                    }
+                                                }
+                                            },
+                                            "closeBrace": {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
                                         }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "argumentExpressionList": null,
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

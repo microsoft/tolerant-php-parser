@@ -1,103 +1,98 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "AssignmentExpression": {
-                                        "leftOperand": {
-                                            "ListIntrinsicExpression": {
-                                                "listKeyword": {
-                                                    "kind": "ListKeyword",
-                                                    "textLength": 4
-                                                },
-                                                "openParen": {
-                                                    "kind": "OpenParenToken",
-                                                    "textLength": 1
-                                                },
-                                                "listElements": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "ArrayElement": {
-                                                                    "elementKey": null,
-                                                                    "arrowToken": null,
-                                                                    "byRef": null,
-                                                                    "elementValue": {
-                                                                        "Variable": {
-                                                                            "dollar": null,
-                                                                            "name": {
-                                                                                "kind": "VariableName",
-                                                                                "textLength": 2
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            },
-                                                            {
-                                                                "kind": "CommaToken",
-                                                                "textLength": 1
-                                                            },
-                                                            {
-                                                                "ArrayElement": {
-                                                                    "elementKey": null,
-                                                                    "arrowToken": null,
-                                                                    "byRef": null,
-                                                                    "elementValue": {
-                                                                        "Variable": {
-                                                                            "dollar": null,
-                                                                            "name": {
-                                                                                "kind": "VariableName",
-                                                                                "textLength": 2
-                                                                            }
-                                                                        }
-                                                                    }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "AssignmentExpression": {
+                            "leftOperand": {
+                                "ListIntrinsicExpression": {
+                                    "listKeyword": {
+                                        "kind": "ListKeyword",
+                                        "textLength": 4
+                                    },
+                                    "openParen": {
+                                        "kind": "OpenParenToken",
+                                        "textLength": 1
+                                    },
+                                    "listElements": {
+                                        "DelimitedList": {
+                                            "children": [
+                                                {
+                                                    "ArrayElement": {
+                                                        "elementKey": null,
+                                                        "arrowToken": null,
+                                                        "byRef": null,
+                                                        "elementValue": {
+                                                            "Variable": {
+                                                                "dollar": null,
+                                                                "name": {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 2
                                                                 }
                                                             }
-                                                        ]
+                                                        }
                                                     }
                                                 },
-                                                "closeParen": {
-                                                    "kind": "CloseParenToken",
+                                                {
+                                                    "kind": "CommaToken",
                                                     "textLength": 1
+                                                },
+                                                {
+                                                    "ArrayElement": {
+                                                        "elementKey": null,
+                                                        "arrowToken": null,
+                                                        "byRef": null,
+                                                        "elementValue": {
+                                                            "Variable": {
+                                                                "dollar": null,
+                                                                "name": {
+                                                                    "kind": "VariableName",
+                                                                    "textLength": 2
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                        },
-                                        "operator": {
-                                            "kind": "EqualsToken",
-                                            "textLength": 1
-                                        },
-                                        "byRef": null,
-                                        "rightOperand": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
+                                            ]
                                         }
+                                    },
+                                    "closeParen": {
+                                        "kind": "CloseParenToken",
+                                        "textLength": 1
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                }
+                            },
+                            "operator": {
+                                "kind": "EqualsToken",
+                                "textLength": 1
+                            },
+                            "byRef": null,
+                            "rightOperand": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

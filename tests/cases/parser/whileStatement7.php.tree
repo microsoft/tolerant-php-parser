@@ -1,59 +1,54 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "WhileStatementNode": {
+                    "whileToken": {
+                        "kind": "WhileKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "WhileStatementNode": {
-                                "whileToken": {
-                                    "kind": "WhileKeyword",
-                                    "textLength": 5
-                                },
-                                "openParen": {
-                                    "error": "MissingToken",
-                                    "kind": "OpenParenToken",
-                                    "textLength": 0
-                                },
-                                "expression": {
-                                    "error": "MissingToken",
-                                    "kind": "Expression",
-                                    "textLength": 0
-                                },
-                                "closeParen": {
-                                    "error": "MissingToken",
-                                    "kind": "CloseParenToken",
-                                    "textLength": 0
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "ExpressionStatement": {
-                                        "expression": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
-                                        },
-                                        "semicolon": {
-                                            "error": "MissingToken",
-                                            "kind": "SemicolonToken",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                "endWhile": null,
-                                "semicolon": null
+                    "openParen": {
+                        "error": "MissingToken",
+                        "kind": "OpenParenToken",
+                        "textLength": 0
+                    },
+                    "expression": {
+                        "error": "MissingToken",
+                        "kind": "Expression",
+                        "textLength": 0
+                    },
+                    "closeParen": {
+                        "error": "MissingToken",
+                        "kind": "CloseParenToken",
+                        "textLength": 0
+                    },
+                    "colon": null,
+                    "statements": {
+                        "ExpressionStatement": {
+                            "expression": {
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
+                            },
+                            "semicolon": {
+                                "error": "MissingToken",
+                                "kind": "SemicolonToken",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "endWhile": null,
+                    "semicolon": null
                 }
             }
         ],

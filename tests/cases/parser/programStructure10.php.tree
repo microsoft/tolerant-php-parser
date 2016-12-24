@@ -1,49 +1,44 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": {
-                                            "kind": "EchoKeyword",
-                                            "textLength": 4
-                                        },
-                                        "expressions": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "StringLiteral": {
-                                                            "children": {
-                                                                "kind": "NoSubstitutionTemplateLiteral",
-                                                                "textLength": 13
-                                                            }
-                                                        }
-                                                    }
-                                                ]
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "StringLiteral": {
+                                                "children": {
+                                                    "kind": "NoSubstitutionTemplateLiteral",
+                                                    "textLength": 13
+                                                }
                                             }
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,45 +1,40 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "TraitDeclaration": {
+                    "traitKeyword": {
+                        "kind": "TraitKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "TraitDeclaration": {
-                                "traitKeyword": {
-                                    "kind": "TraitKeyword",
-                                    "textLength": 5
-                                },
-                                "name": {
-                                    "error": "MissingToken",
-                                    "kind": "Name",
-                                    "textLength": 0
-                                },
-                                "traitMembers": {
-                                    "TraitMembers": {
-                                        "openBrace": {
-                                            "kind": "OpenBraceToken",
-                                            "textLength": 1
-                                        },
-                                        "traitMemberDeclarations": [],
-                                        "closeBrace": {
-                                            "kind": "CloseBraceToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                }
+                    "name": {
+                        "error": "MissingToken",
+                        "kind": "Name",
+                        "textLength": 0
+                    },
+                    "traitMembers": {
+                        "TraitMembers": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "traitMemberDeclarations": [],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    }
                 }
             }
         ],

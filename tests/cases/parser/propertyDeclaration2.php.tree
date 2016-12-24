@@ -1,112 +1,107 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ClassNode": {
+                    "abstractOrFinalModifier": null,
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "ClassNode": {
-                                "abstractOrFinalModifier": null,
-                                "classKeyword": {
-                                    "kind": "ClassKeyword",
-                                    "textLength": 5
-                                },
-                                "name": {
-                                    "kind": "Name",
-                                    "textLength": 1
-                                },
-                                "classBaseClause": null,
-                                "classInterfaceClause": null,
-                                "classMembers": {
-                                    "ClassMembersNode": {
-                                        "openBrace": {
-                                            "kind": "OpenBraceToken",
-                                            "textLength": 1
-                                        },
-                                        "classMemberDeclarations": [
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 1
+                    },
+                    "classBaseClause": null,
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "classMemberDeclarations": [
+                                {
+                                    "PropertyDeclaration": {
+                                        "modifiers": [
                                             {
-                                                "PropertyDeclaration": {
-                                                    "modifiers": [
-                                                        {
-                                                            "kind": "PublicKeyword",
-                                                            "textLength": 6
-                                                        }
-                                                    ],
-                                                    "propertyElements": {
-                                                        "DelimitedList": {
-                                                            "children": [
-                                                                {
-                                                                    "AssignmentExpression": {
-                                                                        "leftOperand": {
-                                                                            "Variable": {
-                                                                                "dollar": null,
-                                                                                "name": {
-                                                                                    "kind": "VariableName",
-                                                                                    "textLength": 2
-                                                                                }
+                                                "kind": "PublicKeyword",
+                                                "textLength": 6
+                                            }
+                                        ],
+                                        "propertyElements": {
+                                            "DelimitedList": {
+                                                "children": [
+                                                    {
+                                                        "AssignmentExpression": {
+                                                            "leftOperand": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
+                                                                }
+                                                            },
+                                                            "operator": {
+                                                                "kind": "EqualsToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "byRef": null,
+                                                            "rightOperand": {
+                                                                "AssignmentExpression": {
+                                                                    "leftOperand": {
+                                                                        "Variable": {
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
                                                                             }
-                                                                        },
-                                                                        "operator": {
-                                                                            "kind": "EqualsToken",
-                                                                            "textLength": 1
-                                                                        },
-                                                                        "byRef": null,
-                                                                        "rightOperand": {
-                                                                            "AssignmentExpression": {
-                                                                                "leftOperand": {
-                                                                                    "Variable": {
-                                                                                        "dollar": null,
-                                                                                        "name": {
-                                                                                            "kind": "VariableName",
-                                                                                            "textLength": 2
-                                                                                        }
-                                                                                    }
-                                                                                },
-                                                                                "operator": {
-                                                                                    "kind": "EqualsToken",
-                                                                                    "textLength": 1
-                                                                                },
-                                                                                "byRef": null,
-                                                                                "rightOperand": {
-                                                                                    "NumericLiteral": {
-                                                                                        "children": {
-                                                                                            "kind": "DecimalLiteralToken",
-                                                                                            "textLength": 1
-                                                                                        }
-                                                                                    }
-                                                                                }
+                                                                        }
+                                                                    },
+                                                                    "operator": {
+                                                                        "kind": "EqualsToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "byRef": null,
+                                                                    "rightOperand": {
+                                                                        "NumericLiteral": {
+                                                                            "children": {
+                                                                                "kind": "DecimalLiteralToken",
+                                                                                "textLength": 1
                                                                             }
                                                                         }
                                                                     }
                                                                 }
-                                                            ]
+                                                            }
                                                         }
-                                                    },
-                                                    "semicolon": {
-                                                        "kind": "SemicolonToken",
-                                                        "textLength": 1
                                                     }
-                                                }
+                                                ]
                                             }
-                                        ],
-                                        "closeBrace": {
-                                            "kind": "CloseBraceToken",
+                                        },
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
                                             "textLength": 1
                                         }
                                     }
                                 }
+                            ],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    }
                 }
             }
         ],

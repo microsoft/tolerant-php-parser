@@ -1,36 +1,31 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "ThrowStatement": {
+                    "throwKeyword": {
+                        "kind": "ThrowKeyword",
+                        "textLength": 5
                     },
-                    "statementList": [
-                        {
-                            "ThrowStatement": {
-                                "throwKeyword": {
-                                    "kind": "ThrowKeyword",
-                                    "textLength": 5
-                                },
-                                "expression": {
-                                    "error": "MissingToken",
-                                    "kind": "Expression",
-                                    "textLength": 0
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        }
-                    ],
-                    "endTag": null
+                    "expression": {
+                        "error": "MissingToken",
+                        "kind": "Expression",
+                        "textLength": 0
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

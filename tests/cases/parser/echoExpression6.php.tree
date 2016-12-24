@@ -1,76 +1,71 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": {
-                                            "kind": "EchoKeyword",
-                                            "textLength": 4
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 3
+                                                }
+                                            }
                                         },
-                                        "expressions": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 3
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 6
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "StringLiteral": {
-                                                            "children": {
-                                                                "kind": "UnterminatedNoSubstitutionTemplateLiteral",
-                                                                "textLength": 1
-                                                            }
-                                                        }
-                                                    }
-                                                ]
+                                        {
+                                            "kind": "CommaToken",
+                                            "textLength": 1
+                                        },
+                                        {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 6
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "kind": "CommaToken",
+                                            "textLength": 1
+                                        },
+                                        {
+                                            "StringLiteral": {
+                                                "children": {
+                                                    "kind": "UnterminatedNoSubstitutionTemplateLiteral",
+                                                    "textLength": 1
+                                                }
                                             }
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],

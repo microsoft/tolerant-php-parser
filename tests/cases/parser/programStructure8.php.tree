@@ -1,44 +1,39 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
+                    }
+                }
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
                         {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "error": "SkippedToken",
-                            "kind": "ScriptSectionStartTag",
-                            "textLength": 3
-                        },
-                        {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
+                            "kind": "SemicolonToken",
+                            "textLength": 1
                         }
-                    ],
-                    "endTag": null
+                    ]
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "ScriptSectionStartTag",
+                "textLength": 3
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
+                        {
+                            "kind": "SemicolonToken",
+                            "textLength": 1
+                        }
+                    ]
                 }
             }
         ],

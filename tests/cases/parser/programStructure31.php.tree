@@ -1,103 +1,98 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "IfStatementNode": {
+                    "ifKeyword": {
+                        "kind": "IfKeyword",
+                        "textLength": 2
                     },
-                    "statementList": [
-                        {
-                            "IfStatementNode": {
-                                "ifKeyword": {
-                                    "kind": "IfKeyword",
-                                    "textLength": 2
-                                },
-                                "openParen": {
-                                    "kind": "OpenParenToken",
-                                    "textLength": 1
-                                },
-                                "expression": {
-                                    "ReservedWord": {
-                                        "children": {
-                                            "kind": "TrueReservedWord",
-                                            "textLength": 4
-                                        }
-                                    }
-                                },
-                                "closeParen": {
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
-                                },
-                                "colon": null,
-                                "statements": {
-                                    "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "ExpressionStatement": {
-                                                    "expression": {
-                                                        "EchoExpression": {
-                                                            "echoKeyword": {
-                                                                "kind": "EchoKeyword",
-                                                                "textLength": 4
-                                                            },
-                                                            "expressions": {
-                                                                "DelimitedList": {
-                                                                    "children": [
-                                                                        {
-                                                                            "StringLiteral": {
-                                                                                "children": {
-                                                                                    "kind": "NoSubstitutionTemplateLiteral",
-                                                                                    "textLength": 7
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    "semicolon": null
-                                                }
-                                            },
-                                            {
-                                                "InlineHtml": {
-                                                    "scriptSectionEndTag": {
-                                                        "kind": "ScriptSectionEndTag",
-                                                        "textLength": 2
-                                                    },
-                                                    "text": {
-                                                        "kind": "InlineHtml",
-                                                        "textLength": 9
-                                                    },
-                                                    "scriptSectionStartTag": null
-                                                }
-                                            },
-                                            {
-                                                "error": "MissingToken",
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 0
-                                            }
-                                        ]
-                                    }
-                                },
-                                "elseIfClauses": [],
-                                "elseClause": null,
-                                "endifKeyword": null,
-                                "semicolon": null
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expression": {
+                        "ReservedWord": {
+                            "children": {
+                                "kind": "TrueReservedWord",
+                                "textLength": 4
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
+                    },
+                    "colon": null,
+                    "statements": {
+                        "CompoundStatementNode": {
+                            "children": [
+                                {
+                                    "kind": "OpenBraceToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "EchoExpression": {
+                                                "echoKeyword": {
+                                                    "kind": "EchoKeyword",
+                                                    "textLength": 4
+                                                },
+                                                "expressions": {
+                                                    "DelimitedList": {
+                                                        "children": [
+                                                            {
+                                                                "StringLiteral": {
+                                                                    "children": {
+                                                                        "kind": "NoSubstitutionTemplateLiteral",
+                                                                        "textLength": 7
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "semicolon": null
+                                    }
+                                },
+                                {
+                                    "InlineHtml": {
+                                        "scriptSectionEndTag": {
+                                            "kind": "ScriptSectionEndTag",
+                                            "textLength": 2
+                                        },
+                                        "text": {
+                                            "kind": "InlineHtml",
+                                            "textLength": 9
+                                        },
+                                        "scriptSectionStartTag": null
+                                    }
+                                },
+                                {
+                                    "error": "MissingToken",
+                                    "kind": "CloseBraceToken",
+                                    "textLength": 0
+                                }
+                            ]
+                        }
+                    },
+                    "elseIfClauses": [],
+                    "elseClause": null,
+                    "endifKeyword": null,
+                    "semicolon": null
                 }
             }
         ],

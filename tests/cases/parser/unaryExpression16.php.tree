@@ -1,40 +1,35 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "UnaryOpExpression": {
-                                        "operator": {
-                                            "kind": "TildeToken",
-                                            "textLength": 1
-                                        },
-                                        "operand": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "UnaryOpExpression": {
+                            "operator": {
+                                "kind": "TildeToken",
+                                "textLength": 1
+                            },
+                            "operand": {
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

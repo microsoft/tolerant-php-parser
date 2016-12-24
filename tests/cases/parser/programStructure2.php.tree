@@ -1,29 +1,27 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
                         "textLength": 17
                     },
-                    "startTag": {
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
+                    }
+                }
+            },
+            {
+                "EmptyStatement": {
+                    "children": [
                         {
-                            "EmptyStatement": {
-                                "children": [
-                                    {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                ]
-                            }
+                            "kind": "SemicolonToken",
+                            "textLength": 1
                         }
-                    ],
-                    "endTag": null
+                    ]
                 }
             }
         ],

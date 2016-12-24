@@ -10,8 +10,8 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class Script extends Node {
-    /** @var ScriptSection[] */
-    public $scriptSectionList;
+    /** @var Node[] */
+    public $statementList;
     /** @var Token */
     public $endOfFileToken;
 

@@ -1,63 +1,58 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ObjectCreationExpression": {
-                                        "newKeword": {
-                                            "kind": "NewKeyword",
-                                            "textLength": 3
-                                        },
-                                        "classTypeDesignator": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "DelimitedList": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
-                                                    }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ObjectCreationExpression": {
+                            "newKeword": {
+                                "kind": "NewKeyword",
+                                "textLength": 3
+                            },
+                            "classTypeDesignator": {
+                                "QualifiedName": {
+                                    "globalSpecifier": null,
+                                    "relativeSpecifier": null,
+                                    "nameParts": {
+                                        "DelimitedList": {
+                                            "children": [
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 1
                                                 }
-                                            }
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "argumentExpressionList": null,
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        },
-                                        "classBaseClause": null,
-                                        "classInterfaceClause": null,
-                                        "classMembers": null
+                                            ]
+                                        }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
-                            }
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "argumentExpressionList": null,
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
+                            },
+                            "classBaseClause": null,
+                            "classInterfaceClause": null,
+                            "classMembers": null
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

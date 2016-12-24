@@ -1,47 +1,42 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "NamespaceDefinition": {
+                    "namespaceKeyword": {
+                        "kind": "NamespaceKeyword",
+                        "textLength": 9
                     },
-                    "statementList": [
-                        {
-                            "NamespaceDefinition": {
-                                "namespaceKeyword": {
-                                    "kind": "NamespaceKeyword",
-                                    "textLength": 9
-                                },
-                                "name": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 1
-                                                    }
-                                                ]
-                                            }
+                    "name": {
+                        "QualifiedName": {
+                            "globalSpecifier": null,
+                            "relativeSpecifier": null,
+                            "nameParts": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "kind": "Name",
+                                            "textLength": 1
                                         }
-                                    }
-                                },
-                                "compoundStatementOrSemicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "compoundStatementOrSemicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

@@ -1,102 +1,97 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ObjectCreationExpression": {
-                                        "newKeword": {
-                                            "kind": "NewKeyword",
-                                            "textLength": 3
-                                        },
-                                        "classTypeDesignator": {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "error": "MissingToken",
-                                                    "kind": "VariableName",
-                                                    "textLength": 0
-                                                }
-                                            }
-                                        },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "argumentExpressionList": {
-                                            "DelimitedList": {
-                                                "children": [
-                                                    {
-                                                        "ArgumentExpression": {
-                                                            "byRefToken": null,
-                                                            "dotDotDotToken": null,
-                                                            "expression": {
-                                                                "StringLiteral": {
-                                                                    "children": {
-                                                                        "kind": "NoSubstitutionTemplateLiteral",
-                                                                        "textLength": 3
-                                                                    }
-                                                                }
-                                                            }
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ObjectCreationExpression": {
+                            "newKeword": {
+                                "kind": "NewKeyword",
+                                "textLength": 3
+                            },
+                            "classTypeDesignator": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "error": "MissingToken",
+                                        "kind": "VariableName",
+                                        "textLength": 0
+                                    }
+                                }
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "argumentExpressionList": {
+                                "DelimitedList": {
+                                    "children": [
+                                        {
+                                            "ArgumentExpression": {
+                                                "byRefToken": null,
+                                                "dotDotDotToken": null,
+                                                "expression": {
+                                                    "StringLiteral": {
+                                                        "children": {
+                                                            "kind": "NoSubstitutionTemplateLiteral",
+                                                            "textLength": 3
                                                         }
                                                     }
-                                                ]
+                                                }
                                             }
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        },
-                                        "classBaseClause": null,
-                                        "classInterfaceClause": null,
-                                        "classMembers": null
-                                    }
-                                },
-                                "semicolon": {
-                                    "error": "MissingToken",
-                                    "kind": "SemicolonToken",
-                                    "textLength": 0
-                                }
-                            }
-                        },
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "ParenthesizedExpression": {
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "expression": {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
-                                        },
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
+                            },
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
+                            },
+                            "classBaseClause": null,
+                            "classInterfaceClause": null,
+                            "classMembers": null
+                        }
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ParenthesizedExpression": {
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "expression": {
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
+                            },
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

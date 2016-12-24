@@ -1,71 +1,66 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "AnonymousFunctionCreationExpression": {
-                                        "staticModifier": {
-                                            "kind": "StaticKeyword",
-                                            "textLength": 6
-                                        },
-                                        "functionKeyword": {
-                                            "kind": "FunctionKeyword",
-                                            "textLength": 8
-                                        },
-                                        "byRefToken": null,
-                                        "name": {
-                                            "error": "SkippedToken",
-                                            "kind": "Name",
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "AnonymousFunctionCreationExpression": {
+                            "staticModifier": {
+                                "kind": "StaticKeyword",
+                                "textLength": 6
+                            },
+                            "functionKeyword": {
+                                "kind": "FunctionKeyword",
+                                "textLength": 8
+                            },
+                            "byRefToken": null,
+                            "name": {
+                                "error": "SkippedToken",
+                                "kind": "Name",
+                                "textLength": 1
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "parameters": null,
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
+                            },
+                            "anonymousFunctionUseClause": null,
+                            "colonToken": null,
+                            "returnType": null,
+                            "compoundStatementOrSemicolon": {
+                                "CompoundStatementNode": {
+                                    "children": [
+                                        {
+                                            "kind": "OpenBraceToken",
                                             "textLength": 1
                                         },
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
+                                        {
+                                            "kind": "CloseBraceToken",
                                             "textLength": 1
-                                        },
-                                        "parameters": null,
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        },
-                                        "anonymousFunctionUseClause": null,
-                                        "colonToken": null,
-                                        "returnType": null,
-                                        "compoundStatementOrSemicolon": {
-                                            "CompoundStatementNode": {
-                                                "children": [
-                                                    {
-                                                        "kind": "OpenBraceToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "kind": "CloseBraceToken",
-                                                        "textLength": 1
-                                                    }
-                                                ]
-                                            }
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

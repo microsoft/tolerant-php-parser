@@ -1,100 +1,95 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
-                    },
-                    "statementList": [
-                        {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "AnonymousFunctionCreationExpression": {
-                                        "staticModifier": {
-                                            "kind": "StaticKeyword",
-                                            "textLength": 6
-                                        },
-                                        "functionKeyword": {
-                                            "kind": "FunctionKeyword",
-                                            "textLength": 8
-                                        },
-                                        "byRefToken": {
-                                            "kind": "AmpersandToken",
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "AnonymousFunctionCreationExpression": {
+                            "staticModifier": {
+                                "kind": "StaticKeyword",
+                                "textLength": 6
+                            },
+                            "functionKeyword": {
+                                "kind": "FunctionKeyword",
+                                "textLength": 8
+                            },
+                            "byRefToken": {
+                                "kind": "AmpersandToken",
+                                "textLength": 1
+                            },
+                            "name": null,
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "parameters": null,
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
+                            },
+                            "anonymousFunctionUseClause": null,
+                            "colonToken": null,
+                            "returnType": null,
+                            "compoundStatementOrSemicolon": {
+                                "CompoundStatementNode": {
+                                    "children": [
+                                        {
+                                            "kind": "OpenBraceToken",
                                             "textLength": 1
                                         },
-                                        "name": null,
-                                        "openParen": {
-                                            "kind": "OpenParenToken",
-                                            "textLength": 1
-                                        },
-                                        "parameters": null,
-                                        "closeParen": {
-                                            "kind": "CloseParenToken",
-                                            "textLength": 1
-                                        },
-                                        "anonymousFunctionUseClause": null,
-                                        "colonToken": null,
-                                        "returnType": null,
-                                        "compoundStatementOrSemicolon": {
-                                            "CompoundStatementNode": {
-                                                "children": [
-                                                    {
-                                                        "kind": "OpenBraceToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "ExpressionStatement": {
-                                                            "expression": {
-                                                                "EchoExpression": {
-                                                                    "echoKeyword": {
-                                                                        "kind": "EchoKeyword",
-                                                                        "textLength": 4
-                                                                    },
-                                                                    "expressions": {
-                                                                        "DelimitedList": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "StringLiteral": {
-                                                                                        "children": {
-                                                                                            "kind": "NoSubstitutionTemplateLiteral",
-                                                                                            "textLength": 7
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            ]
+                                        {
+                                            "ExpressionStatement": {
+                                                "expression": {
+                                                    "EchoExpression": {
+                                                        "echoKeyword": {
+                                                            "kind": "EchoKeyword",
+                                                            "textLength": 4
+                                                        },
+                                                        "expressions": {
+                                                            "DelimitedList": {
+                                                                "children": [
+                                                                    {
+                                                                        "StringLiteral": {
+                                                                            "children": {
+                                                                                "kind": "NoSubstitutionTemplateLiteral",
+                                                                                "textLength": 7
+                                                                            }
                                                                         }
                                                                     }
-                                                                }
-                                                            },
-                                                            "semicolon": {
-                                                                "kind": "SemicolonToken",
-                                                                "textLength": 1
+                                                                ]
                                                             }
                                                         }
-                                                    },
-                                                    {
-                                                        "kind": "CloseBraceToken",
-                                                        "textLength": 1
                                                     }
-                                                ]
+                                                },
+                                                "semicolon": {
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
+                                                }
                                             }
+                                        },
+                                        {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
                                         }
-                                    }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
+                                    ]
                                 }
                             }
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

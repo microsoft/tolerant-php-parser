@@ -94,7 +94,6 @@ use PhpParser\Node\RelativeSpecifier;
 use PhpParser\Node\ReturnStatement;
 use PhpParser\Node\ScopedPropertyAccessExpression;
 use PhpParser\Node\Script;
-use PhpParser\Node\ScriptSection;
 use PhpParser\Node\StatementNode;
 use PhpParser\Node\SubscriptExpression;
 use PhpParser\Node\SwitchStatementNode;
@@ -171,66 +170,19 @@ class Parser {
 
         $sourceFile = new Script();
         $this->sourceFile = & $sourceFile;
-        $sourceFile->scriptSectionList = array();
-        while ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
-            array_push($sourceFile->scriptSectionList, $this->parseScriptSection($sourceFile));
+        $sourceFile->statementList = array();
+        if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
+            array_push($sourceFile->statementList, $this->parseInlineHtml($sourceFile));
         }
+        $sourceFile->statementList =
+            array_merge($sourceFile->statementList, $this->parseList($sourceFile, ParseContext::SourceElements));
+
         $this->sourceFile->endOfFileToken = $this->eat(TokenKind::EndOfFileToken);
         $this->advanceToken();
 
         $sourceFile->parent = null;
 
         return $sourceFile;
-    }
-
-    function parseScriptSection($parent) {
-        // TODO - for the sake of simplicity, this doesn't actually match the spec.
-        // The spec defines a script-section to be:
-        //     text_opt start-tag statement-list_opt end-tag_opt text_opt
-        //
-        // However, currently, a script section does not include the trailing text_opt.
-        // Consider changing this in the future.
-        $scriptSection = new ScriptSection();
-        $scriptSection->parent = $parent;
-        $token = $this->getCurrentToken();
-        $scriptSection->text =
-            new Token(
-                TokenKind::InlineHtml,
-                $token->fullStart,
-                $token->fullStart,
-                0
-            );
-
-        // TODO in progress - simplify
-        while ($token->kind !== TokenKind::EndOfFileToken) {
-            if ($token->kind === TokenKind::InlineHtml) {
-                $scriptSection->text = $this->eat(TokenKind::InlineHtml);
-                $scriptSection->startTag = $this->eatOptional(TokenKind::ScriptSectionStartTag);
-                $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
-                if (count($scriptSection->statementList) === 0 && !isset($scriptSection->startTag)) {
-                    $scriptSection->statementList = null;
-                }
-                $scriptSection->endTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
-                break;
-            }
-            if ($token->kind === TokenKind::ScriptSectionStartTag) {
-                $scriptSection->startTag = $this->eat(TokenKind::ScriptSectionStartTag);
-                $preTextLength = $scriptSection->startTag->start - $scriptSection->startTag->fullStart;
-                $scriptSection->startTag->length -= $preTextLength;
-                $scriptSection->startTag->fullStart += $preTextLength;
-                $scriptSection->text->length += $preTextLength;
-                $scriptSection->statementList = $this->parseList($scriptSection, ParseContext::SourceElements);
-                $scriptSection->endTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
-                break;
-            }
-
-            $scriptSection->text->length += $token->length;
-
-            $this->advanceToken();
-            $token = $this->getCurrentToken();
-        }
-
-        return $scriptSection;
     }
 
     function reset() {
@@ -2906,20 +2858,8 @@ class Parser {
     private function parseInlineHtml($parentNode) {
         $inlineHtml = new InlineHtml();
         $inlineHtml->parent = $parentNode;
-        $inlineHtml->scriptSectionEndTag = $this->eat(TokenKind::ScriptSectionEndTag);
-
-        $token = $this->getCurrentToken();
-        $start = $this->getCurrentToken()->fullStart;
-        while ($token->kind !== TokenKind::ScriptSectionStartTag && $token->kind !== TokenKind::EndOfFileToken) {
-            $this->advanceToken();
-            $token = $this->getCurrentToken();
-        }
-        $end = $token->start;
-        $inlineHtml->text = new Token(TokenKind::InlineHtml, $start, $start, $end - $start);
-
-        $this->token->length -= $this->token->start - $this->token->fullStart;
-        $this->token->fullStart = $end;
-
+        $inlineHtml->scriptSectionEndTag = $this->eatOptional(TokenKind::ScriptSectionEndTag);
+        $inlineHtml->text = $this->eatOptional(TokenKind::InlineHtml);
         $inlineHtml->scriptSectionStartTag = $this->eatOptional(TokenKind::ScriptSectionStartTag);
 
         return $inlineHtml;

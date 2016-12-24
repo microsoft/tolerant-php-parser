@@ -1,54 +1,49 @@
 {
     "SourceFileNode": {
-        "scriptSectionList": [
+        "statementList": [
             {
-                "ScriptSection": {
-                    "text": {
-                        "kind": "InlineHtml",
-                        "textLength": 0
-                    },
-                    "startTag": {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
                         "textLength": 6
+                    }
+                }
+            },
+            {
+                "GlobalDeclaration": {
+                    "globalKeyword": {
+                        "kind": "GlobalKeyword",
+                        "textLength": 6
                     },
-                    "statementList": [
-                        {
-                            "GlobalDeclaration": {
-                                "globalKeyword": {
-                                    "kind": "GlobalKeyword",
-                                    "textLength": 6
-                                },
-                                "variableNameList": {
-                                    "DelimitedList": {
-                                        "children": [
-                                            {
-                                                "Variable": {
-                                                    "dollar": {
-                                                        "kind": "DollarToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "name": {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 2
-                                                            }
-                                                        }
-                                                    }
+                    "variableNameList": {
+                        "DelimitedList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": {
+                                            "kind": "DollarToken",
+                                            "textLength": 1
+                                        },
+                                        "name": {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
                                                 }
                                             }
-                                        ]
+                                        }
                                     }
-                                },
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
                                 }
-                            }
+                            ]
                         }
-                    ],
-                    "endTag": null
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],
