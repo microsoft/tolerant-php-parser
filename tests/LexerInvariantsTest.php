@@ -23,7 +23,7 @@ class LexerInvariantsTest extends TestCase {
     public static function tokensArrayProvider() {
         $fileToTokensMap = array();
         foreach (self::FILENAMES as $filename) {
-            $lexer = new \PhpParser\Lexer($filename);
+            $lexer = new \PhpParser\Lexer(file_get_contents($filename));
             $fileToTokensMap[basename($filename)] = [$filename, $lexer->getTokensArray()];
         }
         return $fileToTokensMap;

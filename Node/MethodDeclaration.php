@@ -19,14 +19,4 @@ class MethodDeclaration extends Node {
     public function __construct() {
         parent::__construct(NodeKind::MethodNode);
     }
-
-    public function validateRules() {
-        $invalid = parent::validateRules();
-        foreach ($this->modifiers as $modifier) {
-            if ($modifier->kind === TokenKind::VarKeyword) {
-                $invalid[] = new SkippedToken($modifier);
-            }
-        }
-        return $invalid;
-    }
 }

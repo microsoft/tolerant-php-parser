@@ -34,6 +34,10 @@ class Token implements \JsonSerializable {
         return substr($document, $this->fullStart, $this->length);
     }
 
+    public function getEnd() {
+        return $this->fullStart + $this->length;
+    }
+
     function jsonSerialize() {
         $kindName = $this->getTokenKindNameFromValue($this->kind);
 

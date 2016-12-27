@@ -28,6 +28,10 @@
     -->
     <file>tests/ParserFrameworkValidationTests.php</file>
   </testsuite>
+
+  <testsuite name="api">
+    <file>tests/NodeApiTest.php</file>
+  </testsuite>
   
   <testsuite name="performance">
     <!-- TODO: Validates that there are no performance regressions. -->

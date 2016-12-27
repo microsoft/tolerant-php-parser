@@ -79,7 +79,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 	let diagnostics: Diagnostic[] = [];
 	let lines = textDocument.getText().split(/\n/g);
 
-	let allErrors = outErrors["invalid"].concat(outErrors["skipped"]).concat(outErrors["missing"]);
+	let allErrors = outErrors;
 
 	for (var i = 0; i < allErrors.length && i < maxNumberOfProblems; i++) {
 		let error = allErrors[i];

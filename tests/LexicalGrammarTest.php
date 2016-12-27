@@ -40,7 +40,7 @@ class LexicalGrammarTest extends TestCase {
      */
     public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
-        $lexer = new \PhpParser\Lexer($testCaseFile);
+        $lexer = new \PhpParser\Lexer(file_get_contents($testCaseFile));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($lexer->getTokensArray(), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
@@ -70,7 +70,7 @@ class LexicalGrammarTest extends TestCase {
      * @dataProvider lexicalSpecProvider
      */
     public function testSpecTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
-        $lexer = new \PhpParser\Lexer($testCaseFile);
+        $lexer = new \PhpParser\Lexer(file_get_contents($testCaseFile));
         $tokensArray = $lexer->getTokensArray();
         $tokens = str_replace("\r\n", "\n", json_encode($tokensArray, JSON_PRETTY_PRINT));
         file_put_contents($expectedTokensFile, $tokens);

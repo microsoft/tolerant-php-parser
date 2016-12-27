@@ -16,9 +16,7 @@ class ParserGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
-            $a = exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
-//            $GLOBALS["SKIPPED"] = [];
-//            unlink("skipped.json");
+            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {
@@ -28,14 +26,6 @@ class ParserGrammarTest extends TestCase {
                 }
                 parent::addFailure($test, $e, $time);
             }
-
-//            function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
-//                if (!in_array($test->dataDescription(), $GLOBALS["SKIPPED"])) {
-//                    array_push($GLOBALS["SKIPPED"], $test->dataDescription());
-//                    file_put_contents("skipped.json", json_encode($GLOBALS["SKIPPED"], JSON_PRETTY_PRINT));
-//                }
-//                parent::addSkippedTest($test, $e, $time);
-//            }
         });
 
         $result = parent::run($result);
@@ -49,11 +39,11 @@ class ParserGrammarTest extends TestCase {
         $this->expectedTokensFile = $expectedTokensFile;
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
-        $parser = new \PhpParser\Parser($testCaseFile);
+        $fileContents = file_get_contents($testCaseFile);
+        $parser = new \PhpParser\Parser($fileContents);
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
-        $fileContents = file_get_contents($testCaseFile);
         $this->tokens = $tokens;
 
         $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
@@ -82,31 +72,24 @@ class ParserGrammarTest extends TestCase {
     /**
      * @dataProvider outTreeProvider
      */
-    public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
-        $parser = new \PhpParser\Parser($testCaseFile);
+    public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTreeFile) {
+        $parser = new \PhpParser\Parser(file_get_contents($testCaseFile));
         $sourceFile = $parser->parseSourceFile();
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
-        file_put_contents($expectedTokensFile, $tokens);
+        file_put_contents($expectedTreeFile, $tokens);
 
-//        echo file_get_contents($testCaseFile);
-        foreach ($sourceFile->getDescendantNodesAndTokens() as $child) {
-            if ($child instanceof Token) {
-                $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-                $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-                $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-            }
-        }
+        $this->assertEquals(0, iterator_count($parser->getErrors($sourceFile)));
     }
 
     public function outTreeProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         foreach ($testCases as $case) {
-             $tokensExpected[] = $filename = dirname($case) . "/" . basename($case) . ".tree";
+             $expectedTreeFiles[] = $filename = dirname($case) . "/" . basename($case) . ".tree";
         }
 
         $testProviderArray = array();
         foreach ($testCases as $index=>$testCase) {
-            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+            $testProviderArray[basename($testCase)] = [$testCase, $expectedTreeFiles[$index]];
         }
 
         return $testProviderArray;

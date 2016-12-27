@@ -38,10 +38,10 @@ class ParserFrameworkValidationTests extends TestCase {
      * @dataProvider frameworkErrorProvider
      */
     public function testFramworkErrors($testCaseFile, $frameworkName) {
-        $parser = new \PhpParser\Parser($testCaseFile);
+        $fileContents = file_get_contents($testCaseFile);
+        $parser = new \PhpParser\Parser($fileContents);
         $sourceFile = $parser->parseSourceFile();
 
-        $file = file_get_contents($testCaseFile);
         $directory = __DIR__ . "/output/$frameworkName/";
         if (!file_exists($dir = __DIR__ . "/output")) {
             mkdir($dir);
@@ -50,7 +50,7 @@ class ParserFrameworkValidationTests extends TestCase {
             mkdir($directory);
         }
         $outFile = $directory . basename($testCaseFile);
-        file_put_contents($outFile, $file);
+        file_put_contents($outFile, $fileContents);
 
         foreach ($sourceFile->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Token) {

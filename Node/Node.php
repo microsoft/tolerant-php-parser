@@ -34,8 +34,11 @@ class Node implements \JsonSerializable {
     /**
      * Gets a list of all descendant Nodes and Tokens.
      *
+     * TODO - write unit tests to prove invariants
+     * (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
+     *
      * @param callable|null $shouldDescendIntoChildrenFn
-     * @return \Generator
+     * @return \Generator|Node[]|Token[]
      */
     public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodesAndTokens() as $child) {
@@ -55,15 +58,15 @@ class Node implements \JsonSerializable {
     /**
      * Returns all descendant Nodes.
      * @param callable|null $shouldDescendIntoChildrenFn
-     * @return \Generator
+     * @return \Generator|Node[]
      */
     public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 yield $child;
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    foreach ($child->getDescendantNodesAndTokens() as $subChild) {
-                        yield $subChild;
+                    foreach ($child->getDescendantNodes() as $subChild) { // TODO validate invariant - only returns nodes
+                        $subChild === null ?: yield $subChild;
                     }
                 }
             }
@@ -99,11 +102,11 @@ class Node implements \JsonSerializable {
             }
             if (is_array($val)) {
                 foreach ($val as $child) {
-                    yield $child;
+                    $child === null ?: yield $child;
                 }
                 continue;
             }
-            yield $val;
+            $val === null ?: yield $val;
         }
     }
 
@@ -118,7 +121,7 @@ class Node implements \JsonSerializable {
             if (is_array($val)) {
                 foreach ($val as $child) {
                     if ($child instanceof Node) {
-                        yield $val;
+                        yield $child;
                     }
                 }
                 continue;
@@ -130,6 +133,8 @@ class Node implements \JsonSerializable {
 
     /**
      * Gets a list of child Tokens (direct descendants)
+     *
+     * @return \Generator|Token[]
      */
     public function getChildTokens() {
         foreach (call_user_func('get_object_vars', $this) as $i=>$val) {
@@ -187,6 +192,16 @@ class Node implements \JsonSerializable {
         throw new \Exception("Unknown type in AST");
     }
 
+    public function getFullStart() {
+        $child = $this->getChildNodesAndTokens()->current();
+        if ($child instanceof Node) {
+            return $child->getFullStart();
+        } elseif ($child instanceof Token) {
+            return $child->fullStart;
+        }
+        throw new \Exception("Unknown type in AST: " . gettype($child));
+    }
+
     public function jsonSerialize() {
         $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
         $kindName = $this->kind;
@@ -199,7 +214,39 @@ class Node implements \JsonSerializable {
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
 
-    public function validateRules() {
-        return [];
+    public function getEnd() {
+        // TODO test invariant - start of next node is end of previous node
+        if (isset($this->parent)) {
+            $parent = $this->parent;
+            $siblings = $parent->getChildNodes();
+            foreach ($siblings as $idx=>$nextSibling) {
+                if (spl_object_hash($nextSibling) === spl_object_hash($this)) {
+                    $siblings->next();
+                    $nextSibling = $siblings->current();
+                    return $nextSibling !== null
+                        ? $nextSibling->getFullStart()
+                        : $this->getRoot()->endOfFileToken->fullStart;
+                }
+            }
+        } elseif ($this instanceof Script) {
+            return $this->endOfFileToken->getEnd();
+        }
+        throw new \Exception("Unhandled node: " );
+    }
+
+    /**
+     *
+     * @param $pos
+     * @return Node|null
+     */
+    public function getNodeAtPosition($pos) {
+        $descendants = iterator_to_array($this->getDescendantNodes());
+        for ($i = count($descendants) - 1; $i >= 0; $i--) {
+            $childNode = $descendants[$i];
+            if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEnd()) {
+                return $childNode;
+            }
+        }
+        return null;
     }
 }

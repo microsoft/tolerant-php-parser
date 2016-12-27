@@ -11,4 +11,4 @@ file_put_contents($argv[1] . ".ast", json_encode($sourceFile, JSON_PRETTY_PRINT)
 
 // echo $argv[1];
 
-echo json_encode($parser->getErrors($sourceFile), JSON_PRETTY_PRINT);
+echo json_encode( iterator_to_array($parser->getErrors($sourceFile)), JSON_PRETTY_PRINT);

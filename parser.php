@@ -128,8 +128,8 @@ class Parser {
     private $parameterTypeDeclarationTokens;
     private $returnTypeDeclarationTokens;
 
-    public function __construct($filename) {
-        $this->lexer = new Lexer($filename);
+    public function __construct($content) {
+        $this->lexer = new Lexer($content);
 
         $this->reservedWordTokens = array_values(RESERVED_WORDS);
         $this->keywordTokens = array_values(KEYWORDS);
@@ -143,26 +143,30 @@ class Parser {
         $this->returnTypeDeclarationTokens = array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
-    public function getErrors(Node $ast) {
-        $unexpectedTokens = [];
-        $missingTokens = [];
-        $invalid = [];
-        foreach ($ast->getChildNodesAndTokens() as $child) {
-            if ($child instanceof Node) {
-                $childErrors = $this->getErrors($child);
-                $unexpectedTokens = array_merge($unexpectedTokens, $childErrors["skipped"]);
-                $missingTokens = array_merge($missingTokens, $childErrors["missing"]);
-                $invalid = array_merge($invalid, $childErrors["invalid"]);
+    public function getErrors($node) {
+        if ($node instanceof SkippedToken || $node instanceof MissingToken) {
+            return yield $node;
+        }
 
-                $invalid = array_merge($invalid, $child->validateRules());
+        if ($node === null || $node instanceof Token) {
+            return;
+        }
 
-            } elseif ($child instanceof SkippedToken) {
-                $unexpectedTokens[] = $child;
-            } elseif ($child instanceof MissingToken) {
-                $missingTokens[] = $child;
+        if ($node instanceof Node) {
+            switch ($node->kind) {
+                case NodeKind::MethodNode:
+                    foreach ($node->modifiers as $modifier) {
+                        if ($modifier->kind === TokenKind::VarKeyword) {
+                            yield new SkippedToken($modifier);
+                        }
+                    }
+                    break;
             }
         }
-        return ["skipped" => $unexpectedTokens, "missing" => $missingTokens, "invalid"=>$invalid];
+
+        foreach($node->getChildNodesAndTokens() as $child) {
+            yield from $this->getErrors($child);
+        }
     }
 
     public function parseSourceFile() : Script {
@@ -267,8 +271,8 @@ class Parser {
         }
 
         switch ($parseContext) {
-//            case ParseContext::SourceElements:
-//                return $tokenKind === TokenKind::ScriptSectionEndTag;
+            case ParseContext::SourceElements:
+                return false;
 
             case ParseContext::InterfaceMembers:
             case ParseContext::ClassMembers:
@@ -586,7 +590,7 @@ class Parser {
         $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
-        $classNode->name = $this->eat(TokenKind::Name);
+        $classNode->name = $this->eat(TokenKind::Name); // TODO should be any
         $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
         $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
@@ -2443,7 +2447,7 @@ class Parser {
         return $interfaceMembers;
     }
 
-    private function isInterfaceMemberDeclarationStart($token) {
+    private function isInterfaceMemberDeclarationStart(Token $token) {
         switch ($token->kind) {
             // visibility-modifier
             case TokenKind::PublicKeyword:

@@ -22,7 +22,7 @@ class CommentsTest extends TestCase {
      * TODO not actually a test - just a convenience during initial development
      */
     public function testCommentsFile() {
-        $this->lexer = new \PhpParser\Lexer(self::FILENAME);
+        $this->lexer = new \PhpParser\Lexer(file_get_contents(self::FILENAME));
         $tokensArray = $this->lexer->getTokensArray();
 
         $expected = array(
@@ -49,7 +49,7 @@ class CommentsTest extends TestCase {
     }
 
     public function testParserPocFile() {
-        $this->lexer = new \PhpParser\Lexer(self::PARSER_POC_FILE);
+        $this->lexer = new \PhpParser\Lexer(file_get_contents(self::PARSER_POC_FILE));
         $tokensArray = $this->lexer->getTokensArray();
         $expected = array(
             new PhpParser\Token(PhpParser\TokenKind::ScriptSectionStartTag, 0, 0, 6),

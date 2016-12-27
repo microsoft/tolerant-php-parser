@@ -22,7 +22,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser($filename);
+            $parser = new \PhpParser\Parser(file_get_contents($filename));
             $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile()];
         }
         return $testFiles;
@@ -33,7 +33,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser($filename);
+            $parser = new \PhpParser\Parser(file_get_contents($filename));
             $sourceFileNode = $parser->parseSourceFile();
             $tokensArray = array();
             foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
@@ -161,15 +161,13 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      * @dataProvider sourceFileNodeProvider
      */
     public function testEveryNodeHasAKind($filename, Node $sourceFileNode) {
-        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodes());
         array_push($treeElements, $sourceFileNode);
 
         foreach($treeElements as $element) {
-            if ($element instanceof Node) {
-                $this->assertNotNull(
-                    $element->kind,
-                    "Invariant: Every Node has a Kind");
-            }
+            $this->assertNotNull(
+                $element->kind,
+                "Invariant: Every Node has a Kind");
         }
     }
 }
