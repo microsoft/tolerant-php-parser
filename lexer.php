@@ -66,8 +66,6 @@ class Lexer {
                 return $token;
             }
 
-            $char = ord($text[$pos]);
-
             if (!$this->inScriptSection) {
                 // Keep scanning until we hit a script section start tag
                 if (!$this->isScriptStartTag($text, $pos, $endOfFilePos)) {
@@ -82,8 +80,10 @@ class Lexer {
                     return new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
                 }
             }
+            
+            $charCode = ord($text[$pos]);
 
-            switch ($char) {
+            switch ($charCode) {
                 case CharacterCodes::_hash:
                     // Trivia (like comments) prepends a scanned Token
                     $this->scanSingleLineComment($text, $pos, $endOfFilePos);

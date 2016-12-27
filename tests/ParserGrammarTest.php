@@ -9,6 +9,7 @@ require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
 use PhpParser\Token;
+use PhpParser\Utilities;
 use PHPUnit\Framework\TestCase;
 
 class ParserGrammarTest extends TestCase {
@@ -78,7 +79,7 @@ class ParserGrammarTest extends TestCase {
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTreeFile, $tokens);
 
-        $this->assertEquals(0, iterator_count($parser->getErrors($sourceFile)));
+        $this->assertEquals(0, iterator_count(Utilities::getDiagnostics($sourceFile)));
     }
 
     public function outTreeProvider() {

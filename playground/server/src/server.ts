@@ -97,17 +97,9 @@ function validateTextDocument(textDocument: TextDocument): void {
 
 		var char = errorPos - (indexes.length > 0 ? indexes[indexes.length - 1] : 0) - 1;
 		var curLine = indexes.length;
-		var endChar = char + (error["length"] - (error["start"] - error["fullStart"]));		
+		var endChar = char + error["start"] + error["length"];		
 		
-		let message = '';
-		switch (error["error"]) {
-			case "SkippedToken":
-				message = `Unexpected ${error["kind"]}`
-				break;
-			case "MissingToken":
-				message = `Expected ${error["kind"]}`
-				break;
-		}
+		let message = error["message"];
 
 		message += ` at (line: ${curLine}, character: ${char})`
 		diagnostics.push({
