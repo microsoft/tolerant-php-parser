@@ -108,6 +108,9 @@ class CharacterCodes {
     const _backspace = 0x08;             // \b
     const _formFeed = 0x0C;              // \f
     const _byteOrderMark = 0xFEFF;
+    const _space = 0x20;
+    const _newline = 0x0A;               // \n
+    const _return = 0x0D;                // \r
     const _tab = 0x09;                   // \t
     const _verticalTab = 0x0B;           // \v
 }

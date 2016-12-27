@@ -15,15 +15,13 @@ class Lexer {
     public $endOfFilePos;
     private $fileContents;
     private $token;
-    public $filename;
 
     public $inScriptSection = false;
     private $keywordOrReservedWordTokens;
 
-    public function __construct($filename) {
-        $this->fileContents = file_get_contents($filename);
+    public function __construct($content) {
+        $this->fileContents = $content;
         $this->endOfFilePos = strlen($this->fileContents);
-        $this->filename = $filename;
         $this->pos = 0;
         $this->keywordOrReservedWordTokens = array_merge(KEYWORDS, RESERVED_WORDS);
     }
@@ -61,13 +59,13 @@ class Lexer {
                     ? new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos-$fullStart)
                     : new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
                 $this->inScriptSection = true;
+                // TODO WAT
                 if ($token->kind === TokenKind::InlineHtml && $pos-$fullStart === 0) {
                     continue;
                 }
                 return $token;
             }
 
-            // TODO skip past <?php
             $char = ord($text[$pos]);
 
             if (!$this->inScriptSection) {
@@ -91,16 +89,16 @@ class Lexer {
                     $this->scanSingleLineComment($text, $pos, $endOfFilePos);
                     continue;
 
-                case ord(" "):
+                case CharacterCodes::_space:
                 case CharacterCodes::_tab:
-                case ord("\r"):
-                case ord("\n"):
+                case CharacterCodes::_return:
+                case CharacterCodes::_newline:
                     $pos++;
                     continue;
 
                 // Potential 3-char compound
                 case CharacterCodes::_dot: // ..., .=, . // TODO also applies to floating point literals
-                    if (isset($text[$pos+1]) && $this->isDigitChar($text[$pos+1])) {
+                    if (isset($text[$pos+1]) && $this->isDigitChar(ord($text[$pos+1]))) {
                         $kind = $this->scanNumericLiteral($text, $pos, $endOfFilePos);
                         return new Token($kind, $fullStart, $start, $pos-$fullStart);
                     }
@@ -142,6 +140,7 @@ class Lexer {
                             continue;
                         }
 
+                        // TODO get rid of strtolower for perf reasons
                         $textSubstring = strtolower(substr($text, $pos, $tokenEnd + 1));
                         if ($this->isOperatorOrPunctuator($textSubstring)) {
                             $tokenKind = OPERATORS_AND_PUNCTUATORS[$textSubstring];
@@ -212,7 +211,7 @@ class Lexer {
                             $token = $this->getKeywordOrReservedWordTokenFromNameToken($token, $lowerText, $text, $pos, $endOfFilePos);
                         }
                         return $token;
-                    } elseif ($this->isDigitChar($text[$pos])) {
+                    } elseif ($this->isDigitChar(ord($text[$pos]))) {
                         $kind = $this->scanNumericLiteral($text, $pos, $endOfFilePos);
                         return new Token($kind, $fullStart, $start, $pos - $fullStart);
                     }
@@ -254,7 +253,7 @@ class Lexer {
 
     function scanSingleLineComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            if ($this->isNewLineChar($text[$pos]) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
+            if ($this->isNewLineChar(ord($text[$pos])) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
                 return;
             }
             $pos++;
@@ -281,13 +280,13 @@ class Lexer {
     function isNameStart($text, $pos, $endOfFilePos) : bool {
         return
             $pos < $endOfFilePos &&
-            $this->isNameNonDigitChar($text[$pos]);
+            $this->isNameNonDigitChar(ord($text[$pos]));
     }
 
     function scanName($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            $char = $text[$pos];
-            if ($this->isNameNonDigitChar($char) || $this->isDigitChar($char)) {
+            $charCode = ord($text[$pos]);
+            if ($this->isNameNonDigitChar($charCode) || $this->isDigitChar($charCode)) {
                 $pos++;
                 continue;
             }
@@ -295,16 +294,16 @@ class Lexer {
         }
     }
 
-    function isNewLineChar($char) : bool {
+    function isNewLineChar($charCode) : bool {
         return
-            $char === "\n" ||
-            $char === "\r";
+            $charCode === CharacterCodes::_newline ||
+            $charCode === CharacterCodes::_return;
     }
 
-    function isNameNonDigitChar($char) : bool {
+    function isNameNonDigitChar($charCode) : bool {
         return
-            $this->isNonDigitChar($char) ||
-            $this->isValidNameUnicodeChar($char);
+            $this->isNonDigitChar($charCode) ||
+            $this->isValidNameUnicodeChar($charCode);
     }
 
     /**
@@ -313,9 +312,11 @@ class Lexer {
      * @return bool
      */
     function isValidNameUnicodeChar($char) : bool {
-        return
-            $char >= "\u{0080}" &&
-            $char <= "\u{00ff}";
+        // TODO implement
+        return false;
+//        return
+//            $char >= "\u{0080}" &&
+//            $char <= "\u{00ff}";
     }
 
     /**
@@ -323,47 +324,42 @@ class Lexer {
      * @param $char
      * @return bool
      */
-    function isNonDigitChar($char) : bool {
-        $charCode = ord($char);
+    function isNonDigitChar($charCode) : bool {
         return
             ($charCode >= CharacterCodes::a && $charCode <= CharacterCodes::z) ||
             ($charCode >= CharacterCodes::A && $charCode <= CharacterCodes::Z) ||
             $charCode === CharacterCodes::_underscore;
     }
 
-    function isDigitChar($char) : bool {
-        $charCode = ord($char);
+    function isDigitChar($charCode) : bool {
+//        $charCode = ord($char);
         return
             $charCode >= CharacterCodes::_0 &&
             $charCode <= CharacterCodes::_9;
     }
 
-    function isNonzeroDigitChar($char) : bool {
-        $charCode = ord($char);
+    function isNonzeroDigitChar($charCode) : bool {
         return
             $charCode >= CharacterCodes::_1 &&
             $charCode <= CharacterCodes::_9;
     }
 
-    function isOctalDigitChar($char) : bool {
-        $charCode = ord($char);
+    function isOctalDigitChar($charCode) : bool {
         return
             $charCode >= CharacterCodes::_0 &&
             $charCode <= CharacterCodes::_7;
     }
 
-    function isBinaryDigitChar($char) : bool {
-        $charCode = ord($char);
+    function isBinaryDigitChar($charCode) : bool {
         return
             $charCode === CharacterCodes::_0 ||
             $charCode === CharacterCodes::_1;
     }
 
-    function isHexadecimalDigit($char) {
+    function isHexadecimalDigit($charCode) {
         // 0  1  2  3  4  5  6  7  8  9
         // a  b  c  d  e  f
         // A  B  C  D  E  F
-        $charCode = ord($char);
         return
             $charCode >= CharacterCodes::_0 && $charCode <= CharacterCodes::_9 ||
             $charCode >= CharacterCodes::a && $charCode <= CharacterCodes::f ||
@@ -390,7 +386,7 @@ class Lexer {
                 // invalid hexadecimal literal
             }
             return TokenKind::HexadecimalLiteralToken;
-        } elseif ($this->isDigitChar($text[$pos]) || $text[$pos] === ".") {
+        } elseif ($this->isDigitChar(ord($text[$pos])) || $text[$pos] === ".") {
             // TODO throw error if there is no number past the dot.
             $prevPos = $pos;
             $isValidFloatingLiteral = $this->scanFloatingPointLiteral($text, $pos, $endOfFilePos);
@@ -426,7 +422,7 @@ class Lexer {
 
     function isDecimalLiteralStart($text, $pos, $endOfFilePos) {
         // nonzero-digit
-        return $this->isNonzeroDigitChar($text[$pos]);
+        return $this->isNonzeroDigitChar(ord($text[$pos]));
     }
 
     function isOctalLiteralStart($text, $pos, $endOfFilePos) {
@@ -439,11 +435,11 @@ class Lexer {
     function scanBinaryLiteral($text, & $pos, $endOfFilePos) {
         $isValid = true;
         while ($pos < $endOfFilePos) {
-            $char = $text[$pos];
-            if ($this->isBinaryDigitChar($char)) {
+            $charCode = ord($text[$pos]);
+            if ($this->isBinaryDigitChar($charCode)) {
                 $pos++;
                 continue;
-            } elseif ($this->isDigitChar($char)) {
+            } elseif ($this->isDigitChar($charCode)) {
                 $pos++;
                 // REPORT ERROR;
                 $isValid = false;
@@ -457,11 +453,11 @@ class Lexer {
     function scanHexadecimalLiteral($text, & $pos, $endOfFilePos) {
         $isValid = true;
         while ($pos < $endOfFilePos) {
-            $char = $text[$pos];
-            if ($this->isHexadecimalDigit($char)) {
+            $charCode = ord($text[$pos]);
+            if ($this->isHexadecimalDigit($charCode)) {
                 $pos++;
                 continue;
-            } elseif ($this->isDigitChar($char) || $this->isNameNonDigitChar($char)) {
+            } elseif ($this->isDigitChar($charCode) || $this->isNameNonDigitChar($charCode)) {
                 $pos++;
                 // REPORT ERROR;
                 $isValid = false;
@@ -490,8 +486,8 @@ class Lexer {
 
     function scanDecimalLiteral($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
-            $char = $text[$pos];
-            if ($this->isDigitChar($char)) {
+            $charCode = ord($text[$pos]);
+            if ($this->isDigitChar($charCode)) {
                 $pos++;
                 continue;
             }
@@ -502,12 +498,12 @@ class Lexer {
     private function scanOctalLiteral($text, & $pos, $endOfFilePos) {
         $isValid = true;
         while ($pos < $endOfFilePos) {
-            $char = $text[$pos];
+            $charCode = ord($text[$pos]);
 
-            if ($this->isOctalDigitChar($char)) {
+            if ($this->isOctalDigitChar($charCode)) {
                 $pos++;
                 continue;
-            } elseif ($this->isDigitChar($char)) {
+            } elseif ($this->isDigitChar($charCode)) {
                 $pos++;
                 $isValid = false;
                 continue;
@@ -524,7 +520,7 @@ class Lexer {
          while ($pos < $endOfFilePos) {
              $char = $text[$pos];
 
-             if ($this->isDigitChar($char)) {
+             if ($this->isDigitChar(ord($char))) {
                  $pos++;
                  continue;
              } elseif ($char === ".") {
@@ -688,7 +684,7 @@ class Lexer {
             case CharacterCodes::X:
                 $pos++;
                 for ($i = 0; $i<2; $i++) {
-                    if (isset($text[$pos]) && $this->isHexadecimalDigit($text[$pos])) {
+                    if (isset($text[$pos]) && $this->isHexadecimalDigit(ord($text[$pos]))) {
                         $pos++;
                     }
                 }
@@ -709,9 +705,9 @@ class Lexer {
                 return;
             default:
                 // dq-octal-digit-escape-sequence
-                if ($this->isOctalDigitChar($text[$pos])) {
+                if ($this->isOctalDigitChar(ord($text[$pos]))) {
                     for ($i = $pos; $i < $pos + 3; $i++) {
-                        if (!(isset($text[$i]) || $this->isOctalDigitChar($text[$i]))) {
+                        if (!(isset($text[$i]) || $this->isOctalDigitChar(ord($text[$i])))) {
                             return;
                         }
                         $pos++;
@@ -725,8 +721,7 @@ class Lexer {
     }
 
     private function isScriptStartTag($text, $pos, $endOfFilePos) {
-        if (!$this->inScriptSection &&
-            ord($text[$pos]) === CharacterCodes::_lessThan && // TODO use regex to detect newline or whitespace char
+        if (ord($text[$pos]) === CharacterCodes::_lessThan && // TODO use regex to detect newline or whitespace char
             (isset($text[$pos+5]) && strtolower(substr($text, $pos, 5)) === "<?php" &&  in_array($text[$pos+5],["\n", "\r", " ", "\t"])) ||
             (isset($text[$pos+2]) && substr($text, $pos, 3) === "<?=")) {
             return true;
