@@ -8,11 +8,22 @@ require_once(__DIR__ . "/../../../Token.php");
 use PhpParser\Parser;
 use PhpParser\Utilities;
 
-$parser = new Parser(file_get_contents($argv[1]));
+$contents = file_get_contents($argv[1]);
+$parser = new Parser($contents);
 $sourceFile = $parser->parseSourceFile();
 
 file_put_contents($argv[1] . ".ast", json_encode($sourceFile, JSON_PRETTY_PRINT));
 
+$diagnostics = Utilities::getDiagnostics($sourceFile);
+$diagnosticsAsLineCol = [];
+foreach ($diagnostics as $diagnostic) {
+    array_push($diagnosticsAsLineCol, [
+        "error" => $diagnostic->kind,
+        "message" => $diagnostic->message,
+        "range" => Utilities::getRangeFromPosition($diagnostic->start, $diagnostic->length, $contents)
+    ]);
+}
+
 //echo $argv[1];
 
-echo json_encode(iterator_to_array(Utilities::getDiagnostics($sourceFile)), JSON_PRETTY_PRINT);
+echo json_encode($diagnosticsAsLineCol, JSON_PRETTY_PRINT);

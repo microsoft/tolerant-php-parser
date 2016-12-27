@@ -81,34 +81,12 @@ function validateTextDocument(textDocument: TextDocument): void {
 
 	let allErrors = outErrors;
 
-	for (var i = 0; i < allErrors.length && i < maxNumberOfProblems; i++) {
+	for (var i = 0; i < allErrors.length && i < maxNumberOfProblems; i++) {		
 		let error = allErrors[i];
-		var errorPos = error["start"];
-
-		var text = textDocument.getText();
-		var indexes = [], j = -1;
-		while ((j = text.indexOf("\n", j+1)) != -1) {
-			if (j < errorPos && j != -1) {
-				indexes.push(j);
-				continue;
-			}
-			break;
-		}
-
-		var char = errorPos - (indexes.length > 0 ? indexes[indexes.length - 1] : 0) - 1;
-		var curLine = indexes.length;
-		var endChar = char + error["start"] + error["length"];		
-		
-		let message = error["message"];
-
-		message += ` at (line: ${curLine}, character: ${char})`
 		diagnostics.push({
 			severity: DiagnosticSeverity.Error,
-			range: {
-				start: { line: curLine, character: char},
-				end: { line: curLine, character: endChar}
-			},
-			message: message,
+			range: error["range"],
+			message: error["message"],
 			source: 'ex'
 		});
 	}

@@ -64,4 +64,49 @@ class Utilities {
             yield from Utilities::getDiagnostics($child);
         }
     }
+    
+    public static function getRangeFromPosition($pos, $length, $text) {
+        $start = self::getLineCharacterPositionFromPosition($pos, $text);
+        $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
+
+        return new Range ($start, $end);
+    }
+
+    public static function getLineCharacterPositionFromPosition($pos, $text) {
+        $newlinePositions = [];
+        $newlinePos = -1;
+        while ($newlinePos = strpos($text, "\n", $newlinePos + 1)) {        
+            if ($newlinePos < $pos) {
+                array_push($newlinePositions, $newlinePos);
+                continue;
+            }
+            break;
+        }
+
+        $lastNewline = count($newlinePositions) - 1;
+        $char = $pos - ($lastNewline >= 0 ? $newlinePositions[$lastNewline] : 0);
+        $line = count($newlinePositions);
+
+        return new LineCharacterPosition($line, $char);
+    }
+}
+
+class Range {
+    public $start;
+    public $end;
+
+    public function __construct(LineCharacterPosition $start, LineCharacterPosition $end) {
+        $this->start = $start;
+        $this->end = $end;
+    }
+}
+
+class LineCharacterPosition {
+    public $line;
+    public $character;
+
+    public function __construct(int $line, int $character) {
+        $this->line = $line;
+        $this->character = $character;
+    }
 }
