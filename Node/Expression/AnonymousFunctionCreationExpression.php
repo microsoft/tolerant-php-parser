@@ -4,11 +4,16 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
+use PhpParser\Node\Expression;
+use PhpParser\Node\FunctionBody;
+use PhpParser\Node\FunctionHeader;
+use PhpParser\Node\FunctionReturnType;
+use PhpParser\Node\FunctionUseClause;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class AnonymousFunctionCreationExpression extends Node {
+class AnonymousFunctionCreationExpression extends Expression {
     /** @var Token | null */
     public $staticModifier;
 

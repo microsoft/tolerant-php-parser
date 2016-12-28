@@ -15,7 +15,6 @@ spl_autoload_register(function ($class) {
     }
 });
 
-use PhpParser\Node\AnonymousFunctionCreationExpression;
 use PhpParser\Node\AnonymousFunctionUseClause;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\CaseStatementNode;
@@ -25,6 +24,7 @@ use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\ConstElement;
 use PhpParser\Node\Expression\{
+    AnonymousFunctionCreationExpression,
     ArgumentExpression,
     ArrayCreationExpression,
     AssignmentExpression,
