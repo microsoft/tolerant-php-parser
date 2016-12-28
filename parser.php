@@ -34,16 +34,6 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
-use PhpParser\Node\DelimitedList\ArgumentExpressionList;
-use PhpParser\Node\DelimitedList\ArrayElementList;
-use PhpParser\Node\DelimitedList\ExpressionList;
-use PhpParser\Node\DelimitedList\ListExpressionList;
-use PhpParser\Node\DelimitedList\NamespaceUseGroupClauseList;
-use PhpParser\Node\DelimitedList\ParameterDeclarationList;
-use PhpParser\Node\DelimitedList\QualifiedNameList;
-use PhpParser\Node\DelimitedList\QualifiedNameParts;
-use PhpParser\Node\DelimitedList\TraitSelectOrAliasClauseList;
-use PhpParser\Node\DelimitedList\VariableNameList;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
 use PhpParser\Node\InlineHtml;
@@ -1171,7 +1161,7 @@ class Parser {
             $this->parseParameterFn(),
             $functionDefinition,
             false,
-            ParameterDeclarationList::class);
+            DelimitedList\ParameterDeclarationList::class);
         $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
         if ($isAnonymous) {
             $functionDefinition->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDefinition);
@@ -1935,7 +1925,7 @@ class Parser {
         $listExpression->openParen = $this->eat(TokenKind::OpenParenToken);
         // TODO - parse loosely as ArrayElementList, and validate parse tree later
         $listExpression->listElements =
-            $this->parseArrayElementList($listExpression, ListExpressionList::class);
+            $this->parseArrayElementList($listExpression, DelimitedList\ListExpressionList::class);
         $listExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $listExpression;
@@ -1986,7 +1976,7 @@ class Parser {
             $this->parseExpressionFn(),
             $parentExpression,
             false,
-            ExpressionList::class
+            DelimitedList\ExpressionList::class
         );
     }
 
@@ -2012,7 +2002,7 @@ class Parser {
             ? $this->eat(TokenKind::OpenParenToken)
             : $this->eat(TokenKind::OpenBracketToken);
 
-        $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression, ArrayElementList::class);
+        $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression, DelimitedList\ArrayElementList::class);
 
         $arrayExpression->closeParenOrBracket = $arrayExpression->arrayKeyword !== null
             ? $this->eat(TokenKind::CloseParenToken)
@@ -2349,7 +2339,7 @@ class Parser {
             $this->parseArgumentExpressionFn(),
             $parentNode,
             false,
-            ArgumentExpressionList::class
+            DelimitedList\ArgumentExpressionList::class
         );
     }
 
@@ -2423,7 +2413,7 @@ class Parser {
             $this->parseQualifiedNameFn(),
             $parentNode,
             false,
-            QualifiedNameList::class);
+            DelimitedList\QualifiedNameList::class);
     }
 
     private function parseInterfaceDeclaration($parentNode) {
@@ -2549,7 +2539,7 @@ class Parser {
                 },
                 $namespaceUseDeclaration,
                 false,
-                NamespaceUseGroupClauseList::class
+                DelimitedList\NamespaceUseGroupClauseList::class
             );
             $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
 
@@ -2670,7 +2660,7 @@ class Parser {
                 },
                 $traitUseClause,
                 false,
-                TraitSelectOrAliasClauseList::class
+                DelimitedList\TraitSelectOrAliasClauseList::class
             );
             $traitUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
@@ -2697,7 +2687,7 @@ class Parser {
             $this->parseSimpleVariableFn(),
             $globalDeclaration,
             false,
-            VariableNameList::class
+            DelimitedList\VariableNameList::class
         );
 
         $globalDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
@@ -2716,7 +2706,9 @@ class Parser {
                 return $token->kind === TokenKind::VariableName;
             },
             $this->parseStaticVariableDeclarationFn(),
-            $functionStaticDeclaration
+            $functionStaticDeclaration,
+            false,
+            DelimitedList\StaticVariableNameList::class
         );
         $functionStaticDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
 

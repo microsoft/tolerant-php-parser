@@ -116,4 +116,5 @@ class NodeKind {
     const NamespaceUseGroupClauseList = 106;
     const TraitSelectOrAliasClauseList = 107;
     const VariableNameList = 108;
+    const StaticVariableNameList = 109;
 }
