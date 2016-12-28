@@ -58,7 +58,7 @@
                                                 "textLength": 1
                                             },
                                             "useVariableNameList": {
-                                                "DelimitedList": {
+                                                "UseVariableNameList": {
                                                     "children": [
                                                         {
                                                             "UseVariableName": {

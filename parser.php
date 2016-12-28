@@ -1040,18 +1040,18 @@ class Parser {
         };
     }
 
-    private function parseDelimitedList($delimeter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
+    private function parseDelimitedList($delimiter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false, $className = DelimitedList::class) {
         // TODO consider allowing empty delimiter to be more tolerant
-        $node = new DelimitedList();
+        $node = new $className();
         $token = $this->getCurrentToken();
         do {
             if ($isElementStartFn($token)) {
                 $node->addToken($parseElementFn($node));
-            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimeter))) {
+            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimiter))) {
                 break;
             }
 
-            $delimeterToken = $this->eatOptional($delimeter);
+            $delimeterToken = $this->eatOptional($delimiter);
             if ($delimeterToken !== null) {
                 $node->addToken($delimeterToken);
             }
@@ -2809,7 +2809,8 @@ class Parser {
                 $useVariableName->variableName = $this->eat(TokenKind::VariableName);
                 return $useVariableName;
             },
-            $anonymousFunctionUseClause
+            $anonymousFunctionUseClause,
+            false, DelimitedList\UseVariableNameList::class
         );
         $anonymousFunctionUseClause->closeParen = $this->eat(TokenKind::CloseParenToken);
 

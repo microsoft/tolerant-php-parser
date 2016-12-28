@@ -6,9 +6,7 @@
 
 namespace PhpParser\Node;
 use PhpParser\NodeKind;
-use PhpParser\SkippedToken;
 use PhpParser\Token;
-use PhpParser\TokenKind;
 
 class AnonymousFunctionCreationExpression extends  Node {
     /** @var Token | null */

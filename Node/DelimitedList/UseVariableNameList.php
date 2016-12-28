@@ -4,25 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-use PhpParser\Node\DelimitedList\UseVariableNameList;
+namespace PhpParser\Node\DelimitedList;
+use PhpParser\Node\DelimitedList;
 use PhpParser\NodeKind;
-use PhpParser\Token;
 
-class AnonymousFunctionUseClause extends Node {
-    /** @var Token */
-    public $useKeyword;
-
-    /** @var Token */
-    public $openParen;
-
-    /** @var UseVariableNameList */
-    public $useVariableNameList;
-
-    /** @var Token */
-    public $closeParen;
-
+class UseVariableNameList extends DelimitedList {
     public function __construct() {
-        parent::__construct(NodeKind::AnonymousFunctionUseClause);
+        parent::__construct(NodeKind::UseVariableNameList);
     }
 }

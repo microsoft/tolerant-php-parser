@@ -12,8 +12,8 @@ class DelimitedList extends Node {
     /** @var Node[] */
     public $children;
 
-    public function __construct() {
-        parent::__construct(NodeKind::DelimitedList);
+    public function __construct($nodeKind = NodeKind::DelimitedList) {
+        parent::__construct($nodeKind);
     }
 
     public function getValues() {

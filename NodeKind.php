@@ -105,4 +105,5 @@ class NodeKind {
     const CloneExpression = 95;
     const AssignmentExpression = 96;
     const InlineHtml = 97;
+    const UseVariableNameList = 98;
 }
