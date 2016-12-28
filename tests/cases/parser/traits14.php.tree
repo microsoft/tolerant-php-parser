@@ -61,7 +61,7 @@
                                             "textLength": 1
                                         },
                                         "traitSelectAndAliasClauses": {
-                                            "DelimitedList": {
+                                            "TraitSelectOrAliasClauseList": {
                                                 "children": [
                                                     {
                                                         "TraitSelectOrAliasClause": {

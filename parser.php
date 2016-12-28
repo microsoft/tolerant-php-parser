@@ -42,6 +42,7 @@ use PhpParser\Node\DelimitedList\NamespaceUseGroupClauseList;
 use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
+use PhpParser\Node\DelimitedList\TraitSelectOrAliasClauseList;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
 use PhpParser\Node\InlineHtml;
@@ -2666,7 +2667,9 @@ class Parser {
                     // TODO errors for insteadof/as
                     return $traitSelectAndAliasClause;
                 },
-                $traitUseClause
+                $traitUseClause,
+                false,
+                TraitSelectOrAliasClauseList::class
             );
             $traitUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
