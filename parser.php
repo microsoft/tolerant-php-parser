@@ -43,6 +43,7 @@ use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\DelimitedList\TraitSelectOrAliasClauseList;
+use PhpParser\Node\DelimitedList\VariableNameList;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
 use PhpParser\Node\InlineHtml;
@@ -2694,7 +2695,9 @@ class Parser {
             TokenKind::CommaToken,
             $this->isVariableNameStartFn(),
             $this->parseSimpleVariableFn(),
-            $globalDeclaration
+            $globalDeclaration,
+            false,
+            VariableNameList::class
         );
 
         $globalDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
