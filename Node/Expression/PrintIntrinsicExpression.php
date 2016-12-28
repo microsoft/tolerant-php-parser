@@ -4,21 +4,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
-
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class CloneExpression extends Expression {
+class PrintIntrinsicExpression extends Expression {
 
     /** @var Token */
-    public $cloneKeyword;
+    public $printKeyword;
 
     /** @var Expression */
     public $expression;
 
     public function __construct() {
-        parent::__construct(NodeKind::CloneExpression);
+        parent::__construct(NodeKind::PrintIntrinsicExpression);
     }
 }

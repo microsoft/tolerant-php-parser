@@ -4,27 +4,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
 
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EmptyIntrinsicExpression extends Expression {
+class PrefixUpdateExpression extends UnaryExpression {
 
     /** @var Token */
-    public $emptyKeyword;
+    public $incrementOrDecrementOperator;
 
-    /** @var Token */
-    public $openParen;
-
-    /** @var Expression */
-    public $expression;
-
-    /** @var Token */
-    public $closeParen;
+    /** @var Variable */
+    public $operand;
 
     public function __construct() {
-        parent::__construct(NodeKind::EmptyIntrinsicExpression);
+        parent::__construct(NodeKind::PrefixUpdateExpression);
     }
 }

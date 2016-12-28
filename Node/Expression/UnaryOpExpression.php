@@ -4,14 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
+
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class TemplateExpressionNode extends Node {
-    public $children;
+class UnaryOpExpression extends UnaryExpression {
+
+    /** @var Token */
+    public $operator;
+
+    /** @var UnaryExpression */
+    public $operand;
 
     public function __construct() {
-        parent::__construct(NodeKind::TemplateExpression);
+        parent::__construct(NodeKind::UnaryOpExpression);
     }
 }

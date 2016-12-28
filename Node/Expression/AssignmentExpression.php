@@ -4,23 +4,27 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
-
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class BracedExpression extends Node {
-    /** @var Token */
-    public $openBrace;
+class AssignmentExpression extends BinaryExpression {
+
     /** @var Expression */
-    public $expression;
+    public $leftOperand;
 
     /** @var Token */
-    public $closeBrace;
+    public $operator;
+
+    /** @var Token */
+    public $byRef;
+
+    /** @var Expression */
+    public $rightOperand;
 
     public function __construct() {
-        parent::__construct(NodeKind::BracedExpression);
+        parent::__construct(NodeKind::AssignmentExpression);
     }
-
 }

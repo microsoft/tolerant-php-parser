@@ -4,23 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ScopedPropertyAccessExpression extends Expression {
-
-    /** @var Expression | QualifiedName | Token */
-    public $scopeResolutionQualifier;
+class ErrorControlExpression extends UnaryExpression {
 
     /** @var Token */
-    public $doubleColon;
+    public $operator;
 
-    /** @var Token | Variable */
-    public $memberName;
+    /** @var UnaryExpression */
+    public $operand;
 
     public function __construct() {
-        parent::__construct(NodeKind::ScopedPropertyAccessExpression);
+        parent::__construct(NodeKind::ErrorControlExpression);
     }
 }

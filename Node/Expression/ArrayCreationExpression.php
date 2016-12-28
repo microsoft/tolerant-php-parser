@@ -4,20 +4,28 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
-
+use PhpParser\Node\DelimitedList;
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class PostfixUpdateExpression extends Expression {
-    /** @var Variable */
-    public $operand;
+class ArrayCreationExpression extends Expression {
 
     /** @var Token */
-    public $incrementOrDecrementOperator;
+    public $arrayKeyword;
+
+    /** @var Token */
+    public $openParenOrBracket;
+
+    /** @var DelimitedList\ArrayElementList */
+    public $arrayElements;
+
+    /** @var Token */
+    public $closeParenOrBracket;
 
     public function __construct() {
-        parent::__construct(NodeKind::PostfixUpdateExpression);
+        parent::__construct(NodeKind::ArrayCreationExpression);
     }
 }

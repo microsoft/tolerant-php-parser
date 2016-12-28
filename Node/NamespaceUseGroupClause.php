@@ -4,15 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/**
- * Created by PhpStorm.
- * User: Itani
- * Date: 11/22/2016
- * Time: 10:15 PM
- */
-
 namespace PhpParser\Node;
-
 
 use PhpParser\NodeKind;
 use PhpParser\Token;

@@ -4,21 +4,25 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
 
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EchoExpression extends Expression {
+class ParenthesizedExpression extends Expression {
 
     /** @var Token */
-    public $echoKeyword;
+    public $openParen;
 
-    /** @var Expression[] */
-    public $expressions;
+    /** @var Expression */
+    public $expression;
+
+    /** @var Token */
+    public $closeParen;
 
     public function __construct() {
-        parent::__construct(NodeKind::EchoExpression);
+        parent::__construct(NodeKind::ParenthesizedExpression);
     }
 }

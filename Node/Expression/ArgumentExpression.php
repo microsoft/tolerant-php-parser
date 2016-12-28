@@ -4,27 +4,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-
-
+namespace PhpParser\Node\Expression;
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class CastExpression extends UnaryExpression {
+class ArgumentExpression extends Expression {
+    /** @var Token | null */
+    public $byRefToken; // TODO removed in newer versions of PHP. Also only accept variable, not expression if byRef
 
-    /** @var Token */
-    public $openParen;
+    /** @var Token | null */
+    public $dotDotDotToken;
 
-    /** @var Token */
-    public $castType;
-
-    /** @var Token */
-    public $closeParen;
-
-    /** @var Variable */
-    public $operand;
+    /** @var Expression */
+    public $expression;
 
     public function __construct() {
-        parent::__construct(NodeKind::CastExpression);
+        parent::__construct(NodeKind::ArgumentExpression);
     }
 }

@@ -4,23 +4,26 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-
+namespace PhpParser\Node\Expression;
+use PhpParser\Node\DelimitedList;
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class MemberAccessExpression extends Expression {
-
+class CallExpression extends Expression {
     /** @var Expression */
-    public $dereferencableExpression;
+    public $callableExpression;
 
     /** @var Token */
-    public $arrowToken;
+    public $openParen;
 
-    /** @var MemberName */
-    public $memberName;
+    /** @var DelimitedList\ArgumentExpressionList | null */
+    public $argumentExpressionList;
+
+    /** @var Token */
+    public $closeParen;
 
     public function __construct() {
-        parent::__construct(NodeKind::MemberAccessExpression);
+        parent::__construct(NodeKind::CallExpression);
     }
 }

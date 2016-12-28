@@ -4,21 +4,26 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-
+namespace PhpParser\Node\Expression;
 
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ErrorControlExpression extends UnaryExpression {
+class CastExpression extends UnaryExpression {
 
     /** @var Token */
-    public $operator;
+    public $openParen;
 
-    /** @var UnaryExpression */
+    /** @var Token */
+    public $castType;
+
+    /** @var Token */
+    public $closeParen;
+
+    /** @var Variable */
     public $operand;
 
     public function __construct() {
-        parent::__construct(NodeKind::ErrorControlExpression);
+        parent::__construct(NodeKind::CastExpression);
     }
 }

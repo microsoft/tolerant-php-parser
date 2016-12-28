@@ -4,27 +4,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
 
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ListIntrinsicExpression extends Expression {
+class EchoExpression extends Expression {
 
     /** @var Token */
-    public $listKeyword;
+    public $echoKeyword;
 
-    /** @var Token */
-    public $openParen;
-
-    /** @var DelimitedList\ListExpressionList */
-    public $listElements;
-
-    /** @var Token */
-    public $closeParen;
+    /** @var Expression[] */
+    public $expressions;
 
     public function __construct() {
-        parent::__construct(NodeKind::ListIntrinsicExpression);
+        parent::__construct(NodeKind::EchoExpression);
     }
 }

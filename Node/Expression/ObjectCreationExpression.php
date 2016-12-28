@@ -4,8 +4,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
+use PhpParser\Node\ClassBaseClause;
+use PhpParser\Node\ClassInterfaceClause;
+use PhpParser\Node\ClassMembersNode;
+use PhpParser\Node\DelimitedList;
+use PhpParser\Node\Expression;
+use PhpParser\Node\QualifiedName;
 
 use PhpParser\NodeKind;
 use PhpParser\Token;

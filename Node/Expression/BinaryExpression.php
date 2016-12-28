@@ -4,18 +4,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
-
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class UnknownExpression extends Expression {
+class BinaryExpression extends Expression {
+
+    /** @var Expression */
+    public $leftOperand;
 
     /** @var Token */
-    public $children;
+    public $operator;
 
-    public function __construct() {
-        parent::__construct(NodeKind::UnknownExpression);
+    /** @var Expression */
+    public $rightOperand;
+
+    public function __construct($kind = NodeKind::BinaryExpression) {
+        parent::__construct($kind);
     }
 }

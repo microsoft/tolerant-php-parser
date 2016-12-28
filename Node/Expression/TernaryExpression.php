@@ -4,24 +4,30 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
+
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class CallExpression extends Expression {
+class TernaryExpression extends Expression {
+
     /** @var Expression */
-    public $callableExpression;
+    public $condition;
 
     /** @var Token */
-    public $openParen;
+    public $questionToken;
 
-    /** @var DelimitedList\ArgumentExpressionList | null */
-    public $argumentExpressionList;
+    /** @var Expression */
+    public $ifExpression;
 
     /** @var Token */
-    public $closeParen;
+    public $colonToken;
+
+    /** @var Expression */
+    public $elseExpression;
 
     public function __construct() {
-        parent::__construct(NodeKind::CallExpression);
+        parent::__construct(NodeKind::TernaryExpression);
     }
 }

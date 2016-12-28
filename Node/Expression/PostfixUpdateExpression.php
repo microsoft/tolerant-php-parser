@@ -4,27 +4,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
+
+use PhpParser\Node\Expression;
 
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EvalIntrinsicExpression extends Expression {
+class PostfixUpdateExpression extends Expression {
+    /** @var Variable */
+    public $operand;
 
     /** @var Token */
-    public $evalKeyword;
-
-    /** @var Token */
-    public $openParen;
-
-    /** @var Expression */
-    public $expression;
-
-    /** @var Token */
-    public $closeParen;
+    public $incrementOrDecrementOperator;
 
     public function __construct() {
-        parent::__construct(NodeKind::EvalIntrinsicExpression);
+        parent::__construct(NodeKind::PostfixUpdateExpression);
     }
 }

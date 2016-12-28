@@ -4,21 +4,18 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-
-
+namespace PhpParser\Node\Expression;
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class UnaryOpExpression extends UnaryExpression {
-
+class ScriptInclusionExpression extends Expression  {
     /** @var Token */
-    public $operator;
-
-    /** @var UnaryExpression */
-    public $operand;
+    public $requireOrIncludeKeyword;
+    /** @var Expression */
+    public $expression;
 
     public function __construct() {
-        parent::__construct(NodeKind::UnaryOpExpression);
+        parent::__construct(NodeKind::ScriptInclusionExpressoin);
     }
 }

@@ -4,26 +4,27 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class AssignmentExpression extends BinaryExpression {
-
-    /** @var Expression */
-    public $leftOperand;
+class ExitIntrinsicExpression extends Expression {
 
     /** @var Token */
-    public $operator;
+    public $exitOrDieKeyword;
 
-    /** @var Token */
-    public $byRef;
+    /** @var Token | null */
+    public $openParen;
 
-    /** @var Expression */
-    public $rightOperand;
+    /** @var Expression | null */
+    public $expression;
+
+    /** @var Token | null */
+    public $closeParen;
 
     public function __construct() {
-        parent::__construct(NodeKind::AssignmentExpression);
+        parent::__construct(NodeKind::ExitIntrinsicExpression);
     }
 }

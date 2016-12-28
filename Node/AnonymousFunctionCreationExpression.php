@@ -8,7 +8,7 @@ namespace PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class AnonymousFunctionCreationExpression extends  Node {
+class AnonymousFunctionCreationExpression extends Node {
     /** @var Token | null */
     public $staticModifier;
 

@@ -4,26 +4,25 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
 
+use PhpParser\Node\Expression;
+use PhpParser\Node\QualifiedName;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class SubscriptExpression extends Expression {
+class ScopedPropertyAccessExpression extends Expression {
 
-    /** @var Expression */
-    public $postfixExpression;
-
-    /** @var Token */
-    public $openBracketOrBrace;
-
-    public $accessExpression;
+    /** @var Expression | QualifiedName | Token */
+    public $scopeResolutionQualifier;
 
     /** @var Token */
-    public $closeBracketOrBrace;
+    public $doubleColon;
 
+    /** @var Token | Variable */
+    public $memberName;
 
     public function __construct() {
-        parent::__construct(NodeKind::SubscriptExpression);
+        parent::__construct(NodeKind::ScopedPropertyAccessExpression);
     }
 }

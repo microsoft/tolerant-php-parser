@@ -4,21 +4,27 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Expression;
+
+use PhpParser\Node\Expression;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ArgumentExpression extends Expression {
-    /** @var Token | null */
-    public $byRefToken; // TODO removed in newer versions of PHP. Also only accept variable, not expression if byRef
+class EvalIntrinsicExpression extends Expression {
 
-    /** @var Token | null */
-    public $dotDotDotToken;
+    /** @var Token */
+    public $evalKeyword;
+
+    /** @var Token */
+    public $openParen;
 
     /** @var Expression */
     public $expression;
 
+    /** @var Token */
+    public $closeParen;
+
     public function __construct() {
-        parent::__construct(NodeKind::ArgumentExpression);
+        parent::__construct(NodeKind::EvalIntrinsicExpression);
     }
 }
