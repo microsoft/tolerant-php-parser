@@ -26,7 +26,7 @@
                             },
                             "relativeSpecifier": null,
                             "nameParts": {
-                                "DelimitedList": {
+                                "QualifiedNameParts": {
                                     "children": [
                                         {
                                             "kind": "Name",
@@ -77,7 +77,7 @@
                             },
                             "relativeSpecifier": null,
                             "nameParts": {
-                                "DelimitedList": {
+                                "QualifiedNameParts": {
                                     "children": [
                                         {
                                             "kind": "Name",

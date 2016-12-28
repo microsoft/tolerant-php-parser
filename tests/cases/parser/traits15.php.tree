@@ -42,7 +42,7 @@
                                                             "globalSpecifier": null,
                                                             "relativeSpecifier": null,
                                                             "nameParts": {
-                                                                "DelimitedList": {
+                                                                "QualifiedNameParts": {
                                                                     "children": [
                                                                         {
                                                                             "kind": "Name",
@@ -72,7 +72,7 @@
                                                                             "globalSpecifier": null,
                                                                             "relativeSpecifier": null,
                                                                             "nameParts": {
-                                                                                "DelimitedList": {
+                                                                                "QualifiedNameParts": {
                                                                                     "children": [
                                                                                         {
                                                                                             "kind": "Name",
@@ -103,7 +103,7 @@
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
                                                                     "nameParts": {
-                                                                        "DelimitedList": {
+                                                                        "QualifiedNameParts": {
                                                                             "children": [
                                                                                 {
                                                                                     "kind": "Name",

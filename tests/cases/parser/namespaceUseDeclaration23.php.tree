@@ -34,7 +34,7 @@
                                 }
                             },
                             "nameParts": {
-                                "DelimitedList": {
+                                "QualifiedNameParts": {
                                     "children": [
                                         {
                                             "kind": "Name",

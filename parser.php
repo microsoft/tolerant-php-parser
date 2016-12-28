@@ -34,6 +34,7 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
+use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
 use PhpParser\Node\InlineHtml;
@@ -1117,7 +1118,7 @@ class Parser {
                             : $this->eat($this->nameOrStaticOrReservedWordTokens); // TODO support keyword name
                         $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
                         return $name;
-                    }, $node);
+                    }, $node, false, QualifiedNameParts::class);
             if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }

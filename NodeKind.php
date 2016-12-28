@@ -106,4 +106,5 @@ class NodeKind {
     const AssignmentExpression = 96;
     const InlineHtml = 97;
     const UseVariableNameList = 98;
+    const QualifiedNameParts = 99;
 }

@@ -9,7 +9,7 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class DelimitedList extends Node {
-    /** @var Node[] */
+    /** @var Token[]|Node[] */
     public $children;
 
     public function __construct($nodeKind = NodeKind::DelimitedList) {
