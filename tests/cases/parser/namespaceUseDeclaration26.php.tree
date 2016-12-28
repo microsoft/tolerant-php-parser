@@ -44,7 +44,7 @@
                         "textLength": 1
                     },
                     "groupClauses": {
-                        "DelimitedList": {
+                        "NamespaceUseGroupClauseList": {
                             "children": [
                                 {
                                     "NamespaceUseGroupClause": {

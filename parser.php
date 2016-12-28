@@ -38,6 +38,7 @@ use PhpParser\Node\DelimitedList\ArgumentExpressionList;
 use PhpParser\Node\DelimitedList\ArrayElementList;
 use PhpParser\Node\DelimitedList\ExpressionList;
 use PhpParser\Node\DelimitedList\ListExpressionList;
+use PhpParser\Node\DelimitedList\NamespaceUseGroupClauseList;
 use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
@@ -2544,7 +2545,9 @@ class Parser {
 
                     return $namespaceUseGroupClause;
                 },
-                $namespaceUseDeclaration
+                $namespaceUseDeclaration,
+                false,
+                NamespaceUseGroupClauseList::class
             );
             $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
 

@@ -113,4 +113,5 @@ class NodeKind {
     const ListExpressionList = 103;
     const QualifiedNameList = 104;
     const ArgumentExpressionList = 105;
+    const NamespaceUseGroupClauseList = 106;
 }
