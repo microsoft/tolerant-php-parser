@@ -34,7 +34,7 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
-use PhpParser\Node\DelimitedList\ForExpressionGroup;
+use PhpParser\Node\DelimitedList\ExpressionList;
 use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\FunctionStaticDeclaration;
@@ -1671,11 +1671,11 @@ class Parser {
         $forStatement->parent = $parentNode;
         $forStatement->for = $this->eat(TokenKind::ForKeyword);
         $forStatement->openParen = $this->eat(TokenKind::OpenParenToken);
-        $forStatement->forInitializer = $this->parseForExpressionGroup($forStatement);
+        $forStatement->forInitializer = $this->parseExpressionList($forStatement); // TODO spec is redundant
         $forStatement->exprGroupSemicolon1 = $this->eat(TokenKind::SemicolonToken);
-        $forStatement->forControl = $this->parseForExpressionGroup($forStatement);
+        $forStatement->forControl = $this->parseExpressionList($forStatement);
         $forStatement->exprGroupSemicolon2 = $this->eat(TokenKind::SemicolonToken);
-        $forStatement->forEndOfLoop = $this->parseForExpressionGroup($forStatement);
+        $forStatement->forEndOfLoop = $this->parseExpressionList($forStatement);
         $forStatement->closeParen = $this->eat(TokenKind::CloseParenToken);
         $forStatement->colon = $this->eatOptional(TokenKind::ColonToken);
         if ($forStatement->colon !== null) {
@@ -1686,16 +1686,6 @@ class Parser {
             $forStatement->statements = $this->parseStatement($forStatement);
         }
         return $forStatement;
-    }
-
-    private function parseForExpressionGroup($forStatement) {
-        return $this->parseDelimitedList(
-            TokenKind::CommaToken,
-            $this->isExpressionStartFn(),
-            $this->parseExpressionFn(),
-            $forStatement,
-            false,
-            ForExpressionGroup::class);
     }
 
     private function parseForeachStatement($parentNode) {
@@ -1986,7 +1976,9 @@ class Parser {
             TokenKind::CommaToken,
             $this->isExpressionStartFn(),
             $this->parseExpressionFn(),
-            $parentExpression
+            $parentExpression,
+            false,
+            ExpressionList::class
         );
     }
 

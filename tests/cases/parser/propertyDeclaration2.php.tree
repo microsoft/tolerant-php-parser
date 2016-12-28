@@ -40,7 +40,7 @@
                                             }
                                         ],
                                         "propertyElements": {
-                                            "DelimitedList": {
+                                            "ExpressionList": {
                                                 "children": [
                                                     {
                                                         "AssignmentExpression": {

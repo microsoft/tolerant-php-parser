@@ -24,7 +24,7 @@
                                 "textLength": 1
                             },
                             "expressions": {
-                                "DelimitedList": {
+                                "ExpressionList": {
                                     "children": [
                                         {
                                             "NumericLiteral": {

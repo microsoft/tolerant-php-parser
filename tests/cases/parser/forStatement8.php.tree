@@ -22,7 +22,7 @@
                         "textLength": 1
                     },
                     "forInitializer": {
-                        "ForExpressionGroup": {
+                        "ExpressionList": {
                             "children": [
                                 {
                                     "Variable": {
@@ -67,7 +67,7 @@
                         "textLength": 1
                     },
                     "forControl": {
-                        "ForExpressionGroup": {
+                        "ExpressionList": {
                             "children": [
                                 {
                                     "Variable": {
@@ -99,7 +99,7 @@
                         "textLength": 1
                     },
                     "forEndOfLoop": {
-                        "ForExpressionGroup": {
+                        "ExpressionList": {
                             "children": [
                                 {
                                     "Variable": {

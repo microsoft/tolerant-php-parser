@@ -47,7 +47,7 @@
                                             "textLength": 4
                                         },
                                         "expressions": {
-                                            "DelimitedList": {
+                                            "ExpressionList": {
                                                 "children": [
                                                     {
                                                         "StringLiteral": {

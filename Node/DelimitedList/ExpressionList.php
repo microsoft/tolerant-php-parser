@@ -8,8 +8,8 @@ namespace PhpParser\Node\DelimitedList;
 use PhpParser\Node\DelimitedList;
 use PhpParser\NodeKind;
 
-class ForExpressionGroup extends DelimitedList {
+class ExpressionList extends DelimitedList {
     public function __construct() {
-        parent::__construct(NodeKind::ForExpressionGroup);
+        parent::__construct(NodeKind::ExpressionList);
     }
 }
