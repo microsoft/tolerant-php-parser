@@ -13,13 +13,13 @@ class TraitUseClause extends Node {
     /** @var Token */
     public $useKeyword;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\QualifiedNameList */
     public $traitNameList;
 
     /** @var Token */
     public $semicolonOrOpenBrace;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\TraitSelectOrAliasClauseList */
     public $traitSelectAndAliasClauses;
 
     /** @var Token */

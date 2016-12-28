@@ -18,7 +18,7 @@ class ListIntrinsicExpression extends Expression {
     /** @var Token */
     public $openParen;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\ListExpressionList */
     public $listElements;
 
     /** @var Token */

@@ -13,7 +13,7 @@ class PropertyDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\ExpressionList */
     public $propertyElements;
 
     /** @var Token */

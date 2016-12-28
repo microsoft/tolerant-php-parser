@@ -21,7 +21,7 @@ class ObjectCreationExpression extends Expression {
     /** @var Token | null */
     public $openParen;
 
-    /** @var DelimitedList | null  */
+    /** @var DelimitedList\ArgumentExpressionList | null  */
     public $argumentExpressionList;
 
     /** @var Token | null */

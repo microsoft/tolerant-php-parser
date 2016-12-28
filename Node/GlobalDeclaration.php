@@ -13,7 +13,7 @@ class GlobalDeclaration extends StatementNode {
     /** @var Token */
     public $globalKeyword;
 
-    /** @var DelimitedList[] */
+    /** @var DelimitedList\VariableNameList */
     public $variableNameList;
 
     /** @var Token */

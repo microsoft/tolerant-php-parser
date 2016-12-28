@@ -18,7 +18,7 @@ class UnsetIntrinsicExpression extends Expression {
     /** @var Token */
     public $openParen;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\ExpressionList */
     public $expressions;
 
     /** @var Token */

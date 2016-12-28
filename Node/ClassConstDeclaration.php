@@ -16,7 +16,7 @@ class ClassConstDeclaration extends Node {
     /** @var Token */
     public $constKeyword;
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\ConstElementList */
     public $constElements;
 
     /** @var Token */

@@ -12,7 +12,7 @@ class ClassInterfaceClause extends Node {
     /** @var Token */
     public $implementsKeyword;
 
-    /** @var DelimitedList | null */
+    /** @var DelimitedList\QualifiedNameList | null */
     public $interfaceNameList;
 
     public function __construct() {

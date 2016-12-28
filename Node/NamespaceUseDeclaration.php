@@ -19,7 +19,7 @@ class NamespaceUseDeclaration extends StatementNode {
     public $namespaceAliasingClause;
     /** @var Token | null */
     public $openBrace;
-    /** @var DelimitedList | null */
+    /** @var DelimitedList\NamespaceUseGroupClauseList | null */
     public $groupClauses;
     /** @var  Token | null */
     public $closeBrace;

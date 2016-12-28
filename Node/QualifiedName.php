@@ -14,7 +14,7 @@ class QualifiedName extends Node {
     /** @var Node */
     public $relativeSpecifier; // namespace\
 
-    /** @var DelimitedList */
+    /** @var DelimitedList\QualifiedNameParts */
     public $nameParts;
 
     public function __construct() {

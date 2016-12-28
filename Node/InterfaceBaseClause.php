@@ -12,7 +12,7 @@ class InterfaceBaseClause extends Node {
     /** @var Token */
     public $extendsKeyword;
 
-    /** @var DelimitedList | null */
+    /** @var DelimitedList\QualifiedNameList */
     public $interfaceNameList;
 
     public function __construct() {

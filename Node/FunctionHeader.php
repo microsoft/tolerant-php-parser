@@ -17,7 +17,7 @@ trait FunctionHeader {
     public $name;
     /** @var Token */
     public $openParen;
-    /** @var DelimitedList[] */
+    /** @var DelimitedList\ParameterDeclarationList */
     public $parameters;
     /** @var Token */
     public $closeParen;
