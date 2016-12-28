@@ -34,6 +34,7 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
+use PhpParser\Node\DelimitedList\ArgumentExpressionList;
 use PhpParser\Node\DelimitedList\ArrayElementList;
 use PhpParser\Node\DelimitedList\ExpressionList;
 use PhpParser\Node\DelimitedList\ListExpressionList;
@@ -2343,7 +2344,9 @@ class Parser {
             TokenKind::CommaToken,
             $this->isArgumentExpressionStartFn(),
             $this->parseArgumentExpressionFn(),
-            $parentNode
+            $parentNode,
+            false,
+            ArgumentExpressionList::class
         );
     }
 

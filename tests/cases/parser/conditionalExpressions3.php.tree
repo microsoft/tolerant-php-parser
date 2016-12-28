@@ -114,7 +114,7 @@
                                 "textLength": 1
                             },
                             "argumentExpressionList": {
-                                "DelimitedList": {
+                                "ArgumentExpressionList": {
                                     "children": [
                                         {
                                             "ArgumentExpression": {

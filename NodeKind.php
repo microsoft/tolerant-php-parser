@@ -112,4 +112,5 @@ class NodeKind {
     const ArrayElementList = 102;
     const ListExpressionList = 103;
     const QualifiedNameList = 104;
+    const ArgumentExpressionList = 105;
 }
