@@ -51,12 +51,10 @@
                             "statements": [
                                 {
                                     "EmptyStatement": {
-                                        "children": [
-                                            {
-                                                "kind": "SemicolonToken",
-                                                "textLength": 1
-                                            }
-                                        ]
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
+                                            "textLength": 1
+                                        }
                                     }
                                 }
                             ],

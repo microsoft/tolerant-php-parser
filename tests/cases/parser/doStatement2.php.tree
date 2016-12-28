@@ -26,22 +26,18 @@
                             "statements": [
                                 {
                                     "EmptyStatement": {
-                                        "children": [
-                                            {
-                                                "kind": "SemicolonToken",
-                                                "textLength": 1
-                                            }
-                                        ]
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
+                                            "textLength": 1
+                                        }
                                     }
                                 },
                                 {
                                     "EmptyStatement": {
-                                        "children": [
-                                            {
-                                                "kind": "SemicolonToken",
-                                                "textLength": 1
-                                            }
-                                        ]
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
+                                            "textLength": 1
+                                        }
                                     }
                                 },
                                 {
@@ -70,12 +66,10 @@
                                         "colon": null,
                                         "statements": {
                                             "EmptyStatement": {
-                                                "children": [
-                                                    {
-                                                        "kind": "SemicolonToken",
-                                                        "textLength": 1
-                                                    }
-                                                ]
+                                                "semicolon": {
+                                                    "kind": "SemicolonToken",
+                                                    "textLength": 1
+                                                }
                                             }
                                         },
                                         "endWhile": null,

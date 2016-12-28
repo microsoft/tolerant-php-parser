@@ -107,12 +107,10 @@
                             "colon": null,
                             "statements": {
                                 "EmptyStatement": {
-                                    "children": [
-                                        {
-                                            "kind": "SemicolonToken",
-                                            "textLength": 1
-                                        }
-                                    ]
+                                    "semicolon": {
+                                        "kind": "SemicolonToken",
+                                        "textLength": 1
+                                    }
                                 }
                             },
                             "endFor": null,
@@ -125,12 +123,10 @@
             },
             {
                 "EmptyStatement": {
-                    "children": [
-                        {
-                            "kind": "SemicolonToken",
-                            "textLength": 1
-                        }
-                    ]
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             }
         ],

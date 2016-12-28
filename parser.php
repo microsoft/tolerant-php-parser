@@ -955,11 +955,10 @@ class Parser {
     }
 
     private function parseEmptyStatement($parentNode) {
-        $node = new EmptyStatementNode();
-        $node->children = array();
-        array_push($node->children, $this->eat(TokenKind::SemicolonToken));
-        $node->parent = $parentNode;
-        return $node;
+        $emptyStatement = new EmptyStatementNode();
+        $emptyStatement->parent = $parentNode;
+        $emptyStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
+        return $emptyStatement;
     }
 
     private function parseStringLiteralExpression($parentNode) {
