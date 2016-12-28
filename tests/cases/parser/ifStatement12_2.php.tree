@@ -59,12 +59,10 @@
                     "elseIfClauses": [
                         {
                             "ElseIfClauseNode": {
-                                "elseIfKeyword": [
-                                    {
-                                        "kind": "ElseIfKeyword",
-                                        "textLength": 6
-                                    }
-                                ],
+                                "elseIfKeyword": {
+                                    "kind": "ElseIfKeyword",
+                                    "textLength": 6
+                                },
                                 "openParen": {
                                     "kind": "OpenParenToken",
                                     "textLength": 1
@@ -100,12 +98,10 @@
                         },
                         {
                             "ElseIfClauseNode": {
-                                "elseIfKeyword": [
-                                    {
-                                        "kind": "ElseIfKeyword",
-                                        "textLength": 6
-                                    }
-                                ],
+                                "elseIfKeyword": {
+                                    "kind": "ElseIfKeyword",
+                                    "textLength": 6
+                                },
                                 "openParen": {
                                     "kind": "OpenParenToken",
                                     "textLength": 1

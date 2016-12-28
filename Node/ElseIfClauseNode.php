@@ -9,7 +9,7 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ElseIfClauseNode extends Node {
-    /** @var Token[] */
+    /** @var Token */
     public $elseIfKeyword;
     /** @var Token */
     public $openParen;

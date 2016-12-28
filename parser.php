@@ -1252,15 +1252,7 @@ class Parser {
     private function parseElseIfClause($parentNode) {
         $elseIfClause = new ElseIfClauseNode();
         $elseIfClause->parent = $parentNode;
-        $elseIfClause->elseIfKeyword = array();
-        $firstToken = $this->eatOptional(TokenKind::ElseIfKeyword);
-        if ($firstToken !== null) {
-            array_push($elseIfClause->elseIfKeyword, $firstToken);
-        }
-        else {
-            array_push($elseIfClause->elseIfKeyword, $this->eat(TokenKind::ElseKeyword));
-            array_push($elseIfClause->elseIfKeyword, $this->eat(TokenKind::IfKeyword));
-        }
+        $elseIfClause->elseIfKeyword = $this->eat(TokenKind::ElseIfKeyword);
         $elseIfClause->openParen = $this->eat(TokenKind::OpenParenToken);
         $elseIfClause->expression = $this->parseExpression($elseIfClause);
         $elseIfClause->closeParen = $this->eat(TokenKind::CloseParenToken);
