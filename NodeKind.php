@@ -108,4 +108,5 @@ class NodeKind {
     const UseVariableNameList = 98;
     const QualifiedNameParts = 99;
     const ParameterDeclarationList = 100;
+    const ForExpressionGroup = 101;
 }
