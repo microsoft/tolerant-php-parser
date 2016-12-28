@@ -48,7 +48,7 @@
                                             "textLength": 5
                                         },
                                         "constElements": {
-                                            "DelimitedList": {
+                                            "ConstElementList": {
                                                 "children": [
                                                     {
                                                         "ConstElement": {
