@@ -34,7 +34,6 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
-use PhpParser\Node\DelimitedList\ConstElementList;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
 use PhpParser\Node\InlineHtml;
@@ -1041,7 +1040,7 @@ class Parser {
         };
     }
 
-    private function parseDelimitedList($delimiter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false, $className = DelimitedList::class) {
+    private function parseDelimitedList($className, $delimiter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
         // TODO consider allowing empty delimiter to be more tolerant
         $node = new $className();
         $token = $this->getCurrentToken();
@@ -1099,6 +1098,7 @@ class Parser {
 
             $node->nameParts =
                 $this->parseDelimitedList(
+                    DelimitedList\QualifiedNameParts::class,
                     TokenKind::BackslashToken,
                     function ($token) {
                         // a\static() <- VALID
@@ -1118,7 +1118,7 @@ class Parser {
                             : $this->eat($this->nameOrStaticOrReservedWordTokens); // TODO support keyword name
                         $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
                         return $name;
-                    }, $node, false, DelimitedList\QualifiedNameParts::class);
+                    }, $node);
             if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }
@@ -1157,12 +1157,11 @@ class Parser {
 
         $functionDefinition->openParen = $this->eat(TokenKind::OpenParenToken);
         $functionDefinition->parameters = $this->parseDelimitedList(
+            DelimitedList\ParameterDeclarationList::class,
             TokenKind::CommaToken,
             $this->isParameterStartFn(),
             $this->parseParameterFn(),
-            $functionDefinition,
-            false,
-            DelimitedList\ParameterDeclarationList::class);
+            $functionDefinition);
         $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
         if ($isAnonymous) {
             $functionDefinition->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDefinition);
@@ -1972,12 +1971,11 @@ class Parser {
 
     private function parseExpressionList($parentExpression) {
         return $this->parseDelimitedList(
+            DelimitedList\ExpressionList::class,
             TokenKind::CommaToken,
             $this->isExpressionStartFn(),
             $this->parseExpressionFn(),
-            $parentExpression,
-            false,
-            DelimitedList\ExpressionList::class
+            $parentExpression
         );
     }
 
@@ -2014,12 +2012,12 @@ class Parser {
 
     private function parseArrayElementList($listExpression, $className) {
         return $this->parseDelimitedList(
+            $className,
             TokenKind::CommaToken,
             $this->isArrayElementStartFn(),
             $this->parseArrayElementFn(),
             $listExpression,
-            true,
-            $className
+            true
         );
     }
 
@@ -2335,12 +2333,11 @@ class Parser {
 
     private function parseArgumentExpressionList($parentNode) {
         return $this->parseDelimitedList(
+            DelimitedList\ArgumentExpressionList::class,
             TokenKind::CommaToken,
             $this->isArgumentExpressionStartFn(),
             $this->parseArgumentExpressionFn(),
-            $parentNode,
-            false,
-            DelimitedList\ArgumentExpressionList::class
+            $parentNode
         );
     }
 
@@ -2409,12 +2406,11 @@ class Parser {
 
     private function parseQualifiedNameList($parentNode) {
         return $this->parseDelimitedList(
+            DelimitedList\QualifiedNameList::class,
             TokenKind::CommaToken,
             $this->isQualifiedNameStartFn(),
             $this->parseQualifiedNameFn(),
-            $parentNode,
-            false,
-            DelimitedList\QualifiedNameList::class);
+            $parentNode);
     }
 
     private function parseInterfaceDeclaration($parentNode) {
@@ -2522,6 +2518,7 @@ class Parser {
         } else {
             $namespaceUseDeclaration->openBrace = $this->eat(TokenKind::OpenBraceToken);
             $namespaceUseDeclaration->groupClauses = $this->parseDelimitedList(
+                DelimitedList\NamespaceUseGroupClauseList::class,
                 TokenKind::CommaToken,
                 function ($token) {
                     return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
@@ -2538,9 +2535,7 @@ class Parser {
 
                     return $namespaceUseGroupClause;
                 },
-                $namespaceUseDeclaration,
-                false,
-                DelimitedList\NamespaceUseGroupClauseList::class
+                $namespaceUseDeclaration
             );
             $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
 
@@ -2640,6 +2635,7 @@ class Parser {
         $traitUseClause->semicolonOrOpenBrace = $this->eat(TokenKind::OpenBraceToken, TokenKind::SemicolonToken);
         if ($traitUseClause->semicolonOrOpenBrace->kind === TokenKind::OpenBraceToken) {
             $traitUseClause->traitSelectAndAliasClauses = $this->parseDelimitedList(
+                DelimitedList\TraitSelectOrAliasClauseList::class,
                 TokenKind::SemicolonToken,
                 function ($token) {
                     return $token->kind === TokenKind::Name;
@@ -2659,9 +2655,7 @@ class Parser {
                     // TODO errors for insteadof/as
                     return $traitSelectAndAliasClause;
                 },
-                $traitUseClause,
-                false,
-                DelimitedList\TraitSelectOrAliasClauseList::class
+                $traitUseClause
             );
             $traitUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
@@ -2683,12 +2677,11 @@ class Parser {
 
         $globalDeclaration->globalKeyword = $this->eat(TokenKind::GlobalKeyword);
         $globalDeclaration->variableNameList = $this->parseDelimitedList(
+            DelimitedList\VariableNameList::class,
             TokenKind::CommaToken,
             $this->isVariableNameStartFn(),
             $this->parseSimpleVariableFn(),
-            $globalDeclaration,
-            false,
-            DelimitedList\VariableNameList::class
+            $globalDeclaration
         );
 
         $globalDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
@@ -2702,14 +2695,13 @@ class Parser {
 
         $functionStaticDeclaration->staticKeyword = $this->eat(TokenKind::StaticKeyword);
         $functionStaticDeclaration->staticVariableNameList = $this->parseDelimitedList(
+            DelimitedList\StaticVariableNameList::class,
             TokenKind::CommaToken,
             function ($token) {
                 return $token->kind === TokenKind::VariableName;
             },
             $this->parseStaticVariableDeclarationFn(),
-            $functionStaticDeclaration,
-            false,
-            DelimitedList\StaticVariableNameList::class
+            $functionStaticDeclaration
         );
         $functionStaticDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
 
@@ -2749,14 +2741,14 @@ class Parser {
 
     function parseConstElements($parentNode) {
         return $this->parseDelimitedList(
+            DelimitedList\ConstElementList::class,
             TokenKind::CommaToken,
             function ($token) {
                 return in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens);
             },
             $this->parseConstElementFn(),
-            $parentNode,
-            false,
-            ConstElementList::class);
+            $parentNode
+        );
     }
 
     function parseConstElementFn() {
@@ -2818,6 +2810,7 @@ class Parser {
         }
         $anonymousFunctionUseClause->openParen = $this->eat(TokenKind::OpenParenToken);
         $anonymousFunctionUseClause->useVariableNameList = $this->parseDelimitedList(
+            DelimitedList\UseVariableNameList::class,
             TokenKind::CommaToken,
             function ($token) {
                 return $token->kind === TokenKind::AmpersandToken || $token->kind === TokenKind::VariableName;
@@ -2829,8 +2822,7 @@ class Parser {
                 $useVariableName->variableName = $this->eat(TokenKind::VariableName);
                 return $useVariableName;
             },
-            $anonymousFunctionUseClause,
-            false, DelimitedList\UseVariableNameList::class
+            $anonymousFunctionUseClause
         );
         $anonymousFunctionUseClause->closeParen = $this->eat(TokenKind::CloseParenToken);
 
