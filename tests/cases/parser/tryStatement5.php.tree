@@ -19,16 +19,15 @@
                     },
                     "compoundStatement": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 1
-                                },
-                                {
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 1
-                                }
-                            ]
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "statements": [],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
                     },
                     "catchClauses": [
@@ -53,18 +52,17 @@
                                 },
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "error": "MissingToken",
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 0
-                                            },
-                                            {
-                                                "error": "MissingToken",
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 0
-                                            }
-                                        ]
+                                        "openBrace": {
+                                            "error": "MissingToken",
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 0
+                                        },
+                                        "statements": [],
+                                        "closeBrace": {
+                                            "error": "MissingToken",
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 0
+                                        }
                                     }
                                 }
                             }

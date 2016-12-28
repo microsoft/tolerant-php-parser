@@ -19,12 +19,12 @@
                     },
                     "compoundStatement": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 0
-                                },
+                            "openBrace": {
+                                "error": "MissingToken",
+                                "kind": "OpenBraceToken",
+                                "textLength": 0
+                            },
+                            "statements": [
                                 {
                                     "IfStatementNode": {
                                         "tryKeyword": {
@@ -33,12 +33,12 @@
                                         },
                                         "compoundStatement": {
                                             "CompoundStatementNode": {
-                                                "children": [
-                                                    {
-                                                        "error": "MissingToken",
-                                                        "kind": "OpenBraceToken",
-                                                        "textLength": 0
-                                                    },
+                                                "openBrace": {
+                                                    "error": "MissingToken",
+                                                    "kind": "OpenBraceToken",
+                                                    "textLength": 0
+                                                },
+                                                "statements": [
                                                     {
                                                         "error": "SkippedToken",
                                                         "kind": "CatchKeyword",
@@ -48,25 +48,25 @@
                                                         "error": "SkippedToken",
                                                         "kind": "FinallyKeyword",
                                                         "textLength": 7
-                                                    },
-                                                    {
-                                                        "error": "MissingToken",
-                                                        "kind": "CloseBraceToken",
-                                                        "textLength": 0
                                                     }
-                                                ]
+                                                ],
+                                                "closeBrace": {
+                                                    "error": "MissingToken",
+                                                    "kind": "CloseBraceToken",
+                                                    "textLength": 0
+                                                }
                                             }
                                         },
                                         "catchClauses": [],
                                         "finallyClause": null
                                     }
-                                },
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 0
                                 }
-                            ]
+                            ],
+                            "closeBrace": {
+                                "error": "MissingToken",
+                                "kind": "CloseBraceToken",
+                                "textLength": 0
+                            }
                         }
                     },
                     "catchClauses": [],

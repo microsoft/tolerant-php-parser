@@ -19,11 +19,11 @@
                     },
                     "statement": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 1
-                                },
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "statements": [
                                 {
                                     "EmptyStatement": {
                                         "children": [
@@ -81,13 +81,13 @@
                                         "endWhile": null,
                                         "semicolon": null
                                     }
-                                },
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 0
                                 }
-                            ]
+                            ],
+                            "closeBrace": {
+                                "error": "MissingToken",
+                                "kind": "CloseBraceToken",
+                                "textLength": 0
+                            }
                         }
                     },
                     "whileToken": {

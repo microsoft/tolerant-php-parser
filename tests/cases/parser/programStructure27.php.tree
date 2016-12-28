@@ -36,11 +36,11 @@
                     "colon": null,
                     "statements": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 1
-                                },
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "statements": [
                                 {
                                     "InlineHtml": {
                                         "scriptSectionEndTag": {
@@ -53,13 +53,13 @@
                                         },
                                         "scriptSectionStartTag": null
                                     }
-                                },
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 0
                                 }
-                            ]
+                            ],
+                            "closeBrace": {
+                                "error": "MissingToken",
+                                "kind": "CloseBraceToken",
+                                "textLength": 0
+                            }
                         }
                     },
                     "elseIfClauses": [],

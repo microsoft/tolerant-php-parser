@@ -76,17 +76,16 @@
                                             "returnType": null,
                                             "compoundStatementOrSemicolon": {
                                                 "CompoundStatementNode": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "OpenBraceToken",
-                                                            "textLength": 1
-                                                        },
-                                                        {
-                                                            "error": "MissingToken",
-                                                            "kind": "CloseBraceToken",
-                                                            "textLength": 0
-                                                        }
-                                                    ]
+                                                    "openBrace": {
+                                                        "kind": "OpenBraceToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "statements": [],
+                                                    "closeBrace": {
+                                                        "error": "MissingToken",
+                                                        "kind": "CloseBraceToken",
+                                                        "textLength": 0
+                                                    }
                                                 }
                                             }
                                         }

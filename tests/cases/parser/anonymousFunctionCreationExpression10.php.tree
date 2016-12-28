@@ -88,11 +88,11 @@
                                     },
                                     "compoundStatementOrSemicolon": {
                                         "CompoundStatementNode": {
-                                            "children": [
-                                                {
-                                                    "kind": "OpenBraceToken",
-                                                    "textLength": 1
-                                                },
+                                            "openBrace": {
+                                                "kind": "OpenBraceToken",
+                                                "textLength": 1
+                                            },
+                                            "statements": [
                                                 {
                                                     "ReturnStatement": {
                                                         "returnKeyword": {
@@ -105,12 +105,12 @@
                                                             "textLength": 1
                                                         }
                                                     }
-                                                },
-                                                {
-                                                    "kind": "CloseBraceToken",
-                                                    "textLength": 1
                                                 }
-                                            ]
+                                            ],
+                                            "closeBrace": {
+                                                "kind": "CloseBraceToken",
+                                                "textLength": 1
+                                            }
                                         }
                                     }
                                 }

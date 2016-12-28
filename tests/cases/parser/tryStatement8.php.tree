@@ -19,16 +19,15 @@
                     },
                     "compoundStatement": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 1
-                                },
-                                {
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 1
-                                }
-                            ]
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "statements": [],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
                     },
                     "catchClauses": [
@@ -56,16 +55,15 @@
                                 },
                                 "compoundStatement": {
                                     "CompoundStatementNode": {
-                                        "children": [
-                                            {
-                                                "kind": "OpenBraceToken",
-                                                "textLength": 1
-                                            },
-                                            {
-                                                "kind": "CloseBraceToken",
-                                                "textLength": 1
-                                            }
-                                        ]
+                                        "openBrace": {
+                                            "kind": "OpenBraceToken",
+                                            "textLength": 1
+                                        },
+                                        "statements": [],
+                                        "closeBrace": {
+                                            "kind": "CloseBraceToken",
+                                            "textLength": 1
+                                        }
                                     }
                                 }
                             }

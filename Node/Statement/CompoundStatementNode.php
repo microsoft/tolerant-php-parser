@@ -10,7 +10,14 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class CompoundStatementNode extends StatementNode {
-    public $children;
+    /** @var Token */
+    public $openBrace;
+
+    /** @var array */
+    public $statements;
+
+    /** @var Token */
+    public $closeBrace;
 
     public function __construct() {
         parent::__construct(NodeKind::CompoundStatementNode);

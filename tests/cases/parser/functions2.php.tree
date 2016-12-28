@@ -41,11 +41,11 @@
                     },
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 1
-                                },
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "statements": [
                                 {
                                     "EmptyStatement": {
                                         "children": [
@@ -55,12 +55,12 @@
                                             }
                                         ]
                                     }
-                                },
-                                {
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 1
                                 }
-                            ]
+                            ],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
                     }
                 }

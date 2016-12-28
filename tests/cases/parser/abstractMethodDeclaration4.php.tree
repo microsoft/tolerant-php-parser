@@ -35,12 +35,12 @@
                     "returnType": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
-                            "children": [
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "OpenBraceToken",
-                                    "textLength": 0
-                                },
+                            "openBrace": {
+                                "error": "MissingToken",
+                                "kind": "OpenBraceToken",
+                                "textLength": 0
+                            },
+                            "statements": [
                                 {
                                     "EmptyStatement": {
                                         "children": [
@@ -50,13 +50,13 @@
                                             }
                                         ]
                                     }
-                                },
-                                {
-                                    "error": "MissingToken",
-                                    "kind": "CloseBraceToken",
-                                    "textLength": 0
                                 }
-                            ]
+                            ],
+                            "closeBrace": {
+                                "error": "MissingToken",
+                                "kind": "CloseBraceToken",
+                                "textLength": 0
+                            }
                         }
                     }
                 }

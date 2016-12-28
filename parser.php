@@ -631,13 +631,12 @@ class Parser {
     }
 
     function parseCompoundStatement($parentNode) {
-        $node = new CompoundStatementNode();
-        $node->children = array();
-        array_push($node->children, $this->eat(TokenKind::OpenBraceToken));
-        $this->array_push_list($node->children, $this->parseList($node, ParseContext::BlockStatements));
-        array_push($node->children, $this->eat(TokenKind::CloseBraceToken));
-        $node->parent = $parentNode;
-        return $node;
+        $compoundStatement = new CompoundStatementNode();
+        $compoundStatement->openBrace = $this->eat(TokenKind::OpenBraceToken);
+        $compoundStatement->statements =  $this->parseList($compoundStatement, ParseContext::BlockStatements);
+        $compoundStatement->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+        $compoundStatement->parent = $parentNode;
+        return $compoundStatement;
     }
 
     function array_push_list(& $array, $list) {
