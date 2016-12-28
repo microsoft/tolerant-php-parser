@@ -4,33 +4,39 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class SwitchStatementNode extends StatementNode {
+class ForStatement extends StatementNode {
     /** @var Token */
-    public $switchKeyword;
+    public $for;
     /** @var Token */
     public $openParen;
-    /** @var Expression */
-    public $expression;
+    /** @var Expression | null */
+    public $forInitializer;
+    /** @var Token */
+    public $exprGroupSemicolon1;
+    /** @var Expression | null */
+    public $forControl;
+    /** @var Token */
+    public $exprGroupSemicolon2;
+    /** @var Expression | null */
+    public $forEndOfLoop;
     /**@var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
-    /** @var Token | null */
-    public $openBrace;
-    /**@var CaseStatementNode[] */
-    public $caseStatements;
-    /** @var Token | null */
-    public $closeBrace;
+    /**@var StatementNode | StatementNode[] */
+    public $statements;
     /**@var Token | null */
-    public $endswitch;
+    public $endFor;
     /**@var Token | null */
-    public $semicolon;
+    public $endForSemicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::SwitchStatementNode);
+        parent::__construct(NodeKind::ForStatementNode);
     }
 }

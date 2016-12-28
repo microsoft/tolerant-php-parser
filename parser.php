@@ -23,8 +23,6 @@ use PhpParser\Node\CatchClause;
 use PhpParser\Node\ClassBaseClause;
 use PhpParser\Node\ClassInterfaceClause;
 use PhpParser\Node\ClassMembersNode;
-use PhpParser\Node\ClassNode;
-use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
 use PhpParser\Node\Expression\{
     ArgumentExpression,
@@ -58,58 +56,62 @@ use PhpParser\Node\Expression\{
     UnsetIntrinsicExpression,
     Variable
 };
-use PhpParser\Node\FunctionStaticDeclaration;
-use PhpParser\Node\GlobalDeclaration;
-use PhpParser\Node\InlineHtml;
 use PhpParser\Node\StaticVariableDeclaration;
-use PhpParser\Node\TraitDeclaration;
-use PhpParser\Node\BreakOrContinueStatement;
 use PhpParser\Node\ClassConstDeclaration;
 use PhpParser\Node\DeclareDirective;
-use PhpParser\Node\DeclareStatement;
 use PhpParser\Node\DelimitedList;
-use PhpParser\Node\DoStatement;
 use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
-use PhpParser\Node\EmptyStatementNode;
-use PhpParser\Node\ExpressionStatement;
 use PhpParser\Node\FinallyClause;
 use PhpParser\Node\ForeachKey;
-use PhpParser\Node\ForeachStatement;
 use PhpParser\Node\ForeachValue;
-use PhpParser\Node\ForStatement;
-use PhpParser\Node\Function_;
-use PhpParser\Node\CompoundStatementNode;
-use PhpParser\Node\GotoStatement;
-use PhpParser\Node\IfStatementNode;
 use PhpParser\Node\InterfaceBaseClause;
-use PhpParser\Node\InterfaceDeclaration;
 use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\MissingMemberDeclaration;
 use PhpParser\Node\NamespaceAliasingClause;
-use PhpParser\Node\NamespaceDefinition;
 use PhpParser\Node\NamespaceUseGroupClause;
-use PhpParser\Node\NamespaceUseDeclaration;
 use PhpParser\Node\NumericLiteral;
 use PhpParser\Node\PropertyDeclaration;
 use PhpParser\Node\ReservedWord;
 use PhpParser\Node\StringLiteral;
 use PhpParser\Node\MethodDeclaration;
-use PhpParser\Node\NamedLabelStatementNode;
 use PhpParser\Node\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
-use PhpParser\Node\ReturnStatement;
 use PhpParser\Node\Script;
-use PhpParser\Node\SwitchStatementNode;
-use PhpParser\Node\ThrowStatement;
+use PhpParser\Node\Statement\{
+    ClassDeclaration,
+    ConstDeclaration,
+    CompoundStatementNode,
+    FunctionStaticDeclaration,
+    GlobalDeclaration,
+    BreakOrContinueStatement,
+    DeclareStatement,
+    DoStatement,
+    EmptyStatementNode,
+    ExpressionStatement,
+    ForeachStatement,
+    ForStatement,
+    FunctionDeclaration,
+    GotoStatement,
+    IfStatementNode,
+    InlineHtml,
+    InterfaceDeclaration,
+    NamespaceDefinition,
+    NamespaceUseDeclaration,
+    NamedLabelStatementNode,
+    ReturnStatement,
+    SwitchStatementNode,
+    ThrowStatement,
+    TraitDeclaration,
+    TryStatement,
+    WhileStatement
+};
 use PhpParser\Node\TraitMembers;
 use PhpParser\Node\TraitSelectOrAliasClause;
 use PhpParser\Node\TraitUseClause;
-use PhpParser\Node\TryStatement;
 use PhpParser\Node\UseVariableName;
-use PhpParser\Node\WhileStatement;
 
 class Parser {
 
@@ -559,7 +561,7 @@ class Parser {
     }
 
     function parseClassDeclaration($parentNode) : Node {
-        $classNode = new ClassNode();
+        $classNode = new ClassDeclaration(); // TODO verify not nested
         $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
@@ -580,8 +582,8 @@ class Parser {
     }
 
     function parseFunctionDeclaration($parentNode) {
-        $functionNode = new Function_();
-        $this->parseFunctionDefinition($functionNode);
+        $functionNode = new FunctionDeclaration();
+        $this->parseFunctionType($functionNode);
         $functionNode->parent = $parentNode;
         return $functionNode;
     }
@@ -589,7 +591,7 @@ class Parser {
     function parseMethodDeclaration($parentNode, $modifiers) {
         $methodDeclaration = new MethodDeclaration();
         $methodDeclaration->modifiers = $modifiers;
-        $this->parseFunctionDefinition($methodDeclaration, true);
+        $this->parseFunctionType($methodDeclaration, true);
         $methodDeclaration->parent = $parentNode;
         return $methodDeclaration;
     }
@@ -1138,7 +1140,7 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionDefinition(Node $functionDefinition, $canBeAbstract = false, $isAnonymous = false) {
+    private function parseFunctionType(Node $functionDefinition, $canBeAbstract = false, $isAnonymous = false) {
         $functionDefinition->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
         $functionDefinition->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
         $functionDefinition->name = $isAnonymous
@@ -2413,7 +2415,7 @@ class Parser {
     }
 
     private function parseInterfaceDeclaration($parentNode) {
-        $interfaceDeclaration = new InterfaceDeclaration();
+        $interfaceDeclaration = new InterfaceDeclaration(); // TODO verify not nested
         $interfaceDeclaration->parent = $parentNode;
         $interfaceDeclaration->interfaceKeyword = $this->eat(TokenKind::InterfaceKeyword);
         $interfaceDeclaration->name = $this->eat(TokenKind::Name);
@@ -2794,7 +2796,7 @@ class Parser {
         $anonymousFunctionCreationExpression->parent = $parentNode;
 
         $anonymousFunctionCreationExpression->staticModifier = $this->eatOptional(TokenKind::StaticKeyword);
-        $this->parseFunctionDefinition($anonymousFunctionCreationExpression, false, true);
+        $this->parseFunctionType($anonymousFunctionCreationExpression, false, true);
 
         return $anonymousFunctionCreationExpression;
     }

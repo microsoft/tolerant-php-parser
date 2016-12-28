@@ -4,22 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class FunctionStaticDeclaration extends StatementNode {
-
+class BreakOrContinueStatement extends StatementNode {
     /** @var Token */
-    public $staticKeyword;
-
-    /** @var DelimitedList\ParameterDeclarationList */
-    public $staticVariableNameList;
-
+    public $breakOrContinueKeyword;
+    /** @var Token | null */
+    public $breakoutLevel;
     /** @var Token */
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::FunctionStaticDeclaration);
+        parent::__construct(NodeKind::BreakOrContinueStatementNode);
     }
 }

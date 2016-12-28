@@ -4,19 +4,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\CatchClause;
+use PhpParser\Node\FinallyClause;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ReturnStatement extends StatementNode {
+class TryStatement extends StatementNode {
     /** @var Token */
-    public $returnKeyword;
-    /** @var Expression | null */
-    public $expression;
-    /** @var Token */
-    public $semicolon;
+    public $tryKeyword;
+    /** @var StatementNode */
+    public $compoundStatement;
+    /** @var CatchClause[] | null */
+    public $catchClauses;
+    /**@var FinallyClause | null */
+    public $finallyClause;
 
     public function __construct() {
-        parent::__construct(NodeKind::ReturnStatement);
+        parent::__construct(NodeKind::IfStatementNode);
     }
 }

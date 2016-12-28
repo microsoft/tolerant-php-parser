@@ -4,19 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
+use PhpParser\TokenKind;
 
-class NamespaceDefinition extends StatementNode {
+class ExpressionStatement extends StatementNode {
+    /** @var Expression | null */
+    public $expression;
     /** @var Token */
-    public $namespaceKeyword;
-    /** @var QualifiedName | null */
-    public $name;
-    /** @var Expression | Token */
-    public $compoundStatementOrSemicolon;
+    public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::NamespaceDefinition);
+        parent::__construct(NodeKind::ExpressionStatement);
     }
 }

@@ -4,14 +4,18 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\FunctionBody;
+use PhpParser\Node\FunctionHeader;
+use PhpParser\Node\FunctionReturnType;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EmptyStatementNode extends StatementNode {
-    public $children;
+class FunctionDeclaration extends StatementNode {
+    use FunctionHeader, FunctionReturnType, FunctionBody;
 
     public function __construct() {
-        parent::__construct(NodeKind::EmptyStatement);
+        parent::__construct(NodeKind::FunctionNode);
     }
 }

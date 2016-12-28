@@ -4,23 +4,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\QualifiedName;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
-use PhpParser\SkippedToken;
 use PhpParser\Token;
-use PhpParser\TokenKind;
 
-class InlineHtml extends  StatementNode  {
-    /** @var Token | null */
-    public $scriptSectionEndTag;
-
+class NamespaceDefinition extends StatementNode {
     /** @var Token */
-    public $text;
-
-    /** @var Token | null */
-    public $scriptSectionStartTag;
+    public $namespaceKeyword;
+    /** @var QualifiedName | null */
+    public $name;
+    /** @var Expression | Token */
+    public $compoundStatementOrSemicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::InlineHtml);
+        parent::__construct(NodeKind::NamespaceDefinition);
     }
 }

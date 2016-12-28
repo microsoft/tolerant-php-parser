@@ -4,19 +4,24 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\DelimitedList;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ThrowStatement extends StatementNode {
+class FunctionStaticDeclaration extends StatementNode {
+
     /** @var Token */
-    public $throwKeyword;
-    /** @var Expression */
-    public $expression;
+    public $staticKeyword;
+
+    /** @var DelimitedList\ParameterDeclarationList */
+    public $staticVariableNameList;
+
     /** @var Token */
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::ThrowStatement);
+        parent::__construct(NodeKind::FunctionStaticDeclaration);
     }
 }

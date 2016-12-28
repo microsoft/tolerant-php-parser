@@ -4,29 +4,31 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class NamespaceUseDeclaration extends StatementNode {
+class WhileStatement extends StatementNode {
     /** @var Token */
-    public $useKeyword;
+    public $whileToken;
     /** @var Token */
-    public $functionOrConst;
-    /** @var QualifiedName */
-    public $namespaceName;
-    /** @var NamespaceAliasingClause */
-    public $namespaceAliasingClause;
+    public $openParen;
+    /** @var Expression */
+    public $expression;
+    /**@var Token */
+    public $closeParen;
     /** @var Token | null */
-    public $openBrace;
-    /** @var DelimitedList\NamespaceUseGroupClauseList | null */
-    public $groupClauses;
-    /** @var  Token | null */
-    public $closeBrace;
-    /** @var Token */
+    public $colon;
+    /**@var StatementNode | StatementNode[] */
+    public $statements;
+    /**@var Token | null */
+    public $endWhile;
+    /**@var Token | null */
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::NamespaceUseDeclaration);
+        parent::__construct(NodeKind::WhileStatementNode);
     }
 }

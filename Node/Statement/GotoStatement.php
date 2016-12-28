@@ -4,22 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class TraitDeclaration extends Node {
-
+class GotoStatement extends StatementNode {
     /** @var Token */
-    public $traitKeyword;
-
-    /** @var Name */
+    public $goto;
+    /** @var Token */
     public $name;
-
-    /** @var TraitMembers */
-    public $traitMembers;
+    /** @var Token */
+    public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::TraitDeclaration);
+        parent::__construct(NodeKind::GotoStatementNode);
     }
 }

@@ -4,22 +4,25 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+
+use PhpParser\Node\DelimitedList;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ConstDeclaration extends StatementNode {
+class GlobalDeclaration extends StatementNode {
 
     /** @var Token */
-    public $constKeyword;
+    public $globalKeyword;
 
-    /** @var DelimitedList\ConstElementList */
-    public $constElements;
+    /** @var DelimitedList\VariableNameList */
+    public $variableNameList;
 
     /** @var Token */
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::ConstDeclaration);
+        parent::__construct(NodeKind::GlobalDeclaration);
     }
 }

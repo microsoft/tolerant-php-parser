@@ -4,31 +4,28 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\InterfaceBaseClause;
+use PhpParser\Node\Name;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ClassNode extends Node {
+class InterfaceDeclaration extends StatementNode {
 
     /** @var Token */
-    public $abstractOrFinalModifier;
-
-    /** @var Token */
-    public $classKeyword;
+    public $interfaceKeyword;
 
     /** @var Name */
     public $name;
 
-    /** @var ClassBaseClause */
-    public $classBaseClause;
+    /** @var InterfaceBaseClause */
+    public $interfaceBaseClause;
 
-    /** @var ClassInterfaceClause */
-    public $classInterfaceClause;
-
-    /** @var ClassMembersNode */
-    public $classMembers;
+    /** @var InterfaceMembersNode */
+    public $interfaceMembers;
 
     public function __construct() {
-        parent::__construct(NodeKind::ClassNode);
+        parent::__construct(NodeKind::InterfaceDeclaration);
     }
 }

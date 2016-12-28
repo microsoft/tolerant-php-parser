@@ -4,35 +4,29 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class ForeachStatement extends StatementNode {
+class DoStatement extends StatementNode {
     /** @var Token */
-    public $foreach;
+    public $do;
+    /** @var StatementNode */
+    public $statement;
+    /** @var Token */
+    public $whileToken;
     /** @var Token */
     public $openParen;
     /** @var Expression */
-    public $forEachCollectionName;
-    /** @var Token */
-    public $asKeyword;
-    /** @var ForeachKey | null */
-    public $foreachKey;
-    /** @var ForeachValue */
-    public $foreachValue;
+    public $expression;
     /**@var Token */
     public $closeParen;
-    /** @var Token | null */
-    public $colon;
-    /**@var StatementNode | StatementNode[] */
-    public $statements;
     /**@var Token | null */
-    public $endForeach;
-    /**@var Token | null */
-    public $endForeachSemicolon;
+    public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::ForeachStatementNode);
+        parent::__construct(NodeKind::DoWhileStatementNode);
     }
 }

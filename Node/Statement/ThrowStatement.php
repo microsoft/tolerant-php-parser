@@ -4,29 +4,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\Expression;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class WhileStatement extends StatementNode {
+class ThrowStatement extends StatementNode {
     /** @var Token */
-    public $whileToken;
-    /** @var Token */
-    public $openParen;
+    public $throwKeyword;
     /** @var Expression */
     public $expression;
-    /**@var Token */
-    public $closeParen;
-    /** @var Token | null */
-    public $colon;
-    /**@var StatementNode | StatementNode[] */
-    public $statements;
-    /**@var Token | null */
-    public $endWhile;
-    /**@var Token | null */
+    /** @var Token */
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::WhileStatementNode);
+        parent::__construct(NodeKind::ThrowStatement);
     }
 }
