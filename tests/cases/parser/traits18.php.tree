@@ -38,7 +38,7 @@
                                             "textLength": 3
                                         },
                                         "traitNameList": {
-                                            "DelimitedList": {
+                                            "QualifiedNameList": {
                                                 "children": [
                                                     {
                                                         "QualifiedName": {

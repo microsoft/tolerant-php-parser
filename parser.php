@@ -2642,12 +2642,7 @@ class Parser {
         $traitUseClause->parent = $parentNode;
 
         $traitUseClause->useKeyword = $this->eat(TokenKind::UseKeyword);
-        $traitUseClause->traitNameList = $this->parseDelimitedList(
-            TokenKind::CommaToken,
-            $this->isQualifiedNameStartFn(),
-            $this->parseQualifiedNameFn(),
-            $traitUseClause
-            );
+        $traitUseClause->traitNameList = $this->parseQualifiedNameList($traitUseClause);
 
         $traitUseClause->semicolonOrOpenBrace = $this->eat(TokenKind::OpenBraceToken, TokenKind::SemicolonToken);
         if ($traitUseClause->semicolonOrOpenBrace->kind === TokenKind::OpenBraceToken) {
