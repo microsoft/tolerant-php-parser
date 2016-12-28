@@ -30,7 +30,7 @@
                                 "textLength": 10
                             },
                             "interfaceNameList": {
-                                "DelimitedList": {
+                                "QualifiedNameList": {
                                     "children": [
                                         {
                                             "QualifiedName": {

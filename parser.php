@@ -38,6 +38,7 @@ use PhpParser\Node\DelimitedList\ArrayElementList;
 use PhpParser\Node\DelimitedList\ExpressionList;
 use PhpParser\Node\DelimitedList\ListExpressionList;
 use PhpParser\Node\DelimitedList\ParameterDeclarationList;
+use PhpParser\Node\DelimitedList\QualifiedNameList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
@@ -2414,7 +2415,9 @@ class Parser {
             TokenKind::CommaToken,
             $this->isQualifiedNameStartFn(),
             $this->parseQualifiedNameFn(),
-            $parentNode);
+            $parentNode,
+            false,
+            QualifiedNameList::class);
     }
 
     private function parseInterfaceDeclaration($parentNode) {

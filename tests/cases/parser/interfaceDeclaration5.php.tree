@@ -28,7 +28,7 @@
                                 "textLength": 7
                             },
                             "interfaceNameList": {
-                                "DelimitedList": {
+                                "QualifiedNameList": {
                                     "children": [
                                         {
                                             "QualifiedName": {
