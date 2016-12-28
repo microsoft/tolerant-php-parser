@@ -25,7 +25,7 @@
                                 "textLength": 0
                             },
                             "arrayElements": {
-                                "DelimitedList": {
+                                "ArrayElementList": {
                                     "children": [
                                         {
                                             "ArrayElement": {

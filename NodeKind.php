@@ -109,4 +109,6 @@ class NodeKind {
     const QualifiedNameParts = 99;
     const ParameterDeclarationList = 100;
     const ExpressionList = 101;
+    const ArrayElementList = 102;
+    const ListExpressionList = 103;
 }

@@ -21,7 +21,7 @@
                                 "textLength": 1
                             },
                             "arrayElements": {
-                                "DelimitedList": {
+                                "ArrayElementList": {
                                     "children": [
                                         {
                                             "ArrayElement": {
@@ -36,7 +36,7 @@
                                                             "textLength": 1
                                                         },
                                                         "arrayElements": {
-                                                            "DelimitedList": {
+                                                            "ArrayElementList": {
                                                                 "children": [
                                                                     {
                                                                         "ArrayElement": {
@@ -51,7 +51,7 @@
                                                                                         "textLength": 1
                                                                                     },
                                                                                     "arrayElements": {
-                                                                                        "DelimitedList": {
+                                                                                        "ArrayElementList": {
                                                                                             "children": [
                                                                                                 {
                                                                                                     "ArrayElement": {

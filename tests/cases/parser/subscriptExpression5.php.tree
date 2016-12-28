@@ -38,7 +38,7 @@
                                 "textLength": 1
                             },
                             "arrayElements": {
-                                "DelimitedList": {
+                                "ArrayElementList": {
                                     "children": [
                                         {
                                             "ArrayElement": {

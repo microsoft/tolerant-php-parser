@@ -54,7 +54,7 @@
                                         "textLength": 1
                                     },
                                     "listElements": {
-                                        "DelimitedList": {
+                                        "ListExpressionList": {
                                             "children": [
                                                 {
                                                     "ArrayElement": {
@@ -72,7 +72,7 @@
                                                                     "textLength": 1
                                                                 },
                                                                 "listElements": {
-                                                                    "DelimitedList": {
+                                                                    "ListExpressionList": {
                                                                         "children": [
                                                                             {
                                                                                 "ArrayElement": {

@@ -34,7 +34,9 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
+use PhpParser\Node\DelimitedList\ArrayElementList;
 use PhpParser\Node\DelimitedList\ExpressionList;
+use PhpParser\Node\DelimitedList\ListExpressionList;
 use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\FunctionStaticDeclaration;
@@ -1926,8 +1928,9 @@ class Parser {
         $listExpression->parent = $parentNode;
         $listExpression->listKeyword = $this->eat(TokenKind::ListKeyword);
         $listExpression->openParen = $this->eat(TokenKind::OpenParenToken);
+        // TODO - parse loosely as ArrayElementList, and validate parse tree later
         $listExpression->listElements =
-            $this->parseArrayElementList($listExpression);
+            $this->parseArrayElementList($listExpression, ListExpressionList::class);
         $listExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
 
         return $listExpression;
@@ -2004,7 +2007,7 @@ class Parser {
             ? $this->eat(TokenKind::OpenParenToken)
             : $this->eat(TokenKind::OpenBracketToken);
 
-        $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression);
+        $arrayExpression->arrayElements = $this->parseArrayElementList($arrayExpression, ArrayElementList::class);
 
         $arrayExpression->closeParenOrBracket = $arrayExpression->arrayKeyword !== null
             ? $this->eat(TokenKind::CloseParenToken)
@@ -2013,13 +2016,14 @@ class Parser {
         return $arrayExpression;
     }
 
-    private function parseArrayElementList($listExpression) {
+    private function parseArrayElementList($listExpression, $className) {
         return $this->parseDelimitedList(
             TokenKind::CommaToken,
             $this->isArrayElementStartFn(),
             $this->parseArrayElementFn(),
             $listExpression,
-            true
+            true,
+            $className
         );
     }
 
