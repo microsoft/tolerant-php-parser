@@ -39,8 +39,8 @@ class ParserFrameworkValidationTests extends TestCase {
      */
     public function testFramworkErrors($testCaseFile, $frameworkName) {
         $fileContents = file_get_contents($testCaseFile);
-        $parser = new \PhpParser\Parser($fileContents);
-        $sourceFile = $parser->parseSourceFile();
+        $parser = new \PhpParser\Parser();
+        $sourceFile = $parser->parseSourceFile($fileContents);
 
         $directory = __DIR__ . "/output/$frameworkName/";
         if (!file_exists($dir = __DIR__ . "/output")) {

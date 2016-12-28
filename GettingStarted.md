@@ -57,9 +57,10 @@ and be on your way!
 
 ```php
 <?php
-$parser = new \PhpParser\Parser($myFilename);
-$ast = $parser->parseSourceFile(); # returns an AST representing source file
-$errors =  $parser->getErrors($ast); # get errors from AST Node
+$parser = new \PhpParser\Parser();
+$fileContents = file_get_contents($myFilename);
+$ast = $parser->parseSourceFile($fileContents); # returns an AST representing source file
+$errors =  \PhpParser\Utilities::getDiagnostics($ast); # get errors from AST Node
 ```
 
 ## Play around with the AST!

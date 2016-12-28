@@ -17,14 +17,14 @@ class NodeApiTest extends TestCase {
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
 
     public function testSourceFileNodePosition() {
-        $parser = new \PhpParser\Parser(<<<'EOT'
+        $parser = new \PhpParser\Parser();
+        $node = $parser->parseSourceFile(<<<'EOT'
 <?php
 function a () {
     $a = 3;
 }
 EOT
         );
-        $node = $parser->parseSourceFile();
         $this->assertEquals(\PhpParser\NodeKind::FunctionNode, $node->getNodeAtPosition(15)->kind);
         $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getNodeAtPosition(28)->kind);
     }

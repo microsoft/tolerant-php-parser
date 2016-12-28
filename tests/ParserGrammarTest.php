@@ -41,9 +41,9 @@ class ParserGrammarTest extends TestCase {
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $fileContents = file_get_contents($testCaseFile);
-        $parser = new \PhpParser\Parser($fileContents);
+        $parser = new \PhpParser\Parser();
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
-        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile(), JSON_PRETTY_PRINT));
+        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile($fileContents), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
         $this->tokens = $tokens;
 
@@ -74,8 +74,8 @@ class ParserGrammarTest extends TestCase {
      * @dataProvider outTreeProvider
      */
     public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTreeFile) {
-        $parser = new \PhpParser\Parser(file_get_contents($testCaseFile));
-        $sourceFile = $parser->parseSourceFile();
+        $parser = new \PhpParser\Parser();
+        $sourceFile = $parser->parseSourceFile(file_get_contents($testCaseFile));
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTreeFile, $tokens);
 

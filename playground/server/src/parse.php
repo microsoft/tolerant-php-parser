@@ -9,8 +9,8 @@ use PhpParser\Parser;
 use PhpParser\Utilities;
 
 $contents = file_get_contents($argv[1]);
-$parser = new Parser($contents);
-$sourceFile = $parser->parseSourceFile();
+$parser = new Parser();
+$sourceFile = $parser->parseSourceFile($contents);
 
 file_put_contents($argv[1] . ".ast", json_encode($sourceFile, JSON_PRETTY_PRINT));
 

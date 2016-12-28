@@ -22,8 +22,8 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser(file_get_contents($filename));
-            $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile()];
+            $parser = new \PhpParser\Parser();
+            $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile(file_get_contents($filename))];
         }
         return $testFiles;
     }
@@ -33,8 +33,8 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser(file_get_contents($filename));
-            $sourceFileNode = $parser->parseSourceFile();
+            $parser = new \PhpParser\Parser();
+            $sourceFileNode = $parser->parseSourceFile(file_get_contents($filename));
             $tokensArray = array();
             foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
                 if ($child instanceof \PhpParser\Token) {

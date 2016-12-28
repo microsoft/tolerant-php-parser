@@ -129,9 +129,7 @@ class Parser {
     private $parameterTypeDeclarationTokens;
     private $returnTypeDeclarationTokens;
 
-    public function __construct($content) {
-        $this->lexer = new Lexer($content);
-
+    public function __construct() {
         $this->reservedWordTokens = array_values(RESERVED_WORDS);
         $this->keywordTokens = array_values(KEYWORDS);
         $this->nameOrKeywordOrReservedWordTokens = array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
@@ -144,7 +142,9 @@ class Parser {
         $this->returnTypeDeclarationTokens = array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
-    public function parseSourceFile() : Script {
+    public function parseSourceFile($contents) : Script {
+        $this->lexer = new Lexer($contents);
+
         $this->reset();
 
         $sourceFile = new Script();
