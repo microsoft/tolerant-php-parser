@@ -107,4 +107,5 @@ class NodeKind {
     const InlineHtml = 97;
     const UseVariableNameList = 98;
     const QualifiedNameParts = 99;
+    const ParameterDeclarationList = 100;
 }

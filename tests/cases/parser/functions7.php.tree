@@ -27,7 +27,7 @@
                         "textLength": 1
                     },
                     "parameters": {
-                        "DelimitedList": {
+                        "ParameterDeclarationList": {
                             "children": [
                                 {
                                     "ParameterNode": {

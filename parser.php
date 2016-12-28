@@ -34,6 +34,7 @@ use PhpParser\Node\ClassNode;
 use PhpParser\Node\CloneExpression;
 use PhpParser\Node\ConstDeclaration;
 use PhpParser\Node\ConstElement;
+use PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use PhpParser\Node\DelimitedList\QualifiedNameParts;
 use PhpParser\Node\FunctionStaticDeclaration;
 use PhpParser\Node\GlobalDeclaration;
@@ -1156,7 +1157,13 @@ class Parser {
         }
 
         $functionDefinition->openParen = $this->eat(TokenKind::OpenParenToken);
-        $functionDefinition->parameters = $this->parseDelimitedList(TokenKind::CommaToken, $this->isParameterStartFn(), $this->parseParameterFn(), $functionDefinition);
+        $functionDefinition->parameters = $this->parseDelimitedList(
+            TokenKind::CommaToken,
+            $this->isParameterStartFn(),
+            $this->parseParameterFn(),
+            $functionDefinition,
+            false,
+            ParameterDeclarationList::class);
         $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
         if ($isAnonymous) {
             $functionDefinition->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDefinition);
