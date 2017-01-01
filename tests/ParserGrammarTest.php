@@ -4,7 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 

@@ -143,7 +143,7 @@ class Parser {
     }
 
     public function parseSourceFile($contents) : Script {
-        $this->lexer = new Lexer($contents);
+        $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($contents);
 
         $this->reset();
 

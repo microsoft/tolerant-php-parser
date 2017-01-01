@@ -27,7 +27,7 @@ class Lexer implements ITokenStreamProvider {
         $this->keywordOrReservedWordTokens = array_merge(KEYWORDS, RESERVED_WORDS);
     }
 
-    function getTokensArray() {
+    function getTokensArray() : array {
 
         // TODO figure out how to optimize memory
         // $tokensArray = new SplFixedArray($strLen);

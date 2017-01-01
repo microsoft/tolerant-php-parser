@@ -14,4 +14,6 @@ interface ITokenStreamProvider {
     function setCurrentPosition(int $pos);
 
     function getEndOfFilePosition() : int;
+
+    function getTokensArray() : array;
 }

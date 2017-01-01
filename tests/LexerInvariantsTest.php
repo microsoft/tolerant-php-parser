@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 // TODO autoload classes
-require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
@@ -23,7 +23,7 @@ class LexerInvariantsTest extends TestCase {
     public static function tokensArrayProvider() {
         $fileToTokensMap = array();
         foreach (self::FILENAMES as $filename) {
-            $lexer = new \PhpParser\Lexer(file_get_contents($filename));
+            $lexer = \PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($filename));
             $fileToTokensMap[basename($filename)] = [$filename, $lexer->getTokensArray()];
         }
         return $fileToTokensMap;

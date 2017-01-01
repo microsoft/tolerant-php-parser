@@ -5,7 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 // TODO autoload classes
-require_once(__DIR__ . "/../lexer.php");
+require_once(__DIR__ . "/../TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../parser.php");
 require_once(__DIR__ . "/../Token.php");
 
