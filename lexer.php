@@ -8,15 +8,16 @@ namespace PhpParser;
 
 require_once(__DIR__ . "/Token.php");
 require_once(__DIR__ . "/characterCodes.php");
+require_once(__DIR__ . "/ITokenStreamProvider.php");
 
-class Lexer {
+class Lexer implements ITokenStreamProvider {
 
-    public $pos;
-    public $endOfFilePos;
+    private $pos;
+    private $endOfFilePos;
     private $fileContents;
     private $token;
 
-    public $inScriptSection = false;
+    private $inScriptSection = false;
     private $keywordOrReservedWordTokens;
 
     public function __construct($content) {
@@ -43,6 +44,18 @@ class Lexer {
     public function scanNextToken() : Token {
         $this->token = $this->scan();
         return $this->token;
+    }
+
+    function getCurrentPosition() : int {
+        return $this->pos;
+    }
+
+    function setCurrentPosition(int $pos) {
+        $this->pos = $pos;
+    }
+
+    function getEndOfFilePosition() : int {
+        return $this->endOfFilePos;
     }
 
     private function scan() : Token {

@@ -850,6 +850,7 @@ class Parser {
                 array_push($templateNode->children, $token);
                 // $this->advanceToken();
                 // $token = $this->getCurrentToken();
+                // TODO figure out how to expose this in ITokenStreamProvider
                 $this->token = $this->lexer->reScanTemplateToken($token);
                 $token = $this->getCurrentToken();
             }
@@ -1190,7 +1191,7 @@ class Parser {
     }
 
     private function lookahead(...$expectedKinds) : bool {
-        $startPos = $this->lexer->pos;
+        $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->token;
         $succeeded = true;
         foreach ($expectedKinds as $kind) {
@@ -1198,19 +1199,19 @@ class Parser {
             if (is_array($kind)) {
                 $succeeded = false;
                 foreach ($kind as $kindOption) {
-                    if ($this->lexer->pos <= $this->lexer->endOfFilePos && $this->getCurrentToken()->kind === $kindOption) {
+                    if ($this->lexer->getCurrentPosition() <= $this->lexer->getEndOfFilePosition() && $this->getCurrentToken()->kind === $kindOption) {
                         $succeeded = true;
                         break;
                     }
                 }
             } else {
-                if ($this->lexer->pos > $this->lexer->endOfFilePos || $this->getCurrentToken()->kind !== $kind) {
+                if ($this->lexer->getCurrentPosition() > $this->lexer->getEndOfFilePosition() || $this->getCurrentToken()->kind !== $kind) {
                     $succeeded = false;
                     break;
                 }
             }
         }
-        $this->lexer->pos = $startPos;
+        $this->lexer->setCurrentPosition($startPos);
         $this->token = $startToken;
         return $succeeded;
     }
@@ -1702,14 +1703,14 @@ class Parser {
             return null;
         }
 
-        $startPos = $this->lexer->pos;
+        $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->getCurrentToken();
         $foreachKey = new ForeachKey();
         $foreachKey->parent = $parentNode;
         $foreachKey->expression = $this->parseExpression($foreachKey);
 
         if (!$this->checkToken(TokenKind::DoubleArrowToken)) {
-            $this->lexer->pos = $startPos;
+            $this->lexer->setCurrentPosition($startPos);
             $this->token = $startToken;
             return null;
         }
