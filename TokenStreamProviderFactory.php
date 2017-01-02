@@ -6,12 +6,12 @@
 
 namespace PhpParser;
 
-require_once __DIR__ . "/lexer.php";
-// require_once __DIR__ . "/PhpTokenizer.php";
+// require_once __DIR__ . "/lexer.php";
+require_once __DIR__ . "/PhpTokenizer.php";
 
 class TokenStreamProviderFactory {
     public static function GetTokenStreamProvider($content) {
-       return new Lexer($content);
-        // return new PhpTokenizer($content);
+    //    return new Lexer($content);
+        return new PhpTokenizer($content);
     }
 }

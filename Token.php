@@ -286,5 +286,13 @@ class TokenKind {
     const ReturnType = 336;
     const InlineHtml = 337;
 
+//    const DollarOpenCurly = 339;
+    const EncapsedAndWhitespace = 400;
+    const SingleQuoteToken = 401;
+    const DoubleQuoteToken = 402;
+    const DollarOpenBraceToken = 403;
+    const OpenBraceDollarToken = 404;
+    const CastToken = 405;
+
     // TODO type annotations - PHP7
 }

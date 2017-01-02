@@ -62,7 +62,11 @@ class PhpTokenizer implements ITokenStreamProvider {
 
             switch ($tokenKind) {
                 case T_OPEN_TAG:
-                    $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart - 1);
+                    if ($pos-$start === 7) {
+                        $pos--;
+                    }
+
+                    $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
 //                    $pos++;
                     $start = $fullStart = $pos;
                     continue;
@@ -88,6 +92,10 @@ class PhpTokenizer implements ITokenStreamProvider {
                         : $newTokenKind = TokenKind::Unknown;
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
+
+//                    if ($newTokenKind === TokenKind::Unknown) {
+//                        echo token_name($tokenKind);
+//                    }
                     continue;
             }
         }
@@ -273,14 +281,7 @@ const TOKEN_MAP = [
     T_METHOD_C => TokenKind::Name,
     T_NS_C => TokenKind::Name,
     T_TRAIT_C => TokenKind::Name,
-
-//    T_ARRAY_CAST,
-//    T_BOOL_CAST,
-//    T_DOUBLE_CAST,
-//    T_INT_CAST,
-//    T_OBJECT_CAST,
-//    T_STRING_CAST,
-//    T_UNSET_CAST,
+    T_LINE => TokenKind::Name,
 
     T_STRING => TokenKind::Name,
     T_VARIABLE => TokenKind::VariableName,
@@ -463,5 +464,19 @@ const TOKEN_MAP = [
 //    => TokenKind::ObjectReservedWord,
 //    => TokenKind::RealReservedWord,
 //    => TokenKind::ReturnType,
-    T_INLINE_HTML => TokenKind::InlineHtml
+    T_INLINE_HTML => TokenKind::InlineHtml,
+
+    "\"" => TokenKind::DoubleQuoteToken,
+    "'" => TokenKind::SingleQuoteToken,
+    T_ENCAPSED_AND_WHITESPACE => TokenKind::EncapsedAndWhitespace,
+    T_DOLLAR_OPEN_CURLY_BRACES => TokenKind::DollarOpenBraceToken,
+    T_CURLY_OPEN => TokenKind::OpenBraceDollarToken,
+
+    T_ARRAY_CAST => TokenKind::CastToken,
+    T_BOOL_CAST => TokenKind::CastToken,
+    T_DOUBLE_CAST => TokenKind::CastToken,
+    T_INT_CAST => TokenKind::CastToken,
+    T_OBJECT_CAST => TokenKind::CastToken,
+    T_STRING_CAST => TokenKind::CastToken,
+    T_UNSET_CAST => TokenKind::CastToken,
 ];

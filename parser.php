@@ -808,6 +808,9 @@ class Parser {
                 case TokenKind::NoSubstitutionTemplateLiteral:
                 case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
 
+                case TokenKind::SingleQuoteToken:
+                case TokenKind::DoubleQuoteToken:
+
                 // array-creation-expression
                 case TokenKind::ArrayKeyword:
                 case TokenKind::OpenBracketToken:
@@ -827,6 +830,7 @@ class Parser {
 
                 // ( expression )
                 case TokenKind::OpenParenToken:
+                case TokenKind::CastToken:
 
                 // anonymous-function-creation-expression
                 case TokenKind::StaticKeyword:
@@ -893,6 +897,10 @@ class Parser {
             case TokenKind::NoSubstitutionTemplateLiteral:
             case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
                 return $this->parseStringLiteralExpression($parentNode);
+
+            case TokenKind::DoubleQuoteToken:
+            case TokenKind::SingleQuoteToken:
+                return $this->parseStringLiteralExpression2($parentNode);
 
             // TODO constant-expression
 
@@ -968,6 +976,36 @@ class Parser {
         $expression->parent = $parentNode;
         $expression->children = $this->getCurrentToken();
         $this->advanceToken();
+        return $expression;
+    }
+
+    private function parseStringLiteralExpression2($parentNode) {
+        // TODO validate input token
+        $expression = new StringLiteral();
+        $expression->parent = $parentNode;
+        $quote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken);
+        $expression->children = array();
+        $expression->children[] = $quote;
+
+        while (true) {
+            switch($this->getCurrentToken()->kind) {
+                case TokenKind::DollarOpenBraceToken:
+                case TokenKind::OpenBraceDollarToken:
+                    $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
+                    $expression->children[] = $this->parseExpression($expression);
+                    $expression->children[] = $this->eat(TokenKind::CloseBraceToken);
+                    continue;
+                case $quote->kind:
+                case TokenKind::EndOfFileToken:
+                    $expression->children[] = $this->eat($quote->kind);
+                    return $expression;
+                default:
+                    $expression->children[] = $this->getCurrentToken();
+                    $this->advanceToken();
+                    continue;
+            }
+        }
+
         return $expression;
     }
 
@@ -1389,6 +1427,9 @@ class Parser {
             // prefix-decrement-expression
             case TokenKind::MinusMinusToken:
                 return $this->parsePrefixUpdateExpression($parentNode);
+
+            case TokenKind::CastToken:
+                return $this->parseCastExpression2($parentNode);
 
             case TokenKind::OpenParenToken:
                 // TODO remove duplication
@@ -2755,6 +2796,16 @@ class Parser {
             $constElement->assignment = $this->parseExpression($constElement);
             return $constElement;
         };
+    }
+
+    private function parseCastExpression2($parentNode) {
+        $castExpression = new CastExpression();
+        $castExpression->parent = $parentNode;
+        $castExpression->castType = $this->eat(TokenKind::CastToken);
+
+        $castExpression->operand = $this->parseUnaryExpressionOrHigher($castExpression);
+
+        return $castExpression;
     }
 
     private function parseCastExpression($parentNode) {
