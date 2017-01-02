@@ -479,4 +479,7 @@ const TOKEN_MAP = [
     T_OBJECT_CAST => TokenKind::CastToken,
     T_STRING_CAST => TokenKind::CastToken,
     T_UNSET_CAST => TokenKind::CastToken,
+    T_START_HEREDOC => TokenKind::HeredocStart,
+    T_END_HEREDOC => TokenKind::HeredocEnd,
+    T_STRING_VARNAME => TokenKind::VariableName
 ];

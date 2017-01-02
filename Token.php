@@ -293,6 +293,9 @@ class TokenKind {
     const DollarOpenBraceToken = 403;
     const OpenBraceDollarToken = 404;
     const CastToken = 405;
+    const HeredocStart = 406;
+    const HeredocEnd = 407;
+    const StringVarname = 408;
 
     // TODO type annotations - PHP7
 }

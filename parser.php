@@ -810,6 +810,8 @@ class Parser {
 
                 case TokenKind::SingleQuoteToken:
                 case TokenKind::DoubleQuoteToken:
+                case TokenKind::HeredocStart:
+                case TokenKind::BacktickToken:
 
                 // array-creation-expression
                 case TokenKind::ArrayKeyword:
@@ -900,6 +902,8 @@ class Parser {
 
             case TokenKind::DoubleQuoteToken:
             case TokenKind::SingleQuoteToken:
+            case TokenKind::HeredocStart:
+            case TokenKind::BacktickToken:
                 return $this->parseStringLiteralExpression2($parentNode);
 
             // TODO constant-expression
@@ -983,7 +987,7 @@ class Parser {
         // TODO validate input token
         $expression = new StringLiteral();
         $expression->parent = $parentNode;
-        $quote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken);
+        $quote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken, TokenKind::HeredocStart, TokenKind::BacktickToken);
         $expression->children = array();
         $expression->children[] = $quote;
 
@@ -997,7 +1001,8 @@ class Parser {
                     continue;
                 case $quote->kind:
                 case TokenKind::EndOfFileToken:
-                    $expression->children[] = $this->eat($quote->kind);
+                case TokenKind::HeredocEnd:
+                    $expression->children[] = $this->eat($quote->kind, TokenKind::HeredocEnd);
                     return $expression;
                 default:
                     $expression->children[] = $this->getCurrentToken();
