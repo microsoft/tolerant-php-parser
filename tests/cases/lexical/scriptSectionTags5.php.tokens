@@ -13,11 +13,11 @@
     },
     {
         "kind": "ScriptSectionEndTag",
-        "textLength": 2
+        "textLength": 4
     },
     {
         "kind": "InlineHtml",
-        "textLength": 9
+        "textLength": 7
     },
     {
         "kind": "EndOfFileToken",

@@ -18,15 +18,15 @@
                 "InlineHtml": {
                     "scriptSectionEndTag": {
                         "kind": "ScriptSectionEndTag",
-                        "textLength": 2
+                        "textLength": 4
                     },
                     "text": {
                         "kind": "InlineHtml",
-                        "textLength": 21
+                        "textLength": 19
                     },
                     "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 6
+                        "textLength": 7
                     }
                 }
             }

@@ -148,7 +148,7 @@ class Lexer implements ITokenStreamProvider {
                 case CharacterCodes::_backslash:
                     // TODO this can be made more performant, but we're going for simple/correct first.
                     // TODO
-                    for ($tokenEnd = 5; $tokenEnd >= 0; $tokenEnd--) {
+                    for ($tokenEnd = 6; $tokenEnd >= 0; $tokenEnd--) {
                         if ($pos + $tokenEnd >= $endOfFilePos) {
                             continue;
                         }
@@ -912,7 +912,11 @@ const OPERATORS_AND_PUNCTUATORS = array(
     "<?php\t" => TokenKind::ScriptSectionStartTag, // TODO add tests
     "<?php\n" => TokenKind::ScriptSectionStartTag,
     "<?php\r" => TokenKind::ScriptSectionStartTag,
+    "<?php\r\n" => TokenKind::ScriptSectionStartTag,
     "?>" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
+    "?>\n" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
+    "?>\r\n" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
+    "?>\r" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
     "@" => TokenKind::AtSymbolToken, // TODO not in spec
     "`" => TokenKind::BacktickToken
 );
