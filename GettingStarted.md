@@ -41,11 +41,11 @@ In your project's `composer.json`, specify the `minimum-stability`,
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/mousetraps/tolerant-php-parser.git"
+            "url": "https://github.com/Microsoft/tolerant-php-parser.git"
         }
     ],
     "require": {
-        "mousetraps/tolerant-php-parser": "master"
+        "Microsoft/tolerant-php-parser": "master"
     }
 }
 ```
