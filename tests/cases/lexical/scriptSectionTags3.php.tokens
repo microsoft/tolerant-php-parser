@@ -1,7 +1,7 @@
 [
     {
         "kind": "ScriptSectionStartTag",
-        "textLength": 7
+        "textLength": 6
     },
     {
         "kind": "LessThanToken",
@@ -17,11 +17,11 @@
     },
     {
         "kind": "ScriptSectionEndTag",
-        "textLength": 4
+        "textLength": 3
     },
     {
         "kind": "InlineHtml",
-        "textLength": 7
+        "textLength": 6
     },
     {
         "kind": "EndOfFileToken",
