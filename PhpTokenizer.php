@@ -62,12 +62,7 @@ class PhpTokenizer implements ITokenStreamProvider {
 
             switch ($tokenKind) {
                 case T_OPEN_TAG:
-                    if ($pos-$start === 7) {
-                        $pos--;
-                    }
-
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
-//                    $pos++;
                     $start = $fullStart = $pos;
                     continue;
 
@@ -421,7 +416,7 @@ const TOKEN_MAP = [
     "`" => TokenKind::BacktickToken,
     "?" => TokenKind::QuestionToken,
 
-    T_LNUMBER => TokenKind::DecimalLiteralToken,
+    T_LNUMBER => TokenKind::IntegerLiteralToken,
 //    T_LNUMBER => TokenKind::OctalLiteralToken,
 //    T_LNUMBER => TokenKind::HexadecimalLiteralToken,
 //    T_LNUMBER => TokenKind::BinaryLiteralToken,
@@ -429,7 +424,7 @@ const TOKEN_MAP = [
 //    T_LNUMBER => TokenKind::InvalidOctalLiteralToken,
 //    T_LNUMBER => TokenKind::InvalidHexadecimalLiteral,
 //    T_LNUMBER => TokenKind::InvalidBinaryLiteral,
-    T_CONSTANT_ENCAPSED_STRING => TokenKind::NoSubstitutionTemplateLiteral,
+    T_CONSTANT_ENCAPSED_STRING => TokenKind::StringLiteralToken,
 //    T_CONSTANT_ENCAPSED_STRING => TokenKind::UnterminatedStringLiteralToken,
 
 //    => TokenKind::TemplateStringStart,
@@ -471,15 +466,16 @@ const TOKEN_MAP = [
     T_ENCAPSED_AND_WHITESPACE => TokenKind::EncapsedAndWhitespace,
     T_DOLLAR_OPEN_CURLY_BRACES => TokenKind::DollarOpenBraceToken,
     T_CURLY_OPEN => TokenKind::OpenBraceDollarToken,
+    T_CONSTANT_ENCAPSED_STRING => TokenKind::StringLiteralToken,
 
-    T_ARRAY_CAST => TokenKind::CastToken,
-    T_BOOL_CAST => TokenKind::CastToken,
-    T_DOUBLE_CAST => TokenKind::CastToken,
-    T_INT_CAST => TokenKind::CastToken,
-    T_OBJECT_CAST => TokenKind::CastToken,
-    T_STRING_CAST => TokenKind::CastToken,
-    T_UNSET_CAST => TokenKind::CastToken,
-    T_START_HEREDOC => TokenKind::HeredocStart,
-    T_END_HEREDOC => TokenKind::HeredocEnd,
-    T_STRING_VARNAME => TokenKind::VariableName
+    T_ARRAY_CAST        => TokenKind::ArrayCastToken,
+    T_BOOL_CAST         => TokenKind::BoolCastToken,
+    T_DOUBLE_CAST       => TokenKind::DoubleCastToken,
+    T_INT_CAST          => TokenKind::IntCastToken,
+    T_OBJECT_CAST       => TokenKind::ObjectCastToken,
+    T_STRING_CAST       => TokenKind::StringCastToken,
+    T_UNSET_CAST        => TokenKind::UnsetCastToken,
+    T_START_HEREDOC     => TokenKind::HeredocStart,
+    T_END_HEREDOC       => TokenKind::HeredocEnd,
+    T_STRING_VARNAME    => TokenKind::VariableName
 ];

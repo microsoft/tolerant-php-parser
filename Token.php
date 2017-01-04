@@ -296,6 +296,14 @@ class TokenKind {
     const HeredocStart = 406;
     const HeredocEnd = 407;
     const StringVarname = 408;
+    const UnsetCastToken = 409;
+    const StringCastToken = 410;
+    const ObjectCastToken = 411;
+    const IntCastToken = 412;
+    const DoubleCastToken = 413;
+    const BoolCastToken = 414;
+    const ArrayCastToken = 415;
+    const IntegerLiteralToken = 416;
 
     // TODO type annotations - PHP7
 }

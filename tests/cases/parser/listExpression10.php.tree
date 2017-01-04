@@ -130,7 +130,7 @@
                                                                                     "elementValue": {
                                                                                         "NumericLiteral": {
                                                                                             "children": {
-                                                                                                "kind": "DecimalLiteralToken",
+                                                                                                "kind": "IntegerLiteralToken",
                                                                                                 "textLength": 1
                                                                                             }
                                                                                         }

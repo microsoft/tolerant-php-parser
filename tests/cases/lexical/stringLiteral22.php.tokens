@@ -4,7 +4,7 @@
         "textLength": 7
     },
     {
-        "kind": "UnterminatedStringLiteralToken",
+        "kind": "EncapsedAndWhitespace",
         "textLength": 16
     },
     {

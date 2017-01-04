@@ -35,7 +35,7 @@
                             },
                             "literal": {
                                 "error": "MissingToken",
-                                "kind": "DecimalLiteralToken",
+                                "kind": "FloatingLiteralToken",
                                 "textLength": 0
                             }
                         }

@@ -802,6 +802,7 @@ class Parser {
                 case TokenKind::InvalidOctalLiteralToken:
                 case TokenKind::InvalidHexadecimalLiteral:
                 case TokenKind::InvalidBinaryLiteral:
+                case TokenKind::IntegerLiteralToken:
 
                 case TokenKind::StringLiteralToken: // TODO merge unterminated
                 case TokenKind::UnterminatedStringLiteralToken:
@@ -832,7 +833,13 @@ class Parser {
 
                 // ( expression )
                 case TokenKind::OpenParenToken:
-                case TokenKind::CastToken:
+                case TokenKind::ArrayCastToken:
+                case TokenKind::BoolCastToken:
+                case TokenKind::DoubleCastToken:
+                case TokenKind::IntCastToken:
+                case TokenKind::ObjectCastToken:
+                case TokenKind::StringCastToken:
+                case TokenKind::UnsetCastToken:
 
                 // anonymous-function-creation-expression
                 case TokenKind::StaticKeyword:
@@ -892,6 +899,7 @@ class Parser {
             case TokenKind::InvalidOctalLiteralToken:
             case TokenKind::InvalidHexadecimalLiteral:
             case TokenKind::InvalidBinaryLiteral:
+            case TokenKind::IntegerLiteralToken:
                 return $this->parseNumericLiteralExpression($parentNode);
 
             case TokenKind::StringLiteralToken: // TODO merge unterminated
@@ -1433,8 +1441,14 @@ class Parser {
             case TokenKind::MinusMinusToken:
                 return $this->parsePrefixUpdateExpression($parentNode);
 
-            case TokenKind::CastToken:
-                return $this->parseCastExpression2($parentNode);
+            case TokenKind::ArrayCastToken:
+            case TokenKind::BoolCastToken:
+            case TokenKind::DoubleCastToken:
+            case TokenKind::IntCastToken:
+            case TokenKind::ObjectCastToken:
+            case TokenKind::StringCastToken:
+            case TokenKind::UnsetCastToken:
+                return $this->parseCastExpression($parentNode);
 
             case TokenKind::OpenParenToken:
                 // TODO remove duplication
@@ -1451,7 +1465,7 @@ class Parser {
                     TokenKind::RealReservedWord,
                     TokenKind::StringReservedWord,
                     TokenKind::UnsetKeyword], TokenKind::CloseParenToken)) {
-                    return $this->parseCastExpression($parentNode);
+                    return $this->parseCastExpressionGranular($parentNode);
                 }
                 break;
 
@@ -1462,7 +1476,7 @@ class Parser {
 
             case TokenKind::OpenParenToken:
                 // TODO
-//                return $this->parseCastExpression($parentNode);
+//                return $this->parseCastExpressionGranular($parentNode);
                 break;*/
 
             // object-creation-expression (postfix-expression)
@@ -1800,7 +1814,7 @@ class Parser {
                 TokenKind::OctalLiteralToken,
                 TokenKind::InvalidOctalLiteralToken,
                 // TODO the parser should be permissive of floating literals, but rule validation should produce error
-                TokenKind::FloatingLiteralToken
+                TokenKind::IntegerLiteralToken
                 );
         $continueStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
@@ -1899,11 +1913,12 @@ class Parser {
         $declareDirective->equals = $this->eat(TokenKind::EqualsToken);
         $declareDirective->literal =
             $this->eat(
+                TokenKind::FloatingLiteralToken,
+                TokenKind::IntegerLiteralToken,
                 TokenKind::DecimalLiteralToken,
                 TokenKind::OctalLiteralToken,
                 TokenKind::HexadecimalLiteralToken,
                 TokenKind::BinaryLiteralToken,
-                TokenKind::FloatingLiteralToken,
                 TokenKind::InvalidOctalLiteralToken,
                 TokenKind::InvalidHexadecimalLiteral,
                 TokenKind::InvalidBinaryLiteral,
@@ -2803,17 +2818,25 @@ class Parser {
         };
     }
 
-    private function parseCastExpression2($parentNode) {
+    private function parseCastExpression($parentNode) {
         $castExpression = new CastExpression();
         $castExpression->parent = $parentNode;
-        $castExpression->castType = $this->eat(TokenKind::CastToken);
+        $castExpression->castType = $this->eat(
+            TokenKind::ArrayCastToken,
+            TokenKind::BoolCastToken,
+            TokenKind::DoubleCastToken,
+            TokenKind::IntCastToken,
+            TokenKind::ObjectCastToken,
+            TokenKind::StringCastToken,
+            TokenKind::UnsetCastToken
+        );
 
         $castExpression->operand = $this->parseUnaryExpressionOrHigher($castExpression);
 
         return $castExpression;
     }
 
-    private function parseCastExpression($parentNode) {
+    private function parseCastExpressionGranular($parentNode) {
         $castExpression = new CastExpression();
         $castExpression->parent = $parentNode;
 

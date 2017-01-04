@@ -44,7 +44,7 @@
                                                         "elementKey": {
                                                             "NumericLiteral": {
                                                                 "children": {
-                                                                    "kind": "DecimalLiteralToken",
+                                                                    "kind": "IntegerLiteralToken",
                                                                     "textLength": 1
                                                                 }
                                                             }
@@ -74,7 +74,7 @@
                                                         "elementKey": {
                                                             "NumericLiteral": {
                                                                 "children": {
-                                                                    "kind": "DecimalLiteralToken",
+                                                                    "kind": "IntegerLiteralToken",
                                                                     "textLength": 1
                                                                 }
                                                             }
@@ -104,7 +104,7 @@
                                                         "elementKey": {
                                                             "NumericLiteral": {
                                                                 "children": {
-                                                                    "kind": "DecimalLiteralToken",
+                                                                    "kind": "IntegerLiteralToken",
                                                                     "textLength": 1
                                                                 }
                                                             }

@@ -20,7 +20,7 @@
         "textLength": 1
     },
     {
-        "kind": "DecimalLiteralToken",
+        "kind": "IntegerLiteralToken",
         "textLength": 2
     },
     {

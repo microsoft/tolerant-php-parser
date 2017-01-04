@@ -15,18 +15,12 @@
                 "ExpressionStatement": {
                     "expression": {
                         "CastExpression": {
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
+                            "openParen": null,
                             "castType": {
-                                "kind": "BinaryReservedWord",
-                                "textLength": 6
+                                "kind": "StringCastToken",
+                                "textLength": 8
                             },
-                            "closeParen": {
-                                "kind": "CloseParenToken",
-                                "textLength": 1
-                            },
+                            "closeParen": null,
                             "operand": {
                                 "error": "MissingToken",
                                 "kind": "Expression",

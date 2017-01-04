@@ -72,7 +72,7 @@
                                             "rightOperand": {
                                                 "StringLiteral": {
                                                     "children": {
-                                                        "kind": "NoSubstitutionTemplateLiteral",
+                                                        "kind": "StringLiteralToken",
                                                         "textLength": 9
                                                     }
                                                 }

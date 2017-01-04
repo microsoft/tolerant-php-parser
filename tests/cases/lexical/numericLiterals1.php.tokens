@@ -4,7 +4,7 @@
         "textLength": 7
     },
     {
-        "kind": "OctalLiteralToken",
+        "kind": "IntegerLiteralToken",
         "textLength": 2
     },
     {

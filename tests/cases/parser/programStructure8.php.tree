@@ -21,8 +21,18 @@
             },
             {
                 "error": "SkippedToken",
-                "kind": "ScriptSectionStartTag",
-                "textLength": 3
+                "kind": "LessThanToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "QuestionToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "EqualsToken",
+                "textLength": 1
             },
             {
                 "EmptyStatement": {

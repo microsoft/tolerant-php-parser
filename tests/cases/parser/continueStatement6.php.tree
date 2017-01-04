@@ -84,7 +84,7 @@
                                                                 "textLength": 8
                                                             },
                                                             "breakoutLevel": {
-                                                                "kind": "DecimalLiteralToken",
+                                                                "kind": "IntegerLiteralToken",
                                                                 "textLength": 1
                                                             },
                                                             "semicolon": {

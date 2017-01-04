@@ -8,8 +8,20 @@
         "textLength": 6
     },
     {
-        "kind": "UnterminatedNoSubstitutionTemplateLiteral",
-        "textLength": 6
+        "kind": "DoubleQuoteToken",
+        "textLength": 1
+    },
+    {
+        "kind": "DollarOpenBraceToken",
+        "textLength": 2
+    },
+    {
+        "kind": "ScriptSectionEndTag",
+        "textLength": 2
+    },
+    {
+        "kind": "InlineHtml",
+        "textLength": 1
     },
     {
         "kind": "EndOfFileToken",

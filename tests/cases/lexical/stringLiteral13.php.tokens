@@ -4,8 +4,12 @@
         "textLength": 7
     },
     {
-        "kind": "UnterminatedNoSubstitutionTemplateLiteral",
-        "textLength": 9
+        "kind": "DoubleQuoteToken",
+        "textLength": 1
+    },
+    {
+        "kind": "EncapsedAndWhitespace",
+        "textLength": 8
     },
     {
         "kind": "EndOfFileToken",

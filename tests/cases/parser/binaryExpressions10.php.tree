@@ -48,7 +48,7 @@
                                             "leftOperand": {
                                                 "NumericLiteral": {
                                                     "children": {
-                                                        "kind": "DecimalLiteralToken",
+                                                        "kind": "IntegerLiteralToken",
                                                         "textLength": 1
                                                     }
                                                 }
@@ -60,7 +60,7 @@
                                             "rightOperand": {
                                                 "NumericLiteral": {
                                                     "children": {
-                                                        "kind": "DecimalLiteralToken",
+                                                        "kind": "IntegerLiteralToken",
                                                         "textLength": 1
                                                     }
                                                 }
@@ -88,7 +88,7 @@
                     "expression": {
                         "NumericLiteral": {
                             "children": {
-                                "kind": "DecimalLiteralToken",
+                                "kind": "IntegerLiteralToken",
                                 "textLength": 1
                             }
                         }

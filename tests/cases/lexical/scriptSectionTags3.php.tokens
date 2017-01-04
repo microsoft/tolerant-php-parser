@@ -4,8 +4,16 @@
         "textLength": 7
     },
     {
-        "kind": "ScriptSectionStartTag",
-        "textLength": 7
+        "kind": "LessThanToken",
+        "textLength": 1
+    },
+    {
+        "kind": "QuestionToken",
+        "textLength": 1
+    },
+    {
+        "kind": "Name",
+        "textLength": 3
     },
     {
         "kind": "ScriptSectionEndTag",

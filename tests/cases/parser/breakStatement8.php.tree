@@ -51,7 +51,7 @@
                                             "textLength": 5
                                         },
                                         "breakoutLevel": {
-                                            "kind": "HexadecimalLiteralToken",
+                                            "kind": "IntegerLiteralToken",
                                             "textLength": 3
                                         },
                                         "semicolon": {

@@ -16,7 +16,7 @@
                     "expression": {
                         "ExitIntrinsicExpression": {
                             "exitOrDieKeyword": {
-                                "kind": "DieKeyword",
+                                "kind": "ExitKeyword",
                                 "textLength": 3
                             },
                             "openParen": null,
@@ -36,7 +36,7 @@
                     "expression": {
                         "ExitIntrinsicExpression": {
                             "exitOrDieKeyword": {
-                                "kind": "DieKeyword",
+                                "kind": "ExitKeyword",
                                 "textLength": 3
                             },
                             "openParen": null,

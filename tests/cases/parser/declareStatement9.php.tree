@@ -33,7 +33,7 @@
                                 "textLength": 0
                             },
                             "literal": {
-                                "kind": "BinaryLiteralToken",
+                                "kind": "IntegerLiteralToken",
                                 "textLength": 3
                             }
                         }

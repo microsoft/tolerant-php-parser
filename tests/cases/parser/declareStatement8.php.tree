@@ -32,7 +32,7 @@
                                 "textLength": 1
                             },
                             "literal": {
-                                "kind": "NoSubstitutionTemplateLiteral",
+                                "kind": "StringLiteralToken",
                                 "textLength": 2
                             }
                         }

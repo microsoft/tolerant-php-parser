@@ -117,7 +117,7 @@
                                                                                     "textLength": 5
                                                                                 },
                                                                                 "breakoutLevel": {
-                                                                                    "kind": "OctalLiteralToken",
+                                                                                    "kind": "IntegerLiteralToken",
                                                                                     "textLength": 2
                                                                                 },
                                                                                 "semicolon": {

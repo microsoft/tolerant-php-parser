@@ -18,7 +18,7 @@
                             "scopeResolutionQualifier": {
                                 "StringLiteral": {
                                     "children": {
-                                        "kind": "NoSubstitutionTemplateLiteral",
+                                        "kind": "StringLiteralToken",
                                         "textLength": 11
                                     }
                                 }

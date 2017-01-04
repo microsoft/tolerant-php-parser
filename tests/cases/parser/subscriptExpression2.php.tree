@@ -33,7 +33,7 @@
                                     "accessExpression": {
                                         "NumericLiteral": {
                                             "children": {
-                                                "kind": "DecimalLiteralToken",
+                                                "kind": "IntegerLiteralToken",
                                                 "textLength": 1
                                             }
                                         }
@@ -51,7 +51,7 @@
                             "accessExpression": {
                                 "NumericLiteral": {
                                     "children": {
-                                        "kind": "DecimalLiteralToken",
+                                        "kind": "IntegerLiteralToken",
                                         "textLength": 1
                                     }
                                 }

@@ -17,18 +17,12 @@
                         "BinaryExpression": {
                             "leftOperand": {
                                 "CastExpression": {
-                                    "openParen": {
-                                        "kind": "OpenParenToken",
-                                        "textLength": 1
-                                    },
+                                    "openParen": null,
                                     "castType": {
-                                        "kind": "IntReservedWord",
-                                        "textLength": 3
+                                        "kind": "IntCastToken",
+                                        "textLength": 5
                                     },
-                                    "closeParen": {
-                                        "kind": "CloseParenToken",
-                                        "textLength": 1
-                                    },
+                                    "closeParen": null,
                                     "operand": {
                                         "Variable": {
                                             "dollar": null,
@@ -46,18 +40,12 @@
                             },
                             "rightOperand": {
                                 "CastExpression": {
-                                    "openParen": {
-                                        "kind": "OpenParenToken",
-                                        "textLength": 1
-                                    },
+                                    "openParen": null,
                                     "castType": {
-                                        "kind": "BoolReservedWord",
-                                        "textLength": 4
+                                        "kind": "BoolCastToken",
+                                        "textLength": 6
                                     },
-                                    "closeParen": {
-                                        "kind": "CloseParenToken",
-                                        "textLength": 1
-                                    },
+                                    "closeParen": null,
                                     "operand": {
                                         "Variable": {
                                             "dollar": null,

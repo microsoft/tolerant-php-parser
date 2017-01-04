@@ -8,7 +8,7 @@
         "textLength": 6
     },
     {
-        "kind": "NoSubstitutionTemplateLiteral",
+        "kind": "StringLiteralToken",
         "textLength": 4
     },
     {

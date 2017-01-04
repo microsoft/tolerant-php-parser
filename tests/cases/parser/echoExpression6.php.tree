@@ -50,10 +50,17 @@
                                         },
                                         {
                                             "StringLiteral": {
-                                                "children": {
-                                                    "kind": "UnterminatedNoSubstitutionTemplateLiteral",
-                                                    "textLength": 1
-                                                }
+                                                "children": [
+                                                    {
+                                                        "kind": "DoubleQuoteToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "error": "MissingToken",
+                                                        "kind": "DoubleQuoteToken",
+                                                        "textLength": 0
+                                                    }
+                                                ]
                                             }
                                         }
                                     ]

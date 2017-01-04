@@ -54,7 +54,7 @@
                                                             "assignment": {
                                                                 "NumericLiteral": {
                                                                     "children": {
-                                                                        "kind": "DecimalLiteralToken",
+                                                                        "kind": "IntegerLiteralToken",
                                                                         "textLength": 1
                                                                     }
                                                                 }
@@ -78,7 +78,7 @@
                                                             "assignment": {
                                                                 "StringLiteral": {
                                                                     "children": {
-                                                                        "kind": "NoSubstitutionTemplateLiteral",
+                                                                        "kind": "StringLiteralToken",
                                                                         "textLength": 7
                                                                     }
                                                                 }
