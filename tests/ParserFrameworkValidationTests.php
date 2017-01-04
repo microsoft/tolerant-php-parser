@@ -29,7 +29,9 @@ class ParserFrameworkValidationTests extends TestCase {
                     $testProviderArray[$frameworkName . "::" . $file->getBasename()] = [$file->getPathname(), $frameworkName];
                 }
             }
-
+        }
+        if (count($testProviderArray) === 0) {
+            throw new Exception("ERROR: Validation testsuite frameworks not found - run `git submodule update --init --recursive` to download.");
         }
         return $testProviderArray;
     }
