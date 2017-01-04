@@ -1,8 +1,12 @@
-# PHP Parser + VSCode Extension Sample
+# PHP Parser Syntax Visualizer Tool
 ## Overview
-Demonstrates some of the basic usage and functionality of the parser.
+VSCode Extension that demonstrates some of the basic usage and functionality of the parser.
+- writes AST to adjacent *.ast file using JSON representation
 - Error squigglies
-- writes AST to adjacent *.ast file
+
+![image](https://cloud.githubusercontent.com/assets/762848/21635753/3f8c0cb8-d214-11e6-8424-e200d63abc18.png)
+
+
 
 ## Instructions
 1. npm install `client`/`server` dependencies, run Extension
