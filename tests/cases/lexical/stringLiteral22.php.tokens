@@ -1,11 +1,11 @@
 [
     {
         "kind": "ScriptSectionStartTag",
-        "textLength": 7
+        "textLength": 6
     },
     {
         "kind": "EncapsedAndWhitespace",
-        "textLength": 16
+        "textLength": 14
     },
     {
         "kind": "EndOfFileToken",

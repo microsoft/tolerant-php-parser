@@ -6,7 +6,7 @@
                     "scriptSectionEndTag": null,
                     "text": {
                         "kind": "InlineHtml",
-                        "textLength": 4
+                        "textLength": 3
                     },
                     "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
@@ -18,11 +18,11 @@
                 "InlineHtml": {
                     "scriptSectionEndTag": {
                         "kind": "ScriptSectionEndTag",
-                        "textLength": 4
+                        "textLength": 3
                     },
                     "text": {
                         "kind": "InlineHtml",
-                        "textLength": 4
+                        "textLength": 3
                     },
                     "scriptSectionStartTag": null
                 }

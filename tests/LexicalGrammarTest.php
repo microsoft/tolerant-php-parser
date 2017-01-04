@@ -88,11 +88,10 @@ class LexicalGrammarTest extends TestCase {
 
     public function lexicalSpecProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
-        $tokensExpected = glob(__dir__ . "/cases/php-langspec/**/*.php.tree");
 
         $testProviderArray = array();
-        foreach ($testCases as $index=>$testCase) {
-            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+        foreach ($testCases as $testCase) {
+            $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree"];
         }
 
         return $testProviderArray;

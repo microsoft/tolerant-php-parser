@@ -1,1 +1,2 @@
-text eol=lf
+* text=auto
+/tests/cases/**/*.php text eol=lf
