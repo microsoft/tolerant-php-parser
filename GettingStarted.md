@@ -50,8 +50,10 @@ In your project's `composer.json`, specify the `minimum-stability`,
 }
 ```
 
-Once you've referenced the parser from your project, run `composer install`,
+Once you've referenced the parser from your project, run `composer install --prefer-dist`,
 and be on your way!
+> Note: The `--prefer-dist` flag tells Composer to download the minimal set of files,
+rather the complete source, which includes tests as well.
 
 ## Ready, set, parse!
 
