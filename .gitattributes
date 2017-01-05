@@ -4,3 +4,4 @@
 tests/ export-ignore
 validation/ export-ignore
 php-langspec/ export-ignore
+experiments/ export-ignore
