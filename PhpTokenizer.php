@@ -21,7 +21,7 @@ class PhpTokenizer implements ITokenStreamProvider {
     private $tokensArray;
 
     public function __construct($content) {
-        $tokens = token_get_all($content);
+        $tokens = \token_get_all($content);
         $this->initialize($tokens);
         $this->pos = 0;
     }
@@ -55,8 +55,13 @@ class PhpTokenizer implements ITokenStreamProvider {
         $pos = 0;
 
         foreach ($tokens as $token) {
-            $tokenKind = is_array($token) ? $token[0] : $token;
-            $strlen = is_array($token) ? strlen($token[1]) : strlen($token);
+            if (\is_array($token)) {
+                $tokenKind = $token[0];
+                $strlen = \strlen($token[1]);
+            } else {
+                $tokenKind = $token;
+                $strlen = \strlen($token);
+            }
 
             $pos += $strlen;
 
@@ -73,7 +78,7 @@ class PhpTokenizer implements ITokenStreamProvider {
                     continue;
 
                 case T_STRING:
-                    $name = strtolower($token[1]);
+                    $name = \strtolower($token[1]);
                     if (isset(RESERVED_WORDS[$name])) {
                         $newTokenKind = RESERVED_WORDS[$name];
                         $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
@@ -87,17 +92,13 @@ class PhpTokenizer implements ITokenStreamProvider {
                         : $newTokenKind = TokenKind::Unknown;
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
-
-//                    if ($newTokenKind === TokenKind::Unknown) {
-//                        echo token_name($tokenKind);
-//                    }
                     continue;
             }
         }
 
         $arr[] = new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos - $fullStart);
         $this->tokensArray = $arr;
-        $this->endOfFilePos = count($arr) - 1;
+        $this->endOfFilePos = \count($arr) - 1;
     }
 }
 

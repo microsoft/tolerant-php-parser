@@ -8,9 +8,9 @@ namespace PhpParser;
 
 // TODO make this less hacky
 spl_autoload_register(function ($class) {
-    if (file_exists($filepath = __DIR__ . "/Node/" . substr($class, 15) . ".php")) {
+    if (\file_exists($filepath = __DIR__ . "/Node/" . \substr($class, 15) . ".php")) {
         require_once $filepath;
-    } elseif (file_exists($filepath = __DIR__ . "/" . substr($class, 10) . ".php")) {
+    } elseif (\file_exists($filepath = __DIR__ . "/" . \substr($class, 10) . ".php")) {
         require_once $filepath;
     }
 });
@@ -130,16 +130,16 @@ class Parser {
     private $returnTypeDeclarationTokens;
 
     public function __construct() {
-        $this->reservedWordTokens = array_values(RESERVED_WORDS);
-        $this->keywordTokens = array_values(KEYWORDS);
-        $this->nameOrKeywordOrReservedWordTokens = array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
-        $this->nameOrReservedWordTokens = array_merge([TokenKind::Name], $this->reservedWordTokens);
-        $this->nameOrStaticOrReservedWordTokens = array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
+        $this->reservedWordTokens = \array_values(RESERVED_WORDS);
+        $this->keywordTokens = \array_values(KEYWORDS);
+        $this->nameOrKeywordOrReservedWordTokens = \array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
+        $this->nameOrReservedWordTokens = \array_merge([TokenKind::Name], $this->reservedWordTokens);
+        $this->nameOrStaticOrReservedWordTokens = \array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
         $this->parameterTypeDeclarationTokens =
             [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
             TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
             TokenKind::ObjectReservedWord]; // TODO update spec
-        $this->returnTypeDeclarationTokens = array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
+        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
     public function parseSourceFile($contents) : Script {
@@ -151,10 +151,10 @@ class Parser {
         $this->sourceFile = & $sourceFile;
         $sourceFile->statementList = array();
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
-            array_push($sourceFile->statementList, $this->parseInlineHtml($sourceFile));
+            $sourceFile->statementList[] = $this->parseInlineHtml($sourceFile);
         }
         $sourceFile->statementList =
-            array_merge($sourceFile->statementList, $this->parseList($sourceFile, ParseContext::SourceElements));
+            \array_merge($sourceFile->statementList, $this->parseList($sourceFile, ParseContext::SourceElements));
 
         $this->sourceFile->endOfFileToken = $this->eat(TokenKind::EndOfFileToken);
         $this->advanceToken();
@@ -192,7 +192,7 @@ class Parser {
                 if ($element instanceof Node) {
                     $element->parent = $parentNode;
                 }
-                array_push($nodeArray, $element);
+                $nodeArray[] = $element;
                 continue;
             }
 
@@ -229,7 +229,7 @@ class Parser {
             //         }
             //     }
             $token = new SkippedToken($this->getCurrentToken());
-            array_push($nodeArray, $token);
+            $nodeArray[] = $token;
             $this->advanceToken();
         }
 
@@ -372,7 +372,7 @@ class Parser {
      */
     function eat(...$kinds) {
         $token = $this->getCurrentToken();
-        if (is_array($kinds[0])) {
+        if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
         }
         foreach ($kinds as $kind) {
@@ -387,10 +387,10 @@ class Parser {
 
     function eatOptional(...$kinds) {
         $token = $this->getCurrentToken();
-        if (is_array($kinds[0])) {
+        if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
         }
-        if (in_array($token->kind, $kinds)) {
+        if (\in_array($token->kind, $kinds)) {
             $this->advanceToken();
             return $token;
         }
@@ -641,7 +641,7 @@ class Parser {
 
     function array_push_list(& $array, $list) {
         foreach ($list as $item) {
-            array_push($array, $item);
+            $array[] = $item;
         }
     }
 
@@ -846,7 +846,7 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return true;
             }
-            return in_array($token->kind, $this->reservedWordTokens);
+            return \in_array($token->kind, $this->reservedWordTokens);
         };
     }
 
@@ -855,12 +855,12 @@ class Parser {
         $templateNode->parent = $parentNode;
         $templateNode->children = array();
         do {
-            array_push($templateNode->children, $this->getCurrentToken());
+            $templateNode->children[] = $this->getCurrentToken();
             $this->advanceToken();
             $token = $this->getCurrentToken();
 
             if ($token->kind === TokenKind::VariableName) {
-                array_push($templateNode->children, $token);
+                $templateNode->children[] = $token;
                 // $this->advanceToken();
                 // $token = $this->getCurrentToken();
                 // TODO figure out how to expose this in ITokenStreamProvider
@@ -869,7 +869,7 @@ class Parser {
             }
         } while ($token->kind === TokenKind::TemplateStringMiddle);
 
-        array_push($templateNode->children, $this->eat(TokenKind::TemplateStringEnd));
+        $templateNode->children[] = $this->eat(TokenKind::TemplateStringEnd);
         return $templateNode;
     }
 
@@ -968,7 +968,7 @@ class Parser {
                 }
                 return $this->parseReservedWordExpression($parentNode);
         }
-        if (in_array($token->kind, RESERVED_WORDS)) {
+        if (\in_array($token->kind, RESERVED_WORDS)) {
             return $this->parseQualifiedName($parentNode);
         }
 
@@ -1063,7 +1063,7 @@ class Parser {
         $modifiers = array();
         $token = $this->getCurrentToken();
         while ($this->isModifier($token)) {
-            array_push($modifiers, $token);
+            $modifiers[] = $token;
             $this->advanceToken();
             $token = $this->getCurrentToken();
         }
@@ -1087,7 +1087,7 @@ class Parser {
             }
 
             // scalar-type
-            return in_array($token->kind, $this->parameterTypeDeclarationTokens);
+            return \in_array($token->kind, $this->parameterTypeDeclarationTokens);
         };
     }
 
@@ -1247,7 +1247,7 @@ class Parser {
         $succeeded = true;
         foreach ($expectedKinds as $kind) {
             $this->advanceToken();
-            if (is_array($kind)) {
+            if (\is_array($kind)) {
                 $succeeded = false;
                 foreach ($kind as $kindOption) {
                     if ($this->lexer->getCurrentPosition() <= $this->lexer->getEndOfFilePosition() && $this->getCurrentToken()->kind === $kindOption) {
@@ -1286,7 +1286,7 @@ class Parser {
         }
         $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
         while ($this->checkToken(TokenKind::ElseIfKeyword)) {
-            array_push($ifStatement->elseIfClauses, $this->parseElseIfClause($ifStatement));
+            $ifStatement->elseIfClauses[] = $this->parseElseIfClause($ifStatement);
         }
 
         if ($this->checkToken(TokenKind::ElseKeyword)) {
@@ -1852,7 +1852,7 @@ class Parser {
 
         $tryStatement->catchClauses = array(); // TODO - should be some standard for empty arrays vs. null?
         while ($this->checkToken(TokenKind::CatchKeyword)) {
-            array_push($tryStatement->catchClauses, $this->parseCatchClause($tryStatement));
+            $tryStatement->catchClauses[] = $this->parseCatchClause($tryStatement);
         }
 
         if ($this->checkToken(TokenKind::FinallyKeyword)) {
@@ -2256,7 +2256,7 @@ class Parser {
                 return $this->parseBracedExpression($parentNode);
 
             default:
-                if (in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens)) {
+                if (\in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens)) {
                     $this->advanceToken();
                     $token->kind = TokenKind::Name;
                     return $token;
@@ -2797,7 +2797,7 @@ class Parser {
             DelimitedList\ConstElementList::class,
             TokenKind::CommaToken,
             function ($token) {
-                return in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens);
+                return \in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens);
             },
             $this->parseConstElementFn(),
             $parentNode
