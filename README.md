@@ -15,6 +15,7 @@ operations on the AST to answer questions about your code.
   * [Approach](#approach)
   * [Syntax Tree Representation](#lexer)
   * [Error Tolerance Strategy](#error-tokens)
+  * [Incremental Parsing](#incremental-parsing)
   * [Validation Strategy](#real-world-validation-strategy)
 * **[Contribute!](GettingStarted.md#contributing)** - learn how to get involved, check out some pointers to educational commits that'll
 help you ramp up on the codebase (even if you've never worked on a parser before), 
