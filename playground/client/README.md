@@ -1,13 +1,32 @@
-# README
-## This is the README for your extension "vscode" 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+# PHP Parser Syntax Visualizer Tool
+## Overview
+VSCode Extension that demonstrates some of the basic usage and functionality of the parser.
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
+### Writes AST to adjacent *.ast file using JSON representation
+![image](https://cloud.githubusercontent.com/assets/762848/21635753/3f8c0cb8-d214-11e6-8424-e200d63abc18.png)
 
-### For more information
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### Error Diagnostics from AST
+![image](https://cloud.githubusercontent.com/assets/762848/21705272/d5f2f7d8-d373-11e6-9688-46ead75b2fd3.png)
+## Install from VSIX
+1. Download the VSIX in this folder, and load into VS Code by running
+`code --install-extension <my-vsix-path>` or by selecting `Install from VSIX...`
+from the Command Palette (`Ctrl+Shift+P`).
+![image](https://cloud.githubusercontent.com/assets/762848/21704944/62191a56-d371-11e6-97f6-8cc9ea0bbdec.png)
 
-** Enjoy!**
+2. Open a folder with some PHP files
+3. Edit the file - you'll see an adjacent `*.ast` file will appear. Additionally, you should see
+error squigglies if there are any errors in the file.
+4. The AST will be updated every time you save the file.
+
+> Note: You may need to disable any other PHP language service extensions (no need
+to them off completely - you can disable them on a per-workspace basis)
+> * Set `"php.validate.enable": false`
+> * Disable other PHP language service extensions like Crane and PHP IntelliSense
+
+## Build from Source
+1. From `playground/server/`, run `npm install && npm run compile`
+2. From `playground/client`, run `npm install && npm run compile`
+3. Open `playground/client` in VS Code, and launch the extension in the debugger
+
+When running in this configuration, any changes you make to the parser will be immediately reflected
+in the extension (which makes it *super* handy for debugging any failing tests in the parser.)

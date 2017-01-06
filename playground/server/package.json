@@ -1,6 +1,6 @@
 {
-	"name": "language-server-example",
-	"description": "Example implementation of a language server in node.",
+	"name": "tolerant-php-parser-server",
+	"description": "Example use of Microsoft/tolerant-php-parser.",
 	"version": "0.0.1",
 	"author": "Microsoft Corporation",
 	"license": "MIT",

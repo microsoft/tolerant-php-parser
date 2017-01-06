@@ -73,7 +73,12 @@ function validateTextDocument(textDocument: TextDocument): void {
 	if (fileToRead.startsWith("x")) {
 		return;
 	}
-	var cmd = `php ${__dirname}/../../server/src/parse.php ${fileToRead}`;
+	var fs = require('fs');
+	var cmd = fs.existsSync(`${__dirname}/parser`)
+		? `php ${__dirname}/parse.php ${fileToRead}`
+		: `php ${__dirname}/../../server/src/parse.php`;
+	
+	cmd += ` ${fileToRead}`;
 	var out = execSync(cmd).toString();
 	var outErrors = JSON.parse(out);
 	let diagnostics: Diagnostic[] = [];

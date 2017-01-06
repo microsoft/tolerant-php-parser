@@ -1,9 +1,19 @@
 <?php
 
-require_once(__DIR__ . "./../../../Utilities.php");
-require_once(__DIR__ . "/../../../lexer.php");
-require_once(__DIR__ . "/../../../parser.php");
-require_once(__DIR__ . "/../../../Token.php");
+$configFile = __DIR__ . "/config.php";
+if (file_exists($configFile)) {
+    require_once($configFile);
+}
+
+if (!isset($GLOBALS["PARSER_PATH"])) {
+    $GLOBALS["PARSER_PATH"] = __DIR__ . "/../../../";
+}
+
+require_once($GLOBALS["PARSER_PATH"] . "parser.php");
+require_once($GLOBALS["PARSER_PATH"] . "Token.php");
+require_once($GLOBALS["PARSER_PATH"] . "TokenStreamProviderFactory.php");
+require_once($GLOBALS["PARSER_PATH"] . "Utilities.php");
+
 
 use PhpParser\Parser;
 use PhpParser\Utilities;
