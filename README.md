@@ -6,18 +6,22 @@ an experiment and the start of a conversation.
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
 ## Ready, set, parse!
-* **[Get started](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
+**:seedling: [Get started](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
 operations on the AST to answer questions about your code.
-* **[Syntax Visualizer Tool](playground/client#php-parser-syntax-visualizer-tool)** - get a feel for the AST in a more tangible way. 
-* **[Current Status](#current-status)** - how much of the grammar is supported? Performance? Memory? API stability?
-* **[How it works](#design-goals)** - learn about the architecture and design decisions.
+
+**:eyes: [Syntax Visualizer Tool](playground/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
+
+**:chart_with_upwards_trend: [Current Status](#current-status)** - how much of the grammar is supported? Performance? Memory? API stability?
+
+**:world_map: [How it works](#design-goals)** - learn about the architecture and design decisions.
   * [Design Goals](#design-goals)
   * [Approach](#approach)
   * [Syntax Tree Representation](#lexer)
   * [Error Tolerance Strategy](#error-tokens)
   * [Incremental Parsing](#incremental-parsing)
   * [Validation Strategy](#real-world-validation-strategy)
-* **[Contribute!](GettingStarted.md#contributing)** - learn how to get involved, check out some pointers to educational commits that'll
+
+**:sparkling_heart: [Contribute!](GettingStarted.md#contributing)** - learn how to get involved, check out some pointers to educational commits that'll
 help you ramp up on the codebase (even if you've never worked on a parser before), 
 and recommended workflows that make it easier to iterate.
 
