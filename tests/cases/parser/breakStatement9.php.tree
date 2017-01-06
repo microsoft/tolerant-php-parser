@@ -7,7 +7,7 @@
                     "text": null,
                     "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 7
+                        "textLength": 6
                     }
                 }
             },
@@ -51,8 +51,33 @@
                                             "textLength": 5
                                         },
                                         "breakoutLevel": {
-                                            "kind": "InvalidHexadecimalLiteral",
-                                            "textLength": 4
+                                            "kind": "IntegerLiteralToken",
+                                            "textLength": 3
+                                        },
+                                        "semicolon": {
+                                            "error": "MissingToken",
+                                            "kind": "SemicolonToken",
+                                            "textLength": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
                                         },
                                         "semicolon": {
                                             "kind": "SemicolonToken",
