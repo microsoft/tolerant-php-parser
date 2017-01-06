@@ -4,6 +4,22 @@ still a ton of work to be done, so at this point, this repo mostly serves as
 an experiment and the start of a conversation.
 
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
+
+## Ready, set, parse!
+* **[Get started](GettingStarted.md)** - learn how to reference the parser from your project, and how to perform
+operations on the AST to answer questions about your code.
+* **[Syntax Visualizer Tool](playground/client/README.md)** - get a feel for the AST in a more tangible way. 
+* **[Current Status](#current-status)** - how much of the grammar is supported? Performance? Memory? API stability?
+* **[How it works](#design-goals)** - learn about the architecture and design decisions.
+  * [Design Goals](#design-goals)
+  * [Approach](#approach)
+  * [Syntax Tree Representation](#lexer)
+  * [Error Tolerance Strategy](#error-tokens)
+  * [Validation Strategy](#real-world-validation-strategy)
+* **[Contribute!](#contribute)** - learn how to get involved, check out some pointers to educational commits that'll
+help you ramp up on the codebase (even if you've never worked on a parser before), 
+and recommended workflows that make it easier to iterate.
+
 ## Design Goals
 * Error tolerant design (in IDE scenarios, code is, by definition, incomplete)
 * Performant (should be able to parse several MB of source code per second,
