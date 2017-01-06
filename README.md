@@ -5,15 +5,15 @@ an experiment and the start of a conversation.
 
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
-## Ready, set, parse!
-**:seedling: [Get started](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
+## Get Started
+**:seedling: [Documentation](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
 operations on the AST to answer questions about your code.
 
 **:eyes: [Syntax Visualizer Tool](playground/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
 
 **:chart_with_upwards_trend: [Current Status](#current-status)** - how much of the grammar is supported? Performance? Memory? API stability?
 
-**:world_map: [How it works](#design-goals)** - learn about the architecture and design decisions.
+**:wrench: [How it works](#design-goals)** - learn about the architecture, design decisions, and tradeoffs.
   * [Design Goals](#design-goals)
   * [Approach](#approach)
   * [Syntax Tree Representation](#lexer)
