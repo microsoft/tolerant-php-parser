@@ -126,7 +126,7 @@ Node: {
 (Model == How we will intaract with it, Representation == underlying data structures)
 
 ### Abstract Syntax Tree
-An example tree is below. The tree Nodes (represented by tokens), and Tokens (represented by squares)
+An example tree is below. The tree Nodes (represented by circles), and Tokens (represented by squares)
 ![image](https://cloud.githubusercontent.com/assets/762848/19092929/e10e60aa-8a3d-11e6-8b90-51eabe5d1d8e.png)
 
 Below, we define a set of invariants. This set of invariants provides a consistent foundation that makes it
