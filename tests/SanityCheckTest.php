@@ -7,9 +7,9 @@
 use PHPUnit\Framework\TestCase;
 
 // TODO autoload classes
-require_once(__DIR__ . "/../lexer.php");
-require_once(__DIR__ . "/../parser.php");
-require_once(__DIR__ . "/../Token.php");
+require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
+require_once(__DIR__ . "/../src/Parser.php");
+require_once(__DIR__ . "/../src/Token.php");
 
 class SanityTest extends TestCase {
     // TODO test w/ multiple files

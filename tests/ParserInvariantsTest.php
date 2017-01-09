@@ -5,12 +5,12 @@
  *--------------------------------------------------------------------------------------------*/
 
 // TODO autoload classes
-require_once(__DIR__ . "/../TokenStreamProviderFactory.php");
-require_once(__DIR__ . "/../parser.php");
-require_once(__DIR__ . "/../Token.php");
+require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
+require_once(__DIR__ . "/../src/Parser.php");
+require_once(__DIR__ . "/../src/Token.php");
 require_once(__DIR__ . "/LexerInvariantsTest.php");
 
-use PhpParser\Node\Node;
+use PhpParser\Node;
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 

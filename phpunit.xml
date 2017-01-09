@@ -41,9 +41,9 @@
 <filter>
   <!-- Code coverage whitelist. -->
   <whitelist processUncoveredFilesFromWhitelist="true">
-    <directory suffix=".php">/Node</directory>
-    <file>parser.php</file>
-    <file>lexer.php</file>
+    <directory suffix=".php">/src/Node</directory>
+    <file>/src/Parser.php</file>
+    <file>/src/PhpTokenizer.php</file>
   </whitelist>
 </filter>
 </phpunit>

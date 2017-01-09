@@ -6,10 +6,10 @@ if (file_exists($configFile)) {
 }
 
 if (!isset($GLOBALS["PARSER_PATH"])) {
-    $GLOBALS["PARSER_PATH"] = __DIR__ . "/../../../";
+    $GLOBALS["PARSER_PATH"] = __DIR__ . "/../../../src/";
 }
 
-require_once($GLOBALS["PARSER_PATH"] . "parser.php");
+require_once($GLOBALS["PARSER_PATH"] . "Parser.php");
 require_once($GLOBALS["PARSER_PATH"] . "Token.php");
 require_once($GLOBALS["PARSER_PATH"] . "TokenStreamProviderFactory.php");
 require_once($GLOBALS["PARSER_PATH"] . "Utilities.php");
