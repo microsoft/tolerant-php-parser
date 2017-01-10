@@ -61,11 +61,9 @@ Error Nodes. Write tests for all invariants.
   * [ ] _**Performance:**_ profile, benchmark against large PHP applications
 * [ ] **Phase 6:** Finalize API to make it as easy as possible for people to consume. 
 
->:bulb: Want to learn more? Check out [How It Works](HowItWorks.md) for more details.
+> :rabbit: **Ready to see just how deep the rabbit hole goes?** Check out [How It Works](HowItWorks.md) for all the fun technical details.
 
-<br>
 <hr>
-
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact 
 [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
