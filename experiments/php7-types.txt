@@ -1,0 +1,71 @@
+Results below are for PHP7.1 (64-bit) on 64-bit Windows. 
+Generated using experiments/PhpTypeOverhead.php script.
+
+type            memory(bytes)
+====            =============
+empty object    62.91456
+object (1 prop) 71.303168
+object (2 props)        94.37184
+object (3 props)        111.149056
+object (4 props)        127.926272
+object (4 str props)    289.406976
+string (empty)  46.137344
+string (1)      54.525952
+string (2)      54.525952
+string (8)      54.525952
+string (9)      62.91456
+int/long        16.777216
+double/float    16.777216
+SplFixedArray(0)        201.326592
+SplFixedArray(1)        216.006656
+SplFixedArray(2)        232.783872
+SplFixedArray(3)        249.561088
+SplFixedArray(4)        264.241152
+SplFixedArray(5)        281.018368
+SplFixedArray(6)        297.795584
+SplFixedArray(7)        314.5728
+SplFixedArray(8)        329.252864
+SplFixedArray(9)        364.904448
+SplFixedArray(10)       364.904448
+SplFixedArray(11)       396.361728
+SplFixedArray(12)       396.361728
+SplFixedArray(13)       427.819008
+SplFixedArray(14)       427.819008
+SplFixedArray(15)       457.179136
+SplFixedArray::fromArray(0)     176.160768
+SplFixedArray::fromArray(1)     159.383552
+SplFixedArray::fromArray(2)     176.160768
+SplFixedArray::fromArray(3)     192.937984
+SplFixedArray::fromArray(4)     207.618048
+SplFixedArray::fromArray(5)     224.395264
+SplFixedArray::fromArray(6)     241.17248
+SplFixedArray::fromArray(7)     257.949696
+SplFixedArray::fromArray(8)     272.62976
+SplFixedArray::fromArray(9)     308.281344
+SplFixedArray::fromArray(10)    308.281344
+SplFixedArray::fromArray(11)    339.738624
+SplFixedArray::fromArray(12)    339.738624
+SplFixedArray::fromArray(13)    371.195904
+SplFixedArray::fromArray(14)    371.195904
+SplFixedArray::fromArray(15)    400.556032
+array (empty)   71.303168
+array 0 390.070272
+array 1 390.070272
+array 2 390.070272
+array 3 390.070272
+array 4 390.070272
+array 5 390.070272
+array 6 390.070272
+array 7 390.070272
+array 8 390.070272
+array 9 710.934528
+array 10        710.934528
+array 11        710.934528
+array 12        710.934528
+array 13        710.934528
+array 14        710.934528
+array 15        710.934528
+packed ints(1)  46.137344
+packed ints(2)  54.525952
+packed ints(3)  54.525952
+packed ints(4)  62.91456
