@@ -91,12 +91,20 @@ foreach ($childNodes as $childNode) {
 //   }
 ```
 
+> Note: the API is not yet finalized, so please file issues let us know what functionality you want exposed, 
+and we'll see what we can do! Also please file any bugs with unexpected behavior in the parse tree. We're still
+in our early stages, and any feedback you have is much appreciated :smiley:.
+
 ## Play around with the AST!
 In order to help you get a sense for the features and shape of the tree, 
-we've also included a `PHP Syntax Visualizer Extension` that makes use of the parser
-to provide error tooltips. 
-1. Download the VSIX
-2. Point it to your PHP Path
-3. Disable other extensions in the workspace to ensure minimal interference
+we've also included a [Syntax Visualizer Tool](syntax-visualizer/client#php-parser-syntax-visualizer-tool)
+that makes use of the parser to both visualize the tree and provide error tooltips.
+![image](https://cloud.githubusercontent.com/assets/762848/21635753/3f8c0cb8-d214-11e6-8424-e200d63abc18.png)
+
+![image](https://cloud.githubusercontent.com/assets/762848/21705272/d5f2f7d8-d373-11e6-9688-46ead75b2fd3.png)
 
 If you see something that looks off, please file an issue, or better yet, contribute as a test case. See [Contributing.md](Contributing.md) for more details.
+
+## Next Steps
+Check out the [Syntax Overview](Overview.md) section for more information on key attributes of the parse tree, 
+or the [How It Works](HowItWorks.md) section if you want to dive deeper into the implementation.

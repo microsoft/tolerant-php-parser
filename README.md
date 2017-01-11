@@ -43,10 +43,6 @@ so each language server operation should be < 50 ms to leave room for all the
 * Written in PHP - make it as easy as possible for the PHP community to consume and contribute.
 
 ## Current Status and Approach
-This approach borrows heavily from the designs of Roslyn and TypeScript. However,
-it will need to be adapted because PHP doesn't offer the 
-same runtime characteristics as .NET and JS.
-
 To ensure a sufficient level of correctness at every step of the way, the
 parser is being developed using the following incremental approach:
 
@@ -61,7 +57,7 @@ Error Nodes. Write tests for all invariants.
   * [ ] _**Performance:**_ profile, benchmark against large PHP applications
 * [ ] **Phase 6:** Finalize API to make it as easy as possible for people to consume. 
 
-> :rabbit: **Ready to see just how deep the rabbit hole goes?** Check out [How It Works](HowItWorks.md) for all the fun technical details.
+> :rabbit: **Ready to see just how deep the rabbit hole goes?** Check out the [Overview](Overview.md) to learn more about key properties of the Syntax Tree and [How It Works](HowItWorks.md) for all the fun technical details.
 
 <hr>
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 

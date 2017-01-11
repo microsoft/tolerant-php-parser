@@ -1,4 +1,17 @@
 # How it Works
+> Note: Make sure you read the [Overview](Overview.md) section first to get a sense for some of
+the high-level principles.
+
+This approach borrows heavily from the designs of Roslyn and TypeScript. However,
+it needs to be adapted because PHP doesn't offer the 
+same runtime characteristics as .NET and JS.
+
+The syntax tree is produced via a two step process:
+1. The lexer reads in text, and produces the resulting Tokens.
+2. The parser reads in Tokens, to construct the final syntax tree.
+
+Under the covers, the lexer is actually driven by the parser to reduce potential memory
+consumption and make it easier to perform lookaheads when building up the parse tree. 
 
 ## Lexer
 The lexer produces tokens out PHP, based on the following lexical grammar:
@@ -11,17 +24,12 @@ flexibility to use our own lightweight token representation (see below) from the
 a conversion. This initial implementation is available in `src/Lexer.php`, but has been deprecated in favor of 
 `src/PhpTokenizer.php`.
 
-Ultimately, the biggest challenge with the initial approach was performance (especially with Unicode representations). Ultimately,
+Ultimately, the biggest challenge with the initial approach was performance (especially with Unicode representations) - 
 we found that PHP doesn't provide an efficient way to extract character codes without multiple conversions after the initial
-file-read. 
+file-read.
 
-> **"Model" vs "Representation"**
-> * Model := general information exposed, how we will intaract with it
-> * Representation := underlying data structures
-
-
-### Tokens (Model)
-Tokens take the following form:
+### Tokens
+Tokens hold onto the following information: 
 ```
 Token: {
     Kind: Id, // the classification of the token
@@ -31,7 +39,6 @@ Token: {
 }
 ```
 
-### Tokens (Representation)
 #### Helper functions
 In order to be as efficient as possible, we do not store full content in memory.
 Instead, each token is uniquely defined by four integers, and we take advantage of helper
@@ -39,8 +46,9 @@ functions to extract further information.
 * `GetTriviaForToken`
 * `GetFullTextForToken`
 * `GetTextForToken`
+* See code for an up-to-date list
 
-#### Data structures
+#### Notes
 At this point in time, the Representation has not yet diverged from the Model. Tokens
 are currently represented as a `Token` object, with four properties - `$kind`, `$fullStart`,
 `$start`, and `$length`. However, objects (and arrays, and ...) are super expensive in PHP
@@ -88,7 +96,7 @@ does not preclude us from presenting a more reasonable API for consumers of the 
 override the property getters / setters on Node.
 
 
-### Invariants
+#### Invariants
 In order to ensure that the parser evolves in a healthy manner over time, 
 we define and continuously test the set of invariants defined below:
 * The sum of the lengths of all of the tokens is equivalent to the length of the document
@@ -99,11 +107,49 @@ we define and continuously test the set of invariants defined below:
 * `GetTriviaForToken` returns a string of length equivalent to `(Start - FullStart)`
 * `GetFullTextForToken` returns a string of length equivalent to `Length`
 * `GetTextForToken` returns a string of length equivalent to `Length - (Start - FullStart)`
-* See the code for an up-to-date list...
+* See `tests/LexicalInvariantsTest.php` for an up-to-date list...
 
 ## Parser
-### Node (Model)
-Nodes include the following information:
+The parser reads in Tokens provided by the lexer to produce the resulting Syntax Tree.
+The parser uses a combination of top-down and bottom-up parsing. In particular, most constructs
+are parsed in a top-down fashion, which keeps the this keeps the code simple and readable/maintainable
+(by humans :wink:) over time. The one exception to this is expressions, which are parsed
+bottom-up. We also hold onto our current `ParseContext`, which lets us know, for instance, whether 
+we are parsing `ClassMembers`, or `TraitMembers`, or something else; holding onto this `ParseContext`
+enables us to provide better error handling (described below).
+
+For instance, let's take the simple example of an `if-statement`. We know to start parsing the
+ `if-statement` because we'll see an `if` keyword token. We also know from the
+[PHP grammar](https://github.com/php/php-langspec/blob/master/spec/19-grammar.md#user-content-grammar-if-statement),
+that an if-statement can be defined as follows:
+```
+if-statement:
+   if   (   expression   )   statement   elseif-clauses-1opt   else-clause-1opt
+```
+
+The resultant parsing logic will look something like this. Notice that we anticipate the next token or
+set of tokens based on the our current context. This is top-down parsing. 
+```php
+function parseIfStatement($parent) {
+    $n = new IfStatement();
+    $n->ifKeyword = eat("if");
+    $n->openParen = eat("(");
+    $n->expression = parseExpression();
+    $n->closeParen = eat(")");
+    $n->statement = parseStatement();
+    $n->parent = $parent;
+    return $n;
+}
+```
+
+Expressions (produced by `parseExpression`), on the other hand, are parsed bottom-up. That is, rather than attempting
+to anticipate the next token, we read one token at a time, and construct a resulting tree based on 
+operator precedence properties. See the `parseBinaryExpression` in `src/Parser.php` for full information.
+
+See the Error-handling section below for more information on how `ParseContext` is used. 
+
+### Nodes
+Nodes hold onto the following information:
 ```
 Node: {
   Kind: Id,
@@ -112,8 +158,10 @@ Node: {
 }
 ```
 
-### Node (Representation)
-> TODO - discerning between Model and Representation
+#### Notes
+In order to reduce memory usage, we plan to remove the NodeKind property, and instead rely soley on
+subclasses in order to represent the Node's kind. This should reduce memory usage by ~16 bytes per
+Node. 
 
 ### Abstract Syntax Tree
 An example tree is below. The tree Nodes (represented by circles), and Tokens (represented by squares)
@@ -131,17 +179,16 @@ WIDTH(T) -> T.Width
 ```
 
 
-### Invariants
+#### Invariants
 * Invariants for all Tokens hold true 
 * The tree contains every token
 * span of any node is sum of spans of child nodes and tokens
 * The tree length exactly matches the file length
 * Every leaf node of the tree is a token
 * Every Node contains at least one Token
+* See `tests/ParserInvariantsTest.php` for an up-to-date list...
 
-### Building up the Tree
-
-#### Error Tokens
+### Error Tokens
 We define two types of `Error` tokens:
 * **Skipped Tokens:** extra token that no one knows how to deal with
 * **Missing Tokens:** Grammar expects a token to be there, but it does not exist
@@ -302,18 +349,25 @@ the number of edge cases by limiting the granularity of node-reuse. In the case 
 we believe a reasonable balance is to limit granularity to a list `ParseContext`. 
 
 ## Open Questions
-This approach, however, makes a few assumptions that we should validate upfront, if possible,
-in order to minimize potential risk:
-* [ ] **Assumption 1:** This approach will work on a wide range of user development environment configurations.
-* [ ] **Assumption 2:** PHP can be sufficiently optimized to support aforementioned parser performance goals.
-* [ ] **Assumption 3:** PHP 7 grammar is a superset of PHP5 grammar.
-* [ ] **Assumption 4:** The PHP grammar described in `php/php-langspec` is complete.
-* Anything else?
-
-Some open Qs:
-  * need some examples of large PHP applications to help benchmark
-  * would PHP 5 provide sufficient perf?
-  * what sort of data structures do we need? Ideally we'd throw everything into a struct. Anything better?
+Open Questions:
+  * need some examples of large PHP applications to help benchmark? We are currently testing against
+  the frameworks in the `validation` folder, and more suggestions welcome. 
+  * what are the most memory-efficient data-structures we could use? See Node and Token Notes sections above
+   for our current thoughts on this, but we hope we can do better than that, so ideas are very much welcome.
+  * Can PHP can be sufficiently optimized to support aforementioned parser performance goals? Performance shouldn't
+  is pretty okay at the moment, and there's more we could to do optimize that. But we are certainly 
+  running up against major challenges when it comes to memory.
+  * How well does this approach will work on a wide range of user development environment configurations? 
+  * Anything else?
+  
+Previously open questions:
+* would PHP 5 provide sufficient performance? No - the memory management and performance in PHP5 is so
+behind that of PHP7, that it wouldn't really make sense to support. Check out Nikic's blog to get an
+idea for just how stark the difference is: https://nikic.github.io/2015/05/05/Internal-value-representation-in-PHP-7-part-1.html
+* Is the PHP grammar described in `php/php-langspec` complete? Complete enough - we've submitted some PRs to
+improve the spec, but overall we haven't run into any major impediments.
+* Is the PHP 7 grammar a superset of the PHP5 grammar? It's close enough that we can afford to patch 
+the cases where it's not. 
 
 ## Real world validation strategy
 * benchmark against other parsers (investigate any instance of disagreement)
