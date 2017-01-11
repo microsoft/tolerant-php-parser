@@ -142,13 +142,14 @@ class Parser {
         $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
-    public function parseSourceFile($contents) : Script {
-        $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($contents);
+    public function parseSourceFile($fileContents) : Script {
+        $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
 
         $this->reset();
 
         $sourceFile = new Script();
         $this->sourceFile = & $sourceFile;
+        $sourceFile->fileContents = $fileContents;
         $sourceFile->statementList = array();
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
             $sourceFile->statementList[] = $this->parseInlineHtml($sourceFile);

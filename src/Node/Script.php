@@ -11,8 +11,12 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class Script extends Node {
+    /** @var string */
+    public $fileContents;
+
     /** @var Node[] */
     public $statementList;
+    
     /** @var Token */
     public $endOfFileToken;
 
