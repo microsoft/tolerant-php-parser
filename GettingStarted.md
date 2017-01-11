@@ -59,10 +59,36 @@ rather the complete source, which includes tests as well.
 
 ```php
 <?php
-$parser = new \PhpParser\Parser();
-$fileContents = file_get_contents($myFilename);
-$ast = $parser->parseSourceFile($fileContents); # returns an AST representing source file
-$errors =  \PhpParser\Utilities::getDiagnostics($ast); # get errors from AST Node
+require "vendor/autoload.php"; # autoloads required classes
+
+$parser = new PhpParser\Parser(); # instantiates a new parser instance
+$astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!";'); # returns an AST from string contents
+$errors =  PhpParser\Utilities::getDiagnostics($astNode); # get errors from AST Node (as a Generator)
+
+var_dump($astNode); # prints full AST
+var_dump(iterator_to_array($errors)); # prints all errors
+
+$childNodes = $astNode->getChildNodes();
+foreach ($childNodes as $childNode) {
+    var_dump([
+        "kind" => $childNode->getNodeKindName(), 
+        "fullText" => $childNode->getFullTextForNode(),
+        "text" => $childNode->getTextForNode(),
+        "trivia" => $childNode->getTriviaForNode()
+    ]);
+}
+
+// For instance, for the expression-statement, the following is returned:
+//   array(4) {
+//     ["kind"]=>
+//     string(19) "ExpressionStatement"
+//     ["fullText"]=>
+//     string(24) "/* comment */ echo "hi!";"
+//     ["text"]=>
+//     string(11) "echo "hi!";"
+//     ["trivia"]=>
+//     string(13) "/* comment */ "
+//   }
 ```
 
 ## Play around with the AST!
