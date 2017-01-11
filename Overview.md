@@ -14,6 +14,7 @@ Tokens (represented by squares), and trivia (not represented, below, but attache
 ![image](https://cloud.githubusercontent.com/assets/762848/19092929/e10e60aa-8a3d-11e6-8b90-51eabe5d1d8e.png)
 
 Syntax trees have two key attributes.
+
 1. The first attribute is that Syntax trees hold all the source information in full fidelity. 
 This means that the syntax tree contains every piece of information 
 found in the source text, every grammatical construct, every lexical 
