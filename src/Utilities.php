@@ -10,7 +10,11 @@ use PhpParser\Node;
 
 class Utilities {
     public static function getDiagnostics($node) {
-        $tokenKindToText = array_flip(array_merge(OPERATORS_AND_PUNCTUATORS, KEYWORDS, RESERVED_WORDS));
+        $tokenKindToText = array_flip(array_merge(
+            TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
+            TokenStringMaps::KEYWORDS,
+            TokenStringMaps::RESERVED_WORDS
+        ));
 
         if ($node instanceof SkippedToken) {
             // TODO - consider also attaching parse context information to skipped tokens

@@ -6,11 +6,6 @@
 
 namespace PhpParser;
 
-require_once __DIR__ . "/Token.php";
-require_once __DIR__ . "/CharacterCodes.php";
-require_once __DIR__ . "/ITokenStreamProvider.php";
-require_once __DIR__ . "/TokenStringMaps.php";
-
 class Lexer implements ITokenStreamProvider {
 
     private $pos;
@@ -25,7 +20,7 @@ class Lexer implements ITokenStreamProvider {
         $this->fileContents = $content;
         $this->endOfFilePos = strlen($this->fileContents);
         $this->pos = 0;
-        $this->keywordOrReservedWordTokens = array_merge(KEYWORDS, RESERVED_WORDS);
+        $this->keywordOrReservedWordTokens = array_merge(TokenStringMaps::KEYWORDS, TokenStringMaps::RESERVED_WORDS);
     }
 
     function getTokensArray() : array {
@@ -157,7 +152,7 @@ class Lexer implements ITokenStreamProvider {
                         // TODO get rid of strtolower for perf reasons
                         $textSubstring = strtolower(substr($text, $pos, $tokenEnd + 1));
                         if ($this->isOperatorOrPunctuator($textSubstring)) {
-                            $tokenKind = OPERATORS_AND_PUNCTUATORS[$textSubstring];
+                            $tokenKind = TokenStringMaps::OPERATORS_AND_PUNCTUATORS[$textSubstring];
                             $pos += $tokenEnd + 1;
 
                             if ($tokenKind === TokenKind::ScriptSectionEndTag) {
@@ -255,7 +250,7 @@ class Lexer implements ITokenStreamProvider {
     }
 
     function isOperatorOrPunctuator($text): bool {
-        return isset(OPERATORS_AND_PUNCTUATORS[$text]);
+        return isset(TokenStringMaps::OPERATORS_AND_PUNCTUATORS[$text]);
     }
 
     function isSingleLineCommentStart($text, $pos, $endOfFilePos) : bool {

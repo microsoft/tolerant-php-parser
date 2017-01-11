@@ -121,8 +121,8 @@ class Parser {
     private $returnTypeDeclarationTokens;
 
     public function __construct() {
-        $this->reservedWordTokens = \array_values(RESERVED_WORDS);
-        $this->keywordTokens = \array_values(KEYWORDS);
+        $this->reservedWordTokens = \array_values(TokenStringMaps::RESERVED_WORDS);
+        $this->keywordTokens = \array_values(TokenStringMaps::KEYWORDS);
         $this->nameOrKeywordOrReservedWordTokens = \array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
         $this->nameOrReservedWordTokens = \array_merge([TokenKind::Name], $this->reservedWordTokens);
         $this->nameOrStaticOrReservedWordTokens = \array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
@@ -960,7 +960,7 @@ class Parser {
                 }
                 return $this->parseReservedWordExpression($parentNode);
         }
-        if (\in_array($token->kind, RESERVED_WORDS)) {
+        if (\in_array($token->kind, TokenStringMaps::RESERVED_WORDS)) {
             return $this->parseQualifiedName($parentNode);
         }
 
