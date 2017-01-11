@@ -10,5 +10,8 @@
             "name": "Sara Itani",
             "email": "sitani@microsoft.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": { "PhpParser\\": ["src/"] }
+    }
 }
