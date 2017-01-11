@@ -204,15 +204,22 @@ class Node implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
+        $kindName = self::getNodeKindFromValue($this->kind);
+        return ["$kindName" => $this->getChildrenKvPairs()];
+    }
+
+    public static function getNodeKindFromValue(int $value) {
         $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
-        $kindName = $this->kind;
         foreach ($constants as $name=>$val) {
-            if ($val == $this->kind) {
-                $kindName = $name;
+            if ($val == $value) {
+                return $name;
             }
         }
+        return -1;
+    }
 
-        return ["$kindName" => $this->getChildrenKvPairs()];
+    public function getNodeKindName() {
+        return self::getNodeKindFromValue($this->kind);
     }
 
     public function getEnd() {
