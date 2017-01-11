@@ -1,4 +1,4 @@
-<phpunit>
+<phpunit bootstrap="src/bootstrap.php">
 <testsuites>
   <testsuite name="invariants">
     <!--

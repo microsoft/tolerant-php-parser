@@ -6,15 +6,6 @@
 
 namespace PhpParser;
 
-// TODO make this less hacky
-spl_autoload_register(function ($class) {
-    if (\file_exists($filepath = __DIR__ . "/Node/" . \substr($class, 15) . ".php")) {
-        require_once $filepath;
-    } elseif (\file_exists($filepath = __DIR__ . "/" . \substr($class, 10) . ".php")) {
-        require_once $filepath;
-    }
-});
-
 use PhpParser\Node\AnonymousFunctionUseClause;
 use PhpParser\Node\ArrayElement;
 use PhpParser\Node\CaseStatementNode;
