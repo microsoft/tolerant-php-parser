@@ -7,6 +7,7 @@ it needs to be adapted because PHP doesn't offer the
 same runtime characteristics as .NET and JS.
 
 The syntax tree is produced via a two step process:
+
 1. The lexer reads in text, and produces the resulting Tokens.
 2. The parser reads in Tokens, to construct the final syntax tree.
 
