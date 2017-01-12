@@ -369,6 +369,26 @@ improve the spec, but overall we haven't run into any major impediments.
 * Is the PHP 7 grammar a superset of the PHP5 grammar? It's close enough that we can afford to patch 
 the cases where it's not. 
 
-## Real world validation strategy
-* benchmark against other parsers (investigate any instance of disagreement)
-* perf benchmarks (should be able to get semantic information )
+## Validation Strategy
+We ensure correctness in several ways:
+
+* Define and test both parser and lexer against a set of invariants (characteristics
+about the produced token set or tree that always hold true, no matter what the input). This set of invariants provides 
+a consistent foundation that makes it easier to ensure the tree is "structurally sound", and confidently 
+reason about the tree as we continue to build up our understanding. For instance, one such invariant is that
+the original text (including whitespace and comments) should always be reproducible from a Node. Every test
+case we add is tested against this invariant. 
+* Test cases to validate both lexer and parser against the expected grammar.
+* Continuous validation against existing codebases and popular frameworks to validate that no errors are
+produced on valid code. 
+* Compare to other parsers, and investigate any instance of disagreement - e.g. both parsers should be in agreement
+on the number and location of errors in any given source file. This helps us use existing, more battle-tested,
+work to validate our own correctness.
+* Performance/memory benchmarks - constantly monitor and investigate any regressions. Because there may be a high
+degree of variance, we should set up some infrastructure to help us ensure that performance work results in a statistically
+significant boost and works on a wide variety of machine configurations.
+* Fuzz testing - automatically apply transformations to the tree, verify there are no crashes during parsing,
+and ensure expected properties of the tree (e.g. if we replicate an error 10 times, we should expect 10 errors
+all of the same type)
+* Community feedback - try and get the parser in the hands of as many people as possible so we can validate a
+wide range of use cases. The Syntax Visualizer tool is one tool to help us increase reach.
