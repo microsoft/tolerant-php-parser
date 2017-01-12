@@ -22,7 +22,7 @@ operations on the AST to answer questions about your code.
   * [Error Tolerance Strategy](HowItWorks.md#error-tokens)
   * [Incremental Parsing](HowItWorks.md#incremental-parsing)
   * [Open Questions](HowItWorks.md#open-questions)
-  * [Validation Strategy](HowItWorks.md#real-world-validation-strategy)
+  * [Validation Strategy](HowItWorks.md#validation-strategy)
 
 **:sparkling_heart: [Contribute!](Contributing.md)** - learn how to get involved, check out some pointers to educational commits that'll
 help you ramp up on the codebase (even if you've never worked on a parser before), 
