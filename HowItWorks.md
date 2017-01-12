@@ -382,14 +382,12 @@ case we add is tested against this invariant.
 * Test cases to validate both lexer and parser against the expected grammar.
 * Continuous validation against existing codebases and popular frameworks to validate that no errors are
 produced on valid code. 
-* Compare to other parsers, and investigate any instance of disagreement - e.g. both parsers should be in agreement
-on the number and location of errors in any given source file. This helps us use existing, more battle-tested,
-work to validate our own correctness.
+* Compare produced tree to that of other parsers, and investigate any instance of disagreement. This helps us use
+existing, more battle-tested, work to validate our own correctness.
 * Performance/memory benchmarks - constantly monitor and investigate any regressions. Because there may be a high
 degree of variance, we should set up some infrastructure to help us ensure that performance work results in a statistically
 significant boost and works on a wide variety of machine configurations.
-* Fuzz testing - automatically apply transformations to the tree, verify there are no crashes during parsing,
-and ensure expected properties of the tree (e.g. if we replicate an error 10 times, we should expect 10 errors
-all of the same type)
+* Fuzz testing - test the parser against automatically generated inputs to exercise edge cases in a bulk fashion, and 
+and ensure expected properties of the tree.
 * Community feedback - try and get the parser in the hands of as many people as possible so we can validate a
 wide range of use cases. The Syntax Visualizer tool is one tool to help us increase reach.
