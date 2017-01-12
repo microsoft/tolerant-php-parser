@@ -92,7 +92,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 			severity: DiagnosticSeverity.Error,
 			range: error["range"],
 			message: error["message"],
-			source: 'ex'
+			source: 'syntax-visualizer'
 		});
 	}
 	// Send the computed diagnostics to VSCode.

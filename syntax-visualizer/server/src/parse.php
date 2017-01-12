@@ -9,11 +9,7 @@ if (!isset($GLOBALS["PARSER_PATH"])) {
     $GLOBALS["PARSER_PATH"] = __DIR__ . "/../../../src/";
 }
 
-require_once($GLOBALS["PARSER_PATH"] . "Parser.php");
-require_once($GLOBALS["PARSER_PATH"] . "Token.php");
-require_once($GLOBALS["PARSER_PATH"] . "TokenStreamProviderFactory.php");
-require_once($GLOBALS["PARSER_PATH"] . "Utilities.php");
-
+require_once($GLOBALS["PARSER_PATH"] . "bootstrap.php");
 
 use PhpParser\Parser;
 use PhpParser\Utilities;
