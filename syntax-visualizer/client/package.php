@@ -1,5 +1,13 @@
 <?php
 
+file_put_contents(
+    __DIR__ . "/server/config.php",
+    <<< 'PHP'
+<?php
+$GLOBALS["PARSER_PATH"] = __DIR__ . "/parser/src/";
+PHP
+);
+
 copy(__DIR__ . "/../server/src/parse.php", __DIR__ . "/server/parse.php");
 
 $outZip = __DIR__ . "/server/parser.zip";
