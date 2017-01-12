@@ -88,7 +88,7 @@ class Utilities {
         }
 
         $lastNewline = count($newlinePositions) - 1;
-        $char = $pos - ($lastNewline >= 0 ? $newlinePositions[$lastNewline] : 0);
+        $char = $pos - ($lastNewline >= 0 ? $newlinePositions[$lastNewline] + 1 : 0);
         $line = count($newlinePositions);
 
         return new LineCharacterPosition($line, $char);
