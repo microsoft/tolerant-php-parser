@@ -1,45 +1,48 @@
 # Tolerant PHP Parser
-This is an early prototype of a PHP parser designed, from the beginning, for IDE usage scenarios (see [Design Goals](#design-goals) for more details). There is
+This is an early-stage PHP parser designed, from the beginning, for IDE usage scenarios (see [Design Goals](#design-goals) for more details). There is
 still a ton of work to be done, so at this point, this repo mostly serves as 
 an experiment and the start of a conversation.
 
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
-## Example
+## Get Started
+After you've [configured your machine](GettingStarted.md), you can use the parser to generate and work 
+with the Abstract Syntax Tree (AST) via a friendly API.
 ```php
 <?php
-// autoloads required classes
+// Autoload required classes
 require "vendor/autoload.php";
 
-// instantiates new parser instance
+// Instantiate new parser instance
 $parser = new PhpParser\Parser();
 
-// returns and AST from string contents
+// Return an AST from string contents
 $astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!"');
-
-// gets errors from AST Node (as a Generator)
-$errors =  PhpParser\Utilities::getDiagnostics($astNode);
-
-// prints full AST
 var_dump($astNode);
 
-// prints all errors
+// Gets errors from AST Node. The parser handles errors gracefully,
+// so it can be used in IDE usage scenarios (where code is often incomplete).
+$errors = PhpParser\Utilities::getDiagnostics($astNode);
 var_dump(iterator_to_array($errors));
 
-// Get all string literals and print some information about them
-$childNodes = $astNode->getDescendantNodes();
-foreach ($childNodes as $childNode) {
-    if ($childNode instanceof \PhpParser\Node\StringLiteral) {
-        var_dump($childNode->getText());
+// Traverse the tree to find all string literals
+foreach ($astNode->getDescendantNodes() as $descendant) {
+    if ($descendant instanceof \PhpParser\Node\StringLiteral) {
+        // Print the text of the first string literal
+        var_dump($descendant->getText());
 
-        $grandParent = $childNode->getParent();
+        // All Nodes link back to their parents, so it's easy to navigate the tree.
+        $grandParent = $descendant->getParent()->getParent();
         var_dump($grandParent->getNodeKindName());
+        
+        // The AST is fully-representative, and round-trippable to the original source.
+        // This enables consumers to build reliable formatting and refactoring tools.
         var_dump($grandParent->getLeadingCommentAndWhitespaceText());
     }
 }
 ```
 
-## Get Started
+## Learn more
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
 
 **:sunrise_over_mountains: [Syntax Overview](Overview.md)** - learn about the composition and key properties of the syntax tree.
