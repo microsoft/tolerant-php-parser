@@ -51,7 +51,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testSourceFileNodeLengthEqualsDocumentLength($filename, Node $sourceFileNode) {
         $this->assertEquals(
-            filesize($filename), $sourceFileNode->getLength(),
+            filesize($filename), $sourceFileNode->getFullWidth(),
             "Invariant: The tree length exactly matches the file length.");
     }
 
@@ -83,13 +83,13 @@ class ParserInvariantsTest extends LexerInvariantsTest {
                 $expectedLength = 0;
                 foreach ($element->getChildNodesAndTokens() as $child) {
                     if ($child instanceof Node) {
-                        $expectedLength += $child->getLength();
+                        $expectedLength += $child->getFullWidth();
                     } elseif ($child instanceof \PhpParser\Token) {
                         $expectedLength += $child->length;
                     }
                 }
                 $this->assertEquals(
-                    $expectedLength, $element->getLength(),
+                    $expectedLength, $element->getFullWidth(),
                     "Invariant: Span of any Node is span of child nodes and tokens."
                 );
             }

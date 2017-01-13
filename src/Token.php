@@ -20,20 +20,46 @@ class Token implements \JsonSerializable {
         $this->length = $length;
     }
 
-    public function getTriviaForToken(string $document) : string {
+    public function getLeadingCommentsAndWhitespaceText(string $document) : string {
         return substr($document, $this->fullStart, $this->start - $this->fullStart);
     }
 
-    public function getTextForToken(string $document) : string {
+    public function getText(string $document) : string {
         return substr($document, $this->start, $this->length - ($this->start - $this->fullStart));
     }
 
-    public function getFullTextForToken(string $document) : string {
+    public function getFullText(string $document) : string {
         return substr($document, $this->fullStart, $this->length);
     }
 
-    public function getEnd() {
+    public function getStartPosition() {
+        return $this->start;
+    }
+
+    public function getFullStartPosition() {
+        return $this->fullStart;
+    }
+
+    public function getWidth() {
+        return $this->length + $this->fullStart - $this->start;
+    }
+
+    public function getFullWidth() {
+        return $this->length;
+    }
+
+    public function getEndPosition() {
         return $this->fullStart + $this->length;
+    }
+
+    public static function getTokenKindNameFromValue($kindName) {
+        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
+        foreach ($constants as $name => $val) {
+            if ($val == $kindName) {
+                $kindName = $name;
+            }
+        }
+        return $kindName;
     }
 
     function jsonSerialize() {
@@ -56,15 +82,5 @@ class Token implements \JsonSerializable {
                 "length" => $this->length
             ];
         }        
-    }
-
-    public static function getTokenKindNameFromValue($kindName) {
-        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
-        foreach ($constants as $name => $val) {
-            if ($val == $kindName) {
-                $kindName = $name;
-            }
-        }
-        return $kindName;
     }
 }

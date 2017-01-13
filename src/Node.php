@@ -6,14 +6,13 @@
 
 namespace PhpParser;
 
-//require_once (__DIR__ . "/../NodeKind.php");
-
 use PhpParser\Node\Script;
 use PhpParser\Token;
 
 class Node implements \JsonSerializable {
     /** @var int */
-    public $kind;
+    public $kind; // TODO - remove this, and rely on class names instead.
+
     /** @var Node | null */
     public $parent;
 
@@ -22,9 +21,48 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets the root of the syntax tree.
+     * Gets start position of Node, not including leading comments and whitespace.
+     * @return int
+     * @throws \Exception
      */
-    public function getRoot() {
+    public function getStart() : int {
+        $child = iterator_to_array($this->getChildNodesAndTokens())[0];
+        if ($child instanceof Node) {
+            return $child->getStart();
+        } elseif ($child instanceof Token) {
+            return $child->start;
+        }
+        throw new \Exception("Unknown type in AST");
+    }
+
+    /**
+     * Gets start position of Node, including leading comments and whitespace
+     * @return int
+     * @throws \Exception
+     */
+    public function getFullStart() : int {
+        $child = $this->getChildNodesAndTokens()->current();
+        if ($child instanceof Node) {
+            return $child->getFullStart();
+        } elseif ($child instanceof Token) {
+            return $child->fullStart;
+        }
+        throw new \Exception("Unknown type in AST: " . \gettype($child));
+    }
+
+    /**
+     * Gets parent of current node (returns null if has no parent)
+     * @return null|Node
+     */
+    public function getParent() {
+        return $this->parent;
+    }
+
+    /**
+     * Gets root of the syntax tree (returns self if has no parents)
+     * @return Node
+     */
+    public function getRoot() : Node {
         $node = $this;
         while ($node->parent !== null) {
             $node = $node->parent;
@@ -33,15 +71,15 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets a list of all descendant Nodes and Tokens.
-     *
-     * TODO - write unit tests to prove invariants
-     * (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
+     * Gets generator containing all descendant Nodes and Tokens.
      *
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]|Token[]
      */
     public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
+        // TODO - write unit tests to prove invariants
+        // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
+
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 yield $child;
@@ -57,7 +95,7 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Returns all descendant Nodes.
+     * Gets a generator containing all descendant Nodes.
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]
      */
@@ -75,7 +113,7 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Returns all descendant Tokens.
+     * Gets generator containing all descendant Tokens.
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator | Token[]
      */
@@ -94,9 +132,11 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets a list of child Nodes and Tokens (direct descendants)
+     * Gets generator containing all child Nodes and Tokens (direct descendants)
+     *
+     * @return \Generator | Token[] | Node[]
      */
-    public function getChildNodesAndTokens() {
+    public function getChildNodesAndTokens() : \Generator {
         foreach (\call_user_func('get_object_vars', $this) as $i=>$val) {
             if ($i === "parent" || $i == "kind" || \is_string($val)) {
                 continue;
@@ -112,10 +152,11 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets a list of child Nodes (direct descendants)
+     * Gets generator containing all child Nodes (direct descendants)
+     * @return \Generator | Node[]
      */
-    public function & getChildNodes() {
-        foreach (\call_user_func('get_object_vars', $this) as $i=>$val) {
+    public function & getChildNodes() : \Generator {
+        foreach (get_object_vars($this) as $i=>$val) {
             if ($i === "parent" || $i == "kind") {
                 continue;
             }
@@ -133,7 +174,7 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets a list of child Tokens (direct descendants)
+     * Gets generator containing all child Tokens (direct descendants)
      *
      * @return \Generator|Token[]
      */
@@ -156,19 +197,66 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Returns the length of a Node (including trivia)
+     * Gets width of a Node (not including comment / whitespace trivia)
+     *
+     * @return int
      */
-    public function getLength() {
-        $length = 0;
-
-        foreach ($this->getChildNodesAndTokens() as $child) {
-            if ($child instanceof Node) {
-                $length += $child->getLength();
-            } elseif ($child instanceof Token) {
-                $length += $child->length;
-            }
+    public function getWidth() : int {
+        $width = 0;
+        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
+            $width += $idx === 0 ? $child->getWidth() : $child->getFullWidth();
         }
-        return $length;
+        return $width;
+    }
+
+    /**
+     * Gets width of a Node (including comment / whitespace trivia)
+     *
+     * @return int
+     */
+    public function getFullWidth() : int {
+        $fullWidth = 0;
+        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
+            $fullWidth += $child->getFullWidth();
+        }
+        return $fullWidth;
+    }
+
+    /**
+     * Gets string representing Node text (not including leading comment + whitespace trivia)
+     * @return string
+     */
+    public function getText() : string {
+        $fullText = "";
+        $fileContents = $this->getFileContents();
+        foreach ($this->getDescendantTokens() as $idx=> & $child) {
+            $fullText .= $idx === 0 ? $child->getText($fileContents) : $child->getFullText($fileContents);
+        }
+        return $fullText;
+    }
+
+    /**
+     * Gets full text of Node (including leading comment + whitespace trivia)
+     * @return string
+     */
+    public function getFullText() : string {
+        $fullText = "";
+        $fileContents = $this->getFileContents();
+        foreach ($this->getDescendantTokens() as & $child) {
+            $fullText .= $child->getFullText($fileContents);
+        }
+        return $fullText;
+    }
+
+    /**
+     * Gets string representing Node's leading comment and whitespace text.
+     * @return string
+     */
+    public function getLeadingCommentAndWhitespaceText() : string {
+        $fileContents = $this->getFileContents();
+        foreach ($this->getDescendantTokens() as $token) {
+            return $token->getLeadingCommentsAndWhitespaceText($fileContents);
+        }
     }
 
     protected function getChildrenKvPairs() {
@@ -183,46 +271,40 @@ class Node implements \JsonSerializable {
         return $result;
     }
 
-    public function getStart() {
-        $child = $this->getChildNodesAndTokens()[0];
-        if ($child instanceof Node) {
-            return $child->getStart();
-        } elseif ($child instanceof Token) {
-            return $child->start;
-        }
-        throw new \Exception("Unknown type in AST");
-    }
-
-    public function getFullStart() {
-        $child = $this->getChildNodesAndTokens()->current();
-        if ($child instanceof Node) {
-            return $child->getFullStart();
-        } elseif ($child instanceof Token) {
-            return $child->fullStart;
-        }
-        throw new \Exception("Unknown type in AST: " . \gettype($child));
-    }
-
     public function jsonSerialize() {
-        $kindName = self::getNodeKindFromValue($this->kind);
+        $kindName = self::getNodeKindNameFromValue($this->kind);
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
 
-    public static function getNodeKindFromValue(int $value) {
+    /**
+     * Gets name of a Node from its raw kind value.
+     * @param int $value
+     * @return string
+     */
+    public static function getNodeKindNameFromValue(int $value) : string {
         $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
         foreach ($constants as $name=>$val) {
             if ($val == $value) {
                 return $name;
             }
         }
-        return -1;
+        return "Unknown Node Kind";
     }
 
-    public function getNodeKindName() {
-        return self::getNodeKindFromValue($this->kind);
+    /**
+     * Gets the name of a Node kind.
+     * @return string
+     */
+    public function getNodeKindName() : string {
+        return self::getNodeKindNameFromValue($this->kind);
     }
 
-    public function getEnd() {
+    /**
+     * Get the end index of a Node.
+     * @return int
+     * @throws \Exception
+     */
+    public function getEndPosition() {
         // TODO test invariant - start of next node is end of previous node
         if (isset($this->parent)) {
             $parent = $this->parent;
@@ -237,7 +319,7 @@ class Node implements \JsonSerializable {
                 }
             }
         } elseif ($this instanceof Script) {
-            return $this->endOfFileToken->getEnd();
+            return $this->endOfFileToken->getEndPosition();
         }
         throw new \Exception("Unhandled node: " );
     }
@@ -247,43 +329,19 @@ class Node implements \JsonSerializable {
     }
 
     /**
+     * Searches descendants to find a Node at the given position.
      *
      * @param $pos
      * @return Node|null
      */
-    public function getNodeAtPosition($pos) {
+    public function getDescendantNodeAtPosition(int $pos) {
         $descendants = iterator_to_array($this->getDescendantNodes());
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
-            if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEnd()) {
+            if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEndPosition()) {
                 return $childNode;
             }
         }
         return null;
-    }
-
-    public function getFullTextForNode() {
-        $fullText = "";
-        $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as & $child) {
-            $fullText .= $child->getFullTextForToken($fileContents);
-        }
-        return $fullText;
-    }
-
-    public function getTextForNode() {
-        $fullText = "";
-        $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $idx=> & $child) {
-            $fullText .= $idx === 0 ? $child->getTextForToken($fileContents) : $child->getFullTextForToken($fileContents);
-        }
-        return $fullText;
-    }
-
-    public function getTriviaForNode() {
-        $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $token) {
-            return $token->getTriviaForToken($fileContents);
-        }
     }
 }

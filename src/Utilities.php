@@ -28,7 +28,7 @@ class Utilities {
                     : Token::getTokenKindNameFromValue($node->kind)) .
                 "'",
                 $node->start,
-                $node->getEnd() - $node->start
+                $node->getEndPosition() - $node->start
             );
         } elseif ($node instanceof MissingToken) {
             return yield new Diagnostic(
@@ -39,7 +39,7 @@ class Utilities {
                     : Token::getTokenKindNameFromValue($node->kind)) .
                 "' expected.",
                 $node->start,
-                $node->getEnd() - $node->start
+                $node->getEndPosition() - $node->start
             );
         }
 

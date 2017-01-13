@@ -5,6 +5,40 @@ an experiment and the start of a conversation.
 
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
+## Example
+```php
+<?php
+// autoloads required classes
+require "vendor/autoload.php";
+
+// instantiates new parser instance
+$parser = new PhpParser\Parser();
+
+// returns and AST from string contents
+$astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!"');
+
+// gets errors from AST Node (as a Generator)
+$errors =  PhpParser\Utilities::getDiagnostics($astNode);
+
+// prints full AST
+var_dump($astNode);
+
+// prints all errors
+var_dump(iterator_to_array($errors));
+
+// Get all string literals and print some information about them
+$childNodes = $astNode->getDescendantNodes();
+foreach ($childNodes as $childNode) {
+    if ($childNode instanceof \PhpParser\Node\StringLiteral) {
+        var_dump($childNode->getText());
+
+        $grandParent = $childNode->getParent();
+        var_dump($grandParent->getNodeKindName());
+        var_dump($grandParent->getLeadingCommentAndWhitespaceText());
+    }
+}
+```
+
 ## Get Started
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
 

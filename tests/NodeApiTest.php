@@ -35,8 +35,8 @@ PHP;
 
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
-        $this->assertEquals(\PhpParser\NodeKind::FunctionNode, $node->getNodeAtPosition(15)->kind);
-        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getNodeAtPosition(28)->kind);
+        $this->assertEquals(\PhpParser\NodeKind::FunctionNode, $node->getDescendantNodeAtPosition(15)->kind);
+        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->kind);
     }
 
     public function testRootNodeIsScript() {
@@ -58,7 +58,7 @@ PHP;
     }
 
     public function testFullTextOfRootNodeEqualsFullDocument() {
-        $this->assertEquals(self::FILE_CONTENTS, self::$sourceFileNode->getFullTextForNode());
+        $this->assertEquals(self::FILE_CONTENTS, self::$sourceFileNode->getFullText());
     }
 
     public function testGetTriviaForNode() {
@@ -66,11 +66,11 @@ PHP;
         $parser = new \PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
-        $actualTrivia = $iterator->current()->getTriviaForNode();
+        $actualTrivia = $iterator->current()->getLeadingCommentAndWhitespaceText();
         $this->assertEquals('/* contents */ ', $actualTrivia);
 
         $sourceFile = $parser->parseSourceFile('');
-        $this->assertEquals('', $sourceFile->getTriviaForNode());
+        $this->assertEquals('', $sourceFile->getLeadingCommentAndWhitespaceText());
     }
 
     public function testGetTextForNode() {
@@ -78,11 +78,11 @@ PHP;
         $parser = new \PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
-        $actualText = $iterator->current()->getTextForNode();
+        $actualText = $iterator->current()->getText();
         $this->assertEquals('$a = 1', $actualText);
 
         $sourceFile = $parser->parseSourceFile('');
-        $this->assertEquals('', $sourceFile->getTextForNode());
+        $this->assertEquals('', $sourceFile->getText());
     }
 
     public function testGetFullTextForNode() {
@@ -90,10 +90,10 @@ PHP;
         $parser = new \PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
-        $actualText = $iterator->current()->getFullTextForNode();
+        $actualText = $iterator->current()->getFullText();
         $this->assertEquals('/* contents */ $a = 1', $actualText);
 
         $sourceFile = $parser->parseSourceFile('');
-        $this->assertEquals('', $sourceFile->getFullTextForNode());
+        $this->assertEquals('', $sourceFile->getFullText());
     }
 }

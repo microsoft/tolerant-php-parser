@@ -62,7 +62,7 @@ class LexerInvariantsTest extends TestCase {
         foreach ($tokensArray as $token) {
             $this->assertEquals(
                 substr($fileContents, $token->fullStart, $token->length),
-                $token->getFullTextForToken($fileContents),
+                $token->getFullText($fileContents),
                 "Invariant: A token's content exactly matches the range of the file its span specifies"
             );
         }
@@ -75,8 +75,8 @@ class LexerInvariantsTest extends TestCase {
         $fileContents = file_get_contents($filename);
         foreach ($tokensArray as $token) {
             $this->assertEquals(
-                $token->getFullTextForToken($fileContents),
-                $token->getTriviaForToken($fileContents) . $token->getTextForToken($fileContents),
+                $token->getFullText($fileContents),
+                $token->getLeadingCommentsAndWhitespaceText($fileContents) . $token->getText($fileContents),
                 "Invariant: FullText of each token matches Trivia plus Text"
             );
         }
@@ -90,7 +90,7 @@ class LexerInvariantsTest extends TestCase {
 
         $tokenFullTextConcatenation = "";
         foreach ($tokensArray as $token) {
-            $tokenFullTextConcatenation .= $token->getFullTextForToken($fileContents);
+            $tokenFullTextConcatenation .= $token->getFullText($fileContents);
         }
 
         $this->assertEquals(
@@ -109,7 +109,7 @@ class LexerInvariantsTest extends TestCase {
         foreach ($tokensArray as $token) {
             $this->assertEquals(
                 $token->length,
-                strlen($token->getFullTextForToken($fileContents)),
+                strlen($token->getFullText($fileContents)),
                 "Invariant: a token's FullText length is equivalent to Length"
             );
         }
@@ -124,7 +124,7 @@ class LexerInvariantsTest extends TestCase {
         foreach ($tokensArray as $token) {
             $this->assertEquals(
                 $token->length - ($token->start - $token->fullStart),
-                strlen($token->getTextForToken($fileContents)),
+                strlen($token->getText($fileContents)),
                 "Invariant: a token's FullText length is equivalent to Length - (Start - FullStart)"
             );
         }
@@ -139,7 +139,7 @@ class LexerInvariantsTest extends TestCase {
         foreach ($tokensArray as $token) {
             $this->assertEquals(
                 $token->start - $token->fullStart,
-                strlen($token->getTriviaForToken($fileContents)),
+                strlen($token->getLeadingCommentsAndWhitespaceText($fileContents)),
                 "Invariant: a token's Trivia length is equivalent to (Start - FullStart)"
             );
         }
@@ -149,7 +149,7 @@ class LexerInvariantsTest extends TestCase {
      * @dataProvider tokensArrayProvider
      */
     public function testEOFTokenTextHasZeroLength($filename, $tokensArray) {
-        $tokenText = $tokensArray[count($tokensArray) - 1]->getTextForToken($filename);
+        $tokenText = $tokensArray[count($tokensArray) - 1]->getText($filename);
         $this->assertEquals(
             0, strlen($tokenText),
             "Invariant: End-of-file token text should have zero length"
