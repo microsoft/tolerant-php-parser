@@ -42,29 +42,6 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
 }
 ```
 
-## Learn more
-**:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
-
-**:sunrise_over_mountains: [Syntax Overview](Overview.md)** - learn about the composition and key properties of the syntax tree.
-
-**:seedling: [Documentation](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
-operations on the AST to answer questions about your code.
-
-**:eyes: [Syntax Visualizer Tool](syntax-visualizer/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
-
-**:chart_with_upwards_trend: [Current Status and Approach](#current-status-and-approach)** - how much of the grammar is supported? Performance? Memory? API stability?
-
-**:wrench: [How it works](HowItWorks.md)** - learn about the architecture, design decisions, and tradeoffs.
-  * [Lexer and Parser](HowItWorks.md#lexer)
-  * [Error Tolerance Strategy](HowItWorks.md#error-tokens)
-  * [Incremental Parsing](HowItWorks.md#incremental-parsing)
-  * [Open Questions](HowItWorks.md#open-questions)
-  * [Validation Strategy](HowItWorks.md#validation-strategy)
-
-**:sparkling_heart: [Contribute!](Contributing.md)** - learn how to get involved, check out some pointers to educational commits that'll
-help you ramp up on the codebase (even if you've never worked on a parser before), 
-and recommended workflows that make it easier to iterate.
-
 ## Design Goals
 * Error tolerant design - in IDE scenarios, code is, by definition, incomplete. In the case that invalid code is entered, the
 parser should still be able to recover and produce a valid + complete tree, as well as relevant diagnostics. 
@@ -104,6 +81,29 @@ Error Nodes. Write tests for all invariants.
 * [ ] **Phase 6:** Finalize API to make it as easy as possible for people to consume. 
 
 > :rabbit: **Ready to see just how deep the rabbit hole goes?** Check out the [Overview](Overview.md) to learn more about key properties of the Syntax Tree and [How It Works](HowItWorks.md) for all the fun technical details.
+
+## Learn more
+**:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
+
+**:sunrise_over_mountains: [Syntax Overview](Overview.md)** - learn about the composition and key properties of the syntax tree.
+
+**:seedling: [Documentation](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
+operations on the AST to answer questions about your code.
+
+**:eyes: [Syntax Visualizer Tool](syntax-visualizer/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
+
+**:chart_with_upwards_trend: [Current Status and Approach](#current-status-and-approach)** - how much of the grammar is supported? Performance? Memory? API stability?
+
+**:wrench: [How it works](HowItWorks.md)** - learn about the architecture, design decisions, and tradeoffs.
+  * [Lexer and Parser](HowItWorks.md#lexer)
+  * [Error Tolerance Strategy](HowItWorks.md#error-tokens)
+  * [Incremental Parsing](HowItWorks.md#incremental-parsing)
+  * [Open Questions](HowItWorks.md#open-questions)
+  * [Validation Strategy](HowItWorks.md#validation-strategy)
+
+**:sparkling_heart: [Contribute!](Contributing.md)** - learn how to get involved, check out some pointers to educational commits that'll
+help you ramp up on the codebase (even if you've never worked on a parser before), 
+and recommended workflows that make it easier to iterate.
 
 <hr>
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 
