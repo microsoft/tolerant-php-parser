@@ -66,10 +66,11 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
+	var os = require('os');
 	var execSync = require('child_process').execSync;
 	var querystring = require('querystring');
 	var path = require('path');
-	var fileToRead = path.normalize(querystring.unescape(textDocument.uri)).substr(6);
+	var fileToRead = path.normalize(querystring.unescape(textDocument.uri)).substr(os.platform === 'win32' ? 6 : 5);
 	if (fileToRead.startsWith("x")) {
 		return;
 	}
