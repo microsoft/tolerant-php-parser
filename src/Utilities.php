@@ -48,19 +48,17 @@ class Utilities {
         }
 
         if ($node instanceof Node) {
-            switch ($node->kind) {
-                case NodeKind::MethodDeclaration:
-                    foreach ($node->modifiers as $modifier) {
-                        if ($modifier->kind === TokenKind::VarKeyword) {
-                            yield new Diagnostic(
-                                DiagnosticKind::Error,
-                                "Unexpected modifier '" . $tokenKindToText[$modifier->kind] . "'",
-                                $modifier->start,
-                                $modifier->getEnd() - $modifier->start
-                            );
-                        }
+            if ($node instanceof Node\MethodDeclaration) {
+                foreach ($node->modifiers as $modifier) {
+                    if ($modifier->kind === TokenKind::VarKeyword) {
+                        yield new Diagnostic(
+                            DiagnosticKind::Error,
+                            "Unexpected modifier '" . $tokenKindToText[$modifier->kind] . "'",
+                            $modifier->start,
+                            $modifier->getEnd() - $modifier->start
+                        );
                     }
-                    break;
+                }
             }
         }
 

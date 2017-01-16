@@ -10,14 +10,19 @@ use PhpParser\Node\Script;
 use PhpParser\Token;
 
 class Node implements \JsonSerializable {
-    /** @var int */
-    public $kind; // TODO - remove this, and rely on class names instead.
-
     /** @var Node | null */
     public $parent;
 
     public function __construct(int $kind) {
-        $this->kind = $kind;
+    }
+
+    public function __get($name) {
+        // TODO remove all references to "kind" property
+        if ($name === "kind") {
+            $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
+            $nameParts = explode("\\",get_class($this));
+            return $constants[end($nameParts)];
+        }
     }
 
     /**
@@ -293,6 +298,7 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public static function getNodeKindNameFromValue(int $value) : string {
+//        return end(explode("\\", get_class($node)));
         $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
         foreach ($constants as $name=>$val) {
             if ($val == $value) {
