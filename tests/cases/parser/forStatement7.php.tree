@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ForStatementNode": {
+                "ForStatement": {
                     "for": {
                         "kind": "ForKeyword",
                         "textLength": 3

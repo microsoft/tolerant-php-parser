@@ -12,7 +12,7 @@
                 }
             },
             {
-                "WhileStatementNode": {
+                "WhileStatement": {
                     "whileToken": {
                         "kind": "WhileKeyword",
                         "textLength": 5

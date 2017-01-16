@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ForStatementNode": {
+                "ForStatement": {
                     "for": {
                         "kind": "ForKeyword",
                         "textLength": 3
@@ -80,7 +80,7 @@
                     },
                     "colon": null,
                     "statements": {
-                        "ForStatementNode": {
+                        "ForStatement": {
                             "for": {
                                 "kind": "ForKeyword",
                                 "textLength": 3

@@ -40,7 +40,7 @@ use PhpParser\Node\Expression\{
     PostfixUpdateExpression,
     ScopedPropertyAccessExpression,
     SubscriptExpression,
-    TemplateExpressionNode,
+    TemplateExpression,
     TernaryExpression,
     UnaryExpression,
     UnaryOpExpression,
@@ -70,7 +70,7 @@ use PhpParser\Node;
 use PhpParser\Node\Parameter;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\RelativeSpecifier;
-use PhpParser\Node\Script;
+use PhpParser\Node\SourceFileNode;
 use PhpParser\Node\Statement\{
     ClassDeclaration,
     ConstDeclaration,
@@ -80,7 +80,7 @@ use PhpParser\Node\Statement\{
     BreakOrContinueStatement,
     DeclareStatement,
     DoStatement,
-    EmptyStatementNode,
+    EmptyStatement,
     ExpressionStatement,
     ForeachStatement,
     ForStatement,
@@ -91,7 +91,7 @@ use PhpParser\Node\Statement\{
     InterfaceDeclaration,
     NamespaceDefinition,
     NamespaceUseDeclaration,
-    NamedLabelStatementNode,
+    NamedLabelStatement,
     ReturnStatement,
     SwitchStatementNode,
     ThrowStatement,
@@ -133,12 +133,12 @@ class Parser {
         $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
-    public function parseSourceFile($fileContents) : Script {
+    public function parseSourceFile($fileContents) : SourceFileNode {
         $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
 
         $this->reset();
 
-        $sourceFile = new Script();
+        $sourceFile = new SourceFileNode();
         $this->sourceFile = & $sourceFile;
         $sourceFile->fileContents = $fileContents;
         $sourceFile->statementList = array();
@@ -843,7 +843,7 @@ class Parser {
     }
 
     private function parseTemplateString($parentNode) {
-        $templateNode = new TemplateExpressionNode();
+        $templateNode = new TemplateExpression();
         $templateNode->parent = $parentNode;
         $templateNode->children = array();
         do {
@@ -968,7 +968,7 @@ class Parser {
     }
 
     private function parseEmptyStatement($parentNode) {
-        $emptyStatement = new EmptyStatementNode();
+        $emptyStatement = new EmptyStatement();
         $emptyStatement->parent = $parentNode;
         $emptyStatement->semicolon = $this->eat(TokenKind::SemicolonToken);
         return $emptyStatement;
@@ -1224,7 +1224,7 @@ class Parser {
     }
 
     private function parseNamedLabelStatement($parentNode) {
-        $namedLabelStatement = new NamedLabelStatementNode();
+        $namedLabelStatement = new NamedLabelStatement();
         $namedLabelStatement->parent = $parentNode;
         $namedLabelStatement->name = $this->eat(TokenKind::Name);
         $namedLabelStatement->colon = $this->eat(TokenKind::ColonToken);

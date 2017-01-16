@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ClassNode": {
+                "ClassDeclaration": {
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -32,7 +32,7 @@
                             },
                             "classMemberDeclarations": [
                                 {
-                                    "MethodNode": {
+                                    "MethodDeclaration": {
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",

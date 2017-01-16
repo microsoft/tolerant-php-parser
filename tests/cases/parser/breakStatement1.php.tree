@@ -12,7 +12,7 @@
                 }
             },
             {
-                "BreakOrContinueStatementNode": {
+                "BreakOrContinueStatement": {
                     "breakOrContinueKeyword": {
                         "kind": "BreakKeyword",
                         "textLength": 5

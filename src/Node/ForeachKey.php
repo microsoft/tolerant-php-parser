@@ -17,6 +17,6 @@ class ForeachKey extends Node {
     public $arrow;
 
     public function __construct() {
-        parent::__construct(NodeKind::ForeachKeyNode);
+        parent::__construct(NodeKind::ForeachKey);
     }
 }

@@ -12,7 +12,7 @@
                 }
             },
             {
-                "DeclareStatementNode": {
+                "DeclareStatement": {
                     "declareKeyword": {
                         "kind": "DeclareKeyword",
                         "textLength": 7
@@ -22,7 +22,7 @@
                         "textLength": 1
                     },
                     "declareDirective": {
-                        "DeclareDirectiveNode": {
+                        "DeclareDirective": {
                             "name": {
                                 "error": "MissingToken",
                                 "kind": "Name",

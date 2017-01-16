@@ -27,6 +27,6 @@ class DoStatement extends StatementNode {
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::DoWhileStatementNode);
+        parent::__construct(NodeKind::DoStatement);
     }
 }

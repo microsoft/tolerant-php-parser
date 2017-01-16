@@ -17,6 +17,6 @@ class FinallyClause extends Node {
     public $compoundStatement;
 
     public function __construct() {
-        parent::__construct(NodeKind::FinallyClauseNode);
+        parent::__construct(NodeKind::FinallyClause);
     }
 }

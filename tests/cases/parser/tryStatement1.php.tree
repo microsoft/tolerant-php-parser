@@ -41,7 +41,7 @@
                     },
                     "catchClauses": [
                         {
-                            "CatchClauseNode": {
+                            "CatchClause": {
                                 "catch": {
                                     "kind": "CatchKeyword",
                                     "textLength": 5
@@ -100,7 +100,7 @@
                         }
                     ],
                     "finallyClause": {
-                        "FinallyClauseNode": {
+                        "FinallyClause": {
                             "finallyToken": {
                                 "kind": "FinallyKeyword",
                                 "textLength": 7

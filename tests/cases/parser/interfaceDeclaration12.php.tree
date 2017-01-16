@@ -35,7 +35,7 @@
                             },
                             "interfaceMemberDeclarations": [
                                 {
-                                    "MethodNode": {
+                                    "MethodDeclaration": {
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
@@ -80,7 +80,7 @@
                                     }
                                 },
                                 {
-                                    "MethodNode": {
+                                    "MethodDeclaration": {
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",

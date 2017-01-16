@@ -14,7 +14,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "RequireKeyword",
                                 "textLength": 7

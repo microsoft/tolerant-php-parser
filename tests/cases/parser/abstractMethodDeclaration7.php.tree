@@ -17,7 +17,7 @@
                 "textLength": 8
             },
             {
-                "ClassNode": {
+                "ClassDeclaration": {
                     "abstractOrFinalModifier": {
                         "kind": "FinalKeyword",
                         "textLength": 5
@@ -40,7 +40,7 @@
                             },
                             "classMemberDeclarations": [
                                 {
-                                    "MethodNode": {
+                                    "MethodDeclaration": {
                                         "modifiers": [],
                                         "functionKeyword": {
                                             "kind": "FunctionKeyword",

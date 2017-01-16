@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ClassNode": {
+                "ClassDeclaration": {
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -32,7 +32,7 @@
                             },
                             "classMemberDeclarations": [
                                 {
-                                    "MethodNode": {
+                                    "MethodDeclaration": {
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
@@ -56,7 +56,7 @@
                                             "ParameterDeclarationList": {
                                                 "children": [
                                                     {
-                                                        "ParameterNode": {
+                                                        "Parameter": {
                                                             "typeDeclaration": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
@@ -73,7 +73,7 @@
                                                         "textLength": 1
                                                     },
                                                     {
-                                                        "ParameterNode": {
+                                                        "Parameter": {
                                                             "typeDeclaration": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,

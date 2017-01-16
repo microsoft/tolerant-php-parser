@@ -12,7 +12,7 @@
                 }
             },
             {
-                "DoWhileStatementNode": {
+                "DoStatement": {
                     "do": {
                         "kind": "DoKeyword",
                         "textLength": 2

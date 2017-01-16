@@ -29,6 +29,6 @@ class WhileStatement extends StatementNode {
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::WhileStatementNode);
+        parent::__construct(NodeKind::WhileStatement);
     }
 }

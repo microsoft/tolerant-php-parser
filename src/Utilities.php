@@ -49,7 +49,7 @@ class Utilities {
 
         if ($node instanceof Node) {
             switch ($node->kind) {
-                case NodeKind::MethodNode:
+                case NodeKind::MethodDeclaration:
                     foreach ($node->modifiers as $modifier) {
                         if ($modifier->kind === TokenKind::VarKeyword) {
                             yield new Diagnostic(

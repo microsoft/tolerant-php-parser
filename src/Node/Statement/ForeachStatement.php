@@ -37,6 +37,6 @@ class ForeachStatement extends StatementNode {
     public $endForeachSemicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::ForeachStatementNode);
+        parent::__construct(NodeKind::ForeachStatement);
     }
 }

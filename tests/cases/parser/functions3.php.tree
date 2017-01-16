@@ -12,7 +12,7 @@
                 }
             },
             {
-                "FunctionNode": {
+                "FunctionDeclaration": {
                     "functionKeyword": {
                         "kind": "FunctionKeyword",
                         "textLength": 8
@@ -30,7 +30,7 @@
                         "ParameterDeclarationList": {
                             "children": [
                                 {
-                                    "ParameterNode": {
+                                    "Parameter": {
                                         "typeDeclaration": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
@@ -62,7 +62,7 @@
                                     "textLength": 1
                                 },
                                 {
-                                    "ParameterNode": {
+                                    "Parameter": {
                                         "typeDeclaration": {
                                             "kind": "IntReservedWord",
                                             "textLength": 3

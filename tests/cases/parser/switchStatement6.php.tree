@@ -53,7 +53,7 @@
                                 },
                                 "statementList": [
                                     {
-                                        "FunctionNode": {
+                                        "FunctionDeclaration": {
                                             "functionKeyword": {
                                                 "kind": "FunctionKeyword",
                                                 "textLength": 8

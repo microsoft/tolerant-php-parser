@@ -30,6 +30,6 @@ class DeclareStatement extends StatementNode {
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::DeclareStatementNode);
+        parent::__construct(NodeKind::DeclareStatement);
     }
 }

@@ -29,7 +29,7 @@ class Parameter extends Node {
 
 
     public function __construct() {
-        parent::__construct(NodeKind::ParameterNode);
+        parent::__construct(NodeKind::Parameter);
     }
 
     public function isVariadic() {

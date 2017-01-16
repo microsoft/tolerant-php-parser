@@ -14,13 +14,13 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "RequireKeyword",
                                 "textLength": 7
                             },
                             "expression": {
-                                "ScriptInclusionExpressoin": {
+                                "ScriptInclusionExpression": {
                                     "requireOrIncludeKeyword": {
                                         "kind": "RequireKeyword",
                                         "textLength": 7

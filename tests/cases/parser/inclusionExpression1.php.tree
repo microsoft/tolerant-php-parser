@@ -14,7 +14,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "RequireKeyword",
                                 "textLength": 7
@@ -39,7 +39,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "RequireOnceKeyword",
                                 "textLength": 12
@@ -64,7 +64,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "IncludeKeyword",
                                 "textLength": 7
@@ -89,7 +89,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "ScriptInclusionExpressoin": {
+                        "ScriptInclusionExpression": {
                             "requireOrIncludeKeyword": {
                                 "kind": "IncludeOnceKeyword",
                                 "textLength": 12

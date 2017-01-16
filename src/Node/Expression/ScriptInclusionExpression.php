@@ -16,6 +16,6 @@ class ScriptInclusionExpression extends Expression  {
     public $expression;
 
     public function __construct() {
-        parent::__construct(NodeKind::ScriptInclusionExpressoin);
+        parent::__construct(NodeKind::ScriptInclusionExpression);
     }
 }

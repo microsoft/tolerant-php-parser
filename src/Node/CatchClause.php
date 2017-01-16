@@ -25,6 +25,6 @@ class CatchClause extends Node {
     public $compoundStatement;
 
     public function __construct() {
-        parent::__construct(NodeKind::CatchClauseNode);
+        parent::__construct(NodeKind::CatchClause);
     }
 }

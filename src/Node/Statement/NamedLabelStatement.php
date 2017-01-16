@@ -4,23 +4,20 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
-
-use PhpParser\Node;
+namespace PhpParser\Node\Statement;
+use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class Script extends Node {
-    /** @var string */
-    public $fileContents;
-
-    /** @var Node[] */
-    public $statementList;
-    
+class NamedLabelStatement extends StatementNode {
     /** @var Token */
-    public $endOfFileToken;
+    public $name;
+    /** @var Token */
+    public $colon;
+    /** @var StatementNode */
+    public $statement;
 
     public function __construct() {
-        parent::__construct(NodeKind::SourceFileNode);
+        parent::__construct(NodeKind::NamedLabelStatement);
     }
 }

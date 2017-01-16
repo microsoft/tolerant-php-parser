@@ -12,7 +12,7 @@
                 }
             },
             {
-                "GotoStatementNode": {
+                "GotoStatement": {
                     "goto": {
                         "kind": "GotoKeyword",
                         "textLength": 4
@@ -28,7 +28,7 @@
                 }
             },
             {
-                "GotoStatementNode": {
+                "GotoStatement": {
                     "goto": {
                         "kind": "GotoKeyword",
                         "textLength": 4

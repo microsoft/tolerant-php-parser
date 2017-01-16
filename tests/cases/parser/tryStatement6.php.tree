@@ -32,7 +32,7 @@
                     },
                     "catchClauses": [
                         {
-                            "CatchClauseNode": {
+                            "CatchClause": {
                                 "catch": {
                                     "kind": "CatchKeyword",
                                     "textLength": 5

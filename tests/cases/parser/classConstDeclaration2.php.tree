@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ClassNode": {
+                "ClassDeclaration": {
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",

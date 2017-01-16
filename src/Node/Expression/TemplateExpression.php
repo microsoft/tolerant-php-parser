@@ -4,16 +4,14 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
-use PhpParser\Node\StatementNode;
+namespace PhpParser\Node\Expression
 use PhpParser\NodeKind;
 use PhpParser\Token;
 
-class EmptyStatementNode extends StatementNode {
-    /** @var Token */
-    public $semicolon;
+class TemplateExpression extends Node {
+    public $children;
 
     public function __construct() {
-        parent::__construct(NodeKind::EmptyStatement);
+        parent::__construct(NodeKind::TemplateExpression);
     }
 }

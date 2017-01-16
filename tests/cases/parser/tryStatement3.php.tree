@@ -32,7 +32,7 @@
                     },
                     "catchClauses": [],
                     "finallyClause": {
-                        "FinallyClauseNode": {
+                        "FinallyClause": {
                             "finallyToken": {
                                 "kind": "FinallyKeyword",
                                 "textLength": 7

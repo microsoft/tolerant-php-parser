@@ -18,6 +18,6 @@ class GotoStatement extends StatementNode {
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::GotoStatementNode);
+        parent::__construct(NodeKind::GotoStatement);
     }
 }

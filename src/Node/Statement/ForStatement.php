@@ -37,6 +37,6 @@ class ForStatement extends StatementNode {
     public $endForSemicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::ForStatementNode);
+        parent::__construct(NodeKind::ForStatement);
     }
 }

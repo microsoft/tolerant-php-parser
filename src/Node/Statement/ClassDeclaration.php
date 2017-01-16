@@ -34,6 +34,6 @@ class ClassDeclaration extends StatementNode {
     public $classMembers;
 
     public function __construct() {
-        parent::__construct(NodeKind::ClassNode);
+        parent::__construct(NodeKind::ClassDeclaration);
     }
 }

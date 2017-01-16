@@ -19,6 +19,6 @@ class DeclareDirective extends Node {
     public $literal;
 
     public function __construct() {
-        parent::__construct(NodeKind::DeclareDirectiveNode);
+        parent::__construct(NodeKind::DeclareDirective);
     }
 }

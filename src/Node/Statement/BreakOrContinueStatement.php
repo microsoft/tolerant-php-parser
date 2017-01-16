@@ -18,6 +18,6 @@ class BreakOrContinueStatement extends StatementNode {
     public $semicolon;
 
     public function __construct() {
-        parent::__construct(NodeKind::BreakOrContinueStatementNode);
+        parent::__construct(NodeKind::BreakOrContinueStatement);
     }
 }

@@ -12,7 +12,7 @@
                 }
             },
             {
-                "ForeachStatementNode": {
+                "ForeachStatement": {
                     "foreach": {
                         "kind": "ForeachKeyword",
                         "textLength": 7
@@ -36,7 +36,7 @@
                     },
                     "foreachKey": null,
                     "foreachValue": {
-                        "ForeachValueNode": {
+                        "ForeachValue": {
                             "ampersand": null,
                             "expression": {
                                 "error": "MissingToken",

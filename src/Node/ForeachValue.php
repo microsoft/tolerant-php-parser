@@ -17,6 +17,6 @@ class ForeachValue extends Node {
     public $expression;
 
     public function __construct() {
-        parent::__construct(NodeKind::ForeachValueNode);
+        parent::__construct(NodeKind::ForeachValue);
     }
 }

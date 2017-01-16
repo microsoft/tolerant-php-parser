@@ -12,7 +12,7 @@
                 }
             },
             {
-                "FunctionNode": {
+                "FunctionDeclaration": {
                     "functionKeyword": {
                         "kind": "FunctionKeyword",
                         "textLength": 8
@@ -30,7 +30,7 @@
                         "ParameterDeclarationList": {
                             "children": [
                                 {
-                                    "ParameterNode": {
+                                    "Parameter": {
                                         "typeDeclaration": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
@@ -47,7 +47,7 @@
                                     "textLength": 1
                                 },
                                 {
-                                    "ParameterNode": {
+                                    "Parameter": {
                                         "typeDeclaration": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
@@ -82,7 +82,7 @@
                                     "textLength": 1
                                 },
                                 {
-                                    "ParameterNode": {
+                                    "Parameter": {
                                         "typeDeclaration": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,

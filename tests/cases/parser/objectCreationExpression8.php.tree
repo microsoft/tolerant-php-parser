@@ -79,7 +79,7 @@
                                     },
                                     "classMemberDeclarations": [
                                         {
-                                            "MethodNode": {
+                                            "MethodDeclaration": {
                                                 "modifiers": [
                                                     {
                                                         "kind": "PublicKeyword",

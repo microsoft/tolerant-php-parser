@@ -12,7 +12,7 @@
                 }
             },
             {
-                "DoWhileStatementNode": {
+                "DoStatement": {
                     "do": {
                         "kind": "DoKeyword",
                         "textLength": 2
@@ -41,7 +41,7 @@
                                     }
                                 },
                                 {
-                                    "WhileStatementNode": {
+                                    "WhileStatement": {
                                         "whileToken": {
                                             "kind": "WhileKeyword",
                                             "textLength": 5

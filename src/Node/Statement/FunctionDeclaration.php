@@ -18,6 +18,6 @@ class FunctionDeclaration extends StatementNode {
     use FunctionHeader, FunctionReturnType, FunctionBody;
 
     public function __construct() {
-        parent::__construct(NodeKind::FunctionNode);
+        parent::__construct(NodeKind::FunctionDeclaration);
     }
 }
