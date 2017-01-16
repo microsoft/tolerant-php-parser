@@ -22,6 +22,6 @@ class TryStatement extends StatementNode {
     public $finallyClause;
 
     public function __construct() {
-        parent::__construct(NodeKind::IfStatementNode);
+        parent::__construct(NodeKind::TryStatement);
     }
 }

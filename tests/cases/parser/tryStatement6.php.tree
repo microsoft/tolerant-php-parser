@@ -12,7 +12,7 @@
                 }
             },
             {
-                "IfStatementNode": {
+                "TryStatement": {
                     "tryKeyword": {
                         "kind": "TryKeyword",
                         "textLength": 3
