@@ -33,6 +33,14 @@ After enabling `xdebug`, run code coverage by executing:
 php -d memory_limit=500M vendor/bin/phpunit --coverage-html tmp/ tests/
 ```
 
+## Running performance tests
+```
+php -d memory_limit=500M validation/ParserPerformance.php
+```
+
+Note that there will be a lot of variance between runs. In the future, we plan to set
+up an environment that can provide assurance of statistical significance.
+
 ## Example PRs
 > :bulb: Note - These examples aren't perfect... they were from early "exploratory" stages of the project,
 and the codebase has changed a bit since then. If you spot a particularly educational PR, feel free

@@ -16,19 +16,19 @@ require "vendor/autoload.php";
 // Instantiate new parser instance
 $parser = new PhpParser\Parser();
 
-// Return an AST from string contents
+// Return and print an AST from string contents
 $astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!"');
 var_dump($astNode);
 
-// Gets errors from AST Node. The parser handles errors gracefully,
+// Gets and prints errors from AST Node. The parser handles errors gracefully,
 // so it can be used in IDE usage scenarios (where code is often incomplete).
 $errors = PhpParser\Utilities::getDiagnostics($astNode);
 var_dump(iterator_to_array($errors));
 
-// Traverse the tree to find all string literals
+// Traverse all Node descendants of $astNode
 foreach ($astNode->getDescendantNodes() as $descendant) {
     if ($descendant instanceof \PhpParser\Node\StringLiteral) {
-        // Print the text of the first string literal
+        // Print the Node text (without whitespace or comments)
         var_dump($descendant->getText());
 
         // All Nodes link back to their parents, so it's easy to navigate the tree.
@@ -39,8 +39,22 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
         // This enables consumers to build reliable formatting and refactoring tools.
         var_dump($grandParent->getLeadingCommentAndWhitespaceText());
     }
+    
+    // In addition to retrieving all children or descendants of a Node,
+    // Nodes expose properties specific to the Node type.
+    if ($descendant instanceof \PhpParser\Node\Expression\EchoExpression) {
+        $echoKeywordStartPosition = $descendant->echoKeyword->getStartPosition();
+        // To cut down on memory consumption, positions are represented as a single integer 
+        // index into the document, but their line and character positions are easily retrieved.
+        $lineCharacterPosition = \PhpParser\Utilities::getLineCharacterPositionFromPosition(
+            $echoKeywordStartPosition
+        );
+        echo "line: $lineCharacterPosition->line, character: $lineCharacterPosition->character";
+    }
 }
 ```
+
+> Note: The API is still a work in progress, and will evolve according to user feedback.
 
 ## Design Goals
 * Error tolerant design - in IDE scenarios, code is, by definition, incomplete. In the case that invalid code is entered, the
@@ -80,7 +94,19 @@ Error Nodes. Write tests for all invariants.
   * [ ] _**Performance:**_ profile, benchmark against large PHP applications
 * [ ] **Phase 6:** Finalize API to make it as easy as possible for people to consume. 
 
-> :rabbit: **Ready to see just how deep the rabbit hole goes?** Check out the [Overview](Overview.md) to learn more about key properties of the Syntax Tree and [How It Works](HowItWorks.md) for all the fun technical details.
+### Additional notes
+A few of the PHP grammatical constructs (namely yield-expression, and template strings)
+are not yet supported and there are also other miscellaneous bugs. However, because the parser is error-tolerant,
+these errors are handled gracefully, and the resulting tree is otherwise complete. To get a more holistic sense for
+where we are, you can run the "validation" test suite (see [Contributing Guidelines](Contributing.md) for more info 
+on running tests).
+
+> TODO: set up public CI so that concrete status is more accessible
+
+Even though we haven't yet begun the performance optimization stage, we have seen promising results so far, 
+and have plenty more room for improvement. See [How It Works](HowItWorks.md) for details on our current 
+approach, and run the [Performance Tests](Contributing.md#running-performance-tests) on your 
+own machine to see for yourself.
 
 ## Learn more
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).

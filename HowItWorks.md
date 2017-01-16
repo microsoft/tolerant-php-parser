@@ -49,6 +49,19 @@ functions to extract further information.
 * `GetTextForToken`
 * See code for an up-to-date list
 
+#### Invariants
+In order to ensure that the parser evolves in a healthy manner over time, 
+we define and continuously test the set of invariants defined below:
+* The sum of the lengths of all of the tokens is equivalent to the length of the document
+* The Start of every token is always greater than or equal to the FullStart of every token.
+* A token's content exactly matches the range of the file its span specifies.
+* `GetTriviaForToken` + `GetTextForToken` == `GetFullTextForToken`
+* concatenating `GetFullTextForToken` for each token returns the document
+* `GetTriviaForToken` returns a string of length equivalent to `(Start - FullStart)`
+* `GetFullTextForToken` returns a string of length equivalent to `Length`
+* `GetTextForToken` returns a string of length equivalent to `Length - (Start - FullStart)`
+* See `tests/LexicalInvariantsTest.php` for an up-to-date list...
+
 #### Notes
 At this point in time, the Representation has not yet diverged from the Model. Tokens
 are currently represented as a `Token` object, with four properties - `$kind`, `$fullStart`,
@@ -95,20 +108,6 @@ some explanation. Instead of storing `Start` and `Length` properties, we will st
 In the edge cases where we cannot store both, and we can recompute the value. Note that this extra complexity
 does not preclude us from presenting a more reasonable API for consumers of the API because we can simply
 override the property getters / setters on Node.
-
-
-#### Invariants
-In order to ensure that the parser evolves in a healthy manner over time, 
-we define and continuously test the set of invariants defined below:
-* The sum of the lengths of all of the tokens is equivalent to the length of the document
-* The Start of every token is always greater than or equal to the FullStart of every token.
-* A token's content exactly matches the range of the file its span specifies.
-* `GetTriviaForToken` + `GetTextForToken` == `GetFullTextForToken`
-* concatenating `GetFullTextForToken` for each token returns the document
-* `GetTriviaForToken` returns a string of length equivalent to `(Start - FullStart)`
-* `GetFullTextForToken` returns a string of length equivalent to `Length`
-* `GetTextForToken` returns a string of length equivalent to `Length - (Start - FullStart)`
-* See `tests/LexicalInvariantsTest.php` for an up-to-date list...
 
 ## Parser
 The parser reads in Tokens provided by the lexer to produce the resulting Syntax Tree.
