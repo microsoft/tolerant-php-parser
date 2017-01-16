@@ -15,10 +15,12 @@
                 "ExpressionStatement": {
                     "expression": {
                         "StringLiteral": {
+                            "startQuote": null,
                             "children": {
                                 "kind": "StringLiteralToken",
                                 "textLength": 2
-                            }
+                            },
+                            "endQuote": null
                         }
                     },
                     "semicolon": {

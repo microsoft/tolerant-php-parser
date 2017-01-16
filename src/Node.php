@@ -58,11 +58,21 @@ class Node implements \JsonSerializable {
         return $this->parent;
     }
 
+    public function getAncestor($className) {
+        $ancestor = $this;
+        while (true) {
+            $ancestor = $ancestor->parent;
+            if ($ancestor == null || $ancestor instanceof $className) {
+                return $ancestor;
+            }
+        }
+    }
+
     /**
      * Gets root of the syntax tree (returns self if has no parents)
      * @return Node
      */
-    public function getRoot() : Node {
+    public function & getRoot() : Node {
         $node = $this;
         while ($node->parent !== null) {
             $node = $node->parent;
@@ -143,11 +153,11 @@ class Node implements \JsonSerializable {
             }
             if (\is_array($val)) {
                 foreach ($val as $child) {
-                    $child === null ?: yield $child;
+                    $child === null ?: yield $i=>$child;
                 }
                 continue;
             }
-            $val === null ?: yield $val;
+            $val === null ?: yield $i=>$val;
         }
     }
 
@@ -253,6 +263,7 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getLeadingCommentAndWhitespaceText() : string {
+        // TODO re-tokenize comments and whitespace
         $fileContents = $this->getFileContents();
         foreach ($this->getDescendantTokens() as $token) {
             return $token->getLeadingCommentsAndWhitespaceText($fileContents);
@@ -343,5 +354,9 @@ class Node implements \JsonSerializable {
             }
         }
         return null;
+    }
+
+    public function __toString() {
+        return $this->getText();
     }
 }

@@ -9,6 +9,7 @@ namespace PhpParser\Node;
 use PhpParser\Node;
 use PhpParser\NodeKind;
 use PhpParser\Token;
+use PhpParser\TokenKind;
 
 class MethodDeclaration extends Node {
     /** @var Token[] */

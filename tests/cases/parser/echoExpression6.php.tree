@@ -50,17 +50,16 @@
                                         },
                                         {
                                             "StringLiteral": {
-                                                "children": [
-                                                    {
-                                                        "kind": "DoubleQuoteToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "error": "MissingToken",
-                                                        "kind": "DoubleQuoteToken",
-                                                        "textLength": 0
-                                                    }
-                                                ]
+                                                "startQuote": {
+                                                    "kind": "DoubleQuoteToken",
+                                                    "textLength": 1
+                                                },
+                                                "children": [],
+                                                "endQuote": {
+                                                    "error": "MissingToken",
+                                                    "kind": "DoubleQuoteToken",
+                                                    "textLength": 0
+                                                }
                                             }
                                         }
                                     ]

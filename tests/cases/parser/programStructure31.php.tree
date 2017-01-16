@@ -54,10 +54,12 @@
                                                         "children": [
                                                             {
                                                                 "StringLiteral": {
+                                                                    "startQuote": null,
                                                                     "children": {
                                                                         "kind": "StringLiteralToken",
                                                                         "textLength": 7
-                                                                    }
+                                                                    },
+                                                                    "endQuote": null
                                                                 }
                                                             }
                                                         ]

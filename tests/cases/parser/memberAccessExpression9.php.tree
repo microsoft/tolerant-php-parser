@@ -36,10 +36,12 @@
                                     },
                                     "expression": {
                                         "StringLiteral": {
+                                            "startQuote": null,
                                             "children": {
                                                 "kind": "StringLiteralToken",
                                                 "textLength": 3
-                                            }
+                                            },
+                                            "endQuote": null
                                         }
                                     },
                                     "closeBrace": {

@@ -17,10 +17,12 @@
                         "ScopedPropertyAccessExpression": {
                             "scopeResolutionQualifier": {
                                 "StringLiteral": {
+                                    "startQuote": null,
                                     "children": {
                                         "kind": "StringLiteralToken",
                                         "textLength": 11
-                                    }
+                                    },
+                                    "endQuote": null
                                 }
                             },
                             "doubleColon": {

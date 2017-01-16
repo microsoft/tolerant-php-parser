@@ -978,7 +978,7 @@ class Parser {
         // TODO validate input token
         $expression = new StringLiteral();
         $expression->parent = $parentNode;
-        $expression->children = $this->getCurrentToken();
+        $expression->children = $this->getCurrentToken(); // TODO - merge string types
         $this->advanceToken();
         return $expression;
     }
@@ -987,9 +987,8 @@ class Parser {
         // TODO validate input token
         $expression = new StringLiteral();
         $expression->parent = $parentNode;
-        $quote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken, TokenKind::HeredocStart, TokenKind::BacktickToken);
+        $expression->startQuote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken, TokenKind::HeredocStart, TokenKind::BacktickToken);
         $expression->children = array();
-        $expression->children[] = $quote;
 
         while (true) {
             switch($this->getCurrentToken()->kind) {
@@ -999,10 +998,10 @@ class Parser {
                     $expression->children[] = $this->parseExpression($expression);
                     $expression->children[] = $this->eat(TokenKind::CloseBraceToken);
                     continue;
-                case $quote->kind:
+                case $startQuoteKind = $expression->startQuote->kind:
                 case TokenKind::EndOfFileToken:
                 case TokenKind::HeredocEnd:
-                    $expression->children[] = $this->eat($quote->kind, TokenKind::HeredocEnd);
+                    $expression->endQuote = $this->eat($startQuoteKind, TokenKind::HeredocEnd);
                     return $expression;
                 default:
                     $expression->children[] = $this->getCurrentToken();
@@ -2239,7 +2238,7 @@ class Parser {
         $token = $this->getCurrentToken();
         switch ($token->kind) {
             case TokenKind::Name:
-                $this->advanceToken();
+                $this->advanceToken(); // TODO all names should be Nodes
                 return $token;
             case TokenKind::VariableName:
             case TokenKind::DollarToken:
@@ -2345,7 +2344,7 @@ class Parser {
         $scopedPropertyAccessExpression->parent = $expression->parent;
         $expression->parent = $scopedPropertyAccessExpression;
 
-        $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression;
+        $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression; // TODO ensure always a Node
         $scopedPropertyAccessExpression->doubleColon = $this->eat(TokenKind::ColonColonToken);
         $scopedPropertyAccessExpression->memberName = $this->parseMemberName($scopedPropertyAccessExpression);
 

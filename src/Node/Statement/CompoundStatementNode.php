@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace PhpParser\Node\Statement;
+use PhpParser\Node;
 use PhpParser\Node\StatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
@@ -13,7 +14,7 @@ class CompoundStatementNode extends StatementNode {
     /** @var Token */
     public $openBrace;
 
-    /** @var array */
+    /** @var array | Node[] */
     public $statements;
 
     /** @var Token */

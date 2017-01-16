@@ -11,10 +11,30 @@ use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class StringLiteral extends Expression {
-    /** @var Token[] */
+    /** @var Token */
+    public $startQuote;
+
+    /** @var Token[] | Node[] */
     public $children;
+
+    /** @var Token */
+    public $endQuote;
 
     public function __construct() {
         parent::__construct(NodeKind::StringLiteral);
+    }
+
+    public function getStringContentsText() {
+        // TODO add tests
+        $stringContents = "";
+        if (isset($this->startQuote)) {
+            foreach ($this->children as $child) {
+                $stringContents .= $child->getFullText($this->getFileContents());
+            }
+        } else {
+            // TODO ensure string consistency (all strings should have start / end quote)
+            $stringContents = trim($this->children->getText($this->getFileContents()), '"\'');
+        }
+        return $stringContents;
     }
 }

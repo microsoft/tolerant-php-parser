@@ -11,6 +11,7 @@ require_once(__DIR__ . "/../src/Token.php");
 require_once(__DIR__ . "/LexerInvariantsTest.php");
 
 use PhpParser\Node;
+use PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 
@@ -129,6 +130,23 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             $this->assertEquals(
                 1, $count,
                 "Invariant: each child has exactly one parent.");
+        }
+    }
+
+    /**
+     * @dataProvider sourceFileNodeProvider
+     */
+    public function testEveryChildIsNodeOrTokenType($filename, Node $sourceFileNode) {
+        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
+        array_push($treeElements, $sourceFileNode);
+
+        foreach ($sourceFileNode->getDescendantNodes() as $descendant) {
+            foreach ($descendant->getChildNodesAndTokens() as $child) {
+                if ($child instanceof Node || $child instanceof Token) {
+                    continue;
+                }
+                $this->fail("Invariant: Every child is Node or Token type");
+            }
         }
     }
 

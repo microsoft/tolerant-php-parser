@@ -76,7 +76,7 @@ class Utilities {
         return new Range ($start, $end);
     }
 
-    public static function getLineCharacterPositionFromPosition($pos, $text) {
+    public static function getLineCharacterPositionFromPosition($pos, $text) : LineCharacterPosition {
         $newlinePositions = [];
         $newlinePos = -1;
         while ($newlinePos = strpos($text, "\n", $newlinePos + 1)) {        

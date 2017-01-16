@@ -7,6 +7,7 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
+use PhpParser\Node\Statement\CompoundStatementNode;
 use PhpParser\NodeKind;
 use PhpParser\Token;
 

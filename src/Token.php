@@ -28,7 +28,7 @@ class Token implements \JsonSerializable {
         return substr($document, $this->start, $this->length - ($this->start - $this->fullStart));
     }
 
-    public function getFullText(string $document) : string {
+    public function getFullText(string & $document) : string {
         return substr($document, $this->fullStart, $this->length);
     }
 

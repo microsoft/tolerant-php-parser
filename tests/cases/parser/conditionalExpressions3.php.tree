@@ -71,10 +71,12 @@
                                             },
                                             "rightOperand": {
                                                 "StringLiteral": {
+                                                    "startQuote": null,
                                                     "children": {
                                                         "kind": "StringLiteralToken",
                                                         "textLength": 9
-                                                    }
+                                                    },
+                                                    "endQuote": null
                                                 }
                                             }
                                         }

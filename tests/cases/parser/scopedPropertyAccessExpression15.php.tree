@@ -54,10 +54,12 @@
                                                                 },
                                                                 "expression": {
                                                                     "StringLiteral": {
+                                                                        "startQuote": null,
                                                                         "children": {
                                                                             "kind": "StringLiteralToken",
                                                                             "textLength": 4
-                                                                        }
+                                                                        },
+                                                                        "endQuote": null
                                                                     }
                                                                 },
                                                                 "closeBrace": {
