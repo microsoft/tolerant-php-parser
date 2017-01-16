@@ -16,13 +16,11 @@ class Node implements \JsonSerializable {
     public function __construct(int $kind) {
     }
 
-    public function __get($name) {
-        // TODO remove all references to "kind" property
-        if ($name === "kind") {
-            $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
-            $nameParts = explode("\\",get_class($this));
-            return $constants[end($nameParts)];
-        }
+    public function getKind() {
+        // TODO remove all references to getKind
+        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
+        $nameParts = explode("\\",get_class($this));
+        return $constants[end($nameParts)];
     }
 
     /**
@@ -288,7 +286,7 @@ class Node implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $kindName = self::getNodeKindNameFromValue($this->kind);
+        $kindName = self::getNodeKindNameFromValue($this->getKind());
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
 
@@ -313,7 +311,7 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getNodeKindName() : string {
-        return self::getNodeKindNameFromValue($this->kind);
+        return self::getNodeKindNameFromValue($this->getKind());
     }
 
     /**

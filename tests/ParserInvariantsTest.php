@@ -115,14 +115,15 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      * @dataProvider sourceFileNodeProvider
      */
     public function testEachChildHasExactlyOneParent($filename, Node $sourceFileNode) {
-        $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
-        array_push($treeElements, $sourceFileNode);
+        $allTreeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens());
+        array_push($allTreeElements, $sourceFileNode);
 
-        foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
+        foreach ($sourceFileNode->getDescendantNodesAndTokens() as $childWithParent) {
             $count = 0;
-            foreach ($treeElements as $element) {
+            foreach ($allTreeElements as $element) {
                 if ($element instanceof Node) {
-                    if (in_array($child, iterator_to_array($element->getChildNodesAndTokens()), true)) {
+                    $values = iterator_to_array($element->getChildNodesAndTokens(), false);
+                    if (in_array($childWithParent, $values, true)) {
                         $count++;
                     }
                 }
@@ -184,7 +185,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
 
         foreach($treeElements as $element) {
             $this->assertNotNull(
-                $element->kind,
+                $element->getKind(),
                 "Invariant: Every Node has a Kind");
         }
     }
