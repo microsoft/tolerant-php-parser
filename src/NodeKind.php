@@ -118,4 +118,5 @@ class NodeKind {
     const VariableNameList = 108;
     const StaticVariableNameList = 109;
     const ConstElementList = 110;
+    const UnsetIntrinsicExpression = 111;
 }

@@ -26,6 +26,6 @@ class UnsetIntrinsicExpression extends Expression {
     public $closeParen;
 
     public function __construct() {
-        parent::__construct(NodeKind::EchoExpression);
+        parent::__construct(NodeKind::UnsetIntrinsicExpression);
     }
 }

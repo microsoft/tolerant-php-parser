@@ -14,7 +14,7 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "EchoExpression": {
+                        "UnsetIntrinsicExpression": {
                             "unsetKeyword": {
                                 "kind": "UnsetKeyword",
                                 "textLength": 5
