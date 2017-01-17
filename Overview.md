@@ -1,10 +1,12 @@
 # Overview
 
 The syntax tree produced by the parser ensures two key attributes:
+
 1. **All source information is held in full fidelity.** This means that the tree contains every piece of 
 information found in the source text, every grammatical construct, every lexical token, and everything
 else in between including whitespace and comments. The syntax trees also represent errors in source code
 when the program is incomplete or malformed, by representing skipped or missing tokens in the syntax tree.
+
 2. **A syntax tree obtained from the parser is completely round-trippable back to the text it was parsed from.**
 From any syntax node, it is possible to get the text representation of the subtree rooted at that node.
 This means that syntax trees can be used as a way to construct and edit source text.
