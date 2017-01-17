@@ -54,7 +54,9 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
 }
 ```
 
-> Note: The API is still a work in progress, and will evolve according to user feedback.
+> Note: [the API](ApiDocumentation.md) is not yet finalized, so please file issues let us know what functionality you want exposed, 
+and we'll see what we can do! Also please file any bugs with unexpected behavior in the parse tree. We're still
+in our early stages, and any feedback you have is much appreciated :smiley:.
 
 ## Design Goals
 * Error tolerant design - in IDE scenarios, code is, by definition, incomplete. In the case that invalid code is entered, the
@@ -110,8 +112,6 @@ own machine to see for yourself.
 
 ## Learn more
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
-
-**:sunrise_over_mountains: [Syntax Overview](Overview.md)** - learn about the composition and key properties of the syntax tree.
 
 **:seedling: [Documentation](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
 operations on the AST to answer questions about your code.
