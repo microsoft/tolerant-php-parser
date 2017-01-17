@@ -6,7 +6,7 @@ an experiment and the start of a conversation.
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
 ## Get Started
-After you've [configured your machine](GettingStarted.md), you can use the parser to generate and work 
+After you've [configured your machine](docs/GettingStarted.md), you can use the parser to generate and work 
 with the Abstract Syntax Tree (AST) via a friendly API.
 ```php
 <?php
@@ -54,7 +54,7 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
 }
 ```
 
-> Note: [the API](ApiDocumentation.md) is not yet finalized, so please file issues let us know what functionality you want exposed, 
+> Note: [the API](docs/ApiDocumentation.md) is not yet finalized, so please file issues let us know what functionality you want exposed, 
 and we'll see what we can do! Also please file any bugs with unexpected behavior in the parse tree. We're still
 in our early stages, and any feedback you have is much appreciated :smiley:.
 
@@ -106,26 +106,26 @@ on running tests).
 > TODO: set up public CI so that concrete status is more accessible
 
 Even though we haven't yet begun the performance optimization stage, we have seen promising results so far, 
-and have plenty more room for improvement. See [How It Works](HowItWorks.md) for details on our current 
+and have plenty more room for improvement. See [How It Works](docs/HowItWorks.md) for details on our current 
 approach, and run the [Performance Tests](Contributing.md#running-performance-tests) on your 
 own machine to see for yourself.
 
 ## Learn more
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
 
-**:seedling: [Documentation](GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
+**:seedling: [Documentation](docs/GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
 operations on the AST to answer questions about your code.
 
 **:eyes: [Syntax Visualizer Tool](syntax-visualizer/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
 
 **:chart_with_upwards_trend: [Current Status and Approach](#current-status-and-approach)** - how much of the grammar is supported? Performance? Memory? API stability?
 
-**:wrench: [How it works](HowItWorks.md)** - learn about the architecture, design decisions, and tradeoffs.
-  * [Lexer and Parser](HowItWorks.md#lexer)
-  * [Error Tolerance Strategy](HowItWorks.md#error-tokens)
-  * [Incremental Parsing](HowItWorks.md#incremental-parsing)
-  * [Open Questions](HowItWorks.md#open-questions)
-  * [Validation Strategy](HowItWorks.md#validation-strategy)
+**:wrench: [How it works](docs/HowItWorks.md)** - learn about the architecture, design decisions, and tradeoffs.
+  * [Lexer and Parser](docs/HowItWorks.md#lexer)
+  * [Error Tolerance Strategy](docs/HowItWorks.md#error-tokens)
+  * [Incremental Parsing](docs/HowItWorks.md#incremental-parsing)
+  * [Open Questions](docs/HowItWorks.md#open-questions)
+  * [Validation Strategy](docs/HowItWorks.md#validation-strategy)
 
 **:sparkling_heart: [Contribute!](Contributing.md)** - learn how to get involved, check out some pointers to educational commits that'll
 help you ramp up on the codebase (even if you've never worked on a parser before), 
