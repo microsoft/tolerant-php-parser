@@ -5,5 +5,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 spl_autoload_register(function ($class) {
-    require_once str_replace("\\", "/", __DIR__ . "/" . \substr($class, 10) . ".php");
+    $path = str_replace("\\", "/", __DIR__ . "/" . \substr($class, 10) . ".php");
+    if (file_exists($path)) {
+        require_once $path;
+    }
 });
