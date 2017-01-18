@@ -1,5 +1,5 @@
 # API Documentation
-> Note: This documentation was auto-generated using this parser to help dogfood the API. Please contribute fixes to
+> Note: This documentation was auto-generated using this parser to help dogfood the API. It may be incomplete. Please contribute fixes to
 `tools/PrintApiDocumentation.php` and suggest API improvements.
 <hr>
 
@@ -9,6 +9,12 @@
 
 ```php
 public function __construct ( int $kind )
+```
+### Node::getKind
+> TODO: add doc comment
+
+```php
+public function getKind ( )
 ```
 ### Node::getStart
 Gets start position of Node, not including leading comments and whitespace.
@@ -201,7 +207,57 @@ public function __construct ( )
 > TODO: add doc comment
 
 ```php
-public function parseSourceFile ( $fileContents ) : Script
+public function parseSourceFile ( $fileContents ) : SourceFileNode
 ```
 ## Associativity
 ## ParseContext
+## Utilities
+### Utilities::getDiagnostics
+> TODO: add doc comment
+
+```php
+public static function getDiagnostics ( $node )
+```
+### Utilities::getRangeFromPosition
+> TODO: add doc comment
+
+```php
+public static function getRangeFromPosition ( $pos, $length, $text )
+```
+### Utilities::getLineCharacterPositionFromPosition
+> TODO: add doc comment
+
+```php
+public static function getLineCharacterPositionFromPosition ( $pos, $text ) : LineCharacterPosition
+```
+## Range
+### Range::__construct
+> TODO: add doc comment
+
+```php
+public function __construct ( LineCharacterPosition $start, LineCharacterPosition $end )
+```
+## LineCharacterPosition
+### LineCharacterPosition::__construct
+> TODO: add doc comment
+
+```php
+public function __construct ( int $line, int $character )
+```
+## MissingToken
+### MissingToken::__construct
+> TODO: add doc comment
+
+```php
+public function __construct ( int $kind, int $fullStart )
+```
+## SkippedToken
+### SkippedToken::__construct
+> TODO: add doc comment
+
+```php
+public function __construct ( Token $token )
+```
+## Node types
+> TODO: complete documentation - in addition to the helper methods on the Node base class,
+every Node object has properties specific to the Node type. Browse `src/Node/` to explore these properties.

@@ -16,13 +16,16 @@ require_once __DIR__ . "/../src/bootstrap.php";
 $files = [
     __DIR__ . "/../src/Node.php",
     __DIR__ . "/../src/Token.php",
-    __DIR__ . "/../src/Parser.php"
+    __DIR__ . "/../src/Parser.php",
+    __DIR__ . "/../src/Utilities.php",
+    __DIR__ . "/../src/MissingToken.php",
+    __DIR__ . "/../src/SkippedToken.php"
 ];
 
 $parser = new Parser();
 
 echo "# API Documentation" . PHP_EOL;
-echo "> Note: This documentation was auto-generated using this parser to help dogfood the API. Please contribute fixes to
+echo "> Note: This documentation was auto-generated using this parser to help dogfood the API. It may be incomplete. Please contribute fixes to
 `tools/PrintApiDocumentation.php` and suggest API improvements.\n<hr>\n\n";
 
 foreach ($files as $file) {
@@ -67,6 +70,10 @@ foreach ($files as $file) {
         }
     }
 }
+
+echo "## Node types
+> TODO: complete documentation - in addition to the helper methods on the Node base class,
+every Node object has properties specific to the Node type. Browse `src/Node/` to explore these properties.";
 
 function getSignatureParts(MethodDeclaration $methodDeclaration) : array {
     // TODO - something like this in API?
