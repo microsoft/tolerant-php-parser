@@ -10,7 +10,7 @@ require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 
 use PhpParser\Node;
-use PhpParser\Node\Script;
+use PhpParser\Node\SourceFileNode;
 use PHPUnit\Framework\TestCase;
 use PhpParser\TokenKind;
 
@@ -35,8 +35,8 @@ PHP;
 
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
-        $this->assertEquals(\PhpParser\NodeKind::FunctionNode, $node->getDescendantNodeAtPosition(15)->kind);
-        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->kind);
+        $this->assertEquals(\PhpParser\NodeKind::FunctionDeclaration, $node->getDescendantNodeAtPosition(15)->getKind());
+        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->getKind());
     }
 
     public function testRootNodeIsScript() {
@@ -44,7 +44,7 @@ PHP;
         array_push($treeElements, self::$sourceFileNode);
 
         foreach($treeElements as $element) {
-            $this->assertInstanceOf(Script::class, $element->getRoot());
+            $this->assertInstanceOf(SourceFileNode::class, $element->getRoot());
         }
     }
 
