@@ -84,13 +84,14 @@ class ParserGrammarTest extends TestCase {
 
     public function outTreeProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
-        foreach ($testCases as $case) {
-             $expectedTreeFiles[] = $filename = dirname($case) . "/" . basename($case) . ".tree";
-        }
-
+        $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
+        
         $testProviderArray = array();
-        foreach ($testCases as $index=>$testCase) {
-            $testProviderArray[basename($testCase)] = [$testCase, $expectedTreeFiles[$index]];
+        foreach ($testCases as $case) {
+            if (in_array(basename($case), $skipped)) {
+                continue;
+            }
+            $testProviderArray[basename($case)] = [$case, $case . ".tree"];
         }
 
         return $testProviderArray;
