@@ -1,4 +1,6 @@
 # Tolerant PHP Parser
+[![Build Status](https://travis-ci.org/Microsoft/tolerant-php-parser.svg?branch=master)](https://travis-ci.org/Microsoft/tolerant-php-parser)
+
 This is an early-stage PHP parser designed, from the beginning, for IDE usage scenarios (see [Design Goals](#design-goals) for more details). There is
 still a ton of work to be done, so at this point, this repo mostly serves as 
 an experiment and the start of a conversation.
@@ -101,9 +103,7 @@ A few of the PHP grammatical constructs (namely yield-expression, and template s
 are not yet supported and there are also other miscellaneous bugs. However, because the parser is error-tolerant,
 these errors are handled gracefully, and the resulting tree is otherwise complete. To get a more holistic sense for
 where we are, you can run the "validation" test suite (see [Contributing Guidelines](Contributing.md) for more info 
-on running tests).
-
-> TODO: set up public CI so that concrete status is more accessible
+on running tests). Or simply, take a look at the current [validation test results](https://travis-ci.org/Microsoft/tolerant-php-parser).
 
 Even though we haven't yet begun the performance optimization stage, we have seen promising results so far, 
 and have plenty more room for improvement. See [How It Works](docs/HowItWorks.md) for details on our current 
