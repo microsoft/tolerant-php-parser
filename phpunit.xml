@@ -53,6 +53,6 @@
     by reference properly in the API.
     https://github.com/Microsoft/tolerant-php-parser/issues/23
     -->
-    <ini name="memory_limit" value="256M"/>
+    <ini name="memory_limit" value="500M"/>
   </php>
 </phpunit>
