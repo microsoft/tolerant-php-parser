@@ -1,0 +1,29 @@
+language: php
+
+php:
+  - '7.1'
+
+env:
+  - VALIDATION=false
+  - VALIDATION=true
+
+os:
+  - linux
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - VALIDATION=true
+
+cache:
+  directories:
+    - validation/frameworks
+
+before_script:
+  - phpenv config-rm xdebug.ini
+
+script:
+  - if [[ "$VALIDATION" == "true" ]]; then phpunit --testsuite validation; fi
+  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite invariants; fi
+  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite grammar; fi
+  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite api; fi
