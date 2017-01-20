@@ -22,3 +22,6 @@
 [submodule "validation/frameworks/cakephp"]
 	path = validation/frameworks/cakephp
 	url = https://github.com/cakephp/cakephp
+[submodule "validation/frameworks/drupal"]
+	path = validation/frameworks/drupal
+	url = https://github.com/drupal/drupal
