@@ -10,6 +10,9 @@ use PhpParser\Node\Script;
 use PhpParser\Token;
 
 class Node implements \JsonSerializable {
+    /** @var array[] Map from node class to array of child keys */
+    private static $childKeys = [];
+
     /** @var Node | null */
     public $parent;
 
@@ -130,7 +133,7 @@ class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator | Token[]
      */
-    public function & getDescendantTokens(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantTokens(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
@@ -150,17 +153,22 @@ class Node implements \JsonSerializable {
      * @return \Generator | Token[] | Node[]
      */
     public function getChildNodesAndTokens() : \Generator {
-        foreach (\call_user_func('get_object_vars', $this) as $i=>$val) {
-            if ($i === "parent" || $i == "kind" || \is_string($val)) {
+        foreach ($this->getChildKeys() as $key) {
+            $val = $this->$key;
+            if (\is_string($val)) {
                 continue;
             }
             if (\is_array($val)) {
                 foreach ($val as $child) {
-                    $child === null ?: yield $i=>$child;
+                    if ($child !== null) {
+                        yield $key => $child;
+                    }
                 }
                 continue;
             }
-            $val === null ?: yield $i=>$val;
+            if ($val !== null) {
+                yield $key => $val;
+            }
         }
     }
 
@@ -168,11 +176,9 @@ class Node implements \JsonSerializable {
      * Gets generator containing all child Nodes (direct descendants)
      * @return \Generator | Node[]
      */
-    public function & getChildNodes() : \Generator {
-        foreach (get_object_vars($this) as $i=>$val) {
-            if ($i === "parent" || $i == "kind") {
-                continue;
-            }
+    public function getChildNodes() : \Generator {
+        foreach ($this->getChildKeys() as $key) {
+            $val = $this->$key;
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child instanceof Node) {
@@ -192,10 +198,8 @@ class Node implements \JsonSerializable {
      * @return \Generator|Token[]
      */
     public function getChildTokens() {
-        foreach (\call_user_func('get_object_vars', $this) as $i=>$val) {
-            if ($i === "parent" || $i == "kind") {
-                continue;
-            }
+        foreach ($this->getChildKeys() as $key) {
+            $val = $this->$key;
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child instanceof Token) {
@@ -207,6 +211,33 @@ class Node implements \JsonSerializable {
                 yield $val;
             }
         }
+    }
+
+    /**
+     * Gets array of declared child keys (cached).
+     *
+     * This is used as an optimization when iterating over nodes: For direct iteration
+     * PHP will create a properties hashtable on the object, thus doubling memory usage.
+     * We avoid this by iterating over just the keys instead.
+     *
+     * @return string[]
+     */
+    private function getChildKeys() {
+        $class = \get_class($this);
+        if (!isset(self::$childKeys[$class])) {
+            $keys = [];
+            $reflectionClass = new \ReflectionClass($class);
+            foreach ($reflectionClass->getProperties() as $property) {
+                if ($property->name === "parent" || $property->name === "kind") {
+                    continue;
+                }
+
+                $keys[] = $property->name;
+            }
+            self::$childKeys[$class] = $keys;
+        }
+
+        return self::$childKeys[$class];
     }
 
     /**
@@ -242,7 +273,7 @@ class Node implements \JsonSerializable {
     public function getText() : string {
         $fullText = "";
         $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $idx=> & $child) {
+        foreach ($this->getDescendantTokens() as $idx => $child) {
             $fullText .= $idx === 0 ? $child->getText($fileContents) : $child->getFullText($fileContents);
         }
         return $fullText;
@@ -255,7 +286,7 @@ class Node implements \JsonSerializable {
     public function getFullText() : string {
         $fullText = "";
         $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as & $child) {
+        foreach ($this->getDescendantTokens() as $child) {
             $fullText .= $child->getFullText($fileContents);
         }
         return $fullText;
