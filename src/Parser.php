@@ -351,7 +351,6 @@ class Parser {
     }
 
     function isInParseContext($contextToCheck) {
-        $this->currentParseContext;
         return ($this->currentParseContext & (1 << $contextToCheck));
     }
 
