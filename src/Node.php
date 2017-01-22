@@ -155,9 +155,6 @@ class Node implements \JsonSerializable {
     public function getChildNodesAndTokens() : \Generator {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
-            if (\is_string($val)) {
-                continue;
-            }
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child !== null) {
@@ -307,12 +304,7 @@ class Node implements \JsonSerializable {
     protected function getChildrenKvPairs() {
         $result = array();
         foreach ($this->getChildNames() as $name) {
-            $val = $this->$name;
-            if (\is_string($val)) {
-                continue;
-            }
-
-            $result[$name] = $val;
+            $result[$name] = $this->$name;
         }
         return $result;
     }
