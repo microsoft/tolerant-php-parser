@@ -11,7 +11,7 @@ use PhpParser\Token;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
-    private static $childKeys = [];
+    private static $childNames = [];
 
     /** @var Node | null */
     public $parent;
@@ -153,21 +153,21 @@ class Node implements \JsonSerializable {
      * @return \Generator | Token[] | Node[]
      */
     public function getChildNodesAndTokens() : \Generator {
-        foreach ($this->getChildKeys() as $key) {
-            $val = $this->$key;
+        foreach ($this->getChildNames() as $name) {
+            $val = $this->$name;
             if (\is_string($val)) {
                 continue;
             }
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child !== null) {
-                        yield $key => $child;
+                        yield $name => $child;
                     }
                 }
                 continue;
             }
             if ($val !== null) {
-                yield $key => $val;
+                yield $name => $val;
             }
         }
     }
@@ -177,8 +177,8 @@ class Node implements \JsonSerializable {
      * @return \Generator | Node[]
      */
     public function getChildNodes() : \Generator {
-        foreach ($this->getChildKeys() as $key) {
-            $val = $this->$key;
+        foreach ($this->getChildNames() as $name) {
+            $val = $this->$name;
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child instanceof Node) {
@@ -198,8 +198,8 @@ class Node implements \JsonSerializable {
      * @return \Generator|Token[]
      */
     public function getChildTokens() {
-        foreach ($this->getChildKeys() as $key) {
-            $val = $this->$key;
+        foreach ($this->getChildNames() as $name) {
+            $val = $this->$name;
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child instanceof Token) {
@@ -214,30 +214,30 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets array of declared child keys (cached).
+     * Gets array of declared child names (cached).
      *
      * This is used as an optimization when iterating over nodes: For direct iteration
      * PHP will create a properties hashtable on the object, thus doubling memory usage.
-     * We avoid this by iterating over just the keys instead.
+     * We avoid this by iterating over just the names instead.
      *
      * @return string[]
      */
-    private function getChildKeys() {
+    public function getChildNames() {
         $class = \get_class($this);
-        if (!isset(self::$childKeys[$class])) {
-            $keys = [];
+        if (!isset(self::$childNames[$class])) {
+            $names = [];
             $reflectionClass = new \ReflectionClass($class);
             foreach ($reflectionClass->getProperties() as $property) {
-                if ($property->name === "parent" || $property->name === "kind") {
+                if ($property->name === "parent") {
                     continue;
                 }
 
-                $keys[] = $property->name;
+                $names[] = $property->name;
             }
-            self::$childKeys[$class] = $keys;
+            self::$childNames[$class] = $names;
         }
 
-        return self::$childKeys[$class];
+        return self::$childNames[$class];
     }
 
     /**
@@ -306,12 +306,13 @@ class Node implements \JsonSerializable {
 
     protected function getChildrenKvPairs() {
         $result = array();
-        foreach (\call_user_func('get_object_vars', $this) as $i=>$val) {
-            if ($i === "parent" || $i == "kind" || \is_string($val)) {
+        foreach ($this->getChildNames() as $name) {
+            $val = $this->$name;
+            if (\is_string($val)) {
                 continue;
             }
 
-            $result[$i] = $val;
+            $result[$name] = $val;
         }
         return $result;
     }
