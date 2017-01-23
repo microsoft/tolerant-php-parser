@@ -23,11 +23,11 @@ file_put_contents($argv[1] . ".ast", json_encode($sourceFile, JSON_PRETTY_PRINT)
 $diagnostics = Utilities::getDiagnostics($sourceFile);
 $diagnosticsAsLineCol = [];
 foreach ($diagnostics as $diagnostic) {
-    array_push($diagnosticsAsLineCol, [
+    $diagnosticsAsLineCol[] = [
         "error" => $diagnostic->kind,
         "message" => $diagnostic->message,
         "range" => Utilities::getRangeFromPosition($diagnostic->start, $diagnostic->length, $contents)
-    ]);
+    ];
 }
 
 //echo $argv[1];
