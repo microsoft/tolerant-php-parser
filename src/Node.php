@@ -32,7 +32,7 @@ class Node implements \JsonSerializable {
      * @throws \Exception
      */
     public function getStart() : int {
-        $child = iterator_to_array($this->getChildNodesAndTokens())[0];
+        $child = $this->getChildNodesAndTokens()->current();
         if ($child instanceof Node) {
             return $child->getStart();
         } elseif ($child instanceof Token) {
@@ -100,9 +100,7 @@ class Node implements \JsonSerializable {
             if ($child instanceof Node) {
                 yield $child;
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    foreach ($child->getDescendantNodesAndTokens($shouldDescendIntoChildrenFn) as $subChild) {
-                        yield $subChild;
-                    }
+                    yield from $child->getDescendantNodesAndTokens($shouldDescendIntoChildrenFn);
                 }
             } elseif ($child instanceof Token) {
                 yield $child;
@@ -120,9 +118,7 @@ class Node implements \JsonSerializable {
             if ($child instanceof Node) {
                 yield $child;
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    foreach ($child->getDescendantNodes() as $subChild) { // TODO validate invariant - only returns nodes
-                        $subChild === null ?: yield $subChild;
-                    }
+                    yield from $child->getDescendantNodes();
                 }
             }
         }
@@ -137,9 +133,7 @@ class Node implements \JsonSerializable {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    foreach ($child->getDescendantTokens($shouldDescendIntoChildrenFn) as $subChild) {
-                        yield $subChild;
-                    }
+                    yield from $child->getDescendantTokens($shouldDescendIntoChildrenFn);
                 }
             } elseif ($child instanceof Token) {
                 yield $child;
@@ -244,8 +238,14 @@ class Node implements \JsonSerializable {
      */
     public function getWidth() : int {
         $width = 0;
-        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
-            $width += $idx === 0 ? $child->getWidth() : $child->getFullWidth();
+        $first = true;
+        foreach ($this->getChildNodesAndTokens() as $child) {
+            if ($first) {
+                $width += $child->getWidth();
+                $first = false;
+            } else {
+                $width += $child->getFullWidth();
+            }
         }
         return $width;
     }
@@ -270,8 +270,14 @@ class Node implements \JsonSerializable {
     public function getText() : string {
         $fullText = "";
         $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $idx => $child) {
-            $fullText .= $idx === 0 ? $child->getText($fileContents) : $child->getFullText($fileContents);
+        $first = true;
+        foreach ($this->getDescendantTokens() as $child) {
+            if ($first) {
+                $fullText .= $child->getText($fileContents);
+                $first = false;
+            } else {
+                $fullText .= $child->getFullText($fileContents);
+            }
         }
         return $fullText;
     }
@@ -374,7 +380,7 @@ class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getDescendantNodeAtPosition(int $pos) {
-        $descendants = iterator_to_array($this->getDescendantNodes());
+        $descendants = iterator_to_array($this->getDescendantNodes(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
             if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEndPosition()) {
