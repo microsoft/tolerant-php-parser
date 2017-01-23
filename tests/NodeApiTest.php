@@ -41,7 +41,7 @@ PHP;
 
     public function testRootNodeIsScript() {
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
-        array_push($treeElements, self::$sourceFileNode);
+        $treeElements[] = self::$sourceFileNode;
 
         foreach($treeElements as $element) {
             $this->assertInstanceOf(SourceFileNode::class, $element->getRoot());
@@ -50,7 +50,7 @@ PHP;
 
     public function testFileContentsRetrievableFromAnyNode() {
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
-        array_push($treeElements, self::$sourceFileNode);
+        $treeElements[] = self::$sourceFileNode;
 
         foreach($treeElements as $element) {
             $this->assertEquals(self::FILE_CONTENTS, $element->getFileContents());

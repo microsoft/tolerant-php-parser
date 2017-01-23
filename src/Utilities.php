@@ -79,7 +79,7 @@ class Utilities {
         $newlinePos = -1;
         while ($newlinePos = strpos($text, "\n", $newlinePos + 1)) {        
             if ($newlinePos < $pos) {
-                array_push($newlinePositions, $newlinePos);
+                $newlinePositions[] = $newlinePos;
                 continue;
             }
             break;

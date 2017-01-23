@@ -39,7 +39,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             $tokensArray = array();
             foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
                 if ($child instanceof \PhpParser\Token) {
-                    array_push($tokensArray, $child);
+                    $tokensArray[] = $child;
                 }
             }
             $testFiles[basename($filename)] = [$filename, $tokensArray];
@@ -77,7 +77,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testEveryNodeSpanIsSumOfChildSpans($filename, Node $sourceFileNode) {
         $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens(), false);
-        array_push($treeElements, $sourceFileNode);
+        $treeElements[] = $sourceFileNode;
 
         foreach ($treeElements as $element) {
             if ($element instanceof Node) {
@@ -116,7 +116,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testEachChildHasExactlyOneParent($filename, Node $sourceFileNode) {
         $allTreeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens(), false);
-        array_push($allTreeElements, $sourceFileNode);
+        $allTreeElements[] = $sourceFileNode;
 
         foreach ($sourceFileNode->getDescendantNodesAndTokens() as $childWithParent) {
             $count = 0;
@@ -139,7 +139,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testEveryChildIsNodeOrTokenType($filename, Node $sourceFileNode) {
         $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens(), false);
-        array_push($treeElements, $sourceFileNode);
+        $treeElements[] = $sourceFileNode;
 
         foreach ($sourceFileNode->getDescendantNodes() as $descendant) {
             foreach ($descendant->getChildNodesAndTokens() as $child) {
@@ -165,7 +165,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testRootNodeIsNeverAChild($filename, Node $sourceFileNode) {
         $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens(), false);
-        array_push($treeElements, $sourceFileNode);
+        $treeElements[] = $sourceFileNode;
 
         foreach($treeElements as $element) {
             if ($element instanceof Node) {
@@ -181,7 +181,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testEveryNodeHasAKind($filename, Node $sourceFileNode) {
         $treeElements = iterator_to_array($sourceFileNode->getDescendantNodes(), false);
-        array_push($treeElements, $sourceFileNode);
+        $treeElements[] = $sourceFileNode;
 
         foreach($treeElements as $element) {
             $this->assertNotNull(

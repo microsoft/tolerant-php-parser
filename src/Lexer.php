@@ -31,7 +31,7 @@ class Lexer implements ITokenStreamProvider {
 
         do {
             $token = $this->scanNextToken();
-            array_push($tokensArray, $token);
+            $tokensArray[] = $token;
         } while ($token->kind != TokenKind::EndOfFileToken);
 
         return $tokensArray;

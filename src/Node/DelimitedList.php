@@ -34,6 +34,6 @@ class DelimitedList extends Node {
         if (!isset($this->children)) {
             $this->children = array();
         }
-        array_push($this->children, $node);
+        $this->children[] = $node;
     }
 }
