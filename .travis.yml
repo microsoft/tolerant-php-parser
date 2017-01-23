@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - '7.1'
+  - 7.1
 
 env:
   - VALIDATION=false
@@ -23,7 +23,11 @@ before_script:
   - phpenv config-rm xdebug.ini
 
 script:
-  - if [[ "$VALIDATION" == "true" ]]; then phpunit --testsuite validation; fi
-  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite invariants; fi
-  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite grammar; fi
-  - if [[ "$VALIDATION" != "true" ]]; then phpunit --testsuite api; fi
+  - |
+    if [[ $VALIDATION = true ]]; then
+      phpunit --testsuite validation
+    else
+      phpunit --testsuite invariants
+      phpunit --testsuite grammar
+      phpunit --testsuite api
+    fi
