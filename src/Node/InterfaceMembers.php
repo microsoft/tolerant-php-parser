@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class InterfaceMembers extends Node {

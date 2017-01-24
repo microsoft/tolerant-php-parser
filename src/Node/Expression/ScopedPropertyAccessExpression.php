@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
 use PhpParser\Node\QualifiedName;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ScopedPropertyAccessExpression extends Expression {

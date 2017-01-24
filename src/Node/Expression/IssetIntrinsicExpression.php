@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class IssetIntrinsicExpression extends Expression {

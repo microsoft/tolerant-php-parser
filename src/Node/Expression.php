@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 
 class Expression extends Node {
 

@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\DelimitedList;
 use PhpParser\Node\DelimitedList;
-use PhpParser\NodeKind;
 
 class QualifiedNameList extends DelimitedList {
 

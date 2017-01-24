@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class PrefixUpdateExpression extends UnaryExpression {

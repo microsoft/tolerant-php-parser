@@ -7,10 +7,7 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
-use PhpParser\SkippedToken;
 use PhpParser\Token;
-use PhpParser\TokenKind;
 
 class UseVariableName extends Node {
     /** @var Token | null */

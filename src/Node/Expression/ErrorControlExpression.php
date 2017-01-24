@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Expression;
 
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ErrorControlExpression extends UnaryExpression {

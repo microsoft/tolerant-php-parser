@@ -8,7 +8,6 @@ namespace PhpParser\Node;
 
 use PhpParser\Node;
 use PhpParser\Node\DelimitedList\UseVariableNameList;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class AnonymousFunctionUseClause extends Node {
