@@ -18,7 +18,7 @@ class MemberAccessExpression extends Expression {
     /** @var Token */
     public $arrowToken;
 
-    /** @var MemberName */
+    /** @var Token */
     public $memberName;
 
     public function __construct() {
