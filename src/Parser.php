@@ -1396,7 +1396,7 @@ class Parser {
                 case TokenKind::IncludeOnceKeyword:
                 case TokenKind::RequireKeyword:
                 case TokenKind::RequireOnceKeyword:
-                    $scriptInclusionExpression = new ScriptInclusionExpression($parentNode);
+                    $scriptInclusionExpression = new ScriptInclusionExpression();
                     $scriptInclusionExpression->parent = $parentNode;
                     $scriptInclusionExpression->requireOrIncludeKeyword =
                         $this->eat (
