@@ -24,7 +24,4 @@ class AssignmentExpression extends BinaryExpression {
     /** @var Expression */
     public $rightOperand;
 
-    public function __construct() {
-        parent::__construct(NodeKind::AssignmentExpression);
-    }
 }

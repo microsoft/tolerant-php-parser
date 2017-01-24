@@ -19,8 +19,4 @@ class TraitMembers extends Node {
 
     /** @var Token */
     public $closeBrace;
-
-    public function __construct() {
-        parent::__construct(NodeKind::TraitMembers);
-    }
 }

@@ -17,7 +17,4 @@ class RelativeSpecifier extends Node {
     /** @var Token */
     public $backslash;
 
-    public function __construct() {
-        parent::__construct(NodeKind::RelativeSpecifier);
-    }
 }

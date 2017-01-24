@@ -19,7 +19,4 @@ class EchoExpression extends Expression {
     /** @var Expression[] */
     public $expressions;
 
-    public function __construct() {
-        parent::__construct(NodeKind::EchoExpression);
-    }
 }

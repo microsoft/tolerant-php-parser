@@ -17,7 +17,4 @@ class InterfaceBaseClause extends Node {
     /** @var DelimitedList\QualifiedNameList */
     public $interfaceNameList;
 
-    public function __construct() {
-        parent::__construct(NodeKind::InterfaceBaseClause);
-    }
 }

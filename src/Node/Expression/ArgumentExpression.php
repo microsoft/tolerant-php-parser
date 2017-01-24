@@ -19,7 +19,4 @@ class ArgumentExpression extends Expression {
     /** @var Expression */
     public $expression;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ArgumentExpression);
-    }
 }

@@ -18,7 +18,4 @@ class DeclareDirective extends Node {
     /** @var Token */
     public $literal;
 
-    public function __construct() {
-        parent::__construct(NodeKind::DeclareDirective);
-    }
 }

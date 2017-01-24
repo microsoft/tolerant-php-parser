@@ -17,7 +17,4 @@ class ClassBaseClause extends Node {
     /** @var Name */
     public $baseClass;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ClassBaseClause);
-    }
 }

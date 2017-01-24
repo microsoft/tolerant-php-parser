@@ -10,7 +10,6 @@ use PhpParser\Node\DelimitedList;
 use PhpParser\Node\NamespaceAliasingClause;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class NamespaceUseDeclaration extends StatementNode {
@@ -31,7 +30,4 @@ class NamespaceUseDeclaration extends StatementNode {
     /** @var Token */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamespaceUseDeclaration);
-    }
 }

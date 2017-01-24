@@ -24,7 +24,4 @@ class TraitSelectOrAliasClause extends Node {
     /** @var Token */
     public $targetName;
 
-    public function __construct() {
-        parent::__construct(NodeKind::TraitSelectOrAliasClause);
-    }
 }

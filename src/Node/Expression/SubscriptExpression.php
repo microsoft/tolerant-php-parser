@@ -22,9 +22,4 @@ class SubscriptExpression extends Expression {
 
     /** @var Token */
     public $closeBracketOrBrace;
-
-
-    public function __construct() {
-        parent::__construct(NodeKind::SubscriptExpression);
-    }
 }

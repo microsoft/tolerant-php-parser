@@ -23,8 +23,4 @@ class ArrayElement extends Node {
 
     /** @var Expression */
     public $elementValue;
-
-    public function __construct() {
-        parent::__construct(NodeKind::ArrayElement);
-    }
 }

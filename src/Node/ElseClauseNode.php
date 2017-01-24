@@ -18,7 +18,4 @@ class ElseClauseNode extends Node {
     /**@var StatementNode | StatementNode[] */
     public $statements;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ElseClauseNode);
-    }
 }

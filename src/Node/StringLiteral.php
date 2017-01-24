@@ -20,10 +20,6 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $endQuote;
 
-    public function __construct() {
-        parent::__construct(NodeKind::StringLiteral);
-    }
-
     public function getStringContentsText() {
         // TODO add tests
         $stringContents = "";

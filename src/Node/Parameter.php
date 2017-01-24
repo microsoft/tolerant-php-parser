@@ -27,11 +27,6 @@ class Parameter extends Node {
     /** @var null | Expression */
     public $default;
 
-
-    public function __construct() {
-        parent::__construct(NodeKind::Parameter);
-    }
-
     public function isVariadic() {
 
     }

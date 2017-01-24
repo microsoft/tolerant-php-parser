@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class BreakOrContinueStatement extends StatementNode {
@@ -16,8 +15,4 @@ class BreakOrContinueStatement extends StatementNode {
     public $breakoutLevel;
     /** @var Token */
     public $semicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::BreakOrContinueStatement);
-    }
 }

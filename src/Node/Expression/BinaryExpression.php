@@ -21,7 +21,4 @@ class BinaryExpression extends Expression {
     /** @var Expression */
     public $rightOperand;
 
-    public function __construct($kind = NodeKind::BinaryExpression) {
-        parent::__construct($kind);
-    }
 }

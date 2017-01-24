@@ -9,7 +9,5 @@ use PhpParser\Node\DelimitedList;
 use PhpParser\NodeKind;
 
 class QualifiedNameList extends DelimitedList {
-    public function __construct() {
-        parent::__construct(NodeKind::QualifiedNameList);
-    }
+
 }

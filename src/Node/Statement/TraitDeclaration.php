@@ -9,7 +9,6 @@ namespace PhpParser\Node\Statement;
 use PhpParser\Node\Name;
 use PhpParser\Node\StatementNode;
 use PhpParser\Node\TraitMembers;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class TraitDeclaration extends StatementNode {
@@ -23,7 +22,4 @@ class TraitDeclaration extends StatementNode {
     /** @var TraitMembers */
     public $traitMembers;
 
-    public function __construct() {
-        parent::__construct(NodeKind::TraitDeclaration);
-    }
 }

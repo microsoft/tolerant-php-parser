@@ -22,7 +22,4 @@ class ScopedPropertyAccessExpression extends Expression {
     /** @var Token | Variable */
     public $memberName;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ScopedPropertyAccessExpression);
-    }
 }

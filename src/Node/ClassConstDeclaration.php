@@ -24,7 +24,4 @@ class ClassConstDeclaration extends Node {
     /** @var Token */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ClassConstDeclaration);
-    }
 }

@@ -27,7 +27,4 @@ class TraitUseClause extends Node {
     /** @var Token */
     public $closeBrace;
 
-    public function __construct() {
-        parent::__construct(NodeKind::TraitUseClause);
-    }
 }

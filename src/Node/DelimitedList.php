@@ -14,10 +14,6 @@ class DelimitedList extends Node {
     /** @var Token[]|Node[] */
     public $children;
 
-    public function __construct($nodeKind = NodeKind::DelimitedList) {
-        parent::__construct($nodeKind);
-    }
-
     public function getValues() {
         $i = 0;
         foreach($this->children as $value) {

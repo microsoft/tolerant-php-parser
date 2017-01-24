@@ -21,7 +21,4 @@ class MemberAccessExpression extends Expression {
     /** @var Token */
     public $memberName;
 
-    public function __construct() {
-        parent::__construct(NodeKind::MemberAccessExpression);
-    }
 }

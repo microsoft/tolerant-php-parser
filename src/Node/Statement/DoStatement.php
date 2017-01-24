@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class DoStatement extends StatementNode {
@@ -25,8 +24,4 @@ class DoStatement extends StatementNode {
     public $closeParen;
     /**@var Token | null */
     public $semicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::DoStatement);
-    }
 }

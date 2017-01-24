@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ForStatement extends StatementNode {
@@ -35,8 +34,4 @@ class ForStatement extends StatementNode {
     public $endFor;
     /**@var Token | null */
     public $endForSemicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::ForStatement);
-    }
 }

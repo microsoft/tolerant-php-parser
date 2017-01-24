@@ -19,7 +19,4 @@ class QualifiedName extends Node {
     /** @var DelimitedList\QualifiedNameParts */
     public $nameParts;
 
-    public function __construct() {
-        parent::__construct(NodeKind::QualifiedName);
-    }
 }

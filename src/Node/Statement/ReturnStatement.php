@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ReturnStatement extends StatementNode {
@@ -18,7 +17,4 @@ class ReturnStatement extends StatementNode {
     /** @var Token */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ReturnStatement);
-    }
 }

@@ -16,7 +16,4 @@ class NamespaceAliasingClause extends Node {
     /** @var Token */
     public $name;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamespaceAliasingClause);
-    }
 }

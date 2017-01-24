@@ -19,7 +19,4 @@ class PostfixUpdateExpression extends Expression {
     /** @var Token */
     public $incrementOrDecrementOperator;
 
-    public function __construct() {
-        parent::__construct(NodeKind::PostfixUpdateExpression);
-    }
 }

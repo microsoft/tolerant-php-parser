@@ -17,7 +17,4 @@ class ClassInterfaceClause extends Node {
     /** @var DelimitedList\QualifiedNameList | null */
     public $interfaceNameList;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ClassInterfaceClause);
-    }
 }

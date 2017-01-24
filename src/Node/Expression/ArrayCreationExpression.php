@@ -25,7 +25,4 @@ class ArrayCreationExpression extends Expression {
     /** @var Token */
     public $closeParenOrBracket;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ArrayCreationExpression);
-    }
 }

@@ -24,7 +24,4 @@ class CatchClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
-    public function __construct() {
-        parent::__construct(NodeKind::CatchClause);
-    }
 }

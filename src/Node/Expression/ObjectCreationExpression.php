@@ -42,7 +42,4 @@ class ObjectCreationExpression extends Expression {
     /** @var ClassMembersNode | null */
     public $classMembers;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ObjectCreationExpression);
-    }
 }

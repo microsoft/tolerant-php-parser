@@ -21,7 +21,4 @@ class StaticVariableDeclaration extends Node {
     /** @var Expression | null */
     public $assignment;
 
-    public function __construct() {
-        parent::__construct(NodeKind::StaticVariableDeclaration);
-    }
 }

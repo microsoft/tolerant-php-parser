@@ -26,8 +26,4 @@ class TernaryExpression extends Expression {
 
     /** @var Expression */
     public $elseExpression;
-
-    public function __construct() {
-        parent::__construct(NodeKind::TernaryExpression);
-    }
 }

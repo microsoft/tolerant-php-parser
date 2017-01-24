@@ -16,7 +16,4 @@ class ForeachValue extends Node {
     /** @var Expression */
     public $expression;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ForeachValue);
-    }
 }

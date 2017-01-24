@@ -9,7 +9,6 @@ use PhpParser\Node\Expression;
 use PhpParser\Node\ForeachKey;
 use PhpParser\Node\ForeachValue;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ForeachStatement extends StatementNode {
@@ -35,8 +34,4 @@ class ForeachStatement extends StatementNode {
     public $endForeach;
     /**@var Token | null */
     public $endForeachSemicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::ForeachStatement);
-    }
 }

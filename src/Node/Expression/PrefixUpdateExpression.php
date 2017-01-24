@@ -18,7 +18,4 @@ class PrefixUpdateExpression extends UnaryExpression {
     /** @var Variable */
     public $operand;
 
-    public function __construct() {
-        parent::__construct(NodeKind::PrefixUpdateExpression);
-    }
 }

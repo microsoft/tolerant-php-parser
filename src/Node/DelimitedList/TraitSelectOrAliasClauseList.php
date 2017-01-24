@@ -9,7 +9,5 @@ use PhpParser\Node\DelimitedList;
 use PhpParser\NodeKind;
 
 class TraitSelectOrAliasClauseList extends DelimitedList {
-    public function __construct() {
-        parent::__construct(NodeKind::TraitSelectOrAliasClauseList);
-    }
+
 }

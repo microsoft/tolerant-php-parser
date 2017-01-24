@@ -18,7 +18,4 @@ class DefaultStatementNode extends Node {
     /**@var StatementNode[] */
     public $statementList;
 
-    public function __construct() {
-        parent::__construct(NodeKind::DefaultStatementNode);
-    }
 }

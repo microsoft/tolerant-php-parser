@@ -19,7 +19,4 @@ class NamespaceUseGroupClause extends Node {
     /** @var  NamespaceAliasingClause */
     public $namespaceAliasingClause;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamespaceUseGroupClause);
-    }
 }

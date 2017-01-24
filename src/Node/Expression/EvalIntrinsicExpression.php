@@ -24,7 +24,4 @@ class EvalIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
-    public function __construct() {
-        parent::__construct(NodeKind::EvalIntrinsicExpression);
-    }
 }

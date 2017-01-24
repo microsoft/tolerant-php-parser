@@ -17,7 +17,4 @@ class MethodDeclaration extends Node {
     
     use FunctionHeader, FunctionReturnType, FunctionBody;
 
-    public function __construct() {
-        parent::__construct(NodeKind::MethodDeclaration);
-    }
 }

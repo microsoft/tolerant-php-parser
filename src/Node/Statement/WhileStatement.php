@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class WhileStatement extends StatementNode {
@@ -27,8 +26,4 @@ class WhileStatement extends StatementNode {
     public $endWhile;
     /**@var Token | null */
     public $semicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::WhileStatement);
-    }
 }

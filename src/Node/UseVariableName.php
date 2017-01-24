@@ -18,8 +18,4 @@ class UseVariableName extends Node {
 
     /** @var Token */
     public $variableName;
-
-    public function __construct() {
-        parent::__construct(NodeKind::UseVariableName);
-    }
 }

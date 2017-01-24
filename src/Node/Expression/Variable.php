@@ -17,7 +17,4 @@ class Variable extends Expression {
     /** @var Token | Variable | BracedExpression */
     public $name;
 
-    public function __construct() {
-        parent::__construct(NodeKind::Variable);
-    }
 }

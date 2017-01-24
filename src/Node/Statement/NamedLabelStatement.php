@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class NamedLabelStatement extends StatementNode {
@@ -17,7 +16,4 @@ class NamedLabelStatement extends StatementNode {
     /** @var StatementNode */
     public $statement;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamedLabelStatement);
-    }
 }

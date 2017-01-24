@@ -21,7 +21,4 @@ class ConstElement extends Node {
     /** @var Expression */
     public $assignment;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ConstElement);
-    }
 }

@@ -20,10 +20,6 @@ class SourceFileNode extends Node {
     /** @var Token */
     public $endOfFileToken;
 
-    public function __construct() {
-        parent::__construct(NodeKind::SourceFileNode);
-    }
-
     public function getChildNames() {
         // Override method to exclude fileContents from child names
         return ['statementList', 'endOfFileToken'];
