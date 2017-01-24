@@ -234,7 +234,7 @@ class Lexer implements ITokenStreamProvider {
         $token->kind = $this->keywordOrReservedWordTokens[$lowerKeywordStart];
         if ($token->kind === TokenKind::YieldKeyword) {
             $savedPos = $pos;
-            $nextToken = $this->scanNextToken($text, $pos, $endOfFilePos);
+            $nextToken = $this->scanNextToken();
             if (preg_replace('/\s+/','', strtolower($nextToken->getFullText($text))) === "from") {
                 $token->kind = TokenKind::YieldFromKeyword;
                 $token->length = $pos - $token->fullStart;
