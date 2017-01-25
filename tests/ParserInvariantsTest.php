@@ -185,7 +185,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
 
         foreach($treeElements as $element) {
             $this->assertNotNull(
-                $element->getKind(),
+                $element->getNodeKindName(),
                 "Invariant: Every Node has a Kind");
         }
     }
