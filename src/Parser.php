@@ -2365,7 +2365,9 @@ class Parser {
             $objectCreationExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
         }
 
-        // TODO parse extends, implements
+        $objectCreationExpression->classBaseClause = $this->parseClassBaseClause($objectCreationExpression);
+
+        // TODO parse implements
 
         if ($this->getCurrentToken()->kind === TokenKind::OpenBraceToken) {
             $objectCreationExpression->classMembers = $this->parseClassMembers($objectCreationExpression);
