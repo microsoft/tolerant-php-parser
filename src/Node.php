@@ -37,11 +37,15 @@ abstract class Node implements \JsonSerializable {
      */
     public function getFullStart() : int {
         $child = $this->getChildNodesAndTokens()->current();
+
         if ($child instanceof Node) {
             return $child->getFullStart();
-        } elseif ($child instanceof Token) {
+        }
+
+        if ($child instanceof Token) {
             return $child->fullStart;
         }
+
         throw new \Exception("Unknown type in AST: " . \gettype($child));
     }
 
