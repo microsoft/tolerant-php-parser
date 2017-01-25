@@ -80,14 +80,15 @@ class Lexer implements ITokenStreamProvider {
                 if (!$this->isScriptStartTag($text, $pos, $endOfFilePos)) {
                     $pos++;
                     continue;
-                } else {
-                    // Mark that a script section has begun, and return the scanned text as InlineHtml
-                    $this->inScriptSection = true;
-                    if ($pos-$fullStart === 0) {
-                        continue;
-                    }
-                    return new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
                 }
+                
+                // Mark that a script section has begun, and return the scanned text as InlineHtml
+                $this->inScriptSection = true;
+                if ($pos-$fullStart === 0) {
+                    continue;
+                }
+                
+                return new Token(TokenKind::InlineHtml, $fullStart, $fullStart, $pos-$fullStart);
             }
             
             $charCode = ord($text[$pos]);
