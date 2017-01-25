@@ -15,4 +15,8 @@ class UnaryOpExpression extends UnaryExpression {
 
     /** @var UnaryExpression */
     public $operand;
+
+    public function getNodeKindName() : string {
+        return 'UnaryOpExpression';
+    }
 }

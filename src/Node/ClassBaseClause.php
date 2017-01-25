@@ -16,4 +16,8 @@ class ClassBaseClause extends Node {
     /** @var Name */
     public $baseClass;
 
+    public function getNodeKindName() : string {
+        return 'ClassBaseClause';
+    }
+
 }

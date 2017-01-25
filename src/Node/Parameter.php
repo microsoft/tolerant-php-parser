@@ -29,4 +29,8 @@ class Parameter extends Node {
     public function isVariadic() {
 
     }
+
+    public function getNodeKindName() : string {
+        return 'Parameter';
+    }
 }

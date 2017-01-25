@@ -10,4 +10,7 @@ use PhpParser\Node;
 
 class Expression extends Node {
 
+    public function getNodeKindName() : string {
+        return 'Expression';
+    }
 }

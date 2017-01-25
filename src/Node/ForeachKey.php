@@ -15,4 +15,8 @@ class ForeachKey extends Node {
     /** @var Token */
     public $arrow;
 
+    public function getNodeKindName() : string {
+        return 'ForeachKey';
+    }
+
 }

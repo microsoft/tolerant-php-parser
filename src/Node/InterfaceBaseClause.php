@@ -16,4 +16,8 @@ class InterfaceBaseClause extends Node {
     /** @var DelimitedList\QualifiedNameList */
     public $interfaceNameList;
 
+    public function getNodeKindName() : string {
+        return 'InterfaceBaseClause';
+    }
+
 }

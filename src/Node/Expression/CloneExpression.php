@@ -17,4 +17,8 @@ class CloneExpression extends Expression {
     /** @var Expression */
     public $expression;
 
+    public function getNodeKindName() : string {
+        return 'CloneExpression';
+    }
+
 }

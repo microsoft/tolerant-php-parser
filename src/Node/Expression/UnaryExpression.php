@@ -11,4 +11,8 @@ use PhpParser\Node\Expression;
 class UnaryExpression extends Expression  {
     /** @var UnaryExpression | Variable */
     public $operand;
+
+    public function getNodeKindName() : string {
+        return 'UnaryExpression';
+    }
 }

@@ -16,4 +16,8 @@ class Variable extends Expression {
     /** @var Token | Variable | BracedExpression */
     public $name;
 
+    public function getNodeKindName() : string {
+        return 'Variable';
+    }
+
 }

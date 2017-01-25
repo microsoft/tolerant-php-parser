@@ -15,4 +15,8 @@ class FinallyClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
+    public function getNodeKindName() : string {
+        return 'FinallyClause';
+    }
+
 }

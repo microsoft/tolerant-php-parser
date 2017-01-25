@@ -9,4 +9,8 @@ use PhpParser\Node\DelimitedList;
 
 class ArrayElementList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'ArrayElementList';
+    }
+
 }

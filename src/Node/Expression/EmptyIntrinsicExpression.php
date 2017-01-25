@@ -23,4 +23,8 @@ class EmptyIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
+    public function getNodeKindName() : string {
+        return 'EmptyIntrinsicExpression';
+    }
+
 }

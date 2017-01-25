@@ -20,4 +20,8 @@ class MemberAccessExpression extends Expression {
     /** @var Token */
     public $memberName;
 
+    public function getNodeKindName() : string {
+        return 'MemberAccessExpression';
+    }
+
 }

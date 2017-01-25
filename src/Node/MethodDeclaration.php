@@ -15,4 +15,8 @@ class MethodDeclaration extends Node {
     
     use FunctionHeader, FunctionReturnType, FunctionBody;
 
+    public function getNodeKindName() : string {
+        return 'MethodDeclaration';
+    }
+
 }

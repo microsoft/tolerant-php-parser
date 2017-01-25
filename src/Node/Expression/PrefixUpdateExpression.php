@@ -17,4 +17,8 @@ class PrefixUpdateExpression extends UnaryExpression {
     /** @var Variable */
     public $operand;
 
+    public function getNodeKindName() : string {
+        return 'PrefixUpdateExpression';
+    }
+
 }

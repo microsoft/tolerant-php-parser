@@ -16,4 +16,8 @@ class NamedLabelStatement extends StatementNode {
     /** @var StatementNode */
     public $statement;
 
+    public function getNodeKindName() : string {
+        return 'NamedLabelStatement';
+    }
+
 }

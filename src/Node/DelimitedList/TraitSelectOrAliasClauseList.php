@@ -9,4 +9,7 @@ use PhpParser\Node\DelimitedList;
 
 class TraitSelectOrAliasClauseList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'TraitSelectOrAliasClauseList';
+    }
 }

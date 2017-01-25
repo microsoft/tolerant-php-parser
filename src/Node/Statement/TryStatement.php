@@ -20,4 +20,8 @@ class TryStatement extends StatementNode {
     /**@var FinallyClause | null */
     public $finallyClause;
 
+    public function getNodeKindName() : string {
+        return 'TryStatement';
+    }
+
 }

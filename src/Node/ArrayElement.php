@@ -22,4 +22,8 @@ class ArrayElement extends Node {
 
     /** @var Expression */
     public $elementValue;
+
+    public function getNodeKindName() : string {
+        return 'ArrayElement';
+    }
 }

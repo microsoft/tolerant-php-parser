@@ -31,4 +31,8 @@ class ClassDeclaration extends StatementNode {
 
     /** @var ClassMembersNode */
     public $classMembers;
+
+    public function getNodeKindName() : string {
+        return 'ClassDeclaration';
+    }
 }

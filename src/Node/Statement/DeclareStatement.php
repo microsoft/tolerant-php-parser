@@ -27,4 +27,8 @@ class DeclareStatement extends StatementNode {
     public $enddeclareKeyword;
     /** @var Token | null */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'DeclareStatement';
+    }
 }

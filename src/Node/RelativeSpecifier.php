@@ -16,4 +16,8 @@ class RelativeSpecifier extends Node {
     /** @var Token */
     public $backslash;
 
+    public function getNodeKindName() : string {
+        return 'RelativeSpecifier';
+    }
+
 }

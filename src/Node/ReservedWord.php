@@ -12,4 +12,8 @@ class ReservedWord extends Expression {
     /** @var Token[] */
     public $children;
 
+    public function getNodeKindName() : string {
+        return 'ReservedWord';
+    }
+
 }

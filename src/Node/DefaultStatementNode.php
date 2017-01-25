@@ -17,4 +17,8 @@ class DefaultStatementNode extends Node {
     /**@var StatementNode[] */
     public $statementList;
 
+    public function getNodeKindName() : string {
+        return 'DefaultStatementNode';
+    }
+
 }

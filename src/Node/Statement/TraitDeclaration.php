@@ -22,4 +22,8 @@ class TraitDeclaration extends StatementNode {
     /** @var TraitMembers */
     public $traitMembers;
 
+    public function getNodeKindName() : string {
+        return 'TraitDeclaration';
+    }
+
 }

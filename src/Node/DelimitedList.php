@@ -31,4 +31,8 @@ class DelimitedList extends Node {
         }
         $this->children[] = $node;
     }
+
+    public function getNodeKindName() : string {
+        return 'DelimitedList';
+    }
 }

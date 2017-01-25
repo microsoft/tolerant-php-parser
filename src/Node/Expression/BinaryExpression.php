@@ -20,4 +20,8 @@ class BinaryExpression extends Expression {
     /** @var Expression */
     public $rightOperand;
 
+    public function getNodeKindName() : string {
+        return 'BinaryExpression';
+    }
+
 }

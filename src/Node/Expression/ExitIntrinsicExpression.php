@@ -23,4 +23,8 @@ class ExitIntrinsicExpression extends Expression {
     /** @var Token | null */
     public $closeParen;
 
+    public function getNodeKindName() : string {
+        return 'ExitIntrinsicExpression';
+    }
+
 }

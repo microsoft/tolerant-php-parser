@@ -20,4 +20,8 @@ class StaticVariableDeclaration extends Node {
     /** @var Expression | null */
     public $assignment;
 
+    public function getNodeKindName() : string {
+        return 'StaticVariableDeclaration';
+    }
+
 }

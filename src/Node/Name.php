@@ -10,4 +10,7 @@ use PhpParser\Node;
 
 class Name extends Node {
 
+    public function getNodeKindName() : string {
+        return 'Name';
+    }
 }

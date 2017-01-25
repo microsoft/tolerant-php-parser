@@ -34,4 +34,8 @@ class ForeachStatement extends StatementNode {
     public $endForeach;
     /**@var Token | null */
     public $endForeachSemicolon;
+
+    public function getNodeKindName() : string {
+        return 'ForeachStatement';
+    }
 }

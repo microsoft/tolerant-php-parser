@@ -14,4 +14,8 @@ class ScriptInclusionExpression extends Expression  {
     /** @var Expression */
     public $expression;
 
+    public function getNodeKindName() : string {
+        return 'ScriptInclusionExpression';
+    }
+
 }

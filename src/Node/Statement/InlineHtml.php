@@ -18,4 +18,8 @@ class InlineHtml extends StatementNode  {
     /** @var Token | null */
     public $scriptSectionStartTag;
 
+    public function getNodeKindName() : string {
+        return 'InlineHtml';
+    }
+
 }

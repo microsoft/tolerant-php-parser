@@ -25,4 +25,8 @@ class TernaryExpression extends Expression {
 
     /** @var Expression */
     public $elseExpression;
+
+    public function getNodeKindName() : string {
+        return 'TernaryExpression';
+    }
 }

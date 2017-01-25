@@ -19,4 +19,8 @@ class CaseStatementNode extends Node {
     /**@var StatementNode[] */
     public $statementList;
 
+    public function getNodeKindName() : string {
+        return 'CaseStatementNode';
+    }
+
 }

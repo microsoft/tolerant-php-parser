@@ -18,4 +18,8 @@ class QualifiedName extends Node {
     /** @var DelimitedList\QualifiedNameParts */
     public $nameParts;
 
+    public function getNodeKindName() : string {
+        return 'QualifiedName';
+    }
+
 }

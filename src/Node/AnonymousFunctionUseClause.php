@@ -23,4 +23,8 @@ class AnonymousFunctionUseClause extends Node {
     /** @var Token */
     public $closeParen;
 
+    public function getNodeKindName() : string {
+        return 'AnonymousFunctionUseClause';
+    }
+
 }

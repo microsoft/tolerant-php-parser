@@ -23,4 +23,8 @@ class ElseIfClauseNode extends Node {
     /**@var StatementNode | StatementNode[] */
     public $statements;
 
+    public function getNodeKindName() : string {
+        return 'ElseIfClauseNode';
+    }
+
 }

@@ -33,4 +33,8 @@ class IfStatementNode extends StatementNode {
     /**@var Token | null */
     public $semicolon;
 
+    public function getNodeKindName() : string {
+        return 'IfStatementNode';
+    }
+
 }

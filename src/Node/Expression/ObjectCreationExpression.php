@@ -40,4 +40,8 @@ class ObjectCreationExpression extends Expression {
     /** @var ClassMembersNode | null */
     public $classMembers;
 
+    public function getNodeKindName() : string {
+        return 'ObjectCreationExpression';
+    }
+
 }

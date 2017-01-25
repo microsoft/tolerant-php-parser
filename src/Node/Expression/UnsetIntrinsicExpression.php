@@ -23,4 +23,8 @@ class UnsetIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public function getNodeKindName() : string {
+        return 'UnsetIntrinsicExpression';
+    }
 }
