@@ -8,7 +8,6 @@ namespace PhpParser\Node;
 
 use PhpParser\Node;
 use PhpParser\Node\DelimitedList\UseVariableNameList;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class AnonymousFunctionUseClause extends Node {
@@ -24,7 +23,4 @@ class AnonymousFunctionUseClause extends Node {
     /** @var Token */
     public $closeParen;
 
-    public function __construct() {
-        parent::__construct(NodeKind::AnonymousFunctionUseClause);
-    }
 }

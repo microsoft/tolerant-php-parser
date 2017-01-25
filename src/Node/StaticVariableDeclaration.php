@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class StaticVariableDeclaration extends Node {
@@ -21,7 +20,4 @@ class StaticVariableDeclaration extends Node {
     /** @var Expression | null */
     public $assignment;
 
-    public function __construct() {
-        parent::__construct(NodeKind::StaticVariableDeclaration);
-    }
 }

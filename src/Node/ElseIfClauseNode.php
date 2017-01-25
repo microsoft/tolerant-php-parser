@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ElseIfClauseNode extends Node {
@@ -24,7 +23,4 @@ class ElseIfClauseNode extends Node {
     /**@var StatementNode | StatementNode[] */
     public $statements;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ElseIfClauseNode);
-    }
 }

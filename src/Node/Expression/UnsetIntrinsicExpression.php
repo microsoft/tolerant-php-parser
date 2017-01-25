@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class UnsetIntrinsicExpression extends Expression {
@@ -24,8 +23,4 @@ class UnsetIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
-    public function __construct() {
-        parent::__construct(NodeKind::UnsetIntrinsicExpression);
-    }
 }

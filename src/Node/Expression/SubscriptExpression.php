@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class SubscriptExpression extends Expression {
@@ -22,9 +21,4 @@ class SubscriptExpression extends Expression {
 
     /** @var Token */
     public $closeBracketOrBrace;
-
-
-    public function __construct() {
-        parent::__construct(NodeKind::SubscriptExpression);
-    }
 }

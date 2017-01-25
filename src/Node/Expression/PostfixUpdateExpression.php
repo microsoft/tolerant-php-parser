@@ -8,8 +8,6 @@ namespace PhpParser\Node\Expression;
 
 
 use PhpParser\Node\Expression;
-
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class PostfixUpdateExpression extends Expression {
@@ -19,7 +17,4 @@ class PostfixUpdateExpression extends Expression {
     /** @var Token */
     public $incrementOrDecrementOperator;
 
-    public function __construct() {
-        parent::__construct(NodeKind::PostfixUpdateExpression);
-    }
 }

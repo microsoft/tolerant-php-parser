@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Expression;
 
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class UnaryOpExpression extends UnaryExpression {
@@ -16,8 +15,4 @@ class UnaryOpExpression extends UnaryExpression {
 
     /** @var UnaryExpression */
     public $operand;
-
-    public function __construct() {
-        parent::__construct(NodeKind::UnaryOpExpression);
-    }
 }

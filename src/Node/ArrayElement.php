@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ArrayElement extends Node {
@@ -23,8 +22,4 @@ class ArrayElement extends Node {
 
     /** @var Expression */
     public $elementValue;
-
-    public function __construct() {
-        parent::__construct(NodeKind::ArrayElement);
-    }
 }

@@ -8,7 +8,6 @@ namespace PhpParser\Node\Statement;
 use PhpParser\Node\CatchClause;
 use PhpParser\Node\FinallyClause;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class TryStatement extends StatementNode {
@@ -21,7 +20,4 @@ class TryStatement extends StatementNode {
     /**@var FinallyClause | null */
     public $finallyClause;
 
-    public function __construct() {
-        parent::__construct(NodeKind::TryStatement);
-    }
 }

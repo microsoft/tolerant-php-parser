@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ParenthesizedExpression extends Expression {
@@ -21,8 +20,4 @@ class ParenthesizedExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
-    public function __construct() {
-        parent::__construct(NodeKind::ParenthesizedExpression);
-    }
 }

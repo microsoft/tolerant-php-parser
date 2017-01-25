@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ClassConstDeclaration extends Node {
@@ -24,7 +23,4 @@ class ClassConstDeclaration extends Node {
     /** @var Token */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ClassConstDeclaration);
-    }
 }

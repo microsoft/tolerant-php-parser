@@ -9,7 +9,6 @@ use PhpParser\Node\ElseClauseNode;
 use PhpParser\Node\ElseIfClauseNode;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class IfStatementNode extends StatementNode {
@@ -34,7 +33,4 @@ class IfStatementNode extends StatementNode {
     /**@var Token | null */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::IfStatementNode);
-    }
 }

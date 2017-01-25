@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class AssignmentExpression extends BinaryExpression {
@@ -24,7 +23,4 @@ class AssignmentExpression extends BinaryExpression {
     /** @var Expression */
     public $rightOperand;
 
-    public function __construct() {
-        parent::__construct(NodeKind::AssignmentExpression);
-    }
 }

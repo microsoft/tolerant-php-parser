@@ -7,7 +7,6 @@
 namespace PhpParser;
 
 use PhpParser\Node\Script;
-use PhpParser\Token;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
@@ -15,9 +14,6 @@ class Node implements \JsonSerializable {
 
     /** @var Node | null */
     public $parent;
-
-    public function __construct(int $kind) {
-    }
 
     public function getKind() {
         // TODO remove all references to getKind

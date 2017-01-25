@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class TernaryExpression extends Expression {
@@ -26,8 +25,4 @@ class TernaryExpression extends Expression {
 
     /** @var Expression */
     public $elseExpression;
-
-    public function __construct() {
-        parent::__construct(NodeKind::TernaryExpression);
-    }
 }

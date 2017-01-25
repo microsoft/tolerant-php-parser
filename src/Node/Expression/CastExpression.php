@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Expression;
 
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class CastExpression extends UnaryExpression {
@@ -22,8 +21,4 @@ class CastExpression extends UnaryExpression {
 
     /** @var Variable */
     public $operand;
-
-    public function __construct() {
-        parent::__construct(NodeKind::CastExpression);
-    }
 }

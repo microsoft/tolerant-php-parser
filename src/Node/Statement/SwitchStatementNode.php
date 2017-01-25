@@ -8,7 +8,6 @@ namespace PhpParser\Node\Statement;
 use PhpParser\Node\CaseStatementNode;
 use PhpParser\Node\Expression;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class SwitchStatementNode extends StatementNode {
@@ -33,7 +32,4 @@ class SwitchStatementNode extends StatementNode {
     /**@var Token | null */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::SwitchStatementNode);
-    }
 }

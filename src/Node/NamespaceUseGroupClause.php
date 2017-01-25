@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class NamespaceUseGroupClause extends Node {
@@ -19,7 +18,4 @@ class NamespaceUseGroupClause extends Node {
     /** @var  NamespaceAliasingClause */
     public $namespaceAliasingClause;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamespaceUseGroupClause);
-    }
 }

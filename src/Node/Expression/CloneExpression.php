@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class CloneExpression extends Expression {
@@ -18,7 +17,4 @@ class CloneExpression extends Expression {
     /** @var Expression */
     public $expression;
 
-    public function __construct() {
-        parent::__construct(NodeKind::CloneExpression);
-    }
 }

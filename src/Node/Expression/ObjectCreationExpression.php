@@ -12,8 +12,6 @@ use PhpParser\Node\ClassMembersNode;
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\Expression;
 use PhpParser\Node\QualifiedName;
-
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ObjectCreationExpression extends Expression {
@@ -42,7 +40,4 @@ class ObjectCreationExpression extends Expression {
     /** @var ClassMembersNode | null */
     public $classMembers;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ObjectCreationExpression);
-    }
 }

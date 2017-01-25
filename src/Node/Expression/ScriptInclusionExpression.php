@@ -6,7 +6,6 @@
 
 namespace PhpParser\Node\Expression;
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ScriptInclusionExpression extends Expression  {
@@ -15,7 +14,4 @@ class ScriptInclusionExpression extends Expression  {
     /** @var Expression */
     public $expression;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ScriptInclusionExpression);
-    }
 }

@@ -5,13 +5,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace PhpParser\Node\Expression
-use PhpParser\NodeKind;
-use PhpParser\Token;
 
 class TemplateExpression extends Node {
     public $children;
 
-    public function __construct() {
-        parent::__construct(NodeKind::TemplateExpression);
-    }
 }

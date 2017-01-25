@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class BracedExpression extends Expression {
@@ -19,9 +18,5 @@ class BracedExpression extends Expression {
 
     /** @var Token */
     public $closeBrace;
-
-    public function __construct() {
-        parent::__construct(NodeKind::BracedExpression);
-    }
 
 }

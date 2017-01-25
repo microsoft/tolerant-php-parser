@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class DeclareDirective extends Node {
@@ -18,7 +17,4 @@ class DeclareDirective extends Node {
     /** @var Token */
     public $literal;
 
-    public function __construct() {
-        parent::__construct(NodeKind::DeclareDirective);
-    }
 }

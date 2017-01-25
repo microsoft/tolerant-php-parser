@@ -8,7 +8,6 @@ namespace PhpParser\Node\Statement;
 
 use PhpParser\Node;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class DeclareStatement extends StatementNode {
@@ -28,8 +27,4 @@ class DeclareStatement extends StatementNode {
     public $enddeclareKeyword;
     /** @var Token | null */
     public $semicolon;
-
-    public function __construct() {
-        parent::__construct(NodeKind::DeclareStatement);
-    }
 }

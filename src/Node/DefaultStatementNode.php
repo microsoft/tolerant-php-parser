@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class DefaultStatementNode extends Node {
@@ -18,7 +17,4 @@ class DefaultStatementNode extends Node {
     /**@var StatementNode[] */
     public $statementList;
 
-    public function __construct() {
-        parent::__construct(NodeKind::DefaultStatementNode);
-    }
 }

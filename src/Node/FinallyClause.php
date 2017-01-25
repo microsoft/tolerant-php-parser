@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class FinallyClause extends Node {
@@ -16,7 +15,4 @@ class FinallyClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
-    public function __construct() {
-        parent::__construct(NodeKind::FinallyClause);
-    }
 }

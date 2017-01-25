@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class EchoExpression extends Expression {
@@ -19,7 +18,4 @@ class EchoExpression extends Expression {
     /** @var Expression[] */
     public $expressions;
 
-    public function __construct() {
-        parent::__construct(NodeKind::EchoExpression);
-    }
 }

@@ -7,7 +7,6 @@
 namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class Variable extends Expression {
@@ -17,7 +16,4 @@ class Variable extends Expression {
     /** @var Token | Variable | BracedExpression */
     public $name;
 
-    public function __construct() {
-        parent::__construct(NodeKind::Variable);
-    }
 }

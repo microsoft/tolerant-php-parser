@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class SourceFileNode extends Node {
@@ -19,10 +18,6 @@ class SourceFileNode extends Node {
     
     /** @var Token */
     public $endOfFileToken;
-
-    public function __construct() {
-        parent::__construct(NodeKind::SourceFileNode);
-    }
 
     public function getChildNames() {
         // Override method to exclude fileContents from child names

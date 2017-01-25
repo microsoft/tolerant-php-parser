@@ -8,7 +8,6 @@ namespace PhpParser\Node\Statement;
 
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class GlobalDeclaration extends StatementNode {
@@ -22,7 +21,4 @@ class GlobalDeclaration extends StatementNode {
     /** @var Token */
     public $semicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::GlobalDeclaration);
-    }
 }

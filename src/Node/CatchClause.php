@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class CatchClause extends Node {
@@ -24,7 +23,4 @@ class CatchClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
-    public function __construct() {
-        parent::__construct(NodeKind::CatchClause);
-    }
 }

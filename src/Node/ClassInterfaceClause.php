@@ -7,7 +7,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ClassInterfaceClause extends Node {
@@ -17,7 +16,4 @@ class ClassInterfaceClause extends Node {
     /** @var DelimitedList\QualifiedNameList | null */
     public $interfaceNameList;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ClassInterfaceClause);
-    }
 }

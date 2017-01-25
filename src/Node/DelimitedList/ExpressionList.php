@@ -6,10 +6,7 @@
 
 namespace PhpParser\Node\DelimitedList;
 use PhpParser\Node\DelimitedList;
-use PhpParser\NodeKind;
 
 class ExpressionList extends DelimitedList {
-    public function __construct() {
-        parent::__construct(NodeKind::ExpressionList);
-    }
+
 }

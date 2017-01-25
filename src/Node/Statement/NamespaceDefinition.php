@@ -8,7 +8,6 @@ namespace PhpParser\Node\Statement;
 use PhpParser\Node\Expression;
 use PhpParser\Node\QualifiedName;
 use PhpParser\Node\StatementNode;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class NamespaceDefinition extends StatementNode {
@@ -19,7 +18,4 @@ class NamespaceDefinition extends StatementNode {
     /** @var Expression | Token */
     public $compoundStatementOrSemicolon;
 
-    public function __construct() {
-        parent::__construct(NodeKind::NamespaceDefinition);
-    }
 }

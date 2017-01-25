@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\Expression;
 use PhpParser\Node\QualifiedName;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ScopedPropertyAccessExpression extends Expression {
@@ -22,7 +21,4 @@ class ScopedPropertyAccessExpression extends Expression {
     /** @var Token | Variable */
     public $memberName;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ScopedPropertyAccessExpression);
-    }
 }

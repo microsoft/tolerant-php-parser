@@ -8,7 +8,6 @@ namespace PhpParser\Node\Expression;
 
 use PhpParser\Node\DelimitedList;
 use PhpParser\Node\Expression;
-use PhpParser\NodeKind;
 use PhpParser\Token;
 
 class ArrayCreationExpression extends Expression {
@@ -25,7 +24,4 @@ class ArrayCreationExpression extends Expression {
     /** @var Token */
     public $closeParenOrBracket;
 
-    public function __construct() {
-        parent::__construct(NodeKind::ArrayCreationExpression);
-    }
 }
