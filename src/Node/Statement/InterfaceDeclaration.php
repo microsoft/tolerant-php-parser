@@ -6,6 +6,7 @@
 
 namespace PhpParser\Node\Statement;
 use PhpParser\Node\InterfaceBaseClause;
+use PhpParser\Node\InterfaceMembers;
 use PhpParser\Node\Name;
 use PhpParser\Node\StatementNode;
 use PhpParser\Token;
@@ -21,7 +22,7 @@ class InterfaceDeclaration extends StatementNode {
     /** @var InterfaceBaseClause */
     public $interfaceBaseClause;
 
-    /** @var InterfaceMembersNode */
+    /** @var InterfaceMembers */
     public $interfaceMembers;
 
 }
