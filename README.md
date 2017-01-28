@@ -113,7 +113,7 @@ own machine to see for yourself.
 ## Learn more
 **:dart: [Design Goals](#design-goals)** - learn about the design goals of the project (features, performance metrics, and more).
 
-**:seedling: [Documentation](docs/GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
+**:book: [Documentation](docs/GettingStarted.md#getting-started)** - learn how to reference the parser from your project, and how to perform
 operations on the AST to answer questions about your code.
 
 **:eyes: [Syntax Visualizer Tool](syntax-visualizer/client#php-parser-syntax-visualizer-tool)** - get a more tangible feel for the AST. Get creative - see if you can break it! 
