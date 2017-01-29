@@ -24,4 +24,8 @@ class IssetIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
+    public function getNodeKindName() : string {
+        return 'IssetIntrinsicExpression';
+    }
+
 }

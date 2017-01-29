@@ -20,4 +20,8 @@ class PropertyDeclaration extends Node {
     /** @var Token */
     public $semicolon;
 
+    public function getNodeKindName() : string {
+        return 'PropertyDeclaration';
+    }
+
 }

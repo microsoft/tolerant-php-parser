@@ -23,4 +23,8 @@ class TraitSelectOrAliasClause extends Node {
     /** @var Token */
     public $targetName;
 
+    public function getNodeKindName() : string {
+        return 'TraitSelectOrAliasClause';
+    }
+
 }

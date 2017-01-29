@@ -12,4 +12,8 @@ class NumericLiteral extends Expression {
     /** @var Token[] */
     public $children;
 
+    public function getNodeKindName() : string {
+        return 'NumericLiteral';
+    }
+
 }

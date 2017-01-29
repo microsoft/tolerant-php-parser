@@ -9,4 +9,8 @@ use PhpParser\Node\DelimitedList;
 
 class NamespaceUseGroupClauseList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'NamespaceUseGroupClauseList';
+    }
+
 }

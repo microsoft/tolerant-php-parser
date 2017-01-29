@@ -17,4 +17,8 @@ class ElseClauseNode extends Node {
     /**@var StatementNode | StatementNode[] */
     public $statements;
 
+    public function getNodeKindName() : string {
+        return 'ElseClauseNode';
+    }
+
 }

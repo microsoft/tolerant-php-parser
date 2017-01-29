@@ -20,4 +20,8 @@ class ConstElement extends Node {
     /** @var Expression */
     public $assignment;
 
+    public function getNodeKindName() : string {
+        return 'ConstElement';
+    }
+
 }

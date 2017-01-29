@@ -9,4 +9,8 @@ use PhpParser\Node\DelimitedList;
 
 class ListExpressionList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'ListExpressionList';
+    }
+
 }

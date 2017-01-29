@@ -104,7 +104,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 $this->assertContains(
-                    $child, $child->parent->getChildNodesAndTokens(),
+                    $child, $child->getParent()->getChildNodesAndTokens(),
                     "Invariant: Parent of Node contains same child node."
                 );
             }
@@ -156,7 +156,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      */
     public function testRootNodeHasNoParent($filename, Node $sourceFileNode) {
         $this->assertEquals(
-            null, $sourceFileNode->parent,
+            null, $sourceFileNode->getParent(),
             "Invariant: Root node of tree has no parent.");
     }
 
@@ -185,7 +185,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
 
         foreach($treeElements as $element) {
             $this->assertNotNull(
-                $element->getKind(),
+                $element->getNodeKindName(),
                 "Invariant: Every Node has a Kind");
         }
     }

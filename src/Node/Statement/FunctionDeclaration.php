@@ -13,4 +13,8 @@ use PhpParser\Node\StatementNode;
 
 class FunctionDeclaration extends StatementNode {
     use FunctionHeader, FunctionReturnType, FunctionBody;
+
+    public function getNodeKindName() : string {
+        return 'FunctionDeclaration';
+    }
 }

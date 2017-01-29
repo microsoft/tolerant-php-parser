@@ -9,4 +9,9 @@ use PhpParser\Node\DelimitedList;
 
 class ConstElementList extends DelimitedList {
 
+
+    public function getNodeKindName() : string {
+        return 'ConstElementList';
+    }
+
 }

@@ -20,4 +20,8 @@ class FunctionStaticDeclaration extends StatementNode {
     /** @var Token */
     public $semicolon;
 
+    public function getNodeKindName() : string {
+        return 'FunctionStaticDeclaration';
+    }
+
 }

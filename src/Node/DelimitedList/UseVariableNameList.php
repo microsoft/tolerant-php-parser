@@ -9,4 +9,7 @@ use PhpParser\Node\DelimitedList;
 
 class UseVariableNameList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'UseVariableNameList';
+    }
 }

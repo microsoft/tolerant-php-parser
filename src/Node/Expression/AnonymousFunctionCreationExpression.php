@@ -18,4 +18,8 @@ class AnonymousFunctionCreationExpression extends Expression {
 
     use FunctionHeader, FunctionUseClause, FunctionReturnType, FunctionBody;
 
+    public function getNodeKindName() : string {
+        return 'AnonymousFunctionCreationExpression';
+    }
+
 }

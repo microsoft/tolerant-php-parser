@@ -23,4 +23,8 @@ class SourceFileNode extends Node {
         // Override method to exclude fileContents from child names
         return ['statementList', 'endOfFileToken'];
     }
+
+    public function getNodeKindName() : string {
+        return 'SourceFileNode';
+    }
 }

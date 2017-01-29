@@ -17,4 +17,8 @@ class DeclareDirective extends Node {
     /** @var Token */
     public $literal;
 
+    public function getNodeKindName() : string {
+        return 'DeclareDirective';
+    }
+
 }

@@ -14,4 +14,8 @@ class MissingMemberDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
 
+    public function getNodeKindName() : string {
+        return 'MissingMemberDeclaration';
+    }
+
 }

@@ -16,4 +16,8 @@ class ClassInterfaceClause extends Node {
     /** @var DelimitedList\QualifiedNameList | null */
     public $interfaceNameList;
 
+    public function getNodeKindName() : string {
+        return 'ClassInterfaceClause';
+    }
+
 }

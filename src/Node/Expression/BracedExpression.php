@@ -19,4 +19,8 @@ class BracedExpression extends Expression {
     /** @var Token */
     public $closeBrace;
 
+    public function getNodeKindName() : string {
+        return 'BracedExpression';
+    }
+
 }

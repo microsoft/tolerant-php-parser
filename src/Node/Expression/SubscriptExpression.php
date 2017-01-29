@@ -21,4 +21,8 @@ class SubscriptExpression extends Expression {
 
     /** @var Token */
     public $closeBracketOrBrace;
+
+    public function getNodeKindName() : string {
+        return 'SubscriptExpression';
+    }
 }

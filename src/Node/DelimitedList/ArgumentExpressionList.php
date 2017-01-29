@@ -9,4 +9,7 @@ use PhpParser\Node\DelimitedList;
 
 class ArgumentExpressionList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'ArgumentExpressionList';
+    }
 }

@@ -18,4 +18,8 @@ class NamespaceDefinition extends StatementNode {
     /** @var Expression | Token */
     public $compoundStatementOrSemicolon;
 
+    public function getNodeKindName() : string {
+        return 'NamespaceDefinition';
+    }
+
 }

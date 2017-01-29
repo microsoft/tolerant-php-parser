@@ -32,4 +32,8 @@ class StringLiteral extends Expression {
         }
         return $stringContents;
     }
+
+    public function getNodeKindName() : string {
+        return 'StringLiteral';
+    }
 }

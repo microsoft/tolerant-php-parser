@@ -26,4 +26,8 @@ class TraitUseClause extends Node {
     /** @var Token */
     public $closeBrace;
 
+    public function getNodeKindName() : string {
+        return 'TraitUseClause';
+    }
+
 }

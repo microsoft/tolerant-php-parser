@@ -23,4 +23,8 @@ class CatchClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
+    public function getNodeKindName() : string {
+        return 'CatchClause';
+    }
+
 }

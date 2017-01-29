@@ -24,4 +24,8 @@ class ArrayCreationExpression extends Expression {
     /** @var Token */
     public $closeParenOrBracket;
 
+    public function getNodeKindName() : string {
+        return 'ArrayCreationExpression';
+    }
+
 }

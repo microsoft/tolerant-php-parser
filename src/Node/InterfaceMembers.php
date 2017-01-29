@@ -19,4 +19,8 @@ class InterfaceMembers extends Node {
     /** @var Token */
     public $closeBrace;
 
+    public function getNodeKindName() : string {
+        return 'InterfaceMembers';
+    }
+
 }

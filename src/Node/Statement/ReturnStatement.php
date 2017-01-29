@@ -17,4 +17,8 @@ class ReturnStatement extends StatementNode {
     /** @var Token */
     public $semicolon;
 
+    public function getNodeKindName() : string {
+        return 'ReturnStatement';
+    }
+
 }

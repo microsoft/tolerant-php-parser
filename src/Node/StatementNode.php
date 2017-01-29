@@ -10,4 +10,7 @@ use PhpParser\Node;
 
 class StatementNode extends Node {
 
+    public function getNodeKindName() : string {
+        return 'StatementNode';
+    }
 }

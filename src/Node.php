@@ -8,19 +8,12 @@ namespace PhpParser;
 
 use PhpParser\Node\Script;
 
-class Node implements \JsonSerializable {
+abstract class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
     /** @var Node | null */
     public $parent;
-
-    public function getKind() {
-        // TODO remove all references to getKind
-        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
-        $nameParts = explode("\\",get_class($this));
-        return $constants[end($nameParts)];
-    }
 
     /**
      * Gets start position of Node, not including leading comments and whitespace.
@@ -44,11 +37,15 @@ class Node implements \JsonSerializable {
      */
     public function getFullStart() : int {
         $child = $this->getChildNodesAndTokens()->current();
+
         if ($child instanceof Node) {
             return $child->getFullStart();
-        } elseif ($child instanceof Token) {
+        }
+
+        if ($child instanceof Token) {
             return $child->fullStart;
         }
+
         throw new \Exception("Unknown type in AST: " . \gettype($child));
     }
 
@@ -312,32 +309,7 @@ class Node implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $kindName = self::getNodeKindNameFromValue($this->getKind());
-        return ["$kindName" => $this->getChildrenKvPairs()];
-    }
-
-    /**
-     * Gets name of a Node from its raw kind value.
-     * @param int $value
-     * @return string
-     */
-    public static function getNodeKindNameFromValue(int $value) : string {
-//        return end(explode("\\", get_class($node)));
-        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
-        foreach ($constants as $name=>$val) {
-            if ($val == $value) {
-                return $name;
-            }
-        }
-        return "Unknown Node Kind";
-    }
-
-    /**
-     * Gets the name of a Node kind.
-     * @return string
-     */
-    public function getNodeKindName() : string {
-        return self::getNodeKindNameFromValue($this->getKind());
+        return [$this->getNodeKindName() => $this->getChildrenKvPairs()];
     }
 
     /**
@@ -389,4 +361,6 @@ class Node implements \JsonSerializable {
     public function __toString() {
         return $this->getText();
     }
+
+    abstract public function getNodeKindName() : string;
 }

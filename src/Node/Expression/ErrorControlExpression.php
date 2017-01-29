@@ -16,4 +16,8 @@ class ErrorControlExpression extends UnaryExpression {
     /** @var UnaryExpression */
     public $operand;
 
+    public function getNodeKindName() : string {
+        return 'ErrorControlExpression';
+    }
+
 }

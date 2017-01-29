@@ -26,4 +26,8 @@ class WhileStatement extends StatementNode {
     public $endWhile;
     /**@var Token | null */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'WhileStatement';
+    }
 }

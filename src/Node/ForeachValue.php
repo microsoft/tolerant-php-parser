@@ -15,4 +15,8 @@ class ForeachValue extends Node {
     /** @var Expression */
     public $expression;
 
+    public function getNodeKindName() : string {
+        return 'ForeachValue';
+    }
+
 }

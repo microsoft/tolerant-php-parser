@@ -18,4 +18,7 @@ class NamespaceUseGroupClause extends Node {
     /** @var  NamespaceAliasingClause */
     public $namespaceAliasingClause;
 
+    public function getNodeKindName() : string {
+        return 'NamespaceUseGroupClause';
+    }
 }

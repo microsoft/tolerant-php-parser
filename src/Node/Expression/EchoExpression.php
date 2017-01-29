@@ -18,4 +18,8 @@ class EchoExpression extends Expression {
     /** @var Expression[] */
     public $expressions;
 
+    public function getNodeKindName() : string {
+        return 'EchoExpression';
+    }
+
 }

@@ -35,8 +35,9 @@ PHP;
 
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
-        $this->assertEquals(\PhpParser\NodeKind::FunctionDeclaration, $node->getDescendantNodeAtPosition(15)->getKind());
-        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->getKind());
+
+        $this->assertInstanceOf(\PhpParser\Node\Statement\FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
+        $this->assertInstanceOf(\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(28));
     }
 
     public function testRootNodeIsScript() {

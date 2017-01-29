@@ -17,4 +17,8 @@ class PostfixUpdateExpression extends Expression {
     /** @var Token */
     public $incrementOrDecrementOperator;
 
+    public function getNodeKindName() : string {
+        return 'PostfixUpdateExpression';
+    }
+
 }

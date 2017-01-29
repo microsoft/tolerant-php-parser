@@ -17,4 +17,8 @@ class PrintIntrinsicExpression extends Expression {
     /** @var Expression */
     public $expression;
 
+    public function getNodeKindName() : string {
+        return 'PrintIntrinsicExpression';
+    }
+
 }

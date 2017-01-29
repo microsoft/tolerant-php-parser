@@ -20,4 +20,8 @@ class ConstDeclaration extends StatementNode {
 
     /** @var Token */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'ConstDeclaration';
+    }
 }

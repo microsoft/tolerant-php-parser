@@ -15,4 +15,8 @@ class BreakOrContinueStatement extends StatementNode {
     public $breakoutLevel;
     /** @var Token */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'BreakOrContinueStatement';
+    }
 }

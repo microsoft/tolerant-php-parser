@@ -15,4 +15,7 @@ class NamespaceAliasingClause extends Node {
     /** @var Token */
     public $name;
 
+    public function getNodeKindName() : string {
+        return 'NamespaceAliasingClause';
+    }
 }

@@ -9,4 +9,7 @@ use PhpParser\Node\DelimitedList;
 
 class QualifiedNameList extends DelimitedList {
 
+    public function getNodeKindName() : string {
+        return 'QualifiedNameList';
+    }
 }

@@ -11,4 +11,8 @@ use PhpParser\Token;
 class EmptyStatement extends StatementNode {
     /** @var Token */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'EmptyStatement';
+    }
 }

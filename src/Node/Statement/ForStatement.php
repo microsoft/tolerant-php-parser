@@ -34,4 +34,8 @@ class ForStatement extends StatementNode {
     public $endFor;
     /**@var Token | null */
     public $endForSemicolon;
+
+    public function getNodeKindName() : string {
+        return 'ForStatement';
+    }
 }

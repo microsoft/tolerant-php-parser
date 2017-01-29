@@ -23,4 +23,8 @@ class AssignmentExpression extends BinaryExpression {
     /** @var Expression */
     public $rightOperand;
 
+    public function getNodeKindName() : string {
+        return 'AssignmentExpression';
+    }
+
 }

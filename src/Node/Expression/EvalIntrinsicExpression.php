@@ -23,4 +23,8 @@ class EvalIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
+    public function getNodeKindName() : string {
+        return 'EvalIntrinsicExpression';
+    }
+
 }

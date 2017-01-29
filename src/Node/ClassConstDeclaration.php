@@ -23,4 +23,8 @@ class ClassConstDeclaration extends Node {
     /** @var Token */
     public $semicolon;
 
+    public function getNodeKindName() : string {
+        return 'ClassConstDeclaration';
+    }
+
 }

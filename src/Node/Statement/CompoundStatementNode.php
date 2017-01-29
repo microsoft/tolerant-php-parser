@@ -18,4 +18,8 @@ class CompoundStatementNode extends StatementNode {
 
     /** @var Token */
     public $closeBrace;
+
+    public function getNodeKindName() : string {
+        return 'CompoundStatementNode';
+    }
 }

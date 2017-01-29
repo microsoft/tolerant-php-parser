@@ -24,4 +24,8 @@ class DoStatement extends StatementNode {
     public $closeParen;
     /**@var Token | null */
     public $semicolon;
+
+    public function getNodeKindName() : string {
+        return 'DoStatement';
+    }
 }

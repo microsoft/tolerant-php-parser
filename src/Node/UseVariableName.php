@@ -15,4 +15,8 @@ class UseVariableName extends Node {
 
     /** @var Token */
     public $variableName;
+
+    public function getNodeKindName() : string {
+        return 'UseVariableName';
+    }
 }

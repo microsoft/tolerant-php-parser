@@ -25,4 +25,8 @@ class InterfaceDeclaration extends StatementNode {
     /** @var InterfaceMembers */
     public $interfaceMembers;
 
+    public function getNodeKindName() : string {
+        return 'InterfaceDeclaration';
+    }
+
 }

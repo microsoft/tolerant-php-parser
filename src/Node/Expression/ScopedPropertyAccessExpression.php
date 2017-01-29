@@ -21,4 +21,8 @@ class ScopedPropertyAccessExpression extends Expression {
     /** @var Token | Variable */
     public $memberName;
 
+    public function getNodeKindName() : string {
+        return 'ScopedPropertyAccessExpression';
+    }
+
 }
