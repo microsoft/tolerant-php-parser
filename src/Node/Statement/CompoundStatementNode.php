@@ -4,10 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
-use PhpParser\Node;
-use PhpParser\Node\StatementNode;
-use PhpParser\Token;
+namespace Microsoft\PhpParser\Node\Statement;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\StatementNode;
+use Microsoft\PhpParser\Token;
 
 class CompoundStatementNode extends StatementNode {
     /** @var Token */

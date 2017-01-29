@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Expression;
+namespace Microsoft\PhpParser\Node\Expression;
 
-use PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\Expression;
 
 class UnaryExpression extends Expression  {
     /** @var UnaryExpression | Variable */

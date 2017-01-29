@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-use PhpParser\Node;
-use PhpParser\Node\StringLiteral;
-use PhpParser\Parser;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\StringLiteral;
+use Microsoft\PhpParser\Parser;
 
 require_once __DIR__ . "/../src/bootstrap.php";
 

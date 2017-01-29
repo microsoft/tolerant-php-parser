@@ -4,13 +4,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Expression;
-use PhpParser\Node\Expression;
-use PhpParser\Node\FunctionBody;
-use PhpParser\Node\FunctionHeader;
-use PhpParser\Node\FunctionReturnType;
-use PhpParser\Node\FunctionUseClause;
-use PhpParser\Token;
+namespace Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\FunctionBody;
+use Microsoft\PhpParser\Node\FunctionHeader;
+use Microsoft\PhpParser\Node\FunctionReturnType;
+use Microsoft\PhpParser\Node\FunctionUseClause;
+use Microsoft\PhpParser\Token;
 
 class AnonymousFunctionCreationExpression extends Expression {
     /** @var Token | null */

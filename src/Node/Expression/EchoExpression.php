@@ -4,11 +4,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Expression;
+namespace Microsoft\PhpParser\Node\Expression;
 
 
-use PhpParser\Node\Expression;
-use PhpParser\Token;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Token;
 
 class EchoExpression extends Expression {
 

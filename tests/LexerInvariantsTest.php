@@ -9,10 +9,10 @@ require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 
-use PhpParser\MissingToken;
-use PhpParser\SkippedToken;
+use Microsoft\PhpParser\MissingToken;
+use Microsoft\PhpParser\SkippedToken;
 use PHPUnit\Framework\TestCase;
-use PhpParser\TokenKind;
+use Microsoft\PhpParser\TokenKind;
 
 class LexerInvariantsTest extends TestCase {
     const FILENAMES = array (
@@ -23,7 +23,7 @@ class LexerInvariantsTest extends TestCase {
     public static function tokensArrayProvider() {
         $fileToTokensMap = array();
         foreach (self::FILENAMES as $filename) {
-            $lexer = \PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($filename));
+            $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($filename));
             $fileToTokensMap[basename($filename)] = [$filename, $lexer->getTokensArray()];
         }
         return $fileToTokensMap;

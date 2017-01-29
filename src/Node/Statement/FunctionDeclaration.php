@@ -4,12 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
+namespace Microsoft\PhpParser\Node\Statement;
 
-use PhpParser\Node\FunctionBody;
-use PhpParser\Node\FunctionHeader;
-use PhpParser\Node\FunctionReturnType;
-use PhpParser\Node\StatementNode;
+use Microsoft\PhpParser\Node\FunctionBody;
+use Microsoft\PhpParser\Node\FunctionHeader;
+use Microsoft\PhpParser\Node\FunctionReturnType;
+use Microsoft\PhpParser\Node\StatementNode;
 
 class FunctionDeclaration extends StatementNode {
     use FunctionHeader, FunctionReturnType, FunctionBody;

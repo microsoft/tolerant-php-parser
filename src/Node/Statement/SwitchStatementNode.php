@@ -4,11 +4,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
-use PhpParser\Node\CaseStatementNode;
-use PhpParser\Node\Expression;
-use PhpParser\Node\StatementNode;
-use PhpParser\Token;
+namespace Microsoft\PhpParser\Node\Statement;
+use Microsoft\PhpParser\Node\CaseStatementNode;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\StatementNode;
+use Microsoft\PhpParser\Token;
 
 class SwitchStatementNode extends StatementNode {
     /** @var Token */

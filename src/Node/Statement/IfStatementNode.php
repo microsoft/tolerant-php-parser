@@ -4,12 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
-use PhpParser\Node\ElseClauseNode;
-use PhpParser\Node\ElseIfClauseNode;
-use PhpParser\Node\Expression;
-use PhpParser\Node\StatementNode;
-use PhpParser\Token;
+namespace Microsoft\PhpParser\Node\Statement;
+use Microsoft\PhpParser\Node\ElseClauseNode;
+use Microsoft\PhpParser\Node\ElseIfClauseNode;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\StatementNode;
+use Microsoft\PhpParser\Token;
 
 class IfStatementNode extends StatementNode {
     /** @var Token */

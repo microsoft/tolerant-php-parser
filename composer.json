@@ -12,6 +12,6 @@
         }
     ],
     "autoload": {
-        "psr-4": { "PhpParser\\": ["src/"] }
+        "psr-4": { "Microsoft\\PhpParser\\": ["src/"] }
     }
 }

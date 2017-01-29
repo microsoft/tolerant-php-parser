@@ -10,10 +10,10 @@ require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 require_once(__DIR__ . "/LexerInvariantsTest.php");
 
-use PhpParser\Node;
-use PhpParser\Token;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
-use PhpParser\TokenKind;
+use Microsoft\PhpParser\TokenKind;
 
 class ParserInvariantsTest extends LexerInvariantsTest {
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
@@ -23,7 +23,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser();
+            $parser = new \Microsoft\PhpParser\Parser();
             $testFiles[basename($filename)] = [$filename, $parser->parseSourceFile(file_get_contents($filename))];
         }
         return $testFiles;
@@ -34,11 +34,11 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
-            $parser = new \PhpParser\Parser();
+            $parser = new \Microsoft\PhpParser\Parser();
             $sourceFileNode = $parser->parseSourceFile(file_get_contents($filename));
             $tokensArray = array();
             foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
-                if ($child instanceof \PhpParser\Token) {
+                if ($child instanceof \Microsoft\PhpParser\Token) {
                     $tokensArray[] = $child;
                 }
             }
@@ -85,7 +85,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
                 foreach ($element->getChildNodesAndTokens() as $child) {
                     if ($child instanceof Node) {
                         $expectedLength += $child->getFullWidth();
-                    } elseif ($child instanceof \PhpParser\Token) {
+                    } elseif ($child instanceof \Microsoft\PhpParser\Token) {
                         $expectedLength += $child->length;
                     }
                 }

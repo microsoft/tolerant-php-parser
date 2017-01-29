@@ -4,17 +4,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser;
+namespace Microsoft\PhpParser;
 
-use PhpParser\Node\AnonymousFunctionUseClause;
-use PhpParser\Node\ArrayElement;
-use PhpParser\Node\CaseStatementNode;
-use PhpParser\Node\CatchClause;
-use PhpParser\Node\ClassBaseClause;
-use PhpParser\Node\ClassInterfaceClause;
-use PhpParser\Node\ClassMembersNode;
-use PhpParser\Node\ConstElement;
-use PhpParser\Node\Expression\{
+use Microsoft\PhpParser\Node\AnonymousFunctionUseClause;
+use Microsoft\PhpParser\Node\ArrayElement;
+use Microsoft\PhpParser\Node\CaseStatementNode;
+use Microsoft\PhpParser\Node\CatchClause;
+use Microsoft\PhpParser\Node\ClassBaseClause;
+use Microsoft\PhpParser\Node\ClassInterfaceClause;
+use Microsoft\PhpParser\Node\ClassMembersNode;
+use Microsoft\PhpParser\Node\ConstElement;
+use Microsoft\PhpParser\Node\Expression\{
     AnonymousFunctionCreationExpression,
     ArgumentExpression,
     ArrayCreationExpression,
@@ -47,31 +47,31 @@ use PhpParser\Node\Expression\{
     UnsetIntrinsicExpression,
     Variable
 };
-use PhpParser\Node\StaticVariableDeclaration;
-use PhpParser\Node\ClassConstDeclaration;
-use PhpParser\Node\DeclareDirective;
-use PhpParser\Node\DelimitedList;
-use PhpParser\Node\ElseClauseNode;
-use PhpParser\Node\ElseIfClauseNode;
-use PhpParser\Node\FinallyClause;
-use PhpParser\Node\ForeachKey;
-use PhpParser\Node\ForeachValue;
-use PhpParser\Node\InterfaceBaseClause;
-use PhpParser\Node\InterfaceMembers;
-use PhpParser\Node\MissingMemberDeclaration;
-use PhpParser\Node\NamespaceAliasingClause;
-use PhpParser\Node\NamespaceUseGroupClause;
-use PhpParser\Node\NumericLiteral;
-use PhpParser\Node\PropertyDeclaration;
-use PhpParser\Node\ReservedWord;
-use PhpParser\Node\StringLiteral;
-use PhpParser\Node\MethodDeclaration;
-use PhpParser\Node;
-use PhpParser\Node\Parameter;
-use PhpParser\Node\QualifiedName;
-use PhpParser\Node\RelativeSpecifier;
-use PhpParser\Node\SourceFileNode;
-use PhpParser\Node\Statement\{
+use Microsoft\PhpParser\Node\StaticVariableDeclaration;
+use Microsoft\PhpParser\Node\ClassConstDeclaration;
+use Microsoft\PhpParser\Node\DeclareDirective;
+use Microsoft\PhpParser\Node\DelimitedList;
+use Microsoft\PhpParser\Node\ElseClauseNode;
+use Microsoft\PhpParser\Node\ElseIfClauseNode;
+use Microsoft\PhpParser\Node\FinallyClause;
+use Microsoft\PhpParser\Node\ForeachKey;
+use Microsoft\PhpParser\Node\ForeachValue;
+use Microsoft\PhpParser\Node\InterfaceBaseClause;
+use Microsoft\PhpParser\Node\InterfaceMembers;
+use Microsoft\PhpParser\Node\MissingMemberDeclaration;
+use Microsoft\PhpParser\Node\NamespaceAliasingClause;
+use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
+use Microsoft\PhpParser\Node\NumericLiteral;
+use Microsoft\PhpParser\Node\PropertyDeclaration;
+use Microsoft\PhpParser\Node\ReservedWord;
+use Microsoft\PhpParser\Node\StringLiteral;
+use Microsoft\PhpParser\Node\MethodDeclaration;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\Parameter;
+use Microsoft\PhpParser\Node\QualifiedName;
+use Microsoft\PhpParser\Node\RelativeSpecifier;
+use Microsoft\PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node\Statement\{
     ClassDeclaration,
     ConstDeclaration,
     CompoundStatementNode,
@@ -99,10 +99,10 @@ use PhpParser\Node\Statement\{
     TryStatement,
     WhileStatement
 };
-use PhpParser\Node\TraitMembers;
-use PhpParser\Node\TraitSelectOrAliasClause;
-use PhpParser\Node\TraitUseClause;
-use PhpParser\Node\UseVariableName;
+use Microsoft\PhpParser\Node\TraitMembers;
+use Microsoft\PhpParser\Node\TraitSelectOrAliasClause;
+use Microsoft\PhpParser\Node\TraitUseClause;
+use Microsoft\PhpParser\Node\UseVariableName;
 
 class Parser {
 

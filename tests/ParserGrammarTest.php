@@ -8,8 +8,8 @@ require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 
-use PhpParser\Token;
-use PhpParser\Utilities;
+use Microsoft\PhpParser\Token;
+use Microsoft\PhpParser\Utilities;
 use PHPUnit\Framework\TestCase;
 
 class ParserGrammarTest extends TestCase {
@@ -41,7 +41,7 @@ class ParserGrammarTest extends TestCase {
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $fileContents = file_get_contents($testCaseFile);
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile($fileContents), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
@@ -74,7 +74,7 @@ class ParserGrammarTest extends TestCase {
      * @dataProvider outTreeProvider
      */
     public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTreeFile) {
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $sourceFile = $parser->parseSourceFile(file_get_contents($testCaseFile));
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTreeFile, $tokens);
