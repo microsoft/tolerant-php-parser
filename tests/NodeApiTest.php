@@ -9,10 +9,10 @@ require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 
-use PhpParser\Node;
-use PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\SourceFileNode;
 use PHPUnit\Framework\TestCase;
-use PhpParser\TokenKind;
+use Microsoft\PhpParser\TokenKind;
 
 class NodeApiTest extends TestCase {
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
@@ -28,15 +28,15 @@ PHP;
     static $sourceFileNode;
 
     public static function setUpBeforeClass() {
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         self::$sourceFileNode = $parser->parseSourceFile(self::FILE_CONTENTS);
         parent::setUpBeforeClass();
     }
 
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
-        $this->assertEquals(\PhpParser\NodeKind::FunctionDeclaration, $node->getDescendantNodeAtPosition(15)->getKind());
-        $this->assertEquals(\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->getKind());
+        $this->assertEquals(\Microsoft\PhpParser\NodeKind::FunctionDeclaration, $node->getDescendantNodeAtPosition(15)->getKind());
+        $this->assertEquals(\Microsoft\PhpParser\NodeKind::Variable, $node->getDescendantNodeAtPosition(28)->getKind());
     }
 
     public function testRootNodeIsScript() {
@@ -63,7 +63,7 @@ PHP;
 
     public function testGetTriviaForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualTrivia = $iterator->current()->getLeadingCommentAndWhitespaceText();
@@ -75,7 +75,7 @@ PHP;
 
     public function testGetTextForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualText = $iterator->current()->getText();
@@ -87,7 +87,7 @@ PHP;
 
     public function testGetFullTextForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualText = $iterator->current()->getFullText();

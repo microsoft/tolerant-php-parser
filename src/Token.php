@@ -4,7 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser;
+namespace Microsoft\PhpParser;
 
 class Token implements \JsonSerializable {
     // TODO optimize memory - ideally this would be a struct of 4 ints
@@ -53,7 +53,7 @@ class Token implements \JsonSerializable {
     }
 
     public static function getTokenKindNameFromValue($kindName) {
-        $constants = (new \ReflectionClass("PhpParser\\TokenKind"))->getConstants();
+        $constants = (new \ReflectionClass("Microsoft\\PhpParser\\TokenKind"))->getConstants();
         foreach ($constants as $name => $val) {
             if ($val == $kindName) {
                 $kindName = $name;

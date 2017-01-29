@@ -4,9 +4,9 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser;
+namespace Microsoft\PhpParser;
 
-use PhpParser\TokenKind;
+use Microsoft\PhpParser\TokenKind;
 
 class TokenStringMaps {
     const KEYWORDS = array(

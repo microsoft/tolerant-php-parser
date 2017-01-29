@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser;
+namespace Microsoft\PhpParser;
 
-use PhpParser\Node\Script;
+use Microsoft\PhpParser\Node\Script;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
@@ -17,7 +17,7 @@ class Node implements \JsonSerializable {
 
     public function getKind() {
         // TODO remove all references to getKind
-        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
+        $constants = (new \ReflectionClass("Microsoft\\PhpParser\\NodeKind"))->getConstants();
         $nameParts = explode("\\",get_class($this));
         return $constants[end($nameParts)];
     }
@@ -323,7 +323,7 @@ class Node implements \JsonSerializable {
      */
     public static function getNodeKindNameFromValue(int $value) : string {
 //        return end(explode("\\", get_class($node)));
-        $constants = (new \ReflectionClass("PhpParser\\NodeKind"))->getConstants();
+        $constants = (new \ReflectionClass("Microsoft\\PhpParser\\NodeKind"))->getConstants();
         foreach ($constants as $name=>$val) {
             if ($val == $value) {
                 return $name;

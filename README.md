@@ -16,7 +16,7 @@ with the Abstract Syntax Tree (AST) via a friendly API.
 require "vendor/autoload.php";
 
 // Instantiate new parser instance
-$parser = new PhpParser\Parser();
+$parser = new Microsoft\PhpParser\Parser();
 
 // Return and print an AST from string contents
 $astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!"');
@@ -24,12 +24,12 @@ var_dump($astNode);
 
 // Gets and prints errors from AST Node. The parser handles errors gracefully,
 // so it can be used in IDE usage scenarios (where code is often incomplete).
-$errors = PhpParser\Utilities::getDiagnostics($astNode);
+$errors = Microsoft\PhpParser\Utilities::getDiagnostics($astNode);
 var_dump(iterator_to_array($errors));
 
 // Traverse all Node descendants of $astNode
 foreach ($astNode->getDescendantNodes() as $descendant) {
-    if ($descendant instanceof \PhpParser\Node\StringLiteral) {
+    if ($descendant instanceof \Microsoft\PhpParser\Node\StringLiteral) {
         // Print the Node text (without whitespace or comments)
         var_dump($descendant->getText());
 
@@ -44,11 +44,11 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
     
     // In addition to retrieving all children or descendants of a Node,
     // Nodes expose properties specific to the Node type.
-    if ($descendant instanceof \PhpParser\Node\Expression\EchoExpression) {
+    if ($descendant instanceof \Microsoft\PhpParser\Node\Expression\EchoExpression) {
         $echoKeywordStartPosition = $descendant->echoKeyword->getStartPosition();
         // To cut down on memory consumption, positions are represented as a single integer 
         // index into the document, but their line and character positions are easily retrieved.
-        $lineCharacterPosition = \PhpParser\Utilities::getLineCharacterPositionFromPosition(
+        $lineCharacterPosition = \Microsoft\PhpParser\Utilities::getLineCharacterPositionFromPosition(
             $echoKeywordStartPosition
         );
         echo "line: $lineCharacterPosition->line, character: $lineCharacterPosition->character";

@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
 require_once(__DIR__ . "/../src/Parser.php");
 require_once(__DIR__ . "/../src/Token.php");
 
-use PhpParser\Token;
+use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
 
@@ -41,7 +41,7 @@ class ParserFrameworkValidationTests extends TestCase {
      */
     public function testFramworkErrors($testCaseFile, $frameworkName) {
         $fileContents = file_get_contents($testCaseFile);
-        $parser = new \PhpParser\Parser();
+        $parser = new \Microsoft\PhpParser\Parser();
         $sourceFile = $parser->parseSourceFile($fileContents);
 
         $directory = __DIR__ . "/output/$frameworkName/";
@@ -56,9 +56,9 @@ class ParserFrameworkValidationTests extends TestCase {
 
         foreach ($sourceFile->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Token) {
-                $this->assertNotEquals(\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: ");
-                $this->assertNotTrue($child instanceof \PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: ");
-                $this->assertNotTrue($child instanceof \PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: ");
+                $this->assertNotEquals(\Microsoft\PhpParser\TokenKind::Unknown, $child->kind, "input: $testCaseFile\r\nexpected: ");
+                $this->assertNotTrue($child instanceof \Microsoft\PhpParser\SkippedToken, "input: $testCaseFile\r\nexpected: ");
+                $this->assertNotTrue($child instanceof \Microsoft\PhpParser\MissingToken, "input: $testCaseFile\r\nexpected: ");
             }
         }
 

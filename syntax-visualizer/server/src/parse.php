@@ -11,8 +11,8 @@ if (!isset($GLOBALS["PARSER_PATH"])) {
 
 require_once($GLOBALS["PARSER_PATH"] . "bootstrap.php");
 
-use PhpParser\Parser;
-use PhpParser\Utilities;
+use Microsoft\PhpParser\Parser;
+use Microsoft\PhpParser\Utilities;
 
 $contents = file_get_contents($argv[1]);
 $parser = new Parser();

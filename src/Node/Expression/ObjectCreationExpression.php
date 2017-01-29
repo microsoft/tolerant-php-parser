@@ -4,15 +4,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Expression;
+namespace Microsoft\PhpParser\Node\Expression;
 
-use PhpParser\Node\ClassBaseClause;
-use PhpParser\Node\ClassInterfaceClause;
-use PhpParser\Node\ClassMembersNode;
-use PhpParser\Node\DelimitedList;
-use PhpParser\Node\Expression;
-use PhpParser\Node\QualifiedName;
-use PhpParser\Token;
+use Microsoft\PhpParser\Node\ClassBaseClause;
+use Microsoft\PhpParser\Node\ClassInterfaceClause;
+use Microsoft\PhpParser\Node\ClassMembersNode;
+use Microsoft\PhpParser\Node\DelimitedList;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\QualifiedName;
+use Microsoft\PhpParser\Token;
 
 class ObjectCreationExpression extends Expression {
 

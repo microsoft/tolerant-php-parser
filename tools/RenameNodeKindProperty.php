@@ -4,15 +4,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-use PhpParser\Node;
-use PhpParser\Node\Expression\CallExpression;
-use PhpParser\Node\Expression\ScopedPropertyAccessExpression;
-use PhpParser\Node\MethodDeclaration;
-use PhpParser\Node\Statement\ClassDeclaration;
-use PhpParser\Node\Statement\CompoundStatementNode;
-use PhpParser\Node\Statement\ExpressionStatement;
-use PhpParser\Node\StringLiteral;
-use PhpParser\Parser;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\Expression\CallExpression;
+use Microsoft\PhpParser\Node\Expression\ScopedPropertyAccessExpression;
+use Microsoft\PhpParser\Node\MethodDeclaration;
+use Microsoft\PhpParser\Node\Statement\ClassDeclaration;
+use Microsoft\PhpParser\Node\Statement\CompoundStatementNode;
+use Microsoft\PhpParser\Node\Statement\ExpressionStatement;
+use Microsoft\PhpParser\Node\StringLiteral;
+use Microsoft\PhpParser\Parser;
 
 require_once __DIR__ . "/../src/bootstrap.php";
 

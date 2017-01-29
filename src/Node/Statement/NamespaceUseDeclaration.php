@@ -4,13 +4,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Statement;
+namespace Microsoft\PhpParser\Node\Statement;
 
-use PhpParser\Node\DelimitedList;
-use PhpParser\Node\NamespaceAliasingClause;
-use PhpParser\Node\QualifiedName;
-use PhpParser\Node\StatementNode;
-use PhpParser\Token;
+use Microsoft\PhpParser\Node\DelimitedList;
+use Microsoft\PhpParser\Node\NamespaceAliasingClause;
+use Microsoft\PhpParser\Node\QualifiedName;
+use Microsoft\PhpParser\Node\StatementNode;
+use Microsoft\PhpParser\Token;
 
 class NamespaceUseDeclaration extends StatementNode {
     /** @var Token */

@@ -4,8 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\DelimitedList;
-use PhpParser\Node\DelimitedList;
+namespace Microsoft\PhpParser\Node\DelimitedList;
+use Microsoft\PhpParser\Node\DelimitedList;
 
 class QualifiedNameParts extends DelimitedList {
 

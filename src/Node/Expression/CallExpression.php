@@ -4,10 +4,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node\Expression;
-use PhpParser\Node\DelimitedList;
-use PhpParser\Node\Expression;
-use PhpParser\Token;
+namespace Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\DelimitedList;
+use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Token;
 
 class CallExpression extends Expression {
     /** @var Expression */

@@ -4,12 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-use PhpParser\Node\MethodDeclaration;
-use PhpParser\Node\PropertyDeclaration;
-use PhpParser\Node\Statement\ClassDeclaration;
-use PhpParser\Parser;
-use PhpParser\Token;
-use PhpParser\TokenKind;
+use Microsoft\PhpParser\Node\MethodDeclaration;
+use Microsoft\PhpParser\Node\PropertyDeclaration;
+use Microsoft\PhpParser\Node\Statement\ClassDeclaration;
+use Microsoft\PhpParser\Parser;
+use Microsoft\PhpParser\Token;
+use Microsoft\PhpParser\TokenKind;
 
 require_once __DIR__ . "/../src/bootstrap.php";
 

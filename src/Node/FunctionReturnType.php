@@ -4,9 +4,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace Microsoft\PhpParser\Node;
 
-use PhpParser\Token;
+use Microsoft\PhpParser\Token;
 
 trait FunctionReturnType {
     /** @var Token */

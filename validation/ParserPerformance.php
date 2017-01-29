@@ -18,7 +18,7 @@ foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
 }
 
 $asts = [];
-$parser = new \PhpParser\Parser();
+$parser = new \Microsoft\PhpParser\Parser();
 
 $startMemory = memory_get_peak_usage(true);
 $startTime = microtime(true);

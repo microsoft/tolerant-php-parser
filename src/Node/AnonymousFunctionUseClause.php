@@ -4,11 +4,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser\Node;
+namespace Microsoft\PhpParser\Node;
 
-use PhpParser\Node;
-use PhpParser\Node\DelimitedList\UseVariableNameList;
-use PhpParser\Token;
+use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\UseVariableNameList;
+use Microsoft\PhpParser\Token;
 
 class AnonymousFunctionUseClause extends Node {
     /** @var Token */

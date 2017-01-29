@@ -4,7 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace PhpParser;
+namespace Microsoft\PhpParser;
 
 interface ITokenStreamProvider {
     function scanNextToken() : Token;
