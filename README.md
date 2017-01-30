@@ -49,7 +49,7 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
         // To cut down on memory consumption, positions are represented as a single integer 
         // index into the document, but their line and character positions are easily retrieved.
         $lineCharacterPosition = \Microsoft\PhpParser\Utilities::getLineCharacterPositionFromPosition(
-            $echoKeywordStartPosition
+            $echoKeywordStartPosition, $descendant->getText()
         );
         echo "line: $lineCharacterPosition->line, character: $lineCharacterPosition->character";
     }
