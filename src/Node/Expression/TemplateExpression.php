@@ -6,9 +6,9 @@
 
 namespace Microsoft\PhpParser\Node\Expression;
 
-use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\Expression;
 
-class TemplateExpression extends Node {
+class TemplateExpression extends Expression {
     public $children;
 
 }
