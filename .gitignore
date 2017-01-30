@@ -3,3 +3,4 @@
 vendor/
 composer.lock
 tests/output
+*.ast
