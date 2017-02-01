@@ -24,7 +24,7 @@ var_dump($astNode);
 
 // Gets and prints errors from AST Node. The parser handles errors gracefully,
 // so it can be used in IDE usage scenarios (where code is often incomplete).
-$errors = Microsoft\PhpParser\Utilities::getDiagnostics($astNode);
+$errors = Microsoft\PhpParser\Diagnostics::getDiagnostics($astNode);
 var_dump(iterator_to_array($errors));
 
 // Traverse all Node descendants of $astNode
@@ -48,8 +48,9 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
         $echoKeywordStartPosition = $descendant->echoKeyword->getStartPosition();
         // To cut down on memory consumption, positions are represented as a single integer 
         // index into the document, but their line and character positions are easily retrieved.
-        $lineCharacterPosition = \Microsoft\PhpParser\Utilities::getLineCharacterPositionFromPosition(
-            $echoKeywordStartPosition
+        $lineCharacterPosition = \Microsoft\PhpParser\PositionUtilities::getLineCharacterPositionFromPosition(
+            $echoKeywordStartPosition,
+            $descendant->getFileContents()
         );
         echo "line: $lineCharacterPosition->line, character: $lineCharacterPosition->character";
     }

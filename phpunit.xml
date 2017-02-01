@@ -31,6 +31,7 @@
 
     <testsuite name="api">
       <file>tests/NodeApiTest.php</file>
+      <file>tests/PositionUtilitiesTest.php</file>
     </testsuite>
     
     <testsuite name="performance">
