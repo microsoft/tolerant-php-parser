@@ -112,7 +112,7 @@ override the property getters / setters on Node.
 ## Parser
 The parser reads in Tokens provided by the lexer to produce the resulting Syntax Tree.
 The parser uses a combination of top-down and bottom-up parsing. In particular, most constructs
-are parsed in a top-down fashion, which keeps the this keeps the code simple and readable/maintainable
+are parsed in a top-down fashion, which keeps the code simple and readable/maintainable
 (by humans :wink:) over time. The one exception to this is expressions, which are parsed
 bottom-up. We also hold onto our current `ParseContext`, which lets us know, for instance, whether 
 we are parsing `ClassMembers`, or `TraitMembers`, or something else; holding onto this `ParseContext`
@@ -214,7 +214,7 @@ function parseIf($str, $parent) {
 ```
 
 This above should generate the `IfNode` successfully. But let's say we run the following through,
-which is missing a close paren token. 
+which is missing a close parenthesis token.
 ```php
 if ($expression // ) <- MissingToken
 {
