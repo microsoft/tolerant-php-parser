@@ -4,9 +4,11 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Microsoft\PhpParser\Node\Expression
+namespace Microsoft\PhpParser\Node\Expression;
 
-class TemplateExpression extends Node {
+use Microsoft\PhpParser\Node\Expression;
+
+class TemplateExpression extends Expression {
     public $children;
 
 }

@@ -55,7 +55,7 @@ class Diagnostics {
                             DiagnosticKind::Error,
                             "Unexpected modifier '" . $tokenKindToText[$modifier->kind] . "'",
                             $modifier->start,
-                            $modifier->getEnd() - $modifier->start
+                            $modifier->length
                         );
                     }
                 }

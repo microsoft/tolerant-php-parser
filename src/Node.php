@@ -6,7 +6,7 @@
 
 namespace Microsoft\PhpParser;
 
-use Microsoft\PhpParser\Node\Script;
+use Microsoft\PhpParser\Node\SourceFileNode;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
@@ -359,7 +359,7 @@ class Node implements \JsonSerializable {
                         : $this->getRoot()->endOfFileToken->fullStart;
                 }
             }
-        } elseif ($this instanceof Script) {
+        } elseif ($this instanceof SourceFileNode) {
             return $this->endOfFileToken->getEndPosition();
         }
         throw new \Exception("Unhandled node: " );
