@@ -16,8 +16,8 @@ class Node implements \JsonSerializable {
     public $parent;
 
     public function getNodeKindName() : string {
-        $parts = explode('\\', static::class);
-        return $parts[count($parts) - 1];
+        // Use strrpos (rather than explode) to avoid creating a temporary array.
+        return substr(static::class, strrpos(static::class, "\\") + 1);
     }
 
     /**
@@ -310,7 +310,7 @@ class Node implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $kindName = self::getNodeKindName();
+        $kindName = static::getNodeKindName();
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
 
