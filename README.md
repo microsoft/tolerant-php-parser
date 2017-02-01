@@ -15,8 +15,10 @@ with the Abstract Syntax Tree (AST) via a friendly API.
 // Autoload required classes
 require "vendor/autoload.php";
 
+use Microsoft\PhpParser\{DiagnosticsProvider, Node, Parser, PositionUtilities};
+
 // Instantiate new parser instance
-$parser = new Microsoft\PhpParser\Parser();
+$parser = new Parser();
 
 // Return and print an AST from string contents
 $astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!"');
@@ -24,12 +26,12 @@ var_dump($astNode);
 
 // Gets and prints errors from AST Node. The parser handles errors gracefully,
 // so it can be used in IDE usage scenarios (where code is often incomplete).
-$errors = Microsoft\PhpParser\Diagnostics::getDiagnostics($astNode);
+$errors = DiagnosticsProvider::getDiagnostics($astNode);
 var_dump(iterator_to_array($errors));
 
 // Traverse all Node descendants of $astNode
 foreach ($astNode->getDescendantNodes() as $descendant) {
-    if ($descendant instanceof \Microsoft\PhpParser\Node\StringLiteral) {
+    if ($descendant instanceof Node\StringLiteral) {
         // Print the Node text (without whitespace or comments)
         var_dump($descendant->getText());
 
@@ -44,11 +46,11 @@ foreach ($astNode->getDescendantNodes() as $descendant) {
     
     // In addition to retrieving all children or descendants of a Node,
     // Nodes expose properties specific to the Node type.
-    if ($descendant instanceof \Microsoft\PhpParser\Node\Expression\EchoExpression) {
+    if ($descendant instanceof Node\Expression\EchoExpression) {
         $echoKeywordStartPosition = $descendant->echoKeyword->getStartPosition();
         // To cut down on memory consumption, positions are represented as a single integer 
         // index into the document, but their line and character positions are easily retrieved.
-        $lineCharacterPosition = \Microsoft\PhpParser\PositionUtilities::getLineCharacterPositionFromPosition(
+        $lineCharacterPosition = PositionUtilities::getLineCharacterPositionFromPosition(
             $echoKeywordStartPosition,
             $descendant->getFileContents()
         );
