@@ -8,7 +8,7 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node;
 
-class Diagnostics {
+class DiagnosticsProvider {
     public static function getDiagnostics($node) {
         $tokenKindToText = \array_flip(\array_merge(
             TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
@@ -63,7 +63,7 @@ class Diagnostics {
         }
 
         foreach ($node->getChildNodesAndTokens() as $child) {
-            yield from Diagnostics::getDiagnostics($child);
+            yield from DiagnosticsProvider::getDiagnostics($child);
         }
     }
 }

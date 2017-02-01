@@ -1,7 +1,11 @@
 <?php
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 use Microsoft\PhpParser\Parser;
-use Microsoft\PhpParser\Diagnostics;
+use Microsoft\PhpParser\DiagnosticsProvider;
 use Microsoft\PhpParser\PositionUtilities;
 
 $configFile = __DIR__ . "/config.php";
@@ -21,7 +25,7 @@ $sourceFile = $parser->parseSourceFile($contents);
 
 file_put_contents($argv[1] . ".ast", json_encode($sourceFile, JSON_PRETTY_PRINT));
 
-$diagnostics = Diagnostics::getDiagnostics($sourceFile);
+$diagnostics = DiagnosticsProvider::getDiagnostics($sourceFile);
 $diagnosticsAsLineCol = [];
 foreach ($diagnostics as $diagnostic) {
     $diagnosticsAsLineCol[] = [
