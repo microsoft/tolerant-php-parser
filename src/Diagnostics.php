@@ -8,9 +8,9 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node;
 
-class Utilities {
+class Diagnostics {
     public static function getDiagnostics($node) {
-        $tokenKindToText = array_flip(array_merge(
+        $tokenKindToText = \array_flip(\array_merge(
             TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
             TokenStringMaps::KEYWORDS,
             TokenStringMaps::RESERVED_WORDS
@@ -63,52 +63,7 @@ class Utilities {
         }
 
         foreach ($node->getChildNodesAndTokens() as $child) {
-            yield from Utilities::getDiagnostics($child);
+            yield from Diagnostics::getDiagnostics($child);
         }
-    }
-    
-    public static function getRangeFromPosition($pos, $length, $text) {
-        $start = self::getLineCharacterPositionFromPosition($pos, $text);
-        $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
-
-        return new Range ($start, $end);
-    }
-
-    public static function getLineCharacterPositionFromPosition($pos, $text) : LineCharacterPosition {
-        $newlinePositions = [];
-        $newlinePos = -1;
-        while ($newlinePos = strpos($text, "\n", $newlinePos + 1)) {        
-            if ($newlinePos < $pos) {
-                $newlinePositions[] = $newlinePos;
-                continue;
-            }
-            break;
-        }
-
-        $lastNewline = count($newlinePositions) - 1;
-        $char = $pos - ($lastNewline >= 0 ? $newlinePositions[$lastNewline] + 1 : 0);
-        $line = count($newlinePositions);
-
-        return new LineCharacterPosition($line, $char);
-    }
-}
-
-class Range {
-    public $start;
-    public $end;
-
-    public function __construct(LineCharacterPosition $start, LineCharacterPosition $end) {
-        $this->start = $start;
-        $this->end = $end;
-    }
-}
-
-class LineCharacterPosition {
-    public $line;
-    public $character;
-
-    public function __construct(int $line, int $character) {
-        $this->line = $line;
-        $this->character = $character;
     }
 }

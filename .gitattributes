@@ -1,4 +1,5 @@
 * text=auto
+/tests/*.php text eol=lf
 /tests/cases/**/*.php text eol=lf
 
 syntax-visualizer/ export-ignore

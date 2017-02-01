@@ -63,7 +63,7 @@ require "vendor/autoload.php"; # autoloads required classes
 
 $parser = new Microsoft\PhpParser\Parser(); # instantiates a new parser instance
 $astNode = $parser->parseSourceFile('<?php /* comment */ echo "hi!";'); # returns an AST from string contents
-$errors =  Microsoft\PhpParser\Utilities::getDiagnostics($astNode); # get errors from AST Node (as a Generator)
+$errors =  Microsoft\PhpParser\Diagnostics::getDiagnostics($astNode); # get errors from AST Node (as a Generator)
 
 var_dump($astNode); # prints full AST
 var_dump(iterator_to_array($errors)); # prints all errors
