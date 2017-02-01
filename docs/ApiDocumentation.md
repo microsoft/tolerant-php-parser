@@ -10,12 +10,6 @@
 ```php
 public function __construct ( int $kind )
 ```
-### Node::getKind
-> TODO: add doc comment
-
-```php
-public function getKind ( )
-```
 ### Node::getStart
 Gets start position of Node, not including leading comments and whitespace.
 ```php
