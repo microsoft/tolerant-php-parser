@@ -18,5 +18,4 @@ class ClassMembersNode extends Node {
 
     /** @var Token */
     public $closeBrace;
-
 }

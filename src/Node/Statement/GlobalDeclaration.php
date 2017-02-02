@@ -20,5 +20,4 @@ class GlobalDeclaration extends StatementNode {
 
     /** @var Token */
     public $semicolon;
-
 }

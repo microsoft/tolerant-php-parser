@@ -5,8 +5,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\DelimitedList;
+
 use Microsoft\PhpParser\Node\DelimitedList;
 
 class ArrayElementList extends DelimitedList {
-
 }

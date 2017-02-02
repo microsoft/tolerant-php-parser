@@ -22,5 +22,4 @@ class EvalIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
 }

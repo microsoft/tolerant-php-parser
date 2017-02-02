@@ -35,24 +35,25 @@ function checkMemory($type, $initializer) {
     gc_mem_caches();
 }
 
-checkMemory("empty object", function() {
-    return new class { };
+checkMemory("empty object", function () {
+    return new class {
+    };
 });
 
-checkMemory("object (1 prop)", function() {
+checkMemory("object (1 prop)", function () {
     return new class {
         public $a;
     };
 });
 
-checkMemory("object (2 props)", function() {
+checkMemory("object (2 props)", function () {
     return new class {
         public $a;
         public $b;
     };
 });
 
-checkMemory("object (3 props)", function() {
+checkMemory("object (3 props)", function () {
     return new class {
         public $a;
         public $b;
@@ -60,7 +61,7 @@ checkMemory("object (3 props)", function() {
     };
 });
 
-checkMemory("object (4 props)", function() {
+checkMemory("object (4 props)", function () {
     return new class {
         public $a;
         public $b;
@@ -69,7 +70,7 @@ checkMemory("object (4 props)", function() {
     };
 });
 
-checkMemory("object (4 str props)", function() {
+checkMemory("object (4 str props)", function () {
     return new class {
         public $a = "12345678";
         public $b = "12345678";
@@ -104,23 +105,23 @@ checkMemory("double/float", function () {
     return 1.5;
 });
 
-for($i = 0; $i < 16; $i++) {
+for ($i = 0; $i < 16; $i++) {
     checkMemory("SplFixedArray($i)", function () use ($i) {
         return new SplFixedArray($i);
     });
 }
 
-for($i = 0; $i < 16; $i++) {
+for ($i = 0; $i < 16; $i++) {
     checkMemory("SplFixedArray::fromArray($i)", function () use ($i) {
         return SplFixedArray::fromArray(range(1, $i));
     });
 }
 
-checkMemory("array (empty)", function() {
+checkMemory("array (empty)", function () {
     return array();
 });
 
-for($i = 0; $i < 16; $i++) {
+for ($i = 0; $i < 16; $i++) {
     checkMemory("array $i", function () use ($i) {
         return range(1, $i);
     });

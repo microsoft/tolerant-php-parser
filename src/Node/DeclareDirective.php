@@ -16,5 +16,4 @@ class DeclareDirective extends Node {
     public $equals;
     /** @var Token */
     public $literal;
-
 }

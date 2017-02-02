@@ -9,5 +9,4 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 
 class Name extends Node {
-
 }

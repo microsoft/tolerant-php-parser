@@ -25,7 +25,7 @@ function a () {
 }
 PHP;
 
-    static $sourceFileNode;
+    public static $sourceFileNode;
 
     public static function setUpBeforeClass() {
         $parser = new \Microsoft\PhpParser\Parser();
@@ -43,7 +43,7 @@ PHP;
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
         $treeElements[] = self::$sourceFileNode;
 
-        foreach($treeElements as $element) {
+        foreach ($treeElements as $element) {
             $this->assertInstanceOf(SourceFileNode::class, $element->getRoot());
         }
     }
@@ -52,7 +52,7 @@ PHP;
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
         $treeElements[] = self::$sourceFileNode;
 
-        foreach($treeElements as $element) {
+        foreach ($treeElements as $element) {
             $this->assertEquals(self::FILE_CONTENTS, $element->getFileContents());
         }
     }

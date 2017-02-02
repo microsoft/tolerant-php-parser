@@ -16,5 +16,4 @@ class DefaultStatementNode extends Node {
     public $defaultLabelTerminator;
     /**@var StatementNode[] */
     public $statementList;
-
 }

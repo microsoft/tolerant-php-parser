@@ -13,5 +13,4 @@ class MissingMemberDeclaration extends Node {
 
     /** @var Token[] */
     public $modifiers;
-
 }

@@ -15,5 +15,4 @@ class ClassBaseClause extends Node {
 
     /** @var Name */
     public $baseClass;
-
 }

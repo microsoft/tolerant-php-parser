@@ -22,5 +22,4 @@ class ClassConstDeclaration extends Node {
 
     /** @var Token */
     public $semicolon;
-
 }

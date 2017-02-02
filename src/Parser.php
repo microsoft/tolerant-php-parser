@@ -105,7 +105,6 @@ use Microsoft\PhpParser\Node\TraitUseClause;
 use Microsoft\PhpParser\Node\UseVariableName;
 
 class Parser {
-
     private $lexer;
 
     private $currentParseContext;
@@ -156,7 +155,7 @@ class Parser {
         return $sourceFile;
     }
 
-    function reset() {
+    private function reset() {
         $this->advanceToken();
 
         // Stores the current parse context, which includes the current and enclosing lists.
@@ -172,7 +171,7 @@ class Parser {
      * @param int $listParseContext
      * @return array
      */
-    function parseList($parentNode, int $listParseContext) {
+    private function parseList($parentNode, int $listParseContext) {
         $savedParseContext = $this->currentParseContext;
         $this->updateCurrentParseContext($listParseContext);
         $parseListElementFn = $this->getParseListElementFn($listParseContext);
@@ -230,7 +229,7 @@ class Parser {
         return $nodeArray;
     }
 
-    function isListTerminator(int $parseContext) {
+    private function isListTerminator(int $parseContext) {
         $tokenKind = $this->getCurrentToken()->kind;
         if ($tokenKind === TokenKind::EndOfFileToken) {
             // Being at the end of the file ends all lists.
@@ -255,7 +254,7 @@ class Parser {
                     $tokenKind === TokenKind::EndIfKeyword;
 
             case ParseContext::WhileStatementElements:
-                Return $tokenKind === TokenKind::EndWhileKeyword;
+                return $tokenKind === TokenKind::EndWhileKeyword;
 
             case ParseContext::CaseStatementElements:
                 return
@@ -276,7 +275,7 @@ class Parser {
         return false;
     }
 
-    function isValidListElement($context, Token $token) {
+    private function isValidListElement($context, Token $token) {
 
         // TODO
         switch ($context) {
@@ -307,7 +306,7 @@ class Parser {
         return false;
     }
 
-    function getParseListElementFn($context) {
+    private function getParseListElementFn($context) {
         switch ($context) {
             case ParseContext::SourceElements:
             case ParseContext::BlockStatements:
@@ -339,7 +338,7 @@ class Parser {
      * @param ParseContext $context
      * @return bool
      */
-    function isCurrentTokenValidInEnclosingContexts() {
+    private function isCurrentTokenValidInEnclosingContexts() {
         for ($contextKind = 0; $contextKind < ParseContext::Count; $contextKind++) {
             if ($this->isInParseContext($contextKind)) {
                 if ($this->isValidListElement($contextKind, $this->getCurrentToken()) || $this->isListTerminator($contextKind)) {
@@ -350,7 +349,7 @@ class Parser {
         return false;
     }
 
-    function isInParseContext($contextToCheck) {
+    private function isInParseContext($contextToCheck) {
         return ($this->currentParseContext & (1 << $contextToCheck));
     }
 
@@ -361,7 +360,7 @@ class Parser {
      * @param int $kind
      * @return Token
      */
-    function eat(...$kinds) {
+    private function eat(...$kinds) {
         $token = $this->getCurrentToken();
         if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
@@ -376,7 +375,7 @@ class Parser {
         return new MissingToken($kinds[0], $token->fullStart);
     }
 
-    function eatOptional(...$kinds) {
+    private function eatOptional(...$kinds) {
         $token = $this->getCurrentToken();
         if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
@@ -390,26 +389,26 @@ class Parser {
 
     private $token;
 
-    function getCurrentToken() : Token {
+    private function getCurrentToken() : Token {
         return $this->token;
     }
 
-    function advanceToken() {
+    private function advanceToken() {
         $this->token = $this->lexer->scanNextToken();
     }
 
-    function updateCurrentParseContext($context) {
+    private function updateCurrentParseContext($context) {
         $this->currentParseContext |= 1 << $context;
     }
 
-    function parseStatement($parentNode) {
+    private function parseStatement($parentNode) {
         return ($this->parseStatementFn())($parentNode);
     }
 
-    function parseStatementFn() {
-        return function($parentNode) {
+    private function parseStatementFn() {
+        return function ($parentNode) {
             $token = $this->getCurrentToken();
-            switch($token->kind) {
+            switch ($token->kind) {
                 // compound-statement
                 case TokenKind::OpenBraceToken:
                     return $this->parseCompoundStatement($parentNode);
@@ -524,12 +523,12 @@ class Parser {
         };
     }
 
-    function parseClassElementFn() {
-        return function($parentNode) {
+    private function parseClassElementFn() {
+        return function ($parentNode) {
             $modifiers = $this->parseModifiers();
 
             $token = $this->getCurrentToken();
-            switch($token->kind) {
+            switch ($token->kind) {
                 case TokenKind::ConstKeyword:
                     return $this->parseClassConstDeclaration($parentNode, $modifiers);
 
@@ -551,7 +550,7 @@ class Parser {
         };
     }
 
-    function parseClassDeclaration($parentNode) : Node {
+    private function parseClassDeclaration($parentNode) : Node {
         $classNode = new ClassDeclaration(); // TODO verify not nested
         $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
@@ -563,7 +562,7 @@ class Parser {
         return $classNode;
     }
 
-    function parseClassMembers($parentNode) : Node {
+    private function parseClassMembers($parentNode) : Node {
         $classMembers = new ClassMembersNode();
         $classMembers->openBrace = $this->eat(TokenKind::OpenBraceToken);
         $classMembers->classMemberDeclarations = $this->parseList($classMembers, ParseContext::ClassMembers);
@@ -572,14 +571,14 @@ class Parser {
         return $classMembers;
     }
 
-    function parseFunctionDeclaration($parentNode) {
+    private function parseFunctionDeclaration($parentNode) {
         $functionNode = new FunctionDeclaration();
         $this->parseFunctionType($functionNode);
         $functionNode->parent = $parentNode;
         return $functionNode;
     }
 
-    function parseMethodDeclaration($parentNode, $modifiers) {
+    private function parseMethodDeclaration($parentNode, $modifiers) {
         $methodDeclaration = new MethodDeclaration();
         $methodDeclaration->modifiers = $modifiers;
         $this->parseFunctionType($methodDeclaration, true);
@@ -587,7 +586,7 @@ class Parser {
         return $methodDeclaration;
     }
 
-    function parseParameterFn() {
+    private function parseParameterFn() {
         return function ($parentNode) {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
@@ -606,7 +605,7 @@ class Parser {
         };
     }
 
-    function parseReturnTypeDeclaration($parentNode) {
+    private function parseReturnTypeDeclaration($parentNode) {
         $returnTypeDeclaration =
             $this->eatOptional($this->returnTypeDeclarationTokens)
             ?? $this->parseQualifiedName($parentNode)
@@ -615,13 +614,13 @@ class Parser {
         return $returnTypeDeclaration;
     }
 
-    function tryParseParameterTypeDeclaration($parentNode) {
+    private function tryParseParameterTypeDeclaration($parentNode) {
         $parameterTypeDeclaration =
             $this->eatOptional($this->parameterTypeDeclarationTokens) ?? $this->parseQualifiedName($parentNode);
         return $parameterTypeDeclaration;
     }
 
-    function parseCompoundStatement($parentNode) {
+    private function parseCompoundStatement($parentNode) {
         $compoundStatement = new CompoundStatementNode();
         $compoundStatement->openBrace = $this->eat(TokenKind::OpenBraceToken);
         $compoundStatement->statements =  $this->parseList($compoundStatement, ParseContext::BlockStatements);
@@ -630,13 +629,13 @@ class Parser {
         return $compoundStatement;
     }
 
-    function array_push_list(& $array, $list) {
+    private function array_push_list(& $array, $list) {
         foreach ($list as $item) {
             $array[] = $item;
         }
     }
 
-    function isClassMemberDeclarationStart(Token $token) {
+    private function isClassMemberDeclarationStart(Token $token) {
         switch ($token->kind) {
             // const-modifier
             case TokenKind::ConstKeyword:
@@ -665,7 +664,7 @@ class Parser {
         return false;
     }
 
-    function isStatementStart(Token $token) {
+    private function isStatementStart(Token $token) {
         // https://github.com/php/php-langspec/blob/master/spec/19-grammar.md#statements
         switch ($token->kind) {
             // Compound Statements
@@ -729,7 +728,7 @@ class Parser {
             // function-static-declaration
             case TokenKind::StaticKeyword:
 
-            case TokenKind::ScriptSectionEndTag;
+            case TokenKind::ScriptSectionEndTag:
                 return true;
 
             default:
@@ -737,13 +736,13 @@ class Parser {
         }
     }
 
-    function isExpressionStart($token) {
+    private function isExpressionStart($token) {
         return ($this->isExpressionStartFn())($token);
     }
 
-    function isExpressionStartFn() {
-        return function($token) {
-            switch($token->kind) {
+    private function isExpressionStartFn() {
+        return function ($token) {
+            switch ($token->kind) {
                 // Script Inclusion Expression
                 case TokenKind::RequireKeyword:
                 case TokenKind::RequireOnceKeyword:
@@ -990,7 +989,7 @@ class Parser {
         $expression->children = array();
 
         while (true) {
-            switch($this->getCurrentToken()->kind) {
+            switch ($this->getCurrentToken()->kind) {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
@@ -1029,7 +1028,7 @@ class Parser {
     }
 
     private function isModifier($token) {
-        switch($token->kind) {
+        switch ($token->kind) {
             // class-modifier
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
@@ -1043,7 +1042,7 @@ class Parser {
             case TokenKind::StaticKeyword:
 
             // var
-            case TokenKind::VarKeyword;
+            case TokenKind::VarKeyword:
                 return true;
         }
         return false;
@@ -1061,7 +1060,7 @@ class Parser {
     }
 
     private function isParameterStartFn() {
-        return function($token) {
+        return function ($token) {
             switch ($token->kind) {
                 case TokenKind::DotDotDotToken:
 
@@ -1187,7 +1186,7 @@ class Parser {
             ? $this->eatOptional($this->nameOrKeywordOrReservedWordTokens)
             : $this->eat($this->nameOrKeywordOrReservedWordTokens);
 
-        if (isset($functionDefinition->name)){
+        if (isset($functionDefinition->name)) {
             $functionDefinition->name->kind = TokenKind::Name;
         }
 
@@ -1341,7 +1340,7 @@ class Parser {
     }
 
     private function parseCaseOrDefaultStatement() {
-        return function($parentNode) {
+        return function ($parentNode) {
             $caseStatement = new CaseStatementNode();
             $caseStatement->parent = $parentNode;
             // TODO add error checking
@@ -1373,7 +1372,7 @@ class Parser {
         return $whileStatement;
     }
 
-    function parseExpression($parentNode, $force = false) {
+    private function parseExpression($parentNode, $force = false) {
         $token = $this->getCurrentToken();
         if ($token->kind === TokenKind::EndOfFileToken) {
             return new MissingToken(TokenKind::Expression, $token->fullStart);
@@ -1388,7 +1387,7 @@ class Parser {
         return $expression;
     }
 
-    function parseExpressionFn() {
+    private function parseExpressionFn() {
         return function ($parentNode) {
             $token = $this->getCurrentToken();
             switch ($token->kind) {
@@ -1399,7 +1398,7 @@ class Parser {
                     $scriptInclusionExpression = new ScriptInclusionExpression();
                     $scriptInclusionExpression->parent = $parentNode;
                     $scriptInclusionExpression->requireOrIncludeKeyword =
-                        $this->eat (
+                        $this->eat(
                             TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
                             TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
                             );
@@ -1939,7 +1938,6 @@ class Parser {
                     $token->kind === TokenKind::OpenBraceToken ?
                         $this->parseBracedExpression($variable) :
                         $this->parseSimpleVariable($variable);
-
             } elseif ($token->kind === TokenKind::VariableName) {
                 // TODO consider splitting into dollar and name
                 $variable->name = $this->eat(TokenKind::VariableName);
@@ -1989,7 +1987,7 @@ class Parser {
     }
 
     private function parseArrayElementFn() {
-        return function($parentNode) {
+        return function ($parentNode) {
             $arrayElement = new ArrayElement();
             $arrayElement->parent = $parentNode;
 
@@ -2106,7 +2104,7 @@ class Parser {
         $exitExpression->exitOrDieKeyword = $this->eat(TokenKind::ExitKeyword, TokenKind::DieKeyword);
         $exitExpression->openParen = $this->eatOptional(TokenKind::OpenParenToken);
         if ($exitExpression->openParen !== null) {
-            if ($this->isExpressionStart($this->getCurrentToken())){
+            if ($this->isExpressionStart($this->getCurrentToken())) {
                 $exitExpression->expression = $this->parseExpression($exitExpression);
             }
             $exitExpression->closeParen = $this->eat(TokenKind::CloseParenToken);
@@ -2256,7 +2254,7 @@ class Parser {
     }
 
     private function isArgumentExpressionStartFn() {
-        return function($token) {
+        return function ($token) {
             return
                 $token->kind === TokenKind::DotDotDotToken ? true : $this->isExpressionStart($token);
         };
@@ -2467,7 +2465,7 @@ class Parser {
         return $interfaceDeclaration;
     }
 
-    function parseInterfaceMembers($parentNode) : Node {
+    private function parseInterfaceMembers($parentNode) : Node {
         $interfaceMembers = new InterfaceMembers();
         $interfaceMembers->openBrace = $this->eat(TokenKind::OpenBraceToken);
         $interfaceMembers->interfaceMemberDeclarations = $this->parseList($interfaceMembers, ParseContext::InterfaceMembers);
@@ -2499,11 +2497,11 @@ class Parser {
     }
 
     private function parseInterfaceElementFn() {
-        return function($parentNode) {
+        return function ($parentNode) {
             $modifiers = $this->parseModifiers();
 
             $token = $this->getCurrentToken();
-            switch($token->kind) {
+            switch ($token->kind) {
                 case TokenKind::ConstKeyword:
                     return $this->parseClassConstDeclaration($parentNode, $modifiers);
 
@@ -2582,7 +2580,6 @@ class Parser {
                 $namespaceUseDeclaration
             );
             $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
-
         }
         $namespaceUseDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
         return $namespaceUseDeclaration;
@@ -2646,11 +2643,11 @@ class Parser {
     }
 
     private function parseTraitElementFn() {
-        return function($parentNode) {
+        return function ($parentNode) {
             $modifiers = $this->parseModifiers();
 
             $token = $this->getCurrentToken();
-            switch($token->kind) {
+            switch ($token->kind) {
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
@@ -2715,7 +2712,7 @@ class Parser {
         return $qualifiedNameOrScopedProperty;
     }
 
-    function parseGlobalDeclaration($parentNode) {
+    private function parseGlobalDeclaration($parentNode) {
         $globalDeclaration = new GlobalDeclaration();
         $globalDeclaration->parent = $parentNode;
 
@@ -2733,7 +2730,7 @@ class Parser {
         return $globalDeclaration;
     }
 
-    function parseFunctionStaticDeclaration($parentNode) {
+    private function parseFunctionStaticDeclaration($parentNode) {
         $functionStaticDeclaration = new FunctionStaticDeclaration();
         $functionStaticDeclaration->parent = $parentNode;
 
@@ -2752,13 +2749,13 @@ class Parser {
         return $functionStaticDeclaration;
     }
 
-    function isVariableNameStartFn() {
+    private function isVariableNameStartFn() {
         return function ($token) {
             return $token->kind === TokenKind::VariableName || $token->kind === TokenKind::DollarToken;
         };
     }
 
-    function parseStaticVariableDeclarationFn() {
+    private function parseStaticVariableDeclarationFn() {
         return function ($parentNode) {
             $staticVariableDeclaration = new StaticVariableDeclaration();
             $staticVariableDeclaration->parent = $parentNode;
@@ -2772,7 +2769,7 @@ class Parser {
         };
     }
 
-    function parseConstDeclaration($parentNode) {
+    private function parseConstDeclaration($parentNode) {
         $constDeclaration = new ConstDeclaration();
         $constDeclaration->parent = $parentNode;
 
@@ -2783,7 +2780,7 @@ class Parser {
         return $constDeclaration;
     }
 
-    function parseConstElements($parentNode) {
+    private function parseConstElements($parentNode) {
         return $this->parseDelimitedList(
             DelimitedList\ConstElementList::class,
             TokenKind::CommaToken,
@@ -2795,7 +2792,7 @@ class Parser {
         );
     }
 
-    function parseConstElementFn() {
+    private function parseConstElementFn() {
         return function ($parentNode) {
             $constElement = new ConstElement();
             $constElement->parent = $parentNode;

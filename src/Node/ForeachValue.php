@@ -14,5 +14,4 @@ class ForeachValue extends Node {
     public $ampersand;
     /** @var Expression */
     public $expression;
-
 }

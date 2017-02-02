@@ -60,7 +60,6 @@ class ParserInvariantsTest extends LexerInvariantsTest {
      * @dataProvider sourceFileNodeProvider
      */
     public function testNodesAllHaveAtLeastOneChild($filename, Node $sourceFileNode) {
-
         foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 $encode = json_encode($child);
@@ -167,7 +166,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
         $treeElements = iterator_to_array($sourceFileNode->getDescendantNodesAndTokens(), false);
         $treeElements[] = $sourceFileNode;
 
-        foreach($treeElements as $element) {
+        foreach ($treeElements as $element) {
             if ($element instanceof Node) {
                 $this->assertNotContains(
                     $sourceFileNode, $element->getChildNodesAndTokens(),

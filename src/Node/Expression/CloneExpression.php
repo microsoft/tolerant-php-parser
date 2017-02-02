@@ -16,5 +16,4 @@ class CloneExpression extends Expression {
 
     /** @var Expression */
     public $expression;
-
 }

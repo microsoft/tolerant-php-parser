@@ -19,5 +19,4 @@ class StaticVariableDeclaration extends Node {
 
     /** @var Expression | null */
     public $assignment;
-
 }

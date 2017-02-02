@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Expression;
+
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\FunctionBody;
 use Microsoft\PhpParser\Node\FunctionHeader;
@@ -17,5 +18,4 @@ class AnonymousFunctionCreationExpression extends Expression {
     public $staticModifier;
 
     use FunctionHeader, FunctionUseClause, FunctionReturnType, FunctionBody;
-
 }

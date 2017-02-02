@@ -14,5 +14,4 @@ class NamespaceAliasingClause extends Node {
     public $asKeyword;
     /** @var Token */
     public $name;
-
 }

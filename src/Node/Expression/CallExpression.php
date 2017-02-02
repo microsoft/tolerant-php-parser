@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Expression;
+
 use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
@@ -21,5 +22,4 @@ class CallExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
 }

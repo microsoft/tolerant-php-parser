@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Microsoft\PhpParser\TokenKind;
 
 class LexerInvariantsTest extends TestCase {
-    const FILENAMES = array (
+    const FILENAMES = array(
         __dir__ . "/cases/testfile.php",
         __dir__ . "/cases/commentsFile.php"
     );
@@ -169,7 +169,7 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokensArrayOnlyContainsExactlyOneEOFToken ($filename, $tokensArray) {
+    public function testTokensArrayOnlyContainsExactlyOneEOFToken($filename, $tokensArray) {
         $eofTokenCount = 0;
 
         foreach ($tokensArray as $index => $token) {
@@ -186,7 +186,7 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken ($filename, $tokensArray) {
+    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken($filename, $tokensArray) {
         $prevToken;
         foreach ($tokensArray as $index => $token) {
             if ($index === 0) {
@@ -205,7 +205,7 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testSkippedTokenLengthGreaterThanZero ($filename, $tokensArray) {
+    public function testSkippedTokenLengthGreaterThanZero($filename, $tokensArray) {
         foreach ($tokensArray as $token) {
             if ($token instanceof SkippedToken) {
                 $this->assertGreaterThan(
@@ -219,7 +219,7 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testMissingTokenLengthEqualsZero ($filename, $tokensArray) {
+    public function testMissingTokenLengthEqualsZero($filename, $tokensArray) {
         foreach ($tokensArray as $token) {
             if ($token instanceof MissingToken) {
                 $this->assertEquals(

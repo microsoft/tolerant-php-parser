@@ -21,5 +21,4 @@ class TraitDeclaration extends StatementNode {
 
     /** @var TraitMembers */
     public $traitMembers;
-
 }

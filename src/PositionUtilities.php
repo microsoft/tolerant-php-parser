@@ -11,7 +11,7 @@ class PositionUtilities {
         $start = self::getLineCharacterPositionFromPosition($pos, $text);
         $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
 
-        return new Range ($start, $end);
+        return new Range($start, $end);
     }
 
     /**

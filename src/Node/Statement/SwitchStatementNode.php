@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\CaseStatementNode;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
@@ -31,5 +32,4 @@ class SwitchStatementNode extends StatementNode {
     public $endswitch;
     /**@var Token | null */
     public $semicolon;
-
 }

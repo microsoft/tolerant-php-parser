@@ -17,5 +17,4 @@ class NamespaceUseGroupClause extends Node {
     public $namespaceName;
     /** @var  NamespaceAliasingClause */
     public $namespaceAliasingClause;
-
 }

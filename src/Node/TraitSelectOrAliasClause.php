@@ -22,5 +22,4 @@ class TraitSelectOrAliasClause extends Node {
 
     /** @var Token */
     public $targetName;
-
 }

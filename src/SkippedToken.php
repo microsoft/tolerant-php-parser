@@ -11,7 +11,7 @@ class SkippedToken extends Token {
         parent::__construct($token->kind, $token->fullStart, $token->start, $token->length);
     }
 
-    function jsonSerialize() {
+    public function jsonSerialize() {
         return array_merge(
             ["error" => $this->getTokenKindNameFromValue(TokenKind::SkippedToken)],
             parent::jsonSerialize()

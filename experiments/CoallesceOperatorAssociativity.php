@@ -22,7 +22,9 @@
  * and is therefore likely right associative.
  */
 
-function a () { return "a"; }
+function a() {
+    return "a";
+}
 
 $parenCount = 3000;
 

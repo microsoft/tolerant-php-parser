@@ -23,5 +23,4 @@ class ListIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
 }

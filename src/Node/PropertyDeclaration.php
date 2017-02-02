@@ -19,5 +19,4 @@ class PropertyDeclaration extends Node {
 
     /** @var Token */
     public $semicolon;
-
 }

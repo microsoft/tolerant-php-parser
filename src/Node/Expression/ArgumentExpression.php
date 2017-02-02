@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Expression;
+
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
@@ -17,5 +18,4 @@ class ArgumentExpression extends Expression {
 
     /** @var Expression */
     public $expression;
-
 }

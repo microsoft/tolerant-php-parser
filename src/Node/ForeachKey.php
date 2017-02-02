@@ -14,5 +14,4 @@ class ForeachKey extends Node {
     public $expression;
     /** @var Token */
     public $arrow;
-
 }

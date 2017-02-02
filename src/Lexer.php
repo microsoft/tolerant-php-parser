@@ -7,7 +7,6 @@
 namespace Microsoft\PhpParser;
 
 class Lexer implements ITokenStreamProvider {
-
     private $pos;
     private $endOfFilePos;
     private $fileContents;
@@ -23,7 +22,7 @@ class Lexer implements ITokenStreamProvider {
         $this->keywordOrReservedWordTokens = array_merge(TokenStringMaps::KEYWORDS, TokenStringMaps::RESERVED_WORDS);
     }
 
-    function getTokensArray() : array {
+    public function getTokensArray() : array {
 
         // TODO figure out how to optimize memory
         // $tokensArray = new SplFixedArray($strLen);
@@ -42,15 +41,15 @@ class Lexer implements ITokenStreamProvider {
         return $this->token;
     }
 
-    function getCurrentPosition() : int {
+    public function getCurrentPosition() : int {
         return $this->pos;
     }
 
-    function setCurrentPosition(int $pos) {
+    public function setCurrentPosition(int $pos) {
         $this->pos = $pos;
     }
 
-    function getEndOfFilePosition() : int {
+    public function getEndOfFilePosition() : int {
         return $this->endOfFilePos;
     }
 
@@ -231,12 +230,12 @@ class Lexer implements ITokenStreamProvider {
         }
     }
 
-    function getKeywordOrReservedWordTokenFromNameToken($token, $lowerKeywordStart, $text, & $pos, $endOfFilePos) {
+    private function getKeywordOrReservedWordTokenFromNameToken($token, $lowerKeywordStart, $text, & $pos, $endOfFilePos) {
         $token->kind = $this->keywordOrReservedWordTokens[$lowerKeywordStart];
         if ($token->kind === TokenKind::YieldKeyword) {
             $savedPos = $pos;
             $nextToken = $this->scanNextToken();
-            if (preg_replace('/\s+/','', strtolower($nextToken->getFullText($text))) === "from") {
+            if (preg_replace('/\s+/', '', strtolower($nextToken->getFullText($text))) === "from") {
                 $token->kind = TokenKind::YieldFromKeyword;
                 $token->length = $pos - $token->fullStart;
             } else {
@@ -246,22 +245,22 @@ class Lexer implements ITokenStreamProvider {
         return $token;
     }
 
-    function isKeywordOrReservedWordStart($lowerText) : bool {
+    private function isKeywordOrReservedWordStart($lowerText) : bool {
         return isset($this->keywordOrReservedWordTokens[$lowerText]);
     }
 
-    function isOperatorOrPunctuator($text): bool {
+    private function isOperatorOrPunctuator($text): bool {
         return isset(TokenStringMaps::OPERATORS_AND_PUNCTUATORS[$text]);
     }
 
-    function isSingleLineCommentStart($text, $pos, $endOfFilePos) : bool {
+    private function isSingleLineCommentStart($text, $pos, $endOfFilePos) : bool {
         return
             $pos+1 < $endOfFilePos &&
             $text[$pos] === "/" &&
             $text[$pos+1] === "/";
     }
 
-    function scanSingleLineComment($text, & $pos, $endOfFilePos) {
+    private function scanSingleLineComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
             if ($this->isNewLineChar(ord($text[$pos])) || $this->isScriptEndTag($text, $pos, $endOfFilePos)) {
                 return;
@@ -270,14 +269,14 @@ class Lexer implements ITokenStreamProvider {
         }
     }
 
-    function isDelimitedCommentStart($text, $pos, $endOfFilePos) : bool {
+    private function isDelimitedCommentStart($text, $pos, $endOfFilePos) : bool {
         return
             $pos + 1 < $endOfFilePos &&
             $text[$pos] === "/" &&
             $text[$pos+1] === "*";
     }
 
-    function scanDelimitedComment($text, & $pos, $endOfFilePos) {
+    private function scanDelimitedComment($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
             if (($pos + 1 < $endOfFilePos && $text[$pos] === "*" && $text[$pos + 1] === "/")) {
                 $pos += 2;
@@ -287,13 +286,13 @@ class Lexer implements ITokenStreamProvider {
         }
     }
 
-    function isNameStart($text, $pos, $endOfFilePos) : bool {
+    private function isNameStart($text, $pos, $endOfFilePos) : bool {
         return
             $pos < $endOfFilePos &&
             $this->isNameNonDigitChar(ord($text[$pos]));
     }
 
-    function scanName($text, & $pos, $endOfFilePos) {
+    private function scanName($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
             $charCode = ord($text[$pos]);
             if ($this->isNameNonDigitChar($charCode) || $this->isDigitChar($charCode)) {
@@ -304,13 +303,13 @@ class Lexer implements ITokenStreamProvider {
         }
     }
 
-    function isNewLineChar($charCode) : bool {
+    private function isNewLineChar($charCode) : bool {
         return
             $charCode === CharacterCodes::_newline ||
             $charCode === CharacterCodes::_return;
     }
 
-    function isNameNonDigitChar($charCode) : bool {
+    private function isNameNonDigitChar($charCode) : bool {
         return
             $this->isNonDigitChar($charCode) ||
             $this->isValidNameUnicodeChar($charCode);
@@ -321,7 +320,7 @@ class Lexer implements ITokenStreamProvider {
      * @param $char
      * @return bool
      */
-    function isValidNameUnicodeChar($char) : bool {
+    private function isValidNameUnicodeChar($char) : bool {
         // TODO implement
         return false;
 //        return
@@ -334,39 +333,39 @@ class Lexer implements ITokenStreamProvider {
      * @param $char
      * @return bool
      */
-    function isNonDigitChar($charCode) : bool {
+    private function isNonDigitChar($charCode) : bool {
         return
             ($charCode >= CharacterCodes::a && $charCode <= CharacterCodes::z) ||
             ($charCode >= CharacterCodes::A && $charCode <= CharacterCodes::Z) ||
             $charCode === CharacterCodes::_underscore;
     }
 
-    function isDigitChar($charCode) : bool {
-//        $charCode = ord($char);
+    private function isDigitChar($charCode) : bool {
+        //        $charCode = ord($char);
         return
             $charCode >= CharacterCodes::_0 &&
             $charCode <= CharacterCodes::_9;
     }
 
-    function isNonzeroDigitChar($charCode) : bool {
+    private function isNonzeroDigitChar($charCode) : bool {
         return
             $charCode >= CharacterCodes::_1 &&
             $charCode <= CharacterCodes::_9;
     }
 
-    function isOctalDigitChar($charCode) : bool {
+    private function isOctalDigitChar($charCode) : bool {
         return
             $charCode >= CharacterCodes::_0 &&
             $charCode <= CharacterCodes::_7;
     }
 
-    function isBinaryDigitChar($charCode) : bool {
+    private function isBinaryDigitChar($charCode) : bool {
         return
             $charCode === CharacterCodes::_0 ||
             $charCode === CharacterCodes::_1;
     }
 
-    function isHexadecimalDigit($charCode) {
+    private function isHexadecimalDigit($charCode) {
         // 0  1  2  3  4  5  6  7  8  9
         // a  b  c  d  e  f
         // A  B  C  D  E  F
@@ -376,7 +375,7 @@ class Lexer implements ITokenStreamProvider {
             $charCode >= CharacterCodes::A && $charCode <= CharacterCodes::F;
     }
 
-    function scanNumericLiteral($text, & $pos, $endOfFilePos) : int {
+    private function scanNumericLiteral($text, & $pos, $endOfFilePos) : int {
         if ($this->isBinaryLiteralStart($text, $pos, $endOfFilePos)) {
             $pos+=2;
             $prevPos = $pos;
@@ -384,7 +383,6 @@ class Lexer implements ITokenStreamProvider {
             if ($prevPos === $pos || !$isValidBinaryLiteral) {
                 // invalid binary literal
                 return TokenKind::InvalidBinaryLiteral;
-
             }
             return TokenKind::BinaryLiteralToken;
         } elseif ($this->isHexadecimalLiteralStart($text, $pos, $endOfFilePos)) {
@@ -430,19 +428,19 @@ class Lexer implements ITokenStreamProvider {
         return TokenKind::Unknown;
     }
 
-    function isDecimalLiteralStart($text, $pos, $endOfFilePos) {
+    private function isDecimalLiteralStart($text, $pos, $endOfFilePos) {
         // nonzero-digit
         return $this->isNonzeroDigitChar(ord($text[$pos]));
     }
 
-    function isOctalLiteralStart($text, $pos, $endOfFilePos) {
+    private function isOctalLiteralStart($text, $pos, $endOfFilePos) {
         // 0
         // need to lookahead to resolve ambiguity w/ hexadecimal literal
         return
             $text[$pos] === "0";
     }
 
-    function scanBinaryLiteral($text, & $pos, $endOfFilePos) {
+    private function scanBinaryLiteral($text, & $pos, $endOfFilePos) {
         $isValid = true;
         while ($pos < $endOfFilePos) {
             $charCode = ord($text[$pos]);
@@ -460,7 +458,7 @@ class Lexer implements ITokenStreamProvider {
         return $isValid;
     }
 
-    function scanHexadecimalLiteral($text, & $pos, $endOfFilePos) {
+    private function scanHexadecimalLiteral($text, & $pos, $endOfFilePos) {
         $isValid = true;
         while ($pos < $endOfFilePos) {
             $charCode = ord($text[$pos]);
@@ -478,7 +476,7 @@ class Lexer implements ITokenStreamProvider {
         return $isValid;
     }
 
-    function isHexadecimalLiteralStart($text, $pos, $endOfFilePos) {
+    private function isHexadecimalLiteralStart($text, $pos, $endOfFilePos) {
         // 0x  0X
         return
             isset($text[$pos+1]) &&
@@ -486,7 +484,7 @@ class Lexer implements ITokenStreamProvider {
             strtolower($text[$pos+1]) == "x";
     }
 
-    function isBinaryLiteralStart($text, $pos, $endOfFilePos) {
+    private function isBinaryLiteralStart($text, $pos, $endOfFilePos) {
         // 0b, 0B
         return
             isset($text[$pos+1]) &&
@@ -494,7 +492,7 @@ class Lexer implements ITokenStreamProvider {
             strtolower($text[$pos+1]) == "b";
     }
 
-    function scanDecimalLiteral($text, & $pos, $endOfFilePos) {
+    private function scanDecimalLiteral($text, & $pos, $endOfFilePos) {
         while ($pos < $endOfFilePos) {
             $charCode = ord($text[$pos]);
             if ($this->isDigitChar($charCode)) {
@@ -523,58 +521,58 @@ class Lexer implements ITokenStreamProvider {
         return $isValid;
     }
 
-     function scanFloatingPointLiteral($text, & $pos, $endOfFilePos) {
-         $hasDot = false;
-         $expStart = null;
-         $hasSign = false;
-         while ($pos < $endOfFilePos) {
-             $char = $text[$pos];
+    private function scanFloatingPointLiteral($text, & $pos, $endOfFilePos) {
+        $hasDot = false;
+        $expStart = null;
+        $hasSign = false;
+        while ($pos < $endOfFilePos) {
+            $char = $text[$pos];
 
-             if ($this->isDigitChar(ord($char))) {
-                 $pos++;
-                 continue;
-             } elseif ($char === ".") {
-                 if ($hasDot || $expStart !== null) {
-                     // Dot not valid, done scanning
+            if ($this->isDigitChar(ord($char))) {
+                $pos++;
+                continue;
+            } elseif ($char === ".") {
+                if ($hasDot || $expStart !== null) {
+                    // Dot not valid, done scanning
                      break;
-                 }
-                 $hasDot = true;
-                 $pos++;
-                 continue;
-             } elseif ($char === "e" || $char === "E") {
-                 if ($expStart !== null) {
-                     // exponential not valid here, done scanning
+                }
+                $hasDot = true;
+                $pos++;
+                continue;
+            } elseif ($char === "e" || $char === "E") {
+                if ($expStart !== null) {
+                    // exponential not valid here, done scanning
                      break;
-                 }
-                 $expStart = $pos;
-                 $pos++;
-                 continue;
-             } elseif ($char === "+" || $char === "-") {
-                 if ($expStart !== null && $expStart === $pos-1) {
-                     $hasSign = true;
-                     $pos++;
-                     continue;
-                 }
+                }
+                $expStart = $pos;
+                $pos++;
+                continue;
+            } elseif ($char === "+" || $char === "-") {
+                if ($expStart !== null && $expStart === $pos-1) {
+                    $hasSign = true;
+                    $pos++;
+                    continue;
+                }
                  // sign not valid here, done scanning
                  break;
-             }
+            }
              // unexpected character, done scanning
              break;
-         }
+        }
 
-         if ($expStart !== null) {
-             $expectedMinPos = $hasSign ? $expStart + 3 : $expStart + 2;
-             if ($pos >= $expectedMinPos) {
-                 return true;
-             }
+        if ($expStart !== null) {
+            $expectedMinPos = $hasSign ? $expStart + 3 : $expStart + 2;
+            if ($pos >= $expectedMinPos) {
+                return true;
+            }
              // exponential is invalid, reset position
              $pos = $expStart;
-         }
+        }
 
-         return $hasDot;
+        return $hasDot;
     }
 
-    function scanStringLiteral($text, & $pos, $endOfFilePos) {
+    private function scanStringLiteral($text, & $pos, $endOfFilePos) {
         // TODO validate with multiple character sets
 
         $isTerminated = false;
@@ -596,12 +594,11 @@ class Lexer implements ITokenStreamProvider {
         return $isTerminated;
     }
 
-    function isSingleQuoteEscapeSequence($text, $pos) {
+    private function isSingleQuoteEscapeSequence($text, $pos) {
         return
             isset($text[$pos+1]) &&
             $text[$pos] === "\\" &&
             in_array($text[$pos+1], self::SQ_ESCAPE_SEQ_CHARS);
-
     }
 
     const SQ_ESCAPE_SEQ_CHARS = array(
@@ -612,21 +609,21 @@ class Lexer implements ITokenStreamProvider {
         "\"", "\\", "$", 'e', "f", "n", "r", "t", "v"
     );
 
-    function isDoubleQuoteEscapeSequence($text, $pos) {
+    private function isDoubleQuoteEscapeSequence($text, $pos) {
         return
             isset($text[$pos+1]) &&
             $text[$pos] === "\\" &&
             in_array($text[$pos+1], self::DQ_ESCAPE_SEQ_CHARS);
     }
 
-    function reScanTemplateToken($token): Token {
+    private function reScanTemplateToken($token): Token {
         $this->pos = $token->fullStart + $token->length;
         $start = $this->pos;
         $kind = $this->scanTemplateAndSetTokenValue($this->fileContents, $this->pos, $this->endOfFilePos, true);
         return new Token($kind, $start, $start, $this->pos-$start);
     }
 
-    function scanTemplateAndSetTokenValue($text, & $pos, $endOfFilePos, $isRescan): int {
+    private function scanTemplateAndSetTokenValue($text, & $pos, $endOfFilePos, $isRescan): int {
         $startedWithDoubleQuote = ord($text[$pos]) === CharacterCodes::_doubleQuote && !$isRescan;
         $isTerminated = false;
 
@@ -710,7 +707,6 @@ class Lexer implements ITokenStreamProvider {
                         return;
                     }
                     // OTHERWISE ERROR
-
                 }
                 return;
             default:
@@ -732,7 +728,7 @@ class Lexer implements ITokenStreamProvider {
 
     private function isScriptStartTag($text, $pos, $endOfFilePos) {
         if (ord($text[$pos]) === CharacterCodes::_lessThan && // TODO use regex to detect newline or whitespace char
-            (isset($text[$pos+5]) && strtolower(substr($text, $pos, 5)) === "<?php" &&  in_array($text[$pos+5],["\n", "\r", " ", "\t"])) ||
+            (isset($text[$pos+5]) && strtolower(substr($text, $pos, 5)) === "<?php" &&  in_array($text[$pos+5], ["\n", "\r", " ", "\t"])) ||
             (isset($text[$pos+2]) && substr($text, $pos, 3) === "<?=")) {
             return true;
         }

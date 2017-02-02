@@ -14,5 +14,4 @@ class FinallyClause extends Node {
     public $finallyToken;
     /**@var StatementNode */
     public $compoundStatement;
-
 }

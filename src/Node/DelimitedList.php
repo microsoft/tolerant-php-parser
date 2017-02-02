@@ -15,7 +15,7 @@ class DelimitedList extends Node {
 
     public function getValues() {
         $i = 0;
-        foreach($this->children as $value) {
+        foreach ($this->children as $value) {
             if ($i++ % 2 == 1) {
                 yield $value;
             }

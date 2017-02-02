@@ -11,7 +11,7 @@ class MissingToken extends Token {
         parent::__construct($kind, $fullStart, $fullStart, 0);
     }
 
-    function jsonSerialize() {
+    public function jsonSerialize() {
         return array_merge(
             ["error" => $this->getTokenKindNameFromValue(TokenKind::MissingToken)],
             parent::jsonSerialize()

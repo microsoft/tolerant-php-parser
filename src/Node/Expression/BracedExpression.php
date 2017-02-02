@@ -18,5 +18,4 @@ class BracedExpression extends Expression {
 
     /** @var Token */
     public $closeBrace;
-
 }

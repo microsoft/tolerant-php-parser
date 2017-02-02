@@ -19,7 +19,7 @@ $files = [
     __DIR__ . "/../src/Parser.php",
     __DIR__ . "/../src/Diagnostics.php",
     __DIR__ . "/../src/PositionUtilities.php",
-    __DIR__ . "/../src/LineCharacterPosition.php",    
+    __DIR__ . "/../src/LineCharacterPosition.php",
     __DIR__ . "/../src/MissingToken.php",
     __DIR__ . "/../src/SkippedToken.php"
 ];

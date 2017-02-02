@@ -14,5 +14,4 @@ class MethodDeclaration extends Node {
     public $modifiers;
     
     use FunctionHeader, FunctionReturnType, FunctionBody;
-
 }

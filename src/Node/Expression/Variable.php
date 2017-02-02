@@ -15,5 +15,4 @@ class Variable extends Expression {
 
     /** @var Token | Variable | BracedExpression */
     public $name;
-
 }

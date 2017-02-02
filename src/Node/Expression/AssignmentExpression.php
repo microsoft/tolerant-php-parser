@@ -22,5 +22,4 @@ class AssignmentExpression extends BinaryExpression {
 
     /** @var Expression */
     public $rightOperand;
-
 }

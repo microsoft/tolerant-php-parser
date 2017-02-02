@@ -19,5 +19,4 @@ class MemberAccessExpression extends Expression {
 
     /** @var Token */
     public $memberName;
-
 }
