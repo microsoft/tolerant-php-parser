@@ -26,26 +26,16 @@ class PositionUtilities {
      * @return LineCharacterPosition
      */
     public static function getLineCharacterPositionFromPosition($pos, $text) : LineCharacterPosition {
-        if ($pos >= \strlen($text)) {
-            $pos = \strlen($text);
+        $length = \strlen($text);
+        if ($pos >= $length) {
+            $pos = $length;
         } elseif ($pos < 0) {
             $pos = 0;
         }
 
-        $newlinePositions = [];
-        $newlinePos = -1;
-        while ($newlinePos = \strpos($text, "\n", $newlinePos + 1)) {
-            if ($newlinePos < $pos) {
-                $newlinePositions[] = $newlinePos;
-                continue;
-            }
-            break;
-        }
-
-        $lastNewline = \count($newlinePositions) - 1;
-        $char = $pos - ($lastNewline >= 0 ? $newlinePositions[$lastNewline] + 1 : 0);
-        $line = \count($newlinePositions);
-
+        $lastNewlinePos = \strrpos($text, "\n", -($length - $pos));
+        $char = $pos - ($lastNewlinePos === false ? 0 : $lastNewlinePos + 1);
+        $line = $pos > 0 ? \substr_count($text, "\n", 0, $pos) : 0;
         return new LineCharacterPosition($line, $char);
     }
 }
