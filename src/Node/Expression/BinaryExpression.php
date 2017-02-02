@@ -19,5 +19,4 @@ class BinaryExpression extends Expression {
 
     /** @var Expression */
     public $rightOperand;
-
 }

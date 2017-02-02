@@ -17,5 +17,4 @@ class QualifiedName extends Node {
 
     /** @var DelimitedList\QualifiedNameParts */
     public $nameParts;
-
 }

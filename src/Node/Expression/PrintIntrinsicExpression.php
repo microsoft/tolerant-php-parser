@@ -16,5 +16,4 @@ class PrintIntrinsicExpression extends Expression {
 
     /** @var Expression */
     public $expression;
-
 }

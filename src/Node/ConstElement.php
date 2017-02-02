@@ -19,5 +19,4 @@ class ConstElement extends Node {
 
     /** @var Expression */
     public $assignment;
-
 }

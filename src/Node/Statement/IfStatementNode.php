@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\ElseClauseNode;
 use Microsoft\PhpParser\Node\ElseIfClauseNode;
 use Microsoft\PhpParser\Node\Expression;
@@ -32,5 +33,4 @@ class IfStatementNode extends StatementNode {
     public $endifKeyword;
     /**@var Token | null */
     public $semicolon;
-
 }

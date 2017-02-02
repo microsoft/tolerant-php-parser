@@ -15,5 +15,4 @@ class RelativeSpecifier extends Node {
 
     /** @var Token */
     public $backslash;
-
 }

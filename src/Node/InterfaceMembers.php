@@ -18,5 +18,4 @@ class InterfaceMembers extends Node {
 
     /** @var Token */
     public $closeBrace;
-
 }

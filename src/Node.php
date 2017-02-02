@@ -336,7 +336,7 @@ class Node implements \JsonSerializable {
         } elseif ($this instanceof SourceFileNode) {
             return $this->endOfFileToken->getEndPosition();
         }
-        throw new \Exception("Unhandled node: " );
+        throw new \Exception("Unhandled node: ");
     }
 
     public function & getFileContents() : string {

@@ -15,5 +15,4 @@ class ErrorControlExpression extends UnaryExpression {
 
     /** @var UnaryExpression */
     public $operand;
-
 }

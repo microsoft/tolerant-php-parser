@@ -62,7 +62,7 @@ class Token implements \JsonSerializable {
         return $kindName;
     }
 
-    function jsonSerialize() {
+    public function jsonSerialize() {
         $kindName = $this->getTokenKindNameFromValue($this->kind);
 
         if (!isset($GLOBALS["SHORT_TOKEN_SERIALIZE"])) {
@@ -81,6 +81,6 @@ class Token implements \JsonSerializable {
                 "start" => $this->start,
                 "length" => $this->length
             ];
-        }        
+        }
     }
 }

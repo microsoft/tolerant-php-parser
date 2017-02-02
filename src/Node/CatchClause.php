@@ -22,5 +22,4 @@ class CatchClause extends Node {
     public $closeParen;
     /**@var StatementNode */
     public $compoundStatement;
-
 }

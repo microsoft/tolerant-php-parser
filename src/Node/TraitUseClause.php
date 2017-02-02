@@ -25,5 +25,4 @@ class TraitUseClause extends Node {
 
     /** @var Token */
     public $closeBrace;
-
 }

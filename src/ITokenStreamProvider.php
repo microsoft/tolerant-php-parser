@@ -7,13 +7,13 @@
 namespace Microsoft\PhpParser;
 
 interface ITokenStreamProvider {
-    function scanNextToken() : Token;
+    public function scanNextToken() : Token;
 
-    function getCurrentPosition() : int;
+    public function getCurrentPosition() : int;
 
-    function setCurrentPosition(int $pos);
+    public function setCurrentPosition(int $pos);
 
-    function getEndOfFilePosition() : int;
+    public function getEndOfFilePosition() : int;
 
-    function getTokensArray() : array;
+    public function getTokensArray() : array;
 }

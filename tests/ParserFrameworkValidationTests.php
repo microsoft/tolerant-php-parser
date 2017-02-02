@@ -11,12 +11,10 @@ require_once(__DIR__ . "/../src/Token.php");
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
-
 class ParserFrameworkValidationTests extends TestCase {
-
     public function frameworkErrorProvider() {
         $totalSize = 0;
-        $frameworks = glob( __DIR__ . "/../validation/frameworks/*", GLOB_ONLYDIR);
+        $frameworks = glob(__DIR__ . "/../validation/frameworks/*", GLOB_ONLYDIR);
 
         $testProviderArray = array();
         foreach ($frameworks as $frameworkDir) {

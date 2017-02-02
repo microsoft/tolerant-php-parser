@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\InterfaceBaseClause;
 use Microsoft\PhpParser\Node\InterfaceMembers;
 use Microsoft\PhpParser\Node\Name;
@@ -24,5 +25,4 @@ class InterfaceDeclaration extends StatementNode {
 
     /** @var InterfaceMembers */
     public $interfaceMembers;
-
 }

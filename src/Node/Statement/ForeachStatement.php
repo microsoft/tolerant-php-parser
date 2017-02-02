@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\ForeachKey;
 use Microsoft\PhpParser\Node\ForeachValue;

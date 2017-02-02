@@ -27,6 +27,5 @@ class Parameter extends Node {
     public $default;
 
     public function isVariadic() {
-
     }
 }

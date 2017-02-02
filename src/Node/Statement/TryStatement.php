@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\CatchClause;
 use Microsoft\PhpParser\Node\FinallyClause;
 use Microsoft\PhpParser\Node\StatementNode;
@@ -19,5 +20,4 @@ class TryStatement extends StatementNode {
     public $catchClauses;
     /**@var FinallyClause | null */
     public $finallyClause;
-
 }

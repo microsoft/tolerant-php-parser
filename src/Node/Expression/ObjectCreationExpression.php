@@ -39,5 +39,4 @@ class ObjectCreationExpression extends Expression {
 
     /** @var ClassMembersNode | null */
     public $classMembers;
-
 }

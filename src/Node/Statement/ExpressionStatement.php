@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
@@ -14,5 +15,4 @@ class ExpressionStatement extends StatementNode {
     public $expression;
     /** @var Token */
     public $semicolon;
-
 }

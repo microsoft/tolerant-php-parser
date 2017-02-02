@@ -7,7 +7,6 @@
 namespace Microsoft\PhpParser;
 
 class PhpTokenizer implements ITokenStreamProvider {
-
     public $pos;
     public $endOfFilePos;
     private $token;
@@ -28,23 +27,23 @@ class PhpTokenizer implements ITokenStreamProvider {
             : $this->tokensArray[$this->pos++];
     }
 
-    function getCurrentPosition() : int {
+    public function getCurrentPosition() : int {
         return $this->pos;
     }
 
-    function setCurrentPosition(int $pos) {
+    public function setCurrentPosition(int $pos) {
         $this->pos = $pos;
     }
 
-    function getEndOfFilePosition() : int {
+    public function getEndOfFilePosition() : int {
         return $this->endOfFilePos;
     }
 
-    function getTokensArray() : array {
+    public function getTokensArray() : array {
         return $this->tokensArray;
     }
 
-    function initialize($tokens) {
+    private function initialize($tokens) {
         $arr = array();
         $fullStart = 0;
         $start = 0;

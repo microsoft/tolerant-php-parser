@@ -15,5 +15,4 @@ class InterfaceBaseClause extends Node {
 
     /** @var DelimitedList\QualifiedNameList */
     public $interfaceNameList;
-
 }

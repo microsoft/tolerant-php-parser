@@ -12,7 +12,6 @@ require_once(__DIR__ . "/../src/Token.php");
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
-
 class LexicalGrammarTest extends TestCase {
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
@@ -21,7 +20,7 @@ class LexicalGrammarTest extends TestCase {
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
         }
 
-        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {
+        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
             function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
@@ -83,7 +82,6 @@ class LexicalGrammarTest extends TestCase {
         }
 //        $tokens = str_replace("\r\n", "\n", json_encode($tokens, JSON_PRETTY_PRINT));
 //        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
-
     }
 
     public function lexicalSpecProvider() {
@@ -96,5 +94,4 @@ class LexicalGrammarTest extends TestCase {
 
         return $testProviderArray;
     }
-
 }

@@ -22,5 +22,4 @@ class AnonymousFunctionUseClause extends Node {
 
     /** @var Token */
     public $closeParen;
-
 }

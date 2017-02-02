@@ -22,5 +22,4 @@ class ExitIntrinsicExpression extends Expression {
 
     /** @var Token | null */
     public $closeParen;
-
 }

@@ -23,5 +23,4 @@ class IssetIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
-
 }

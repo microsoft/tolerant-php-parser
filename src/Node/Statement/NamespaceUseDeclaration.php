@@ -29,5 +29,4 @@ class NamespaceUseDeclaration extends StatementNode {
     public $closeBrace;
     /** @var Token */
     public $semicolon;
-
 }

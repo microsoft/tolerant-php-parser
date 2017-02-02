@@ -20,5 +20,4 @@ class ScopedPropertyAccessExpression extends Expression {
 
     /** @var Token | Variable */
     public $memberName;
-
 }

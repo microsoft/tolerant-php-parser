@@ -13,14 +13,13 @@ use Microsoft\PhpParser\DiagnosticsProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParserGrammarTest extends TestCase {
-
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
         }
 
-        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener  {
+        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
             function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));

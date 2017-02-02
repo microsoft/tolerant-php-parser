@@ -23,5 +23,4 @@ class ArrayCreationExpression extends Expression {
 
     /** @var Token */
     public $closeParenOrBracket;
-
 }

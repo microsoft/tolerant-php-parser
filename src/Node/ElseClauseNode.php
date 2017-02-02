@@ -16,5 +16,4 @@ class ElseClauseNode extends Node {
     public $colon;
     /**@var StatementNode | StatementNode[] */
     public $statements;
-
 }

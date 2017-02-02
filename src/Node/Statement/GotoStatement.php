@@ -5,6 +5,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser\Node\Statement;
+
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
@@ -15,5 +16,4 @@ class GotoStatement extends StatementNode {
     public $name;
     /** @var Token */
     public $semicolon;
-
 }
