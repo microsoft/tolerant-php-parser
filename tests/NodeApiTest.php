@@ -4,11 +4,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-// TODO autoload classes
-require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
-require_once(__DIR__ . "/../src/Parser.php");
-require_once(__DIR__ . "/../src/Token.php");
-
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\SourceFileNode;
 use PHPUnit\Framework\TestCase;

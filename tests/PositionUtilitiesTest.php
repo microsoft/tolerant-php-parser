@@ -4,8 +4,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-require_once(__DIR__ . "/../src/bootstrap.php");
-
 use Microsoft\PhpParser\LineCharacterPosition;
 use Microsoft\PhpParser\PositionUtilities;
 use PHPUnit\Framework\TestCase;
