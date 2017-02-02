@@ -4,11 +4,11 @@
 <hr>
 
 ## Node
-### Node::__construct
+### Node::getNodeKindName
 > TODO: add doc comment
 
 ```php
-public function __construct ( int $kind )
+public function getNodeKindName ( ) : string
 ```
 ### Node::getStart
 Gets start position of Node, not including leading comments and whitespace.
@@ -49,7 +49,7 @@ public function getDescendantNodes ( callable $shouldDescendIntoChildrenFn = nul
 ### Node::getDescendantTokens
 Gets generator containing all descendant Tokens.
 ```php
-public function & getDescendantTokens ( callable $shouldDescendIntoChildrenFn = null )
+public function getDescendantTokens ( callable $shouldDescendIntoChildrenFn = null )
 ```
 ### Node::getChildNodesAndTokens
 Gets generator containing all child Nodes and Tokens (direct descendants)
@@ -59,12 +59,17 @@ public function getChildNodesAndTokens ( ) : \Generator
 ### Node::getChildNodes
 Gets generator containing all child Nodes (direct descendants)
 ```php
-public function & getChildNodes ( ) : \Generator
+public function getChildNodes ( ) : \Generator
 ```
 ### Node::getChildTokens
 Gets generator containing all child Tokens (direct descendants)
 ```php
 public function getChildTokens ( )
+```
+### Node::getChildNames
+Gets array of declared child names (cached). This is used as an optimization when iterating over nodes: For direct iteration PHP will create a properties hashtable on the object, thus doubling memory usage. We avoid this by iterating over just the names instead.
+```php
+public function getChildNames ( )
 ```
 ### Node::getWidth
 Gets width of a Node (not including comment / whitespace trivia)
@@ -96,16 +101,6 @@ public function getLeadingCommentAndWhitespaceText ( ) : string
 
 ```php
 public function jsonSerialize ( )
-```
-### Node::getNodeKindNameFromValue
-Gets name of a Node from its raw kind value.
-```php
-public static function getNodeKindNameFromValue ( int $value ) : string
-```
-### Node::getNodeKindName
-Gets the name of a Node kind.
-```php
-public function getNodeKindName ( ) : string
 ```
 ### Node::getEndPosition
 Get the end index of a Node.
@@ -190,6 +185,12 @@ public function getEndPosition ( )
 ```php
 public static function getTokenKindNameFromValue ( $kindName )
 ```
+### Token::jsonSerialize
+> TODO: add doc comment
+
+```php
+public function jsonSerialize ( )
+```
 ## Parser
 ### Parser::__construct
 > TODO: add doc comment
@@ -205,31 +206,24 @@ public function parseSourceFile ( $fileContents ) : SourceFileNode
 ```
 ## Associativity
 ## ParseContext
-## Utilities
-### Utilities::getDiagnostics
+## DiagnosticsProvider
+### DiagnosticsProvider::getDiagnostics
 > TODO: add doc comment
 
 ```php
 public static function getDiagnostics ( $node )
 ```
-### Utilities::getRangeFromPosition
+## PositionUtilities
+### PositionUtilities::getRangeFromPosition
 > TODO: add doc comment
 
 ```php
 public static function getRangeFromPosition ( $pos, $length, $text )
 ```
-### Utilities::getLineCharacterPositionFromPosition
-> TODO: add doc comment
-
+### PositionUtilities::getLineCharacterPositionFromPosition
+Get's 0-indexed LineCharacterPosition from 0-indexed position into $text. Out of bounds positions are handled gracefully. Positions greater than the length of text length are resolved to text length, and negative positions are resolved to 0. TODO consider throwing exception instead.
 ```php
 public static function getLineCharacterPositionFromPosition ( $pos, $text ) : LineCharacterPosition
-```
-## Range
-### Range::__construct
-> TODO: add doc comment
-
-```php
-public function __construct ( LineCharacterPosition $start, LineCharacterPosition $end )
 ```
 ## LineCharacterPosition
 ### LineCharacterPosition::__construct
@@ -245,12 +239,24 @@ public function __construct ( int $line, int $character )
 ```php
 public function __construct ( int $kind, int $fullStart )
 ```
+### MissingToken::jsonSerialize
+> TODO: add doc comment
+
+```php
+public function jsonSerialize ( )
+```
 ## SkippedToken
 ### SkippedToken::__construct
 > TODO: add doc comment
 
 ```php
 public function __construct ( Token $token )
+```
+### SkippedToken::jsonSerialize
+> TODO: add doc comment
+
+```php
+public function jsonSerialize ( )
 ```
 ## Node types
 > TODO: complete documentation - in addition to the helper methods on the Node base class,
