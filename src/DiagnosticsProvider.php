@@ -9,7 +9,12 @@ namespace Microsoft\PhpParser;
 use Microsoft\PhpParser\Node;
 
 class DiagnosticsProvider {
-    public static function getDiagnostics($node) {
+    /**
+     * Traverses AST to generate diagnostics.
+     * @param \Microsoft\PhpParser\Node $node
+     * @return \Generator | Diagnostic[]
+     */
+    public static function getDiagnostics($node) : \Generator {
         $tokenKindToText = \array_flip(\array_merge(
             TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
             TokenStringMaps::KEYWORDS,

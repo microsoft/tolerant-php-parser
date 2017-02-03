@@ -11,6 +11,9 @@ require_once(__DIR__ . "/../src/Token.php");
 
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node\Statement\IfStatementNode;
+use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
+use Microsoft\PhpParser\Parser;
 use PHPUnit\Framework\TestCase;
 use Microsoft\PhpParser\TokenKind;
 
@@ -28,7 +31,7 @@ PHP;
     public static $sourceFileNode;
 
     public static function setUpBeforeClass() {
-        $parser = new \Microsoft\PhpParser\Parser();
+        $parser = new Parser();
         self::$sourceFileNode = $parser->parseSourceFile(self::FILE_CONTENTS);
         parent::setUpBeforeClass();
     }
@@ -63,7 +66,7 @@ PHP;
 
     public function testGetTriviaForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \Microsoft\PhpParser\Parser();
+        $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualTrivia = $iterator->current()->getLeadingCommentAndWhitespaceText();
@@ -75,7 +78,7 @@ PHP;
 
     public function testGetTextForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \Microsoft\PhpParser\Parser();
+        $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualText = $iterator->current()->getText();
@@ -87,7 +90,7 @@ PHP;
 
     public function testGetFullTextForNode() {
         $contents = '<?php /* contents */ $a = 1';
-        $parser = new \Microsoft\PhpParser\Parser();
+        $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
         $iterator->next();
         $actualText = $iterator->current()->getFullText();
@@ -95,5 +98,41 @@ PHP;
 
         $sourceFile = $parser->parseSourceFile('');
         $this->assertEquals('', $sourceFile->getFullText());
+    }
+
+    public function testGetFirstAncestor() {
+        $contents = <<< PHP
+<?php
+namespace Hello {
+    class A {
+    }
+}
+PHP;
+        $parser = new Parser();
+        // TODO consider renaming to parseContents
+        $ast = $parser->parseSourceFile($contents);
+        // TODO statements vs statementList naming inconsistency
+        $classNode = $ast->statementList[1]->compoundStatementOrSemicolon->statements[0]->classMembers;
+
+        self::assertInstanceOf(
+            NamespaceDefinition::class,
+            $classNode->getFirstAncestor(NamespaceDefinition::class),
+            "getFirstAncestor with a single specified class name should return first occurrence."
+        );
+        self::assertInstanceOf(
+            NamespaceDefinition::class,
+            $classNode->getFirstAncestor(SourceFileNode::class, NamespaceDefinition::class),
+            "getFirstAncestor with multiple specified class names should return first occurrence."
+        );
+
+        self::assertNull(
+            $classNode->getFirstAncestor(IfStatementNode::class),
+            "getFirstAncestor with a non-ancestor class name should return null."
+        );
+
+        self::assertNull(
+            $classNode->getFirstAncestor(),
+            "getFirstAncestor with no specified class names should return null."
+        );
     }
 }

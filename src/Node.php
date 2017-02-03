@@ -58,14 +58,23 @@ class Node implements \JsonSerializable {
         return $this->parent;
     }
 
-    public function getAncestor($className) {
+    /**
+     * Get's first ancestor that is an instance of one of the provided classes.
+     * Returns null if there is no match.
+     *
+     * @param array ...$classNames
+     * @return Node|null
+     */
+    public function getFirstAncestor(...$classNames) {
         $ancestor = $this;
-        while (true) {
-            $ancestor = $ancestor->parent;
-            if ($ancestor == null || $ancestor instanceof $className) {
-                return $ancestor;
+        while (($ancestor = $ancestor->parent) !== null) {
+            foreach ($classNames as $className) {
+                if ($ancestor instanceof $className) {
+                    return $ancestor;
+                }
             }
         }
+        return null;
     }
 
     /**

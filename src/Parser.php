@@ -132,7 +132,14 @@ class Parser {
         $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
-    public function parseSourceFile($fileContents) : SourceFileNode {
+    /**
+     * Generates AST from source file contents. Returns an instance of SourceFileNode, which is always the top-most
+     * Node-type of the tree.
+     *
+     * @param string $fileContents
+     * @return SourceFileNode
+     */
+    public function parseSourceFile(string $fileContents) : SourceFileNode {
         $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
 
         $this->reset();

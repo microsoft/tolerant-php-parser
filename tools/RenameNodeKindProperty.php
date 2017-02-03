@@ -39,7 +39,7 @@ foreach ($asts as $ast) {
                             // TODO add method to retreive arguments or parameters array
 //                            if (isset($descendant->argumentExpressionList[0]) && $descendant->argumentExpressionList[0]
                             if (strpos($descendant->scopeResolutionQualifier->getText($descendant->getText()), "NodeKind") !== false) {
-                                $classDeclaration = $node->getAncestor(ClassDeclaration::class);
+                                $classDeclaration = $node->getFirstAncestor(ClassDeclaration::class);
                                 $className = $classDeclaration->name->getText($node->getFileContents());
                                 $searchReplace[$descendant->memberName->getText($node->getFileContents())] = $className;
                             }
