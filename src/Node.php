@@ -310,7 +310,7 @@ class Node implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $kindName = static::getNodeKindName();
+        $kindName = $this->getNodeKindName();
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
 
