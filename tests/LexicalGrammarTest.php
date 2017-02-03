@@ -4,11 +4,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-
-require_once(__DIR__ . "/../src/TokenStreamProviderFactory.php");
-require_once(__DIR__ . "/../src/Parser.php");
-require_once(__DIR__ . "/../src/Token.php");
-
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
