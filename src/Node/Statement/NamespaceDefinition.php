@@ -6,7 +6,6 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
@@ -16,6 +15,6 @@ class NamespaceDefinition extends StatementNode {
     public $namespaceKeyword;
     /** @var QualifiedName | null */
     public $name;
-    /** @var Expression | Token */
+    /** @var CompoundStatementNode | Token */
     public $compoundStatementOrSemicolon;
 }
