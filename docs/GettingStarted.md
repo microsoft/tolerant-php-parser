@@ -75,7 +75,8 @@ foreach ($childNodes as $childNode) {
     var_dump([
         "kind" => $childNode->getNodeKindName(), 
         "fullText" => $childNode->getFullText(),
-        "text" => $childNode->getText()
+        "text" => $childNode->getText(),
+        "trivia" => $childNode->getLeadingCommentAndWhitespaceText()
     ]);
 }
 
@@ -84,9 +85,11 @@ foreach ($childNodes as $childNode) {
 //     ["kind"]=>
 //     string(19) "ExpressionStatement"
 //     ["fullText"]=>
-//     string(24) "/* comment */ echo "hi!";"
+//     string(25) "/* comment */ echo "hi!";"
 //     ["text"]=>
 //     string(11) "echo "hi!";"
+//     ["trivia"]=>
+//     string(14) "/* comment */ "
 //   }
 ```
 
