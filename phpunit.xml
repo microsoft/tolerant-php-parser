@@ -32,6 +32,7 @@
     <testsuite name="api">
       <file>tests/NodeApiTest.php</file>
       <file>tests/PositionUtilitiesTest.php</file>
+      <file>tests/TextEditTest.php</file>
     </testsuite>
     
     <testsuite name="performance">
@@ -55,5 +56,6 @@
     https://github.com/Microsoft/tolerant-php-parser/issues/23
     -->
     <ini name="memory_limit" value="500M"/>
+    <ini name="assert.exception" value="1"/>
   </php>
 </phpunit>
