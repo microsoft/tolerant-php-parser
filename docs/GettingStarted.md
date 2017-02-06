@@ -74,9 +74,8 @@ $childNodes = $astNode->getChildNodes();
 foreach ($childNodes as $childNode) {
     var_dump([
         "kind" => $childNode->getNodeKindName(), 
-        "fullText" => $childNode->getFullTextForNode(),
-        "text" => $childNode->getTextForNode(),
-        "trivia" => $childNode->getTriviaForNode()
+        "fullText" => $childNode->getFullText(),
+        "text" => $childNode->getText()
     ]);
 }
 
@@ -88,8 +87,6 @@ foreach ($childNodes as $childNode) {
 //     string(24) "/* comment */ echo "hi!";"
 //     ["text"]=>
 //     string(11) "echo "hi!";"
-//     ["trivia"]=>
-//     string(13) "/* comment */ "
 //   }
 ```
 
