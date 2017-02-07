@@ -45,16 +45,15 @@ class LexicalGrammarTest extends TestCase {
 
     public function lexicalProvider() {
         $testCases = glob(__dir__ . "/cases/lexical/*.php");
-        $tokensExpected = glob(__dir__ . "/cases/lexical/*.php.tokens");
 
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
         $testProviderArray = array();
-        foreach ($testCases as $index=>$testCase) {
+        foreach ($testCases as $testCase) {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
             }
-            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+            $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tokens"];
         }
 
         return $testProviderArray;
