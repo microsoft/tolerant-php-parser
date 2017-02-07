@@ -1,0 +1,80 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Invariants Tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/vendor/phpunit/phpunit/phpunit",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "--testsuite", "invariants"
+            ],
+            // TODO use debug console when https://github.com/Microsoft/vscode/issues/17526 is resolved
+            "externalConsole": true,
+            "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
+                "-d", "xdebug.remote_enable=1",
+                "-d", "xdebug.remote_autostart=1"
+            ],
+            "port": 9000
+        },
+        {
+            "name": "Grammar Tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/vendor/phpunit/phpunit/phpunit",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "--testsuite", "grammar"
+            ],
+            "externalConsole": true,
+            "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
+                "-d", "xdebug.remote_enable=1",
+                "-d", "xdebug.remote_autostart=1"
+            ],
+            "port": 9000
+        },
+        {
+            "name": "API Tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/vendor/phpunit/phpunit/phpunit",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "--testsuite", "api"
+            ],
+            "externalConsole": true,
+            "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
+                "-d", "xdebug.remote_enable=1",
+                "-d", "xdebug.remote_autostart=1"
+            ],
+            "port": 9000
+        },
+        {
+            "name": "Validation Tests",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/vendor/phpunit/phpunit/phpunit",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "--testsuite", "validation"
+            ],
+            "externalConsole": true,
+            "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
+                "-d", "xdebug.remote_enable=1",
+                "-d", "xdebug.remote_autostart=1"
+            ],
+            "port": 9000
+        },
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000
+        }
+    ]
+}

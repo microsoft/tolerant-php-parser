@@ -1,0 +1,6 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    // Path to Xdebug extension (used in `launch.json`). Note that tests will run *much* slower when
+    // Xdebug is enabled, so it is recommended to leave this value unset when the debugger is not in use.
+    "php.xdebug.extension": "SET `php.xdebug.extension` PATH IN `.vscode/settings.json` TO DEBUG UNIT TESTS"
+}
