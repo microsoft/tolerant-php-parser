@@ -55,15 +55,14 @@ class ParserGrammarTest extends TestCase {
 
     public function treeProvider() {
         $testCases = glob(self::FILE_PATTERN . ".php");
-        $tokensExpected = glob(self::FILE_PATTERN . ".php.tree");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
         $testProviderArray = array();
-        foreach ($testCases as $index=>$testCase) {
+        foreach ($testCases as $testCase) {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
             }
-            $testProviderArray[basename($testCase)] = [$testCase, $tokensExpected[$index]];
+            $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree"];
         }
 
         return $testProviderArray;
