@@ -214,7 +214,7 @@ class Lexer implements ITokenStreamProvider {
                     if ($this->isNameStart($text, $pos, $endOfFilePos)) {
                         $this->scanName($text, $pos, $endOfFilePos);
                         $token = new Token(TokenKind::Name, $fullStart, $start, $pos - $fullStart);
-                        $tokenText = $token->getTextForToken($text);
+                        $tokenText = $token->getText($text);
                         $lowerText = strtolower($tokenText);
                         if ($this->isKeywordOrReservedWordStart($lowerText)) {
                             $token = $this->getKeywordOrReservedWordTokenFromNameToken($token, $lowerText, $text, $pos, $endOfFilePos);
