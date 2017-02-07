@@ -17,15 +17,35 @@ Note that the validation test suite requires you to also include relevant submod
 > :bulb: looking for your first PR? Take a look through the issue tracker, search the codebase for TODOs, or try enabling
 one of the test cases in `skipped.json`. 
 
-## Debugging
-For debugging, we recommend you install and configure Felix Becker's [PHP Debug extension](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug). For debugging the tests in this project,
-you can run the `Listen for XDebug` launch configuration included in this project, and then from the command line:
+In addition to running the test suites from the command line, you have the option of running them directly from VS Code using
+the included launch.json configuration.
+
+![image](https://cloud.githubusercontent.com/assets/762848/22679079/471935c2-ecb4-11e6-831f-a7b2cfcf3dcf.png)
+
+## Debugging Failed Tests
+### Analyzing failed test output files 
+The "grammar" and "validation" test suites both output files for failed tests to make it easier to debug,
+and examining these files is the easiest way to debug those tests (see notes in `phpunit.xml` for more details). 
+
+For instance, if you want to analyze the failures in the `drupal` validation tests, the easiest way to do so is
+to open the `tests/output/drupal` folder using the [syntax visualizer extension](syntax-visualizer/client#php-parser-syntax-visualizer-tool) 
+after running the validation tests - you'll see error squigglies wherever we fail to parse correctly 
+(presuming the code is indeed valid) and can inspect the adjacent `.ast` file for more info.
+
+![image](https://cloud.githubusercontent.com/assets/762848/22134701/f0a00ff2-de7d-11e6-908c-508d82f0841c.png)
+
+### Using the debugger
+> Note: Enabling Xdebug has a severe performance impact, and we recommend disabling it whenever you are not attaching the debugger.
+
+For debugging, we recommend you install Felix Becker's [PHP Debug extension](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug). 
+
+To debug individual test suites, simply set `php.xdebug.extension` to the Xdebug extension path in `.vscode/settings.json`:
+![image](https://cloud.githubusercontent.com/assets/762848/22679143/b9014314-ecb4-11e6-9295-1ecdbdcfde33.png)
+
+Alternatively, you can run the `Listen for XDebug` launch configuration included in this project, and then from the command line:
 ```
 php -debug -d zend_extension=<my-path-to-extension> -d xdebug.remote_enable=1 -d xdebug.remote_autostart=1 vendor\phpunit\phpunit\phpunit <my-phpunit-arguments>
 ```
-
-Additionally some of the tests output files for failed tests to make it easier to debug.
-See the notes in `phpunit.xml` for more info about this behavior.
 
 ## Running code coverage
 After enabling `xdebug`, run code coverage by executing:
