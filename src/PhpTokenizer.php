@@ -6,18 +6,24 @@
 
 namespace Microsoft\PhpParser;
 
+/**
+ * Tokenizes content using PHP's built-in `tokens_get_all`, and converts to "lightweight" Token representation.
+ *
+ * Initially we tried hand-spinning the lexer (see `experiments/Lexer.php`), but we had difficulties optimizing
+ * performance (especially when working with Unicode characters.)
+ *
+ * Class PhpTokenizer
+ * @package Microsoft\PhpParser
+ */
 class PhpTokenizer implements ITokenStreamProvider {
     public $pos;
     public $endOfFilePos;
-    private $token;
-
-    public $inScriptSection = false;
 
     private $tokensArray;
 
     public function __construct($content) {
-        $tokens = \token_get_all($content);
-        $this->initialize($tokens);
+        $this->tokensArray = $this->getTokensArrayFromContent($content);
+        $this->endOfFilePos = \count($this->tokensArray) - 1;
         $this->pos = 0;
     }
 
@@ -43,11 +49,19 @@ class PhpTokenizer implements ITokenStreamProvider {
         return $this->tokensArray;
     }
 
-    private function initialize($tokens) {
+    public static function getTokensArrayFromContent(
+        $content, $parseContext = null, $initialPos = 0, $treatCommentsAsTrivia = true
+    ) : array {
+        if ($parseContext !== null) {
+            $prefix = self::PARSE_CONTEXT_TO_PREFIX[$parseContext];
+            $content = $prefix . $content;
+            $passedPrefix = false;
+        }
+
+        $tokens = \token_get_all($content);
+
         $arr = array();
-        $fullStart = 0;
-        $start = 0;
-        $pos = 0;
+        $fullStart = $start = $pos = $initialPos;
 
         foreach ($tokens as $token) {
             if (\is_array($token)) {
@@ -60,6 +74,14 @@ class PhpTokenizer implements ITokenStreamProvider {
 
             $pos += $strlen;
 
+            if ($parseContext !== null && !$passedPrefix) {
+                $passedPrefix = \count($prefix) < $pos;
+                if ($passedPrefix) {
+                    $fullStart = $start = $pos = $initialPos;
+                }
+                continue;
+            }
+
             switch ($tokenKind) {
                 case T_OPEN_TAG:
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
@@ -67,8 +89,6 @@ class PhpTokenizer implements ITokenStreamProvider {
                     continue;
 
                 case T_WHITESPACE:
-                case T_COMMENT:
-                case T_DOC_COMMENT:
                     $start += $strlen;
                     continue;
 
@@ -82,6 +102,11 @@ class PhpTokenizer implements ITokenStreamProvider {
                     }
 
                 default:
+                    if (($tokenKind === T_COMMENT || $tokenKind === T_DOC_COMMENT) && $treatCommentsAsTrivia) {
+                        $start += $strlen;
+                        continue;
+                    }
+
                     $newTokenKind = isset(self::TOKEN_MAP[$tokenKind])
                         ? self::TOKEN_MAP[$tokenKind]
                         : $newTokenKind = TokenKind::Unknown;
@@ -92,8 +117,7 @@ class PhpTokenizer implements ITokenStreamProvider {
         }
 
         $arr[] = new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos - $fullStart);
-        $this->tokensArray = $arr;
-        $this->endOfFilePos = \count($arr) - 1;
+        return $arr;
     }
 
     const TOKEN_MAP = [
@@ -267,6 +291,12 @@ class PhpTokenizer implements ITokenStreamProvider {
         T_UNSET_CAST        => TokenKind::UnsetCastToken,
         T_START_HEREDOC     => TokenKind::HeredocStart,
         T_END_HEREDOC       => TokenKind::HeredocEnd,
-        T_STRING_VARNAME    => TokenKind::VariableName
+        T_STRING_VARNAME    => TokenKind::VariableName,
+        T_COMMENT           => TokenKind::CommentToken,
+        T_DOC_COMMENT       => TokenKind::DocCommentToken
+    ];
+
+    const PARSE_CONTEXT_TO_PREFIX = [
+        ParseContext::SourceElements => "<?php "
     ];
 }

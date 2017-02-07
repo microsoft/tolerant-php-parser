@@ -78,6 +78,42 @@ class Node implements \JsonSerializable {
     }
 
     /**
+     * Get's first child that is an instance of one of the provided classes.
+     * Returns null if there is no match.
+     *
+     * @param array ...$classNames
+     * @return Node|null
+     */
+    public function getFirstChildNode(...$classNames) {
+        foreach ($this->getChildNodes() as $child) {
+            foreach ($classNames as $className) {
+                if ($child instanceof $className) {
+                    return $child;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get's first descendant node that is an instance of one of the provided classes.
+     * Returns null if there is no match.
+     *
+     * @param array ...$classNames
+     * @return Node|null
+     */
+    public function getFirstDescendantNode(...$classNames) {
+        foreach ($this->getDescendantNodes() as $descendant) {
+            foreach ($classNames as $className) {
+                if ($descendant instanceof $className) {
+                    return $descendant;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets root of the syntax tree (returns self if has no parents)
      * @return Node
      */
@@ -349,6 +385,7 @@ class Node implements \JsonSerializable {
     }
 
     public function & getFileContents() : string {
+        // TODO consider renaming to getSourceText
         return $this->getRoot()->fileContents;
     }
 
@@ -364,6 +401,20 @@ class Node implements \JsonSerializable {
             $childNode = $descendants[$i];
             if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEndPosition()) {
                 return $childNode;
+            }
+        }
+        return null;
+    }
+
+    public function getDocCommentText() {
+        $leadingTriviaText = $this->getLeadingCommentAndWhitespaceText();
+        $leadingTriviaTokens = PhpTokenizer::getTokensArrayFromContent(
+            $leadingTriviaText, ParseContext::SourceElements, $this->getFullStart(), false
+        );
+        for ($i = \count($leadingTriviaTokens) - 1; $i >= 0; $i--) {
+            $token = $leadingTriviaTokens[$i];
+            if ($token->kind === TokenKind::DocCommentToken) {
+                return $token->getText($this->getFileContents());
             }
         }
         return null;
