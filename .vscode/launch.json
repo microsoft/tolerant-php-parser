@@ -13,6 +13,7 @@
             // TODO use debug console when https://github.com/Microsoft/vscode/issues/17526 is resolved
             "externalConsole": true,
             "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
                 "-d", "xdebug.remote_enable=1",
                 "-d", "xdebug.remote_autostart=1"
             ],
@@ -29,6 +30,7 @@
             ],
             "externalConsole": true,
             "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
                 "-d", "xdebug.remote_enable=1",
                 "-d", "xdebug.remote_autostart=1"
             ],
@@ -45,6 +47,7 @@
             ],
             "externalConsole": true,
             "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
                 "-d", "xdebug.remote_enable=1",
                 "-d", "xdebug.remote_autostart=1"
             ],
@@ -61,6 +64,7 @@
             ],
             "externalConsole": true,
             "runtimeArgs": [
+                "-d", "zend_extension=${config.php.xdebug.extension}",
                 "-d", "xdebug.remote_enable=1",
                 "-d", "xdebug.remote_autostart=1"
             ],
