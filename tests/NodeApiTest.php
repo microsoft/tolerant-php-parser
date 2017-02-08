@@ -4,13 +4,12 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node\Statement\FunctionDeclaration;
 use Microsoft\PhpParser\Node\Statement\IfStatementNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Parser;
 use PHPUnit\Framework\TestCase;
-use Microsoft\PhpParser\TokenKind;
 
 class NodeApiTest extends TestCase {
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
@@ -33,7 +32,7 @@ PHP;
 
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
-        $this->assertInstanceOf(\Microsoft\PhpParser\Node\Statement\FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
+        $this->assertInstanceOf(FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
         $this->assertInstanceOf(\Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(28));
     }
 
@@ -129,5 +128,66 @@ PHP;
             $classNode->getFirstAncestor(),
             "getFirstAncestor with no specified class names should return null."
         );
+    }
+
+    public function testGetDocCommentText() {
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /** */ function b () { }",
+            "/** */"
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /***/ function b () { }",
+            null
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /*/** */ function b () { }",
+            null
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /**d */ function b () { }",
+            null
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /** hello */\n/** */ function b () { }",
+            "/** */"
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php /** hello */\n/**\n*/ function b () { }",
+            "/**\n*/"
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            FunctionDeclaration::class,
+            "<?php function b () { }",
+            null
+        );
+
+        $this->AssertDocCommentTextOfNode(
+            \Microsoft\PhpParser\Node\Statement\InlineHtml::class,
+            "/** hello */ <?php function b () { }",
+            null
+        );
+    }
+
+    private function AssertDocCommentTextOfNode($nodeKind, $contents, $expectedDocCommentText) : array {
+        $parser = new Parser();
+        $ast = $parser->parseSourceFile($contents);
+        $functionDeclaration = $ast->getFirstDescendantNode($nodeKind);
+        $this->assertEquals(
+            $expectedDocCommentText,
+            $functionDeclaration->getDocCommentText()
+        );
+        return array($contents, $parser, $ast, $functionDeclaration);
     }
 }

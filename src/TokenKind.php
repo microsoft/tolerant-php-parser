@@ -212,6 +212,8 @@ class TokenKind {
     const BoolCastToken = 414;
     const ArrayCastToken = 415;
     const IntegerLiteralToken = 416;
+    const CommentToken = 417;
+    const DocCommentToken = 418;
 
     // TODO type annotations - PHP7
 }
