@@ -406,6 +406,13 @@ class Node implements \JsonSerializable {
         return null;
     }
 
+    /**
+     * Gets leading PHP Doc Comment text corresponding to the current Node.
+     * Returns last doc comment in leading comment / whitespace trivia,
+     * and returns null if there is no preceding doc comment.
+     *
+     * @return string | null
+     */
     public function getDocCommentText() {
         $leadingTriviaText = $this->getLeadingCommentAndWhitespaceText();
         $leadingTriviaTokens = PhpTokenizer::getTokensArrayFromContent(
