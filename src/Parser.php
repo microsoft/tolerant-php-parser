@@ -2559,37 +2559,45 @@ class Parser {
 
         $namespaceUseDeclaration->useKeyword = $this->eat(TokenKind::UseKeyword);
         $namespaceUseDeclaration->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
-        $namespaceUseDeclaration->namespaceName = $this->parseQualifiedName($namespaceUseDeclaration);
-        if (!$this->checkToken(TokenKind::OpenBraceToken)) {
+        if($this->lookahead(TokenKind::CommaToken)) {
+            $namespaceUseDeclaration->groupClauses = $this->parseNamespaceUseGroupClauses($namespaceUseDeclaration);
+        }
+        else {
+            $namespaceUseDeclaration->namespaceName = $this->parseQualifiedName($namespaceUseDeclaration);
             if ($this->checkToken(TokenKind::AsKeyword)) {
                 $namespaceUseDeclaration->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseDeclaration);
+            } elseif ($this->checkToken(TokenKind::OpenBraceToken)) {
+                $namespaceUseDeclaration->openBrace = $this->eat(TokenKind::OpenBraceToken);
+                $namespaceUseDeclaration->groupClauses = $this->parseNamespaceUseGroupClauses($namespaceUseDeclaration);
+                $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
             }
-        } else {
-            $namespaceUseDeclaration->openBrace = $this->eat(TokenKind::OpenBraceToken);
-            $namespaceUseDeclaration->groupClauses = $this->parseDelimitedList(
-                DelimitedList\NamespaceUseGroupClauseList::class,
-                TokenKind::CommaToken,
-                function ($token) {
-                    return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
-                },
-                function ($parentNode) {
-                    $namespaceUseGroupClause = new NamespaceUseGroupClause();
-                    $namespaceUseGroupClause->parent = $parentNode;
-
-                    $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
-                    $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
-                    if ($this->checkToken(TokenKind::AsKeyword)) {
-                        $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
-                    }
-
-                    return $namespaceUseGroupClause;
-                },
-                $namespaceUseDeclaration
-            );
-            $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
         $namespaceUseDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
         return $namespaceUseDeclaration;
+    }
+
+    private function parseNamespaceUseGroupClauses(NamespaceUseDeclaration $namespaceUseDeclaration) {
+        $groupClauses = $this->parseDelimitedList(
+            DelimitedList\NamespaceUseGroupClauseList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
+            },
+            function ($parentNode) {
+                $namespaceUseGroupClause = new NamespaceUseGroupClause();
+                $namespaceUseGroupClause->parent = $parentNode;
+
+                $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
+                $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
+                if ($this->checkToken(TokenKind::AsKeyword)) {
+                    $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
+                }
+
+                return $namespaceUseGroupClause;
+            },
+            $namespaceUseDeclaration
+        );
+        return $groupClauses;
     }
 
     private function parseNamespaceAliasingClause($parentNode) {
