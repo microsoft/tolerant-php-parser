@@ -26,6 +26,8 @@ before_script:
 
 script:
   - |
+    set -e
+    
     if [[ $VALIDATION = true ]]; then
       phpunit --testsuite validation
     else
