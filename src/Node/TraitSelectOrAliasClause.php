@@ -10,8 +10,7 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class TraitSelectOrAliasClause extends Node {
-
-    /** @var Token */
+    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
     public $name;
 
     /** @var Token */
@@ -20,6 +19,6 @@ class TraitSelectOrAliasClause extends Node {
     /** @var Token[] */
     public $modifiers;
 
-    /** @var Token */
+    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
     public $targetName;
 }
