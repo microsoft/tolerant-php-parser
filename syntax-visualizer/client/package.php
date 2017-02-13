@@ -16,6 +16,14 @@ if (file_exists($outDir)) {
     rmdirRecursive($outDir);
 }
 
+// Package the latest parser source file archive from msft/master
+// This prevents old or in-progress work from being accidentally packaged with the extension.
+// TODO - eventually add more configuration options
+$updateMasterOutput = `git diff master msft/master 2>&1`;
+if (\count($updateMasterOutput) > 0) {
+    throw new Exception("master branch is not up to date with msft/master");
+}
+
 $root = exec("git rev-parse --show-toplevel");
 exec("cd $root && git archive --format zip --output \"$outZip\" master");
 
