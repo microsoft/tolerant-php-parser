@@ -18,15 +18,11 @@
                         "textLength": 3
                     },
                     "functionOrConst": null,
-                    "namespaceName": null,
-                    "namespaceAliasingClause": null,
-                    "openBrace": null,
-                    "groupClauses": {
-                        "NamespaceUseGroupClauseList": {
+                    "useClauses": {
+                        "NamespaceUseClauseList": {
                             "children": [
                                 {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
+                                    "NamespaceUseClause": {
                                         "namespaceName": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
@@ -43,7 +39,10 @@
                                                 }
                                             }
                                         },
-                                        "namespaceAliasingClause": null
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
                                     }
                                 },
                                 {
@@ -51,8 +50,7 @@
                                     "textLength": 1
                                 },
                                 {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
+                                    "NamespaceUseClause": {
                                         "namespaceName": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
@@ -69,7 +67,10 @@
                                                 }
                                             }
                                         },
-                                        "namespaceAliasingClause": null
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
                                     }
                                 },
                                 {
@@ -77,8 +78,7 @@
                                     "textLength": 1
                                 },
                                 {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
+                                    "NamespaceUseClause": {
                                         "namespaceName": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
@@ -95,13 +95,15 @@
                                                 }
                                             }
                                         },
-                                        "namespaceAliasingClause": null
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
                                     }
                                 }
                             ]
                         }
                     },
-                    "closeBrace": null,
                     "semicolon": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",

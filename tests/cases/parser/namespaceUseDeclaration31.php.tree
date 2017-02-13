@@ -18,100 +18,110 @@
                         "textLength": 3
                     },
                     "functionOrConst": null,
-                    "namespaceName": null,
-                    "namespaceAliasingClause": null,
+                    "useClauses": null,
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "CompoundStatementNode": {
                     "openBrace": {
                         "kind": "OpenBraceToken",
                         "textLength": 1
                     },
-                    "groupClauses": {
-                        "NamespaceUseGroupClauseList": {
-                            "children": [
-                                {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
-                                        "namespaceName": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
+                    "statements": [
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "QualifiedNameParts": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
                                                     }
-                                                }
+                                                ]
                                             }
-                                        },
-                                        "namespaceAliasingClause": null
+                                        }
                                     }
                                 },
-                                {
-                                    "kind": "CommaToken",
-                                    "textLength": 1
-                                },
-                                {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
-                                        "namespaceName": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "namespaceAliasingClause": null
-                                    }
-                                },
-                                {
-                                    "kind": "CommaToken",
-                                    "textLength": 1
-                                },
-                                {
-                                    "NamespaceUseGroupClause": {
-                                        "functionOrConst": null,
-                                        "namespaceName": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "namespaceAliasingClause": null
-                                    }
+                                "semicolon": {
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
+                                    "textLength": 0
                                 }
-                            ]
+                            }
+                        },
+                        {
+                            "error": "SkippedToken",
+                            "kind": "CommaToken",
+                            "textLength": 1
+                        },
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "QualifiedNameParts": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "error": "MissingToken",
+                                    "kind": "SemicolonToken",
+                                    "textLength": 0
+                                }
+                            }
+                        },
+                        {
+                            "error": "SkippedToken",
+                            "kind": "CommaToken",
+                            "textLength": 1
+                        },
+                        {
+                            "ExpressionStatement": {
+                                "expression": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": {
+                                            "QualifiedNameParts": {
+                                                "children": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                },
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
+                            }
                         }
-                    },
+                    ],
                     "closeBrace": {
                         "error": "MissingToken",
                         "kind": "CloseBraceToken",
                         "textLength": 0
-                    },
-                    "semicolon": {
-                        "kind": "SemicolonToken",
-                        "textLength": 1
                     }
                 }
             }
