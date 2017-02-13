@@ -65,6 +65,21 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
+                if (count($node->useClauses->children) > 1) {
+                    var_dump($node->useClauses);
+                    foreach ($node->useClauses->children as $useClause) {
+                        if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
+                            yield new Diagnostic(
+                                DiagnosticKind::Error,
+                                "Semicolon expected.",
+                                $useClause->getEndPosition(),
+                                1
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         foreach ($node->getChildNodesAndTokens() as $child) {
