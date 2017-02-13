@@ -13,3 +13,9 @@ VSCode Extension that demonstrates some of the basic usage and functionality of 
 2. open PHP file from `example` folder, and `*.ast` file to the side
 3. check out error information, and corresponding AST
 4. make some changes, and save to view updates
+
+## Settings
+* `php.syntaxVisualizer.parserPath`: set this path to use a different parser version than the one bundled with the
+syntax visualizer. For instance, after `git clone https://github.com/Microsoft/tolerant-php-parser`, set
+`php.syntaxVisualizer.parserPath` to the absolute directory of the `tolerant-php-parser/src` folder. This will enable you to easily
+debug the parser during development. 

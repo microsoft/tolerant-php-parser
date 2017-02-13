@@ -8,14 +8,7 @@ use Microsoft\PhpParser\Parser;
 use Microsoft\PhpParser\DiagnosticsProvider;
 use Microsoft\PhpParser\PositionUtilities;
 
-$configFile = __DIR__ . "/config.php";
-if (file_exists($configFile)) {
-    require_once($configFile);
-}
-
-if (!isset($GLOBALS["PARSER_PATH"])) {
-    $GLOBALS["PARSER_PATH"] = __DIR__ . "/../../../src/";
-}
+$GLOBALS["PARSER_PATH"] = isset($argv[2]) ? $argv[2] . "/" : __DIR__ . "/../../../src/";
 
 require_once($GLOBALS["PARSER_PATH"] . "bootstrap.php");
 
