@@ -20,7 +20,7 @@ cache:
     - validation/frameworks
 
 before_script:
-  - set -e
+  - set -e # Stop on first error.
   - phpenv config-rm xdebug.ini
   - if find . -name "*.php" -path "./src/*" -path "./experiments/*" -path "./tools/*" -path "./syntax-visualizer/server/src/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi  
   - if find . -name "*.php" -path "./tests/*" -path "./validation/*" -maxdepth 0 --exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi    
