@@ -4,9 +4,16 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Microsoft\PhpParser\Node;
+namespace Microsoft\PhpParser;
 
-use Microsoft\PhpParser\Node;
+interface TokenStreamProviderInterface {
+    public function scanNextToken() : Token;
 
-class Name extends Node {
+    public function getCurrentPosition() : int;
+
+    public function setCurrentPosition(int $pos);
+
+    public function getEndOfFilePosition() : int;
+
+    public function getTokensArray() : array;
 }

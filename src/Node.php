@@ -6,7 +6,10 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
+use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
@@ -117,7 +120,7 @@ class Node implements \JsonSerializable {
      * Gets root of the syntax tree (returns self if has no parents)
      * @return Node
      */
-    public function & getRoot() : Node {
+    public function getRoot() : Node {
         $node = $this;
         while ($node->parent !== null) {
             $node = $node->parent;
@@ -188,6 +191,7 @@ class Node implements \JsonSerializable {
     public function getChildNodesAndTokens() : \Generator {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
+
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child !== null) {
@@ -384,7 +388,7 @@ class Node implements \JsonSerializable {
         throw new \Exception("Unhandled node: ");
     }
 
-    public function & getFileContents() : string {
+    public function getFileContents() : string {
         // TODO consider renaming to getSourceText
         return $this->getRoot()->fileContents;
     }
@@ -429,5 +433,138 @@ class Node implements \JsonSerializable {
 
     public function __toString() {
         return $this->getText();
+    }
+
+    /**
+     * @return array | ResolvedName[][]
+     * @throws \Exception
+     */
+    public function getImportTablesForCurrentScope() {
+        $namespaceDefinition = $this->getNamespaceDefinition();
+
+        // Use declarations can exist in either the global scope, or inside namespace declarations.
+        // http://php.net/manual/en/language.namespaces.importing.php#language.namespaces.importing.scope
+        //
+        // The only code allowed before a namespace declaration is a declare statement, and sub-namespaces are
+        // additionally unaffected by by import rules of higher-level namespaces. Therefore, we can make the assumption
+        // that we need not travel up the spine any further once we've found the current namespace.
+        // http://php.net/manual/en/language.namespaces.definition.php
+        if ($namespaceDefinition instanceof NamespaceDefinition) {
+            $topLevelNamespaceStatements = $namespaceDefinition->compoundStatementOrSemicolon instanceof Token
+                ? $namespaceDefinition->parent->statementList // we need to start from the namespace definition.
+                : $namespaceDefinition->compoundStatementOrSemicolon->statements;
+        } else {
+            $topLevelNamespaceStatements = $this->getRoot()->statementList;
+        }
+
+        // TODO optimize performance
+        // Currently we rebuild the import tables on every call (and therefore every name resolution operation)
+        // It is likely that a consumer will attempt many consecutive name resolution requests within the same file.
+        // Therefore, we can consider optimizing on the basis of the "most recently used" import table set.
+        // The idea: Keep a single set of import tables cached based on a unique root node id, and invalidate
+        // cache whenever we attempt to resolve a qualified name with a different root node.
+        //
+        // In order to make this work, it will probably make sense to change the way we parse namespace definitions.
+        // https://github.com/Microsoft/tolerant-php-parser/issues/81
+        //
+        // Currently the namespace definition only includes a compound statement or semicolon token as one if it's children.
+        // Instead, we should move to a model where we parse future statements as a child rather than as a separate
+        // statement. This would enable us to retrieve all the information we would need to find the fully qualified
+        // name by simply traveling up the spine to find the first ancestor of type NamespaceDefinition.
+        $namespaceImportTable = $functionImportTable = $constImportTable = [];
+        $contents = $this->getFileContents();
+
+        foreach ($topLevelNamespaceStatements as $useDeclaration) {
+            if ($useDeclaration instanceof NamespaceDefinition) {
+                // TODO - another reason to always parse namespace definitions as the parent of subsequent statements.
+                break;
+            } elseif (!($useDeclaration instanceof NamespaceUseDeclaration)) {
+                continue;
+            }
+
+            // TODO - also handle NamespaceUseDeclarationList
+            if ($useDeclaration->groupClauses !== null) {
+                // use A\B{C, D} => multiple imports
+                $imports = \array_filter($useDeclaration->groupClauses->children, function($value) {
+                    return $value instanceof NamespaceUseGroupClause;
+                });
+            } else {
+                // use A\B\C; => single import
+                $imports = [$useDeclaration];
+            }
+
+            $namespaceNamePartsPrefix =
+                $useDeclaration->namespaceName !== null ? $useDeclaration->namespaceName->nameParts->children : [];
+
+            foreach ($imports as $import) {
+                if ($useDeclaration->groupClauses !== null) {
+                    // use A\B\C\{D\E};                 namespace import: ["E" => [A,B,C,D,E]]
+                    // use A\B\C\{D\E as F};            namespace import: ["F" => [A,B,C,D,E]]
+                    // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
+                    // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
+                    $alias = $import->namespaceName->getLastNamePart()->getText($contents);
+                    $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $import->namespaceName->nameParts->children);
+                    $functionOrConst = $import->functionOrConst ?? $useDeclaration->functionOrConst;
+                } else {
+                    // use A\B\C;               namespace import: ["C" => [A,B,C]]
+                    // use A\B\C as D;          namespace import: ["D" => [A,B,C]]
+                    // use function A\B\C as D  function import: ["D" => [A,B,C]]
+                    // use A\B, C\D;            namespace import: ["B" => [A,B], "D" => [C,D]]
+                    $alias = $useDeclaration->namespaceAliasingClause === null
+                        ? $useDeclaration->namespaceName->getLastNamePart()->getText($contents)
+                        : $useDeclaration->namespaceAliasingClause->name->getText($contents);
+
+                    $namespaceNameParts = $namespaceNamePartsPrefix;
+                    $functionOrConst = $useDeclaration->functionOrConst;
+                }
+
+                // Add the alias and resolved name to the corresponding namespace, function, or const import table.
+                // If the alias already exists, it will get replaced by the most recent using.
+                // TODO - worth throwing an error here instead?
+                if ($alias !== null) {
+                    if ($functionOrConst === null) {
+                        // namespaces are case-insensitive
+                        $alias = \strtolower($alias);
+                        $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                    } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
+                        // functions are case-insensitive
+                        $alias = \strtolower($alias);
+                        $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                    } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
+                        // constants are case-sensitive
+                        $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                    }
+                }
+            }
+        }
+
+        return [$namespaceImportTable, $functionImportTable, $constImportTable];
+    }
+
+    /**
+     * Gets corresponding NamespaceDefinition for Node. Returns null if in global namespace.
+     *
+     * @return NamespaceDefinition | null
+     */
+    public function getNamespaceDefinition() {
+        $namespaceDefinition = $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
+
+        if ($namespaceDefinition instanceof NamespaceDefinition && !($namespaceDefinition->parent instanceof SourceFileNode)) {
+            $namespaceDefinition = $namespaceDefinition->getFirstAncestor(SourceFileNode::class);
+        }
+
+        if ($namespaceDefinition === null) {
+            // TODO provide a way to throw errors without crashing consumer
+            throw new \Exception("Invalid tree - SourceFileNode must always exist at root of tree.");
+        }
+
+        if ($namespaceDefinition instanceof SourceFileNode) {
+            $namespaceDefinition = $namespaceDefinition->getFirstChildNode(NamespaceDefinition::class);
+            if ($namespaceDefinition !== null && $namespaceDefinition->getFullStart() > $this->getFullStart()) {
+                $namespaceDefinition = null;
+            }
+        }
+
+        return $namespaceDefinition;
     }
 }

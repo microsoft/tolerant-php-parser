@@ -6,11 +6,18 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
+use Microsoft\PhpParser\NamespacedNameInterface;
+use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node\FunctionBody;
 use Microsoft\PhpParser\Node\FunctionHeader;
 use Microsoft\PhpParser\Node\FunctionReturnType;
 use Microsoft\PhpParser\Node\StatementNode;
 
-class FunctionDeclaration extends StatementNode {
+class FunctionDeclaration extends StatementNode implements NamespacedNameInterface {
     use FunctionHeader, FunctionReturnType, FunctionBody;
+    use NamespacedNameTrait;
+
+    public function getNameParts() : array {
+        return [$this->name];
+    }
 }

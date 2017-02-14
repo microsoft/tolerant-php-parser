@@ -9,7 +9,7 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class DelimitedList extends Node {
+abstract class DelimitedList extends Node {
     /** @var Token[]|Node[] */
     public $children;
 

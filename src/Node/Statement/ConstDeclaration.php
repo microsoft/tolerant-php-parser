@@ -11,7 +11,6 @@ use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
 class ConstDeclaration extends StatementNode {
-
     /** @var Token */
     public $constKeyword;
 

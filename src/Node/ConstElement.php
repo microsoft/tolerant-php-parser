@@ -6,10 +6,13 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\NamespacedNameInterface;
+use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ConstElement extends Node {
+class ConstElement extends Node implements NamespacedNameInterface {
+    use NamespacedNameTrait;
 
     /** @var Token */
     public $name;
@@ -19,4 +22,8 @@ class ConstElement extends Node {
 
     /** @var Expression */
     public $assignment;
+
+    public function getNameParts() : array {
+        return [$this->name];
+    }
 }

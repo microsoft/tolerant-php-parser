@@ -6,18 +6,20 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
+use Microsoft\PhpParser\NamespacedNameInterface;
+use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node\InterfaceBaseClause;
 use Microsoft\PhpParser\Node\InterfaceMembers;
-use Microsoft\PhpParser\Node\Name;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class InterfaceDeclaration extends StatementNode {
+class InterfaceDeclaration extends StatementNode implements NamespacedNameInterface {
+    use NamespacedNameTrait;
 
     /** @var Token */
     public $interfaceKeyword;
 
-    /** @var Name */
+    /** @var Token */
     public $name;
 
     /** @var InterfaceBaseClause */
@@ -25,4 +27,8 @@ class InterfaceDeclaration extends StatementNode {
 
     /** @var InterfaceMembers */
     public $interfaceMembers;
+
+    public function getNameParts() : array {
+        return [$this->name];
+    }
 }

@@ -487,6 +487,7 @@ class Parser {
                 // namespace-definition
                 case TokenKind::NamespaceKeyword:
                     if (!$this->lookahead(TokenKind::BackslashToken)) {
+                        // TODO add error handling for the case where a namespace definition does not occur in the outer-most scope
                         return $this->parseNamespaceDefinition($parentNode);
                     }
                     break;
@@ -860,7 +861,7 @@ class Parser {
                 $templateNode->children[] = $token;
                 // $this->advanceToken();
                 // $token = $this->getCurrentToken();
-                // TODO figure out how to expose this in ITokenStreamProvider
+                // TODO figure out how to expose this in TokenStreamProviderInterface
                 $this->token = $this->lexer->reScanTemplateToken($token);
                 $token = $this->getCurrentToken();
             }
