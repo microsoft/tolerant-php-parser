@@ -66,7 +66,7 @@ class DiagnosticsProvider {
                 }
             }
             elseif ($node instanceof Node\CatchClause) {
-                $lastElement = end($node->qualifiedNameList->children);
+                $lastElement = \end($node->qualifiedNameList->children);
                 if($lastElement instanceof Token && $lastElement->kind == TokenKind::BarToken) {
                     yield new Diagnostic(
                         DiagnosticKind::Error,

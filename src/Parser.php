@@ -1864,7 +1864,7 @@ class Parser {
         $catchClause->catch = $this->eat(TokenKind::CatchKeyword);
         $catchClause->openParen = $this->eat(TokenKind::OpenParenToken);
         $catchClause->qualifiedNameList = $this->parseQualifiedNameList($catchClause, TokenKind::BarToken);
-        if(is_null($catchClause->qualifiedNameList)) {
+        if(\is_null($catchClause->qualifiedNameList)) {
             $catchClause->qualifiedNameList = new MissingToken(TokenKind::QualifiedName, $this->getCurrentToken()->fullStart);
         }
         $catchClause->variableName = $this->eat(TokenKind::VariableName);
