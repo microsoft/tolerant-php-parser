@@ -61,7 +61,5 @@
     "programStructure15.php",
 
     "core_predefined_constants2.php",
-    "void_parameter.php",
-    "using_namespaces_2.php",
-    "using_namespaces_3.php"
+    "void_parameter.php"
 ]

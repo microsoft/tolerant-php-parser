@@ -2577,7 +2577,7 @@ class Parser {
                 if ($this->checkToken(TokenKind::AsKeyword)) {
                     $namespaceUseClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseClause);
                 }
-                if ($this->checkToken(TokenKind::OpenBraceToken)) {
+                elseif ($this->checkToken(TokenKind::OpenBraceToken)) {
                     $namespaceUseClause->openBrace = $this->eat(TokenKind::OpenBraceToken);
                     $namespaceUseClause->groupClauses = $this->parseNamespaceUseGroupClauseList($namespaceUseClause);
                     $namespaceUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
