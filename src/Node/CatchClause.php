@@ -14,8 +14,8 @@ class CatchClause extends Node {
     public $catch;
     /** @var Token */
     public $openParen;
-    /** @var QualifiedName */
-    public $qualifiedName;
+    /** @var DelimitedList\QualifiedNameList */
+    public $qualifiedNameList;
     /** @var Token */
     public $variableName;
     /**@var Token */

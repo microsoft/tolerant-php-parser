@@ -20,13 +20,21 @@ try {
 }
 //*/
 ///*
-catch (int $e) {		// Not diagnosed; bad
-	echo "L0: In catch-block int\n";
-}
+//catch (int $e) {		// Diagnosed; good
+//	echo "L0: In catch-block int\n";
+//}
 //*/
 ///*
 catch (X $e) {		// Not diagnosed; bad
 	echo "L0: In catch-block int\n";
+}
+
+//catch (InvalidArgumentException | $e) { // Diagnosed; good
+//    echo "L0: In catch-block multiple Exception\n";
+//}
+
+catch (BadMethodCallException | InvalidArgumentException $e) {
+    echo "L0: In catch-block multiple Exception\n";
 }
 //*/
 ///*

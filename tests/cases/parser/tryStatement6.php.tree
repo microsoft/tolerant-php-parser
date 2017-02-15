@@ -41,7 +41,11 @@
                                     "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                "qualifiedName": null,
+                                "qualifiedNameList": {
+                                    "error": "MissingToken",
+                                    "kind": "QualifiedName",
+                                    "textLength": 0
+                                },
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2
