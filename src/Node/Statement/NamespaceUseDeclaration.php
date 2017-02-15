@@ -6,9 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node\DelimitedList;
-use Microsoft\PhpParser\Node\NamespaceAliasingClause;
-use Microsoft\PhpParser\Node\QualifiedName;
+use Microsoft\PhpParser\Node\DelimitedList\NamespaceUseClauseList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
@@ -17,16 +15,8 @@ class NamespaceUseDeclaration extends StatementNode {
     public $useKeyword;
     /** @var Token */
     public $functionOrConst;
-    /** @var QualifiedName */
-    public $namespaceName;
-    /** @var NamespaceAliasingClause */
-    public $namespaceAliasingClause;
-    /** @var Token | null */
-    public $openBrace;
-    /** @var DelimitedList\NamespaceUseGroupClauseList | null */
-    public $groupClauses;
-    /** @var  Token | null */
-    public $closeBrace;
+    /** @var NamespaceUseClauseList */
+    public $useClauses;
     /** @var Token */
     public $semicolon;
 }

@@ -18,11 +18,7 @@
                         "textLength": 3
                     },
                     "functionOrConst": null,
-                    "namespaceName": null,
-                    "namespaceAliasingClause": null,
-                    "openBrace": null,
-                    "groupClauses": null,
-                    "closeBrace": null,
+                    "useClauses": null,
                     "semicolon": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",
@@ -37,11 +33,7 @@
                         "textLength": 3
                     },
                     "functionOrConst": null,
-                    "namespaceName": null,
-                    "namespaceAliasingClause": null,
-                    "openBrace": null,
-                    "groupClauses": null,
-                    "closeBrace": null,
+                    "useClauses": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1
