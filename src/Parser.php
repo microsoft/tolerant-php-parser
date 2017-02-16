@@ -2706,7 +2706,7 @@ class Parser {
                 DelimitedList\TraitSelectOrAliasClauseList::class,
                 TokenKind::SemicolonToken,
                 function ($token) {
-                    return $token->kind === TokenKind::Name;
+                    return $token->kind === TokenKind::Name || $token->kind === TokenKind::BackslashToken;
                 },
                 function ($parentNode) {
                     $traitSelectAndAliasClause = new TraitSelectOrAliasClause();

@@ -79,6 +79,17 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            elseif ($node instanceof Node\TraitSelectOrAliasClause && $node->name instanceof Node\QualifiedName) {
+                if (\count($node->name->nameParts->children) > 1 || isset($node->name->globalSpecifier) ||
+                (isset($node->asOrInsteadOfKeyword) && $node->asOrInsteadOfKeyword->kind === TokenKind::InsteadOfKeyword)) {
+                    yield new Diagnostic(
+                        DiagnosticKind::Error,
+                        "Unexpected '" . $tokenKindToText[$node->asOrInsteadOfKeyword->kind] . "'",
+                        $node->getStart(),
+                        $node->getWidth()
+                    );
+                }
+            }
         }
 
         foreach ($node->getChildNodesAndTokens() as $child) {
