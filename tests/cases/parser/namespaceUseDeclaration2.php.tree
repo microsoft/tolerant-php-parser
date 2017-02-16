@@ -21,34 +21,44 @@
                         "kind": "ConstKeyword",
                         "textLength": 5
                     },
-                    "namespaceName": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
+                    "useClauses": {
+                        "NamespaceUseClauseList": {
+                            "children": [
+                                {
+                                    "NamespaceUseClause": {
+                                        "namespaceName": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            },
+                                                            {
+                                                                "kind": "BackslashToken",
+                                                                "textLength": 1
+                                                            },
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
                                         },
-                                        {
-                                            "kind": "BackslashToken",
-                                            "textLength": 1
-                                        },
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
-                    "namespaceAliasingClause": null,
-                    "openBrace": null,
-                    "groupClauses": null,
-                    "closeBrace": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

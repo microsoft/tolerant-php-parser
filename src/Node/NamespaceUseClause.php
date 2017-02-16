@@ -7,18 +7,18 @@
 namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Token;
 
-class TraitSelectOrAliasClause extends Node {
-    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
-    public $name;
-
-    /** @var Token */
-    public $asOrInsteadOfKeyword;
-
-    /** @var Token[] */
-    public $modifiers;
-
-    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
-    public $targetName;
+class NamespaceUseClause extends Node {
+    /** @var QualifiedName */
+    public $namespaceName;
+    /** @var NamespaceAliasingClause */
+    public $namespaceAliasingClause;
+    /** @var Token | null */
+    public $openBrace;
+    /** @var DelimitedList\NamespaceUseGroupClauseList | null */
+    public $groupClauses;
+    /** @var  Token | null */
+    public $closeBrace;
 }

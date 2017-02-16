@@ -25,10 +25,7 @@
                                     "NamespaceUseClause": {
                                         "namespaceName": {
                                             "QualifiedName": {
-                                                "globalSpecifier": {
-                                                    "kind": "BackslashToken",
-                                                    "textLength": 1
-                                                },
+                                                "globalSpecifier": null,
                                                 "relativeSpecifier": null,
                                                 "nameParts": {
                                                     "QualifiedNameParts": {
@@ -36,11 +33,59 @@
                                                             {
                                                                 "kind": "Name",
                                                                 "textLength": 1
-                                                            },
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
+                                    }
+                                },
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "NamespaceUseClause": {
+                                        "namespaceName": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
                                                             {
-                                                                "kind": "BackslashToken",
+                                                                "kind": "Name",
                                                                 "textLength": 1
-                                                            },
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
+                                    }
+                                },
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "NamespaceUseClause": {
+                                        "namespaceName": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
                                                             {
                                                                 "kind": "Name",
                                                                 "textLength": 1
@@ -68,34 +113,6 @@
                                     }
                                 }
                             ]
-                        }
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
-                    }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": {
-                                "kind": "BackslashToken",
-                                "textLength": 1
-                            },
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
-                                }
-                            }
                         }
                     },
                     "semicolon": {

@@ -65,6 +65,20 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
+                if (\count($node->useClauses->children) > 1) {
+                    foreach ($node->useClauses->children as $useClause) {
+                        if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
+                            yield new Diagnostic(
+                                DiagnosticKind::Error,
+                                "; expected.",
+                                $useClause->getEndPosition(),
+                                1
+                            );
+                        }
+                    }
+                }
+            }
             elseif ($node instanceof Node\CatchClause) {
                 $lastElement = \end($node->qualifiedNameList->children);
                 if($lastElement instanceof Token && $lastElement->kind == TokenKind::BarToken) {

@@ -59,9 +59,8 @@
     "numericLiterals8.php",
     "stringLiteral16.php",
     "programStructure15.php",
+    "traits23.php",
 
     "core_predefined_constants2.php",
-    "void_parameter.php",
-    "using_namespaces_2.php",
-    "using_namespaces_3.php"
+    "void_parameter.php"
 ]
