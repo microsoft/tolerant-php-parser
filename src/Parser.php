@@ -2702,33 +2702,38 @@ class Parser {
 
         $traitUseClause->semicolonOrOpenBrace = $this->eat(TokenKind::OpenBraceToken, TokenKind::SemicolonToken);
         if ($traitUseClause->semicolonOrOpenBrace->kind === TokenKind::OpenBraceToken) {
-            $traitUseClause->traitSelectAndAliasClauses = $this->parseDelimitedList(
-                DelimitedList\TraitSelectOrAliasClauseList::class,
-                TokenKind::SemicolonToken,
-                function ($token) {
-                    return $token->kind === TokenKind::Name || $token->kind === TokenKind::BackslashToken;
-                },
-                function ($parentNode) {
-                    $traitSelectAndAliasClause = new TraitSelectOrAliasClause();
-                    $traitSelectAndAliasClause->parent = $parentNode;
-                    $traitSelectAndAliasClause->name = // TODO update spec
-                        $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
-
-                    $traitSelectAndAliasClause->asOrInsteadOfKeyword = $this->eat(TokenKind::AsKeyword, TokenKind::InsteadOfKeyword);
-                    $traitSelectAndAliasClause->modifiers = $this->parseModifiers(); // TODO accept all modifiers, verify later
-
-                    $traitSelectAndAliasClause->targetName =
-                        $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
-
-                    // TODO errors for insteadof/as
-                    return $traitSelectAndAliasClause;
-                },
-                $traitUseClause
-            );
+            $traitUseClause->traitSelectAndAliasClauses = $this->parseTraitSelectAndAliasClauseList($traitUseClause);
             $traitUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
         }
 
         return $traitUseClause;
+    }
+
+    private function parseTraitSelectAndAliasClauseList($parentNode) {
+        return $this->parseDelimitedList(
+            DelimitedList\TraitSelectOrAliasClauseList::class,
+            TokenKind::SemicolonToken,
+            $this->isQualifiedNameStartFn(),
+            $this->parseTraitSelectOrAliasClauseFn(),
+            $parentNode
+        );
+    }
+
+    private function parseTraitSelectOrAliasClauseFn() {
+        return function ($parentNode) {
+            $traitSelectAndAliasClause = new TraitSelectOrAliasClause();
+            $traitSelectAndAliasClause->parent = $parentNode;
+            $traitSelectAndAliasClause->name =
+                $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+
+            $traitSelectAndAliasClause->asOrInsteadOfKeyword = $this->eat(TokenKind::AsKeyword, TokenKind::InsteadOfKeyword);
+            $traitSelectAndAliasClause->modifiers = $this->parseModifiers();
+
+            $traitSelectAndAliasClause->targetName =
+                $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+
+            return $traitSelectAndAliasClause;
+        };
     }
 
     private function parseQualifiedNameOrScopedPropertyAccessExpression($parentNode) {

@@ -12,6 +12,12 @@ import {
 	CompletionItem, CompletionItemKind
 } from 'vscode-languageserver';
 
+var os = require('os');
+var execSync = require('child_process').execSync;
+var querystring = require('querystring');
+var path = require('path');
+var fs = require('fs');
+
 // Create a connection for the server. The connection uses Node's IPC as a transport
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
@@ -44,42 +50,43 @@ documents.onDidSave((change) => {
 });
 
 // The settings interface describe the server relevant settings part
-interface Settings {
-	languageServerExample: ExampleSettings;
+interface PhpSettings {
+	syntaxVisualizer: SyntaxVisualizerSettings;
 }
 
-// These are the example settings we defined in the client's package.json
-// file
-interface ExampleSettings {
-	maxNumberOfProblems: number;
+interface SyntaxVisualizerSettings {
+	parserPath: string;
 }
 
-// hold the maxNumberOfProblems setting
-let maxNumberOfProblems: number;
+// hold the parserSrc setting
+let parserPath: string | null;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
-	let settings = <Settings>change.settings;
-	maxNumberOfProblems = settings.languageServerExample.maxNumberOfProblems || 100;
+	let syntaxVisualizerSettings = <SyntaxVisualizerSettings>change.settings.php.syntaxVisualizer;
+	let fallbackParserPath = fs.existsSync(`${__dirname}/parser`)
+		? `${__dirname}/parser/src`
+		: `${__dirname}/../../../src`;
+		
+	parserPath = syntaxVisualizerSettings && syntaxVisualizerSettings.parserPath
+		? syntaxVisualizerSettings.parserPath
+		: fallbackParserPath;
+	console.log(`parser path: ${parserPath}`);
+
 	// Revalidate any open text documents
 	documents.all().forEach(validateTextDocument);
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
-	var os = require('os');
-	var execSync = require('child_process').execSync;
-	var querystring = require('querystring');
-	var path = require('path');
 	var fileToRead = path.normalize(querystring.unescape(textDocument.uri)).substr(os.platform() === 'win32' ? 6 : 5);
 	if (fileToRead.startsWith("x")) {
 		return;
 	}
-	var fs = require('fs');
 	var cmd = fs.existsSync(`${__dirname}/parser`)
-		? `php ${__dirname}/parse.php ${fileToRead}`
+		? `php ${__dirname}/parse.php`
 		: `php ${__dirname}/../../server/src/parse.php`;
 	
-	cmd += ` ${fileToRead}`;
+	cmd += ` ${fileToRead} ${parserPath}`;
 	var out = execSync(cmd).toString();
 	var outErrors = JSON.parse(out);
 	let diagnostics: Diagnostic[] = [];
@@ -87,7 +94,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 
 	let allErrors = outErrors;
 
-	for (var i = 0; i < allErrors.length && i < maxNumberOfProblems; i++) {		
+	for (var i = 0; i < allErrors.length; i++) {		
 		let error = allErrors[i];
 		diagnostics.push({
 			severity: DiagnosticSeverity.Error,

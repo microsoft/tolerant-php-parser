@@ -60,144 +60,119 @@
                                             "kind": "OpenBraceToken",
                                             "textLength": 1
                                         },
-                                        "traitSelectAndAliasClauses": null,
+                                        "traitSelectAndAliasClauses": {
+                                            "TraitSelectOrAliasClauseList": {
+                                                "children": [
+                                                    {
+                                                        "TraitSelectOrAliasClause": {
+                                                            "name": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": {
+                                                                        "kind": "BackslashToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": {
+                                                                        "QualifiedNameParts": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "asOrInsteadOfKeyword": {
+                                                                "kind": "AsKeyword",
+                                                                "textLength": 2
+                                                            },
+                                                            "modifiers": [],
+                                                            "targetName": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": {
+                                                                        "QualifiedNameParts": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "TraitSelectOrAliasClause": {
+                                                            "name": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": {
+                                                                        "QualifiedNameParts": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "asOrInsteadOfKeyword": {
+                                                                "kind": "InsteadOfKeyword",
+                                                                "textLength": 9
+                                                            },
+                                                            "modifiers": [],
+                                                            "targetName": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": {
+                                                                        "QualifiedNameParts": {
+                                                                            "children": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "SemicolonToken",
+                                                        "textLength": 1
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         "closeBrace": {
-                                            "error": "MissingToken",
                                             "kind": "CloseBraceToken",
-                                            "textLength": 0
+                                            "textLength": 1
                                         }
                                     }
                                 }
                             ],
                             "closeBrace": {
-                                "error": "MissingToken",
                                 "kind": "CloseBraceToken",
-                                "textLength": 0
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": {
-                                "kind": "BackslashToken",
                                 "textLength": 1
-                            },
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
-                                }
                             }
                         }
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
                     }
                 }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "AsKeyword",
-                "textLength": 2
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "semicolon": {
-                        "kind": "SemicolonToken",
-                        "textLength": 1
-                    }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
-                    }
-                }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "InsteadOfKeyword",
-                "textLength": 9
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 1
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "semicolon": {
-                        "kind": "SemicolonToken",
-                        "textLength": 1
-                    }
-                }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "CloseBraceToken",
-                "textLength": 1
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "CloseBraceToken",
-                "textLength": 1
             }
         ],
         "endOfFileToken": {
