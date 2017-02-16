@@ -81,7 +81,7 @@ class DiagnosticsProvider {
             }
             elseif ($node instanceof Node\CatchClause) {
                 $lastElement = \end($node->qualifiedNameList->children);
-                if($lastElement instanceof Token && $lastElement->kind == TokenKind::BarToken) {
+                if ($lastElement instanceof Token && $lastElement->kind === TokenKind::BarToken) {
                     yield new Diagnostic(
                         DiagnosticKind::Error,
                         "Variable expected.",
