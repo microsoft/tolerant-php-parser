@@ -20,17 +20,19 @@ cache:
     - validation/frameworks
 
 before_script:
+  - composer install
   - set -e # Stop on first error.
   - phpenv config-rm xdebug.ini
   - if find . -name "*.php" -path "./src/*" -path "./experiments/*" -path "./tools/*" -path "./syntax-visualizer/server/src/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi  
   - if find . -name "*.php" -path "./tests/*" -path "./validation/*" -maxdepth 0 --exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi    
 
 script:
+  - composer validate
   - |
     if [[ $VALIDATION = true ]]; then
-      phpunit --testsuite validation
+      ./vendor/bin/phpunit --testsuite validation
     else
-      phpunit --testsuite invariants
-      phpunit --testsuite grammar
-      phpunit --testsuite api
+      ./vendor/bin/phpunit --testsuite invariants
+      ./vendor/bin/phpunit --testsuite grammar
+      ./vendor/bin/phpunit --testsuite api
     fi
