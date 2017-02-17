@@ -26,6 +26,7 @@ before_script:
   - if find . -name "*.php" -path "./tests/*" -path "./validation/*" -maxdepth 0 --exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi    
 
 script:
+  - composer validate
   - |
     if [[ $VALIDATION = true ]]; then
       phpunit --testsuite validation
