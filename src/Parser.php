@@ -2533,6 +2533,8 @@ class Parser {
         $interfaceBaseClause->extendsKeyword = $this->eatOptional(TokenKind::ExtendsKeyword);
         if (isset($interfaceBaseClause->extendsKeyword)) {
             $interfaceBaseClause->interfaceNameList = $this->parseQualifiedNameList($interfaceBaseClause);
+        } else {
+            return null;
         }
 
         return $interfaceBaseClause;

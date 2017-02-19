@@ -4,6 +4,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+require __DIR__ . "/LexerInvariantsTest.php";
+
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
@@ -58,7 +60,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             if ($child instanceof Node) {
                 $encode = json_encode($child);
                 $this->assertGreaterThanOrEqual(
-                    1, count($child->getChildNodesAndTokens()),
+                    1, iterator_count($child->getChildNodesAndTokens()),
                     "Invariant: All Nodes have at least one child. $encode"
                 );
             }
