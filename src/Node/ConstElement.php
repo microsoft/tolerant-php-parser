@@ -26,4 +26,8 @@ class ConstElement extends Node implements NamespacedNameInterface {
     public function getNameParts() : array {
         return [$this->name];
     }
+
+    public function getName() {
+        return $this->name->getText($this->getFileContents());
+    }
 }

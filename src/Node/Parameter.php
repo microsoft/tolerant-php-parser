@@ -27,5 +27,13 @@ class Parameter extends Node {
     public $default;
 
     public function isVariadic() {
+        return $this->byRefToken !== null;
+    }
+
+    public function getName() {
+        if ($this->variableName instanceof Token) {
+            return substr($this->variableName->getText($this->getFileContents()), 1);
+        }
+        return null;
     }
 }

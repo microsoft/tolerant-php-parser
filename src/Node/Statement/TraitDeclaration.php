@@ -25,6 +25,6 @@ class TraitDeclaration extends StatementNode implements NamespacedNameInterface 
     public $traitMembers;
 
     public function getNameParts() : array {
-        return $this->name;
+        return [$this->name];
     }
 }

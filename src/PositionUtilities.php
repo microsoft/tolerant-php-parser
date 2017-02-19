@@ -9,7 +9,10 @@ namespace Microsoft\PhpParser;
 class PositionUtilities {
     public static function getRangeFromPosition($pos, $length, $text) {
         $start = self::getLineCharacterPositionFromPosition($pos, $text);
-        $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
+
+        // TODO - huh?
+        $end = self::getLineCharacterPositionFromPosition($pos + $length - 1, $text);
+        $end->character += 1;
 
         return new Range($start, $end);
     }

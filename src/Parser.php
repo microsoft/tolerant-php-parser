@@ -139,7 +139,7 @@ class Parser {
      * @param string $fileContents
      * @return SourceFileNode
      */
-    public function parseSourceFile(string $fileContents) : SourceFileNode {
+    public function parseSourceFile(string $fileContents, string $uri = null) : SourceFileNode {
         $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
 
         $this->reset();
@@ -147,6 +147,7 @@ class Parser {
         $sourceFile = new SourceFileNode();
         $this->sourceFile = & $sourceFile;
         $sourceFile->fileContents = $fileContents;
+        $sourceFile->uri = $uri;
         $sourceFile->statementList = array();
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
             $sourceFile->statementList[] = $this->parseInlineHtml($sourceFile);
@@ -1094,14 +1095,14 @@ class Parser {
         $token = $this->getCurrentToken();
         do {
             if ($isElementStartFn($token)) {
-                $node->addToken($parseElementFn($node));
+                $node->addElement($parseElementFn($node));
             } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimiter))) {
                 break;
             }
 
             $delimeterToken = $this->eatOptional($delimiter);
             if ($delimeterToken !== null) {
-                $node->addToken($delimeterToken);
+                $node->addElement($delimeterToken);
             }
             $token = $this->getCurrentToken();
             // TODO ERROR CASE - no delimeter, but a param follows

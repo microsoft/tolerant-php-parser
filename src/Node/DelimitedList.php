@@ -22,12 +22,12 @@ abstract class DelimitedList extends Node {
         }
     }
 
-    public function addToken($node) {
+    public function addElement($node) {
         if ($node === null) {
             return;
         }
-        if (!isset($this->children)) {
-            $this->children = array();
+        if ($this->children === null) {
+            $this->children = [];
         }
         $this->children[] = $node;
     }

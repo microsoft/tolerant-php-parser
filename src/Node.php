@@ -184,7 +184,8 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets generator containing all child Nodes and Tokens (direct descendants)
+     * Gets generator containing all child Nodes and Tokens (direct descendants).
+     * Does not return null elements.
      *
      * @return \Generator | Token[] | Node[]
      */
@@ -393,6 +394,10 @@ class Node implements \JsonSerializable {
         return $this->getRoot()->fileContents;
     }
 
+    public function getUri() : string {
+        return $this->getRoot()->uri;
+    }
+
     /**
      * Searches descendants to find a Node at the given position.
      *
@@ -547,7 +552,9 @@ class Node implements \JsonSerializable {
      * @return NamespaceDefinition | null
      */
     public function getNamespaceDefinition() {
-        $namespaceDefinition = $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
+        $namespaceDefinition = $this instanceof NamespaceDefinition
+            ? $this
+            : $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
 
         if ($namespaceDefinition instanceof NamespaceDefinition && !($namespaceDefinition->parent instanceof SourceFileNode)) {
             $namespaceDefinition = $namespaceDefinition->getFirstAncestor(SourceFileNode::class);

@@ -13,6 +13,9 @@ class SourceFileNode extends Node {
     /** @var string */
     public $fileContents;
 
+    /** @var string */
+    public $uri;
+
     /** @var Node[] */
     public $statementList;
     
