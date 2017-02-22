@@ -8,10 +8,23 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
+use Microsoft\PhpParser\TokenKind;
 
 abstract class DelimitedList extends Node {
     /** @var Token[]|Node[] */
     public $children;
+
+    const DELIMITERS = [TokenKind::CommaToken, TokenKind::BarToken, TokenKind::SemicolonToken];
+
+    public function getElements() : \Generator {
+        foreach ($this->children as $child) {
+            if ($child instanceof Node) {
+                yield $child;
+            } elseif ($child instanceof Token && !\in_array($child->kind, self::DELIMITERS)) {
+                yield $child;
+            }
+        }
+    }
 
     public function getValues() {
         $i = 0;

@@ -72,7 +72,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
      * @return null|ResolvedName
      * @throws \Exception
      */
-    public function getResolvedName() {
+    public function  getResolvedName() {
         // Name resolution not applicable to constructs that define symbol names or aliases.
         if ($this->parent instanceof Node\Statement\NamespaceDefinition ||
             $this->parent instanceof Node\Statement\NamespaceUseDeclaration ||
@@ -114,11 +114,12 @@ class QualifiedName extends Node implements NamespacedNameInterface {
         //   - function or const: resolved at runtime (from current namespace, with fallback to global namespace).
         if ($this->isConstantName()) {
             $resolvedName = $this->tryResolveFromImportTable($constImportTable, /* case-sensitive */ true);
-            if ($this->getNamespaceDefinition()->name === null) {
+            $namespaceDefinition = $this->getNamespaceDefinition();
+            if ($namespaceDefinition !== null && $namespaceDefinition->name === null) {
                 $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts->children, $this->getFileContents());
             }
             return $resolvedName;
-        } elseif ($this->parent instanceof CallExpression) {
+        } elseif ($this->parent instanceof CallExpression) { // TODO how to handle scoped method calls?
             $resolvedName = $this->tryResolveFromImportTable($functionImportTable);
             if ($this->getNamespaceDefinition()->name === null) {
                 $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts->children, $this->getFileContents());

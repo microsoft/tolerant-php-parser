@@ -371,22 +371,19 @@ class Node implements \JsonSerializable {
      */
     public function getEndPosition() {
         // TODO test invariant - start of next node is end of previous node
-        if (isset($this->parent)) {
-            $parent = $this->parent;
-            $siblings = $parent->getChildNodes();
-            foreach ($siblings as $idx=>$nextSibling) {
-                if (spl_object_hash($nextSibling) === spl_object_hash($this)) {
-                    $siblings->next();
-                    $nextSibling = $siblings->current();
-                    return $nextSibling !== null
-                        ? $nextSibling->getFullStart()
-                        : $this->getRoot()->endOfFileToken->fullStart;
-                }
-            }
-        } elseif ($this instanceof SourceFileNode) {
+        if ($this instanceof SourceFileNode) {
             return $this->endOfFileToken->getEndPosition();
+        } else {
+            $children = iterator_to_array($this->getChildNodesAndTokens(), false);
+            $lastChild = \end($children);
+            if ($lastChild instanceof Token) {
+                return $lastChild->getEndPosition();
+            } elseif ($lastChild instanceof Node) {
+                return $lastChild->getEndPosition();
+            }
         }
-        throw new \Exception("Unhandled node: ");
+
+        throw new \Exception("Unhandled node type");
     }
 
     public function getFileContents() : string {
@@ -408,7 +405,7 @@ class Node implements \JsonSerializable {
         $descendants = iterator_to_array($this->getDescendantNodes(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
-            if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEndPosition()) {
+            if ($pos >= $childNode->getFullStart() && $pos <= $childNode->getEndPosition()) {
                 return $childNode;
             }
         }
@@ -573,5 +570,21 @@ class Node implements \JsonSerializable {
         }
 
         return $namespaceDefinition;
+    }
+
+    public function getPreviousSibling() {
+        $parent = $this->getParent();
+        if ($parent === null) {
+            return null;
+        }
+        $siblingEnd = $this->getFullStart() - 1;
+        $siblings = iterator_to_array($parent->getChildNodes());
+        for ($i = \count($siblings) - 1; $i >= 0; $i--) {
+            $sibling = $siblings[$i];
+            if ($siblingEnd <= $sibling->getEndPosition() && $siblingEnd >= $sibling->getFullStart()) {
+                return $sibling;
+            }
+        }
+        return null;
     }
 }

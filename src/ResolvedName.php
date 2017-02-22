@@ -35,7 +35,7 @@ class ResolvedName {
     }
 
     public function getFullyQualifiedNameText() : string {
-        return "\\" . join("\\", $this->parts);
+        return join("\\", $this->parts);
     }
 
     public function __toString() {
