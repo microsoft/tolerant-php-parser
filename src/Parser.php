@@ -1171,6 +1171,7 @@ class Parser {
             if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }
+            $node->nameParts = $node->nameParts->children;
             return $node;
         };
     }

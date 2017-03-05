@@ -21,12 +21,7 @@
                         "kind": "Name",
                         "textLength": 1
                     },
-                    "interfaceBaseClause": {
-                        "InterfaceBaseClause": {
-                            "extendsKeyword": null,
-                            "interfaceNameList": null
-                        }
-                    },
+                    "interfaceBaseClause": null,
                     "interfaceMembers": {
                         "InterfaceMembers": {
                             "openBrace": {

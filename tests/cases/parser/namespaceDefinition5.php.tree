@@ -28,16 +28,12 @@
                                     }
                                 }
                             },
-                            "nameParts": {
-                                "QualifiedNameParts": {
-                                    "children": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 5
-                                        }
-                                    ]
+                            "nameParts": [
+                                {
+                                    "kind": "Name",
+                                    "textLength": 5
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

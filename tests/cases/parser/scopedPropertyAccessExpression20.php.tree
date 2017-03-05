@@ -21,16 +21,12 @@
                                         "QualifiedName": {
                                             "globalSpecifier": null,
                                             "relativeSpecifier": null,
-                                            "nameParts": {
-                                                "QualifiedNameParts": {
-                                                    "children": [
-                                                        {
-                                                            "kind": "Name",
-                                                            "textLength": 6
-                                                        }
-                                                    ]
+                                            "nameParts": [
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 6
                                                 }
-                                            }
+                                            ]
                                         }
                                     },
                                     "doubleColon": {

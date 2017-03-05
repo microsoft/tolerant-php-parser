@@ -26,7 +26,7 @@ trait NamespacedNameTrait {
         }
 
         if ($namespaceDefinition->name !== null) {
-            $resolvedName = ResolvedName::buildName($namespaceDefinition->name->nameParts->children, $content);
+            $resolvedName = ResolvedName::buildName($namespaceDefinition->name->nameParts, $content);
         } else {
             $resolvedName = ResolvedName::buildName([], $content);
         }

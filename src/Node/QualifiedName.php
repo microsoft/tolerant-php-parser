@@ -50,7 +50,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
         return
             !$this->isFullyQualifiedName() &&
             !$this->isRelativeName() &&
-            \count($this->nameParts->children) > 1; // at least one namespace separator
+            \count($this->nameParts) > 1; // at least one namespace separator
     }
 
     /**
@@ -86,7 +86,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
         // FULLY QUALIFIED NAMES
         // - resolve to the name without leading namespace separator.
         if ($this->isFullyQualifiedName()) {
-            return ResolvedName::buildName($this->nameParts->children, $this->getFileContents());
+            return ResolvedName::buildName($this->nameParts, $this->getFileContents());
         }
 
         // RELATIVE NAMES
@@ -116,13 +116,13 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             $resolvedName = $this->tryResolveFromImportTable($constImportTable, /* case-sensitive */ true);
             $namespaceDefinition = $this->getNamespaceDefinition();
             if ($namespaceDefinition !== null && $namespaceDefinition->name === null) {
-                $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts->children, $this->getFileContents());
+                $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts, $this->getFileContents());
             }
             return $resolvedName;
         } elseif ($this->parent instanceof CallExpression) { // TODO how to handle scoped method calls?
             $resolvedName = $this->tryResolveFromImportTable($functionImportTable);
             if ($this->getNamespaceDefinition()->name === null) {
-                $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts->children, $this->getFileContents());
+                $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts, $this->getFileContents());
             }
             return $resolvedName;
         }
@@ -131,7 +131,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
     }
 
     public function getLastNamePart() {
-        $parts = $this->nameParts->children;
+        $parts = $this->nameParts;
         for ($i = \count($parts) - 1; $i >= 0; $i--) {
             // TODO - also handle reserved word tokens
             if ($parts[$i]->kind === TokenKind::Name) {
@@ -148,13 +148,13 @@ class QualifiedName extends Node implements NamespacedNameInterface {
      */
     private function tryResolveFromImportTable($importTable, bool $isCaseSensitive = false) {
         $content = $this->getFileContents();
-        $index = $this->nameParts->children[0]->getText($content);
+        $index = $this->nameParts[0]->getText($content);
         if (!$isCaseSensitive) {
             $index = strtolower($index);
         }
         if(isset($importTable[$index])) {
             $resolvedName = $importTable[$index];
-            $resolvedName->addNameParts(\array_slice($this->nameParts->children, 1), $content);
+            $resolvedName->addNameParts(\array_slice($this->nameParts, 1), $content);
             return $resolvedName;
         }
         return null;
@@ -172,6 +172,6 @@ class QualifiedName extends Node implements NamespacedNameInterface {
     }
 
     public function getNameParts() : array {
-        return $this->nameParts->children;
+        return $this->nameParts;
     }
 }

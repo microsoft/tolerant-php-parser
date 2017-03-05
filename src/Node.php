@@ -496,7 +496,7 @@ class Node implements \JsonSerializable {
             }
 
             $namespaceNamePartsPrefix =
-                $useDeclaration->namespaceName !== null ? $useDeclaration->namespaceName->nameParts->children : [];
+                $useDeclaration->namespaceName !== null ? $useDeclaration->namespaceName->nameParts : [];
 
             foreach ($imports as $import) {
                 if ($useDeclaration->groupClauses !== null) {
@@ -505,7 +505,7 @@ class Node implements \JsonSerializable {
                     // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
                     // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
                     $alias = $import->namespaceName->getLastNamePart()->getText($contents);
-                    $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $import->namespaceName->nameParts->children);
+                    $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $import->namespaceName->nameParts);
                     $functionOrConst = $import->functionOrConst ?? $useDeclaration->functionOrConst;
                 } else {
                     // use A\B\C;               namespace import: ["C" => [A,B,C]]

@@ -47,16 +47,12 @@
                                                                 "textLength": 1
                                                             },
                                                             "relativeSpecifier": null,
-                                                            "nameParts": {
-                                                                "QualifiedNameParts": {
-                                                                    "children": [
-                                                                        {
-                                                                            "kind": "Name",
-                                                                            "textLength": 1
-                                                                        }
-                                                                    ]
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
                                                                 }
-                                                            }
+                                                            ]
                                                         }
                                                     }
                                                 ]
@@ -75,16 +71,12 @@
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "QualifiedNameParts": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
                                                                         }
-                                                                    }
+                                                                    ]
                                                                 }
                                                             },
                                                             "asOrInsteadOfKeyword": {
@@ -96,16 +88,12 @@
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "QualifiedNameParts": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
                                                                         }
-                                                                    }
+                                                                    ]
                                                                 }
                                                             }
                                                         }
@@ -125,24 +113,20 @@
                                                                                 "textLength": 1
                                                                             },
                                                                             "relativeSpecifier": null,
-                                                                            "nameParts": {
-                                                                                "QualifiedNameParts": {
-                                                                                    "children": [
-                                                                                        {
-                                                                                            "kind": "Name",
-                                                                                            "textLength": 1
-                                                                                        },
-                                                                                        {
-                                                                                            "kind": "BackslashToken",
-                                                                                            "textLength": 1
-                                                                                        },
-                                                                                        {
-                                                                                            "kind": "Name",
-                                                                                            "textLength": 1
-                                                                                        }
-                                                                                    ]
+                                                                            "nameParts": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
+                                                                                },
+                                                                                {
+                                                                                    "kind": "BackslashToken",
+                                                                                    "textLength": 1
+                                                                                },
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 1
                                                                                 }
-                                                                            }
+                                                                            ]
                                                                         }
                                                                     },
                                                                     "doubleColon": {
@@ -164,16 +148,12 @@
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "QualifiedNameParts": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
                                                                         }
-                                                                    }
+                                                                    ]
                                                                 }
                                                             }
                                                         }

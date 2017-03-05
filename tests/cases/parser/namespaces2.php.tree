@@ -63,16 +63,12 @@
                                                     "textLength": 1
                                                 },
                                                 "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 9
-                                                            }
-                                                        ]
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 9
                                                     }
-                                                }
+                                                ]
                                             }
                                         },
                                         "compoundStatementOrSemicolon": {

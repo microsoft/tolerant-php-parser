@@ -54,16 +54,12 @@
                                     "QualifiedName": {
                                         "globalSpecifier": null,
                                         "relativeSpecifier": null,
-                                        "nameParts": {
-                                            "QualifiedNameParts": {
-                                                "children": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 5
-                                                    }
-                                                ]
+                                        "nameParts": [
+                                            {
+                                                "kind": "Name",
+                                                "textLength": 5
                                             }
-                                        }
+                                        ]
                                     }
                                 },
                                 "variableName": {
