@@ -405,7 +405,8 @@ class Node implements \JsonSerializable {
         $descendants = iterator_to_array($this->getDescendantNodes(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
-            if ($pos >= $childNode->getFullStart() && $pos <= $childNode->getEndPosition()) {
+            $start = $childNode->getStart();
+            if ($pos >= $start && $pos <= $childNode->getEndPosition()) {
                 return $childNode;
             }
         }

@@ -4,8 +4,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-require __DIR__ . "/LexerInvariantsTest.php";
-
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;

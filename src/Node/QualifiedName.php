@@ -23,7 +23,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
     public $globalSpecifier; // \_opt
     /** @var RelativeSpecifier */
     public $relativeSpecifier; // namespace\
-    /** @var DelimitedList\QualifiedNameParts */
+    /** @var array */
     public $nameParts;
 
     /**
@@ -121,7 +121,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return $resolvedName;
         } elseif ($this->parent instanceof CallExpression) { // TODO how to handle scoped method calls?
             $resolvedName = $this->tryResolveFromImportTable($functionImportTable);
-            if ($this->getNamespaceDefinition()->name === null) {
+            if (($namespaceDefinition = $this->getNamespaceDefinition()) === null || $namespaceDefinition->name === null) {
                 $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts, $this->getFileContents());
             }
             return $resolvedName;
