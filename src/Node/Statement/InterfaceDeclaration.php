@@ -22,7 +22,7 @@ class InterfaceDeclaration extends StatementNode implements NamespacedNameInterf
     /** @var Token */
     public $name;
 
-    /** @var InterfaceBaseClause */
+    /** @var InterfaceBaseClause | null */
     public $interfaceBaseClause;
 
     /** @var InterfaceMembers */

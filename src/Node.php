@@ -281,17 +281,20 @@ class Node implements \JsonSerializable {
      * @return int
      */
     public function getWidth() : int {
-        $width = 0;
-        $first = true;
-        foreach ($this->getChildNodesAndTokens() as $child) {
-            if ($first) {
-                $width += $child->getWidth();
-                $first = false;
-            } else {
-                $width += $child->getFullWidth();
-            }
-        }
-        return $width;
+//        $width = 0;
+        $first = $this->getStart();
+        $last = $this->getEndPosition();
+
+        return $last - $first;
+//        foreach ($this->getChildNodesAndTokens() as $child) {
+//            if ($first) {
+//                $width += $child->getWidth();
+//                $first = false;
+//            } else {
+//                $width += $child->getFullWidth();
+//            }
+//        }
+//        return $width;
     }
 
     /**
@@ -300,11 +303,15 @@ class Node implements \JsonSerializable {
      * @return int
      */
     public function getFullWidth() : int {
-        $fullWidth = 0;
-        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
-            $fullWidth += $child->getFullWidth();
-        }
-        return $fullWidth;
+        $first = $this->getFullStart();
+        $last = $this->getEndPosition();
+
+        return $last - $first;
+//        $fullWidth = 0;
+//        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
+//            $fullWidth += $child->getFullWidth();
+//        }
+//        return $fullWidth;
     }
 
     /**
@@ -312,9 +319,17 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getText() : string {
-        $fullText = "";
+        $start = $this->getStart();
+        $end = $this->getEndPosition();
+
+//       $fullText = "";
         $fileContents = $this->getFileContents();
-        $first = true;
+        return \substr($fileContents, $start, $end - $start);
+        // $start = $this->getStart();
+        // $end = $this->getEndPosition();
+
+        // $fullText = \substr($fileContents, $start, $end - $start);
+        /*$first = true;
         foreach ($this->getDescendantTokens() as $child) {
             if ($first) {
                 $fullText .= $child->getText($fileContents);
@@ -323,7 +338,7 @@ class Node implements \JsonSerializable {
                 $fullText .= $child->getFullText($fileContents);
             }
         }
-        return $fullText;
+        return $fullText;*/
     }
 
     /**
@@ -331,12 +346,13 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getFullText() : string {
-        $fullText = "";
+        $start = $this->getFullStart();
+        $end = $this->getEndPosition();
+
+//       $fullText = "";
         $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $child) {
-            $fullText .= $child->getFullText($fileContents);
-        }
-        return $fullText;
+        return \substr($fileContents, $start, $end - $start);
+
     }
 
     /**
@@ -374,13 +390,32 @@ class Node implements \JsonSerializable {
         if ($this instanceof SourceFileNode) {
             return $this->endOfFileToken->getEndPosition();
         } else {
-            $children = iterator_to_array($this->getChildNodesAndTokens(), false);
-            $lastChild = \end($children);
-            if ($lastChild instanceof Token) {
-                return $lastChild->getEndPosition();
-            } elseif ($lastChild instanceof Node) {
-                return $lastChild->getEndPosition();
+            for ($i = \count($childKeys = $this->getChildNames()) - 1; $i >= 0; $i--) {
+                $lastChildKey = $childKeys[$i];
+ //                var_dump($lastChildKey);
+                $lastChild = $this->$lastChildKey;
+
+                if (\is_array($lastChild)) {
+                    $lastChild = \end($lastChild);
+                    if ($lastChild === null) {
+                        var_dump($lastChild);
+                    }
+                }
+
+                if ($lastChild instanceof Token) {
+                    return $lastChild->getEndPosition();
+                } elseif ($lastChild instanceof Node) {
+                    return $lastChild->getEndPosition();
+                }
             }
+//            $childKeys = $this->getChildNames();
+//            $children = iterator_to_array($this->getChildNodesAndTokens(), false);
+//            $lastChild = \end($children);
+//            if ($lastChild instanceof Token) {
+//                return $lastChild->getEndPosition();
+//            } elseif ($lastChild instanceof Node) {
+//                return $lastChild->getEndPosition();
+//            }
         }
 
         throw new \Exception("Unhandled node type");
@@ -442,8 +477,8 @@ class Node implements \JsonSerializable {
      * @return array | ResolvedName[][]
      * @throws \Exception
      */
-    public function getImportTablesForCurrentScope() {
-        $namespaceDefinition = $this->getNamespaceDefinition();
+    public function getImportTablesForCurrentScope($namespaceDefinition = null) {
+        $namespaceDefinition = $namespaceDefinition ?? $this->getNamespaceDefinition();
 
         // Use declarations can exist in either the global scope, or inside namespace declarations.
         // http://php.net/manual/en/language.namespaces.importing.php#language.namespaces.importing.scope
@@ -574,7 +609,8 @@ class Node implements \JsonSerializable {
     }
 
     public function getPreviousSibling() {
-        $parent = $this->getParent();
+        // TODO make more efficient
+        $parent = $this->parent;
         if ($parent === null) {
             return null;
         }

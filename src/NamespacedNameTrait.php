@@ -6,6 +6,10 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
+use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
+use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
+
 trait NamespacedNameTrait {
     public abstract function getNamespaceDefinition();
     public abstract function getFileContents() : string;
@@ -30,7 +34,11 @@ trait NamespacedNameTrait {
         } else {
             $resolvedName = ResolvedName::buildName([], $content);
         }
-        $resolvedName->addNameParts($this->getNameParts(), $content);
+        if (!($this->parent instanceof NamespaceDefinition) && !($this->parent instanceof NamespaceUseDeclaration)
+        && !($this->parent instanceof NamespaceUseGroupClause)
+        ) {
+            $resolvedName->addNameParts($this->getNameParts(), $content);
+        }
         return $resolvedName;
     }
 }

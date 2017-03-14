@@ -72,9 +72,9 @@ class QualifiedName extends Node implements NamespacedNameInterface {
      * @return null|ResolvedName
      * @throws \Exception
      */
-    public function  getResolvedName() {
+    public function getResolvedName($namespaceDefinition = null) {
         // Name resolution not applicable to constructs that define symbol names or aliases.
-        if ($this->parent instanceof Node\Statement\NamespaceDefinition ||
+        if (($this->parent instanceof Node\Statement\NamespaceDefinition && $this->parent->name->getStart() === $this->getStart()) ||
             $this->parent instanceof Node\Statement\NamespaceUseDeclaration ||
             $this->parent instanceof Node\NamespaceUseGroupClause ||
             ($this->parent instanceof TraitSelectOrAliasClause &&
@@ -96,7 +96,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return $this->getNamespacedName();
         }
 
-        list($namespaceImportTable, $functionImportTable, $constImportTable) = $this->getImportTablesForCurrentScope();
+        list($namespaceImportTable, $functionImportTable, $constImportTable) = $this->getImportTablesForCurrentScope($namespaceDefinition);
 
         // QUALIFIED NAMES
         // - first segment of the name is translated according to the current class/namespace import table.
