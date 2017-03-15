@@ -19,4 +19,10 @@ class CompoundStatementNode extends StatementNode {
 
     /** @var Token */
     public $closeBrace;
+
+    public const CHILD_NAMES = [
+        'openBrace',
+        'statements',
+        'closeBrace'
+    ];
 }

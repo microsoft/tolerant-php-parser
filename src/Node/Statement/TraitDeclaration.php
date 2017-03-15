@@ -24,6 +24,12 @@ class TraitDeclaration extends StatementNode implements NamespacedNameInterface 
     /** @var TraitMembers */
     public $traitMembers;
 
+    public const CHILD_NAMES = [
+        'traitKeyword',
+        'name',
+        'traitMembers'
+    ];
+
     public function getNameParts() : array {
         return [$this->name];
     }

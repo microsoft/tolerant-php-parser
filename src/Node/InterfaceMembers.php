@@ -18,4 +18,10 @@ class InterfaceMembers extends Node {
 
     /** @var Token */
     public $closeBrace;
+
+    public const CHILD_NAMES = [
+        'openBrace',
+        'interfaceMemberDeclarations',
+        'closeBrace'
+    ];
 }

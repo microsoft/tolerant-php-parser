@@ -18,4 +18,10 @@ class ArgumentExpression extends Expression {
 
     /** @var Expression */
     public $expression;
+
+    public const CHILD_NAMES = [
+        'byRefToken',
+        'dotDotDotToken',
+        'expression'
+    ];
 }

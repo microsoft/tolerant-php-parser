@@ -15,4 +15,9 @@ class PrefixUpdateExpression extends UnaryExpression {
 
     /** @var Variable */
     public $operand;
+
+    public const CHILD_NAMES = [
+        'incrementOrDecrementOperator',
+        'operand'
+    ];
 }

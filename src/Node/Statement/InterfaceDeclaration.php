@@ -28,6 +28,13 @@ class InterfaceDeclaration extends StatementNode implements NamespacedNameInterf
     /** @var InterfaceMembers */
     public $interfaceMembers;
 
+    public const CHILD_NAMES = [
+        'interfaceKeyword',
+        'name',
+        'interfaceBaseClause',
+        'interfaceMembers'
+    ];
+
     public function getNameParts() : array {
         return [$this->name];
     }

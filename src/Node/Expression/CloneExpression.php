@@ -16,4 +16,9 @@ class CloneExpression extends Expression {
 
     /** @var Expression */
     public $expression;
+
+    public const CHILD_NAMES = [
+        'cloneKeyword',
+        'expression'
+    ];
 }

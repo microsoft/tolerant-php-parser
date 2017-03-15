@@ -19,4 +19,10 @@ class BinaryExpression extends Expression {
 
     /** @var Expression */
     public $rightOperand;
+
+    public const CHILD_NAMES = [
+        'leftOperand',
+        'operator',
+        'rightOperand'
+    ];
 }

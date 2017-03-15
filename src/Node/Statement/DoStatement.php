@@ -25,4 +25,14 @@ class DoStatement extends StatementNode {
     public $closeParen;
     /**@var Token | null */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'do',
+        'statement',
+        'whileToken',
+        'openParen',
+        'expression',
+        'closeParen',
+        'semicolon'
+    ];
 }

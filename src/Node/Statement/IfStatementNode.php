@@ -33,4 +33,17 @@ class IfStatementNode extends StatementNode {
     public $endifKeyword;
     /**@var Token | null */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'ifKeyword',
+        'openParen',
+        'expression',
+        'closeParen',
+        'colon',
+        'statements',
+        'elseIfClauses',
+        'elseClause',
+        'endifKeyword',
+        'semicolon'
+    ];
 }

@@ -13,4 +13,8 @@ class MissingMemberDeclaration extends Node {
 
     /** @var Token[] */
     public $modifiers;
+
+    public const CHILD_NAMES = [
+        'modifiers'
+    ];
 }

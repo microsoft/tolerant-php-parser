@@ -23,4 +23,11 @@ class ListIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public const CHILD_NAMES = [
+        'listKeyword',
+        'openParen',
+        'listElements',
+        'closeParen'
+    ];
 }

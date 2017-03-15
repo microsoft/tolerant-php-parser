@@ -20,4 +20,10 @@ class ScopedPropertyAccessExpression extends Expression {
 
     /** @var Token | Variable */
     public $memberName;
+
+    public const CHILD_NAMES = [
+        'scopeResolutionQualifier',
+        'doubleColon',
+        'memberName'
+    ];
 }

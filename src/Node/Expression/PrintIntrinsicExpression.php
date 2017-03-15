@@ -16,4 +16,9 @@ class PrintIntrinsicExpression extends Expression {
 
     /** @var Expression */
     public $expression;
+
+    public const CHILD_NAMES = [
+        'printKeyword',
+        'expression'
+    ];
 }

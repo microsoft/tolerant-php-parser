@@ -11,4 +11,8 @@ use Microsoft\PhpParser\Node\Expression;
 class UnaryExpression extends Expression {
     /** @var UnaryExpression | Variable */
     public $operand;
+
+    public const CHILD_NAMES = [
+        'operand'
+    ];
 }

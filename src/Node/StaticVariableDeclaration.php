@@ -19,4 +19,10 @@ class StaticVariableDeclaration extends Node {
 
     /** @var Expression | null */
     public $assignment;
+
+    public const CHILD_NAMES = [
+        'variableName',
+        'equalsToken',
+        'assignment',
+    ];
 }

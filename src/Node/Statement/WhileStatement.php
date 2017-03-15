@@ -27,4 +27,15 @@ class WhileStatement extends StatementNode {
     public $endWhile;
     /**@var Token | null */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'whileToken',
+        'openParen',
+        'expression',
+        'closeParen',
+        'colon',
+        'statements',
+        'endWhile',
+        'semicolon'
+    ];
 }

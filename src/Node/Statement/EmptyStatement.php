@@ -12,4 +12,8 @@ use Microsoft\PhpParser\Token;
 class EmptyStatement extends StatementNode {
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'semicolon'
+    ];
 }

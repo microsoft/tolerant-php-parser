@@ -32,4 +32,17 @@ class SwitchStatementNode extends StatementNode {
     public $endswitch;
     /**@var Token | null */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'switchKeyword',
+        'openParen',
+        'expression',
+        'closeParen',
+        'colon',
+        'openBrace',
+        'caseStatements',
+        'closeBrace',
+        'endswitch',
+        'semicolon'
+    ];
 }

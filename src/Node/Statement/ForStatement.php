@@ -35,4 +35,19 @@ class ForStatement extends StatementNode {
     public $endFor;
     /**@var Token | null */
     public $endForSemicolon;
+
+    public const CHILD_NAMES = [
+        'for',
+        'openParen',
+        'forInitializer',
+        'exprGroupSemicolon1',
+        'forControl',
+        'exprGroupSemicolon2',
+        'forEndOfLoop',
+        'closeParen',
+        'colon',
+        'statements',
+        'endFor',
+        'endForSemicolon'
+    ];
 }

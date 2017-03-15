@@ -15,4 +15,9 @@ class PostfixUpdateExpression extends Expression {
 
     /** @var Token */
     public $incrementOrDecrementOperator;
+
+    public const CHILD_NAMES = [
+        'operand',
+        'incrementOrDecrementOperator'
+    ];
 }

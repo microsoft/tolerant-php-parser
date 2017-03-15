@@ -16,4 +16,9 @@ class EchoExpression extends Expression {
 
     /** @var Expression[] */
     public $expressions;
+
+    public const CHILD_NAMES = [
+        'echoKeyword',
+        'expressions'
+    ];
 }

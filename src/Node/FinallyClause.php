@@ -14,4 +14,9 @@ class FinallyClause extends Node {
     public $finallyToken;
     /**@var StatementNode */
     public $compoundStatement;
+
+    public const CHILD_NAMES = [
+        'finallyToken',
+        'compoundStatement'
+    ];
 }

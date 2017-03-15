@@ -21,4 +21,11 @@ class CastExpression extends UnaryExpression {
 
     /** @var Variable */
     public $operand;
+
+    public const CHILD_NAMES = [
+        'openParen',
+        'castType',
+        'closeParen',
+        'operand'
+    ];
 }
