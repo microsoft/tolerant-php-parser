@@ -20,4 +20,10 @@ class FunctionStaticDeclaration extends StatementNode {
 
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'staticKeyword',
+        'staticVariableNameList',
+        'semicolon'
+    ];
 }

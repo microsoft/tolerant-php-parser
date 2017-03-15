@@ -17,6 +17,23 @@ class FunctionDeclaration extends StatementNode implements NamespacedNameInterfa
     use FunctionHeader, FunctionReturnType, FunctionBody;
     use NamespacedNameTrait;
 
+    public const CHILD_NAMES = [
+        // FunctionHeader
+        'functionKeyword',
+        'byRefToken',
+        'name',
+        'openParen',
+        'parameters',
+        'closeParen',
+
+        // FunctionReturnType
+        'colonToken',
+        'returnType',
+
+        // FunctionBody
+        'compoundStatementOrSemicolon'
+    ];
+
     public function getNameParts() : array {
         return [$this->name];
     }

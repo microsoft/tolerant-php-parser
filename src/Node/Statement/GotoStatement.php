@@ -16,4 +16,10 @@ class GotoStatement extends StatementNode {
     public $name;
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'goto',
+        'name',
+        'semicolon'
+    ];
 }

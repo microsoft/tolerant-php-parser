@@ -18,4 +18,10 @@ class ClassMembersNode extends Node {
 
     /** @var Token */
     public $closeBrace;
+
+    public const CHILD_NAMES = [
+        'openBrace',
+        'classMemberDeclarations',
+        'closeBrace'
+    ];
 }

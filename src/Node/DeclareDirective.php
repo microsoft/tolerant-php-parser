@@ -16,4 +16,10 @@ class DeclareDirective extends Node {
     public $equals;
     /** @var Token */
     public $literal;
+
+    public const CHILD_NAMES = [
+        'name',
+        'equals',
+        'literal'
+    ];
 }

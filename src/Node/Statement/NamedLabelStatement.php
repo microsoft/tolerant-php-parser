@@ -16,4 +16,10 @@ class NamedLabelStatement extends StatementNode {
     public $colon;
     /** @var StatementNode */
     public $statement;
+
+    public const CHILD_NAMES = [
+        'name',
+        'colon',
+        'statement'
+    ];
 }

@@ -23,6 +23,12 @@ class ConstElement extends Node implements NamespacedNameInterface {
     /** @var Expression */
     public $assignment;
 
+    public const CHILD_NAMES = [
+        'name',
+        'equalsToken',
+        'assignment'
+    ];
+
     public function getNameParts() : array {
         return [$this->name];
     }

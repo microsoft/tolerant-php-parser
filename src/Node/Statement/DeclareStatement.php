@@ -27,4 +27,15 @@ class DeclareStatement extends StatementNode {
     public $enddeclareKeyword;
     /** @var Token | null */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'declareKeyword',
+        'openParen',
+        'declareDirective',
+        'closeParen',
+        'colon',
+        'statements',
+        'enddeclareKeyword',
+        'semicolon'
+    ];
 }

@@ -26,6 +26,15 @@ class Parameter extends Node {
     /** @var null | Expression */
     public $default;
 
+    public const CHILD_NAMES = [
+        'typeDeclaration',
+        'byRefToken',
+        'dotDotDotToken',
+        'variableName',
+        'equalsToken',
+        'default'
+    ];
+
     public function isVariadic() {
         return $this->byRefToken !== null;
     }

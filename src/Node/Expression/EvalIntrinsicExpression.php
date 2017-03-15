@@ -22,4 +22,11 @@ class EvalIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public const CHILD_NAMES = [
+        'evalKeyword',
+        'openParen',
+        'expression',
+        'closeParen'
+    ];
 }

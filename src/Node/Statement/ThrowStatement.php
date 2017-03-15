@@ -17,4 +17,10 @@ class ThrowStatement extends StatementNode {
     public $expression;
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'throwKeyword',
+        'expression',
+        'semicolon'
+    ];
 }

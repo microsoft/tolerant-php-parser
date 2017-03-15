@@ -18,4 +18,26 @@ class AnonymousFunctionCreationExpression extends Expression {
     public $staticModifier;
 
     use FunctionHeader, FunctionUseClause, FunctionReturnType, FunctionBody;
+
+    public const CHILD_NAMES = [
+        'staticModifier',
+
+        // FunctionHeader
+        'functionKeyword',
+        'byRefToken',
+        'name',
+        'openParen',
+        'parameters',
+        'closeParen',
+
+        // FunctionUseClause
+        'anonymousFunctionUseClause',
+
+        // FunctionReturnType
+        'colonToken',
+        'returnType',
+
+        // FunctionBody
+        'compoundStatementOrSemicolon'
+    ];
 }

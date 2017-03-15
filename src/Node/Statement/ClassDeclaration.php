@@ -35,6 +35,15 @@ class ClassDeclaration extends StatementNode implements NamespacedNameInterface 
     /** @var ClassMembersNode */
     public $classMembers;
 
+    public const CHILD_NAMES = [
+        'abstractOrFinalModifier',
+        'classKeyword',
+        'name',
+        'classBaseClause',
+        'classInterfaceClause',
+        'classMembers'
+    ];
+
     public function getNameParts() : array {
         return [$this->name];
     }

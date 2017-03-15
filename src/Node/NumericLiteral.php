@@ -11,4 +11,8 @@ use Microsoft\PhpParser\Token;
 class NumericLiteral extends Expression {
     /** @var Token[] */
     public $children;
+
+    public const CHILD_NAMES = [
+        'children'
+    ];
 }

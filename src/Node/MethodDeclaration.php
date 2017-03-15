@@ -16,6 +16,25 @@ class MethodDeclaration extends Node {
     
     use FunctionHeader, FunctionReturnType, FunctionBody;
 
+    public const CHILD_NAMES = [
+        'modifiers',
+
+        // FunctionHeader
+        'functionKeyword',
+        'byRefToken',
+        'name',
+        'openParen',
+        'parameters',
+        'closeParen',
+
+        // FunctionReturnType
+        'colonToken',
+        'returnType',
+
+        // FunctionBody
+        'compoundStatementOrSemicolon'
+    ];
+
     public function isStatic() : bool {
         if ($this->modifiers === null) {
             return false;

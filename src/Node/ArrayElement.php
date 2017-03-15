@@ -22,4 +22,11 @@ class ArrayElement extends Node {
 
     /** @var Expression */
     public $elementValue;
+
+    public const CHILD_NAMES = [
+        'elementKey',
+        'arrowToken',
+        'byRef',
+        'elementValue'
+    ];
 }

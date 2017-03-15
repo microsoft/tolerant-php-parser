@@ -10,7 +10,6 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class TraitUseClause extends Node {
-
     /** @var Token */
     public $useKeyword;
 
@@ -25,4 +24,12 @@ class TraitUseClause extends Node {
 
     /** @var Token */
     public $closeBrace;
+
+    public const CHILD_NAMES = [
+        'useKeyword',
+        'traitNameList',
+        'semicolonOrOpenBrace',
+        'traitSelectAndAliasClauses',
+        'closeBrace'
+    ];
 }

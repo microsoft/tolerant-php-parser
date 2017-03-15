@@ -8,5 +8,5 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Node;
 
-class Expression extends Node {
+abstract class Expression extends Node {
 }

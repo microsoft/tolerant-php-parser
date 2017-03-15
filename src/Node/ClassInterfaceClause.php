@@ -15,4 +15,9 @@ class ClassInterfaceClause extends Node {
 
     /** @var DelimitedList\QualifiedNameList | null */
     public $interfaceNameList;
+
+    public const CHILD_NAMES = [
+        'implementsKeyword',
+        'interfaceNameList'
+    ];
 }

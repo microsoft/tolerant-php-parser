@@ -39,4 +39,15 @@ class ObjectCreationExpression extends Expression {
 
     /** @var ClassMembersNode | null */
     public $classMembers;
+
+    public const CHILD_NAMES = [
+        'newKeword', // TODO
+        'classTypeDesignator',
+        'openParen',
+        'argumentExpressionList',
+        'closeParen',
+        'classBaseClause',
+        'classInterfaceClause',
+        'classMembers'
+    ];
 }
