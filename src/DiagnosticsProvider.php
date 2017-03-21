@@ -14,12 +14,17 @@ class DiagnosticsProvider {
      * @param \Microsoft\PhpParser\Node $node
      * @return \Generator | Diagnostic[]
      */
+
+    private static $tokenKindToText;
+
     public static function getDiagnostics($node) : \Generator {
-        $tokenKindToText = \array_flip(\array_merge(
-            TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
-            TokenStringMaps::KEYWORDS,
-            TokenStringMaps::RESERVED_WORDS
-        ));
+        if (!isset(self::$tokenKindToText)) {
+            self::$tokenKindToText = \array_flip(\array_merge(
+                TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
+                TokenStringMaps::KEYWORDS,
+                TokenStringMaps::RESERVED_WORDS
+            ));
+        }
 
         if ($node instanceof SkippedToken) {
             // TODO - consider also attaching parse context information to skipped tokens
@@ -58,7 +63,7 @@ class DiagnosticsProvider {
                     if ($modifier->kind === TokenKind::VarKeyword) {
                         yield new Diagnostic(
                             DiagnosticKind::Error,
-                            "Unexpected modifier '" . $tokenKindToText[$modifier->kind] . "'",
+                            "Unexpected modifier '" . self::$tokenKindToText[$modifier->kind] . "'",
                             $modifier->start,
                             $modifier->length
                         );
