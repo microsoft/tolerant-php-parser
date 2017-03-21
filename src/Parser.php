@@ -181,7 +181,7 @@ class Parser {
      */
     private function parseList($parentNode, int $listParseContext) {
         $savedParseContext = $this->currentParseContext;
-        $this->updateCurrentParseContext($listParseContext);
+        $this->currentParseContext |= 1 << $listParseContext;
         $parseListElementFn = $this->getParseListElementFn($listParseContext);
 
         $nodeArray = array();
@@ -369,13 +369,13 @@ class Parser {
      * @return Token
      */
     private function eat(...$kinds) {
-        $token = $this->getCurrentToken();
+        $token = $this->token;
         if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
         }
         foreach ($kinds as $kind) {
             if ($token->kind === $kind) {
-                $this->advanceToken();
+                $this->token = $this->lexer->scanNextToken();
                 return $token;
             }
         }
@@ -384,12 +384,12 @@ class Parser {
     }
 
     private function eatOptional(...$kinds) {
-        $token = $this->getCurrentToken();
+        $token = $this->token;
         if (\is_array($kinds[0])) {
             $kinds = $kinds[0];
         }
         if (\in_array($token->kind, $kinds)) {
-            $this->advanceToken();
+            $this->token = $this->lexer->scanNextToken();
             return $token;
         }
         return null;
@@ -403,10 +403,6 @@ class Parser {
 
     private function advanceToken() {
         $this->token = $this->lexer->scanNextToken();
-    }
-
-    private function updateCurrentParseContext($context) {
-        $this->currentParseContext |= 1 << $context;
     }
 
     private function parseStatement($parentNode) {
@@ -1245,17 +1241,19 @@ class Parser {
         $startToken = $this->token;
         $succeeded = true;
         foreach ($expectedKinds as $kind) {
-            $this->advanceToken();
+            $token = $this->lexer->scanNextToken();
+            $currentPosition = $this->lexer->getCurrentPosition();
+            $endOfFilePosition = $this->lexer->getEndOfFilePosition();
             if (\is_array($kind)) {
                 $succeeded = false;
                 foreach ($kind as $kindOption) {
-                    if ($this->lexer->getCurrentPosition() <= $this->lexer->getEndOfFilePosition() && $this->getCurrentToken()->kind === $kindOption) {
+                    if ($currentPosition <= $endOfFilePosition && $token->kind === $kindOption) {
                         $succeeded = true;
                         break;
                     }
                 }
             } else {
-                if ($this->lexer->getCurrentPosition() > $this->lexer->getEndOfFilePosition() || $this->getCurrentToken()->kind !== $kind) {
+                if ($currentPosition > $endOfFilePosition || $token->kind !== $kind) {
                     $succeeded = false;
                     break;
                 }
