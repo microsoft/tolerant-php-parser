@@ -101,10 +101,18 @@ abstract class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getFirstChildNode(...$classNames) {
-        foreach ($this->getChildNodes() as $child) {
+        foreach ($this::CHILD_NAMES as $name) {
+            $val = $this->$name;
             foreach ($classNames as $className) {
-                if ($child instanceof $className) {
-                    return $child;
+                if (\is_array($val)) {
+                    foreach ($val as $child) {
+                        if ($child instanceof $className) {
+                            return $child;
+                        }
+                    }
+                    continue;
+                } elseif ($val instanceof $className) {
+                    return $val;
                 }
             }
         }
@@ -169,12 +177,10 @@ abstract class Node implements \JsonSerializable {
      * @return \Generator|Node[]
      */
     public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
-        foreach ($this->getChildNodesAndTokens() as $child) {
-            if ($child instanceof Node) {
-                yield $child;
-                if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    yield from $child->getDescendantNodes();
-                }
+        foreach ($this->getChildNodes() as $child) {
+            yield $child;
+            if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
+                yield from $child->getDescendantNodes();
             }
         }
     }
@@ -569,18 +575,25 @@ abstract class Node implements \JsonSerializable {
             return null;
         }
 
-        foreach ($parent->getChildNodes() as $idx=>$sibling) {
-            if ($idx === 0) {
-                if ($sibling === $this) {
-                    return null;
+        $prevSibling = null;
+
+        foreach ($parent::CHILD_NAMES as $name) {
+            $val = $parent->$name;
+            if (\is_array($val)) {
+                foreach ($val as $sibling) {
+                    if ($sibling === $this) {
+                        return $prevSibling;
+                    } elseif ($sibling instanceof Node) {
+                        $prevSibling = $sibling;
+                    }
                 }
-                $prevSibling = $sibling;
                 continue;
+            } elseif ($val instanceof Node) {
+                if ($val === $this) {
+                    return $prevSibling;
+                }
+                $prevSibling = $val;
             }
-            if ($sibling === $this) {
-                return $prevSibling;
-            }
-            $prevSibling = $sibling;
         }
         return null;
     }
