@@ -26,6 +26,17 @@ $startTime = microtime(true);
 foreach ($testProviderArray as $idx=>$testCaseFile) {
     $sourceFile = $parser->parseSourceFile($testCaseFile);
     $asts[] = $sourceFile;
+
+    if ($idx % 10 === 0) {
+        echo $idx;
+    }
+    if ($idx > 100) {
+        break;
+    }
+}
+
+if (!isset($idx)) {
+    exit("Validation directory does not exist. First run `git submodule update --init --recursive from project root.`");
 }
 
 $asts = SplFixedArray::fromArray($asts);

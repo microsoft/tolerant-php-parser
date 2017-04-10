@@ -1,5 +1,6 @@
 {
-    "name": "Microsoft/tolerant-php-parser",
+    "name": "microsoft/tolerant-php-parser",
+    "description": "Tolerant PHP-to-AST parser designed for IDE usage scenarios",
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "^5.5"
