@@ -17,7 +17,10 @@
                         "kind": "UseKeyword",
                         "textLength": 3
                     },
-                    "functionOrConst": null,
+                    "functionOrConst": {
+                        "kind": "FunctionKeyword",
+                        "textLength": 8
+                    },
                     "useClauses": {
                         "NamespaceUseClauseList": {
                             "children": [
@@ -25,10 +28,7 @@
                                     "NamespaceUseClause": {
                                         "namespaceName": {
                                             "QualifiedName": {
-                                                "globalSpecifier": {
-                                                    "kind": "BackslashToken",
-                                                    "textLength": 1
-                                                },
+                                                "globalSpecifier": null,
                                                 "relativeSpecifier": null,
                                                 "nameParts": {
                                                     "QualifiedNameParts": {
@@ -44,14 +44,10 @@
                                                             {
                                                                 "kind": "Name",
                                                                 "textLength": 1
-                                                            },
-                                                            {
-                                                                "kind": "BackslashToken",
-                                                                "textLength": 1
                                                             }
                                                         ]
                                                     }
-                                                ]
+                                                }
                                             }
                                         },
                                         "namespaceAliasingClause": null,
@@ -62,46 +58,6 @@
                                         "groupClauses": {
                                             "NamespaceUseGroupClauseList": {
                                                 "children": [
-                                                    {
-                                                        "NamespaceUseGroupClause": {
-                                                            "functionOrConst": {
-                                                                "kind": "ConstKeyword",
-                                                                "textLength": 5
-                                                            },
-                                                            "namespaceName": {
-                                                                "QualifiedName": {
-                                                                    "globalSpecifier": null,
-                                                                    "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "QualifiedNameParts": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    }
-                                                                }
-                                                            },
-                                                            "namespaceAliasingClause": {
-                                                                "NamespaceAliasingClause": {
-                                                                    "asKeyword": {
-                                                                        "kind": "AsKeyword",
-                                                                        "textLength": 2
-                                                                    },
-                                                                    "name": {
-                                                                        "kind": "Name",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
                                                     {
                                                         "NamespaceUseGroupClause": {
                                                             "functionOrConst": null,
@@ -121,18 +77,7 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "namespaceAliasingClause": {
-                                                                "NamespaceAliasingClause": {
-                                                                    "asKeyword": {
-                                                                        "kind": "AsKeyword",
-                                                                        "textLength": 2
-                                                                    },
-                                                                    "name": {
-                                                                        "kind": "Name",
-                                                                        "textLength": 1
-                                                                    }
-                                                                }
-                                                            }
+                                                            "namespaceAliasingClause": null
                                                         }
                                                     }
                                                 ]
@@ -142,6 +87,62 @@
                                             "kind": "CloseBraceToken",
                                             "textLength": 1
                                         }
+                                    }
+                                },
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "NamespaceUseClause": {
+                                        "namespaceName": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
+                                    }
+                                },
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "NamespaceUseClause": {
+                                        "namespaceName": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": {
+                                                    "QualifiedNameParts": {
+                                                        "children": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "namespaceAliasingClause": null,
+                                        "openBrace": null,
+                                        "groupClauses": null,
+                                        "closeBrace": null
                                     }
                                 }
                             ]
