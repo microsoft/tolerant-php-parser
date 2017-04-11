@@ -492,8 +492,10 @@ class Node implements \JsonSerializable {
             $topLevelNamespaceStatements = $namespaceDefinition->compoundStatementOrSemicolon instanceof Token
                 ? $namespaceDefinition->parent->statementList // we need to start from the namespace definition.
                 : $namespaceDefinition->compoundStatementOrSemicolon->statements;
+            $fullStart = $namespaceDefinition->getFullStart();
         } else {
             $topLevelNamespaceStatements = $this->getRoot()->statementList;
+            $fullStart = 0;
         }
 
         // TODO optimize performance
@@ -514,6 +516,9 @@ class Node implements \JsonSerializable {
         $contents = $this->getFileContents();
 
         foreach ($topLevelNamespaceStatements as $useDeclaration) {
+            if ($useDeclaration->getFullStart() <= $fullStart) {
+                continue;
+            }
             if ($useDeclaration instanceof NamespaceDefinition) {
                 // TODO - another reason to always parse namespace definitions as the parent of subsequent statements.
                 break;
@@ -533,7 +538,7 @@ class Node implements \JsonSerializable {
                     // use A\B\C\{D\E as F};            namespace import: ["F" => [A,B,C,D,E]]
                     // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
                     // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
-                    foreach ($useClause->groupClauses as $groupClause) {
+                    foreach ($useClause->groupClauses->children as $groupClause) {
                         if (!($groupClause instanceof NamespaceUseGroupClause)) {
                             continue;
                         }
@@ -636,12 +641,12 @@ class Node implements \JsonSerializable {
         if ($alias !== null) {
             if ($functionOrConst === null) {
                 // namespaces are case-insensitive
-                $alias = \strtolower($alias);
+//                $alias = \strtolower($alias);
                 $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
                 return array($namespaceImportTable, $functionImportTable, $constImportTable);
             } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
                 // functions are case-insensitive
-                $alias = \strtolower($alias);
+//                $alias = \strtolower($alias);
                 $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
                 return array($namespaceImportTable, $functionImportTable, $constImportTable);
             } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {

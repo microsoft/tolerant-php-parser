@@ -27,9 +27,8 @@ abstract class DelimitedList extends Node {
     }
 
     public function getValues() {
-        $i = 0;
-        foreach ($this->children as $value) {
-            if ($i++ % 2 == 1) {
+        foreach ($this->children as $idx=>$value) {
+            if ($idx % 2 == 0) {
                 yield $value;
             }
         }
