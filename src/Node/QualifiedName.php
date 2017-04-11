@@ -82,6 +82,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
         // Name resolution not applicable to constructs that define symbol names or aliases.
         if (($this->parent instanceof Node\Statement\NamespaceDefinition && $this->parent->name->getStart() === $this->getStart()) ||
             $this->parent instanceof Node\Statement\NamespaceUseDeclaration ||
+            $this->parent instanceof Node\NamespaceUseClause ||
             $this->parent instanceof Node\NamespaceUseGroupClause ||
             ($this->parent instanceof TraitSelectOrAliasClause &&
             ($this->parent->asOrInsteadOfKeyword == null || $this->parent->asOrInsteadOfKeyword->kind === TokenKind::AsKeyword))

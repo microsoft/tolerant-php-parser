@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\NamespaceUseClause;
 use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
@@ -34,8 +35,11 @@ trait NamespacedNameTrait {
         } else {
             $resolvedName = ResolvedName::buildName([], $content);
         }
-        if (!($this->parent instanceof NamespaceDefinition) && !($this->parent instanceof NamespaceUseDeclaration)
-        && !($this->parent instanceof NamespaceUseGroupClause)
+        if (
+            !($this->parent instanceof NamespaceDefinition) &&
+            !($this->parent instanceof NamespaceUseDeclaration) &&
+            !($this->parent instanceof NamespaceUseClause) &&
+            !($this->parent instanceof NamespaceUseGroupClause)
         ) {
             $resolvedName->addNameParts($this->getNameParts(), $content);
         }
