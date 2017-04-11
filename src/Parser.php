@@ -561,7 +561,8 @@ class Parser {
         $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
-        $classNode->name = $this->eat(TokenKind::Name); // TODO should be any
+        $classNode->name = $this->eat($this->nameOrReservedWordTokens); // TODO should be any
+        $classNode->name->kind = TokenKind::Name;
         $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
         $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
