@@ -521,7 +521,11 @@ class Node implements \JsonSerializable {
                 continue;
             }
 
-            foreach ($useDeclaration->useClauses->getValues() as $useClause) {
+            // TODO fix getValues
+            foreach ($useDeclaration->useClauses->children as $useClause) {
+                if (!($useClause instanceof NamespaceUseClause)) {
+                    continue;
+                }
                 $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
 
                 if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
@@ -529,11 +533,14 @@ class Node implements \JsonSerializable {
                     // use A\B\C\{D\E as F};            namespace import: ["F" => [A,B,C,D,E]]
                     // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
                     // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
-                    foreach ($useClause->groupClauses->getValues() as $groupClause) {
+                    foreach ($useClause->groupClauses as $groupClause) {
+                        if (!($groupClause instanceof NamespaceUseGroupClause)) {
+                            continue;
+                        }
                         $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $groupClause->namespaceName->nameParts);
                         $functionOrConst = $groupClause->functionOrConst ?? $useDeclaration->functionOrConst;
                         $alias = $groupClause->namespaceAliasingClause === null
-                            ? $groupClause->namespaceName->getLastNamePart()
+                            ? $groupClause->namespaceName->getLastNamePart()->getText($contents)
                             : $groupClause->namespaceAliasingClause->name->getText($contents);
 
                         $this->addToImportTable(
@@ -547,7 +554,7 @@ class Node implements \JsonSerializable {
                     // use function A\B\C as D  function import: ["D" => [A,B,C]]
                     // use A\B, C\D;            namespace import: ["B" => [A,B], "D" => [C,D]]
                     $alias = $useClause->namespaceAliasingClause === null
-                        ? $useClause->namespaceName->getLastNamePart()
+                        ? $useClause->namespaceName->getLastNamePart()->getText($contents)
                         : $useClause->namespaceAliasingClause->name->getText($contents);
                     $functionOrConst = $useDeclaration->functionOrConst;
                     $namespaceNameParts = $namespaceNamePartsPrefix;
