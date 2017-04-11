@@ -21,4 +21,12 @@ class NamespaceUseClause extends Node {
     public $groupClauses;
     /** @var  Token | null */
     public $closeBrace;
+
+    public const CHILD_NAMES = [
+        'namespaceName',
+        'namespaceAliasingClause',
+        'openBrace',
+        'groupClauses',
+        'closeBrace'
+    ];
 }
