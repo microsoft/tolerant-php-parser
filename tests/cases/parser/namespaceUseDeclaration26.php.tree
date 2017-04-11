@@ -27,18 +27,14 @@
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
                                                 "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 1
-                                                            },
-                                                            {
-                                                                "kind": "BackslashToken",
-                                                                "textLength": 1
-                                                            }
-                                                        ]
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
                                                     }
                                                 ]
                                             }
@@ -58,16 +54,12 @@
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
-                                                                    "nameParts": {
-                                                                        "QualifiedNameParts": {
-                                                                            "children": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
                                                                         }
-                                                                    }
+                                                                    ]
                                                                 }
                                                             },
                                                             "namespaceAliasingClause": {

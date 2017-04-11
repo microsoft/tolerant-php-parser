@@ -23,11 +23,7 @@ class NamespaceUseDeclaration extends StatementNode {
     public const CHILD_NAMES = [
         'useKeyword',
         'functionOrConst',
-        'namespaceName',
-        'namespaceAliasingClause',
-        'openBrace',
-        'groupClauses',
-        'closeBrace',
+        'useClauses',
         'semicolon'
     ];
 }
