@@ -61,7 +61,7 @@ class DiagnosticsProvider {
             if ($node instanceof Node\MethodDeclaration) {
                 foreach ($node->modifiers as $modifier) {
                     if ($modifier->kind === TokenKind::VarKeyword) {
-                        return Diagnostic(
+                        return new Diagnostic(
                             DiagnosticKind::Error,
                             "Unexpected modifier '" . self::$tokenKindToText[$modifier->kind] . "'",
                             $modifier->start,
@@ -74,7 +74,7 @@ class DiagnosticsProvider {
                 if (\count($node->useClauses->children) > 1) {
                     foreach ($node->useClauses->children as $useClause) {
                         if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
-                            yield new Diagnostic(
+                            return new Diagnostic(
                                 DiagnosticKind::Error,
                                 "; expected.",
                                 $useClause->getEndPosition(),
@@ -93,7 +93,7 @@ class DiagnosticsProvider {
         
         foreach ($n->getDescendantNodesAndTokens() as $node) {
             if (($diagnostic = self::checkDiagnostics($node)) !== null) {
-                $diagnostics[] = self::checkDiagnostics($node);
+                $diagnostics[] = $diagnostic;
             }
         }
 
