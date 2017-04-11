@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\NamespaceUseClause;
 use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
@@ -520,58 +521,41 @@ class Node implements \JsonSerializable {
                 continue;
             }
 
-            // TODO - also handle NamespaceUseDeclarationList
-            if ($useDeclaration->groupClauses !== null) {
-                // use A\B{C, D} => multiple imports
-                $imports = \array_filter($useDeclaration->groupClauses->children, function($value) {
-                    return $value instanceof NamespaceUseGroupClause;
-                });
-            } else {
-                // use A\B\C; => single import
-                $imports = [$useDeclaration];
-            }
+            foreach ($useDeclaration->useClauses->getValues() as $useClause) {
+                $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
 
-            $namespaceNamePartsPrefix =
-                $useDeclaration->namespaceName !== null ? $useDeclaration->namespaceName->nameParts : [];
-
-            foreach ($imports as $import) {
-                if ($useDeclaration->groupClauses !== null) {
+                if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
                     // use A\B\C\{D\E};                 namespace import: ["E" => [A,B,C,D,E]]
                     // use A\B\C\{D\E as F};            namespace import: ["F" => [A,B,C,D,E]]
                     // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
                     // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
-                    $alias = $import->namespaceName->getLastNamePart()->getText($contents);
-                    $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $import->namespaceName->nameParts);
-                    $functionOrConst = $import->functionOrConst ?? $useDeclaration->functionOrConst;
+                    foreach ($useClause->groupClauses->getValues() as $groupClause) {
+                        $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $groupClause->namespaceName->nameParts);
+                        $functionOrConst = $groupClause->functionOrConst ?? $useDeclaration->functionOrConst;
+                        $alias = $groupClause->namespaceAliasingClause === null
+                            ? $groupClause->namespaceName->getLastNamePart()
+                            : $groupClause->namespaceAliasingClause->name->getText($contents);
+
+                        $this->addToImportTable(
+                            $alias, $functionOrConst, $namespaceNameParts, $contents,
+                            $namespaceImportTable, $functionImportTable, $constImportTable
+                        );
+                    }
                 } else {
                     // use A\B\C;               namespace import: ["C" => [A,B,C]]
                     // use A\B\C as D;          namespace import: ["D" => [A,B,C]]
                     // use function A\B\C as D  function import: ["D" => [A,B,C]]
                     // use A\B, C\D;            namespace import: ["B" => [A,B], "D" => [C,D]]
-                    $alias = $useDeclaration->namespaceAliasingClause === null
-                        ? $useDeclaration->namespaceName->getLastNamePart()->getText($contents)
-                        : $useDeclaration->namespaceAliasingClause->name->getText($contents);
-
-                    $namespaceNameParts = $namespaceNamePartsPrefix;
+                    $alias = $useClause->namespaceAliasingClause === null
+                        ? $useClause->namespaceName->getLastNamePart()
+                        : $useClause->namespaceAliasingClause->name->getText($contents);
                     $functionOrConst = $useDeclaration->functionOrConst;
-                }
+                    $namespaceNameParts = $namespaceNamePartsPrefix;
 
-                // Add the alias and resolved name to the corresponding namespace, function, or const import table.
-                // If the alias already exists, it will get replaced by the most recent using.
-                // TODO - worth throwing an error here instead?
-                if ($alias !== null) {
-                    if ($functionOrConst === null) {
-                        // namespaces are case-insensitive
-                        $alias = \strtolower($alias);
-                        $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                    } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
-                        // functions are case-insensitive
-                        $alias = \strtolower($alias);
-                        $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                    } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
-                        // constants are case-sensitive
-                        $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                    }
+                    $this->addToImportTable(
+                        $alias, $functionOrConst, $namespaceNameParts, $contents,
+                        $namespaceImportTable, $functionImportTable, $constImportTable
+                    );
                 }
             }
         }
@@ -598,11 +582,20 @@ class Node implements \JsonSerializable {
             throw new \Exception("Invalid tree - SourceFileNode must always exist at root of tree.");
         }
 
+        $fullStart = $this->getFullStart();
+        $lastNamespaceDefinition = null;
         if ($namespaceDefinition instanceof SourceFileNode) {
-            $namespaceDefinition = $namespaceDefinition->getFirstChildNode(NamespaceDefinition::class);
-            if ($namespaceDefinition !== null && $namespaceDefinition->getFullStart() > $this->getFullStart()) {
-                $namespaceDefinition = null;
+            foreach ($namespaceDefinition->getChildNodes() as $childNode) {
+                if ($childNode instanceof NamespaceDefinition && $childNode->getFullStart() < $fullStart) {
+                    $lastNamespaceDefinition = $childNode;
+                }
             }
+        }
+
+        if ($lastNamespaceDefinition !== null && $lastNamespaceDefinition->compoundStatementOrSemicolon instanceof Token) {
+            $namespaceDefinition = $lastNamespaceDefinition;
+        } elseif ($namespaceDefinition instanceof SourceFileNode) {
+            $namespaceDefinition = null;
         }
 
         return $namespaceDefinition;
@@ -623,5 +616,34 @@ class Node implements \JsonSerializable {
             }
         }
         return null;
+    }
+
+    /**
+     * Add the alias and resolved name to the corresponding namespace, function, or const import table.
+     * If the alias already exists, it will get replaced by the most recent using.
+     * 
+     * TODO - worth throwing an error here in stead?
+     */
+    private function addToImportTable($alias, $functionOrConst, $namespaceNameParts, $contents, & $namespaceImportTable, & $functionImportTable, & $constImportTable):array
+    {
+        if ($alias !== null) {
+            if ($functionOrConst === null) {
+                // namespaces are case-insensitive
+                $alias = \strtolower($alias);
+                $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
+                // functions are case-insensitive
+                $alias = \strtolower($alias);
+                $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
+                // constants are case-sensitive
+                $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            }
+            return array($namespaceImportTable, $functionImportTable, $constImportTable);
+        }
+        return array($namespaceImportTable, $functionImportTable, $constImportTable);
     }
 }
