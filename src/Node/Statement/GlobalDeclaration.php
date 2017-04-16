@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class GlobalDeclaration extends StatementNode {
+class GlobalDeclaration extends StatementNode
+{
 
     /** @var Token */
     public $globalKeyword;

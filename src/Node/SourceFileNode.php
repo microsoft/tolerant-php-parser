@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class SourceFileNode extends Node {
+class SourceFileNode extends Node
+{
     /** @var string */
     public $fileContents;
 
@@ -19,7 +20,8 @@ class SourceFileNode extends Node {
     /** @var Token */
     public $endOfFileToken;
 
-    public function getChildNames() {
+    public function getChildNames()
+    {
         // Override method to exclude fileContents from child names
         return ['statementList', 'endOfFileToken'];
     }

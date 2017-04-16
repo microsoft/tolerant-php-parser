@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class NamespaceAliasingClause extends Node {
+class NamespaceAliasingClause extends Node
+{
     /** @var Token */
     public $asKeyword;
     /** @var Token */

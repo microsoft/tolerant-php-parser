@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class PostfixUpdateExpression extends Expression {
+class PostfixUpdateExpression extends Expression
+{
     /** @var Variable */
     public $operand;
 

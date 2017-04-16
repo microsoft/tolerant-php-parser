@@ -7,7 +7,8 @@
 use Microsoft\PhpParser\TextEdit;
 use PHPUnit\Framework\TestCase;
 
-class TextEditTest extends TestCase {
+class TextEditTest extends TestCase
+{
     const INPUT_TEXT = <<< 'PHP'
 <?php
 
@@ -16,7 +17,8 @@ function a () { }
 function b () { }
 PHP;
 
-    public function testReplaceAllTextInDocument() {
+    public function testReplaceAllTextInDocument()
+    {
         $content = self::INPUT_TEXT;
         $edits = [
             new TextEdit(0, \strlen($content), $content)
@@ -25,7 +27,8 @@ PHP;
         $this->assertEquals($content, TextEdit::applyEdits($edits, $content));
     }
 
-    public function testDeleteAllTextFromDocument() {
+    public function testDeleteAllTextFromDocument()
+    {
         $content = self::INPUT_TEXT;
         $edits = [
             new TextEdit(0, \strlen($content), "")
@@ -34,7 +37,8 @@ PHP;
         $this->assertEquals("", TextEdit::applyEdits($edits, $content));
     }
 
-    public function testAddTextToEndOfDocument() {
+    public function testAddTextToEndOfDocument()
+    {
         $content = self::INPUT_TEXT;
 
         $edits = [
@@ -44,7 +48,8 @@ PHP;
         $this->assertEquals($content . "hello", TextEdit::applyEdits($edits, $content));
     }
 
-    public function testAddTextToBeginningOfDocument() {
+    public function testAddTextToBeginningOfDocument()
+    {
         $content = self::INPUT_TEXT;
 
         $edits = [
@@ -54,7 +59,8 @@ PHP;
         $this->assertEquals("hello" . $content, TextEdit::applyEdits($edits, $content));
     }
 
-    public function testApplyMultipleEdits() {
+    public function testApplyMultipleEdits()
+    {
         $content = self::INPUT_TEXT;
 
         $expected = <<< 'PHP'
@@ -75,24 +81,27 @@ PHP;
         $this->assertEquals($expected, TextEdit::applyEdits($edits, $content));
     }
 
-    public function testApplyingEmptyTextEditArray() {
+    public function testApplyingEmptyTextEditArray()
+    {
         $content = self::INPUT_TEXT;
 
         $this->assertEquals($content, TextEdit::applyEdits([], $content));
     }
 
-    public function testOutOfOrderTextEdits() {
+    public function testOutOfOrderTextEdits()
+    {
         $content = self::INPUT_TEXT;
 
         $edits = [
             new TextEdit(0, 10, 10),
-            new TextEdit(0, 4 ,3)
+            new TextEdit(0, 4, 3)
         ];
         $this->expectException(AssertionError::class);
         TextEdit::applyEdits($edits, $content);
     }
 
-    public function testOverlappingTextEdits() {
+    public function testOverlappingTextEdits()
+    {
         $content = self::INPUT_TEXT;
         $edits = [
             new TextEdit(0, 4, 10),
@@ -102,7 +111,8 @@ PHP;
         TextEdit::applyEdits($edits, $content);
     }
 
-    public function testOutOfBoundsTextEdit() {
+    public function testOutOfBoundsTextEdit()
+    {
         $content = self::INPUT_TEXT;
         $edits = [
             new TextEdit(0, -1, -1)

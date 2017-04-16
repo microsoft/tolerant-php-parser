@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Statement;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class BreakOrContinueStatement extends StatementNode {
+class BreakOrContinueStatement extends StatementNode
+{
     /** @var Token */
     public $breakOrContinueKeyword;
     /** @var Token | null */

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class EmptyIntrinsicExpression extends Expression {
+class EmptyIntrinsicExpression extends Expression
+{
 
     /** @var Token */
     public $emptyKeyword;

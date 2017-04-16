@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class ArgumentExpression extends Expression {
+class ArgumentExpression extends Expression
+{
     /** @var Token | null */
     public $byRefToken; // TODO removed in newer versions of PHP. Also only accept variable, not expression if byRef
 

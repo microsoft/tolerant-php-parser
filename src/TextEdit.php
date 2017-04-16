@@ -6,7 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
-class TextEdit {
+class TextEdit
+{
     /** @var int */
     public $start;
 
@@ -16,7 +17,8 @@ class TextEdit {
     /** @var string */
     public $content;
 
-    public function __construct(int $start, int $length, string $content) {
+    public function __construct(int $start, int $length, string $content)
+    {
         $this->start = $start;
         $this->length = $length;
         $this->content = $content;
@@ -32,7 +34,8 @@ class TextEdit {
      * @param string $text
      * @return string
      */
-    public static function applyEdits(array $edits, string $text) : string {
+    public static function applyEdits(array $edits, string $text) : string
+    {
         $prevEditStart = PHP_INT_MAX;
         for ($i = \count($edits) - 1; $i >= 0; $i--) {
             $edit = $edits[$i];

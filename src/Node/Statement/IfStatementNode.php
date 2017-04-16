@@ -12,7 +12,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class IfStatementNode extends StatementNode {
+class IfStatementNode extends StatementNode
+{
     /** @var Token */
     public $ifKeyword;
     /** @var Token */

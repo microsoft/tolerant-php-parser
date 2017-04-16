@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Token;
 
-class PrefixUpdateExpression extends UnaryExpression {
+class PrefixUpdateExpression extends UnaryExpression
+{
 
     /** @var Token */
     public $incrementOrDecrementOperator;

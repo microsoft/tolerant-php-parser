@@ -8,8 +8,10 @@ use Microsoft\PhpParser\LineCharacterPosition;
 use Microsoft\PhpParser\PositionUtilities;
 use PHPUnit\Framework\TestCase;
 
-class UtilitiesTest extends TestCase {
-    public function testGetLineCharacterPositionFromPosition() {
+class UtilitiesTest extends TestCase
+{
+    public function testGetLineCharacterPositionFromPosition()
+    {
         $text = <<< 'PHP'
 hello
 there

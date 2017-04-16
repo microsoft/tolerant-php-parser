@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class InterfaceMembers extends Node {
+class InterfaceMembers extends Node
+{
     /** @var Token */
     public $openBrace;
 

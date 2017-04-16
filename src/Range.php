@@ -6,11 +6,13 @@
 
 namespace Microsoft\PhpParser;
 
-class Range {
+class Range
+{
     public $start;
     public $end;
 
-    public function __construct(LineCharacterPosition $start, LineCharacterPosition $end) {
+    public function __construct(LineCharacterPosition $start, LineCharacterPosition $end)
+    {
         $this->start = $start;
         $this->end = $end;
     }

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class FinallyClause extends Node {
+class FinallyClause extends Node
+{
     /** @var Token */
     public $finallyToken;
     /**@var StatementNode */

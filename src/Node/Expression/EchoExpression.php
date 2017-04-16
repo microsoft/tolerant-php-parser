@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class EchoExpression extends Expression {
+class EchoExpression extends Expression
+{
 
     /** @var Token */
     public $echoKeyword;

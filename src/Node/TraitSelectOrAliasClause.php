@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class TraitSelectOrAliasClause extends Node {
+class TraitSelectOrAliasClause extends Node
+{
     /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
     public $name;
 

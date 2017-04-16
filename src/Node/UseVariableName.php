@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class UseVariableName extends Node {
+class UseVariableName extends Node
+{
     /** @var Token | null */
     public $byRef;
 

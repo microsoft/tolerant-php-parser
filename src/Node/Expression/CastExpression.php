@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Token;
 
-class CastExpression extends UnaryExpression {
+class CastExpression extends UnaryExpression
+{
 
     /** @var Token */
     public $openParen;

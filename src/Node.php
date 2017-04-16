@@ -8,14 +8,16 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node\SourceFileNode;
 
-class Node implements \JsonSerializable {
+class Node implements \JsonSerializable
+{
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
     /** @var Node | null */
     public $parent;
 
-    public function getNodeKindName() : string {
+    public function getNodeKindName() : string
+    {
         // Use strrpos (rather than explode) to avoid creating a temporary array.
         return substr(static::class, strrpos(static::class, "\\") + 1);
     }
@@ -25,7 +27,8 @@ class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getStart() : int {
+    public function getStart() : int
+    {
         $child = $this->getChildNodesAndTokens()->current();
         if ($child instanceof Node) {
             return $child->getStart();
@@ -40,7 +43,8 @@ class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getFullStart() : int {
+    public function getFullStart() : int
+    {
         $child = $this->getChildNodesAndTokens()->current();
         if ($child instanceof Node) {
             return $child->getFullStart();
@@ -54,7 +58,8 @@ class Node implements \JsonSerializable {
      * Gets parent of current node (returns null if has no parent)
      * @return null|Node
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
@@ -65,7 +70,8 @@ class Node implements \JsonSerializable {
      * @param array ...$classNames
      * @return Node|null
      */
-    public function getFirstAncestor(...$classNames) {
+    public function getFirstAncestor(...$classNames)
+    {
         $ancestor = $this;
         while (($ancestor = $ancestor->parent) !== null) {
             foreach ($classNames as $className) {
@@ -84,7 +90,8 @@ class Node implements \JsonSerializable {
      * @param array ...$classNames
      * @return Node|null
      */
-    public function getFirstChildNode(...$classNames) {
+    public function getFirstChildNode(...$classNames)
+    {
         foreach ($this->getChildNodes() as $child) {
             foreach ($classNames as $className) {
                 if ($child instanceof $className) {
@@ -102,7 +109,8 @@ class Node implements \JsonSerializable {
      * @param array ...$classNames
      * @return Node|null
      */
-    public function getFirstDescendantNode(...$classNames) {
+    public function getFirstDescendantNode(...$classNames)
+    {
         foreach ($this->getDescendantNodes() as $descendant) {
             foreach ($classNames as $className) {
                 if ($descendant instanceof $className) {
@@ -117,7 +125,8 @@ class Node implements \JsonSerializable {
      * Gets root of the syntax tree (returns self if has no parents)
      * @return Node
      */
-    public function & getRoot() : Node {
+    public function & getRoot() : Node
+    {
         $node = $this;
         while ($node->parent !== null) {
             $node = $node->parent;
@@ -131,7 +140,8 @@ class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]|Token[]
      */
-    public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null)
+    {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
 
@@ -152,7 +162,8 @@ class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]
      */
-    public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null)
+    {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 yield $child;
@@ -168,7 +179,8 @@ class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator | Token[]
      */
-    public function getDescendantTokens(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantTokens(callable $shouldDescendIntoChildrenFn = null)
+    {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
@@ -185,7 +197,8 @@ class Node implements \JsonSerializable {
      *
      * @return \Generator | Token[] | Node[]
      */
-    public function getChildNodesAndTokens() : \Generator {
+    public function getChildNodesAndTokens() : \Generator
+    {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
             if (\is_array($val)) {
@@ -206,7 +219,8 @@ class Node implements \JsonSerializable {
      * Gets generator containing all child Nodes (direct descendants)
      * @return \Generator | Node[]
      */
-    public function getChildNodes() : \Generator {
+    public function getChildNodes() : \Generator
+    {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
             if (\is_array($val)) {
@@ -227,7 +241,8 @@ class Node implements \JsonSerializable {
      *
      * @return \Generator|Token[]
      */
-    public function getChildTokens() {
+    public function getChildTokens()
+    {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
             if (\is_array($val)) {
@@ -252,7 +267,8 @@ class Node implements \JsonSerializable {
      *
      * @return string[]
      */
-    public function getChildNames() {
+    public function getChildNames()
+    {
         $class = \get_class($this);
         if (!isset(self::$childNames[$class])) {
             $names = [];
@@ -275,7 +291,8 @@ class Node implements \JsonSerializable {
      *
      * @return int
      */
-    public function getWidth() : int {
+    public function getWidth() : int
+    {
         $width = 0;
         $first = true;
         foreach ($this->getChildNodesAndTokens() as $child) {
@@ -294,7 +311,8 @@ class Node implements \JsonSerializable {
      *
      * @return int
      */
-    public function getFullWidth() : int {
+    public function getFullWidth() : int
+    {
         $fullWidth = 0;
         foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
             $fullWidth += $child->getFullWidth();
@@ -306,7 +324,8 @@ class Node implements \JsonSerializable {
      * Gets string representing Node text (not including leading comment + whitespace trivia)
      * @return string
      */
-    public function getText() : string {
+    public function getText() : string
+    {
         $fullText = "";
         $fileContents = $this->getFileContents();
         $first = true;
@@ -325,7 +344,8 @@ class Node implements \JsonSerializable {
      * Gets full text of Node (including leading comment + whitespace trivia)
      * @return string
      */
-    public function getFullText() : string {
+    public function getFullText() : string
+    {
         $fullText = "";
         $fileContents = $this->getFileContents();
         foreach ($this->getDescendantTokens() as $child) {
@@ -338,7 +358,8 @@ class Node implements \JsonSerializable {
      * Gets string representing Node's leading comment and whitespace text.
      * @return string
      */
-    public function getLeadingCommentAndWhitespaceText() : string {
+    public function getLeadingCommentAndWhitespaceText() : string
+    {
         // TODO re-tokenize comments and whitespace
         $fileContents = $this->getFileContents();
         foreach ($this->getDescendantTokens() as $token) {
@@ -346,7 +367,8 @@ class Node implements \JsonSerializable {
         }
     }
 
-    protected function getChildrenKvPairs() {
+    protected function getChildrenKvPairs()
+    {
         $result = array();
         foreach ($this->getChildNames() as $name) {
             $result[$name] = $this->$name;
@@ -354,7 +376,8 @@ class Node implements \JsonSerializable {
         return $result;
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         $kindName = $this->getNodeKindName();
         return ["$kindName" => $this->getChildrenKvPairs()];
     }
@@ -364,7 +387,8 @@ class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getEndPosition() {
+    public function getEndPosition()
+    {
         // TODO test invariant - start of next node is end of previous node
         if (isset($this->parent)) {
             $parent = $this->parent;
@@ -384,7 +408,8 @@ class Node implements \JsonSerializable {
         throw new \Exception("Unhandled node: ");
     }
 
-    public function & getFileContents() : string {
+    public function & getFileContents() : string
+    {
         // TODO consider renaming to getSourceText
         return $this->getRoot()->fileContents;
     }
@@ -395,7 +420,8 @@ class Node implements \JsonSerializable {
      * @param $pos
      * @return Node|null
      */
-    public function getDescendantNodeAtPosition(int $pos) {
+    public function getDescendantNodeAtPosition(int $pos)
+    {
         $descendants = iterator_to_array($this->getDescendantNodes(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
@@ -413,7 +439,8 @@ class Node implements \JsonSerializable {
      *
      * @return string | null
      */
-    public function getDocCommentText() {
+    public function getDocCommentText()
+    {
         $leadingTriviaText = $this->getLeadingCommentAndWhitespaceText();
         $leadingTriviaTokens = PhpTokenizer::getTokensArrayFromContent(
             $leadingTriviaText, ParseContext::SourceElements, $this->getFullStart(), false
@@ -427,7 +454,8 @@ class Node implements \JsonSerializable {
         return null;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getText();
     }
 }

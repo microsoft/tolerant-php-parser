@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Statement;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class EmptyStatement extends StatementNode {
+class EmptyStatement extends StatementNode
+{
     /** @var Token */
     public $semicolon;
 }

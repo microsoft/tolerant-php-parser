@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ForeachKey extends Node {
+class ForeachKey extends Node
+{
     /** @var Expression */
     public $expression;
     /** @var Token */

@@ -7,8 +7,10 @@
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
-class ParserFrameworkValidationTests extends TestCase {
-    public function frameworkErrorProvider() {
+class ParserFrameworkValidationTests extends TestCase
+{
+    public function frameworkErrorProvider()
+    {
         $totalSize = 0;
         $frameworks = glob(__DIR__ . "/../validation/frameworks/*", GLOB_ONLYDIR);
 
@@ -33,7 +35,8 @@ class ParserFrameworkValidationTests extends TestCase {
     /**
      * @dataProvider frameworkErrorProvider
      */
-    public function testFramworkErrors($testCaseFile, $frameworkName) {
+    public function testFramworkErrors($testCaseFile, $frameworkName)
+    {
         $fileContents = file_get_contents($testCaseFile);
         $parser = new \Microsoft\PhpParser\Parser();
         $sourceFile = $parser->parseSourceFile($fileContents);

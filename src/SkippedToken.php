@@ -6,12 +6,15 @@
 
 namespace Microsoft\PhpParser;
 
-class SkippedToken extends Token {
-    public function __construct(Token $token) {
+class SkippedToken extends Token
+{
+    public function __construct(Token $token)
+    {
         parent::__construct($token->kind, $token->fullStart, $token->start, $token->length);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return array_merge(
             ["error" => $this->getTokenKindNameFromValue(TokenKind::SkippedToken)],
             parent::jsonSerialize()

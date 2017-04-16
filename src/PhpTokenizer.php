@@ -15,37 +15,44 @@ namespace Microsoft\PhpParser;
  * Class PhpTokenizer
  * @package Microsoft\PhpParser
  */
-class PhpTokenizer implements ITokenStreamProvider {
+class PhpTokenizer implements ITokenStreamProvider
+{
     public $pos;
     public $endOfFilePos;
 
     private $tokensArray;
 
-    public function __construct($content) {
+    public function __construct($content)
+    {
         $this->tokensArray = $this->getTokensArrayFromContent($content);
         $this->endOfFilePos = \count($this->tokensArray) - 1;
         $this->pos = 0;
     }
 
-    public function scanNextToken() : Token {
+    public function scanNextToken() : Token
+    {
         return $this->pos >= $this->endOfFilePos
             ? $this->tokensArray[$this->endOfFilePos]
             : $this->tokensArray[$this->pos++];
     }
 
-    public function getCurrentPosition() : int {
+    public function getCurrentPosition() : int
+    {
         return $this->pos;
     }
 
-    public function setCurrentPosition(int $pos) {
+    public function setCurrentPosition(int $pos)
+    {
         $this->pos = $pos;
     }
 
-    public function getEndOfFilePosition() : int {
+    public function getEndOfFilePosition() : int
+    {
         return $this->endOfFilePos;
     }
 
-    public function getTokensArray() : array {
+    public function getTokensArray() : array
+    {
         return $this->tokensArray;
     }
 

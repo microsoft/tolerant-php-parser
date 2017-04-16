@@ -11,7 +11,8 @@ use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Node\TraitMembers;
 use Microsoft\PhpParser\Token;
 
-class TraitDeclaration extends StatementNode {
+class TraitDeclaration extends StatementNode
+{
 
     /** @var Token */
     public $traitKeyword;

@@ -13,7 +13,8 @@ use Microsoft\PhpParser\Node\Name;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class ClassDeclaration extends StatementNode {
+class ClassDeclaration extends StatementNode
+{
 
     /** @var Token */
     public $abstractOrFinalModifier;

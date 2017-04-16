@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class RelativeSpecifier extends Node {
+class RelativeSpecifier extends Node
+{
     /** @var Token */
     public $namespaceKeyword;
 

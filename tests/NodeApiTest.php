@@ -11,7 +11,8 @@ use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Parser;
 use PHPUnit\Framework\TestCase;
 
-class NodeApiTest extends TestCase {
+class NodeApiTest extends TestCase
+{
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
 
     const FILE_CONTENTS = <<<'PHP'
@@ -24,19 +25,22 @@ PHP;
 
     public static $sourceFileNode;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         $parser = new Parser();
         self::$sourceFileNode = $parser->parseSourceFile(self::FILE_CONTENTS);
         parent::setUpBeforeClass();
     }
 
-    public function testSourceFileNodePosition() {
+    public function testSourceFileNodePosition()
+    {
         $node = self::$sourceFileNode;
         $this->assertInstanceOf(FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
         $this->assertInstanceOf(\Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(28));
     }
 
-    public function testRootNodeIsScript() {
+    public function testRootNodeIsScript()
+    {
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
         $treeElements[] = self::$sourceFileNode;
 
@@ -45,7 +49,8 @@ PHP;
         }
     }
 
-    public function testFileContentsRetrievableFromAnyNode() {
+    public function testFileContentsRetrievableFromAnyNode()
+    {
         $treeElements = iterator_to_array(self::$sourceFileNode->getDescendantNodes(), false);
         $treeElements[] = self::$sourceFileNode;
 
@@ -54,11 +59,13 @@ PHP;
         }
     }
 
-    public function testFullTextOfRootNodeEqualsFullDocument() {
+    public function testFullTextOfRootNodeEqualsFullDocument()
+    {
         $this->assertEquals(self::FILE_CONTENTS, self::$sourceFileNode->getFullText());
     }
 
-    public function testGetTriviaForNode() {
+    public function testGetTriviaForNode()
+    {
         $contents = '<?php /* contents */ $a = 1';
         $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
@@ -70,7 +77,8 @@ PHP;
         $this->assertEquals('', $sourceFile->getLeadingCommentAndWhitespaceText());
     }
 
-    public function testGetTextForNode() {
+    public function testGetTextForNode()
+    {
         $contents = '<?php /* contents */ $a = 1';
         $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
@@ -82,7 +90,8 @@ PHP;
         $this->assertEquals('', $sourceFile->getText());
     }
 
-    public function testGetFullTextForNode() {
+    public function testGetFullTextForNode()
+    {
         $contents = '<?php /* contents */ $a = 1';
         $parser = new Parser();
         $iterator = $parser->parseSourceFile($contents)->getChildNodes();
@@ -94,7 +103,8 @@ PHP;
         $this->assertEquals('', $sourceFile->getFullText());
     }
 
-    public function testGetFirstAncestor() {
+    public function testGetFirstAncestor()
+    {
         $contents = <<< PHP
 <?php
 namespace Hello {
@@ -130,7 +140,8 @@ PHP;
         );
     }
 
-    public function testGetDocCommentText() {
+    public function testGetDocCommentText()
+    {
         $this->AssertDocCommentTextOfNode(
             FunctionDeclaration::class,
             "<?php /** */ function b () { }",
@@ -180,7 +191,8 @@ PHP;
         );
     }
 
-    private function AssertDocCommentTextOfNode($nodeKind, $contents, $expectedDocCommentText) : array {
+    private function AssertDocCommentTextOfNode($nodeKind, $contents, $expectedDocCommentText) : array
+    {
         $parser = new Parser();
         $ast = $parser->parseSourceFile($contents);
         $functionDeclaration = $ast->getFirstDescendantNode($nodeKind);

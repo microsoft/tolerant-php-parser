@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class TernaryExpression extends Expression {
+class TernaryExpression extends Expression
+{
 
     /** @var Expression */
     public $condition;

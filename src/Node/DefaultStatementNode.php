@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class DefaultStatementNode extends Node {
+class DefaultStatementNode extends Node
+{
     /** @var Token */
     public $defaultKeyword;
     /** @var Token */

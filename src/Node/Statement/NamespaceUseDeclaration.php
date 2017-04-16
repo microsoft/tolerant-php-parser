@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList\NamespaceUseClauseList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class NamespaceUseDeclaration extends StatementNode {
+class NamespaceUseDeclaration extends StatementNode
+{
     /** @var Token */
     public $useKeyword;
     /** @var Token */

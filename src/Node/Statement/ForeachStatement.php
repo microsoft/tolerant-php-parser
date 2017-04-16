@@ -12,7 +12,8 @@ use Microsoft\PhpParser\Node\ForeachValue;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class ForeachStatement extends StatementNode {
+class ForeachStatement extends StatementNode
+{
     /** @var Token */
     public $foreach;
     /** @var Token */

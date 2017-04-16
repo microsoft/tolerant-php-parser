@@ -6,8 +6,10 @@
 
 namespace Microsoft\PhpParser;
 
-class TokenStreamProviderFactory {
-    public static function GetTokenStreamProvider($content) {
+class TokenStreamProviderFactory
+{
+    public static function GetTokenStreamProvider($content)
+    {
         //    return new Lexer($content);
         return new PhpTokenizer($content);
     }

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class StringLiteral extends Expression {
+class StringLiteral extends Expression
+{
     /** @var Token */
     public $startQuote;
 
@@ -19,7 +20,8 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $endQuote;
 
-    public function getStringContentsText() {
+    public function getStringContentsText()
+    {
         // TODO add tests
         $stringContents = "";
         if (isset($this->startQuote)) {

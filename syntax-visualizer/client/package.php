@@ -33,9 +33,10 @@ $zip->extractTo($outDir);
 $zip->close();
 unlink($outZip);
 
-function rmdirRecursive($dir) {
+function rmdirRecursive($dir)
+{
     $children = array_diff(scandir($dir), ["..", "."]);
-    foreach($children as $child) {
+    foreach ($children as $child) {
         $childPath = "$dir/$child";
         is_dir($childPath) ? rmdirRecursive($childPath) : unlink($childPath);
     }

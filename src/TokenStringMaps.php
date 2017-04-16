@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\TokenKind;
 
-class TokenStringMaps {
+class TokenStringMaps
+{
     const KEYWORDS = array(
         "abstract" => TokenKind::AbstractKeyword,
         "and" => TokenKind::AndKeyword,

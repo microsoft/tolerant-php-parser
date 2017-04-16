@@ -9,11 +9,13 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class DelimitedList extends Node {
+class DelimitedList extends Node
+{
     /** @var Token[]|Node[] */
     public $children;
 
-    public function getValues() {
+    public function getValues()
+    {
         $i = 0;
         foreach ($this->children as $value) {
             if ($i++ % 2 == 1) {
@@ -22,7 +24,8 @@ class DelimitedList extends Node {
         }
     }
 
-    public function addToken($node) {
+    public function addToken($node)
+    {
         if ($node === null) {
             return;
         }

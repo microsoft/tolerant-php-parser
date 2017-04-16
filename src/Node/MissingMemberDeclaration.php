@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class MissingMemberDeclaration extends Node {
+class MissingMemberDeclaration extends Node
+{
 
     /** @var Token[] */
     public $modifiers;

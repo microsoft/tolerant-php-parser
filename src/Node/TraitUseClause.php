@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class TraitUseClause extends Node {
+class TraitUseClause extends Node
+{
 
     /** @var Token */
     public $useKeyword;

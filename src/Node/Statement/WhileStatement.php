@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class WhileStatement extends StatementNode {
+class WhileStatement extends StatementNode
+{
     /** @var Token */
     public $whileToken;
     /** @var Token */

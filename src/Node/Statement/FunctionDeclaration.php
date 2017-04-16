@@ -11,6 +11,7 @@ use Microsoft\PhpParser\Node\FunctionHeader;
 use Microsoft\PhpParser\Node\FunctionReturnType;
 use Microsoft\PhpParser\Node\StatementNode;
 
-class FunctionDeclaration extends StatementNode {
+class FunctionDeclaration extends StatementNode
+{
     use FunctionHeader, FunctionReturnType, FunctionBody;
 }

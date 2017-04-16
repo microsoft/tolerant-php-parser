@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class ThrowStatement extends StatementNode {
+class ThrowStatement extends StatementNode
+{
     /** @var Token */
     public $throwKeyword;
     /** @var Expression */

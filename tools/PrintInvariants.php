@@ -34,7 +34,8 @@ echo PHP_EOL;
 echo "## Node Invariants" . PHP_EOL;
 printInvariants($parserInvariantsAst);
 
-function printInvariants(Node $ast) {
+function printInvariants(Node $ast)
+{
     foreach ($ast->getDescendantNodes() as $descendant) {
         if ($descendant instanceof StringLiteral) {
             $stringContents = $descendant->getStringContentsText();

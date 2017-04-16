@@ -6,7 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
-interface ITokenStreamProvider {
+interface ITokenStreamProvider
+{
     public function scanNextToken() : Token;
 
     public function getCurrentPosition() : int;

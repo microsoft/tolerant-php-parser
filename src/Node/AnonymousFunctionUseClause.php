@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\DelimitedList\UseVariableNameList;
 use Microsoft\PhpParser\Token;
 
-class AnonymousFunctionUseClause extends Node {
+class AnonymousFunctionUseClause extends Node
+{
     /** @var Token */
     public $useKeyword;
 

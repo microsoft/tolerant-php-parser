@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class CatchClause extends Node {
+class CatchClause extends Node
+{
     /** @var Token */
     public $catch;
     /** @var Token */

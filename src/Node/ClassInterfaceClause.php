@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ClassInterfaceClause extends Node {
+class ClassInterfaceClause extends Node
+{
     /** @var Token */
     public $implementsKeyword;
 

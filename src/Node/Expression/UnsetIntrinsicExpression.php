@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class UnsetIntrinsicExpression extends Expression {
+class UnsetIntrinsicExpression extends Expression
+{
 
     /** @var Token */
     public $unsetKeyword;

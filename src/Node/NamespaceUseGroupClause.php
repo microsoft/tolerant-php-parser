@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class NamespaceUseGroupClause extends Node {
+class NamespaceUseGroupClause extends Node
+{
 
     /** @var Token */
     public $functionOrConst;
