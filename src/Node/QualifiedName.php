@@ -90,6 +90,10 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return null;
         }
 
+        if (array_search(strtolower($text = $this->getText()), ["self", "static", "parent"]) !== false) {
+            return $text;
+        }
+
         // FULLY QUALIFIED NAMES
         // - resolve to the name without leading namespace separator.
         if ($this->isFullyQualifiedName()) {
