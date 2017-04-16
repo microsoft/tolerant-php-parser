@@ -6,8 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/syntax-visualizer/server')
     ->in(__DIR__ . '/tests')
     ->exclude('cases')
-    ->in(__DIR__ . '/tools')
-    ->in(__DIR__ . '/validation');
+    ->in(__DIR__ . '/tools');
 
 return PhpCsFixer\Config::create()
     ->setRules([
