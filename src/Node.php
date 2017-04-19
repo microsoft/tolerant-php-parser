@@ -478,7 +478,7 @@ class Node implements \JsonSerializable {
      * @return array | ResolvedName[][]
      * @throws \Exception
      */
-    public function getImportTablesForCurrentScope($namespaceDefinition = null) {
+    public function getImportTablesForCurrentScope() {
         $namespaceDefinition = $namespaceDefinition ?? $this->getNamespaceDefinition();
 
         // Use declarations can exist in either the global scope, or inside namespace declarations.
@@ -492,11 +492,13 @@ class Node implements \JsonSerializable {
             $topLevelNamespaceStatements = $namespaceDefinition->compoundStatementOrSemicolon instanceof Token
                 ? $namespaceDefinition->parent->statementList // we need to start from the namespace definition.
                 : $namespaceDefinition->compoundStatementOrSemicolon->statements;
-            $fullStart = $namespaceDefinition->getFullStart();
+            $namespaceFullStart = $namespaceDefinition->getFullStart();
         } else {
             $topLevelNamespaceStatements = $this->getRoot()->statementList;
-            $fullStart = 0;
+            $namespaceFullStart = 0;
         }
+
+        $nodeFullStart = $this->getFullStart();
 
         // TODO optimize performance
         // Currently we rebuild the import tables on every call (and therefore every name resolution operation)
@@ -516,21 +518,20 @@ class Node implements \JsonSerializable {
         $contents = $this->getFileContents();
 
         foreach ($topLevelNamespaceStatements as $useDeclaration) {
-            if ($useDeclaration->getFullStart() <= $fullStart) {
+            if ($useDeclaration->getFullStart() <= $namespaceFullStart) {
                 continue;
             }
-            if ($useDeclaration instanceof NamespaceDefinition) {
-                // TODO - another reason to always parse namespace definitions as the parent of subsequent statements.
+            if ($useDeclaration->getFullStart() > $nodeFullStart) {
                 break;
             } elseif (!($useDeclaration instanceof NamespaceUseDeclaration)) {
                 continue;
             }
 
             // TODO fix getValues
-            foreach ($useDeclaration->useClauses->children as $useClause) {
-                if (!($useClause instanceof NamespaceUseClause)) {
-                    continue;
-                }
+            foreach ((isset($useDeclaration->useClauses) ? $useDeclaration->useClauses->getValues() : []) as $useClause) {
+//                if (!($useClause instanceof NamespaceUseClause)) {
+//                    continue;
+//                }
                 $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
 
                 if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
