@@ -24,7 +24,7 @@ class ResolvedName {
 
     public function addNameParts(array $parts, $content) {
         foreach ($parts as $part) {
-            if (!($part instanceof MissingToken) && $part->kind === TokenKind::Name) {
+            if ($part->kind === TokenKind::Name && !($part instanceof MissingToken)) {
                 $this->parts[] = $part->getText($content);
             }
         }
