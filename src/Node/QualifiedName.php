@@ -84,8 +84,8 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return null;
         }
 
-        if (array_search(strtolower($text = $this->getText()), ["self", "static", "parent"]) !== false) {
-            return $text;
+        if (array_search($lowerText = strtolower($this->getText()), ["self", "static", "parent"]) !== false) {
+            return $lowerText;
         }
 
         // FULLY QUALIFIED NAMES
