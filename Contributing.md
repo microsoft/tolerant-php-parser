@@ -9,7 +9,7 @@ default, but make it very easy for others to contribute a fix (or read on if you
 
 ## Building and Running 
 1. Fork and clone the repository.
-2. `composer-install`
+2. `composer install`
 3. `vendor\bin\phpunit` from the root project directory to run the tests to run all the test suites defined in `phpunit.xml`. 
 To run individual suites, run `vendor\bin\phpunit --testsuite <test suite name>`.
 Note that the validation test suite requires you to also include relevant submodules: `git submodule update --init --recursive`
