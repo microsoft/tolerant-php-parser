@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class InterfaceBaseClause extends Node {
+class InterfaceBaseClause extends Node
+{
     /** @var Token */
     public $extendsKeyword;
 

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ElseIfClauseNode extends Node {
+class ElseIfClauseNode extends Node
+{
     /** @var Token */
     public $elseIfKeyword;
     /** @var Token */

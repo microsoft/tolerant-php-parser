@@ -8,13 +8,15 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node;
 
-class DiagnosticsProvider {
+class DiagnosticsProvider
+{
     /**
      * Traverses AST to generate diagnostics.
      * @param \Microsoft\PhpParser\Node $node
      * @return \Generator | Diagnostic[]
      */
-    public static function getDiagnostics($node) : \Generator {
+    public static function getDiagnostics($node) : \Generator
+    {
         $tokenKindToText = \array_flip(\array_merge(
             TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
             TokenStringMaps::KEYWORDS,
@@ -64,11 +66,10 @@ class DiagnosticsProvider {
                         );
                     }
                 }
-            }
-            elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
+            } elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
                 if (\count($node->useClauses->children) > 1) {
                     foreach ($node->useClauses->children as $useClause) {
-                        if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
+                        if ($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
                             yield new Diagnostic(
                                 DiagnosticKind::Error,
                                 "; expected.",

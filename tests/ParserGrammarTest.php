@@ -8,15 +8,18 @@ use Microsoft\PhpParser\Token;
 use Microsoft\PhpParser\DiagnosticsProvider;
 use PHPUnit\Framework\TestCase;
 
-class ParserGrammarTest extends TestCase {
-    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
+class ParserGrammarTest extends TestCase
+{
+    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult
+    {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
-            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+            {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
                 }
@@ -31,7 +34,8 @@ class ParserGrammarTest extends TestCase {
     /**
      * @dataProvider treeProvider
      */
-    public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
+    public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile)
+    {
         $this->expectedTokensFile = $expectedTokensFile;
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
@@ -49,7 +53,8 @@ class ParserGrammarTest extends TestCase {
 
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";
 
-    public function treeProvider() {
+    public function treeProvider()
+    {
         $testCases = glob(self::FILE_PATTERN . ".php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
@@ -67,7 +72,8 @@ class ParserGrammarTest extends TestCase {
     /**
      * @dataProvider outTreeProvider
      */
-    public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTreeFile) {
+    public function testSpecOutputTreeClassificationAndLength($testCaseFile, $expectedTreeFile)
+    {
         $parser = new \Microsoft\PhpParser\Parser();
         $sourceFile = $parser->parseSourceFile(file_get_contents($testCaseFile));
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
@@ -76,7 +82,8 @@ class ParserGrammarTest extends TestCase {
         $this->assertEquals(0, iterator_count(DiagnosticsProvider::getDiagnostics($sourceFile)));
     }
 
-    public function outTreeProvider() {
+    public function outTreeProvider()
+    {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
         

@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class FunctionStaticDeclaration extends StatementNode {
+class FunctionStaticDeclaration extends StatementNode
+{
 
     /** @var Token */
     public $staticKeyword;

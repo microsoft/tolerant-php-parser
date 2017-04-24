@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node;
 
-class Diagnostic {
+class Diagnostic
+{
     /** @var int */
     public $kind;
 
@@ -21,7 +22,8 @@ class Diagnostic {
     /** @var int */
     public $length;
 
-    public function __construct(int $kind, string $message, int $start, int $length) {
+    public function __construct(int $kind, string $message, int $start, int $length)
+    {
         $this->kind = $kind;
         $this->message = $message;
         $this->start = $start;
@@ -29,7 +31,8 @@ class Diagnostic {
     }
 }
 
-class DiagnosticKind {
+class DiagnosticKind
+{
     const Error = 0;
     const Warning = 1;
 }

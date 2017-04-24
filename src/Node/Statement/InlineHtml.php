@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Statement;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class InlineHtml extends StatementNode {
+class InlineHtml extends StatementNode
+{
     /** @var Token | null */
     public $scriptSectionEndTag;
 

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class QualifiedName extends Node {
+class QualifiedName extends Node
+{
     /** @var Token */
     public $globalSpecifier; // \_opt
     /** @var Node */

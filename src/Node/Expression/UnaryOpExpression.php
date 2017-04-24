@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Token;
 
-class UnaryOpExpression extends UnaryExpression {
+class UnaryOpExpression extends UnaryExpression
+{
 
     /** @var Token */
     public $operator;

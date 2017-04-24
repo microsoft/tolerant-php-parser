@@ -8,5 +8,6 @@ namespace Microsoft\PhpParser\Node\DelimitedList;
 
 use Microsoft\PhpParser\Node\DelimitedList;
 
-class ParameterDeclarationList extends DelimitedList {
+class ParameterDeclarationList extends DelimitedList
+{
 }

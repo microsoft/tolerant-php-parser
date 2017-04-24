@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Token;
 
-trait FunctionHeader {
+trait FunctionHeader
+{
     /** @var Token */
     public $functionKeyword;
     /** @var Token */

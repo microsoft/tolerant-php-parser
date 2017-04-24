@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class ScriptInclusionExpression extends Expression {
+class ScriptInclusionExpression extends Expression
+{
     /** @var Token */
     public $requireOrIncludeKeyword;
     /** @var Expression */

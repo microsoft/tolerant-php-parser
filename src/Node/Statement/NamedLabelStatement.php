@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Statement;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class NamedLabelStatement extends StatementNode {
+class NamedLabelStatement extends StatementNode
+{
     /** @var Token */
     public $name;
     /** @var Token */

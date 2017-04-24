@@ -77,7 +77,8 @@ echo "## Node types
 > TODO: complete documentation - in addition to the helper methods on the Node base class,
 every Node object has properties specific to the Node type. Browse `src/Node/` to explore these properties.";
 
-function getSignatureParts(MethodDeclaration $methodDeclaration) : array {
+function getSignatureParts(MethodDeclaration $methodDeclaration) : array
+{
     // TODO - something like this in API?
     $parts = [];
     foreach ($methodDeclaration->getChildNodesAndTokens() as $i=>$child) {

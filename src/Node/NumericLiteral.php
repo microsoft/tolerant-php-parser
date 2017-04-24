@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Token;
 
-class NumericLiteral extends Expression {
+class NumericLiteral extends Expression
+{
     /** @var Token[] */
     public $children;
 }

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class StaticVariableDeclaration extends Node {
+class StaticVariableDeclaration extends Node
+{
 
     /** @var Token */
     public $variableName;

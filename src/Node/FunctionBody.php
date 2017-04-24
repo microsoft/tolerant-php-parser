@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\Statement\CompoundStatementNode;
 use Microsoft\PhpParser\Token;
 
-trait FunctionBody {
+trait FunctionBody
+{
     /** @var null | CompoundStatementNode | Token */
     public $compoundStatementOrSemicolon;
 }

@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ConstElement extends Node {
+class ConstElement extends Node
+{
 
     /** @var Token */
     public $name;

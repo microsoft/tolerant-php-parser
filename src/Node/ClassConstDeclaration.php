@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ClassConstDeclaration extends Node {
+class ClassConstDeclaration extends Node
+{
 
     /** @var Token[] */
     public $modifiers;

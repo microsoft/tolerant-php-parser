@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Node\Expression;
 
-class UnaryExpression extends Expression {
+class UnaryExpression extends Expression
+{
     /** @var UnaryExpression | Variable */
     public $operand;
 }

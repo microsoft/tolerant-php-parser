@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class ArrayCreationExpression extends Expression {
+class ArrayCreationExpression extends Expression
+{
 
     /** @var Token */
     public $arrayKeyword;

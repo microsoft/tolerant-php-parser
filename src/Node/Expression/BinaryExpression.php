@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class BinaryExpression extends Expression {
+class BinaryExpression extends Expression
+{
 
     /** @var Expression */
     public $leftOperand;

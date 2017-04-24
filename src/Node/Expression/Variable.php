@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class Variable extends Expression {
+class Variable extends Expression
+{
     /** @var Token */
     public $dollar;
 

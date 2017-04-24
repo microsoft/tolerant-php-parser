@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class PropertyDeclaration extends Node {
+class PropertyDeclaration extends Node
+{
 
     /** @var Token[] */
     public $modifiers;

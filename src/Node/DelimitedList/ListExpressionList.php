@@ -8,5 +8,6 @@ namespace Microsoft\PhpParser\Node\DelimitedList;
 
 use Microsoft\PhpParser\Node\DelimitedList;
 
-class ListExpressionList extends DelimitedList {
+class ListExpressionList extends DelimitedList
+{
 }

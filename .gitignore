@@ -4,3 +4,4 @@ vendor/
 composer.lock
 tests/output
 *.ast
+.php_cs.cache

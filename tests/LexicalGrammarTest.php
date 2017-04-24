@@ -7,16 +7,19 @@
 use Microsoft\PhpParser\Token;
 use PHPUnit\Framework\TestCase;
 
-class LexicalGrammarTest extends TestCase {
+class LexicalGrammarTest extends TestCase
+{
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
-    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
+    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult
+    {
         if (!isset($GLOBALS["GIT_CHECKOUT"])) {
             $GLOBALS["GIT_CHECKOUT"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
-            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+            {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
                 }
@@ -32,7 +35,8 @@ class LexicalGrammarTest extends TestCase {
     /**
      * @dataProvider lexicalProvider
      */
-    public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
+    public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile)
+    {
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($testCaseFile));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
@@ -43,7 +47,8 @@ class LexicalGrammarTest extends TestCase {
         $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
-    public function lexicalProvider() {
+    public function lexicalProvider()
+    {
         $testCases = glob(__dir__ . "/cases/lexical/*.php");
 
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
@@ -62,7 +67,8 @@ class LexicalGrammarTest extends TestCase {
     /**
      * @dataProvider lexicalSpecProvider
      */
-    public function testSpecTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
+    public function testSpecTokenClassificationAndLength($testCaseFile, $expectedTokensFile)
+    {
         $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($testCaseFile));
         $tokensArray = $lexer->getTokensArray();
         $tokens = str_replace("\r\n", "\n", json_encode($tokensArray, JSON_PRETTY_PRINT));
@@ -78,7 +84,8 @@ class LexicalGrammarTest extends TestCase {
 //        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
     }
 
-    public function lexicalSpecProvider() {
+    public function lexicalSpecProvider()
+    {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
 
         $testProviderArray = array();

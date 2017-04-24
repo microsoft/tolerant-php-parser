@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class DeclareDirective extends Node {
+class DeclareDirective extends Node
+{
     /** @var Token */
     public $name;
     /** @var Token */

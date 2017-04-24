@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Token;
 
-trait FunctionReturnType {
+trait FunctionReturnType
+{
     /** @var Token */
     public $colonToken;
     /** @var null | Name */

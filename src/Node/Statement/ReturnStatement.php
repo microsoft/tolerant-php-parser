@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class ReturnStatement extends StatementNode {
+class ReturnStatement extends StatementNode
+{
     /** @var Token */
     public $returnKeyword;
     /** @var Expression | null */

@@ -11,7 +11,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class SwitchStatementNode extends StatementNode {
+class SwitchStatementNode extends StatementNode
+{
     /** @var Token */
     public $switchKeyword;
     /** @var Token */

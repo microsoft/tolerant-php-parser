@@ -11,7 +11,8 @@ use Microsoft\PhpParser\Node\FinallyClause;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class TryStatement extends StatementNode {
+class TryStatement extends StatementNode
+{
     /** @var Token */
     public $tryKeyword;
     /** @var StatementNode */

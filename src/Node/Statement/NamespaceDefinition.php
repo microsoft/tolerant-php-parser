@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class NamespaceDefinition extends StatementNode {
+class NamespaceDefinition extends StatementNode
+{
     /** @var Token */
     public $namespaceKeyword;
     /** @var QualifiedName | null */

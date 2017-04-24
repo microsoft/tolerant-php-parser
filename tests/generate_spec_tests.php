@@ -41,14 +41,16 @@ foreach ($testCases as $idx=> $filename) {
     }
 }
 
-function pascalCase($str) {
+function pascalCase($str)
+{
     $str = preg_replace('/[^a-z0-9]+/i', ' ', $str);
     $str = ucwords($str);
     $str = str_replace(" ", "", $str);
     return $str;
 }
 
-function prependCode($code):string {
+function prependCode($code):string
+{
     if (!stristr($code, "<?php")) {
         $code = PHP_EOL . "<?php" . $code;
     }
@@ -56,7 +58,8 @@ function prependCode($code):string {
     return $code;
 }
 
-function writeCodeFileArtifacts($fileToWrite, $code):void {
+function writeCodeFileArtifacts($fileToWrite, $code):void
+{
     file_put_contents($fileToWrite, $code);
     if (!file_exists($fileToWrite . ".tree")) {
         file_put_contents($fileToWrite . ".tree", $code);

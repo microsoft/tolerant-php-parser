@@ -8,7 +8,8 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Token;
 
-class ReservedWord extends Expression {
+class ReservedWord extends Expression
+{
     /** @var Token[] */
     public $children;
 }

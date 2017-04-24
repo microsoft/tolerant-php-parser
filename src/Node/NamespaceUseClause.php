@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Token;
 
-class NamespaceUseClause extends Node {
+class NamespaceUseClause extends Node
+{
     /** @var QualifiedName */
     public $namespaceName;
     /** @var NamespaceAliasingClause */

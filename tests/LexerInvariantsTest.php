@@ -9,13 +9,15 @@ use Microsoft\PhpParser\SkippedToken;
 use PHPUnit\Framework\TestCase;
 use Microsoft\PhpParser\TokenKind;
 
-class LexerInvariantsTest extends TestCase {
+class LexerInvariantsTest extends TestCase
+{
     const FILENAMES = array(
         __dir__ . "/cases/testfile.php",
         __dir__ . "/cases/commentsFile.php"
     );
 
-    public static function tokensArrayProvider() {
+    public static function tokensArrayProvider()
+    {
         $fileToTokensMap = array();
         foreach (self::FILENAMES as $filename) {
             $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($filename));
@@ -27,7 +29,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenLengthSum($filename, $tokensArray) {
+    public function testTokenLengthSum($filename, $tokensArray)
+    {
         $tokenLengthSum = 0;
         foreach ($tokensArray as $token) {
             $tokenLengthSum += $token->length;
@@ -41,7 +44,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenStartGeqFullStart($filename, $tokensArray) {
+    public function testTokenStartGeqFullStart($filename, $tokensArray)
+    {
         foreach ($tokensArray as $token) {
             $this->assertGreaterThanOrEqual(
                 $token->fullStart, $token->start,
@@ -52,7 +56,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenContentMatchesFileSpan($filename, $tokensArray) {
+    public function testTokenContentMatchesFileSpan($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
         foreach ($tokensArray as $token) {
             $this->assertEquals(
@@ -66,7 +71,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenFullTextMatchesTriviaPlusText($filename, $tokensArray) {
+    public function testTokenFullTextMatchesTriviaPlusText($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
         foreach ($tokensArray as $token) {
             $this->assertEquals(
@@ -80,7 +86,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenFullTextConcatenationMatchesDocumentText($filename, $tokensArray) {
+    public function testTokenFullTextConcatenationMatchesDocumentText($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
 
         $tokenFullTextConcatenation = "";
@@ -98,7 +105,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testGetTokenFullTextLengthMatchesLength($filename, $tokensArray) {
+    public function testGetTokenFullTextLengthMatchesLength($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
 
         foreach ($tokensArray as $token) {
@@ -113,7 +121,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenTextLengthMatchesLengthMinusStartPlusFullStart($filename, $tokensArray) {
+    public function testTokenTextLengthMatchesLengthMinusStartPlusFullStart($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
 
         foreach ($tokensArray as $token) {
@@ -128,7 +137,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenTriviaLengthMatchesStartMinusFullStart($filename, $tokensArray) {
+    public function testTokenTriviaLengthMatchesStartMinusFullStart($filename, $tokensArray)
+    {
         $fileContents = file_get_contents($filename);
 
         foreach ($tokensArray as $token) {
@@ -143,7 +153,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testEOFTokenTextHasZeroLength($filename, $tokensArray) {
+    public function testEOFTokenTextHasZeroLength($filename, $tokensArray)
+    {
         $tokenText = $tokensArray[count($tokensArray) - 1]->getText($filename);
         $this->assertEquals(
             0, strlen($tokenText),
@@ -154,7 +165,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokensArrayEndsWithEOFToken($filename, $tokensArray) {
+    public function testTokensArrayEndsWithEOFToken($filename, $tokensArray)
+    {
         $this->assertEquals(
             $tokensArray[count($tokensArray) - 1]->kind, TokenKind::EndOfFileToken,
             "Invariant: Tokens array should always end with end of file token"
@@ -164,7 +176,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokensArrayOnlyContainsExactlyOneEOFToken($filename, $tokensArray) {
+    public function testTokensArrayOnlyContainsExactlyOneEOFToken($filename, $tokensArray)
+    {
         $eofTokenCount = 0;
 
         foreach ($tokensArray as $index => $token) {
@@ -181,7 +194,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken($filename, $tokensArray) {
+    public function testTokenFullStartBeginsImmediatelyAfterPreviousToken($filename, $tokensArray)
+    {
         $prevToken;
         foreach ($tokensArray as $index => $token) {
             if ($index === 0) {
@@ -200,7 +214,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testSkippedTokenLengthGreaterThanZero($filename, $tokensArray) {
+    public function testSkippedTokenLengthGreaterThanZero($filename, $tokensArray)
+    {
         foreach ($tokensArray as $token) {
             if ($token instanceof SkippedToken) {
                 $this->assertGreaterThan(
@@ -214,7 +229,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testMissingTokenLengthEqualsZero($filename, $tokensArray) {
+    public function testMissingTokenLengthEqualsZero($filename, $tokensArray)
+    {
         foreach ($tokensArray as $token) {
             if ($token instanceof MissingToken) {
                 $this->assertEquals(
@@ -228,7 +244,8 @@ class LexerInvariantsTest extends TestCase {
     /**
      * @dataProvider tokensArrayProvider
      */
-    public function testWithDifferentEncodings($filename, $tokensArray) {
+    public function testWithDifferentEncodings($filename, $tokensArray)
+    {
         // TODO test with different encodings
         $this->markTestIncomplete(
             'This test has not been implemented yet.'

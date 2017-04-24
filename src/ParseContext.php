@@ -6,7 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
-class ParseContext {
+class ParseContext
+{
     const SourceElements = 0;
     const BlockStatements = 1;
     const ClassMembers = 2;

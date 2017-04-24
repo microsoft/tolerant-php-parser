@@ -6,7 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
-class TokenKind {
+class TokenKind
+{
     const Unknown = 0;
     const EndOfFileToken = 1;
 

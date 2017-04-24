@@ -14,7 +14,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Token;
 
-class ObjectCreationExpression extends Expression {
+class ObjectCreationExpression extends Expression
+{
 
     /** @var Token */
     public $newKeword;

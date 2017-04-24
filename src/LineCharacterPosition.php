@@ -6,11 +6,13 @@
 
 namespace Microsoft\PhpParser;
 
-class LineCharacterPosition {
+class LineCharacterPosition
+{
     public $line;
     public $character;
 
-    public function __construct(int $line, int $character) {
+    public function __construct(int $line, int $character)
+    {
         $this->line = $line;
         $this->character = $character;
     }

@@ -13,7 +13,8 @@ use Microsoft\PhpParser\Node\FunctionReturnType;
 use Microsoft\PhpParser\Node\FunctionUseClause;
 use Microsoft\PhpParser\Token;
 
-class AnonymousFunctionCreationExpression extends Expression {
+class AnonymousFunctionCreationExpression extends Expression
+{
     /** @var Token | null */
     public $staticModifier;
 

@@ -12,7 +12,8 @@ use Microsoft\PhpParser\Node\Name;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class InterfaceDeclaration extends StatementNode {
+class InterfaceDeclaration extends StatementNode
+{
 
     /** @var Token */
     public $interfaceKeyword;

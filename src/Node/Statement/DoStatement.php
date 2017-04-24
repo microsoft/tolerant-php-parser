@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class DoStatement extends StatementNode {
+class DoStatement extends StatementNode
+{
     /** @var Token */
     public $do;
     /** @var StatementNode */

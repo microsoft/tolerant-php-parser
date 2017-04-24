@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class DeclareStatement extends StatementNode {
+class DeclareStatement extends StatementNode
+{
     /** @var Token */
     public $declareKeyword;
     /** @var Token */

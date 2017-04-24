@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class BracedExpression extends Expression {
+class BracedExpression extends Expression
+{
     /** @var Token */
     public $openBrace;
 

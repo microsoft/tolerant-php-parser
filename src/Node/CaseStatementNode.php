@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class CaseStatementNode extends Node {
+class CaseStatementNode extends Node
+{
     /** @var Token */
     public $caseKeyword;
     /** @var Expression */

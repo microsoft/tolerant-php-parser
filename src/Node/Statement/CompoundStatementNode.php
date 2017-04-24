@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class CompoundStatementNode extends StatementNode {
+class CompoundStatementNode extends StatementNode
+{
     /** @var Token */
     public $openBrace;
 

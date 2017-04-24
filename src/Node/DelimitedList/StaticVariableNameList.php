@@ -8,5 +8,6 @@ namespace Microsoft\PhpParser\Node\DelimitedList;
 
 use Microsoft\PhpParser\Node\DelimitedList;
 
-class StaticVariableNameList extends DelimitedList {
+class StaticVariableNameList extends DelimitedList
+{
 }

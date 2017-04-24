@@ -6,7 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
-class CharacterCodes {
+class CharacterCodes
+{
     const _0 = 0x30;
     const _1 = 0x31;
     const _2 = 0x32;

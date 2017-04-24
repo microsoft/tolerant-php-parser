@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ArrayElement extends Node {
+class ArrayElement extends Node
+{
 
     /** @var Expression | null */
     public $elementKey;

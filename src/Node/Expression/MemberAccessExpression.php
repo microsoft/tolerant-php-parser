@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class MemberAccessExpression extends Expression {
+class MemberAccessExpression extends Expression
+{
 
     /** @var Expression */
     public $dereferencableExpression;

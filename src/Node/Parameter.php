@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class Parameter extends Node {
+class Parameter extends Node
+{
     /** @var QualifiedName | Token | null */
     public $typeDeclaration;
     /** @var Token | null */
@@ -26,6 +27,7 @@ class Parameter extends Node {
     /** @var null | Expression */
     public $default;
 
-    public function isVariadic() {
+    public function isVariadic()
+    {
     }
 }

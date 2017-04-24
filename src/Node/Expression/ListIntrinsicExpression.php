@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class ListIntrinsicExpression extends Expression {
+class ListIntrinsicExpression extends Expression
+{
 
     /** @var Token */
     public $listKeyword;

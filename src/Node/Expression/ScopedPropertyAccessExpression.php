@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Token;
 
-class ScopedPropertyAccessExpression extends Expression {
+class ScopedPropertyAccessExpression extends Expression
+{
 
     /** @var Expression | QualifiedName | Token */
     public $scopeResolutionQualifier;

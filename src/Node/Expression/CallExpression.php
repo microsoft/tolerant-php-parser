@@ -10,7 +10,8 @@ use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class CallExpression extends Expression {
+class CallExpression extends Expression
+{
     /** @var Expression */
     public $callableExpression;
 

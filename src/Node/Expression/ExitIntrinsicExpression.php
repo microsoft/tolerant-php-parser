@@ -9,7 +9,8 @@ namespace Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class ExitIntrinsicExpression extends Expression {
+class ExitIntrinsicExpression extends Expression
+{
 
     /** @var Token */
     public $exitOrDieKeyword;
