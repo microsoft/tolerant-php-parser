@@ -45,22 +45,27 @@
                                         "expression": {
                                             "YieldExpression": {
                                                 "yieldOrYieldFromKeyword": {
-                                                    "kind": "YieldFromKeyword",
-                                                    "textLength": 10
+                                                    "kind": "YieldKeyword",
+                                                    "textLength": 5
                                                 },
                                                 "arrayElement": {
                                                     "ArrayElement": {
                                                         "elementKey": null,
                                                         "arrowToken": null,
-                                                        "byRef": {
-                                                            "kind": "AmpersandToken",
-                                                            "textLength": 1
-                                                        },
+                                                        "byRef": null,
                                                         "elementValue": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
+                                                            "PostfixUpdateExpression": {
+                                                                "operand": {
+                                                                    "Variable": {
+                                                                        "dollar": null,
+                                                                        "name": {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "incrementOrDecrementOperator": {
+                                                                    "kind": "PlusPlusToken",
                                                                     "textLength": 2
                                                                 }
                                                             }

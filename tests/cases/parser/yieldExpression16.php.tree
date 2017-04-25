@@ -41,11 +41,7 @@
                             },
                             "statements": [
                                 {
-                                    "ReturnStatement": {
-                                        "returnKeyword": {
-                                            "kind": "ReturnKeyword",
-                                            "textLength": 6
-                                        },
+                                    "ExpressionStatement": {
                                         "expression": {
                                             "YieldExpression": {
                                                 "yieldOrYieldFromKeyword": {
@@ -58,9 +54,44 @@
                                                         "arrowToken": null,
                                                         "byRef": null,
                                                         "elementValue": {
-                                                            "error": "MissingToken",
-                                                            "kind": "Expression",
-                                                            "textLength": 0
+                                                            "BinaryExpression": {
+                                                                "leftOperand": {
+                                                                    "NumericLiteral": {
+                                                                        "children": {
+                                                                            "kind": "IntegerLiteralToken",
+                                                                            "textLength": 1
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "operator": {
+                                                                    "kind": "PlusToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                "rightOperand": {
+                                                                    "BinaryExpression": {
+                                                                        "leftOperand": {
+                                                                            "NumericLiteral": {
+                                                                                "children": {
+                                                                                    "kind": "IntegerLiteralToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "operator": {
+                                                                            "kind": "AsteriskToken",
+                                                                            "textLength": 1
+                                                                        },
+                                                                        "rightOperand": {
+                                                                            "NumericLiteral": {
+                                                                                "children": {
+                                                                                    "kind": "IntegerLiteralToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }

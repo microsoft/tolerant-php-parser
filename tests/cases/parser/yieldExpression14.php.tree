@@ -43,25 +43,38 @@
                                 {
                                     "ExpressionStatement": {
                                         "expression": {
-                                            "YieldExpression": {
-                                                "yieldOrYieldFromKeyword": {
-                                                    "kind": "YieldFromKeyword",
-                                                    "textLength": 10
-                                                },
-                                                "arrayElement": {
-                                                    "ArrayElement": {
-                                                        "elementKey": null,
-                                                        "arrowToken": null,
-                                                        "byRef": {
-                                                            "kind": "AmpersandToken",
+                                            "BinaryExpression": {
+                                                "leftOperand": {
+                                                    "NumericLiteral": {
+                                                        "children": {
+                                                            "kind": "IntegerLiteralToken",
                                                             "textLength": 1
+                                                        }
+                                                    }
+                                                },
+                                                "operator": {
+                                                    "kind": "PlusToken",
+                                                    "textLength": 1
+                                                },
+                                                "rightOperand": {
+                                                    "YieldExpression": {
+                                                        "yieldOrYieldFromKeyword": {
+                                                            "kind": "YieldKeyword",
+                                                            "textLength": 5
                                                         },
-                                                        "elementValue": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
+                                                        "arrayElement": {
+                                                            "ArrayElement": {
+                                                                "elementKey": null,
+                                                                "arrowToken": null,
+                                                                "byRef": null,
+                                                                "elementValue": {
+                                                                    "Variable": {
+                                                                        "dollar": null,
+                                                                        "name": {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }

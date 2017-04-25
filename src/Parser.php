@@ -1421,18 +1421,6 @@ class Parser {
                             );
                     $scriptInclusionExpression->expression = $this->parseExpression($scriptInclusionExpression);
                     return $scriptInclusionExpression;
-                // yield-expression
-                case TokenKind::YieldFromKeyword:
-                case TokenKind::YieldKeyword:
-                    $yieldExpression = new YieldExpression();
-                    $yieldExpression->parent = $parentNode;
-                    $yieldExpression->yieldOrYieldFromKeyword = $this->eat(
-                        TokenKind::YieldFromKeyword,
-                        TokenKind::YieldKeyword
-                        );
-
-                    $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
-                    return $yieldExpression;
             }
 
             return $this->parseBinaryExpressionOrHigher(0, $parentNode);
@@ -1504,6 +1492,10 @@ class Parser {
             // clone-expression (postfix-expression)
             case TokenKind::CloneKeyword:
                 return $this->parseCloneExpression($parentNode);
+
+            case TokenKind::YieldKeyword:
+            case TokenKind::YieldFromKeyword:
+                return $this->parseYieldExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -1976,6 +1968,18 @@ class Parser {
 
             return $variable;
         };
+    }
+
+    private function parseYieldExpression($parentNode) {
+        $yieldExpression = new YieldExpression();
+        $yieldExpression->parent = $parentNode;
+        $yieldExpression->yieldOrYieldFromKeyword = $this->eat(
+            TokenKind::YieldFromKeyword,
+            TokenKind::YieldKeyword
+            );
+
+        $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
+        return $yieldExpression;
     }
 
     private function parseEchoExpression($parentNode) {

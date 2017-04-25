@@ -52,16 +52,27 @@
                                                     "ArrayElement": {
                                                         "elementKey": null,
                                                         "arrowToken": null,
-                                                        "byRef": {
-                                                            "kind": "AmpersandToken",
-                                                            "textLength": 1
-                                                        },
+                                                        "byRef": null,
                                                         "elementValue": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
+                                                            "YieldExpression": {
+                                                                "yieldOrYieldFromKeyword": {
+                                                                    "kind": "YieldFromKeyword",
+                                                                    "textLength": 10
+                                                                },
+                                                                "arrayElement": {
+                                                                    "ArrayElement": {
+                                                                        "elementKey": null,
+                                                                        "arrowToken": null,
+                                                                        "byRef": null,
+                                                                        "elementValue": {
+                                                                            "NumericLiteral": {
+                                                                                "children": {
+                                                                                    "kind": "IntegerLiteralToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
