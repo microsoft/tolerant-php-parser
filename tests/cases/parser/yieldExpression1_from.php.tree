@@ -1,4 +1,51 @@
-<?php
-
-// TODO should fail when outside function
-yield from 5;
+{
+    "SourceFileNode": {
+        "statementList": [
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "YieldExpression": {
+                            "yieldOrYieldFromKeyword": {
+                                "kind": "YieldFromKeyword",
+                                "textLength": 10
+                            },
+                            "arrayElement": {
+                                "ArrayElement": {
+                                    "elementKey": null,
+                                    "arrowToken": null,
+                                    "byRef": null,
+                                    "elementValue": {
+                                        "NumericLiteral": {
+                                            "children": {
+                                                "kind": "IntegerLiteralToken",
+                                                "textLength": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
