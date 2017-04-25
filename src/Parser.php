@@ -45,7 +45,8 @@ use Microsoft\PhpParser\Node\Expression\{
     UnaryExpression,
     UnaryOpExpression,
     UnsetIntrinsicExpression,
-    Variable
+    Variable,
+    YieldExpression
 };
 use Microsoft\PhpParser\Node\StaticVariableDeclaration;
 use Microsoft\PhpParser\Node\ClassConstDeclaration;
@@ -505,11 +506,11 @@ class Parser {
                 // global-declaration
                 case TokenKind::GlobalKeyword:
                     return $this->parseGlobalDeclaration($parentNode);
-                
+
                 // const-declaration
                 case TokenKind::ConstKeyword:
                     return $this->parseConstDeclaration($parentNode);
-                
+
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
                     // Check that this is not an anonymous-function-creation-expression
@@ -756,6 +757,11 @@ class Parser {
                 case TokenKind::IncludeKeyword:
                 case TokenKind::IncludeOnceKeyword:
 
+                // yield-expression
+                case TokenKind::YieldKeyword:
+                case TokenKind::YieldFromKeyword:
+
+                // object-creation-expression
                 case TokenKind::NewKeyword:
                 case TokenKind::CloneKeyword:
                     return true;
@@ -771,7 +777,7 @@ class Parser {
 
                 // prefix-increment-expression
                 case TokenKind::PlusPlusToken:
-                    // prefix-decrement-expression
+                // prefix-decrement-expression
                 case TokenKind::MinusMinusToken:
                     return true;
 
@@ -787,7 +793,7 @@ class Parser {
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
                     return $this->checkToken(TokenKind::BackslashToken);
-                
+
                 // literal
                 case TokenKind::TemplateStringStart:
 
@@ -1398,6 +1404,10 @@ class Parser {
         return function ($parentNode) {
             $token = $this->getCurrentToken();
             switch ($token->kind) {
+                // include-expression
+                // include-once-expression
+                // require-expression
+                // require-once-expression
                 case TokenKind::IncludeKeyword:
                 case TokenKind::IncludeOnceKeyword:
                 case TokenKind::RequireKeyword:
@@ -1409,7 +1419,7 @@ class Parser {
                             TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
                             TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
                             );
-                    $scriptInclusionExpression->expression  = $this->parseExpression($scriptInclusionExpression);
+                    $scriptInclusionExpression->expression = $this->parseExpression($scriptInclusionExpression);
                     return $scriptInclusionExpression;
             }
 
@@ -1482,6 +1492,10 @@ class Parser {
             // clone-expression (postfix-expression)
             case TokenKind::CloneKeyword:
                 return $this->parseCloneExpression($parentNode);
+
+            case TokenKind::YieldKeyword:
+            case TokenKind::YieldFromKeyword:
+                return $this->parseYieldExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -1956,6 +1970,18 @@ class Parser {
         };
     }
 
+    private function parseYieldExpression($parentNode) {
+        $yieldExpression = new YieldExpression();
+        $yieldExpression->parent = $parentNode;
+        $yieldExpression->yieldOrYieldFromKeyword = $this->eat(
+            TokenKind::YieldFromKeyword,
+            TokenKind::YieldKeyword
+            );
+
+        $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
+        return $yieldExpression;
+    }
+
     private function parseEchoExpression($parentNode) {
         $echoExpression = new EchoExpression();
         $echoExpression->parent = $parentNode;
@@ -2180,7 +2206,7 @@ class Parser {
 
     private function parsePostfixExpressionRest($expression, $allowUpdateExpression = true) {
         $tokenKind = $this->getCurrentToken()->kind;
-        
+
         // `--$a++` is invalid
         if ($allowUpdateExpression &&
             ($tokenKind === TokenKind::PlusPlusToken ||
