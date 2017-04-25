@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class ParserGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
-        if (!isset($GLOBALS["GIT_CHECKOUT"])) {
-            $GLOBALS["GIT_CHECKOUT"] = true;
+        if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
+            $GLOBALS["GIT_CHECKOUT_PARSER"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
         }
 
