@@ -84,6 +84,8 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             $this->parent instanceof Node\Statement\NamespaceUseDeclaration ||
             $this->parent instanceof Node\NamespaceUseClause ||
             $this->parent instanceof Node\NamespaceUseGroupClause ||
+            $this->parent->parent instanceof Node\TraitUseClause ||
+            $this->parent instanceof Node\TraitSelectOrAliasClause ||
             ($this->parent instanceof TraitSelectOrAliasClause &&
             ($this->parent->asOrInsteadOfKeyword == null || $this->parent->asOrInsteadOfKeyword->kind === TokenKind::AsKeyword))
         ) {
