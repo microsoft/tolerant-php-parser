@@ -34,8 +34,13 @@ class ParserGrammarTest extends TestCase {
     public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
         $this->expectedTokensFile = $expectedTokensFile;
 
-        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $fileContents = file_get_contents($testCaseFile);
+        if (!file_exists($expectedTokensFile)) {
+            file_put_contents($expectedTokensFile, $fileContents);
+            exec("git add " . $expectedTokensFile);
+        }
+
+        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
         $parser = new \Microsoft\PhpParser\Parser();
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile($fileContents), JSON_PRETTY_PRINT));
@@ -79,7 +84,7 @@ class ParserGrammarTest extends TestCase {
     public function outTreeProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
-        
+
         $testProviderArray = array();
         foreach ($testCases as $case) {
             if (in_array(basename($case), $skipped)) {
