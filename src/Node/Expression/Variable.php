@@ -22,8 +22,11 @@ class Variable extends Expression {
     ];
 
     public function getName() {
-        if ($this->name instanceof Token) {
-            return substr($this->name->getText($this->getFileContents()), 1);
+        if (
+            $this->name instanceof Token &&
+            $name = substr($this->name->getText($this->getFileContents()), 1)
+        ) {
+            return $name;
         }
         return null;
     }

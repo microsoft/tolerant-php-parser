@@ -179,7 +179,7 @@ abstract class Node implements \JsonSerializable {
     public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodes() as $child) {
             yield $child;
-            if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
+            if ($shouldDescendIntoChildrenFn === null || $shouldDescendIntoChildrenFn($child)) {
                 yield from $child->getDescendantNodes();
             }
         }
@@ -388,6 +388,11 @@ abstract class Node implements \JsonSerializable {
         return $this->getRoot()->uri;
     }
 
+    public function getLastChild() {
+        $a = iterator_to_array($this->getChildNodesAndTokens());
+        return \end($a);
+    }
+
     /**
      * Searches descendants to find a Node at the given position.
      *
@@ -395,14 +400,56 @@ abstract class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getDescendantNodeAtPosition(int $pos) {
-        $descendants = iterator_to_array($this->getDescendantNodes(), false);
+        $descendants = iterator_to_array($this->getDescendantNodesAndTokens(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
+            if (!($childNode instanceof Node)) {
+                continue;
+            }
+
             $start = $childNode->getStart();
-            if ($pos >= $start && $pos <= $childNode->getEndPosition()) {
+
+            // TODO clean this up
+            $tokenOffset = $i+1;
+            while (isset($descendants[$tokenOffset])) {
+                $nextToken = $descendants[$tokenOffset];
+                if ($nextToken instanceof Token && !($nextToken instanceof MissingToken) && $nextToken->start > $childNode->getEndPosition()) {
+                    break;
+                }
+
+                $tokenOffset++;
+                unset($nextToken);
+            }
+
+            if (isset($nextToken)) {
+                $end = $nextToken->start;
+            } else {
+                $end = $childNode->getEndPosition();
+            }
+
+//            if(isset($descendants[$i+1]) && ($token = $descendants[$i+1]) instanceof Token) {
+//                $end = $descendants[$i+1]->start;
+//                var_dump($childNode->getNodeKindName());
+//                var_dump($descendants[$i+1]->kind);
+//            } else {
+//                $end = $childNode->getEndPosition();
+//            }
+
+            if ($pos >= $start && $pos <= $end) {
                 return $childNode;
             }
+//            elseif ($pos > $end) {
+//                if(isset($descendants[$i+1])) {
+//                    $end = $descendants[$i+1]->getStart();
+//                    if ($pos >= $start && $pos <= $end) {
+//                        return $childNode;
+//                    }
+//                }
+//                break;
+//            }
         }
+
+
         return null;
     }
 
