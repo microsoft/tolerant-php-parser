@@ -180,7 +180,7 @@ abstract class Node implements \JsonSerializable {
         foreach ($this->getChildNodes() as $child) {
             yield $child;
             if ($shouldDescendIntoChildrenFn === null || $shouldDescendIntoChildrenFn($child)) {
-                yield from $child->getDescendantNodes();
+                yield from $child->getDescendantNodes($shouldDescendIntoChildrenFn);
             }
         }
     }
@@ -683,7 +683,7 @@ abstract class Node implements \JsonSerializable {
     /**
      * Add the alias and resolved name to the corresponding namespace, function, or const import table.
      * If the alias already exists, it will get replaced by the most recent using.
-     * 
+     *
      * TODO - worth throwing an error here in stead?
      */
     private function addToImportTable($alias, $functionOrConst, $namespaceNameParts, $contents, & $namespaceImportTable, & $functionImportTable, & $constImportTable):array
