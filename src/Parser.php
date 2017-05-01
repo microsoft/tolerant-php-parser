@@ -1877,13 +1877,17 @@ class Parser {
         $catchClause->parent = $parentNode;
         $catchClause->catch = $this->eat(TokenKind::CatchKeyword);
         $catchClause->openParen = $this->eat(TokenKind::OpenParenToken);
-        $catchClause->qualifiedName = $this->parseQualifiedName($catchClause); // TODO generate missing token or error if null
+        $catchClause->qualifiedNameList = $this->parseQualifiedNameList($catchClause, TokenKind::BarToken);
+        if($catchClause->qualifiedNameList === null) {
+            $catchClause->qualifiedNameList = new MissingToken(TokenKind::QualifiedName, $this->getCurrentToken()->fullStart);
+        }
         $catchClause->variableName = $this->eat(TokenKind::VariableName);
         $catchClause->closeParen = $this->eat(TokenKind::CloseParenToken);
         $catchClause->compoundStatement = $this->parseCompoundStatement($catchClause);
 
         return $catchClause;
     }
+
 
     private function parseFinallyClause($parentNode) {
         $finallyClause = new FinallyClause();
@@ -2479,10 +2483,10 @@ class Parser {
         return $propertyDeclaration;
     }
 
-    private function parseQualifiedNameList($parentNode) {
+    private function parseQualifiedNameList($parentNode, $delimiter = TokenKind::CommaToken) {
         return $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
-            TokenKind::CommaToken,
+            $delimiter,
             $this->isQualifiedNameStartFn(),
             $this->parseQualifiedNameFn(),
             $parentNode);

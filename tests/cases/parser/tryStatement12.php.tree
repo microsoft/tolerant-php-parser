@@ -42,13 +42,34 @@
                                     "textLength": 1
                                 },
                                 "qualifiedNameList": {
-                                    "error": "MissingToken",
-                                    "kind": "QualifiedName",
-                                    "textLength": 0
+                                    "QualifiedNameList": {
+                                        "children": [
+                                            {
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": {
+                                                        "QualifiedNameParts": {
+                                                            "children": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 9
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "kind": "BarToken",
+                                                "textLength": 1
+                                            }
+                                        ]
+                                    }
                                 },
                                 "variableName": {
                                     "kind": "VariableName",
-                                    "textLength": 2
+                                    "textLength": 3
                                 },
                                 "closeParen": {
                                     "kind": "CloseParenToken",
@@ -60,30 +81,10 @@
                                             "kind": "OpenBraceToken",
                                             "textLength": 1
                                         },
-                                        "statements": [
-                                            {
-                                                "error": "SkippedToken",
-                                                "kind": "FinallyKeyword",
-                                                "textLength": 7
-                                            },
-                                            {
-                                                "CompoundStatementNode": {
-                                                    "openBrace": {
-                                                        "kind": "OpenBraceToken",
-                                                        "textLength": 1
-                                                    },
-                                                    "statements": [],
-                                                    "closeBrace": {
-                                                        "kind": "CloseBraceToken",
-                                                        "textLength": 1
-                                                    }
-                                                }
-                                            }
-                                        ],
+                                        "statements": [],
                                         "closeBrace": {
-                                            "error": "MissingToken",
                                             "kind": "CloseBraceToken",
-                                            "textLength": 0
+                                            "textLength": 1
                                         }
                                     }
                                 }
