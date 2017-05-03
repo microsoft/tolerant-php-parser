@@ -4,6 +4,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\FunctionDeclaration;
 use Microsoft\PhpParser\Node\Statement\IfStatementNode;
@@ -28,18 +29,6 @@ PHP;
         $parser = new Parser();
         self::$sourceFileNode = $parser->parseSourceFile(self::FILE_CONTENTS);
         parent::setUpBeforeClass();
-    }
-
-    public function testSourceFileNodePosition() {
-        $node = self::$sourceFileNode;
-        $this->assertInstanceOf(FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
-        $this->assertInstanceOf(
-            \Microsoft\PhpParser\Node\Statement\CompoundStatementNode::class, $node->getDescendantNodeAtPosition(28),
-            "Finding position at leading trivia does not return corresponding Node"
-        );
-        $this->assertInstanceOf(
-            \Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(40)
-        );
     }
 
     public function testRootNodeIsScript() {
