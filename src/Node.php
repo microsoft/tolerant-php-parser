@@ -75,7 +75,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first ancestor that is an instance of one of the provided classes.
+     * Gets first ancestor that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -94,7 +94,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first child that is an instance of one of the provided classes.
+     * Gets first child that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -120,7 +120,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first descendant node that is an instance of one of the provided classes.
+     * Gets first descendant node that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -158,7 +158,6 @@ abstract class Node implements \JsonSerializable {
     public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
-
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 yield $child;
@@ -432,57 +431,25 @@ abstract class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getDescendantNodeAtPosition(int $pos) {
-        $descendants = iterator_to_array($this->getDescendantNodesAndTokens(), false);
-        for ($i = \count($descendants) - 1; $i >= 0; $i--) {
-            $childNode = $descendants[$i];
-            if (!($childNode instanceof Node)) {
-                continue;
-            }
-
-            $start = $childNode->getStart();
-
-            // TODO clean this up
-            $tokenOffset = $i+1;
-            while (isset($descendants[$tokenOffset])) {
-                $nextToken = $descendants[$tokenOffset];
-                if ($nextToken instanceof Token && !($nextToken instanceof MissingToken) && $nextToken->start > $childNode->getEndPosition()) {
-                    break;
+        foreach ($this->getChildNodes() as $name => $child) {
+            if ($child->containsPosition($pos)) {
+                $node = $child->getDescendantNodeAtPosition($pos);
+                if (!is_null($node)) {
+                    return $node;
                 }
-
-                $tokenOffset++;
-                unset($nextToken);
             }
-
-            if (isset($nextToken)) {
-                $end = $nextToken->start;
-            } else {
-                $end = $childNode->getEndPosition();
-            }
-
-//            if(isset($descendants[$i+1]) && ($token = $descendants[$i+1]) instanceof Token) {
-//                $end = $descendants[$i+1]->start;
-//                var_dump($childNode->getNodeKindName());
-//                var_dump($descendants[$i+1]->kind);
-//            } else {
-//                $end = $childNode->getEndPosition();
-//            }
-
-            if ($pos >= $start && $pos <= $end) {
-                return $childNode;
-            }
-//            elseif ($pos > $end) {
-//                if(isset($descendants[$i+1])) {
-//                    $end = $descendants[$i+1]->getStart();
-//                    if ($pos >= $start && $pos <= $end) {
-//                        return $childNode;
-//                    }
-//                }
-//                break;
-//            }
         }
 
+        return $this;
+    }
 
-        return null;
+    /**
+     * Returns true if the given Node or Token contains the given position.
+     * @param int $pos
+     * @return bool
+     */
+    private function containsPosition(int $pos): bool {
+        return $this->getStart() <= $pos && $pos <= $this->getEndPosition();
     }
 
     /**
