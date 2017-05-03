@@ -14,100 +14,99 @@ use PHPUnit\Framework\TestCase;
 
 class GetNodeAtPositionTest extends TestCase {
 
-    public function testSourceFileNodePosition() {
-        $leadingTrivia = <<<'PHP'
-<?php
-function a() {
-    // _trivia
-    $a = 3;
-}
-PHP;
-        $this->assertNodeAtPositionInstanceOf(
-            $leadingTrivia,
-            \Microsoft\PhpParser\Node\Statement\CompoundStatementNode::class,
-            "Finding position at leading trivia does not return corresponding Node"
-        );
-
-        $name = <<<'PHP'
-<?php
-function a() {
-    // trivia
-    _$a = 3;
-}
-PHP;
-        $this->assertNodeAtPositionInstanceOf(
-            $name,
-            \Microsoft\PhpParser\Node\Expression\Variable::class
-        );
-
-        $name = <<<'PHP'
-<?php
-function _a() {
-    // trivia
-    $a = 3;
-}
-PHP;
-        $this->assertNodeAtPositionInstanceOf(
-            $name,
-            \Microsoft\PhpParser\Node\Statement\FunctionDeclaration::class
-        );
-
-        $text = <<<'PHP'
+    const textTestData = array(
+        <<<'PHP'
 <?php
 function a() {
     $a_
     $b = 2;
 }
-PHP;
-        $this->assertNodeAtPositionText(
-            $text,
-            '$a'
-        );
+PHP
+        => '$a',
 
-        $text = <<<'PHP'
+        <<<'PHP'
 <?php
 function a() {
     $a->f_oo();
 }
-PHP;
-        $this->assertNodeAtPositionText(
-            $text,
-            '$a->foo'
-        );
+PHP
+        => '$a->foo',
 
-        $text = <<<'PHP'
+        <<<'PHP'
 <?php
 function a() {
     $a->foo_
     $b = 1;
 }
-PHP;
-        $this->assertNodeAtPositionText(
-            $text,
-            '$a->foo'
-        );
+PHP
+        => '$a->foo',
 
-        $text = <<<'PHP'
+        <<<'PHP'
 <?php
 function a() {
     $a->_$b;
 }
-PHP;
-        $this->assertNodeAtPositionText(
-            $text,
-            '$b'
-        );
+PHP
+        => '$b',
 
-        $text = <<<'PHP'
+        <<<'PHP'
 <?php
 function a() {
     $a->_;$b;
 }
-PHP;
-        $this->assertNodeAtPositionText(
-            $text,
-            '$a->'
-        );
+PHP
+        => '$a->'
+    );
+
+    public function textDataProvider() {
+        return $this->getDataProvider(GetNodeAtPositionTest::textTestData);
+    }
+
+    /**
+     * @dataProvider textDataProvider
+     */
+    public function testNodePositionByText($contents, $expectedText) {
+        $this->assertNodeAtPositionText($contents, $expectedText);
+    }
+
+    const classTestData = array(
+        <<<'PHP'
+<?php
+function a() {
+    // _trivia
+    $a = 3;
+}
+PHP
+        => \Microsoft\PhpParser\Node\Statement\CompoundStatementNode::class,
+
+        <<<'PHP'
+        <?php
+function a() {
+    // trivia
+    _$a = 3;
+}
+PHP
+        => \Microsoft\PhpParser\Node\Expression\Variable::class,
+
+        <<<'PHP'
+<?php
+function _a() {
+    // trivia
+    $a = 3;
+}
+PHP
+        => \Microsoft\PhpParser\Node\Statement\FunctionDeclaration::class
+    );
+
+    public function classDataProvider() {
+        return $this->getDataProvider(GetNodeAtPositionTest::class);
+    }
+
+    /**
+     * @dataProvider classDataProvider
+     */
+    public function testNodePositionByClass($contents, $expectedClass) {
+        $this->assertNodeAtPositionInstanceOf($contents, $expectedClass);
     }
 
     private function getNodeAtPosition($contents): Node {
@@ -123,10 +122,6 @@ PHP;
         return $actualNode;
     }
 
-    /**
-     * @param string $contents
-     * @param $expectedClass
-     */
     private function assertNodeAtPositionInstanceOf($contents, $expectedClass, $message = '') {
         $actualNode = $this->getNodeAtPosition($contents);
         $text = $actualNode->getText();
@@ -134,14 +129,19 @@ PHP;
         $this->assertInstanceOf($expectedClass, $actualNode, $message);
     }
 
-    /**
-     * @param string $contents
-     * @param $expectedClass
-     */
     private function assertNodeAtPositionText($contents, $expectedText, $message = '') {
         $actualNode = $this->getNodeAtPosition($contents);
         $text = $actualNode->getText();
         $message = "Got node with text: $text" . ($message ? PHP_EOL . $message : '');
         $this->assertEquals($expectedText, $text, $message);
+    }
+
+    private function getDataProvider(array $testData) {
+        $result = array();
+        foreach ($testData as $testCode => $expectedText) {
+            $result[$testCode] = [$testCode, $expectedText];
+        }
+
+        return $result;
     }
 }
