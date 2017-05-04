@@ -9,7 +9,8 @@ use Microsoft\PhpParser\LineCharacterPosition;
 use Microsoft\PhpParser\PositionUtilities;
 use PHPUnit\Framework\TestCase;
 
-class UtilitiesTest extends TestCase {
+class PositionUtilitiesTest extends TestCase {
+
     const text = <<< 'PHP'
 hello
 there
