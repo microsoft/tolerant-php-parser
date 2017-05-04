@@ -18,6 +18,31 @@ there
 awesome
 PHP;
 
+    public function getRangeFromPositionDataProvider(): array {
+        return [
+            // Empty range at start
+            [0, 0, new Range(new LineCharacterPosition(0, 0), new LineCharacterPosition(0, 0))],
+            // Entire range
+            [0, 21, new Range(new LineCharacterPosition(0, 0), new LineCharacterPosition(4, 7))],
+            // Empty range at end
+            [21, 0, new Range(new LineCharacterPosition(4, 7), new LineCharacterPosition(4, 7))],
+            // Full line
+            [6, 5, new Range(new LineCharacterPosition(1, 0), new LineCharacterPosition(1, 5))],
+
+            [2, 11, new Range(new LineCharacterPosition(0, 2), new LineCharacterPosition(3, 0))],
+            [10, 11, new Range(new LineCharacterPosition(1, 4), new LineCharacterPosition(4, 7))]
+        ];
+    }
+
+    /**
+     * @dataProvider getRangeFromPositionDataProvider
+     */
+    public function testGetRangeFromPosition($position, $length, $expectedRange) {
+        $this->assertEquals(
+            $expectedRange,
+            PositionUtilities::getRangeFromPosition($position, $length, UtilitiesTest::text));
+    }
+
     public function getLineCharacterPositionFromPositionDataProvider(): array {
         return [
             [0, new LineCharacterPosition(0, 0)],
@@ -35,9 +60,9 @@ PHP;
     /**
      * @dataProvider getLineCharacterPositionFromPositionDataProvider
      */
-    public function testGetLineCharacterPositionFromPosition($position, $lineCharPosition) {
+    public function testGetLineCharacterPositionFromPosition($position, $expectedLineCharPos) {
         $this->assertEquals(
-            $lineCharPosition,
+            $expectedLineCharPos,
             PositionUtilities::getLineCharacterPositionFromPosition($position, UtilitiesTest::text)
         );
     }
