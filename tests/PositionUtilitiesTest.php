@@ -18,29 +18,32 @@ there
 awesome
 PHP;
 
-    public function testGetLineCharacterPositionFromPosition() {
+    public function getLineCharacterPositionFromPositionDataProvider(): array {
+        return [
+            [0, new LineCharacterPosition(0, 0)],
+            [6, new LineCharacterPosition(1, 0)],
+            [9, new LineCharacterPosition(1, 3)],
+
+            // At EOL
+            [5, new LineCharacterPosition(0, 5)],
+
+            // At end
+            [21, new LineCharacterPosition(4, 7)]
+        ];
+    }
+
+    /**
+     * @dataProvider getLineCharacterPositionFromPositionDataProvider
+     */
+    public function testGetLineCharacterPositionFromPosition($position, $lineCharPosition) {
+        $this->assertEquals(
+            $lineCharPosition,
+            PositionUtilities::getLineCharacterPositionFromPosition($position, UtilitiesTest::text)
+        );
+    }
+
+    public function testGetLineCharacterPositionFromPosition_Bounds() {
         $text = UtilitiesTest::text;
-
-        // At EOL
-        $this->assertEquals(
-            new LineCharacterPosition(0, 5),
-            PositionUtilities::getLineCharacterPositionFromPosition(5, $text)
-        );
-
-        $this->assertEquals(
-            new LineCharacterPosition(0, 0),
-            PositionUtilities::getLineCharacterPositionFromPosition(0, $text)
-        );
-
-        $this->assertEquals(
-            new LineCharacterPosition(1, 0),
-            PositionUtilities::getLineCharacterPositionFromPosition(6, $text)
-        );
-
-        $this->assertEquals(
-            new LineCharacterPosition(1, 3),
-            PositionUtilities::getLineCharacterPositionFromPosition(9, $text)
-        );
 
         $this->assertEquals(
             PositionUtilities::getLineCharacterPositionFromPosition(\strlen($text), $text),
@@ -55,7 +58,8 @@ PHP;
         );
     }
 
-    public function testGetLineCharacterPositionFromPositionAlwaysValid() {
+
+    public function testGetLineCharacterPositionFromPosition_AlwaysValid() {
         // Go past the bounds of the string - should still be valid
         for ($i=-3; $i < \strlen(UtilitiesTest::text) + 3; $i++) {
             $lineChar = PositionUtilities::getLineCharacterPositionFromPosition($i, UtilitiesTest::text);
