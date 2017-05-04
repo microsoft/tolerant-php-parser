@@ -7,12 +7,20 @@
 namespace Microsoft\PhpParser;
 
 class PositionUtilities {
+    /**
+     * Gets a Range from 0-indexed position into $text.
+
+     * Out of bounds positions are handled gracefully. Positions greater than the length of text length
+     * are resolved to the end of the text, and negative positions are resolved to the beginning.
+     *
+     * @param $pos
+     * @param $length
+     * @param $text
+     * @return Range
+     */
     public static function getRangeFromPosition($pos, $length, $text): Range {
         $start = self::getLineCharacterPositionFromPosition($pos, $text);
-
-        // TODO - huh?
-        $end = self::getLineCharacterPositionFromPosition($pos + $length - 1, $text);
-        $end->character += 1;
+        $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
 
         return new Range($start, $end);
     }
