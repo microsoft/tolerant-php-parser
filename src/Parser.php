@@ -45,7 +45,8 @@ use Microsoft\PhpParser\Node\Expression\{
     UnaryExpression,
     UnaryOpExpression,
     UnsetIntrinsicExpression,
-    Variable
+    Variable,
+    YieldExpression
 };
 use Microsoft\PhpParser\Node\StaticVariableDeclaration;
 use Microsoft\PhpParser\Node\ClassConstDeclaration;
@@ -66,7 +67,6 @@ use Microsoft\PhpParser\Node\PropertyDeclaration;
 use Microsoft\PhpParser\Node\ReservedWord;
 use Microsoft\PhpParser\Node\StringLiteral;
 use Microsoft\PhpParser\Node\MethodDeclaration;
-use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\Parameter;
 use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Node\RelativeSpecifier;
@@ -103,6 +103,7 @@ use Microsoft\PhpParser\Node\TraitMembers;
 use Microsoft\PhpParser\Node\TraitSelectOrAliasClause;
 use Microsoft\PhpParser\Node\TraitUseClause;
 use Microsoft\PhpParser\Node\UseVariableName;
+use Microsoft\PhpParser\Node\NamespaceUseClause;
 
 class Parser {
     private $lexer;
@@ -507,11 +508,11 @@ class Parser {
                 // global-declaration
                 case TokenKind::GlobalKeyword:
                     return $this->parseGlobalDeclaration($parentNode);
-                
+
                 // const-declaration
                 case TokenKind::ConstKeyword:
                     return $this->parseConstDeclaration($parentNode);
-                
+
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
                     // Check that this is not an anonymous-function-creation-expression
@@ -758,6 +759,11 @@ class Parser {
                 case TokenKind::IncludeKeyword:
                 case TokenKind::IncludeOnceKeyword:
 
+                // yield-expression
+                case TokenKind::YieldKeyword:
+                case TokenKind::YieldFromKeyword:
+
+                // object-creation-expression
                 case TokenKind::NewKeyword:
                 case TokenKind::CloneKeyword:
                     return true;
@@ -773,7 +779,7 @@ class Parser {
 
                 // prefix-increment-expression
                 case TokenKind::PlusPlusToken:
-                    // prefix-decrement-expression
+                // prefix-decrement-expression
                 case TokenKind::MinusMinusToken:
                     return true;
 
@@ -789,7 +795,7 @@ class Parser {
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
                     return $this->checkToken(TokenKind::BackslashToken);
-                
+
                 // literal
                 case TokenKind::TemplateStringStart:
 
@@ -1401,6 +1407,10 @@ class Parser {
         return function ($parentNode) {
             $token = $this->getCurrentToken();
             switch ($token->kind) {
+                // include-expression
+                // include-once-expression
+                // require-expression
+                // require-once-expression
                 case TokenKind::IncludeKeyword:
                 case TokenKind::IncludeOnceKeyword:
                 case TokenKind::RequireKeyword:
@@ -1412,7 +1422,7 @@ class Parser {
                             TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
                             TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
                             );
-                    $scriptInclusionExpression->expression  = $this->parseExpression($scriptInclusionExpression);
+                    $scriptInclusionExpression->expression = $this->parseExpression($scriptInclusionExpression);
                     return $scriptInclusionExpression;
             }
 
@@ -1485,6 +1495,10 @@ class Parser {
             // clone-expression (postfix-expression)
             case TokenKind::CloneKeyword:
                 return $this->parseCloneExpression($parentNode);
+
+            case TokenKind::YieldKeyword:
+            case TokenKind::YieldFromKeyword:
+                return $this->parseYieldExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -1959,6 +1973,18 @@ class Parser {
         };
     }
 
+    private function parseYieldExpression($parentNode) {
+        $yieldExpression = new YieldExpression();
+        $yieldExpression->parent = $parentNode;
+        $yieldExpression->yieldOrYieldFromKeyword = $this->eat(
+            TokenKind::YieldFromKeyword,
+            TokenKind::YieldKeyword
+            );
+
+        $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
+        return $yieldExpression;
+    }
+
     private function parseEchoExpression($parentNode) {
         $echoExpression = new EchoExpression();
         $echoExpression->parent = $parentNode;
@@ -2183,7 +2209,7 @@ class Parser {
 
     private function parsePostfixExpressionRest($expression, $allowUpdateExpression = true) {
         $tokenKind = $this->getCurrentToken()->kind;
-        
+
         // `--$a++` is invalid
         if ($allowUpdateExpression &&
             ($tokenKind === TokenKind::PlusPlusToken ||
@@ -2561,40 +2587,60 @@ class Parser {
     private function parseNamespaceUseDeclaration($parentNode) {
         $namespaceUseDeclaration = new NamespaceUseDeclaration();
         $namespaceUseDeclaration->parent = $parentNode;
-
         $namespaceUseDeclaration->useKeyword = $this->eat(TokenKind::UseKeyword);
         $namespaceUseDeclaration->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
-        $namespaceUseDeclaration->namespaceName = $this->parseQualifiedName($namespaceUseDeclaration);
-        if (!$this->checkToken(TokenKind::OpenBraceToken)) {
-            if ($this->checkToken(TokenKind::AsKeyword)) {
-                $namespaceUseDeclaration->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseDeclaration);
-            }
-        } else {
-            $namespaceUseDeclaration->openBrace = $this->eat(TokenKind::OpenBraceToken);
-            $namespaceUseDeclaration->groupClauses = $this->parseDelimitedList(
-                DelimitedList\NamespaceUseGroupClauseList::class,
-                TokenKind::CommaToken,
-                function ($token) {
-                    return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
-                },
-                function ($parentNode) {
-                    $namespaceUseGroupClause = new NamespaceUseGroupClause();
-                    $namespaceUseGroupClause->parent = $parentNode;
-
-                    $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
-                    $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
-                    if ($this->checkToken(TokenKind::AsKeyword)) {
-                        $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
-                    }
-
-                    return $namespaceUseGroupClause;
-                },
-                $namespaceUseDeclaration
-            );
-            $namespaceUseDeclaration->closeBrace = $this->eat(TokenKind::CloseBraceToken);
-        }
+        $namespaceUseDeclaration->useClauses = $this->parseNamespaceUseClauseList($namespaceUseDeclaration);
         $namespaceUseDeclaration->semicolon = $this->eatSemicolonOrAbortStatement();
         return $namespaceUseDeclaration;
+    }
+
+    private function parseNamespaceUseClauseList($parentNode) {
+        return $this->parseDelimitedList(
+            DelimitedList\NamespaceUseClauseList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
+            },
+            function ($parentNode) {
+                $namespaceUseClause = new NamespaceUseClause();
+                $namespaceUseClause->parent = $parentNode;
+                $namespaceUseClause->namespaceName = $this->parseQualifiedName($namespaceUseClause);
+                if ($this->checkToken(TokenKind::AsKeyword)) {
+                    $namespaceUseClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseClause);
+                }
+                elseif ($this->checkToken(TokenKind::OpenBraceToken)) {
+                    $namespaceUseClause->openBrace = $this->eat(TokenKind::OpenBraceToken);
+                    $namespaceUseClause->groupClauses = $this->parseNamespaceUseGroupClauseList($namespaceUseClause);
+                    $namespaceUseClause->closeBrace = $this->eat(TokenKind::CloseBraceToken);
+                }
+
+                return $namespaceUseClause;
+            },
+            $parentNode
+        );
+    }
+
+    private function parseNamespaceUseGroupClauseList($parentNode) {
+        return $this->parseDelimitedList(
+            DelimitedList\NamespaceUseGroupClauseList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $this->isQualifiedNameStart($token) || $token->kind === TokenKind::FunctionKeyword || $token->kind === TokenKind::ConstKeyword;
+            },
+            function ($parentNode) {
+                $namespaceUseGroupClause = new NamespaceUseGroupClause();
+                $namespaceUseGroupClause->parent = $parentNode;
+
+                $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
+                $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
+                if ($this->checkToken(TokenKind::AsKeyword)) {
+                    $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
+                }
+
+                return $namespaceUseGroupClause;
+            },
+            $parentNode
+        );
     }
 
     private function parseNamespaceAliasingClause($parentNode) {

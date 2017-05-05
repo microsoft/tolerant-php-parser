@@ -18,22 +18,33 @@
                         "textLength": 3
                     },
                     "functionOrConst": null,
-                    "namespaceName": null,
-                    "namespaceAliasingClause": {
-                        "NamespaceAliasingClause": {
-                            "asKeyword": {
-                                "kind": "AsKeyword",
-                                "textLength": 2
-                            },
-                            "name": {
-                                "kind": "Name",
-                                "textLength": 1
-                            }
+                    "useClauses": null,
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "AsKeyword",
+                "textLength": 2
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "QualifiedName": {
+                            "globalSpecifier": null,
+                            "relativeSpecifier": null,
+                            "nameParts": [
+                                {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                }
+                            ]
                         }
                     },
-                    "openBrace": null,
-                    "groupClauses": null,
-                    "closeBrace": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

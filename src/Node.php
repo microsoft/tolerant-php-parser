@@ -161,7 +161,7 @@ class Node implements \JsonSerializable {
             if ($child instanceof Node) {
                 yield $child;
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    yield from $child->getDescendantNodes();
+                    yield from $child->getDescendantNodes($shouldDescendIntoChildrenFn);
                 }
             }
         }
