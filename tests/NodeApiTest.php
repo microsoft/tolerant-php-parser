@@ -33,7 +33,13 @@ PHP;
     public function testSourceFileNodePosition() {
         $node = self::$sourceFileNode;
         $this->assertInstanceOf(FunctionDeclaration::class, $node->getDescendantNodeAtPosition(15));
-        $this->assertInstanceOf(\Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(28));
+        $this->assertInstanceOf(
+            \Microsoft\PhpParser\Node\Statement\CompoundStatementNode::class, $node->getDescendantNodeAtPosition(28),
+            "Finding position at leading trivia does not return corresponding Node"
+        );
+        $this->assertInstanceOf(
+            \Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(40)
+        );
     }
 
     public function testRootNodeIsScript() {
