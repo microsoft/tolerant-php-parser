@@ -179,7 +179,7 @@ abstract class Node implements \JsonSerializable {
         foreach ($this->getChildNodes() as $child) {
             yield $child;
             if ($shouldDescendIntoChildrenFn === null || $shouldDescendIntoChildrenFn($child)) {
-                yield from $child->getDescendantNodes();
+                yield from $child->getDescendantNodes($shouldDescendIntoChildrenFn);
             }
         }
     }

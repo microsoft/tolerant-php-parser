@@ -20,12 +20,24 @@
                                 "textLength": 3
                             },
                             "classTypeDesignator": {
-                                "Variable": {
-                                    "dollar": null,
-                                    "name": {
-                                        "error": "MissingToken",
-                                        "kind": "VariableName",
-                                        "textLength": 0
+                                "ParenthesizedExpression": {
+                                    "openParen": {
+                                        "kind": "OpenParenToken",
+                                        "textLength": 1
+                                    },
+                                    "expression": {
+                                        "StringLiteral": {
+                                            "startQuote": null,
+                                            "children": {
+                                                "kind": "StringLiteralToken",
+                                                "textLength": 3
+                                            },
+                                            "endQuote": null
+                                        }
+                                    },
+                                    "closeParen": {
+                                        "kind": "CloseParenToken",
+                                        "textLength": 1
                                     }
                                 }
                             },
@@ -33,28 +45,7 @@
                                 "kind": "OpenParenToken",
                                 "textLength": 1
                             },
-                            "argumentExpressionList": {
-                                "ArgumentExpressionList": {
-                                    "children": [
-                                        {
-                                            "ArgumentExpression": {
-                                                "byRefToken": null,
-                                                "dotDotDotToken": null,
-                                                "expression": {
-                                                    "StringLiteral": {
-                                                        "startQuote": null,
-                                                        "children": {
-                                                            "kind": "StringLiteralToken",
-                                                            "textLength": 3
-                                                        },
-                                                        "endQuote": null
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
+                            "argumentExpressionList": null,
                             "closeParen": {
                                 "kind": "CloseParenToken",
                                 "textLength": 1
@@ -62,32 +53,6 @@
                             "classBaseClause": null,
                             "classInterfaceClause": null,
                             "classMembers": null
-                        }
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
-                    }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "ParenthesizedExpression": {
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
-                            "expression": {
-                                "error": "MissingToken",
-                                "kind": "Expression",
-                                "textLength": 0
-                            },
-                            "closeParen": {
-                                "kind": "CloseParenToken",
-                                "textLength": 1
-                            }
                         }
                     },
                     "semicolon": {
