@@ -78,7 +78,6 @@ class ParserGrammarTest extends TestCase {
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFile, JSON_PRETTY_PRINT));
         file_put_contents($expectedTreeFile, $tokens);
 
-        var_dump(DiagnosticsProvider::getDiagnostics($sourceFile));
         $this->assertEquals(0, count(DiagnosticsProvider::getDiagnostics($sourceFile)));
     }
 
