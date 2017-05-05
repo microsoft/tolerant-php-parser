@@ -8,10 +8,27 @@ namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
+use Microsoft\PhpParser\TokenKind;
 
 class MethodDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
     
     use FunctionHeader, FunctionReturnType, FunctionBody;
+
+    public function isStatic() : bool {
+        if ($this->modifiers === null) {
+            return false;
+        }
+        foreach ($this->modifiers as $modifier) {
+            if ($modifier->kind === TokenKind::StaticKeyword) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getName() {
+        return $this->name->getText($this->getFileContents());
+    }
 }

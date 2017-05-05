@@ -140,7 +140,7 @@ class Parser {
      * @param string $fileContents
      * @return SourceFileNode
      */
-    public function parseSourceFile(string $fileContents) : SourceFileNode {
+    public function parseSourceFile(string $fileContents, string $uri = null) : SourceFileNode {
         $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
 
         $this->reset();
@@ -148,6 +148,7 @@ class Parser {
         $sourceFile = new SourceFileNode();
         $this->sourceFile = & $sourceFile;
         $sourceFile->fileContents = $fileContents;
+        $sourceFile->uri = $uri;
         $sourceFile->statementList = array();
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
             $sourceFile->statementList[] = $this->parseInlineHtml($sourceFile);
@@ -488,6 +489,7 @@ class Parser {
                 // namespace-definition
                 case TokenKind::NamespaceKeyword:
                     if (!$this->lookahead(TokenKind::BackslashToken)) {
+                        // TODO add error handling for the case where a namespace definition does not occur in the outer-most scope
                         return $this->parseNamespaceDefinition($parentNode);
                     }
                     break;
@@ -866,7 +868,7 @@ class Parser {
                 $templateNode->children[] = $token;
                 // $this->advanceToken();
                 // $token = $this->getCurrentToken();
-                // TODO figure out how to expose this in ITokenStreamProvider
+                // TODO figure out how to expose this in TokenStreamProviderInterface
                 $this->token = $this->lexer->reScanTemplateToken($token);
                 $token = $this->getCurrentToken();
             }
@@ -1099,14 +1101,14 @@ class Parser {
         $token = $this->getCurrentToken();
         do {
             if ($isElementStartFn($token)) {
-                $node->addToken($parseElementFn($node));
+                $node->addElement($parseElementFn($node));
             } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimiter))) {
                 break;
             }
 
             $delimeterToken = $this->eatOptional($delimiter);
             if ($delimeterToken !== null) {
-                $node->addToken($delimeterToken);
+                $node->addElement($delimeterToken);
             }
             $token = $this->getCurrentToken();
             // TODO ERROR CASE - no delimeter, but a param follows
@@ -1175,6 +1177,7 @@ class Parser {
             if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }
+            $node->nameParts = $node->nameParts->children;
             return $node;
         };
     }
@@ -2557,6 +2560,8 @@ class Parser {
         $interfaceBaseClause->extendsKeyword = $this->eatOptional(TokenKind::ExtendsKeyword);
         if (isset($interfaceBaseClause->extendsKeyword)) {
             $interfaceBaseClause->interfaceNameList = $this->parseQualifiedNameList($interfaceBaseClause);
+        } else {
+            return null;
         }
 
         return $interfaceBaseClause;

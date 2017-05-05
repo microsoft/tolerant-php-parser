@@ -60,32 +60,28 @@
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
                                                 "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 10
-                                                            },
-                                                            {
-                                                                "kind": "BackslashToken",
-                                                                "textLength": 1
-                                                            },
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 10
-                                                            },
-                                                            {
-                                                                "kind": "BackslashToken",
-                                                                "textLength": 1
-                                                            },
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 6
-                                                            }
-                                                        ]
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 10
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 10
+                                                    },
+                                                    {
+                                                        "kind": "BackslashToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 6
                                                     }
-                                                }
+                                                ]
                                             }
                                         },
                                         "compoundStatementOrSemicolon": {

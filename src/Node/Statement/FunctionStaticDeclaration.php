@@ -15,7 +15,7 @@ class FunctionStaticDeclaration extends StatementNode {
     /** @var Token */
     public $staticKeyword;
 
-    /** @var DelimitedList\ParameterDeclarationList */
+    /** @var DelimitedList\StaticVariableNameList */
     public $staticVariableNameList;
 
     /** @var Token */

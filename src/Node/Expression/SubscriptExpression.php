@@ -17,6 +17,7 @@ class SubscriptExpression extends Expression {
     /** @var Token */
     public $openBracketOrBrace;
 
+    /** @var Expression */
     public $accessExpression;
 
     /** @var Token */

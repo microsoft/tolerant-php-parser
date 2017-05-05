@@ -58,7 +58,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
             if ($child instanceof Node) {
                 $encode = json_encode($child);
                 $this->assertGreaterThanOrEqual(
-                    1, count($child->getChildNodesAndTokens()),
+                    1, iterator_count($child->getChildNodesAndTokens()),
                     "Invariant: All Nodes have at least one child. $encode"
                 );
             }

@@ -15,7 +15,7 @@ namespace Microsoft\PhpParser;
  * Class PhpTokenizer
  * @package Microsoft\PhpParser
  */
-class PhpTokenizer implements ITokenStreamProvider {
+class PhpTokenizer implements TokenStreamProviderInterface {
     public $pos;
     public $endOfFilePos;
 

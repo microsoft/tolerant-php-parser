@@ -15,4 +15,11 @@ class UseVariableName extends Node {
 
     /** @var Token */
     public $variableName;
+
+    public function getName() {
+        if ($this->variableName instanceof Token) {
+            return substr($this->variableName->getText($this->getFileContents()), 1);
+        }
+        return null;
+    }
 }

@@ -24,7 +24,14 @@ class Token implements \JsonSerializable {
         return substr($document, $this->fullStart, $this->start - $this->fullStart);
     }
 
-    public function getText(string $document) : string {
+    /**
+     * @param string|null $document
+     * @return bool|null|string
+     */
+    public function getText(string $document = null) {
+        if ($document === null) {
+            return null;
+        }
         return substr($document, $this->start, $this->length - ($this->start - $this->fullStart));
     }
 
@@ -36,7 +43,7 @@ class Token implements \JsonSerializable {
         return $this->start;
     }
 
-    public function getFullStartPosition() {
+    public function getFullStart() {
         return $this->fullStart;
     }
 

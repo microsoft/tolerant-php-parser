@@ -36,16 +36,12 @@
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
                                                 "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 11
-                                                            }
-                                                        ]
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 11
                                                     }
-                                                }
+                                                ]
                                             }
                                         },
                                         {
@@ -56,16 +52,12 @@
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
                                                 "relativeSpecifier": null,
-                                                "nameParts": {
-                                                    "QualifiedNameParts": {
-                                                        "children": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 12
-                                                            }
-                                                        ]
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 12
                                                     }
-                                                }
+                                                ]
                                             }
                                         },
                                         {

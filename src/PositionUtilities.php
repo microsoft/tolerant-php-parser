@@ -7,7 +7,18 @@
 namespace Microsoft\PhpParser;
 
 class PositionUtilities {
-    public static function getRangeFromPosition($pos, $length, $text) {
+    /**
+     * Gets a Range from 0-indexed position into $text.
+
+     * Out of bounds positions are handled gracefully. Positions greater than the length of text length
+     * are resolved to the end of the text, and negative positions are resolved to the beginning.
+     *
+     * @param $pos
+     * @param $length
+     * @param $text
+     * @return Range
+     */
+    public static function getRangeFromPosition($pos, $length, $text): Range {
         $start = self::getLineCharacterPositionFromPosition($pos, $text);
         $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
 
@@ -15,7 +26,7 @@ class PositionUtilities {
     }
 
     /**
-     * Get's 0-indexed LineCharacterPosition from 0-indexed position into $text.
+     * Gets 0-indexed LineCharacterPosition from 0-indexed position into $text.
      *
      * Out of bounds positions are handled gracefully. Positions greater than the length of text length
      * are resolved to text length, and negative positions are resolved to 0.
@@ -33,7 +44,10 @@ class PositionUtilities {
             $pos = 0;
         }
 
-        $lastNewlinePos = \strrpos($text, "\n", -($textLength - $pos));
+        // Start strrpos check from the character before the current character,
+        // in case the current character is a newline
+        $startAt = max(-($textLength - $pos) - 1, -$textLength);
+        $lastNewlinePos = \strrpos($text, "\n", $startAt);
         $char = $pos - ($lastNewlinePos === false ? 0 : $lastNewlinePos + 1);
         $line = $pos > 0 ? \substr_count($text, "\n", 0, $pos) : 0;
         return new LineCharacterPosition($line, $char);

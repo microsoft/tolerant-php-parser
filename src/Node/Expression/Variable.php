@@ -15,4 +15,11 @@ class Variable extends Expression {
 
     /** @var Token | Variable | BracedExpression */
     public $name;
+
+    public function getName() {
+        if ($this->name instanceof Token) {
+            return substr($this->name->getText($this->getFileContents()), 1);
+        }
+        return null;
+    }
 }

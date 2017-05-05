@@ -6,7 +6,7 @@
 
 namespace Microsoft\PhpParser;
 
-class Lexer implements ITokenStreamProvider {
+class Lexer implements TokenStreamProviderInterface {
     private $pos;
     private $endOfFilePos;
     private $fileContents;

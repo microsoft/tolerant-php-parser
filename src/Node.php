@@ -6,7 +6,11 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\NamespaceUseClause;
+use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\SourceFileNode;
+use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
+use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
 
 class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
@@ -117,7 +121,7 @@ class Node implements \JsonSerializable {
      * Gets root of the syntax tree (returns self if has no parents)
      * @return Node
      */
-    public function & getRoot() : Node {
+    public function getRoot() : Node {
         $node = $this;
         while ($node->parent !== null) {
             $node = $node->parent;
@@ -181,13 +185,15 @@ class Node implements \JsonSerializable {
     }
 
     /**
-     * Gets generator containing all child Nodes and Tokens (direct descendants)
+     * Gets generator containing all child Nodes and Tokens (direct descendants).
+     * Does not return null elements.
      *
      * @return \Generator | Token[] | Node[]
      */
     public function getChildNodesAndTokens() : \Generator {
         foreach ($this->getChildNames() as $name) {
             $val = $this->$name;
+
             if (\is_array($val)) {
                 foreach ($val as $child) {
                     if ($child !== null) {
@@ -276,17 +282,10 @@ class Node implements \JsonSerializable {
      * @return int
      */
     public function getWidth() : int {
-        $width = 0;
-        $first = true;
-        foreach ($this->getChildNodesAndTokens() as $child) {
-            if ($first) {
-                $width += $child->getWidth();
-                $first = false;
-            } else {
-                $width += $child->getFullWidth();
-            }
-        }
-        return $width;
+        $first = $this->getStart();
+        $last = $this->getEndPosition();
+
+        return $last - $first;
     }
 
     /**
@@ -295,11 +294,10 @@ class Node implements \JsonSerializable {
      * @return int
      */
     public function getFullWidth() : int {
-        $fullWidth = 0;
-        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
-            $fullWidth += $child->getFullWidth();
-        }
-        return $fullWidth;
+        $first = $this->getFullStart();
+        $last = $this->getEndPosition();
+
+        return $last - $first;
     }
 
     /**
@@ -307,18 +305,11 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getText() : string {
-        $fullText = "";
+        $start = $this->getStart();
+        $end = $this->getEndPosition();
+
         $fileContents = $this->getFileContents();
-        $first = true;
-        foreach ($this->getDescendantTokens() as $child) {
-            if ($first) {
-                $fullText .= $child->getText($fileContents);
-                $first = false;
-            } else {
-                $fullText .= $child->getFullText($fileContents);
-            }
-        }
-        return $fullText;
+        return \substr($fileContents, $start, $end - $start);
     }
 
     /**
@@ -326,12 +317,12 @@ class Node implements \JsonSerializable {
      * @return string
      */
     public function getFullText() : string {
-        $fullText = "";
+        $start = $this->getFullStart();
+        $end = $this->getEndPosition();
+
         $fileContents = $this->getFileContents();
-        foreach ($this->getDescendantTokens() as $child) {
-            $fullText .= $child->getFullText($fileContents);
-        }
-        return $fullText;
+        return \substr($fileContents, $start, $end - $start);
+
     }
 
     /**
@@ -366,27 +357,38 @@ class Node implements \JsonSerializable {
      */
     public function getEndPosition() {
         // TODO test invariant - start of next node is end of previous node
-        if (isset($this->parent)) {
-            $parent = $this->parent;
-            $siblings = $parent->getChildNodes();
-            foreach ($siblings as $idx=>$nextSibling) {
-                if (spl_object_hash($nextSibling) === spl_object_hash($this)) {
-                    $siblings->next();
-                    $nextSibling = $siblings->current();
-                    return $nextSibling !== null
-                        ? $nextSibling->getFullStart()
-                        : $this->getRoot()->endOfFileToken->fullStart;
+        if ($this instanceof SourceFileNode) {
+            return $this->endOfFileToken->getEndPosition();
+        } else {
+            for ($i = \count($childKeys = $this->getChildNames()) - 1; $i >= 0; $i--) {
+                $lastChildKey = $childKeys[$i];
+                $lastChild = $this->$lastChildKey;
+
+                if (\is_array($lastChild)) {
+                    $lastChild = \end($lastChild);
+                    if ($lastChild === null) {
+                        var_dump($lastChild);
+                    }
+                }
+
+                if ($lastChild instanceof Token) {
+                    return $lastChild->getEndPosition();
+                } elseif ($lastChild instanceof Node) {
+                    return $lastChild->getEndPosition();
                 }
             }
-        } elseif ($this instanceof SourceFileNode) {
-            return $this->endOfFileToken->getEndPosition();
         }
-        throw new \Exception("Unhandled node: ");
+
+        throw new \Exception("Unhandled node type");
     }
 
-    public function & getFileContents() : string {
+    public function getFileContents() : string {
         // TODO consider renaming to getSourceText
         return $this->getRoot()->fileContents;
+    }
+
+    public function getUri() : string {
+        return $this->getRoot()->uri;
     }
 
     /**
@@ -399,7 +401,8 @@ class Node implements \JsonSerializable {
         $descendants = iterator_to_array($this->getDescendantNodes(), false);
         for ($i = \count($descendants) - 1; $i >= 0; $i--) {
             $childNode = $descendants[$i];
-            if ($pos >= $childNode->getFullStart() && $pos < $childNode->getEndPosition()) {
+            $start = $childNode->getStart();
+            if ($pos >= $start && $pos <= $childNode->getEndPosition()) {
                 return $childNode;
             }
         }
@@ -429,5 +432,188 @@ class Node implements \JsonSerializable {
 
     public function __toString() {
         return $this->getText();
+    }
+
+    /**
+     * @return array | ResolvedName[][]
+     * @throws \Exception
+     */
+    public function getImportTablesForCurrentScope() {
+        $namespaceDefinition = $namespaceDefinition ?? $this->getNamespaceDefinition();
+
+        // Use declarations can exist in either the global scope, or inside namespace declarations.
+        // http://php.net/manual/en/language.namespaces.importing.php#language.namespaces.importing.scope
+        //
+        // The only code allowed before a namespace declaration is a declare statement, and sub-namespaces are
+        // additionally unaffected by by import rules of higher-level namespaces. Therefore, we can make the assumption
+        // that we need not travel up the spine any further once we've found the current namespace.
+        // http://php.net/manual/en/language.namespaces.definition.php
+        if ($namespaceDefinition instanceof NamespaceDefinition) {
+            $topLevelNamespaceStatements = $namespaceDefinition->compoundStatementOrSemicolon instanceof Token
+                ? $namespaceDefinition->parent->statementList // we need to start from the namespace definition.
+                : $namespaceDefinition->compoundStatementOrSemicolon->statements;
+            $namespaceFullStart = $namespaceDefinition->getFullStart();
+        } else {
+            $topLevelNamespaceStatements = $this->getRoot()->statementList;
+            $namespaceFullStart = 0;
+        }
+
+        $nodeFullStart = $this->getFullStart();
+
+        // TODO optimize performance
+        // Currently we rebuild the import tables on every call (and therefore every name resolution operation)
+        // It is likely that a consumer will attempt many consecutive name resolution requests within the same file.
+        // Therefore, we can consider optimizing on the basis of the "most recently used" import table set.
+        // The idea: Keep a single set of import tables cached based on a unique root node id, and invalidate
+        // cache whenever we attempt to resolve a qualified name with a different root node.
+        //
+        // In order to make this work, it will probably make sense to change the way we parse namespace definitions.
+        // https://github.com/Microsoft/tolerant-php-parser/issues/81
+        //
+        // Currently the namespace definition only includes a compound statement or semicolon token as one if it's children.
+        // Instead, we should move to a model where we parse future statements as a child rather than as a separate
+        // statement. This would enable us to retrieve all the information we would need to find the fully qualified
+        // name by simply traveling up the spine to find the first ancestor of type NamespaceDefinition.
+        $namespaceImportTable = $functionImportTable = $constImportTable = [];
+        $contents = $this->getFileContents();
+
+        foreach ($topLevelNamespaceStatements as $useDeclaration) {
+            if ($useDeclaration->getFullStart() <= $namespaceFullStart) {
+                continue;
+            }
+            if ($useDeclaration->getFullStart() > $nodeFullStart) {
+                break;
+            } elseif (!($useDeclaration instanceof NamespaceUseDeclaration)) {
+                continue;
+            }
+
+            // TODO fix getValues
+            foreach ((isset($useDeclaration->useClauses) ? $useDeclaration->useClauses->getValues() : []) as $useClause) {
+                $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
+
+                if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
+                    // use A\B\C\{D\E};                 namespace import: ["E" => [A,B,C,D,E]]
+                    // use A\B\C\{D\E as F};            namespace import: ["F" => [A,B,C,D,E]]
+                    // use function A\B\C\{A, B}        function import: ["A" => [A,B,C,A], "B" => [A,B,C]]
+                    // use function A\B\C\{const A}     const import: ["A" => [A,B,C,A]]
+                    foreach ($useClause->groupClauses->children as $groupClause) {
+                        if (!($groupClause instanceof NamespaceUseGroupClause)) {
+                            continue;
+                        }
+                        $namespaceNameParts = \array_merge($namespaceNamePartsPrefix, $groupClause->namespaceName->nameParts);
+                        $functionOrConst = $groupClause->functionOrConst ?? $useDeclaration->functionOrConst;
+                        $alias = $groupClause->namespaceAliasingClause === null
+                            ? $groupClause->namespaceName->getLastNamePart()->getText($contents)
+                            : $groupClause->namespaceAliasingClause->name->getText($contents);
+
+                        $this->addToImportTable(
+                            $alias, $functionOrConst, $namespaceNameParts, $contents,
+                            $namespaceImportTable, $functionImportTable, $constImportTable
+                        );
+                    }
+                } else {
+                    // use A\B\C;               namespace import: ["C" => [A,B,C]]
+                    // use A\B\C as D;          namespace import: ["D" => [A,B,C]]
+                    // use function A\B\C as D  function import: ["D" => [A,B,C]]
+                    // use A\B, C\D;            namespace import: ["B" => [A,B], "D" => [C,D]]
+                    $alias = $useClause->namespaceAliasingClause === null
+                        ? $useClause->namespaceName->getLastNamePart()->getText($contents)
+                        : $useClause->namespaceAliasingClause->name->getText($contents);
+                    $functionOrConst = $useDeclaration->functionOrConst;
+                    $namespaceNameParts = $namespaceNamePartsPrefix;
+
+                    $this->addToImportTable(
+                        $alias, $functionOrConst, $namespaceNameParts, $contents,
+                        $namespaceImportTable, $functionImportTable, $constImportTable
+                    );
+                }
+            }
+        }
+
+        return [$namespaceImportTable, $functionImportTable, $constImportTable];
+    }
+
+    /**
+     * Gets corresponding NamespaceDefinition for Node. Returns null if in global namespace.
+     *
+     * @return NamespaceDefinition | null
+     */
+    public function getNamespaceDefinition() {
+        $namespaceDefinition = $this instanceof NamespaceDefinition
+            ? $this
+            : $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
+
+        if ($namespaceDefinition instanceof NamespaceDefinition && !($namespaceDefinition->parent instanceof SourceFileNode)) {
+            $namespaceDefinition = $namespaceDefinition->getFirstAncestor(SourceFileNode::class);
+        }
+
+        if ($namespaceDefinition === null) {
+            // TODO provide a way to throw errors without crashing consumer
+            throw new \Exception("Invalid tree - SourceFileNode must always exist at root of tree.");
+        }
+
+        $fullStart = $this->getFullStart();
+        $lastNamespaceDefinition = null;
+        if ($namespaceDefinition instanceof SourceFileNode) {
+            foreach ($namespaceDefinition->getChildNodes() as $childNode) {
+                if ($childNode instanceof NamespaceDefinition && $childNode->getFullStart() < $fullStart) {
+                    $lastNamespaceDefinition = $childNode;
+                }
+            }
+        }
+
+        if ($lastNamespaceDefinition !== null && $lastNamespaceDefinition->compoundStatementOrSemicolon instanceof Token) {
+            $namespaceDefinition = $lastNamespaceDefinition;
+        } elseif ($namespaceDefinition instanceof SourceFileNode) {
+            $namespaceDefinition = null;
+        }
+
+        return $namespaceDefinition;
+    }
+
+    public function getPreviousSibling() {
+        // TODO make more efficient
+        $parent = $this->parent;
+        if ($parent === null) {
+            return null;
+        }
+        $siblingEnd = $this->getFullStart() - 1;
+        $siblings = iterator_to_array($parent->getChildNodes());
+        for ($i = \count($siblings) - 1; $i >= 0; $i--) {
+            $sibling = $siblings[$i];
+            if ($siblingEnd <= $sibling->getEndPosition() && $siblingEnd >= $sibling->getFullStart()) {
+                return $sibling;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Add the alias and resolved name to the corresponding namespace, function, or const import table.
+     * If the alias already exists, it will get replaced by the most recent using.
+     *
+     * TODO - worth throwing an error here in stead?
+     */
+    private function addToImportTable($alias, $functionOrConst, $namespaceNameParts, $contents, & $namespaceImportTable, & $functionImportTable, & $constImportTable):array
+    {
+        if ($alias !== null) {
+            if ($functionOrConst === null) {
+                // namespaces are case-insensitive
+//                $alias = \strtolower($alias);
+                $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
+                // functions are case-insensitive
+//                $alias = \strtolower($alias);
+                $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
+                // constants are case-sensitive
+                $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
+                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            }
+            return array($namespaceImportTable, $functionImportTable, $constImportTable);
+        }
+        return array($namespaceImportTable, $functionImportTable, $constImportTable);
     }
 }
