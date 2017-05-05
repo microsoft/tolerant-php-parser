@@ -19,4 +19,10 @@ class ParenthesizedExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public const CHILD_NAMES = [
+        'openParen',
+        'expression',
+        'closeParen'
+    ];
 }

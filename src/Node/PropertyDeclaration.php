@@ -21,6 +21,12 @@ class PropertyDeclaration extends Node {
     /** @var Token */
     public $semicolon;
 
+    public const CHILD_NAMES = [
+        'modifiers',
+        'propertyElements',
+        'semicolon'
+    ];
+
     public function isStatic() : bool {
         if ($this->modifiers === null) {
             return false;

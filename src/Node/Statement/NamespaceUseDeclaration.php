@@ -6,7 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node\DelimitedList\NamespaceUseClauseList;
+use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
@@ -15,8 +15,15 @@ class NamespaceUseDeclaration extends StatementNode {
     public $useKeyword;
     /** @var Token */
     public $functionOrConst;
-    /** @var NamespaceUseClauseList */
+    /** @var DelimitedList\NamespaceUseClauseList */
     public $useClauses;
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'useKeyword',
+        'functionOrConst',
+        'useClauses',
+        'semicolon'
+    ];
 }

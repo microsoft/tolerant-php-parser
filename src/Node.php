@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
 
-class Node implements \JsonSerializable {
+abstract class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
@@ -45,12 +45,24 @@ class Node implements \JsonSerializable {
      * @throws \Exception
      */
     public function getFullStart() : int {
-        $child = $this->getChildNodesAndTokens()->current();
-        if ($child instanceof Node) {
-            return $child->getFullStart();
-        } elseif ($child instanceof Token) {
-            return $child->fullStart;
-        }
+        foreach($this::CHILD_NAMES as $name) {
+            if (($child = $this->$name) !== null) {
+                if (\is_array($child)) {
+                    if (isset($child[0])) {
+                        $child = $child[0];
+                    } else {
+                        continue;
+                    }
+                }
+                if ($child instanceof Node) {
+                    return $child->getFullStart();
+                } elseif ($child instanceof Token) {
+                    return $child->fullStart;
+                }
+                throw new \Exception("Unknown type in AST: " . \gettype($child));
+            }
+        };
+
         throw new \Exception("Unknown type in AST: " . \gettype($child));
     }
 
@@ -89,10 +101,18 @@ class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getFirstChildNode(...$classNames) {
-        foreach ($this->getChildNodes() as $child) {
+        foreach ($this::CHILD_NAMES as $name) {
+            $val = $this->$name;
             foreach ($classNames as $className) {
-                if ($child instanceof $className) {
-                    return $child;
+                if (\is_array($val)) {
+                    foreach ($val as $child) {
+                        if ($child instanceof $className) {
+                            return $child;
+                        }
+                    }
+                    continue;
+                } elseif ($val instanceof $className) {
+                    return $val;
                 }
             }
         }
@@ -157,12 +177,10 @@ class Node implements \JsonSerializable {
      * @return \Generator|Node[]
      */
     public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
-        foreach ($this->getChildNodesAndTokens() as $child) {
-            if ($child instanceof Node) {
-                yield $child;
-                if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                    yield from $child->getDescendantNodes($shouldDescendIntoChildrenFn);
-                }
+        foreach ($this->getChildNodes() as $child) {
+            yield $child;
+            if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
+                yield from $child->getDescendantNodes();
             }
         }
     }
@@ -191,7 +209,7 @@ class Node implements \JsonSerializable {
      * @return \Generator | Token[] | Node[]
      */
     public function getChildNodesAndTokens() : \Generator {
-        foreach ($this->getChildNames() as $name) {
+        foreach ($this::CHILD_NAMES as $name) {
             $val = $this->$name;
 
             if (\is_array($val)) {
@@ -213,7 +231,7 @@ class Node implements \JsonSerializable {
      * @return \Generator | Node[]
      */
     public function getChildNodes() : \Generator {
-        foreach ($this->getChildNames() as $name) {
+        foreach ($this::CHILD_NAMES as $name) {
             $val = $this->$name;
             if (\is_array($val)) {
                 foreach ($val as $child) {
@@ -234,7 +252,7 @@ class Node implements \JsonSerializable {
      * @return \Generator|Token[]
      */
     public function getChildTokens() {
-        foreach ($this->getChildNames() as $name) {
+        foreach ($this::CHILD_NAMES as $name) {
             $val = $this->$name;
             if (\is_array($val)) {
                 foreach ($val as $child) {
@@ -259,21 +277,7 @@ class Node implements \JsonSerializable {
      * @return string[]
      */
     public function getChildNames() {
-        $class = \get_class($this);
-        if (!isset(self::$childNames[$class])) {
-            $names = [];
-            $reflectionClass = new \ReflectionClass($class);
-            foreach ($reflectionClass->getProperties() as $property) {
-                if ($property->name === "parent") {
-                    continue;
-                }
-
-                $names[] = $property->name;
-            }
-            self::$childNames[$class] = $names;
-        }
-
-        return self::$childNames[$class];
+        return $this::CHILD_NAMES;
     }
 
     /**
@@ -339,7 +343,7 @@ class Node implements \JsonSerializable {
 
     protected function getChildrenKvPairs() {
         $result = array();
-        foreach ($this->getChildNames() as $name) {
+        foreach ($this::CHILD_NAMES as $name) {
             $result[$name] = $this->$name;
         }
         return $result;
@@ -357,25 +361,18 @@ class Node implements \JsonSerializable {
      */
     public function getEndPosition() {
         // TODO test invariant - start of next node is end of previous node
-        if ($this instanceof SourceFileNode) {
-            return $this->endOfFileToken->getEndPosition();
-        } else {
-            for ($i = \count($childKeys = $this->getChildNames()) - 1; $i >= 0; $i--) {
-                $lastChildKey = $childKeys[$i];
-                $lastChild = $this->$lastChildKey;
+        for ($i = \count($childKeys = $this::CHILD_NAMES) - 1; $i >= 0; $i--) {
+            $lastChildKey = $childKeys[$i];
+            $lastChild = $this->$lastChildKey;
 
-                if (\is_array($lastChild)) {
-                    $lastChild = \end($lastChild);
-                    if ($lastChild === null) {
-                        var_dump($lastChild);
-                    }
-                }
+            if (\is_array($lastChild)) {
+                $lastChild = \end($lastChild);
+            }
 
-                if ($lastChild instanceof Token) {
-                    return $lastChild->getEndPosition();
-                } elseif ($lastChild instanceof Node) {
-                    return $lastChild->getEndPosition();
-                }
+            if ($lastChild instanceof Token) {
+                return $lastChild->fullStart + $lastChild->length;
+            } elseif ($lastChild instanceof Node) {
+                return $lastChild->getEndPosition();
             }
         }
 
@@ -577,12 +574,25 @@ class Node implements \JsonSerializable {
         if ($parent === null) {
             return null;
         }
-        $siblingEnd = $this->getFullStart() - 1;
-        $siblings = iterator_to_array($parent->getChildNodes());
-        for ($i = \count($siblings) - 1; $i >= 0; $i--) {
-            $sibling = $siblings[$i];
-            if ($siblingEnd <= $sibling->getEndPosition() && $siblingEnd >= $sibling->getFullStart()) {
-                return $sibling;
+
+        $prevSibling = null;
+
+        foreach ($parent::CHILD_NAMES as $name) {
+            $val = $parent->$name;
+            if (\is_array($val)) {
+                foreach ($val as $sibling) {
+                    if ($sibling === $this) {
+                        return $prevSibling;
+                    } elseif ($sibling instanceof Node) {
+                        $prevSibling = $sibling;
+                    }
+                }
+                continue;
+            } elseif ($val instanceof Node) {
+                if ($val === $this) {
+                    return $prevSibling;
+                }
+                $prevSibling = $val;
             }
         }
         return null;

@@ -18,4 +18,11 @@ class CaseStatementNode extends Node {
     public $defaultLabelTerminator;
     /**@var StatementNode[] */
     public $statementList;
+
+    public const CHILD_NAMES = [
+        'caseKeyword',
+        'expression',
+        'defaultLabelTerminator',
+        'statementList'
+    ];
 }

@@ -17,4 +17,10 @@ class ReturnStatement extends StatementNode {
     public $expression;
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'returnKeyword',
+        'expression',
+        'semicolon'
+    ];
 }

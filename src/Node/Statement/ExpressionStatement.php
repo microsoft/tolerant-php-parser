@@ -11,8 +11,13 @@ use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
 class ExpressionStatement extends StatementNode {
-    /** @var Expression | null */
+    /** @var Expression */
     public $expression;
     /** @var Token */
     public $semicolon;
+
+    public const CHILD_NAMES = [
+        'expression',
+        'semicolon'
+    ];
 }

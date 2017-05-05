@@ -23,4 +23,11 @@ class UnsetIntrinsicExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public const CHILD_NAMES = [
+        'unsetKeyword',
+        'openParen',
+        'expressions',
+        'closeParen'
+    ];
 }

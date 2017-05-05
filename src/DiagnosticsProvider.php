@@ -14,33 +14,38 @@ class DiagnosticsProvider {
      * @param \Microsoft\PhpParser\Node $node
      * @return \Generator | Diagnostic[]
      */
-    public static function getDiagnostics($node) : \Generator {
-        $tokenKindToText = \array_flip(\array_merge(
-            TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
-            TokenStringMaps::KEYWORDS,
-            TokenStringMaps::RESERVED_WORDS
-        ));
+
+    private static $tokenKindToText;
+
+    public static function checkDiagnostics($node) {
+        if (!isset(self::$tokenKindToText)) {
+            self::$tokenKindToText = \array_flip(\array_merge(
+                TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
+                TokenStringMaps::KEYWORDS,
+                TokenStringMaps::RESERVED_WORDS
+            ));
+        }
 
         if ($node instanceof SkippedToken) {
             // TODO - consider also attaching parse context information to skipped tokens
             // this would allow us to provide more helpful error messages that inform users what to do
             // about the problem rather than simply pointing out the mistake.
-            return yield new Diagnostic(
+            return new Diagnostic(
                 DiagnosticKind::Error,
                 "Unexpected '" .
-                (isset($tokenKindToText[$node->kind])
-                    ? $tokenKindToText[$node->kind]
+                (isset(self::$tokenKindToText[$node->kind])
+                    ? self::$tokenKindToText[$node->kind]
                     : Token::getTokenKindNameFromValue($node->kind)) .
                 "'",
                 $node->start,
                 $node->getEndPosition() - $node->start
             );
         } elseif ($node instanceof MissingToken) {
-            return yield new Diagnostic(
+            return new Diagnostic(
                 DiagnosticKind::Error,
                 "'" .
-                (isset($tokenKindToText[$node->kind])
-                    ? $tokenKindToText[$node->kind]
+                (isset(self::$tokenKindToText[$node->kind])
+                    ? self::$tokenKindToText[$node->kind]
                     : Token::getTokenKindNameFromValue($node->kind)) .
                 "' expected.",
                 $node->start,
@@ -49,16 +54,16 @@ class DiagnosticsProvider {
         }
 
         if ($node === null || $node instanceof Token) {
-            return;
+            return null;
         }
 
         if ($node instanceof Node) {
             if ($node instanceof Node\MethodDeclaration) {
                 foreach ($node->modifiers as $modifier) {
                     if ($modifier->kind === TokenKind::VarKeyword) {
-                        yield new Diagnostic(
+                        return new Diagnostic(
                             DiagnosticKind::Error,
-                            "Unexpected modifier '" . $tokenKindToText[$modifier->kind] . "'",
+                            "Unexpected modifier '" . self::$tokenKindToText[$modifier->kind] . "'",
                             $modifier->start,
                             $modifier->length
                         );
@@ -69,7 +74,7 @@ class DiagnosticsProvider {
                 if (\count($node->useClauses->children) > 1) {
                     foreach ($node->useClauses->children as $useClause) {
                         if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
-                            yield new Diagnostic(
+                            return new Diagnostic(
                                 DiagnosticKind::Error,
                                 "; expected.",
                                 $useClause->getEndPosition(),
@@ -80,9 +85,18 @@ class DiagnosticsProvider {
                 }
             }
         }
+        return null;
+    }
 
-        foreach ($node->getChildNodesAndTokens() as $child) {
-            yield from DiagnosticsProvider::getDiagnostics($child);
+    public static function getDiagnostics(Node $n) : array {
+        $diagnostics = [];
+
+        foreach ($n->getDescendantNodesAndTokens() as $node) {
+            if (($diagnostic = self::checkDiagnostics($node)) !== null) {
+                $diagnostics[] = $diagnostic;
+            }
         }
+
+        return $diagnostics;
     }
 }

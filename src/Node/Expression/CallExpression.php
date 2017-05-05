@@ -22,4 +22,11 @@ class CallExpression extends Expression {
 
     /** @var Token */
     public $closeParen;
+
+    public const CHILD_NAMES = [
+        'callableExpression',
+        'openParen',
+        'argumentExpressionList',
+        'closeParen'
+    ];
 }

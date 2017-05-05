@@ -13,6 +13,9 @@ use Microsoft\PhpParser\Token;
 class YieldExpression extends Expression {
     /** @var Token */
     public $yieldOrYieldFromKeyword;
+
     /** @var ArrayElement */
     public $arrayElement;
+
+    public const CHILD_NAMES = ['yieldOrYieldFromKeyword', 'arrayElement'];
 }

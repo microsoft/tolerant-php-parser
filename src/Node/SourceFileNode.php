@@ -22,8 +22,5 @@ class SourceFileNode extends Node {
     /** @var Token */
     public $endOfFileToken;
 
-    public function getChildNames() {
-        // Override method to exclude fileContents from child names
-        return ['statementList', 'endOfFileToken'];
-    }
+    public const CHILD_NAMES = ['statementList', 'endOfFileToken'];
 }

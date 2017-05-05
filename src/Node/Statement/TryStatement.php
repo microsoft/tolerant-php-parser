@@ -20,4 +20,11 @@ class TryStatement extends StatementNode {
     public $catchClauses;
     /**@var FinallyClause | null */
     public $finallyClause;
+
+    public const CHILD_NAMES = [
+        'tryKeyword',
+        'compoundStatement',
+        'catchClauses',
+        'finallyClause'
+    ];
 }

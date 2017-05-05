@@ -16,6 +16,11 @@ class Variable extends Expression {
     /** @var Token | Variable | BracedExpression */
     public $name;
 
+    public const CHILD_NAMES = [
+        'dollar',
+        'name'
+    ];
+
     public function getName() {
         if ($this->name instanceof Token) {
             return substr($this->name->getText($this->getFileContents()), 1);

@@ -17,4 +17,10 @@ class NamespaceUseGroupClause extends Node {
     public $namespaceName;
     /** @var  NamespaceAliasingClause */
     public $namespaceAliasingClause;
+
+    public const CHILD_NAMES = [
+        'functionOrConst',
+        'namespaceName',
+        'namespaceAliasingClause'
+    ];
 }

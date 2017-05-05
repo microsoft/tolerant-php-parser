@@ -15,4 +15,9 @@ class ErrorControlExpression extends UnaryExpression {
 
     /** @var UnaryExpression */
     public $operand;
+
+    public const CHILD_NAMES = [
+        'operator',
+        'operand'
+    ];
 }

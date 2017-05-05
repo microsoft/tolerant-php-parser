@@ -21,4 +21,11 @@ class TraitSelectOrAliasClause extends Node {
 
     /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
     public $targetName;
+
+    public const CHILD_NAMES = [
+        'name',
+        'asOrInsteadOfKeyword',
+        'modifiers',
+        'targetName'
+    ];
 }

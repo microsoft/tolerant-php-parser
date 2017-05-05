@@ -19,6 +19,12 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $endQuote;
 
+    public const CHILD_NAMES = [
+        'startQuote',
+        'children',
+        'endQuote',
+    ];
+
     public function getStringContentsText() {
         // TODO add tests
         $stringContents = "";
