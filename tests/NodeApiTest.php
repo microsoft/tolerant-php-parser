@@ -36,7 +36,7 @@ PHP;
         $this->assertInstanceOf(
             \Microsoft\PhpParser\Node\Statement\CompoundStatementNode::class, $node->getDescendantNodeAtPosition(28),
             "Finding position at leading trivia does not return corresponding Node"
-        );        
+        );
         $this->assertInstanceOf(
             \Microsoft\PhpParser\Node\Expression\Variable::class, $node->getDescendantNodeAtPosition(40)
         );

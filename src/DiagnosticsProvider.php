@@ -90,7 +90,7 @@ class DiagnosticsProvider {
 
     public static function getDiagnostics(Node $n) : array {
         $diagnostics = [];
-        
+
         foreach ($n->getDescendantNodesAndTokens() as $node) {
             if (($diagnostic = self::checkDiagnostics($node)) !== null) {
                 $diagnostics[] = $diagnostic;

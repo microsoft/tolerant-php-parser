@@ -26,7 +26,8 @@ to them off completely - you can disable them on a per-workspace basis)
 ## Build from Source
 1. From `syntax-visualizer/server/`, run `npm install && npm run compile`
 2. From `syntax-visualizer/client`, run `npm install && npm run compile`
-3. Open `syntax-visualizer/client` in VS Code, and launch the extension in the debugger
+3. Open `syntax-visualizer/client` in VS Code, and press F5 to launch the extension in the debugger.
+    - This will open a new instance of VS Code with the extension loaded
 
 When running in this configuration, any changes you make to the parser will be immediately reflected
 in the extension (which makes it *super* handy for debugging any failing tests in the parser.)
