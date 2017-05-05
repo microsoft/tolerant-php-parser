@@ -282,20 +282,10 @@ class Node implements \JsonSerializable {
      * @return int
      */
     public function getWidth() : int {
-//        $width = 0;
         $first = $this->getStart();
         $last = $this->getEndPosition();
 
         return $last - $first;
-//        foreach ($this->getChildNodesAndTokens() as $child) {
-//            if ($first) {
-//                $width += $child->getWidth();
-//                $first = false;
-//            } else {
-//                $width += $child->getFullWidth();
-//            }
-//        }
-//        return $width;
     }
 
     /**
@@ -308,11 +298,6 @@ class Node implements \JsonSerializable {
         $last = $this->getEndPosition();
 
         return $last - $first;
-//        $fullWidth = 0;
-//        foreach ($this->getChildNodesAndTokens() as $idx=>$child) {
-//            $fullWidth += $child->getFullWidth();
-//        }
-//        return $fullWidth;
     }
 
     /**
@@ -323,23 +308,8 @@ class Node implements \JsonSerializable {
         $start = $this->getStart();
         $end = $this->getEndPosition();
 
-//       $fullText = "";
         $fileContents = $this->getFileContents();
         return \substr($fileContents, $start, $end - $start);
-        // $start = $this->getStart();
-        // $end = $this->getEndPosition();
-
-        // $fullText = \substr($fileContents, $start, $end - $start);
-        /*$first = true;
-        foreach ($this->getDescendantTokens() as $child) {
-            if ($first) {
-                $fullText .= $child->getText($fileContents);
-                $first = false;
-            } else {
-                $fullText .= $child->getFullText($fileContents);
-            }
-        }
-        return $fullText;*/
     }
 
     /**
@@ -350,7 +320,6 @@ class Node implements \JsonSerializable {
         $start = $this->getFullStart();
         $end = $this->getEndPosition();
 
-//       $fullText = "";
         $fileContents = $this->getFileContents();
         return \substr($fileContents, $start, $end - $start);
 
@@ -393,7 +362,6 @@ class Node implements \JsonSerializable {
         } else {
             for ($i = \count($childKeys = $this->getChildNames()) - 1; $i >= 0; $i--) {
                 $lastChildKey = $childKeys[$i];
- //                var_dump($lastChildKey);
                 $lastChild = $this->$lastChildKey;
 
                 if (\is_array($lastChild)) {
@@ -409,14 +377,6 @@ class Node implements \JsonSerializable {
                     return $lastChild->getEndPosition();
                 }
             }
-//            $childKeys = $this->getChildNames();
-//            $children = iterator_to_array($this->getChildNodesAndTokens(), false);
-//            $lastChild = \end($children);
-//            if ($lastChild instanceof Token) {
-//                return $lastChild->getEndPosition();
-//            } elseif ($lastChild instanceof Node) {
-//                return $lastChild->getEndPosition();
-//            }
         }
 
         throw new \Exception("Unhandled node type");
@@ -529,9 +489,6 @@ class Node implements \JsonSerializable {
 
             // TODO fix getValues
             foreach ((isset($useDeclaration->useClauses) ? $useDeclaration->useClauses->getValues() : []) as $useClause) {
-//                if (!($useClause instanceof NamespaceUseClause)) {
-//                    continue;
-//                }
                 $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
 
                 if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
@@ -634,7 +591,7 @@ class Node implements \JsonSerializable {
     /**
      * Add the alias and resolved name to the corresponding namespace, function, or const import table.
      * If the alias already exists, it will get replaced by the most recent using.
-     * 
+     *
      * TODO - worth throwing an error here in stead?
      */
     private function addToImportTable($alias, $functionOrConst, $namespaceNameParts, $contents, & $namespaceImportTable, & $functionImportTable, & $constImportTable):array
