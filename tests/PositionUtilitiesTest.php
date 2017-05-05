@@ -41,7 +41,7 @@ PHP;
     public function testGetRangeFromPosition($position, $length, $expectedRange) {
         $this->assertEquals(
             $expectedRange,
-            PositionUtilities::getRangeFromPosition($position, $length, UtilitiesTest::text));
+            PositionUtilities::getRangeFromPosition($position, $length, PositionUtilitiesTest::text));
     }
 
     public function getLineCharacterPositionFromPositionDataProvider(): array {
@@ -64,12 +64,12 @@ PHP;
     public function testGetLineCharacterPositionFromPosition($position, $expectedLineCharPos) {
         $this->assertEquals(
             $expectedLineCharPos,
-            PositionUtilities::getLineCharacterPositionFromPosition($position, UtilitiesTest::text)
+            PositionUtilities::getLineCharacterPositionFromPosition($position, PositionUtilitiesTest::text)
         );
     }
 
     public function testGetLineCharacterPositionFromPosition_Bounds() {
-        $text = UtilitiesTest::text;
+        $text = PositionUtilitiesTest::text;
 
         $this->assertEquals(
             PositionUtilities::getLineCharacterPositionFromPosition(\strlen($text), $text),
@@ -87,8 +87,8 @@ PHP;
 
     public function testGetLineCharacterPositionFromPosition_AlwaysValid() {
         // Go past the bounds of the string - should still be valid
-        for ($i=-3; $i < \strlen(UtilitiesTest::text) + 3; $i++) {
-            $lineChar = PositionUtilities::getLineCharacterPositionFromPosition($i, UtilitiesTest::text);
+        for ($i=-3; $i < \strlen(PositionUtilitiesTest::text) + 3; $i++) {
+            $lineChar = PositionUtilities::getLineCharacterPositionFromPosition($i, PositionUtilitiesTest::text);
             $this->assertGreaterThanOrEqual(0, $lineChar->line);
             $this->assertLessThanOrEqual(4, $lineChar->line);
 
