@@ -99,7 +99,7 @@ PHP
     );
 
     public function classDataProvider() {
-        return $this->getDataProvider(GetNodeAtPositionTest::class);
+        return $this->getDataProvider(GetNodeAtPositionTest::classTestData);
     }
 
     /**
