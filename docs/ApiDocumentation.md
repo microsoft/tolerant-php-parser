@@ -25,16 +25,25 @@ Gets parent of current node (returns null if has no parent)
 ```php
 public function getParent ( )
 ```
-### Node::getAncestor
-> TODO: add doc comment
-
+### Node::getFirstAncestor
+Gets first ancestor that is an instance of one of the provided classes. Returns null if there is no match.
 ```php
-public function getAncestor ( $className )
+public function getFirstAncestor ( ...$classNames )
+```
+### Node::getFirstChildNode
+Gets first child that is an instance of one of the provided classes. Returns null if there is no match.
+```php
+public function getFirstChildNode ( ...$classNames )
+```
+### Node::getFirstDescendantNode
+Gets first descendant node that is an instance of one of the provided classes. Returns null if there is no match.
+```php
+public function getFirstDescendantNode ( ...$classNames )
 ```
 ### Node::getRoot
 Gets root of the syntax tree (returns self if has no parents)
 ```php
-public function & getRoot ( ) : Node
+public function getRoot ( ) : Node
 ```
 ### Node::getDescendantNodesAndTokens
 Gets generator containing all descendant Nodes and Tokens.
@@ -52,7 +61,7 @@ Gets generator containing all descendant Tokens.
 public function getDescendantTokens ( callable $shouldDescendIntoChildrenFn = null )
 ```
 ### Node::getChildNodesAndTokens
-Gets generator containing all child Nodes and Tokens (direct descendants)
+Gets generator containing all child Nodes and Tokens (direct descendants). Does not return null elements.
 ```php
 public function getChildNodesAndTokens ( ) : \Generator
 ```
@@ -111,18 +120,52 @@ public function getEndPosition ( )
 > TODO: add doc comment
 
 ```php
-public function & getFileContents ( ) : string
+public function getFileContents ( ) : string
+```
+### Node::getUri
+> TODO: add doc comment
+
+```php
+public function getUri ( ) : string
+```
+### Node::getLastChild
+> TODO: add doc comment
+
+```php
+public function getLastChild ( )
 ```
 ### Node::getDescendantNodeAtPosition
 Searches descendants to find a Node at the given position.
 ```php
 public function getDescendantNodeAtPosition ( int $pos )
 ```
+### Node::getDocCommentText
+Gets leading PHP Doc Comment text corresponding to the current Node. Returns last doc comment in leading comment / whitespace trivia, and returns null if there is no preceding doc comment.
+```php
+public function getDocCommentText ( )
+```
 ### Node::__toString
 > TODO: add doc comment
 
 ```php
 public function __toString ( )
+```
+### Node::getImportTablesForCurrentScope
+> TODO: add doc comment
+
+```php
+public function getImportTablesForCurrentScope ( )
+```
+### Node::getNamespaceDefinition
+Gets corresponding NamespaceDefinition for Node. Returns null if in global namespace.
+```php
+public function getNamespaceDefinition ( )
+```
+### Node::getPreviousSibling
+> TODO: add doc comment
+
+```php
+public function getPreviousSibling ( )
 ```
 ## Token
 ### Token::__construct
@@ -141,7 +184,7 @@ public function getLeadingCommentsAndWhitespaceText ( string $document ) : strin
 > TODO: add doc comment
 
 ```php
-public function getText ( string $document ) : string
+public function getText ( string $document = null )
 ```
 ### Token::getFullText
 > TODO: add doc comment
@@ -155,11 +198,11 @@ public function getFullText ( string & $document ) : string
 ```php
 public function getStartPosition ( )
 ```
-### Token::getFullStartPosition
+### Token::getFullStart
 > TODO: add doc comment
 
 ```php
-public function getFullStartPosition ( )
+public function getFullStart ( )
 ```
 ### Token::getWidth
 > TODO: add doc comment
@@ -199,29 +242,32 @@ public function jsonSerialize ( )
 public function __construct ( )
 ```
 ### Parser::parseSourceFile
+Generates AST from source file contents. Returns an instance of SourceFileNode, which is always the top-most Node-type of the tree.
+```php
+public function parseSourceFile ( string $fileContents, string $uri = null ) : SourceFileNode
+```
+## Associativity
+## DiagnosticsProvider
+### DiagnosticsProvider::checkDiagnostics
 > TODO: add doc comment
 
 ```php
-public function parseSourceFile ( $fileContents ) : SourceFileNode
+public static function checkDiagnostics ( $node )
 ```
-## Associativity
-## ParseContext
-## DiagnosticsProvider
 ### DiagnosticsProvider::getDiagnostics
 > TODO: add doc comment
 
 ```php
-public static function getDiagnostics ( $node )
+public static function getDiagnostics ( Node $n ) : array
 ```
 ## PositionUtilities
 ### PositionUtilities::getRangeFromPosition
-> TODO: add doc comment
-
+Gets a Range from 0-indexed position into $text. Out of bounds positions are handled gracefully. Positions greater than the length of text length are resolved to the end of the text, and negative positions are resolved to the beginning.
 ```php
-public static function getRangeFromPosition ( $pos, $length, $text )
+public static function getRangeFromPosition ( $pos, $length, $text ) : Range
 ```
 ### PositionUtilities::getLineCharacterPositionFromPosition
-Get's 0-indexed LineCharacterPosition from 0-indexed position into $text. Out of bounds positions are handled gracefully. Positions greater than the length of text length are resolved to text length, and negative positions are resolved to 0. TODO consider throwing exception instead.
+Gets 0-indexed LineCharacterPosition from 0-indexed position into $text. Out of bounds positions are handled gracefully. Positions greater than the length of text length are resolved to text length, and negative positions are resolved to 0. TODO consider throwing exception instead.
 ```php
 public static function getLineCharacterPositionFromPosition ( $pos, $text ) : LineCharacterPosition
 ```
