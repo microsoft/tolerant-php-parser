@@ -75,7 +75,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first ancestor that is an instance of one of the provided classes.
+     * Gets first ancestor that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -94,7 +94,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first child that is an instance of one of the provided classes.
+     * Gets first child that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -120,7 +120,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get's first descendant node that is an instance of one of the provided classes.
+     * Gets first descendant node that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
      * @param array ...$classNames
@@ -158,7 +158,6 @@ abstract class Node implements \JsonSerializable {
     public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
-
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 yield $child;
@@ -179,8 +178,8 @@ abstract class Node implements \JsonSerializable {
     public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodes() as $child) {
             yield $child;
-            if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {
-                yield from $child->getDescendantNodes();
+            if ($shouldDescendIntoChildrenFn === null || $shouldDescendIntoChildrenFn($child)) {
+                yield from $child->getDescendantNodes($shouldDescendIntoChildrenFn);
             }
         }
     }
@@ -388,6 +387,11 @@ abstract class Node implements \JsonSerializable {
         return $this->getRoot()->uri;
     }
 
+    public function getLastChild() {
+        $a = iterator_to_array($this->getChildNodesAndTokens());
+        return \end($a);
+    }
+
     /**
      * Searches descendants to find a Node at the given position.
      *
@@ -395,15 +399,25 @@ abstract class Node implements \JsonSerializable {
      * @return Node|null
      */
     public function getDescendantNodeAtPosition(int $pos) {
-        $descendants = iterator_to_array($this->getDescendantNodes(), false);
-        for ($i = \count($descendants) - 1; $i >= 0; $i--) {
-            $childNode = $descendants[$i];
-            $start = $childNode->getStart();
-            if ($pos >= $start && $pos <= $childNode->getEndPosition()) {
-                return $childNode;
+        foreach ($this->getChildNodes() as $name => $child) {
+            if ($child->containsPosition($pos)) {
+                $node = $child->getDescendantNodeAtPosition($pos);
+                if (!is_null($node)) {
+                    return $node;
+                }
             }
         }
-        return null;
+
+        return $this;
+    }
+
+    /**
+     * Returns true if the given Node or Token contains the given position.
+     * @param int $pos
+     * @return bool
+     */
+    private function containsPosition(int $pos): bool {
+        return $this->getStart() <= $pos && $pos <= $this->getEndPosition();
     }
 
     /**

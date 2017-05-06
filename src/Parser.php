@@ -106,6 +106,7 @@ use Microsoft\PhpParser\Node\UseVariableName;
 use Microsoft\PhpParser\Node\NamespaceUseClause;
 
 class Parser {
+    /** @var TokenStreamProviderInterface */
     private $lexer;
 
     private $currentParseContext;
@@ -561,7 +562,8 @@ class Parser {
         $classNode->parent = $parentNode;
         $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
         $classNode->classKeyword = $this->eat(TokenKind::ClassKeyword);
-        $classNode->name = $this->eat(TokenKind::Name); // TODO should be any
+        $classNode->name = $this->eat($this->nameOrReservedWordTokens); // TODO should be any
+        $classNode->name->kind = TokenKind::Name;
         $classNode->classBaseClause = $this->parseClassBaseClause($classNode);
         $classNode->classInterfaceClause = $this->parseClassInterfaceClause($classNode);
         $classNode->classMembers = $this->parseClassMembers($classNode);
@@ -2252,7 +2254,7 @@ class Parser {
                 return $this->parsePostfixExpressionRest($expression);
             }
 
-            if ($tokenKind === TokenKind::OpenParenToken) {
+            if ($tokenKind === TokenKind::OpenParenToken && !$this->isParsingObjectCreationExpression) {
                 $expression = $this->parseCallExpressionRest($expression);
 
                 return $this->checkToken(TokenKind::OpenParenToken)
@@ -2382,14 +2384,20 @@ class Parser {
         return $scopedPropertyAccessExpression;
     }
 
+    private $isParsingObjectCreationExpression = false;
+
     private function parseObjectCreationExpression($parentNode) {
         $objectCreationExpression = new ObjectCreationExpression();
         $objectCreationExpression->parent = $parentNode;
         $objectCreationExpression->newKeword = $this->eat(TokenKind::NewKeyword);
+        // TODO - add tests for this scenario
+        $this->isParsingObjectCreationExpression = true;
         $objectCreationExpression->classTypeDesignator =
-            $this->parseQualifiedName($objectCreationExpression) ??
             $this->eatOptional(TokenKind::ClassKeyword) ??
-            $this->parseSimpleVariable($objectCreationExpression);
+            $this->parseExpression($objectCreationExpression);
+
+        $this->isParsingObjectCreationExpression = false;
+
 
         $objectCreationExpression->openParen = $this->eatOptional(TokenKind::OpenParenToken);
         if ($objectCreationExpression->openParen !== null) {

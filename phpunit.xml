@@ -7,11 +7,11 @@
       * OUTPUT: TODO - output failing tests
       -->
       <file>tests/LexerInvariantsTest.php</file>
-      <file>tests/ParserInvariantsTest.php</file>      
+      <file>tests/ParserInvariantsTest.php</file>
     </testsuite>
 
     <testsuite name="grammar">
-      <!-- 
+      <!--
       Tests that we are properly implementing the grammar.
       * INPUT: All files in `tests/cases/**/`
       * OUTPUT: TODO - output failing tests
@@ -31,10 +31,11 @@
 
     <testsuite name="api">
       <file>tests/NodeApiTest.php</file>
+      <file>tests/NodeApiTest_getNodeAtPosition.php</file>
       <file>tests/PositionUtilitiesTest.php</file>
       <file>tests/TextEditTest.php</file>
     </testsuite>
-    
+
     <testsuite name="performance">
       <!-- TODO: Validates that there are no performance regressions. -->
     </testsuite>
