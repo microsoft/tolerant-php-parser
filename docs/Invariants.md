@@ -2,9 +2,9 @@
 > This documentation was auto-generated using this parser to help dogfood the API. Please contribute
  fixes to `tools/PrintInvariants.php` and suggest API improvements.
 
-We define and test both parser and lexer against a set of invariants (characteristics 
-about the produced token set or tree that always hold true, no matter what the input). This set of invariants provides 
-a consistent foundation that makes it easier to ensure the tree is "structurally sound", and confidently 
+We define and test both parser and lexer against a set of invariants (characteristics
+about the produced token set or tree that always hold true, no matter what the input). This set of invariants provides
+a consistent foundation that makes it easier to ensure the tree is "structurally sound", and confidently
 reason about the tree as we continue to build up our understanding.
 
 ## Token Invariants
@@ -33,4 +33,3 @@ reason about the tree as we continue to build up our understanding.
 - Every child is Node or Token type
 - Root node of tree has no parent.
 - root node of tree is never a child.
-- Every Node has a Kind
