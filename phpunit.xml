@@ -32,6 +32,7 @@
     <testsuite name="api">
       <file>tests/NodeApiTest.php</file>
       <file>tests/NodeApiTest_getNodeAtPosition.php</file>
+      <file>tests/NodeApiTest_getResolvedName.php</file>
       <file>tests/PositionUtilitiesTest.php</file>
       <file>tests/TextEditTest.php</file>
     </testsuite>
