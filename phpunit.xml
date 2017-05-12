@@ -30,10 +30,11 @@
     </testsuite>
 
     <testsuite name="api">
-      <file>tests/NodeApiTest.php</file>
-      <file>tests/NodeApiTest_getNodeAtPosition.php</file>
-      <file>tests/PositionUtilitiesTest.php</file>
-      <file>tests/TextEditTest.php</file>
+      <file>tests/api/NodeApiTest.php</file>
+      <file>tests/api/getNodeAtPosition.php</file>
+      <file>tests/api/getResolvedName.php</file>
+      <file>tests/api/PositionUtilitiesTest.php</file>
+      <file>tests/api/TextEditTest.php</file>
     </testsuite>
 
     <testsuite name="performance">
