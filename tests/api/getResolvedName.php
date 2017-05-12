@@ -52,7 +52,7 @@ class GetResolvedNameTest extends TestCase {
         'use A\B; _B\C()' => 'A\B\C',
         'use A\B, B\C; B\D_()' => 'A\B\D',
         'use A\{B, C}; C\D_()' => 'A\C\D',
-        'class Foo { use A, B { \Foo\_Bar::A as _foo }' => 'Foo\Bar',
+        'class Foo { use A, B { \Foo\_Bar::A as foo }' => 'Foo\Bar',
         'use A\B\C; B\_C\D()' => 'B\C\D',
         'namespace Foo; use A\B\C; B\_C\D()' => 'Foo\B\C\D',
         'use A\B; B\C_::foo()' => 'A\B\C',
