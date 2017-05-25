@@ -23,7 +23,7 @@ class AnonymousFunctionUseClause extends Node {
     /** @var Token */
     public $closeParen;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'useKeyword',
         'openParen',
         'useVariableNameList',

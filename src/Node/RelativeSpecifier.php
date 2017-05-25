@@ -16,7 +16,7 @@ class RelativeSpecifier extends Node {
     /** @var Token */
     public $backslash;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'namespaceKeyword',
         'backslash'
     ];

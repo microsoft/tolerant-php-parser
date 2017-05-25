@@ -15,7 +15,7 @@ class ForeachKey extends Node {
     /** @var Token */
     public $arrow;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'expression',
         'arrow'
     ];

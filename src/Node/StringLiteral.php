@@ -19,7 +19,7 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $endQuote;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'startQuote',
         'children',
         'endQuote',

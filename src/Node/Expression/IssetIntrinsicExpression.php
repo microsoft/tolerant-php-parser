@@ -24,7 +24,7 @@ class IssetIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'issetKeyword',
         'openParen',
         'expressions',

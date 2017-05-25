@@ -15,7 +15,7 @@ class NamespaceAliasingClause extends Node {
     /** @var Token */
     public $name;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'asKeyword',
         'name'
     ];

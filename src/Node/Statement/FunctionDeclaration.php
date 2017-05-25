@@ -17,7 +17,7 @@ class FunctionDeclaration extends StatementNode implements NamespacedNameInterfa
     use FunctionHeader, FunctionReturnType, FunctionBody;
     use NamespacedNameTrait;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         // FunctionHeader
         'functionKeyword',
         'byRefToken',

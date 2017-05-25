@@ -23,7 +23,7 @@ class ElseIfClauseNode extends Node {
     /**@var StatementNode | StatementNode[] */
     public $statements;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'elseIfKeyword',
         'openParen',
         'expression',

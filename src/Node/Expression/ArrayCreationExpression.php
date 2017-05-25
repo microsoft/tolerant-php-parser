@@ -24,7 +24,7 @@ class ArrayCreationExpression extends Expression {
     /** @var Token */
     public $closeParenOrBracket;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'arrayKeyword',
         'openParenOrBracket',
         'arrayElements',

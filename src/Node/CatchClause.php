@@ -23,7 +23,7 @@ class CatchClause extends Node {
     /**@var StatementNode */
     public $compoundStatement;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'catch',
         'openParen',
         'qualifiedName',

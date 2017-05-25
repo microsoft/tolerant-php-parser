@@ -12,7 +12,7 @@ class ReservedWord extends Expression {
     /** @var Token[] */
     public $children;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'children'
     ];
 }

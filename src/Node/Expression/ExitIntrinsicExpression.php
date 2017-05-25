@@ -23,7 +23,7 @@ class ExitIntrinsicExpression extends Expression {
     /** @var Token | null */
     public $closeParen;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'exitOrDieKeyword',
         'openParen',
         'expression',

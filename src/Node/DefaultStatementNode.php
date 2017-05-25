@@ -17,7 +17,7 @@ class DefaultStatementNode extends Node {
     /**@var StatementNode[] */
     public $statementList;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'defaultKeyword',
         'defaultLabelTerminator',
         'statementList'

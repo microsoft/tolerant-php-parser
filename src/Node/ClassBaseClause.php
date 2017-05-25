@@ -16,7 +16,7 @@ class ClassBaseClause extends Node {
     /** @var QualifiedName */
     public $baseClass;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'extendsKeyword',
         'baseClass'
     ];

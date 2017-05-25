@@ -19,7 +19,7 @@ class BracedExpression extends Expression {
     /** @var Token */
     public $closeBrace;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'openBrace',
         'expression',
         'closeBrace'

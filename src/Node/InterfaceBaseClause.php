@@ -16,7 +16,7 @@ class InterfaceBaseClause extends Node {
     /** @var DelimitedList\QualifiedNameList */
     public $interfaceNameList;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'extendsKeyword',
         'interfaceNameList'
     ];

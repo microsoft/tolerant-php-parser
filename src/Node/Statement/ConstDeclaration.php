@@ -20,7 +20,7 @@ class ConstDeclaration extends StatementNode {
     /** @var Token */
     public $semicolon;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'constKeyword',
         'constElements',
         'semicolon'
