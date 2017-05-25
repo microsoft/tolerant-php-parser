@@ -26,7 +26,7 @@ class Parameter extends Node {
     /** @var null | Expression */
     public $default;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'typeDeclaration',
         'byRefToken',
         'dotDotDotToken',

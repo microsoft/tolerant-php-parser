@@ -17,7 +17,7 @@ class BreakOrContinueStatement extends StatementNode {
     /** @var Token */
     public $semicolon;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'breakOrContinueKeyword',
         'breakoutLevel',
         'semicolon'

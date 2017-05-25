@@ -13,10 +13,10 @@ use Microsoft\PhpParser\TokenKind;
 class MethodDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
-    
+
     use FunctionHeader, FunctionReturnType, FunctionBody;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'modifiers',
 
         // FunctionHeader

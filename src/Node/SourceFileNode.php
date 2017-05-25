@@ -18,9 +18,9 @@ class SourceFileNode extends Node {
 
     /** @var Node[] */
     public $statementList;
-    
+
     /** @var Token */
     public $endOfFileToken;
 
-    public const CHILD_NAMES = ['statementList', 'endOfFileToken'];
+    const CHILD_NAMES = ['statementList', 'endOfFileToken'];
 }

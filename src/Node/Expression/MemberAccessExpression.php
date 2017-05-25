@@ -20,7 +20,7 @@ class MemberAccessExpression extends Expression {
     /** @var Token */
     public $memberName;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'dereferencableExpression',
         'arrowToken',
         'memberName'

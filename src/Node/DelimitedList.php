@@ -14,7 +14,7 @@ abstract class DelimitedList extends Node {
     /** @var Token[]|Node[] */
     public $children;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'children'
     ];
 

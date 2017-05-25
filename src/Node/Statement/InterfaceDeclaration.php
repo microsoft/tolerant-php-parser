@@ -28,7 +28,7 @@ class InterfaceDeclaration extends StatementNode implements NamespacedNameInterf
     /** @var InterfaceMembers */
     public $interfaceMembers;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'interfaceKeyword',
         'name',
         'interfaceBaseClause',

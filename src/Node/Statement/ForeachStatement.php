@@ -36,7 +36,7 @@ class ForeachStatement extends StatementNode {
     /**@var Token | null */
     public $endForeachSemicolon;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'foreach',
         'openParen',
         'forEachCollectionName',

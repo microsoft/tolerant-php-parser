@@ -10,7 +10,7 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class UseVariableName extends Node {
-    public const CHILD_NAMES = ['byRef', 'variableName'];
+    const CHILD_NAMES = ['byRef', 'variableName'];
 
     /** @var Token | null */
     public $byRef;

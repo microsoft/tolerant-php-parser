@@ -12,7 +12,7 @@ class UnaryExpression extends Expression {
     /** @var UnaryExpression | Variable */
     public $operand;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'operand'
     ];
 }

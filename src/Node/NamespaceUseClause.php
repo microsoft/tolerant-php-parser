@@ -22,7 +22,7 @@ class NamespaceUseClause extends Node {
     /** @var  Token | null */
     public $closeBrace;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'namespaceName',
         'namespaceAliasingClause',
         'openBrace',

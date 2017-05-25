@@ -26,7 +26,7 @@ class TernaryExpression extends Expression {
     /** @var Expression */
     public $elseExpression;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'condition',
         'questionToken',
         'ifExpression',

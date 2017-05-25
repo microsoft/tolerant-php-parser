@@ -18,7 +18,7 @@ class NamespaceDefinition extends StatementNode {
     /** @var CompoundStatementNode | Token */
     public $compoundStatementOrSemicolon;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'namespaceKeyword',
         'name',
         'compoundStatementOrSemicolon'

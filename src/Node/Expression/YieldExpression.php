@@ -17,5 +17,5 @@ class YieldExpression extends Expression {
     /** @var ArrayElement */
     public $arrayElement;
 
-    public const CHILD_NAMES = ['yieldOrYieldFromKeyword', 'arrayElement'];
+    const CHILD_NAMES = ['yieldOrYieldFromKeyword', 'arrayElement'];
 }

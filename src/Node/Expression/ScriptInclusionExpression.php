@@ -15,7 +15,7 @@ class ScriptInclusionExpression extends Expression {
     /** @var Expression */
     public $expression;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'requireOrIncludeKeyword',
         'expression'
     ];

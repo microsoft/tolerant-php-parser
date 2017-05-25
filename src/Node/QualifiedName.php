@@ -26,7 +26,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
     /** @var array */
     public $nameParts;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'globalSpecifier',
         'relativeSpecifier',
         'nameParts'

@@ -26,7 +26,7 @@ class DoStatement extends StatementNode {
     /**@var Token | null */
     public $semicolon;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'do',
         'statement',
         'whileToken',

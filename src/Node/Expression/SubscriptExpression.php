@@ -23,7 +23,7 @@ class SubscriptExpression extends Expression {
     /** @var Token */
     public $closeBracketOrBrace;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'postfixExpression',
         'openBracketOrBrace',
         'accessExpression',

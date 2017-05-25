@@ -11,7 +11,7 @@ use Microsoft\PhpParser\Node\Expression;
 class TemplateExpression extends Expression {
     public $children;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'children'
     ];
 }

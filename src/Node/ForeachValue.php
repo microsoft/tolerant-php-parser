@@ -15,7 +15,7 @@ class ForeachValue extends Node {
     /** @var Expression */
     public $expression;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'ampersand',
         'expression'
     ];

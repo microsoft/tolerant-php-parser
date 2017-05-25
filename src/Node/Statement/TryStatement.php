@@ -21,7 +21,7 @@ class TryStatement extends StatementNode {
     /**@var FinallyClause | null */
     public $finallyClause;
 
-    public const CHILD_NAMES = [
+    const CHILD_NAMES = [
         'tryKeyword',
         'compoundStatement',
         'catchClauses',
