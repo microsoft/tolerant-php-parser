@@ -11,8 +11,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Sara Itani",
-            "email": "sitani@microsoft.com"
+            "name": "Rob Lourens",
+            "email": "roblou@microsoft.com"
         }
     ],
     "autoload": {
