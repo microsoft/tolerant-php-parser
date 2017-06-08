@@ -21,8 +21,8 @@ class DoStatement extends StatementNode {
     public $openParen;
     /** @var Expression */
     public $expression;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
-    /**@var Token | null */
+    /** @var Token | null */
     public $semicolon;
 }

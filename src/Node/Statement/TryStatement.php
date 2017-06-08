@@ -18,6 +18,6 @@ class TryStatement extends StatementNode {
     public $compoundStatement;
     /** @var CatchClause[] | null */
     public $catchClauses;
-    /**@var FinallyClause | null */
+    /** @var FinallyClause | null */
     public $finallyClause;
 }

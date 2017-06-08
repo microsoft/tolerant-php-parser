@@ -25,14 +25,14 @@ class ForStatement extends StatementNode {
     public $exprGroupSemicolon2;
     /** @var Expression | null */
     public $forEndOfLoop;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
-    /**@var StatementNode | StatementNode[] */
+    /** @var StatementNode | StatementNode[] */
     public $statements;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endFor;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endForSemicolon;
 }

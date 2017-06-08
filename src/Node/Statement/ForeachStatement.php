@@ -25,14 +25,14 @@ class ForeachStatement extends StatementNode {
     public $foreachKey;
     /** @var ForeachValue */
     public $foreachValue;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
-    /**@var StatementNode | StatementNode[] */
+    /** @var StatementNode | StatementNode[] */
     public $statements;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endForeach;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endForeachSemicolon;
 }
