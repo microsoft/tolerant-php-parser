@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
 
-abstract class Node implements \JsonSerializable {
+abstract class Node implements \JsonSerializable, \IteratorAggregate {
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
@@ -147,6 +147,15 @@ abstract class Node implements \JsonSerializable {
             $node = $node->parent;
         }
         return $node;
+    }
+
+    /**
+     * Gets an Iterator to iterate all descendant nodes
+     *
+     * @return NodeIterator
+     */
+    public function getIterator() {
+        return new NodeIterator($this);
     }
 
     /**

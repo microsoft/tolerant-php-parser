@@ -35,6 +35,7 @@
       <file>tests/api/getResolvedName.php</file>
       <file>tests/api/PositionUtilitiesTest.php</file>
       <file>tests/api/TextEditTest.php</file>
+      <file>tests/api/NodeIteratorTest.php</file>
     </testsuite>
 
     <testsuite name="performance">
