@@ -42,7 +42,7 @@ Naive example of traversing all nodes in the current scope:
 ```php
 // Find all nodes in the current scope
 $nodesInScopeReIt = new \RecursiveCallbackFilterIterator($node, function ($current, $key, Iterator $iterator) {
-    // Don't traverse into function nodes, they form a differnt scope
+    // Don't traverse into function nodes, they form a different scope
     return !($current instanceof Node\Expression\FunctionDeclaration);
 });
 // Convert the RecursiveIterator to a flat Iterator
@@ -72,4 +72,4 @@ You can convert your iterator to a flat array with
 $arr = iterator_to_array($it, true);
 ```
 
-The `true` ensures that the array is indexed numerically and not by Iterator keys (otherwise Nodes later Nodes with the same key will override previous).
+The `true` ensures that the array is indexed numerically and not by Iterator keys (otherwise later Nodes with the same key will override previous Nodes).
