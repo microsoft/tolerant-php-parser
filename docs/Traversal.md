@@ -64,6 +64,23 @@ foreach ($vars as $var) {
 }
 ```
 
+## Traversing ancestors
+
+Use the `NodeAncestorIterator` to walk the AST upwards from a Node to the root.
+Example that finds the closest namespace Node to a Node:
+
+```php
+use Microsoft\PhpParser\Iterator\NodeAncestorIterator;
+use Microsoft\PhpParser\Node;
+
+foreach (new NodeAncestorIterator($node) as $ancestor) {
+    if ($ancestor instanceof Node\Statement\NamespaceDefinition) {
+        var_dump($ancestor->name);
+        break;
+    }
+}
+```
+
 ## Converting to an array
 
 You can convert your iterator to a flat array with
