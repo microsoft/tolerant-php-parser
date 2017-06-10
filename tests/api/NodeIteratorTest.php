@@ -56,16 +56,16 @@ class NodeIteratorTest extends TestCase {
         $this->assertSame($this->sourceFile->statementList[0], $it->current());
         $it->next();
         
-        // Token(kind=ScriptSectionStartTag)
-        $this->assertTrue($it->valid());
-        $this->assertSame('scriptSectionStartTag', $it->key());
-        $this->assertSame($this->sourceFile->statementList[0]->scriptSectionStartTag, $it->current());
-        $it->next();
-        
         // Token(kind=InlineHtml)
         $this->assertTrue($it->valid());
         $this->assertSame('text', $it->key());
         $this->assertSame($this->sourceFile->statementList[0]->text, $it->current());
+        $it->next();
+        
+        // Token(kind=ScriptSectionStartTag)
+        $this->assertTrue($it->valid());
+        $this->assertSame('scriptSectionStartTag', $it->key());
+        $this->assertSame($this->sourceFile->statementList[0]->scriptSectionStartTag, $it->current());
         $it->next();
 
         // Node\Statement\FunctionDeclaration
