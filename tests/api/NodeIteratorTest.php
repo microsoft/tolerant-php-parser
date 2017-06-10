@@ -5,15 +5,14 @@ use Microsoft\PhpParser\{Parser, NodeIterator, Node};
 
 class NodeIteratorTest extends TestCase {
     
-        const FILE_CONTENTS = <<<'PHP'
-<?php
-function foo($x) {
-    if ($x) {
-        var_dump($x);
-    }
-}
-foo();
-PHP;
+    const FILE_CONTENTS = '
+        <?php
+        function a() {
+            $a = 1;
+            $b = 2;
+        }
+        a();
+    ';
 
     /** @var Node\SourceFileNode */
     private $sourceFile;
@@ -25,59 +24,87 @@ PHP;
 
     public function testIteratesChildren() {
         $iterator = new NodeIterator($this->sourceFile);
-        $this->assertEquals(
-            [
-                $this->sourceFile->statementList[0],
-                $this->sourceFile->statementList[1],
-                $this->sourceFile->statementList[2],
-                $this->sourceFile->endOfFileToken
-            ],
-            iterator_to_array($iterator, false)
-        );
+        $iterator->rewind();
+
+        $this->assertTrue($iterator->valid());
+        $this->assertSame($this->sourceFile->statementList[0], $iterator->current());
+        $iterator->next();
+
+        $this->assertTrue($iterator->valid());
+        $this->assertSame($this->sourceFile->statementList[1], $iterator->current());
+        $iterator->next();
+
+        $this->assertTrue($iterator->valid());
+        $this->assertSame($this->sourceFile->statementList[2], $iterator->current());
+        $iterator->next();
+
+        $this->assertTrue($iterator->valid());
+        $this->assertSame($this->sourceFile->endOfFileToken, $iterator->current());
+        $iterator->next();
+
+        $this->assertFalse($iterator->valid());
     }
 
-    public function testIteratesDescendants() {
-        $iterator = new \RecursiveIteratorIterator(new NodeIterator($this->sourceFile), \RecursiveIteratorIterator::SELF_FIRST);
-        $arr = iterator_to_array($iterator, false);
-        $this->assertEquals(
-            [
-                $this->sourceFile->statementList[0],
-                $this->sourceFile->statementList[1],
-                $this->sourceFile->statementList[1]->functionKeyword,
-                $this->sourceFile->statementList[1]->name,
-                $this->sourceFile->statementList[1]->openParen,
-                $this->sourceFile->statementList[1]->parameters,
-                $this->sourceFile->statementList[1]->parameters->children[0],
-                $this->sourceFile->statementList[1]->closeParen,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->openBrace,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0],
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->ifKeyword,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->openParen,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->expression,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->closeParen,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->openBrace,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0],
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->callableExpression,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->callableExpression->nameParts[0],
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->openParen,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->argumentExpressionList,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->argumentExpressionList->children[0],
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->argumentExpressionList->children[0]->expression,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->argumentExpressionList->children[0]->expression->name,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->expression->closeParen,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->statements[0]->semicolon,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->statements->closeBrace,
-                $this->sourceFile->statementList[1]->compoundStatementOrSemicolon->closeBrace,
-                $this->sourceFile->statementList[2]->expression->callableExpression->nameParts[0],
-                $this->sourceFile->statementList[2]->expression->openParen,
-                $this->sourceFile->statementList[2]->expression->closeParen,
-                $this->sourceFile->statementList[2]->semicolon,
-                $this->sourceFile->endOfFileToken
-            ],
-            $arr
-        );
+    public function testRecursiveIteratorIteratorIteratesDescendants() {
+        
+        $it = new \RecursiveIteratorIterator(new NodeIterator($this->sourceFile), \RecursiveIteratorIterator::SELF_FIRST);
+        $it->rewind();
+        
+        // Node\Statement\InlineHtml 
+        $this->assertTrue($it->valid());
+        $this->assertSame('statementList', $it->key());
+        $this->assertSame($this->sourceFile->statementList[0], $it->current());
+        $it->next();
+        
+        // Token(kind=ScriptSectionStartTag)
+        $this->assertTrue($it->valid());
+        $this->assertSame('scriptSectionStartTag', $it->key());
+        $this->assertSame($this->sourceFile->statementList[0]->scriptSectionStartTag, $it->current());
+        $it->next();
+        
+        // Token(kind=InlineHtml)
+        $this->assertTrue($it->valid());
+        $this->assertSame('text', $it->key());
+        $this->assertSame($this->sourceFile->statementList[0]->text, $it->current());
+        $it->next();
+
+        // Node\Statement\FunctionDeclaration
+        $this->assertTrue($it->valid());
+        $this->assertSame('statementList', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1], $it->current());
+        $it->next();
+
+        // Token(kind=FunctionKeyword)
+        $this->assertTrue($it->valid());
+        $this->assertSame('functionKeyword', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1]->functionKeyword, $it->current());
+        $it->next();
+
+        // Token(kind=Name)
+        $this->assertTrue($it->valid());
+        $this->assertSame('name', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1]->name, $it->current());
+        $it->next();
+
+        // Token(kind=OpenParenToken)
+        $this->assertTrue($it->valid());
+        $this->assertSame('openParen', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1]->openParen, $it->current());
+        $it->next();
+
+        // Token(kind=CloseParenToken)
+        $this->assertTrue($it->valid());
+        $this->assertSame('closeParen', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1]->closeParen, $it->current());
+        $it->next();
+
+        // Node\Statement\CompoundStatementNode
+        $this->assertTrue($it->valid());
+        $this->assertSame('compoundStatementOrSemicolon', $it->key());
+        $this->assertSame($this->sourceFile->statementList[1]->compoundStatementOrSemicolon, $it->current());
+        $it->next();
+
+        // TODO finish
+        $this->markTestIncomplete();
     }
 }

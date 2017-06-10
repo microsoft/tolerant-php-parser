@@ -39,11 +39,13 @@ class NodeIterator implements \RecursiveIterator {
     public function rewind() {
         // Start child names from beginning
         $this->childNamesIterator->rewind();
-        // If there is a child name, start an iterator for its values
-        if ($this->childNamesIterator->valid()) {
+        // Begin new children until found a valid one
+        while ($this->childNamesIterator->valid()) {
             $this->beginChild();
-        } else {
-            $this->valueIterator = new \EmptyIterator();
+            if ($this->valueIterator->valid()) {
+                break;
+            }
+            $this->childNamesIterator->next();
         }
     }
 
@@ -82,17 +84,13 @@ class NodeIterator implements \RecursiveIterator {
     public function next() {
         // Go to next value of current child name
         $this->valueIterator->next();
-        while (!$this->valueIterator->valid()) {
-            // Finished with all values under the current child name
-            // Go to next child name
+        // Begin new children until found a valid one
+        while (!$this->valueIterator->valid() && $this->childNamesIterator->valid()) {
             $this->childNamesIterator->next();
-            // If there still is a child name, iterate its value
-            // Else become invalid
-            if ($this->childNamesIterator->valid()) {
-                $this->beginChild();
-            } else {
-                break;
+            if (!$this->childNamesIterator->valid()) {
+                return;
             }
+            $this->beginChild();
         }
     }
 
@@ -105,8 +103,10 @@ class NodeIterator implements \RecursiveIterator {
         $value = $this->node->{$this->childNamesIterator->current()};
         // Skip null values
         if ($value === null) {
-            $value = [];
-        } else if (!is_array($value)) {
+            $this->valueIterator = new \EmptyIterator();
+            return;
+        }
+        if (!is_array($value)) {
             $value = [$value];
         }
         $this->valueIterator = new \ArrayIterator($value);
