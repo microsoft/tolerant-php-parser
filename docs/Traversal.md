@@ -41,7 +41,7 @@ Naive example of traversing all nodes in the current scope:
 
 ```php
 // Find all nodes in the current scope
-$nodesInScopeReIt = new \RecursiveCallbackFilterIterator($node, function ($current, $key, Iterator $iterator) {
+$nodesInScopeReIt = new \RecursiveCallbackFilterIterator($node, function ($current, string $key, \RecursiveIterator $it) {
     // Don't traverse into function nodes, they form a different scope
     return !($current instanceof Node\Expression\FunctionDeclaration);
 });
@@ -55,7 +55,7 @@ Building on that example, to get all variables in that scope us a non-recursive 
 
 ```php
 // Filter out all variables
-$vars = new \CallbackFilterIterator($it, function ($current, $key, $iterator) {
+$vars = new \CallbackFilterIterator($it, function ($current, string $key, \Iterator $it) {
     return $current instanceof Node\Expression\Variable && $current->name instanceof Token;
 });
 
