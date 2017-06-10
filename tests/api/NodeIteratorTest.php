@@ -1,7 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Microsoft\PhpParser\{Parser, NodeIterator, Node};
+use Microsoft\PhpParser\{Parser, Node};
+use Microsoft\PhpParser\Iterator\NodeIterator;
 
 class NodeIteratorTest extends TestCase {
     

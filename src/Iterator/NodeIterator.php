@@ -1,12 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-namespace Microsoft\PhpParser;
+namespace Microsoft\PhpParser\Iterator;
+
+use Microsoft\PhpParser\{Node, Token};
 
 /**
  * An Iterator to the descendants of a Node
  */
 class NodeIterator implements \RecursiveIterator {
+
+    /**
+     * The Node being iterated
+     *
+     * @var Node
+     */
+    private $node;
 
     /**
      * Iterator used to iterate the child names of a Node
@@ -18,7 +27,7 @@ class NodeIterator implements \RecursiveIterator {
     /**
      * Iterator used to iterate the child nodes at the current child name
      *
-     * @var Iterator|null
+     * @var Iterator
      */
     private $valueIterator;
 
@@ -52,6 +61,8 @@ class NodeIterator implements \RecursiveIterator {
     /**
      * Returns `true` if `current()` can be called to get the current child.
      * Returns `false` if this Node has no more children (direct descendants).
+     *
+     * @return bool
      */
     public function valid() {
         return $this->childNamesIterator->valid() && $this->valueIterator->valid();
