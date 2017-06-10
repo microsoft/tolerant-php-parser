@@ -11,17 +11,17 @@ use Microsoft\PhpParser\Token;
 
 class InlineHtml extends StatementNode {
     /** @var Token | null */
-    public $scriptSectionEndTag;
+    public $scriptSectionStartTag;
 
     /** @var Token */
     public $text;
 
     /** @var Token | null */
-    public $scriptSectionStartTag;
+    public $scriptSectionEndTag;
 
     const CHILD_NAMES = [
-        'scriptSectionEndTag',
+        'scriptSectionStartTag',
         'text',
-        'scriptSectionStartTag'
+        'scriptSectionEndTag'
     ];
 }
