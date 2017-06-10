@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Microsoft\PhpParser;
 
 /**
- * An Iterator to walk a Node and its descendants
+ * An Iterator to the descendants of a Node
  */
 class NodeIterator implements \RecursiveIterator {
 
@@ -123,7 +123,7 @@ class NodeIterator implements \RecursiveIterator {
     }
 
     /**
-     * Returns a NodeIterator for the children of the current Node
+     * Returns a NodeIterator for the children of the current child Node
      *
      * @return NodeIterator
      */
