@@ -22,7 +22,7 @@ class NodeAncestorIteratorTest extends TestCase {
     }
 
     public function testIteratesAncestors() {
-        $it = new NodeAncestorIterator($this->sourceFile);
+        $it = new NodeAncestorIterator($this->sourceFile->statementList[1]->compoundStatementOrSemicolon->statements[0]->expression->leftOperand);
         $it->rewind();
 
         $this->assertTrue($it->valid());
