@@ -155,7 +155,7 @@ abstract class Node implements \JsonSerializable, \IteratorAggregate {
      * @return NodeIterator
      */
     public function getIterator() {
-        return new NodeIterator($this);
+        return new Iterator\NodeIterator($this);
     }
 
     /**
