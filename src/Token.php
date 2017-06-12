@@ -64,6 +64,7 @@ class Token implements \JsonSerializable {
         foreach ($constants as $name => $val) {
             if ($val == $kindName) {
                 $kindName = $name;
+                break;
             }
         }
         return $kindName;
