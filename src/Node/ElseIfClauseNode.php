@@ -16,11 +16,11 @@ class ElseIfClauseNode extends Node {
     public $openParen;
     /** @var Expression */
     public $expression;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
-    /**@var Token | null */
+    /** @var Token | null */
     public $colon;
-    /**@var StatementNode | StatementNode[] */
+    /** @var StatementNode | StatementNode[] */
     public $statements;
 
     const CHILD_NAMES = [

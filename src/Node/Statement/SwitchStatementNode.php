@@ -18,19 +18,19 @@ class SwitchStatementNode extends StatementNode {
     public $openParen;
     /** @var Expression */
     public $expression;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
     /** @var Token | null */
     public $openBrace;
-    /**@var CaseStatementNode[] */
+    /** @var CaseStatementNode[] */
     public $caseStatements;
     /** @var Token | null */
     public $closeBrace;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endswitch;
-    /**@var Token | null */
+    /** @var Token | null */
     public $semicolon;
 
     const CHILD_NAMES = [

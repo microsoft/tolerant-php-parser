@@ -17,15 +17,15 @@ class WhileStatement extends StatementNode {
     public $openParen;
     /** @var Expression */
     public $expression;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
-    /**@var StatementNode | StatementNode[] */
+    /** @var StatementNode | StatementNode[] */
     public $statements;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endWhile;
-    /**@var Token | null */
+    /** @var Token | null */
     public $semicolon;
 
     const CHILD_NAMES = [

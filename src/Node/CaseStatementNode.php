@@ -16,7 +16,7 @@ class CaseStatementNode extends Node {
     public $expression;
     /** @var Token */
     public $defaultLabelTerminator;
-    /**@var StatementNode[] */
+    /** @var StatementNode[] */
     public $statementList;
 
     const CHILD_NAMES = [

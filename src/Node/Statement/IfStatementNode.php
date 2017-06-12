@@ -19,19 +19,19 @@ class IfStatementNode extends StatementNode {
     public $openParen;
     /** @var Expression */
     public $expression;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
     /** @var Token | null */
     public $colon;
-    /**@var StatementNode | StatementNode[] */
+    /** @var StatementNode | StatementNode[] */
     public $statements;
     /** @var ElseIfClauseNode[] */
     public $elseIfClauses;
-    /**@var ElseClauseNode | null */
+    /** @var ElseClauseNode | null */
     public $elseClause;
-    /**@var Token | null */
+    /** @var Token | null */
     public $endifKeyword;
-    /**@var Token | null */
+    /** @var Token | null */
     public $semicolon;
 
     const CHILD_NAMES = [

@@ -18,9 +18,9 @@ class CatchClause extends Node {
     public $qualifiedName;
     /** @var Token */
     public $variableName;
-    /**@var Token */
+    /** @var Token */
     public $closeParen;
-    /**@var StatementNode */
+    /** @var StatementNode */
     public $compoundStatement;
 
     const CHILD_NAMES = [

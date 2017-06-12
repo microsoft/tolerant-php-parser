@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Token;
 class FinallyClause extends Node {
     /** @var Token */
     public $finallyToken;
-    /**@var StatementNode */
+    /** @var StatementNode */
     public $compoundStatement;
 
     const CHILD_NAMES = [
