@@ -64,6 +64,7 @@
                                             "kind": "ColonToken",
                                             "textLength": 1
                                         },
+                                        "questionToken": null,
                                         "returnType": {
                                             "kind": "BoolReservedWord",
                                             "textLength": 4

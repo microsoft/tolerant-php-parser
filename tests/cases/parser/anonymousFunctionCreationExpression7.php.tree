@@ -92,6 +92,7 @@
                                         }
                                     },
                                     "colonToken": null,
+                                    "questionToken": null,
                                     "returnType": null,
                                     "compoundStatementOrSemicolon": {
                                         "CompoundStatementNode": {

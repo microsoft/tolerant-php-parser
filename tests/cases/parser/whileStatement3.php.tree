@@ -58,6 +58,7 @@
                                             "textLength": 1
                                         },
                                         "colonToken": null,
+                                        "questionToken": null,
                                         "returnType": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
@@ -176,6 +177,7 @@
                                             "textLength": 1
                                         },
                                         "colonToken": null,
+                                        "questionToken": null,
                                         "returnType": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {

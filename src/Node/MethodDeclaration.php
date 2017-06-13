@@ -29,6 +29,7 @@ class MethodDeclaration extends Node {
 
         // FunctionReturnType
         'colonToken',
+        'questionToken',
         'returnType',
 
         // FunctionBody

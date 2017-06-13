@@ -598,6 +598,7 @@ class Parser {
         return function ($parentNode) {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
+            $parameter->questionToken = $this->eatOptional(TokenKind::QuestionToken);
             $parameter->typeDeclaration = $this->tryParseParameterTypeDeclaration($parameter);
             $parameter->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
             // TODO add post-parse rule that prevents assignment
@@ -1086,6 +1087,10 @@ class Parser {
 
                 case TokenKind::VariableName:
                     return true;
+
+                // nullable-type
+                case TokenKind::QuestionToken:
+                    return true;
             }
 
             // scalar-type
@@ -1195,45 +1200,46 @@ class Parser {
         return null;
     }
 
-    private function parseFunctionType(Node $functionDefinition, $canBeAbstract = false, $isAnonymous = false) {
-        $functionDefinition->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
-        $functionDefinition->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
-        $functionDefinition->name = $isAnonymous
+    private function parseFunctionType(Node $functionDeclaration, $canBeAbstract = false, $isAnonymous = false) {
+        $functionDeclaration->functionKeyword = $this->eat(TokenKind::FunctionKeyword);
+        $functionDeclaration->byRefToken = $this->eatOptional(TokenKind::AmpersandToken);
+        $functionDeclaration->name = $isAnonymous
             ? $this->eatOptional($this->nameOrKeywordOrReservedWordTokens)
             : $this->eat($this->nameOrKeywordOrReservedWordTokens);
 
-        if (isset($functionDefinition->name)) {
-            $functionDefinition->name->kind = TokenKind::Name;
+        if (isset($functionDeclaration->name)) {
+            $functionDeclaration->name->kind = TokenKind::Name;
         }
 
-        if ($isAnonymous && isset($functionDefinition->name)) {
+        if ($isAnonymous && isset($functionDeclaration->name)) {
             // Anonymous functions should not have names
-            $functionDefinition->name = new SkippedToken($functionDefinition->name); // TODO instaed handle this during post-walk
+            $functionDeclaration->name = new SkippedToken($functionDeclaration->name); // TODO instaed handle this during post-walk
         }
 
-        $functionDefinition->openParen = $this->eat(TokenKind::OpenParenToken);
-        $functionDefinition->parameters = $this->parseDelimitedList(
+        $functionDeclaration->openParen = $this->eat(TokenKind::OpenParenToken);
+        $functionDeclaration->parameters = $this->parseDelimitedList(
             DelimitedList\ParameterDeclarationList::class,
             TokenKind::CommaToken,
             $this->isParameterStartFn(),
             $this->parseParameterFn(),
-            $functionDefinition);
-        $functionDefinition->closeParen = $this->eat(TokenKind::CloseParenToken);
+            $functionDeclaration);
+        $functionDeclaration->closeParen = $this->eat(TokenKind::CloseParenToken);
         if ($isAnonymous) {
-            $functionDefinition->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDefinition);
+            $functionDeclaration->anonymousFunctionUseClause = $this->parseAnonymousFunctionUseClause($functionDeclaration);
         }
 
         if ($this->checkToken(TokenKind::ColonToken)) {
-            $functionDefinition->colonToken = $this->eat(TokenKind::ColonToken);
-            $functionDefinition->returnType = $this->parseReturnTypeDeclaration($functionDefinition);
+            $functionDeclaration->colonToken = $this->eat(TokenKind::ColonToken);
+            $functionDeclaration->questionToken = $this->eatOptional(TokenKind::QuestionToken);
+            $functionDeclaration->returnType = $this->parseReturnTypeDeclaration($functionDeclaration);
         }
 
         if ($canBeAbstract) {
-            $functionDefinition->compoundStatementOrSemicolon = $this->eatOptional(TokenKind::SemicolonToken);
+            $functionDeclaration->compoundStatementOrSemicolon = $this->eatOptional(TokenKind::SemicolonToken);
         }
 
-        if (!isset($functionDefinition->compoundStatementOrSemicolon)) {
-            $functionDefinition->compoundStatementOrSemicolon = $this->parseCompoundStatement($functionDefinition);
+        if (!isset($functionDeclaration->compoundStatementOrSemicolon)) {
+            $functionDeclaration->compoundStatementOrSemicolon = $this->parseCompoundStatement($functionDeclaration);
         }
     }
 

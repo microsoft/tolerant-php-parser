@@ -11,6 +11,8 @@ use Microsoft\PhpParser\Token;
 trait FunctionReturnType {
     /** @var Token */
     public $colonToken;
+    /** @var Token|null */
+    public $questionToken;
     /** @var Token | QualifiedName */
     public $returnType;
 }

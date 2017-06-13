@@ -82,6 +82,7 @@
                                         "kind": "ColonToken",
                                         "textLength": 1
                                     },
+                                    "questionToken": null,
                                     "returnType": {
                                         "kind": "VoidReservedWord",
                                         "textLength": 4
