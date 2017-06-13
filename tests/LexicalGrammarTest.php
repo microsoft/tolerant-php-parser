@@ -33,8 +33,14 @@ class LexicalGrammarTest extends TestCase {
      * @dataProvider lexicalProvider
      */
     public function testOutputTokenClassificationAndLength($testCaseFile, $expectedTokensFile) {
+        $fileContents = file_get_contents($testCaseFile);
+        if (!file_exists($expectedTokensFile)) {
+            file_put_contents($expectedTokensFile, $fileContents);
+            exec("git add " . $expectedTokensFile);
+        }
+
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
-        $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($testCaseFile));
+        $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
         $tokens = str_replace("\r\n", "\n", json_encode($lexer->getTokensArray(), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
