@@ -2397,10 +2397,10 @@ class Parser {
         $this->isParsingObjectCreationExpression = true;
         $objectCreationExpression->classTypeDesignator =
             $this->eatOptional(TokenKind::ClassKeyword) ??
+            $this->eatOptional(TokenKind::StaticKeyword) ??
             $this->parseExpression($objectCreationExpression);
 
         $this->isParsingObjectCreationExpression = false;
-
 
         $objectCreationExpression->openParen = $this->eatOptional(TokenKind::OpenParenToken);
         if ($objectCreationExpression->openParen !== null) {
