@@ -10,17 +10,17 @@ use Microsoft\PhpParser\Iterator\NodeIterator;
 
 $totalSize = 0;
 $directoryIterator = new RecursiveDirectoryIterator(__DIR__ . "/frameworks/WordPress");
-$testProviderArray = array();
+$parser = new \Microsoft\PhpParser\Parser();
+$sourceFiles = array();
 
 foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
     if (strpos($file, ".php")) {
         $totalSize += $file->getSize();
-        $testProviderArray[] = file_get_contents($file->getPathname());
+        $sourceFiles[] = $parser->parseSourceFile(file_get_contents($file->getPathname()));
     }
 }
 
 $asts = [];
-$parser = new \Microsoft\PhpParser\Parser();
 
 $startMemory = memory_get_peak_usage(true);
 $startTime = microtime(true);
@@ -36,8 +36,7 @@ function iterate($node) {
 }
 
 $i = 0;
-foreach ($testProviderArray as $idx=>$testCaseFile) {
-    $sourceFile = $parser->parseSourceFile($testCaseFile);
+foreach ($sourceFiles as $idx=>$sourceFile) {
     $i += iterate($sourceFile);
     $asts[] = $sourceFile;
 

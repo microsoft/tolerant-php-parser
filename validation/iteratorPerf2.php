@@ -8,24 +8,29 @@ require_once(__DIR__ . "/../src/bootstrap.php");
 
 $totalSize = 0;
 $directoryIterator = new RecursiveDirectoryIterator(__DIR__ . "/frameworks/WordPress");
-$testProviderArray = array();
+$sourceFiles = array();
+$parser = new \Microsoft\PhpParser\Parser();
 
 foreach (new RecursiveIteratorIterator($directoryIterator) as $file) {
     if (strpos($file, ".php")) {
         $totalSize += $file->getSize();
-        $testProviderArray[] = file_get_contents($file->getPathname());
+        $sourceFiles[] = $parser->parseSourceFile(file_get_contents($file->getPathname()));
     }
 }
 
 $asts = [];
-$parser = new \Microsoft\PhpParser\Parser();
 
 $startMemory = memory_get_peak_usage(true);
 $startTime = microtime(true);
 
+
 function iterate($n) {
+    // Pass a callback to simulate filtering
+    $cb = function ($n) {
+        return true;
+    };
     $i = 0;
-    foreach ($n->getDescendantNodesAndTokens() as $child) {
+    foreach ($n->getDescendantNodesAndTokens($cb) as $child) {
         $i++;
     }
 
@@ -33,8 +38,7 @@ function iterate($n) {
 }
 
 $i = 0;
-foreach ($testProviderArray as $idx=>$testCaseFile) {
-    $sourceFile = $parser->parseSourceFile($testCaseFile);
+foreach ($sourceFiles as $idx => $sourceFile) {
     $i += iterate($sourceFile);
     $asts[] = $sourceFile;
 
