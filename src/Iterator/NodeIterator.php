@@ -18,26 +18,46 @@ class NodeIterator implements \RecursiveIterator {
     private $node;
 
     /**
-     * Iterator used to iterate the child names of a Node
+     * The current index in the CHILD_NAMES array
      *
-     * @var Iterator
+     * @var int
      */
-    private $childNamesIterator;
+    private $childNamesIndex;
 
     /**
-     * Iterator used to iterate the child nodes at the current child name
+     * The length of the CHILD_NAMES array for the current node
      *
-     * @var Iterator
+     * @var int
      */
-    private $valueIterator;
+    private $childNamesLength;
+
+    /**
+     * The current index of value at the current child name, if the value is an array.
+     * Otherwise null.
+     *
+     * @var int|null
+     */
+    private $valueIndex;
+
+    /**
+     * The length of the array at the current child name, if the value is an array.
+     * Otherwise null.
+     *
+     * @var int|null
+     */
+    private $valueLength;
+
+    private $childNames;
+
+    private $currentChildName;
 
     /**
      * @param Node $node The node that should be iterated
      */
     public function __construct(Node $node) {
         $this->node = $node;
-        $this->childNamesIterator = new \ArrayIterator($node::CHILD_NAMES);
-        $this->valueIterator = new \EmptyIterator();
+        $this->childNames = $node::CHILD_NAMES;
+        $this->childNamesLength = count($node::CHILD_NAMES);
     }
 
     /**
@@ -46,16 +66,8 @@ class NodeIterator implements \RecursiveIterator {
      * @return void
      */
     public function rewind() {
-        // Start child names from beginning
-        $this->childNamesIterator->rewind();
-        // Begin new children until found a valid one
-        while ($this->childNamesIterator->valid()) {
-            $this->beginChild();
-            if ($this->valueIterator->valid()) {
-                break;
-            }
-            $this->childNamesIterator->next();
-        }
+        $this->childNamesIndex = -1;
+        $this->next();
     }
 
     /**
@@ -65,7 +77,7 @@ class NodeIterator implements \RecursiveIterator {
      * @return bool
      */
     public function valid() {
-        return $this->childNamesIterator->valid() && $this->valueIterator->valid();
+        return $this->childNamesIndex < $this->childNamesLength;
     }
 
     /**
@@ -75,7 +87,7 @@ class NodeIterator implements \RecursiveIterator {
      * @return string
      */
     public function key() {
-        return $this->childNamesIterator->current();
+        return $this->childNames[$this->childNamesIndex];
     }
 
     /**
@@ -84,7 +96,11 @@ class NodeIterator implements \RecursiveIterator {
      * @return Node|Token
      */
     public function current() {
-        return $this->valueIterator->current();
+        if ($this->valueIndex === null) {
+            return $this->node->{$this->childNames[$this->childNamesIndex]};
+        } else {
+            return $this->node->{$this->childNames[$this->childNamesIndex]}[$this->valueIndex];
+        }
     }
 
     /**
@@ -93,34 +109,34 @@ class NodeIterator implements \RecursiveIterator {
      * @return void
      */
     public function next() {
-        // Go to next value of current child name
-        $this->valueIterator->next();
-        // Begin new children until found a valid one
-        while (!$this->valueIterator->valid() && $this->childNamesIterator->valid()) {
-            $this->childNamesIterator->next();
-            if (!$this->childNamesIterator->valid()) {
+        if ($this->valueIndex === $this->valueLength) {
+            // If not iterating value array or finished with it, go to next child name
+            $this->childNamesIndex++;
+            if ($this->childNamesIndex === $this->childNamesLength) {
+                // If child names index is invalid, become invalid
                 return;
             }
-            $this->beginChild();
+            $value = $this->node->{$this->childNames[$this->childNamesIndex]};
+            // If new value is null or empty array, skip it
+            if (empty($value)) {
+                $this->next();
+            } else if (is_array($value)) {
+                // If new value is an array, start index at 0
+                $this->valueIndex = 0;
+                $this->valueLength = count($value);
+            } else {
+                // Else reset everything to null
+                $this->valueIndex = null;
+                $this->valueLength = null;
+            }
+        } else {
+            // Else go to next item in value array
+            $this->valueIndex++;
+            // If new value is null or empty array, skip it
+            if (empty($this->node->{$this->childNames[$this->childNamesIndex]}[$this->valueIndex])) {
+                $this->next();
+            }
         }
-    }
-
-    /**
-     * Initializes the Iterator for iterating the values of the current child name
-     *
-     * @return void
-     */
-    private function beginChild() {
-        $value = $this->node->{$this->childNamesIterator->current()};
-        // Skip null values
-        if ($value === null) {
-            $this->valueIterator = new \EmptyIterator();
-            return;
-        }
-        if (!is_array($value)) {
-            $value = [$value];
-        }
-        $this->valueIterator = new \ArrayIterator($value);
     }
 
     /**
@@ -130,7 +146,7 @@ class NodeIterator implements \RecursiveIterator {
      * @return bool
      */
     public function hasChildren(): bool {
-        return $this->valueIterator->current() instanceof Node;
+        return $this->current() instanceof Node;
     }
 
     /**
@@ -139,6 +155,6 @@ class NodeIterator implements \RecursiveIterator {
      * @return NodeIterator
      */
     public function getChildren() {
-        return new NodeIterator($this->valueIterator->current());
+        return new NodeIterator($this->current());
     }
 }
