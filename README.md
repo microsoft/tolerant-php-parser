@@ -134,7 +134,7 @@ operations on the AST to answer questions about your code.
 help you ramp up on the codebase (even if you've never worked on a parser before), 
 and recommended workflows that make it easier to iterate.
 
-<hr>
+---
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact 
 [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
