@@ -31,6 +31,7 @@
                             "children": [
                                 {
                                     "Parameter": {
+                                        "questionToken": null,
                                         "typeDeclaration": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
@@ -48,6 +49,7 @@
                                 },
                                 {
                                     "Parameter": {
+                                        "questionToken": null,
                                         "typeDeclaration": null,
                                         "byRefToken": {
                                             "kind": "AmpersandToken",
@@ -73,6 +75,7 @@
                         "textLength": 1
                     },
                     "colonToken": null,
+                    "questionToken": null,
                     "returnType": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {

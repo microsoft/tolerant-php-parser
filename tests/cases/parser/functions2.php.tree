@@ -35,6 +35,7 @@
                         "kind": "ColonToken",
                         "textLength": 1
                     },
+                    "questionToken": null,
                     "returnType": {
                         "kind": "IntReservedWord",
                         "textLength": 3

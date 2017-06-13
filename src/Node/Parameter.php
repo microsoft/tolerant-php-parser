@@ -10,23 +10,23 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class Parameter extends Node {
+    /** @var Token|null */
+    public $questionToken;
     /** @var QualifiedName | Token | null */
     public $typeDeclaration;
     /** @var Token | null */
     public $byRefToken;
     /** @var Token | null */
     public $dotDotDotToken;
-
     /** @var Token */
     public $variableName;
-
     /** @var Token | null */
     public $equalsToken;
-
     /** @var null | Expression */
     public $default;
 
     const CHILD_NAMES = [
+        'questionToken',
         'typeDeclaration',
         'byRefToken',
         'dotDotDotToken',

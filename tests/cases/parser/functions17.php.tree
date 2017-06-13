@@ -20,7 +20,7 @@
                     "byRefToken": null,
                     "name": {
                         "kind": "Name",
-                        "textLength": 6
+                        "textLength": 1
                     },
                     "openParen": {
                         "kind": "OpenParenToken",
@@ -31,8 +31,22 @@
                             "children": [
                                 {
                                     "Parameter": {
-                                        "questionToken": null,
-                                        "typeDeclaration": null,
+                                        "questionToken": {
+                                            "kind": "QuestionToken",
+                                            "textLength": 1
+                                        },
+                                        "typeDeclaration": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 7
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -49,13 +63,16 @@
                                 },
                                 {
                                     "Parameter": {
-                                        "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "byRefToken": null,
-                                        "dotDotDotToken": {
-                                            "kind": "DotDotDotToken",
+                                        "questionToken": {
+                                            "kind": "QuestionToken",
+                                            "textLength": 1
+                                        },
+                                        "typeDeclaration": {
+                                            "kind": "IntReservedWord",
                                             "textLength": 3
                                         },
+                                        "byRefToken": null,
+                                        "dotDotDotToken": null,
                                         "variableName": {
                                             "kind": "VariableName",
                                             "textLength": 2
@@ -71,16 +88,43 @@
                         "kind": "CloseParenToken",
                         "textLength": 1
                     },
-                    "colonToken": null,
+                    "colonToken": {
+                        "kind": "ColonToken",
+                        "textLength": 1
+                    },
                     "questionToken": null,
-                    "returnType": null,
+                    "returnType": {
+                        "kind": "IntReservedWord",
+                        "textLength": 3
+                    },
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {
                                 "kind": "OpenBraceToken",
                                 "textLength": 1
                             },
-                            "statements": [],
+                            "statements": [
+                                {
+                                    "ReturnStatement": {
+                                        "returnKeyword": {
+                                            "kind": "ReturnKeyword",
+                                            "textLength": 6
+                                        },
+                                        "expression": {
+                                            "NumericLiteral": {
+                                                "children": {
+                                                    "kind": "IntegerLiteralToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        },
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            ],
                             "closeBrace": {
                                 "kind": "CloseBraceToken",
                                 "textLength": 1

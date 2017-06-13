@@ -35,6 +35,7 @@ class AnonymousFunctionCreationExpression extends Expression {
 
         // FunctionReturnType
         'colonToken',
+        'questionToken',
         'returnType',
 
         // FunctionBody

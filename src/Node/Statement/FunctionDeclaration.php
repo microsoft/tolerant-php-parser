@@ -28,6 +28,7 @@ class FunctionDeclaration extends StatementNode implements NamespacedNameInterfa
 
         // FunctionReturnType
         'colonToken',
+        'questionToken',
         'returnType',
 
         // FunctionBody

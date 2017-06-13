@@ -65,6 +65,7 @@
                                             "textLength": 1
                                         },
                                         "colonToken": null,
+                                        "questionToken": null,
                                         "returnType": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",

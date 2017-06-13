@@ -55,6 +55,7 @@
                                                 "children": [
                                                     {
                                                         "Parameter": {
+                                                            "questionToken": null,
                                                             "typeDeclaration": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
@@ -72,6 +73,7 @@
                                                     },
                                                     {
                                                         "Parameter": {
+                                                            "questionToken": null,
                                                             "typeDeclaration": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
@@ -104,6 +106,7 @@
                                             "kind": "ColonToken",
                                             "textLength": 1
                                         },
+                                        "questionToken": null,
                                         "returnType": {
                                             "kind": "BoolReservedWord",
                                             "textLength": 4

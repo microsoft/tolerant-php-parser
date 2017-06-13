@@ -56,6 +56,7 @@
                                             "kind": "ColonToken",
                                             "textLength": 1
                                         },
+                                        "questionToken": null,
                                         "returnType": {
                                             "QualifiedName": {
                                                 "globalSpecifier": null,
