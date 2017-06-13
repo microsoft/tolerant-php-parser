@@ -49,7 +49,7 @@ class NodeIterator implements \RecursiveIterator {
 
     private $childNames;
 
-    private $currentChildName;
+    private $childName;
 
     /**
      * @param Node $node The node that should be iterated
@@ -57,7 +57,7 @@ class NodeIterator implements \RecursiveIterator {
     public function __construct(Node $node) {
         $this->node = $node;
         $this->childNames = $node::CHILD_NAMES;
-        $this->childNamesLength = count($node::CHILD_NAMES);
+        $this->childNamesLength = \count($node::CHILD_NAMES);
     }
 
     /**
@@ -87,7 +87,7 @@ class NodeIterator implements \RecursiveIterator {
      * @return string
      */
     public function key() {
-        return $this->childNames[$this->childNamesIndex];
+        return $this->childName;
     }
 
     /**
@@ -97,9 +97,9 @@ class NodeIterator implements \RecursiveIterator {
      */
     public function current() {
         if ($this->valueIndex === null) {
-            return $this->node->{$this->childNames[$this->childNamesIndex]};
+            return $this->node->{$this->childName};
         } else {
-            return $this->node->{$this->childNames[$this->childNamesIndex]}[$this->valueIndex];
+            return $this->node->{$this->childName}[$this->valueIndex];
         }
     }
 
@@ -116,14 +116,15 @@ class NodeIterator implements \RecursiveIterator {
                 // If child names index is invalid, become invalid
                 return;
             }
-            $value = $this->node->{$this->childNames[$this->childNamesIndex]};
+            $this->childName = $this->childNames[$this->childNamesIndex];
+            $value = $this->node->{$this->childName};
             // If new value is null or empty array, skip it
             if (empty($value)) {
                 $this->next();
-            } else if (is_array($value)) {
+            } else if (\is_array($value)) {
                 // If new value is an array, start index at 0
                 $this->valueIndex = 0;
-                $this->valueLength = count($value);
+                $this->valueLength = \count($value);
             } else {
                 // Else reset everything to null
                 $this->valueIndex = null;
@@ -133,7 +134,7 @@ class NodeIterator implements \RecursiveIterator {
             // Else go to next item in value array
             $this->valueIndex++;
             // If new value is null or empty array, skip it
-            if (empty($this->node->{$this->childNames[$this->childNamesIndex]}[$this->valueIndex])) {
+            if (empty($this->node->{$this->childName}[$this->valueIndex])) {
                 $this->next();
             }
         }
