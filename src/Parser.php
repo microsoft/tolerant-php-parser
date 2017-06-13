@@ -1407,27 +1407,6 @@ class Parser {
 
     private function parseExpressionFn() {
         return function ($parentNode) {
-            $token = $this->getCurrentToken();
-            switch ($token->kind) {
-                // include-expression
-                // include-once-expression
-                // require-expression
-                // require-once-expression
-                case TokenKind::IncludeKeyword:
-                case TokenKind::IncludeOnceKeyword:
-                case TokenKind::RequireKeyword:
-                case TokenKind::RequireOnceKeyword:
-                    $scriptInclusionExpression = new ScriptInclusionExpression();
-                    $scriptInclusionExpression->parent = $parentNode;
-                    $scriptInclusionExpression->requireOrIncludeKeyword =
-                        $this->eat(
-                            TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
-                            TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
-                            );
-                    $scriptInclusionExpression->expression = $this->parseExpression($scriptInclusionExpression);
-                    return $scriptInclusionExpression;
-            }
-
             return $this->parseBinaryExpressionOrHigher(0, $parentNode);
         };
     }
@@ -1501,6 +1480,16 @@ class Parser {
             case TokenKind::YieldKeyword:
             case TokenKind::YieldFromKeyword:
                 return $this->parseYieldExpression($parentNode);
+
+            // include-expression
+            // include-once-expression
+            // require-expression
+            // require-once-expression
+            case TokenKind::IncludeKeyword:
+            case TokenKind::IncludeOnceKeyword:
+            case TokenKind::RequireKeyword:
+            case TokenKind::RequireOnceKeyword:
+                return $this->parseScriptInclusionExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -1985,6 +1974,18 @@ class Parser {
 
         $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
         return $yieldExpression;
+    }
+
+    private function parseScriptInclusionExpression($parentNode) {
+        $scriptInclusionExpression = new ScriptInclusionExpression();
+        $scriptInclusionExpression->parent = $parentNode;
+        $scriptInclusionExpression->requireOrIncludeKeyword =
+            $this->eat(
+                TokenKind::RequireKeyword, TokenKind::RequireOnceKeyword,
+                TokenKind::IncludeKeyword, TokenKind::IncludeOnceKeyword
+                );
+        $scriptInclusionExpression->expression = $this->parseExpression($scriptInclusionExpression);
+        return $scriptInclusionExpression;
     }
 
     private function parseEchoExpression($parentNode) {
