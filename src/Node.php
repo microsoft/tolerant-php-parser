@@ -29,10 +29,10 @@ abstract class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getStart() : int {
+    public function getStartPosition() : int {
         $child = $this->getChildNodesAndTokens()->current();
         if ($child instanceof Node) {
-            return $child->getStart();
+            return $child->getStartPosition();
         } elseif ($child instanceof Token) {
             return $child->start;
         }
@@ -285,7 +285,7 @@ abstract class Node implements \JsonSerializable {
      * @return int
      */
     public function getWidth() : int {
-        $first = $this->getStart();
+        $first = $this->getStartPosition();
         $last = $this->getEndPosition();
 
         return $last - $first;
@@ -308,7 +308,7 @@ abstract class Node implements \JsonSerializable {
      * @return string
      */
     public function getText() : string {
-        $start = $this->getStart();
+        $start = $this->getStartPosition();
         $end = $this->getEndPosition();
 
         $fileContents = $this->getFileContents();
@@ -354,7 +354,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * Get the end index of a Node.
+     * Get the end position of a Node.
      * @return int
      * @throws \Exception
      */
@@ -417,7 +417,7 @@ abstract class Node implements \JsonSerializable {
      * @return bool
      */
     private function containsPosition(int $pos): bool {
-        return $this->getStart() <= $pos && $pos <= $this->getEndPosition();
+        return $this->getStartPosition() <= $pos && $pos <= $this->getEndPosition();
     }
 
     /**
