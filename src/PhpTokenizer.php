@@ -75,7 +75,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
             $pos += $strlen;
 
             if ($parseContext !== null && !$passedPrefix) {
-                $passedPrefix = \count($prefix) < $pos;
+                $passedPrefix = \strlen($prefix) < $pos;
                 if ($passedPrefix) {
                     $fullStart = $start = $pos = $initialPos;
                 }
