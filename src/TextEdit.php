@@ -36,10 +36,14 @@ class TextEdit {
         $prevEditStart = PHP_INT_MAX;
         for ($i = \count($edits) - 1; $i >= 0; $i--) {
             $edit = $edits[$i];
-            \assert(
-                $prevEditStart > $edit->start && $prevEditStart > $edit->start + $edit->length,
-                "Supplied TextEdit[] must not overlap, and be in increasing start position order."
-            );
+
+            if ($prevEditStart < $edit->start || $prevEditStart < $edit->start + $edit->length) {
+                throw new \OutOfBoundsException(sprintf(
+                    'Supplied TextEdit[] "%s" must not overlap and be in increasing start position order.',
+                    $edit->content
+                ));
+            }
+
             if ($edit->start < 0 || $edit->length < 0 || $edit->start + $edit->length > \strlen($text)) {
                 throw new \OutOfBoundsException("Applied TextEdit range out of bounds.");
             }
