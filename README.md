@@ -27,7 +27,7 @@ var_dump($astNode);
 // Gets and prints errors from AST Node. The parser handles errors gracefully,
 // so it can be used in IDE usage scenarios (where code is often incomplete).
 $errors = DiagnosticsProvider::getDiagnostics($astNode);
-var_dump(iterator_to_array($errors));
+var_dump($errors);
 
 // Traverse all Node descendants of $astNode
 foreach ($astNode->getDescendantNodes() as $descendant) {
