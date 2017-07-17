@@ -75,6 +75,27 @@ PHP;
         $this->assertEquals($expected, TextEdit::applyEdits($edits, $content));
     }
 
+    public function testApplyMultipleEditsAtSameOffset() {
+        $content = self::INPUT_TEXT;
+
+        $expected = <<< 'PHP'
+helloawesome<?php
+
+function a () { }
+
+function b () { }
+PHP
+        ;
+        $edits = [
+            new TextEdit(0, 0, "hello"),
+            new TextEdit(0, 0, "awesome"),
+            new TextEdit(0, 0, "")
+        ];
+
+        $this->assertEquals($expected, TextEdit::applyEdits($edits, $content));
+    }
+
+
     public function testApplyingEmptyTextEditArray() {
         $content = self::INPUT_TEXT;
 
@@ -88,7 +109,7 @@ PHP;
             new TextEdit(0, 10, 10),
             new TextEdit(0, 4 ,3)
         ];
-        $this->expectException(AssertionError::class);
+        $this->expectException(OutOfBoundsException::class);
         TextEdit::applyEdits($edits, $content);
     }
 
@@ -98,7 +119,7 @@ PHP;
             new TextEdit(0, 4, 10),
             new TextEdit(0, 10, 10)
         ];
-        $this->expectException(AssertionError::class);
+        $this->expectException(OutOfBoundsException::class);
         TextEdit::applyEdits($edits, $content);
     }
 
