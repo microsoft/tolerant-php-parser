@@ -6,11 +6,12 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\FunctionLike;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 use Microsoft\PhpParser\TokenKind;
 
-class MethodDeclaration extends Node {
+class MethodDeclaration extends Node implements FunctionLike {
     /** @var Token[] */
     public $modifiers;
 
