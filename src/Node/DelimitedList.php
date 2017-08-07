@@ -47,4 +47,17 @@ abstract class DelimitedList extends Node {
         }
         $this->children[] = $node;
     }
+
+    /**
+     * @return Node[]
+     */
+    public function getListElements() {
+        $listElements = [];
+        foreach ($this->children as $child) {
+            if($child instanceof Node) {
+                $listElements[] = $child;
+            }
+        }
+        return $listElements;
+    }
 }
