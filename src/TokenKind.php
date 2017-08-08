@@ -214,6 +214,7 @@ class TokenKind {
     const IntegerLiteralToken = 416;
     const CommentToken = 417;
     const DocCommentToken = 418;
+    const NumStringToken = 419;
 
     // TODO type annotations - PHP7
 }
