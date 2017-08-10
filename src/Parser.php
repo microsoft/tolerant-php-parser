@@ -973,7 +973,7 @@ class Parser {
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
                     if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
-                        $expression->children[] = $this->parseSimpleVariable($parentNode);
+                        $expression->children[] = $this->parseSimpleVariable($expression);
                     } else {
                         $expression->children[] = $this->parseExpression($expression);
                     }
