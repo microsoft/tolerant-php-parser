@@ -796,8 +796,6 @@ class Parser {
                     return $this->checkToken(TokenKind::BackslashToken);
 
                 // literal
-                case TokenKind::TemplateStringStart:
-
                 case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
                 case TokenKind::OctalLiteralToken:
                 case TokenKind::HexadecimalLiteralToken:
@@ -808,10 +806,7 @@ class Parser {
                 case TokenKind::InvalidBinaryLiteral:
                 case TokenKind::IntegerLiteralToken:
 
-                case TokenKind::StringLiteralToken: // TODO merge unterminated
-                case TokenKind::UnterminatedStringLiteralToken:
-                case TokenKind::NoSubstitutionTemplateLiteral:
-                case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+                case TokenKind::StringLiteralToken:
 
                 case TokenKind::SingleQuoteToken:
                 case TokenKind::DoubleQuoteToken:
@@ -854,29 +849,6 @@ class Parser {
         };
     }
 
-    private function parseTemplateString($parentNode) {
-        $templateNode = new TemplateExpression();
-        $templateNode->parent = $parentNode;
-        $templateNode->children = array();
-        do {
-            $templateNode->children[] = $this->getCurrentToken();
-            $this->advanceToken();
-            $token = $this->getCurrentToken();
-
-            if ($token->kind === TokenKind::VariableName) {
-                $templateNode->children[] = $token;
-                // $this->advanceToken();
-                // $token = $this->getCurrentToken();
-                // TODO figure out how to expose this in TokenStreamProviderInterface
-                $this->token = $this->lexer->reScanTemplateToken($token);
-                $token = $this->getCurrentToken();
-            }
-        } while ($token->kind === TokenKind::TemplateStringMiddle);
-
-        $templateNode->children[] = $this->eat(TokenKind::TemplateStringEnd);
-        return $templateNode;
-    }
-
     private function parsePrimaryExpression($parentNode) {
         $token = $this->getCurrentToken();
         switch ($token->kind) {
@@ -891,10 +863,6 @@ class Parser {
             case TokenKind::NamespaceKeyword:
                 return $this->parseQualifiedName($parentNode);
 
-            // literal
-            case TokenKind::TemplateStringStart:
-                return $this->parseTemplateString($parentNode);
-
             case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
             case TokenKind::OctalLiteralToken:
             case TokenKind::HexadecimalLiteralToken:
@@ -906,10 +874,7 @@ class Parser {
             case TokenKind::IntegerLiteralToken:
                 return $this->parseNumericLiteralExpression($parentNode);
 
-            case TokenKind::StringLiteralToken: // TODO merge unterminated
-            case TokenKind::UnterminatedStringLiteralToken:
-            case TokenKind::NoSubstitutionTemplateLiteral:
-            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+            case TokenKind::StringLiteralToken:
                 return $this->parseStringLiteralExpression($parentNode);
 
             case TokenKind::DoubleQuoteToken:
@@ -2004,10 +1969,7 @@ class Parser {
                 TokenKind::InvalidOctalLiteralToken,
                 TokenKind::InvalidHexadecimalLiteral,
                 TokenKind::InvalidBinaryLiteral,
-                TokenKind::StringLiteralToken,
-                TokenKind::UnterminatedStringLiteralToken,
-                TokenKind::NoSubstitutionTemplateLiteral,
-                TokenKind::UnterminatedNoSubstitutionTemplateLiteral
+                TokenKind::StringLiteralToken
             ); // TODO simplify
 
         return $declareDirective;

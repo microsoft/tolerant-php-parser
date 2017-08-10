@@ -156,14 +156,6 @@ class TokenKind {
     const InvalidHexadecimalLiteral = 307;
     const InvalidBinaryLiteral = 308;
     const StringLiteralToken = 309;
-    const UnterminatedStringLiteralToken = 310;
-
-    const TemplateStringStart = 311;
-    const TemplateStringMiddle = 312;
-    const TemplateStringEnd = 313;
-    const NoSubstitutionTemplateLiteral = 314;
-    const UnterminatedNoSubstitutionTemplateLiteral = 315;
-    const UnterminatedTemplateStringEnd = 316;
 
     // RESERVED WORDS
     const IntReservedWord = 317;
