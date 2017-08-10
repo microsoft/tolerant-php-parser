@@ -45,18 +45,13 @@
                                             "textLength": 2
                                         },
                                         {
-                                            "error": "MissingToken",
-                                            "kind": "Expression",
-                                            "textLength": 0
-                                        },
-                                        {
-                                            "error": "MissingToken",
-                                            "kind": "CloseBraceToken",
-                                            "textLength": 0
-                                        },
-                                        {
-                                            "kind": "StringVarname",
-                                            "textLength": 3
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "StringVarname",
+                                                    "textLength": 3
+                                                }
+                                            }
                                         },
                                         {
                                             "kind": "CloseBraceToken",

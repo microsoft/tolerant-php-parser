@@ -1007,7 +1007,11 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    $expression->children[] = $this->parseExpression($expression);
+                    if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
+                        $expression->children[] = $this->parseSimpleVariable($parentNode);
+                    } else {
+                        $expression->children[] = $this->parseExpression($expression);
+                    }
                     $expression->children[] = $this->eat(TokenKind::CloseBraceToken);
                     continue;
                 case $startQuoteKind = $expression->startQuote->kind:
@@ -2027,9 +2031,10 @@ class Parser {
                     $token->kind === TokenKind::OpenBraceToken ?
                         $this->parseBracedExpression($variable) :
                         $this->parseSimpleVariable($variable);
-            } elseif ($token->kind === TokenKind::VariableName) {
-                // TODO consider splitting into dollar and name
-                $variable->name = $this->eat(TokenKind::VariableName);
+            } elseif ($token->kind === TokenKind::VariableName || $token->kind === TokenKind::StringVarname) {
+                // TODO consider splitting into dollar and name.
+                // StringVarname is the variable name without $, used in a template string e.g. `"${foo}"`
+                $variable->name = $this->eat(TokenKind::VariableName, TokenKind::StringVarname);
             } else {
                 $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
             }
