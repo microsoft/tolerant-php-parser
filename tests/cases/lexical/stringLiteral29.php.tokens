@@ -16,7 +16,7 @@
         "textLength": 1
     },
     {
-        "kind": "IntegerLiteralToken",
+        "kind": "Name",
         "textLength": 1
     },
     {

@@ -1015,6 +1015,9 @@ class Parser {
                 case TokenKind::HeredocEnd:
                     $expression->endQuote = $this->eat($startQuoteKind, TokenKind::HeredocEnd);
                     return $expression;
+                case TokenKind::VariableName:
+                    $expression->children[] = $this->parseTemplateStringExpression($expression);
+                    continue;
                 default:
                     $expression->children[] = $this->getCurrentToken();
                     $this->advanceToken();
@@ -1023,6 +1026,71 @@ class Parser {
         }
 
         return $expression;
+    }
+
+    /**
+     * Double-quoted and heredoc strings support a basic set of expression types, described in http://php.net/manual/en/language.types.string.php#language.types.string.parsing
+     * Supported: $x, $x->p, $x[0], $x[$y]
+     * Not supported: $x->p1->p2, $x[0][1], etc.
+     * Since there is a relatively small finite set of allowed forms, I implement it here rather than trying to reuse the general expression parsing code.
+     */
+    private function parseTemplateStringExpression($parentNode) {
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::VariableName) {
+            $var = $this->parseSimpleVariable($parentNode);
+            $token = $this->getCurrentToken();
+            if ($token->kind === TokenKind::OpenBracketToken) {
+                return $this->parseTemplateStringSubscriptExpression($var);
+            } else if ($token->kind === TokenKind::ArrowToken) {
+                return $this->parseTemplateStringMemberAccessExpression($var);
+            } else {
+                return $var;
+            }
+        }
+
+        return null;
+    }
+
+    private function parseTemplateStringSubscriptExpression($postfixExpression) : SubscriptExpression {
+        $subscriptExpression = new SubscriptExpression();
+        $subscriptExpression->parent = $postfixExpression->parent;
+        $postfixExpression->parent = $subscriptExpression;
+
+        $subscriptExpression->postfixExpression = $postfixExpression;
+        $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken); // Only [] syntax is supported, not {}
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::VariableName) {
+            $subscriptExpression->accessExpression = $this->parseSimpleVariable($subscriptExpression);
+        } elseif ($token->kind === TokenKind::IntegerLiteralToken) {
+            $subscriptExpression->accessExpression = $this->parseNumericLiteralExpression($subscriptExpression);
+        } elseif ($token->kind === TokenKind::Name) {
+            $subscriptExpression->accessExpression = $this->parseTemplateStringSubscriptStringLiteral($subscriptExpression);
+        } else {
+            $subscriptExpression->accessExpression = new MissingToken(TokenKind::Expression, $token->fullStart);
+        }
+
+        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBracketToken);
+
+        return $subscriptExpression;
+    }
+
+    private function parseTemplateStringSubscriptStringLiteral($parentNode) : StringLiteral {
+        $expression = new StringLiteral();
+        $expression->parent = $parentNode;
+        $expression->children = $this->eat(TokenKind::Name);
+        return $expression;
+    }
+
+    private function parseTemplateStringMemberAccessExpression($expression) : MemberAccessExpression {
+        $memberAccessExpression = new MemberAccessExpression();
+        $memberAccessExpression->parent = $expression->parent;
+        $expression->parent = $memberAccessExpression;
+
+        $memberAccessExpression->dereferencableExpression = $expression;
+        $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken);
+        $memberAccessExpression->memberName = $this->eat(TokenKind::Name);
+
+        return $memberAccessExpression;
     }
 
     private function parseNumericLiteralExpression($parentNode) {

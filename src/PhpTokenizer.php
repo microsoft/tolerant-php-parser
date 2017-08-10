@@ -295,7 +295,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_STRING_VARNAME    => TokenKind::StringVarname,
         T_COMMENT           => TokenKind::CommentToken,
         T_DOC_COMMENT       => TokenKind::DocCommentToken,
-        T_NUM_STRING        => TokenKind::NumStringToken
+        T_NUM_STRING        => TokenKind::IntegerLiteralToken
     ];
 
     const PARSE_CONTEXT_TO_PREFIX = [
