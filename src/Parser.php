@@ -796,8 +796,6 @@ class Parser {
                     return $this->checkToken(TokenKind::BackslashToken);
 
                 // literal
-                case TokenKind::TemplateStringStart:
-
                 case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
                 case TokenKind::OctalLiteralToken:
                 case TokenKind::HexadecimalLiteralToken:
@@ -808,10 +806,7 @@ class Parser {
                 case TokenKind::InvalidBinaryLiteral:
                 case TokenKind::IntegerLiteralToken:
 
-                case TokenKind::StringLiteralToken: // TODO merge unterminated
-                case TokenKind::UnterminatedStringLiteralToken:
-                case TokenKind::NoSubstitutionTemplateLiteral:
-                case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+                case TokenKind::StringLiteralToken:
 
                 case TokenKind::SingleQuoteToken:
                 case TokenKind::DoubleQuoteToken:
@@ -854,29 +849,6 @@ class Parser {
         };
     }
 
-    private function parseTemplateString($parentNode) {
-        $templateNode = new TemplateExpression();
-        $templateNode->parent = $parentNode;
-        $templateNode->children = array();
-        do {
-            $templateNode->children[] = $this->getCurrentToken();
-            $this->advanceToken();
-            $token = $this->getCurrentToken();
-
-            if ($token->kind === TokenKind::VariableName) {
-                $templateNode->children[] = $token;
-                // $this->advanceToken();
-                // $token = $this->getCurrentToken();
-                // TODO figure out how to expose this in TokenStreamProviderInterface
-                $this->token = $this->lexer->reScanTemplateToken($token);
-                $token = $this->getCurrentToken();
-            }
-        } while ($token->kind === TokenKind::TemplateStringMiddle);
-
-        $templateNode->children[] = $this->eat(TokenKind::TemplateStringEnd);
-        return $templateNode;
-    }
-
     private function parsePrimaryExpression($parentNode) {
         $token = $this->getCurrentToken();
         switch ($token->kind) {
@@ -891,10 +863,6 @@ class Parser {
             case TokenKind::NamespaceKeyword:
                 return $this->parseQualifiedName($parentNode);
 
-            // literal
-            case TokenKind::TemplateStringStart:
-                return $this->parseTemplateString($parentNode);
-
             case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
             case TokenKind::OctalLiteralToken:
             case TokenKind::HexadecimalLiteralToken:
@@ -906,10 +874,7 @@ class Parser {
             case TokenKind::IntegerLiteralToken:
                 return $this->parseNumericLiteralExpression($parentNode);
 
-            case TokenKind::StringLiteralToken: // TODO merge unterminated
-            case TokenKind::UnterminatedStringLiteralToken:
-            case TokenKind::NoSubstitutionTemplateLiteral:
-            case TokenKind::UnterminatedNoSubstitutionTemplateLiteral:
+            case TokenKind::StringLiteralToken:
                 return $this->parseStringLiteralExpression($parentNode);
 
             case TokenKind::DoubleQuoteToken:
@@ -1007,7 +972,11 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    $expression->children[] = $this->parseExpression($expression);
+                    if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
+                        $expression->children[] = $this->parseSimpleVariable($expression);
+                    } else {
+                        $expression->children[] = $this->parseExpression($expression);
+                    }
                     $expression->children[] = $this->eat(TokenKind::CloseBraceToken);
                     continue;
                 case $startQuoteKind = $expression->startQuote->kind:
@@ -1015,6 +984,9 @@ class Parser {
                 case TokenKind::HeredocEnd:
                     $expression->endQuote = $this->eat($startQuoteKind, TokenKind::HeredocEnd);
                     return $expression;
+                case TokenKind::VariableName:
+                    $expression->children[] = $this->parseTemplateStringExpression($expression);
+                    continue;
                 default:
                     $expression->children[] = $this->getCurrentToken();
                     $this->advanceToken();
@@ -1023,6 +995,71 @@ class Parser {
         }
 
         return $expression;
+    }
+
+    /**
+     * Double-quoted and heredoc strings support a basic set of expression types, described in http://php.net/manual/en/language.types.string.php#language.types.string.parsing
+     * Supported: $x, $x->p, $x[0], $x[$y]
+     * Not supported: $x->p1->p2, $x[0][1], etc.
+     * Since there is a relatively small finite set of allowed forms, I implement it here rather than trying to reuse the general expression parsing code.
+     */
+    private function parseTemplateStringExpression($parentNode) {
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::VariableName) {
+            $var = $this->parseSimpleVariable($parentNode);
+            $token = $this->getCurrentToken();
+            if ($token->kind === TokenKind::OpenBracketToken) {
+                return $this->parseTemplateStringSubscriptExpression($var);
+            } else if ($token->kind === TokenKind::ArrowToken) {
+                return $this->parseTemplateStringMemberAccessExpression($var);
+            } else {
+                return $var;
+            }
+        }
+
+        return null;
+    }
+
+    private function parseTemplateStringSubscriptExpression($postfixExpression) : SubscriptExpression {
+        $subscriptExpression = new SubscriptExpression();
+        $subscriptExpression->parent = $postfixExpression->parent;
+        $postfixExpression->parent = $subscriptExpression;
+
+        $subscriptExpression->postfixExpression = $postfixExpression;
+        $subscriptExpression->openBracketOrBrace = $this->eat(TokenKind::OpenBracketToken); // Only [] syntax is supported, not {}
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::VariableName) {
+            $subscriptExpression->accessExpression = $this->parseSimpleVariable($subscriptExpression);
+        } elseif ($token->kind === TokenKind::IntegerLiteralToken) {
+            $subscriptExpression->accessExpression = $this->parseNumericLiteralExpression($subscriptExpression);
+        } elseif ($token->kind === TokenKind::Name) {
+            $subscriptExpression->accessExpression = $this->parseTemplateStringSubscriptStringLiteral($subscriptExpression);
+        } else {
+            $subscriptExpression->accessExpression = new MissingToken(TokenKind::Expression, $token->fullStart);
+        }
+
+        $subscriptExpression->closeBracketOrBrace = $this->eat(TokenKind::CloseBracketToken);
+
+        return $subscriptExpression;
+    }
+
+    private function parseTemplateStringSubscriptStringLiteral($parentNode) : StringLiteral {
+        $expression = new StringLiteral();
+        $expression->parent = $parentNode;
+        $expression->children = $this->eat(TokenKind::Name);
+        return $expression;
+    }
+
+    private function parseTemplateStringMemberAccessExpression($expression) : MemberAccessExpression {
+        $memberAccessExpression = new MemberAccessExpression();
+        $memberAccessExpression->parent = $expression->parent;
+        $expression->parent = $memberAccessExpression;
+
+        $memberAccessExpression->dereferencableExpression = $expression;
+        $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken);
+        $memberAccessExpression->memberName = $this->eat(TokenKind::Name);
+
+        return $memberAccessExpression;
     }
 
     private function parseNumericLiteralExpression($parentNode) {
@@ -1932,10 +1969,7 @@ class Parser {
                 TokenKind::InvalidOctalLiteralToken,
                 TokenKind::InvalidHexadecimalLiteral,
                 TokenKind::InvalidBinaryLiteral,
-                TokenKind::StringLiteralToken,
-                TokenKind::UnterminatedStringLiteralToken,
-                TokenKind::NoSubstitutionTemplateLiteral,
-                TokenKind::UnterminatedNoSubstitutionTemplateLiteral
+                TokenKind::StringLiteralToken
             ); // TODO simplify
 
         return $declareDirective;
@@ -1959,9 +1993,10 @@ class Parser {
                     $token->kind === TokenKind::OpenBraceToken ?
                         $this->parseBracedExpression($variable) :
                         $this->parseSimpleVariable($variable);
-            } elseif ($token->kind === TokenKind::VariableName) {
-                // TODO consider splitting into dollar and name
-                $variable->name = $this->eat(TokenKind::VariableName);
+            } elseif ($token->kind === TokenKind::VariableName || $token->kind === TokenKind::StringVarname) {
+                // TODO consider splitting into dollar and name.
+                // StringVarname is the variable name without $, used in a template string e.g. `"${foo}"`
+                $variable->name = $this->eat(TokenKind::VariableName, TokenKind::StringVarname);
             } else {
                 $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
             }

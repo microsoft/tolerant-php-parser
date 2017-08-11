@@ -289,11 +289,13 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_OBJECT_CAST       => TokenKind::ObjectCastToken,
         T_STRING_CAST       => TokenKind::StringCastToken,
         T_UNSET_CAST        => TokenKind::UnsetCastToken,
+
         T_START_HEREDOC     => TokenKind::HeredocStart,
         T_END_HEREDOC       => TokenKind::HeredocEnd,
-        T_STRING_VARNAME    => TokenKind::VariableName,
+        T_STRING_VARNAME    => TokenKind::StringVarname,
         T_COMMENT           => TokenKind::CommentToken,
-        T_DOC_COMMENT       => TokenKind::DocCommentToken
+        T_DOC_COMMENT       => TokenKind::DocCommentToken,
+        T_NUM_STRING        => TokenKind::IntegerLiteralToken
     ];
 
     const PARSE_CONTEXT_TO_PREFIX = [
