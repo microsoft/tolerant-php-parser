@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
+use Microsoft\PhpParser\ClassLike;
 use Microsoft\PhpParser\NamespacedNameInterface;
 use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node\ClassBaseClause;
@@ -14,7 +15,7 @@ use Microsoft\PhpParser\Node\ClassMembersNode;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-class ClassDeclaration extends StatementNode implements NamespacedNameInterface {
+class ClassDeclaration extends StatementNode implements NamespacedNameInterface, ClassLike {
     use NamespacedNameTrait;
 
     /** @var Token */
