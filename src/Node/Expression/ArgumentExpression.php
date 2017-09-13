@@ -10,10 +10,10 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
 class ArgumentExpression extends Expression {
-    /** @var Token | null */
+    /** @var Token|null */
     public $byRefToken; // TODO removed in newer versions of PHP. Also only accept variable, not expression if byRef
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $dotDotDotToken;
 
     /** @var Expression */

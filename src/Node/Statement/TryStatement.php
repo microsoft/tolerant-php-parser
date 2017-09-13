@@ -16,9 +16,9 @@ class TryStatement extends StatementNode {
     public $tryKeyword;
     /** @var StatementNode */
     public $compoundStatement;
-    /** @var CatchClause[] | null */
+    /** @var CatchClause[]|null */
     public $catchClauses;
-    /** @var FinallyClause | null */
+    /** @var FinallyClause|null */
     public $finallyClause;
 
     const CHILD_NAMES = [

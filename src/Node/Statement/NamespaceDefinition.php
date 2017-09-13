@@ -13,9 +13,9 @@ use Microsoft\PhpParser\Token;
 class NamespaceDefinition extends StatementNode {
     /** @var Token */
     public $namespaceKeyword;
-    /** @var QualifiedName | null */
+    /** @var QualifiedName|null */
     public $name;
-    /** @var CompoundStatementNode | Token */
+    /** @var CompoundStatementNode|Token */
     public $compoundStatementOrSemicolon;
 
     const CHILD_NAMES = [

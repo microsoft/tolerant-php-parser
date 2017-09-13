@@ -11,13 +11,13 @@ use Microsoft\PhpParser\Token;
 
 class ArrayElement extends Node {
 
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $elementKey;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $arrowToken;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $byRef;
 
     /** @var Expression */

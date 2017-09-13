@@ -9,14 +9,14 @@ namespace Microsoft\PhpParser;
 use Microsoft\PhpParser\Node;
 
 class DiagnosticsProvider {
-    /**
-     * Traverses AST to generate diagnostics.
-     * @param \Microsoft\PhpParser\Node $node
-     * @return \Generator | Diagnostic[]
-     */
 
     private static $tokenKindToText;
 
+    /**
+     * Returns the diagnostic for $node, or null.
+     * @param \Microsoft\PhpParser\Node $node
+     * @return Diagnostic|null
+     */
     public static function checkDiagnostics($node) {
         if (!isset(self::$tokenKindToText)) {
             self::$tokenKindToText = \array_flip(\array_merge(
@@ -88,6 +88,11 @@ class DiagnosticsProvider {
         return null;
     }
 
+    /**
+     * Traverses AST to generate diagnostics.
+     * @param \Microsoft\PhpParser\Node $n
+     * @return Diagnostic[]
+     */
     public static function getDiagnostics(Node $n) : array {
         $diagnostics = [];
 

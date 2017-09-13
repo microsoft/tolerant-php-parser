@@ -28,7 +28,7 @@ class TextEdit {
      *
      * Note that after applying edits, the original AST should be invalidated.
      *
-     * @param array | TextEdit[] $edits
+     * @param TextEdit[] $edits
      * @param string $text
      * @return string
      */

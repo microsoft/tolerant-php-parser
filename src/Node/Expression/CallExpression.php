@@ -17,7 +17,7 @@ class CallExpression extends Expression {
     /** @var Token */
     public $openParen;
 
-    /** @var DelimitedList\ArgumentExpressionList | null */
+    /** @var DelimitedList\ArgumentExpressionList|null */
     public $argumentExpressionList;
 
     /** @var Token */

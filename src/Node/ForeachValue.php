@@ -10,7 +10,7 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class ForeachValue extends Node {
-    /** @var Token | null */
+    /** @var Token|null */
     public $ampersand;
     /** @var Expression */
     public $expression;

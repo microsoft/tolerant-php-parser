@@ -13,7 +13,7 @@ class ClassInterfaceClause extends Node {
     /** @var Token */
     public $implementsKeyword;
 
-    /** @var DelimitedList\QualifiedNameList | null */
+    /** @var DelimitedList\QualifiedNameList|null */
     public $interfaceNameList;
 
     const CHILD_NAMES = [

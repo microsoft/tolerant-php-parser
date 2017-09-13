@@ -13,7 +13,7 @@ trait FunctionHeader {
     public $functionKeyword;
     /** @var Token */
     public $byRefToken;
-    /** @var null | Token */
+    /** @var null|Token */
     public $name;
     /** @var Token */
     public $openParen;

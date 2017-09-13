@@ -10,6 +10,6 @@ use Microsoft\PhpParser\Node\Statement\CompoundStatementNode;
 use Microsoft\PhpParser\Token;
 
 trait FunctionBody {
-    /** @var CompoundStatementNode | Token */
+    /** @var CompoundStatementNode|Token */
     public $compoundStatementOrSemicolon;
 }

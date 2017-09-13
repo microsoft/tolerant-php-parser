@@ -16,7 +16,7 @@ abstract class Node implements \JsonSerializable {
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
-    /** @var Node | null */
+    /** @var Node|null */
     public $parent;
 
     public function getNodeKindName() : string {
@@ -187,7 +187,7 @@ abstract class Node implements \JsonSerializable {
     /**
      * Gets generator containing all descendant Tokens.
      * @param callable|null $shouldDescendIntoChildrenFn
-     * @return \Generator | Token[]
+     * @return \Generator|Token[]
      */
     public function getDescendantTokens(callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodesAndTokens() as $child) {
@@ -205,7 +205,7 @@ abstract class Node implements \JsonSerializable {
      * Gets generator containing all child Nodes and Tokens (direct descendants).
      * Does not return null elements.
      *
-     * @return \Generator | Token[] | Node[]
+     * @return \Generator|Token[]|Node[]
      */
     public function getChildNodesAndTokens() : \Generator {
         foreach ($this::CHILD_NAMES as $name) {
@@ -227,7 +227,7 @@ abstract class Node implements \JsonSerializable {
 
     /**
      * Gets generator containing all child Nodes (direct descendants)
-     * @return \Generator | Node[]
+     * @return \Generator|Node[]
      */
     public function getChildNodes() : \Generator {
         foreach ($this::CHILD_NAMES as $name) {
@@ -425,7 +425,7 @@ abstract class Node implements \JsonSerializable {
      * Returns last doc comment in leading comment / whitespace trivia,
      * and returns null if there is no preceding doc comment.
      *
-     * @return string | null
+     * @return string|null
      */
     public function getDocCommentText() {
         $leadingTriviaText = $this->getLeadingCommentAndWhitespaceText();
@@ -446,7 +446,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     /**
-     * @return array | ResolvedName[][]
+     * @return array|ResolvedName[][]
      * @throws \Exception
      */
     public function getImportTablesForCurrentScope() {
@@ -547,7 +547,7 @@ abstract class Node implements \JsonSerializable {
     /**
      * Gets corresponding NamespaceDefinition for Node. Returns null if in global namespace.
      *
-     * @return NamespaceDefinition | null
+     * @return NamespaceDefinition|null
      */
     public function getNamespaceDefinition() {
         $namespaceDefinition = $this instanceof NamespaceDefinition
