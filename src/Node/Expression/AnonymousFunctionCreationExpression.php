@@ -15,7 +15,7 @@ use Microsoft\PhpParser\Node\FunctionUseClause;
 use Microsoft\PhpParser\Token;
 
 class AnonymousFunctionCreationExpression extends Expression implements FunctionLike {
-    /** @var Token | null */
+    /** @var Token|null */
     public $staticModifier;
 
     use FunctionHeader, FunctionUseClause, FunctionReturnType, FunctionBody;

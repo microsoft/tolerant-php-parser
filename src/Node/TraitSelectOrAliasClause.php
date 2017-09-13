@@ -10,7 +10,7 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class TraitSelectOrAliasClause extends Node {
-    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
+    /** @var QualifiedName|Node\Expression\ScopedPropertyAccessExpression */
     public $name;
 
     /** @var Token */
@@ -19,7 +19,7 @@ class TraitSelectOrAliasClause extends Node {
     /** @var Token[] */
     public $modifiers;
 
-    /** @var QualifiedName | Node\Expression\ScopedPropertyAccessExpression */
+    /** @var QualifiedName|Node\Expression\ScopedPropertyAccessExpression */
     public $targetName;
 
     const CHILD_NAMES = [

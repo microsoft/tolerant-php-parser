@@ -19,25 +19,25 @@ class ObjectCreationExpression extends Expression {
     /** @var Token */
     public $newKeword;
 
-    /** @var QualifiedName | Variable | Token */
+    /** @var QualifiedName|Variable|Token */
     public $classTypeDesignator;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $openParen;
 
-    /** @var DelimitedList\ArgumentExpressionList | null  */
+    /** @var DelimitedList\ArgumentExpressionList|null  */
     public $argumentExpressionList;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $closeParen;
 
-    /** @var ClassBaseClause | null */
+    /** @var ClassBaseClause|null */
     public $classBaseClause;
 
-    /** @var ClassInterfaceClause | null */
+    /** @var ClassInterfaceClause|null */
     public $classInterfaceClause;
 
-    /** @var ClassMembersNode | null */
+    /** @var ClassMembersNode|null */
     public $classMembers;
 
     const CHILD_NAMES = [

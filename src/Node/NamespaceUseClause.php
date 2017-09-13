@@ -15,11 +15,11 @@ class NamespaceUseClause extends Node {
     public $namespaceName;
     /** @var NamespaceAliasingClause */
     public $namespaceAliasingClause;
-    /** @var Token | null */
+    /** @var Token|null */
     public $openBrace;
-    /** @var DelimitedList\NamespaceUseGroupClauseList | null */
+    /** @var DelimitedList\NamespaceUseGroupClauseList|null */
     public $groupClauses;
-    /** @var  Token | null */
+    /** @var Token|null */
     public $closeBrace;
 
     const CHILD_NAMES = [

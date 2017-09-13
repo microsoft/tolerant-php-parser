@@ -21,19 +21,19 @@ class ForeachStatement extends StatementNode {
     public $forEachCollectionName;
     /** @var Token */
     public $asKeyword;
-    /** @var ForeachKey | null */
+    /** @var ForeachKey|null */
     public $foreachKey;
     /** @var ForeachValue */
     public $foreachValue;
     /** @var Token */
     public $closeParen;
-    /** @var Token | null */
+    /** @var Token|null */
     public $colon;
-    /** @var StatementNode | StatementNode[] */
+    /** @var StatementNode|StatementNode[] */
     public $statements;
-    /** @var Token | null */
+    /** @var Token|null */
     public $endForeach;
-    /** @var Token | null */
+    /** @var Token|null */
     public $endForeachSemicolon;
 
     const CHILD_NAMES = [

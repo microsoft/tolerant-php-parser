@@ -13,7 +13,7 @@ use Microsoft\PhpParser\Token;
 class ReturnStatement extends StatementNode {
     /** @var Token */
     public $returnKeyword;
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $expression;
     /** @var Token */
     public $semicolon;

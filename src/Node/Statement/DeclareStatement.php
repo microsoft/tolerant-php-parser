@@ -19,13 +19,13 @@ class DeclareStatement extends StatementNode {
     public $declareDirective;
     /** @var Token */
     public $closeParen;
-    /** @var Token | null */
+    /** @var Token|null */
     public $colon;
-    /** @var StatementNode | StatementNode[] */
+    /** @var StatementNode|StatementNode[] */
     public $statements;
-    /** @var Token | null */
+    /** @var Token|null */
     public $enddeclareKeyword;
-    /** @var Token | null */
+    /** @var Token|null */
     public $semicolon;
 
     const CHILD_NAMES = [

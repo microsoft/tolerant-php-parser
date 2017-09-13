@@ -13,6 +13,6 @@ trait FunctionReturnType {
     public $colonToken;
     /** @var Token|null */
     public $questionToken;
-    /** @var Token | QualifiedName */
+    /** @var Token|QualifiedName */
     public $returnType;
 }

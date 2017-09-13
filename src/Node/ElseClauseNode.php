@@ -14,7 +14,7 @@ class ElseClauseNode extends Node {
     public $elseKeyword;
     /** @var Token */
     public $colon;
-    /** @var StatementNode | StatementNode[] */
+    /** @var StatementNode|StatementNode[] */
     public $statements;
 
     const CHILD_NAMES = [

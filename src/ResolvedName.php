@@ -10,7 +10,7 @@ class ResolvedName {
     private $parts = [];
 
     /**
-     * @param array | Token[] $tokens
+     * @param Token[] $tokens
      */
     public static function buildName(array $tokens, $content) : ResolvedName {
         $name = new ResolvedName();

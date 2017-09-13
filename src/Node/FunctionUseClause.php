@@ -7,6 +7,6 @@
 namespace Microsoft\PhpParser\Node;
 
 trait FunctionUseClause {
-    /** @var AnonymousFunctionUseClause | null */
+    /** @var AnonymousFunctionUseClause|null */
     public $anonymousFunctionUseClause;
 }

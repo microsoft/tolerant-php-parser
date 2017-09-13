@@ -14,13 +14,13 @@ class ExitIntrinsicExpression extends Expression {
     /** @var Token */
     public $exitOrDieKeyword;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $openParen;
 
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $expression;
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $closeParen;
 
     const CHILD_NAMES = [

@@ -12,13 +12,13 @@ use Microsoft\PhpParser\Token;
 
 class ScopedPropertyAccessExpression extends Expression {
 
-    /** @var Expression | QualifiedName | Token */
+    /** @var Expression|QualifiedName|Token */
     public $scopeResolutionQualifier;
 
     /** @var Token */
     public $doubleColon;
 
-    /** @var Token | Variable */
+    /** @var Token|Variable */
     public $memberName;
 
     const CHILD_NAMES = [

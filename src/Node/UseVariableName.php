@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Token;
 class UseVariableName extends Node {
     const CHILD_NAMES = ['byRef', 'variableName'];
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $byRef;
 
     /** @var Token */

@@ -15,25 +15,25 @@ class ForStatement extends StatementNode {
     public $for;
     /** @var Token */
     public $openParen;
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $forInitializer;
     /** @var Token */
     public $exprGroupSemicolon1;
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $forControl;
     /** @var Token */
     public $exprGroupSemicolon2;
-    /** @var Expression | null */
+    /** @var Expression|null */
     public $forEndOfLoop;
     /** @var Token */
     public $closeParen;
-    /** @var Token | null */
+    /** @var Token|null */
     public $colon;
-    /** @var StatementNode | StatementNode[] */
+    /** @var StatementNode|StatementNode[] */
     public $statements;
-    /** @var Token | null */
+    /** @var Token|null */
     public $endFor;
-    /** @var Token | null */
+    /** @var Token|null */
     public $endForSemicolon;
 
     const CHILD_NAMES = [

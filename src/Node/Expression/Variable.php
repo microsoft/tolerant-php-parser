@@ -13,7 +13,7 @@ class Variable extends Expression {
     /** @var Token */
     public $dollar;
 
-    /** @var Token | Variable | BracedExpression */
+    /** @var Token|Variable|BracedExpression */
     public $name;
 
     const CHILD_NAMES = [

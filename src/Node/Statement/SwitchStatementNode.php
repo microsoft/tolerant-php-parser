@@ -20,17 +20,17 @@ class SwitchStatementNode extends StatementNode {
     public $expression;
     /** @var Token */
     public $closeParen;
-    /** @var Token | null */
+    /** @var Token|null */
     public $colon;
-    /** @var Token | null */
+    /** @var Token|null */
     public $openBrace;
     /** @var CaseStatementNode[] */
     public $caseStatements;
-    /** @var Token | null */
+    /** @var Token|null */
     public $closeBrace;
-    /** @var Token | null */
+    /** @var Token|null */
     public $endswitch;
-    /** @var Token | null */
+    /** @var Token|null */
     public $semicolon;
 
     const CHILD_NAMES = [

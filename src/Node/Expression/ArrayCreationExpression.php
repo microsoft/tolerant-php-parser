@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Token;
 
 class ArrayCreationExpression extends Expression {
 
-    /** @var Token | null */
+    /** @var Token|null */
     public $arrayKeyword;
 
     /** @var Token */

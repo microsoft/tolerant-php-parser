@@ -14,7 +14,7 @@ class CompoundStatementNode extends StatementNode {
     /** @var Token */
     public $openBrace;
 
-    /** @var array | Node[] */
+    /** @var array|Node[] */
     public $statements;
 
     /** @var Token */
