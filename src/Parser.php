@@ -345,7 +345,6 @@ class Parser {
 
     /**
      * Aborts parsing list when one of the parent contexts understands something
-     * @param ParseContext $context
      * @return bool
      */
     private function isCurrentTokenValidInEnclosingContexts() {
@@ -367,7 +366,7 @@ class Parser {
      * Retrieve the current token, and check that it's of the expected TokenKind.
      * If so, advance and return the token. Otherwise return a MissingToken for
      * the expected token.
-     * @param int $kind
+     * @param int|int[] ...$kinds
      * @return Token
      */
     private function eat(...$kinds) {
@@ -385,6 +384,10 @@ class Parser {
         return new MissingToken($kinds[0], $token->fullStart);
     }
 
+    /**
+     * @param int|int[] ...$kinds (Can provide a single value with a list of kinds, or multiple kinds)
+     * @return Token|null
+     */
     private function eatOptional(...$kinds) {
         $token = $this->token;
         if (\is_array($kinds[0])) {
@@ -849,6 +852,10 @@ class Parser {
         };
     }
 
+    /**
+     * @param Node $parentNode
+     * @return Token|MissingToken|Node
+     */
     private function parsePrimaryExpression($parentNode) {
         $token = $this->getCurrentToken();
         switch ($token->kind) {
@@ -1135,6 +1142,15 @@ class Parser {
         };
     }
 
+    /**
+     * @param string $className (name of subclass of DelimitedList)
+     * @param int $delimiter
+     * @param callable $isElementStartFn
+     * @param callable $parseElementFn
+     * @param Node $parentNode
+     * @param bool $allowEmptyElements
+     * @return DelimitedList|null instance of $className
+     */
     private function parseDelimitedList($className, $delimiter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
         // TODO consider allowing empty delimiter to be more tolerant
         $node = new $className();
@@ -1191,7 +1207,7 @@ class Parser {
                 $node->globalSpecifier = $this->eatOptional(TokenKind::BackslashToken);
             }
 
-            $node->nameParts =
+            $nameParts =
                 $this->parseDelimitedList(
                     DelimitedList\QualifiedNameParts::class,
                     TokenKind::BackslashToken,
@@ -1214,11 +1230,11 @@ class Parser {
                         $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
                         return $name;
                     }, $node);
-            if ($node->nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
+            if ($nameParts === null && $node->globalSpecifier === null && $node->relativeSpecifier === null) {
                 return null;
             }
 
-            $node->nameParts = $node->nameParts ? $node->nameParts->children : [];
+            $node->nameParts = $nameParts ? $nameParts->children : [];
 
             return $node;
         };
