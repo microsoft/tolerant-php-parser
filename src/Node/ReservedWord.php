@@ -9,7 +9,7 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class ReservedWord extends Expression {
-    /** @var Token[] */
+    /** @var Token */
     public $children;
 
     const CHILD_NAMES = [
