@@ -7,6 +7,7 @@
 namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\DelimitedList\ExpressionList;
 use Microsoft\PhpParser\Token;
 
 class EchoExpression extends Expression {
@@ -14,7 +15,7 @@ class EchoExpression extends Expression {
     /** @var Token */
     public $echoKeyword;
 
-    /** @var Expression[] */
+    /** @var ExpressionList */
     public $expressions;
 
     const CHILD_NAMES = [

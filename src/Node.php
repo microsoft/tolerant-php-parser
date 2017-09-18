@@ -78,7 +78,7 @@ abstract class Node implements \JsonSerializable {
      * Gets first ancestor that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
-     * @param array ...$classNames
+     * @param string ...$classNames
      * @return Node|null
      */
     public function getFirstAncestor(...$classNames) {
@@ -139,7 +139,7 @@ abstract class Node implements \JsonSerializable {
 
     /**
      * Gets root of the syntax tree (returns self if has no parents)
-     * @return Node
+     * @return SourceFileNode (expect root to be SourceFileNode unless the tree was manipulated)
      */
     public function getRoot() : Node {
         $node = $this;
@@ -450,7 +450,7 @@ abstract class Node implements \JsonSerializable {
      * @throws \Exception
      */
     public function getImportTablesForCurrentScope() {
-        $namespaceDefinition = $namespaceDefinition ?? $this->getNamespaceDefinition();
+        $namespaceDefinition = $this->getNamespaceDefinition();
 
         // Use declarations can exist in either the global scope, or inside namespace declarations.
         // http://php.net/manual/en/language.namespaces.importing.php#language.namespaces.importing.scope

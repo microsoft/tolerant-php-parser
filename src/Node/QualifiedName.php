@@ -157,7 +157,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
     /**
      * @param ResolvedName[] $importTable
      * @param bool $isCaseSensitive
-     * @return null
+     * @return string|null
      */
     private function tryResolveFromImportTable($importTable, bool $isCaseSensitive = false) {
         $content = $this->getFileContents();

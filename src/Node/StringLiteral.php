@@ -13,7 +13,7 @@ class StringLiteral extends Expression {
     /** @var Token */
     public $startQuote;
 
-    /** @var Token[] | Node[] */
+    /** @var Token[]|Node[]|Token */
     public $children;
 
     /** @var Token */
