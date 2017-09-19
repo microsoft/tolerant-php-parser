@@ -35,7 +35,7 @@ class Token implements \JsonSerializable {
         return substr($document, $this->start, $this->length - ($this->start - $this->fullStart));
     }
 
-    public function getFullText(string & $document) : string {
+    public function getFullText(string $document) : string {
         return substr($document, $this->fullStart, $this->length);
     }
 
@@ -76,7 +76,7 @@ class Token implements \JsonSerializable {
         if (!isset($GLOBALS["SHORT_TOKEN_SERIALIZE"])) {
             $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
         }
-        
+
         if ($GLOBALS["SHORT_TOKEN_SERIALIZE"]) {
             return [
                 "kind" => $kindName,
