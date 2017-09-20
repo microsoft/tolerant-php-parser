@@ -19,7 +19,7 @@ class ParserFrameworkValidationTests extends TestCase {
 
             foreach (new RecursiveIteratorIterator($iterator) as $file) {
                 $pathName = $file->getPathname();
-                if (preg_match('@\.php$@', $pathName) > 0) {
+                if (preg_match('/\.php$/', $pathName) > 0) {
                     // Include files ending in ".php", but don't include XML(foo.phpunit.xml) or binary files (foo.php.gz)
                     $totalSize += $file->getSize();
                     $testProviderArray[$frameworkName . "::" . $file->getBasename()] = [$pathName, $frameworkName];
