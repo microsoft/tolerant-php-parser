@@ -84,6 +84,45 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            else if ($node instanceof Node\Statement\BreakOrContinueStatement) {
+                if ($node->breakoutLevel === null) {
+                    return null;
+                }
+
+                $breakoutLevel = $node->breakoutLevel;
+                while ($breakoutLevel instanceof Node\Expression\ParenthesizedExpression) {
+                    $breakoutLevel = $breakoutLevel->expression;
+                }
+
+                if (
+                    $breakoutLevel instanceof Node\Expression\NumericLiteral
+                    && \in_array($breakoutLevel->children->kind, [
+                        TokenKind::BinaryLiteralToken,
+                        TokenKind::DecimalLiteralToken,
+                        TokenKind::HexadecimalLiteralToken,
+                        TokenKind::OctalLiteralToken,
+                        TokenKind::IntegerLiteralToken
+                    ])
+                    && \intval($breakoutLevel->getText()) > 0
+                ) {
+                    return null;
+                }
+
+                if ($breakoutLevel instanceof Token) {
+                    $start = $breakoutLevel->getStartPosition();
+                }
+                else {
+                    $start = $breakoutLevel->getStart();
+                }
+                $end = $breakoutLevel->getEndPosition();
+
+                return new Diagnostic(
+                    DiagnosticKind::Error,
+                    "Expected positive integer literal.",
+                    $start,
+                    $end - $start
+                );
+            }
         }
         return null;
     }

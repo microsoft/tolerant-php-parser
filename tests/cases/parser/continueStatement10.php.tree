@@ -51,10 +51,22 @@
                                             "textLength": 8
                                         },
                                         "breakoutLevel": {
-                                            "NumericLiteral": {
-                                                "children": {
-                                                    "kind": "IntegerLiteralToken",
-                                                    "textLength": 3
+                                            "ParenthesizedExpression": {
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
+                                                    "textLength": 1
+                                                },
+                                                "expression": {
+                                                    "NumericLiteral": {
+                                                        "children": {
+                                                            "kind": "IntegerLiteralToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
+                                                },
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
                                                 }
                                             }
                                         },

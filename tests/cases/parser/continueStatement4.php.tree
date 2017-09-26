@@ -117,8 +117,12 @@
                                                                                     "textLength": 8
                                                                                 },
                                                                                 "breakoutLevel": {
-                                                                                    "kind": "IntegerLiteralToken",
-                                                                                    "textLength": 2
+                                                                                    "NumericLiteral": {
+                                                                                        "children": {
+                                                                                            "kind": "IntegerLiteralToken",
+                                                                                            "textLength": 2
+                                                                                        }
+                                                                                    }
                                                                                 },
                                                                                 "semicolon": {
                                                                                     "kind": "SemicolonToken",

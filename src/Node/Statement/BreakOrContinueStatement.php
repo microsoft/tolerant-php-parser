@@ -12,7 +12,7 @@ use Microsoft\PhpParser\Token;
 class BreakOrContinueStatement extends StatementNode {
     /** @var Token */
     public $breakOrContinueKeyword;
-    /** @var Token|null */
+    /** @var Expression|null */
     public $breakoutLevel;
     /** @var Token */
     public $semicolon;

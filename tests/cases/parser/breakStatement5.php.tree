@@ -84,8 +84,12 @@
                                                                 "textLength": 5
                                                             },
                                                             "breakoutLevel": {
-                                                                "kind": "FloatingLiteralToken",
-                                                                "textLength": 3
+                                                                "NumericLiteral": {
+                                                                    "children": {
+                                                                        "kind": "FloatingLiteralToken",
+                                                                        "textLength": 3
+                                                                    }
+                                                                }
                                                             },
                                                             "semicolon": {
                                                                 "kind": "SemicolonToken",
