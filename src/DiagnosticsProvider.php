@@ -94,18 +94,25 @@ class DiagnosticsProvider {
                     $breakoutLevel = $breakoutLevel->expression;
                 }
 
-                if (
-                    $breakoutLevel instanceof Node\Expression\NumericLiteral
-                    && \in_array($breakoutLevel->children->kind, [
-                        TokenKind::BinaryLiteralToken,
-                        TokenKind::DecimalLiteralToken,
-                        TokenKind::HexadecimalLiteralToken,
-                        TokenKind::OctalLiteralToken,
-                        TokenKind::IntegerLiteralToken
-                    ])
-                    && \intval($breakoutLevel->getText()) > 0
-                ) {
-                    return null;
+                if ($breakoutLevel instanceof Node\Expression\NumericLiteral) {
+                    $literalString = $breakoutLevel->getText();
+                    if (
+                        $breakoutLevel->children->kind === TokenKind::BinaryLiteralToken
+                        && \bindec(\substr($literalString, 2)) > 0
+                    ) {
+                        return null;
+                    }
+                    else if (
+                        \in_array($breakoutLevel->children->kind, [
+                            TokenKind::DecimalLiteralToken,
+                            TokenKind::HexadecimalLiteralToken,
+                            TokenKind::OctalLiteralToken,
+                            TokenKind::IntegerLiteralToken
+                        ])
+                        && \intval($literalString, 0) > 0
+                    ) {
+                        return null;
+                    }
                 }
 
                 if ($breakoutLevel instanceof Token) {
