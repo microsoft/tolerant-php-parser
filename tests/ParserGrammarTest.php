@@ -12,13 +12,16 @@ class ParserGrammarTest extends TestCase {
     public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
             $GLOBALS["GIT_CHECKOUT_PARSER"] = true;
-            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree");
+            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree *.php.diag");
         }
 
         $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
             function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
+                }
+                if (isset($test->expectedDiagnosticsFile) && isset($test->diagnostics)) {
+                    file_put_contents($test->expectedDiagnosticsFile, str_replace("\r\n", "\n", $test->diagnostics));
                 }
                 parent::addFailure($test, $e, $time);
             }
@@ -31,8 +34,9 @@ class ParserGrammarTest extends TestCase {
     /**
      * @dataProvider treeProvider
      */
-    public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile) {
+    public function testOutputTreeClassificationAndLength($testCaseFile, $expectedTokensFile, $expectedDiagnosticsFile) {
         $this->expectedTokensFile = $expectedTokensFile;
+        $this->expectedDiagnosticsFile = $expectedDiagnosticsFile;
 
         $fileContents = file_get_contents($testCaseFile);
         if (!file_exists($expectedTokensFile)) {
@@ -40,16 +44,30 @@ class ParserGrammarTest extends TestCase {
             exec("git add " . $expectedTokensFile);
         }
 
-        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
+        if (!file_exists($expectedDiagnosticsFile)) {
+            file_put_contents($expectedDiagnosticsFile, $fileContents);
+            exec("git add " . $expectedDiagnosticsFile);
+        }
+
         $parser = new \Microsoft\PhpParser\Parser();
+        $sourceFileNode = $parser->parseSourceFile($fileContents);
+
+        $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
+        $expectedDiagnostics = str_replace("\r\n", "\n", file_get_contents($expectedDiagnosticsFile));
+
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = true;
-        $tokens = str_replace("\r\n", "\n", json_encode($parser->parseSourceFile($fileContents), JSON_PRETTY_PRINT));
+        $tokens = str_replace("\r\n", "\n", json_encode($sourceFileNode, JSON_PRETTY_PRINT));
+        $diagnostics = str_replace("\r\n", "\n", json_encode(\Microsoft\PhpParser\DiagnosticsProvider::getDiagnostics($sourceFileNode), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
+        
         $this->tokens = $tokens;
+        $this->diagnostics = $diagnostics;
 
-        $outputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
-
-        $this->assertEquals($expectedTokens, $tokens, $outputStr);
+        $tokensOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
+        $diagnosticsOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedDiagnosticsFile";
+        
+        $this->assertEquals($expectedTokens, $tokens, $tokensOutputStr);
+        $this->assertEquals($expectedDiagnostics, $diagnostics, $diagnosticsOutputStr);
     }
 
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";
@@ -63,7 +81,7 @@ class ParserGrammarTest extends TestCase {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
             }
-            $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree"];
+            $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
         }
 
         return $testProviderArray;
