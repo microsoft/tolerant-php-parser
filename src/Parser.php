@@ -1865,20 +1865,10 @@ class Parser {
         $continueStatement->parent = $parentNode;
         $continueStatement->breakOrContinueKeyword = $this->eat(TokenKind::ContinueKeyword, TokenKind::BreakKeyword);
 
-        // TODO this level of granularity is unnecessary - integer-literal should be sufficient
-        $continueStatement->breakoutLevel =
-            $this->eatOptional(
-                TokenKind::BinaryLiteralToken,
-                TokenKind::DecimalLiteralToken,
-                TokenKind::InvalidHexadecimalLiteral,
-                TokenKind::InvalidBinaryLiteral,
-                TokenKind::FloatingLiteralToken,
-                TokenKind::HexadecimalLiteralToken,
-                TokenKind::OctalLiteralToken,
-                TokenKind::InvalidOctalLiteralToken,
-                // TODO the parser should be permissive of floating literals, but rule validation should produce error
-                TokenKind::IntegerLiteralToken
-                );
+        if ($this->isExpressionStart($this->getCurrentToken())) {
+            $continueStatement->breakoutLevel = $this->parseExpression($continueStatement);
+        }
+
         $continueStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $continueStatement;

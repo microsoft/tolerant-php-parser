@@ -84,6 +84,52 @@ class DiagnosticsProvider {
                     }
                 }
             }
+            else if ($node instanceof Node\Statement\BreakOrContinueStatement) {
+                if ($node->breakoutLevel === null) {
+                    return null;
+                }
+
+                $breakoutLevel = $node->breakoutLevel;
+                while ($breakoutLevel instanceof Node\Expression\ParenthesizedExpression) {
+                    $breakoutLevel = $breakoutLevel->expression;
+                }
+
+                if ($breakoutLevel instanceof Node\Expression\NumericLiteral) {
+                    $literalString = $breakoutLevel->getText();
+                    if (
+                        $breakoutLevel->children->kind === TokenKind::BinaryLiteralToken
+                        && \bindec(\substr($literalString, 2)) > 0
+                    ) {
+                        return null;
+                    }
+                    else if (
+                        \in_array($breakoutLevel->children->kind, [
+                            TokenKind::DecimalLiteralToken,
+                            TokenKind::HexadecimalLiteralToken,
+                            TokenKind::OctalLiteralToken,
+                            TokenKind::IntegerLiteralToken
+                        ])
+                        && \intval($literalString, 0) > 0
+                    ) {
+                        return null;
+                    }
+                }
+
+                if ($breakoutLevel instanceof Token) {
+                    $start = $breakoutLevel->getStartPosition();
+                }
+                else {
+                    $start = $breakoutLevel->getStart();
+                }
+                $end = $breakoutLevel->getEndPosition();
+
+                return new Diagnostic(
+                    DiagnosticKind::Error,
+                    "Expected positive integer literal.",
+                    $start,
+                    $end - $start
+                );
+            }
         }
         return null;
     }
