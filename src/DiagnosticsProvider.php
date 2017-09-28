@@ -94,23 +94,19 @@ class DiagnosticsProvider {
                     $breakoutLevel = $breakoutLevel->expression;
                 }
 
-                if ($breakoutLevel instanceof Node\Expression\NumericLiteral) {
+                if (
+                    $breakoutLevel instanceof Node\NumericLiteral
+                    && $breakoutLevel->children->kind === TokenKind::IntegerLiteralToken
+                ) {
                     $literalString = $breakoutLevel->getText();
-                    if (
-                        $breakoutLevel->children->kind === TokenKind::BinaryLiteralToken
-                        && \bindec(\substr($literalString, 2)) > 0
-                    ) {
-                        return null;
+                    $firstTwoChars = \substr($literalString, 0, 2);
+
+                    if ($firstTwoChars === '0b' || $firstTwoChars === '0B') {
+                        if (\bindec(\substr($literalString, 2)) > 0) {
+                            return null;
+                        }
                     }
-                    else if (
-                        \in_array($breakoutLevel->children->kind, [
-                            TokenKind::DecimalLiteralToken,
-                            TokenKind::HexadecimalLiteralToken,
-                            TokenKind::OctalLiteralToken,
-                            TokenKind::IntegerLiteralToken
-                        ])
-                        && \intval($literalString, 0) > 0
-                    ) {
+                    else if (\intval($literalString, 0) > 0) {
                         return null;
                     }
                 }
@@ -125,7 +121,7 @@ class DiagnosticsProvider {
 
                 return new Diagnostic(
                     DiagnosticKind::Error,
-                    "Expected positive integer literal.",
+                    "Positive integer literal expected.",
                     $start,
                     $end - $start
                 );
