@@ -2,9 +2,18 @@
 /tests/*.php text eol=lf
 /tests/cases/**/*.php text eol=lf
 
-syntax-visualizer/ export-ignore
-tests/ export-ignore
-validation/ export-ignore
-php-langspec/ export-ignore
-experiments/ export-ignore
-tools/ export-ignore
+/.vscode export-ignore
+/docs export-ignore
+/experiments export-ignore
+/php-langspec export-ignore
+/syntax-visualizer export-ignore
+/tests export-ignore
+/tools export-ignore
+/validation export-ignore
+/.gitattributes
+/.gitignore
+/.gitmodules
+/.travis.yml
+/Contributing.md
+/README.md
+/phpunit.xml
