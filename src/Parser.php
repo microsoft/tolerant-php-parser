@@ -14,6 +14,7 @@ use Microsoft\PhpParser\Node\ClassBaseClause;
 use Microsoft\PhpParser\Node\ClassInterfaceClause;
 use Microsoft\PhpParser\Node\ClassMembersNode;
 use Microsoft\PhpParser\Node\ConstElement;
+use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression\{
     AnonymousFunctionCreationExpression,
     ArgumentExpression,
@@ -1449,6 +1450,11 @@ class Parser {
         return $whileStatement;
     }
 
+    /**
+     * @param Node $parentNode
+     * @param bool $force
+     * @return Node|MissingToken|array - The expression, or a missing token, or (if $force) an array containing a missed and skipped token
+     */
     private function parseExpression($parentNode, $force = false) {
         $token = $this->getCurrentToken();
         if ($token->kind === TokenKind::EndOfFileToken) {
@@ -1470,6 +1476,10 @@ class Parser {
         };
     }
 
+    /**
+     * @param Node $parentNode
+     * @return Expression
+     */
     private function parseUnaryExpressionOrHigher($parentNode) {
         $token = $this->getCurrentToken();
         switch ($token->kind) {
@@ -1555,6 +1565,11 @@ class Parser {
         return $this->parsePostfixExpressionRest($expression);
     }
 
+    /**
+     * @param int $precedence
+     * @param Node $parentNode
+     * @return Expression
+     */
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
         $leftOperand = $this->parseUnaryExpressionOrHigher($parentNode);
 
