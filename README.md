@@ -13,7 +13,7 @@ with the Abstract Syntax Tree (AST) via a friendly API.
 ```php
 <?php
 // Autoload required classes
-require "vendor/autoload.php";
+require __DIR__ . "/vendor/autoload.php";
 
 use Microsoft\PhpParser\{DiagnosticsProvider, Node, Parser, PositionUtilities};
 
