@@ -59,7 +59,8 @@ rather the complete source, which includes tests as well.
 
 ```php
 <?php
-require "vendor/autoload.php"; # autoloads required classes
+// Autoload required classes
+require __DIR__ . "/vendor/autoload.php";
 
 use Microsoft\PhpParser\{DiagnosticsProvider, Parser};
 
