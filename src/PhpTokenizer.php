@@ -7,7 +7,7 @@
 namespace Microsoft\PhpParser;
 
 /**
- * Tokenizes content using PHP's built-in `tokens_get_all`, and converts to "lightweight" Token representation.
+ * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
  *
  * Initially we tried hand-spinning the lexer (see `experiments/Lexer.php`), but we had difficulties optimizing
  * performance (especially when working with Unicode characters.)
@@ -58,7 +58,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
             $passedPrefix = false;
         }
 
-        $tokens = \token_get_all($content);
+        $tokens = @\token_get_all($content);
 
         $arr = array();
         $fullStart = $start = $pos = $initialPos;
