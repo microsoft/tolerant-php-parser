@@ -5,18 +5,22 @@
  *--------------------------------------------------------------------------------------------*/
 
 use Microsoft\PhpParser\Token;
+use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\AssertionFailedError;
 
 class LexicalGrammarTest extends TestCase {
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
-    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
+    public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_LEXER"])) {
             $GLOBALS["GIT_CHECKOUT_LEXER"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
         }
 
-        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
-            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+        $result->addListener(new class() extends BaseTestListener {
+            function addFailure(Test $test, AssertionFailedError $e, $time) {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
                 }
