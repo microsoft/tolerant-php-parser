@@ -6,17 +6,21 @@
 
 use Microsoft\PhpParser\Token;
 use Microsoft\PhpParser\DiagnosticsProvider;
+use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\AssertionFailedError;
 
 class ParserGrammarTest extends TestCase {
-    public function run(PHPUnit_Framework_TestResult $result = null) : PHPUnit_Framework_TestResult {
+    public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
             $GLOBALS["GIT_CHECKOUT_PARSER"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree *.php.diag");
         }
 
-        $result->addListener(new class() extends PHPUnit_Framework_BaseTestListener {
-            function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+        $result->addListener(new class() extends BaseTestListener {
+            function addFailure(Test $test, AssertionFailedError $e, $time) {
                 if (isset($test->expectedTokensFile) && isset($test->tokens)) {
                     file_put_contents($test->expectedTokensFile, str_replace("\r\n", "\n", $test->tokens));
                 }
@@ -59,13 +63,13 @@ class ParserGrammarTest extends TestCase {
         $tokens = str_replace("\r\n", "\n", json_encode($sourceFileNode, JSON_PRETTY_PRINT));
         $diagnostics = str_replace("\r\n", "\n", json_encode(\Microsoft\PhpParser\DiagnosticsProvider::getDiagnostics($sourceFileNode), JSON_PRETTY_PRINT));
         $GLOBALS["SHORT_TOKEN_SERIALIZE"] = false;
-        
+
         $this->tokens = $tokens;
         $this->diagnostics = $diagnostics;
 
         $tokensOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
         $diagnosticsOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedDiagnosticsFile";
-        
+
         $this->assertEquals($expectedTokens, $tokens, $tokensOutputStr);
         $this->assertEquals($expectedDiagnostics, $diagnostics, $diagnosticsOutputStr);
     }
