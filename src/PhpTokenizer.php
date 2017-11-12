@@ -148,7 +148,6 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_CONTINUE => TokenKind::ContinueKeyword,
         T_DECLARE => TokenKind::DeclareKeyword,
         T_DEFAULT => TokenKind::DefaultKeyword,
-        T_EXIT => TokenKind::DieKeyword,
         T_DO => TokenKind::DoKeyword,
         T_ECHO => TokenKind::EchoKeyword,
         T_ELSE => TokenKind::ElseKeyword,
@@ -266,8 +265,6 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_LNUMBER => TokenKind::IntegerLiteralToken,
 
         T_DNUMBER => TokenKind::FloatingLiteralToken,
-
-        T_CONSTANT_ENCAPSED_STRING => TokenKind::StringLiteralToken,
 
         T_OPEN_TAG => TokenKind::ScriptSectionStartTag,
         T_OPEN_TAG_WITH_ECHO => TokenKind::ScriptSectionStartTag,
