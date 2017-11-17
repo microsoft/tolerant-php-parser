@@ -961,8 +961,10 @@ class Parser {
 
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
-                // handle `static::`, `static(`
-                if ($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) {
+                // handle `static::`, `static(`, `new static;`, `instanceof static`
+                if (($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) ||
+                    (!$this->lookahead(TokenKind::FunctionKeyword))
+                ) {
                     return $this->parseQualifiedName($parentNode);
                 }
                 // Could be `static function` anonymous function creation expression, so flow through
@@ -2490,7 +2492,6 @@ class Parser {
         $this->isParsingObjectCreationExpression = true;
         $objectCreationExpression->classTypeDesignator =
             $this->eatOptional1(TokenKind::ClassKeyword) ??
-            $this->eatOptional1(TokenKind::StaticKeyword) ??
             $this->parseExpression($objectCreationExpression);
 
         $this->isParsingObjectCreationExpression = false;

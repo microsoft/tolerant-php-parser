@@ -42,20 +42,14 @@
                                             "nameParts": [
                                                 {
                                                     "kind": "Name",
-                                                    "textLength": 6
+                                                    "textLength": 4
                                                 }
                                             ]
                                         }
                                     },
-                                    "openParen": {
-                                        "kind": "OpenParenToken",
-                                        "textLength": 1
-                                    },
+                                    "openParen": null,
                                     "argumentExpressionList": null,
-                                    "closeParen": {
-                                        "kind": "CloseParenToken",
-                                        "textLength": 1
-                                    },
+                                    "closeParen": null,
                                     "classBaseClause": null,
                                     "classInterfaceClause": null,
                                     "classMembers": null
