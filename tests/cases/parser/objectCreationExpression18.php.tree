@@ -36,15 +36,32 @@
                                         "textLength": 3
                                     },
                                     "classTypeDesignator": {
-                                        "QualifiedName": {
-                                            "globalSpecifier": null,
-                                            "relativeSpecifier": null,
-                                            "nameParts": [
-                                                {
-                                                    "kind": "Name",
-                                                    "textLength": 6
+                                        "ScopedPropertyAccessExpression": {
+                                            "scopeResolutionQualifier": {
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": [
+                                                        {
+                                                            "kind": "Name",
+                                                            "textLength": 4
+                                                        }
+                                                    ]
                                                 }
-                                            ]
+                                            },
+                                            "doubleColon": {
+                                                "kind": "ColonColonToken",
+                                                "textLength": 2
+                                            },
+                                            "memberName": {
+                                                "Variable": {
+                                                    "dollar": null,
+                                                    "name": {
+                                                        "kind": "VariableName",
+                                                        "textLength": 2
+                                                    }
+                                                }
+                                            }
                                         }
                                     },
                                     "openParen": {
