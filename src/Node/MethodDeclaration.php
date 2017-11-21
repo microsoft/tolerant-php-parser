@@ -6,6 +6,9 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\Diagnostic;
+use Microsoft\PhpParser\DiagnosticKind;
+use Microsoft\PhpParser\DiagnosticsProvider;
 use Microsoft\PhpParser\FunctionLike;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
@@ -51,5 +54,23 @@ class MethodDeclaration extends Node implements FunctionLike {
 
     public function getName() {
         return $this->name->getText($this->getFileContents());
+    }
+
+    /**
+     * @return Diagnostic|null - Callers should use DiagnosticsProvider::getDiagnostics instead
+     * @internal
+     * @override
+     */
+    public function getDiagnosticForNode() {
+        foreach ($this->modifiers as $modifier) {
+            if ($modifier->kind === TokenKind::VarKeyword) {
+                return new Diagnostic(
+                    DiagnosticKind::Error,
+                    "Unexpected modifier '" . DiagnosticsProvider::getTextForTokenKind($modifier->kind) . "'",
+                    $modifier->start,
+                    $modifier->length
+                );
+            }
+        }
     }
 }

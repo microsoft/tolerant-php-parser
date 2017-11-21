@@ -13,122 +13,78 @@ class DiagnosticsProvider {
     private static $tokenKindToText;
 
     /**
+     * @param int $kind (must be a valid token kind)
+     * @return string
+     */
+    public static function getTextForTokenKind($kind) {
+        if (!isset(self::$tokenKindToText)) {
+            self::initTokenKindToText();
+        }
+        return self::$tokenKindToText[$kind];
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function initTokenKindToText() {
+        self::$tokenKindToText = \array_flip(\array_merge(
+            TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
+            TokenStringMaps::KEYWORDS,
+            TokenStringMaps::RESERVED_WORDS
+        ));
+    }
+
+    /**
      * Returns the diagnostic for $node, or null.
-     * @param \Microsoft\PhpParser\Node $node
+     * @param \Microsoft\PhpParser\Node|\Microsoft\PhpParser\Token $node
      * @return Diagnostic|null
      */
     public static function checkDiagnostics($node) {
-        if (!isset(self::$tokenKindToText)) {
-            self::$tokenKindToText = \array_flip(\array_merge(
-                TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
-                TokenStringMaps::KEYWORDS,
-                TokenStringMaps::RESERVED_WORDS
-            ));
+        if ($node instanceof Token) {
+            if (\get_class($node) === Token::class) {
+                return null;
+            }
+            return self::checkDiagnosticForUnexpectedToken($node);
         }
 
-        if ($node instanceof SkippedToken) {
+        if ($node instanceof Node) {
+            return $node->getDiagnosticForNode();
+        }
+        return null;
+    }
+
+    /**
+     * @param Token $token
+     * @return Diagnostic|null
+     */
+    private static function checkDiagnosticForUnexpectedToken($token) {
+        if (!isset(self::$tokenKindToText)) {
+            self::initTokenKindToText();
+        }
+        if ($token instanceof SkippedToken) {
             // TODO - consider also attaching parse context information to skipped tokens
             // this would allow us to provide more helpful error messages that inform users what to do
             // about the problem rather than simply pointing out the mistake.
             return new Diagnostic(
                 DiagnosticKind::Error,
                 "Unexpected '" .
-                (self::$tokenKindToText[$node->kind]
-                    ?? Token::getTokenKindNameFromValue($node->kind)) .
+                (self::$tokenKindToText[$token->kind]
+                    ?? Token::getTokenKindNameFromValue($token->kind)) .
                 "'",
-                $node->start,
-                $node->getEndPosition() - $node->start
+                $token->start,
+                $token->getEndPosition() - $token->start
             );
-        } elseif ($node instanceof MissingToken) {
+        } elseif ($token instanceof MissingToken) {
             return new Diagnostic(
                 DiagnosticKind::Error,
                 "'" .
-                (self::$tokenKindToText[$node->kind]
-                    ?? Token::getTokenKindNameFromValue($node->kind)) .
+                (self::$tokenKindToText[$token->kind]
+                    ?? Token::getTokenKindNameFromValue($token->kind)) .
                 "' expected.",
-                $node->start,
-                $node->getEndPosition() - $node->start
+                $token->start,
+                $token->getEndPosition() - $token->start
             );
         }
-
-        if ($node === null || $node instanceof Token) {
-            return null;
-        }
-
-        if ($node instanceof Node) {
-            if ($node instanceof Node\MethodDeclaration) {
-                foreach ($node->modifiers as $modifier) {
-                    if ($modifier->kind === TokenKind::VarKeyword) {
-                        return new Diagnostic(
-                            DiagnosticKind::Error,
-                            "Unexpected modifier '" . self::$tokenKindToText[$modifier->kind] . "'",
-                            $modifier->start,
-                            $modifier->length
-                        );
-                    }
-                }
-            }
-            elseif ($node instanceof Node\Statement\NamespaceUseDeclaration) {
-                if (
-                    $node->useClauses != null
-                    && \count($node->useClauses->children) > 1
-                ) {
-                    foreach ($node->useClauses->children as $useClause) {
-                        if($useClause instanceof Node\NamespaceUseClause && !is_null($useClause->openBrace)) {
-                            return new Diagnostic(
-                                DiagnosticKind::Error,
-                                "; expected.",
-                                $useClause->getEndPosition(),
-                                1
-                            );
-                        }
-                    }
-                }
-            }
-            else if ($node instanceof Node\Statement\BreakOrContinueStatement) {
-                if ($node->breakoutLevel === null) {
-                    return null;
-                }
-
-                $breakoutLevel = $node->breakoutLevel;
-                while ($breakoutLevel instanceof Node\Expression\ParenthesizedExpression) {
-                    $breakoutLevel = $breakoutLevel->expression;
-                }
-
-                if (
-                    $breakoutLevel instanceof Node\NumericLiteral
-                    && $breakoutLevel->children->kind === TokenKind::IntegerLiteralToken
-                ) {
-                    $literalString = $breakoutLevel->getText();
-                    $firstTwoChars = \substr($literalString, 0, 2);
-
-                    if ($firstTwoChars === '0b' || $firstTwoChars === '0B') {
-                        if (\bindec(\substr($literalString, 2)) > 0) {
-                            return null;
-                        }
-                    }
-                    else if (\intval($literalString, 0) > 0) {
-                        return null;
-                    }
-                }
-
-                if ($breakoutLevel instanceof Token) {
-                    $start = $breakoutLevel->getStartPosition();
-                }
-                else {
-                    $start = $breakoutLevel->getStart();
-                }
-                $end = $breakoutLevel->getEndPosition();
-
-                return new Diagnostic(
-                    DiagnosticKind::Error,
-                    "Positive integer literal expected.",
-                    $start,
-                    $end - $start
-                );
-            }
-        }
-        return null;
     }
 
     /**
@@ -139,11 +95,14 @@ class DiagnosticsProvider {
     public static function getDiagnostics(Node $n) : array {
         $diagnostics = [];
 
-        foreach ($n->getDescendantNodesAndTokens() as $node) {
+        /**
+         * @param \Microsoft\PhpParser\Node|\Microsoft\PhpParser\Token $node
+         */
+        $n->walkDescendantNodesAndTokens(function($node) use (&$diagnostics) {
             if (($diagnostic = self::checkDiagnostics($node)) !== null) {
                 $diagnostics[] = $diagnostic;
             }
-        }
+        });
 
         return $diagnostics;
     }
