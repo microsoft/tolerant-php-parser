@@ -10,6 +10,9 @@ use Microsoft\PhpParser\Node;
 
 class DiagnosticsProvider {
 
+    /**
+     * @var string[] maps the token kind to the corresponding name
+     */
     private static $tokenKindToText;
 
     /**
@@ -17,16 +20,14 @@ class DiagnosticsProvider {
      * @return string
      */
     public static function getTextForTokenKind($kind) {
-        if (!isset(self::$tokenKindToText)) {
-            self::initTokenKindToText();
-        }
         return self::$tokenKindToText[$kind];
     }
 
     /**
-     * @return string[]
+     * This is called when this class is loaded, at the bottom of this file.
+     * @return void
      */
-    private static function initTokenKindToText() {
+    public static function initTokenKindToText() {
         self::$tokenKindToText = \array_flip(\array_merge(
             TokenStringMaps::OPERATORS_AND_PUNCTUATORS,
             TokenStringMaps::KEYWORDS,
@@ -58,9 +59,6 @@ class DiagnosticsProvider {
      * @return Diagnostic|null
      */
     private static function checkDiagnosticForUnexpectedToken($token) {
-        if (!isset(self::$tokenKindToText)) {
-            self::initTokenKindToText();
-        }
         if ($token instanceof SkippedToken) {
             // TODO - consider also attaching parse context information to skipped tokens
             // this would allow us to provide more helpful error messages that inform users what to do
@@ -107,3 +105,5 @@ class DiagnosticsProvider {
         return $diagnostics;
     }
 }
+
+DiagnosticsProvider::initTokenKindToText();
