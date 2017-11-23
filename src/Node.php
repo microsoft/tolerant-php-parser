@@ -172,13 +172,14 @@ abstract class Node implements \JsonSerializable {
 
     /**
      * Iterate over all descendant Nodes and Tokens, calling $callback.
-     * This can often be faster than getDescendantNodesAndTokens if you just need to call something and don't be a generator.
+     * This can often be faster than getDescendantNodesAndTokens
+     * if you just need to call something and don't need a generator.
      *
      * @param callable $callback a callback that accepts Node|Token
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return void
      */
-    public function walkDescendantNodesAndTokens(\Closure $callback, callable $shouldDescendIntoChildrenFn = null) {
+    public function walkDescendantNodesAndTokens(callable $callback, callable $shouldDescendIntoChildrenFn = null) {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
         foreach (static::CHILD_NAMES as $name) {
