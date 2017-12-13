@@ -48,11 +48,10 @@ abstract class Node implements \JsonSerializable {
         foreach($this::CHILD_NAMES as $name) {
             if (($child = $this->$name) !== null) {
                 if (\is_array($child)) {
-                    if (isset($child[0])) {
-                        $child = $child[0];
-                    } else {
+                    if(!isset($child[0])) {
                         continue;
                     }
+                    $child = $child[0];
                 }
                 if ($child instanceof Node) {
                     return $child->getFullStart();
