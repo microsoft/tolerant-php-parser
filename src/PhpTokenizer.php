@@ -107,9 +107,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                         continue;
                     }
 
-                    $newTokenKind = isset(self::TOKEN_MAP[$tokenKind])
-                        ? self::TOKEN_MAP[$tokenKind]
-                        : $newTokenKind = TokenKind::Unknown;
+                    $newTokenKind = self::TOKEN_MAP[$tokenKind] ?? TokenKind::Unknown;
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
                     continue;
