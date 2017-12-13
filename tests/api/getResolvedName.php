@@ -82,7 +82,7 @@ class GetResolvedNameTest extends TestCase {
      */
     public function testGetResolvedName($contents, $expectedName) {
         $node = $this->getNodeAtPosition($contents);
-        $this->assertTrue($node instanceof Node\QualifiedName, "Node is not QualifiedName: " . get_class($node));
+        $this->assertInstanceOf(Node\QualifiedName::class, $node);
 
         $name = $node->getResolvedName();
         $this->assertEquals($expectedName, (string)$name);
@@ -91,7 +91,7 @@ class GetResolvedNameTest extends TestCase {
     private function getNodeAtPosition($contents): Node {
         $parser = new Parser();
         $pos = strpos($contents, '_');
-        $this->assertTrue($pos != FALSE, 'Data is missing underscore');
+        $this->assertNotFalse($pos, 'Data is missing underscore');
         $contents = str_replace('_', '', $contents);
 
         $node = $parser->parseSourceFile($contents);
