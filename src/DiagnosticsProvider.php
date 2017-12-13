@@ -33,9 +33,8 @@ class DiagnosticsProvider {
             return new Diagnostic(
                 DiagnosticKind::Error,
                 "Unexpected '" .
-                (isset(self::$tokenKindToText[$node->kind])
-                    ? self::$tokenKindToText[$node->kind]
-                    : Token::getTokenKindNameFromValue($node->kind)) .
+                (self::$tokenKindToText[$node->kind]
+                    ?? Token::getTokenKindNameFromValue($node->kind)) .
                 "'",
                 $node->start,
                 $node->getEndPosition() - $node->start
@@ -44,9 +43,8 @@ class DiagnosticsProvider {
             return new Diagnostic(
                 DiagnosticKind::Error,
                 "'" .
-                (isset(self::$tokenKindToText[$node->kind])
-                    ? self::$tokenKindToText[$node->kind]
-                    : Token::getTokenKindNameFromValue($node->kind)) .
+                (self::$tokenKindToText[$node->kind]
+                    ?? Token::getTokenKindNameFromValue($node->kind)) .
                 "' expected.",
                 $node->start,
                 $node->getEndPosition() - $node->start
