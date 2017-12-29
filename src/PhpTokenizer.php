@@ -66,10 +66,10 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         foreach ($tokens as $token) {
             if (\is_array($token)) {
                 $tokenKind = $token[0];
-                $strlen = \strlen($token[1]);
+                $strlen = \mb_strlen($token[1]);
             } else {
                 $tokenKind = $token;
-                $strlen = \strlen($token);
+                $strlen = \mb_strlen($token);
             }
 
             $pos += $strlen;
