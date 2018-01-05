@@ -15,23 +15,23 @@ namespace Microsoft\PhpParser;
 class FilePositionMap
 {
     /** @var string the full file contents */
-    private $file_contents;
+    private $fileContents;
 
     /** @var int - Precomputed strlen($file_contents) */
-    private $file_contents_length;
+    private $fileContentsLength;
 
     /** @var int the 0-based byte offset of the most recent request for a line number. */
-    private $current_offset;
+    private $currentOffset;
 
-    /** @var int the line number for $this->current_offset (updated whenever current_offset is updated) */
-    private $line_for_current_offset;
+    /** @var int the line number for $this->currentOffset (updated whenever currentOffset is updated) */
+    private $lineForCurrentOffset;
 
     public function __construct(string $file_contents)
     {
-        $this->file_contents = $file_contents;
-        $this->file_contents_length = \strlen($file_contents);
-        $this->current_offset = 0;
-        $this->line_for_current_offset = 1;
+        $this->fileContents = $file_contents;
+        $this->fileContentsLength = \strlen($file_contents);
+        $this->currentOffset = 0;
+        $this->lineForCurrentOffset = 1;
     }
 
     /**
@@ -110,18 +110,18 @@ class FilePositionMap
     {
         if ($offset < 0) {
             $offset = 0;
-        } elseif ($offset > $this->file_contents_length) {
-            $offset = $this->file_contents_length;
+        } elseif ($offset > $this->fileContentsLength) {
+            $offset = $this->fileContentsLength;
         }
-        $current_offset = $this->current_offset;
-        if ($offset > $current_offset) {
-            $this->line_for_current_offset += \substr_count($this->file_contents, "\n", $current_offset, $offset - $current_offset);
-            $this->current_offset = $offset;
-        } elseif ($offset < $current_offset) {
-            $this->line_for_current_offset -= \substr_count($this->file_contents, "\n", $offset, $current_offset - $offset);
-            $this->current_offset = $offset;
+        $currentOffset = $this->currentOffset;
+        if ($offset > $currentOffset) {
+            $this->lineForCurrentOffset += \substr_count($this->fileContents, "\n", $currentOffset, $offset - $currentOffset);
+            $this->currentOffset = $offset;
+        } elseif ($offset < $currentOffset) {
+            $this->lineForCurrentOffset -= \substr_count($this->fileContents, "\n", $offset, $currentOffset - $offset);
+            $this->currentOffset = $offset;
         }
-        return $this->line_for_current_offset;
+        return $this->lineForCurrentOffset;
     }
 
     /**
@@ -129,7 +129,7 @@ class FilePositionMap
      */
     public function getColumnForOffset(int $offset) : int
     {
-        $length = $this->file_contents_length;
+        $length = $this->fileContentsLength;
         if ($offset <= 1) {
             return 1;
         } elseif ($offset > $length) {
@@ -140,7 +140,7 @@ class FilePositionMap
 
         // Start strrpos check from the character before the current character,
         // in case the current character is a newline.
-        $lastNewlinePos = \strrpos($this->file_contents, "\n", -$length + $offset - 1);
+        $lastNewlinePos = \strrpos($this->fileContents, "\n", -$length + $offset - 1);
         return 1 + $offset - ($lastNewlinePos === false ? 0 : $lastNewlinePos + 1);
     }
 }
