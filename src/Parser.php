@@ -2333,36 +2333,43 @@ class Parser {
             return $this->parsePostfixExpressionRest($expression);
         }
 
-        while (true) {
-            $tokenKind = $this->getCurrentToken()->kind;
+        $tokenKind = $this->getCurrentToken()->kind;
 
-            if ($tokenKind === TokenKind::OpenBraceToken ||
-                $tokenKind === TokenKind::OpenBracketToken) {
-                $expression = $this->parseSubscriptExpression($expression);
-                return $this->parsePostfixExpressionRest($expression);
-            }
+        if ($tokenKind === TokenKind::OpenBraceToken ||
+            $tokenKind === TokenKind::OpenBracketToken) {
+            $expression = $this->parseSubscriptExpression($expression);
+            return $this->parsePostfixExpressionRest($expression);
+        }
 
-            if ($expression instanceof ArrayCreationExpression) {
-                // Remaining postfix expressions are invalid, so abort
-                return $expression;
-            }
-
-            if ($tokenKind === TokenKind::ArrowToken) {
-                $expression = $this->parseMemberAccessExpression($expression);
-                return $this->parsePostfixExpressionRest($expression);
-            }
-
-            if ($tokenKind === TokenKind::OpenParenToken && !$this->isParsingObjectCreationExpression) {
-                $expression = $this->parseCallExpressionRest($expression);
-
-                return $this->checkToken(TokenKind::OpenParenToken)
-                    ? $expression // $a()() should get parsed as CallExpr-ParenExpr, so do not recurse
-                    : $this->parsePostfixExpressionRest($expression);
-            }
-
-            // Reached the end of the postfix-expression, so return
+        if ($expression instanceof ArrayCreationExpression) {
+            // Remaining postfix expressions are invalid, so abort
             return $expression;
         }
+
+        if ($tokenKind === TokenKind::ArrowToken) {
+            $expression = $this->parseMemberAccessExpression($expression);
+            return $this->parsePostfixExpressionRest($expression);
+        }
+
+        if ($tokenKind === TokenKind::OpenParenToken && !$this->isParsingObjectCreationExpression) {
+            $expression = $this->parseCallExpressionRest($expression);
+
+            if (!$this->checkToken(TokenKind::OpenParenToken)) {
+                return $this->parsePostfixExpressionRest($expression);
+            }
+            if (
+                $expression instanceof ParenthesizedExpression ||
+                $expression instanceof CallExpression ||
+                $expression instanceof SubscriptExpression) {
+                // Continue parsing the remaining brackets for expressions
+                // such as `(new Foo())()`, `foo()()`, `foo()['index']()`
+                return $this->parsePostfixExpressionRest($expression);
+            }
+            return $expression;
+        }
+
+        // Reached the end of the postfix-expression, so return
+        return $expression;
     }
 
     private function parseMemberName($parentNode) {
