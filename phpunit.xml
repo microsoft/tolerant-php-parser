@@ -1,4 +1,6 @@
-<phpunit bootstrap="src/bootstrap.php">
+<phpunit bootstrap="src/bootstrap.php"
+	beStrictAboutTestsThatDoNotTestAnything="false"
+	>
   <testsuites>
     <testsuite name="invariants">
       <!--
