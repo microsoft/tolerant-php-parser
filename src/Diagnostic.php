@@ -28,8 +28,3 @@ class Diagnostic {
         $this->length = $length;
     }
 }
-
-class DiagnosticKind {
-    const Error = 0;
-    const Warning = 1;
-}
