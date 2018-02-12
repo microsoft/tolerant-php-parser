@@ -1,4 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+/*---------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 namespace Microsoft\PhpParser;
 
@@ -9,11 +13,8 @@ namespace Microsoft\PhpParser;
  * Other designs that weren't chosen:
  * - Precomputing all of the start/end offsets when initializing was slower - Some offsets weren't needed, and walking the tree was slower.
  * - Caching line numbers for previously requested offsets wasn't really necessary, since offsets are usually close together and weren't requested repeatedly.
- *
- * Future optimizations:
  */
-class FilePositionMap
-{
+class FilePositionMap {
     /** @var string the full file contents */
     private $fileContents;
 
@@ -26,8 +27,7 @@ class FilePositionMap
     /** @var int the line number for $this->currentOffset (updated whenever currentOffset is updated) */
     private $lineForCurrentOffset;
 
-    public function __construct(string $file_contents)
-    {
+    public function __construct(string $file_contents) {
         $this->fileContents = $file_contents;
         $this->fileContentsLength = \strlen($file_contents);
         $this->currentOffset = 0;
@@ -40,24 +40,21 @@ class FilePositionMap
      * if https://github.com/Microsoft/tolerant-php-parser/issues/166 is fixed,
      * (i.e. if there is a consistent way to get the start offset)
      */
-    public function getNodeStartLine(Node $node) : int
-    {
+    public function getNodeStartLine(Node $node) : int {
         return $this->getLineNumberForOffset($node->getStart());
     }
 
     /**
      * @param Node $node the node to get the start line for.
      */
-    public function getTokenStartLine(Token $token) : int
-    {
+    public function getTokenStartLine(Token $token) : int {
         return $this->getLineNumberForOffset($token->start);
     }
 
     /**
      * @param Node|Token $node
      */
-    public function getStartLine($node) : int
-    {
+    public function getStartLine($node) : int {
         if ($node instanceof Token) {
             $offset = $node->start;
         } else {
@@ -70,8 +67,7 @@ class FilePositionMap
      * @param Node|Token $node
      * Similar to getStartLine but includes the column
      */
-    public function getStartLineCharacterPositionForOffset($node) : LineCharacterPosition
-    {
+    public function getStartLineCharacterPositionForOffset($node) : LineCharacterPosition {
         if ($node instanceof Token) {
             $offset = $node->start;
         } else {
@@ -81,8 +77,7 @@ class FilePositionMap
     }
 
     /** @param Node|Token $node */
-    public function getEndLine($node) : int
-    {
+    public function getEndLine($node) : int {
         return $this->getLineNumberForOffset($node->getEndPosition());
     }
 
@@ -90,8 +85,7 @@ class FilePositionMap
      * @param Node|Token $node
      * Similar to getStartLine but includes the column
      */
-    public function getEndLineCharacterPositionForOffset($node) : LineCharacterPosition
-    {
+    public function getEndLineCharacterPositionForOffset($node) : LineCharacterPosition {
         return $this->getLineCharacterPositionForOffset($node);
     }
 
@@ -99,15 +93,13 @@ class FilePositionMap
      * @param Node|Token $node
      * Similar to getStartLine but includes the column
      */
-    public function getLineCharacterPositionForOffset(int $offset) : LineCharacterPosition
-    {
+    public function getLineCharacterPositionForOffset(int $offset) : LineCharacterPosition {
         $line = $this->getLineNumberForOffset($offset);
         $character = $this->getColumnForOffset($offset);
         return new LineCharacterPosition($line, $character);
     }
 
-    public function getLineNumberForOffset(int $offset) : int
-    {
+    public function getLineNumberForOffset(int $offset) : int {
         if ($offset < 0) {
             $offset = 0;
         } elseif ($offset > $this->fileContentsLength) {
@@ -127,8 +119,7 @@ class FilePositionMap
     /**
      * @return int - gets the 1-based column offset
      */
-    public function getColumnForOffset(int $offset) : int
-    {
+    public function getColumnForOffset(int $offset) : int {
         $length = $this->fileContentsLength;
         if ($offset <= 1) {
             return 1;
