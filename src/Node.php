@@ -33,7 +33,9 @@ abstract class Node implements \JsonSerializable {
         $child = $this->getChildNodesAndTokens()->current();
         if ($child instanceof Node) {
             return $child->getStart();
-        } elseif ($child instanceof Token) {
+        }
+
+        if ($child instanceof Token) {
             return $child->start;
         }
         throw new \Exception("Unknown type in AST");
@@ -55,12 +57,14 @@ abstract class Node implements \JsonSerializable {
                 }
                 if ($child instanceof Node) {
                     return $child->getFullStart();
-                } elseif ($child instanceof Token) {
+                }
+
+                if ($child instanceof Token) {
                     return $child->fullStart;
                 }
                 throw new \Exception("Unknown type in AST: " . \gettype($child));
             }
-        };
+        }
 
         throw new \Exception("Unknown type in AST: " . \gettype($child));
     }
@@ -110,7 +114,9 @@ abstract class Node implements \JsonSerializable {
                         }
                     }
                     continue;
-                } elseif ($val instanceof $className) {
+                }
+
+                if ($val instanceof $className) {
                     return $val;
                 }
             }
@@ -276,7 +282,9 @@ abstract class Node implements \JsonSerializable {
                     }
                 }
                 continue;
-            } elseif ($val instanceof Node) {
+            }
+
+            if ($val instanceof Node) {
                 yield $val;
             }
         }
@@ -297,7 +305,9 @@ abstract class Node implements \JsonSerializable {
                     }
                 }
                 continue;
-            } elseif ($val instanceof Token) {
+            }
+
+            if ($val instanceof Token) {
                 yield $val;
             }
         }
@@ -407,7 +417,9 @@ abstract class Node implements \JsonSerializable {
 
             if ($lastChild instanceof Token) {
                 return $lastChild->fullStart + $lastChild->length;
-            } elseif ($lastChild instanceof Node) {
+            }
+
+            if ($lastChild instanceof Node) {
                 return $lastChild->getEndPosition();
             }
         }
@@ -531,12 +543,14 @@ abstract class Node implements \JsonSerializable {
             }
             if ($useDeclaration->getFullStart() > $nodeFullStart) {
                 break;
-            } elseif (!($useDeclaration instanceof NamespaceUseDeclaration)) {
+            }
+
+            if (!($useDeclaration instanceof NamespaceUseDeclaration)) {
                 continue;
             }
 
             // TODO fix getValues
-            foreach ((isset($useDeclaration->useClauses) ? $useDeclaration->useClauses->getValues() : []) as $useClause) {
+            foreach (isset($useDeclaration->useClauses) ? $useDeclaration->useClauses->getValues() : [] as $useClause) {
                 $namespaceNamePartsPrefix = $useClause->namespaceName !== null ? $useClause->namespaceName->nameParts : [];
 
                 if ($useClause->groupClauses !== null && $useClause instanceof NamespaceUseClause) {
@@ -634,12 +648,16 @@ abstract class Node implements \JsonSerializable {
                 foreach ($val as $sibling) {
                     if ($sibling === $this) {
                         return $prevSibling;
-                    } elseif ($sibling instanceof Node) {
+                    }
+
+                    if ($sibling instanceof Node) {
                         $prevSibling = $sibling;
                     }
                 }
                 continue;
-            } elseif ($val instanceof Node) {
+            }
+
+            if ($val instanceof Node) {
                 if ($val === $this) {
                     return $prevSibling;
                 }
@@ -663,16 +681,21 @@ abstract class Node implements \JsonSerializable {
 //                $alias = \strtolower($alias);
                 $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
                 return array($namespaceImportTable, $functionImportTable, $constImportTable);
-            } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
+            }
+
+            if ($functionOrConst->kind === TokenKind::FunctionKeyword) {
                 // functions are case-insensitive
 //                $alias = \strtolower($alias);
                 $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
                 return array($namespaceImportTable, $functionImportTable, $constImportTable);
-            } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
+            }
+
+            if ($functionOrConst->kind === TokenKind::ConstKeyword) {
                 // constants are case-sensitive
                 $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
                 return array($namespaceImportTable, $functionImportTable, $constImportTable);
             }
+
             return array($namespaceImportTable, $functionImportTable, $constImportTable);
         }
         return array($namespaceImportTable, $functionImportTable, $constImportTable);

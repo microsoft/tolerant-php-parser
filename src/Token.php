@@ -92,13 +92,13 @@ class Token implements \JsonSerializable {
                 "kind" => $kindName,
                 "textLength" => $this->length - ($this->start - $this->fullStart)
             ];
-        } else {
-            return [
-                "kind" => $kindName,
-                "fullStart" => $this->fullStart,
-                "start" => $this->start,
-                "length" => $this->length
-            ];
         }
+
+        return [
+            "kind" => $kindName,
+            "fullStart" => $this->fullStart,
+            "start" => $this->start,
+            "length" => $this->length
+        ];
     }
 }

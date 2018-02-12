@@ -132,7 +132,9 @@ class QualifiedName extends Node implements NamespacedNameInterface {
                 $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts, $this->getFileContents());
             }
             return $resolvedName;
-        } elseif ($this->parent instanceof CallExpression) {
+        }
+
+        if ($this->parent instanceof CallExpression) {
             $resolvedName = $this->tryResolveFromImportTable($functionImportTable);
             if (($namespaceDefinition = $this->getNamespaceDefinition()) === null || $namespaceDefinition->name === null) {
                 $resolvedName = $resolvedName ?? ResolvedName::buildName($this->nameParts, $this->getFileContents());
