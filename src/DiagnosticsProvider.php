@@ -72,7 +72,9 @@ class DiagnosticsProvider {
                 $token->start,
                 $token->getEndPosition() - $token->start
             );
-        } elseif ($token instanceof MissingToken) {
+        }
+
+        if ($token instanceof MissingToken) {
             return new Diagnostic(
                 DiagnosticKind::Error,
                 "'" .

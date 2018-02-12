@@ -962,7 +962,7 @@ class Parser {
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
                 // handle `static::`, `static(`, `new static;`, `instanceof static`
-                if (($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) ||
+                if ($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken]) ||
                     (!$this->lookahead(TokenKind::FunctionKeyword))
                 ) {
                     return $this->parseQualifiedName($parentNode);
@@ -1051,11 +1051,13 @@ class Parser {
             $token = $this->getCurrentToken();
             if ($token->kind === TokenKind::OpenBracketToken) {
                 return $this->parseTemplateStringSubscriptExpression($var);
-            } else if ($token->kind === TokenKind::ArrowToken) {
-                return $this->parseTemplateStringMemberAccessExpression($var);
-            } else {
-                return $var;
             }
+
+            if ($token->kind === TokenKind::ArrowToken) {
+                return $this->parseTemplateStringMemberAccessExpression($var);
+            }
+
+            return $var;
         }
 
         return null;
