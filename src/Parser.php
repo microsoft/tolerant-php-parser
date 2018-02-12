@@ -1664,8 +1664,35 @@ class Parser {
             //
             // After we finish building the BinaryExpression, we rebuild the UnaryExpression so that it includes
             // the original operator, and the newly constructed exponentiation-expression as the operand.
-            $shouldOperatorTakePrecedenceOverUnary =
-                $token->kind === TokenKind::AsteriskAsteriskToken && $leftOperand instanceof UnaryExpression;
+            $shouldOperatorTakePrecedenceOverUnary = false;
+            switch ($token->kind) {
+                case TokenKind::AsteriskAsteriskToken:
+                    $shouldOperatorTakePrecedenceOverUnary = $leftOperand instanceof UnaryExpression;
+                    break;
+                case TokenKind::EqualsToken:
+                case TokenKind::AsteriskAsteriskEqualsToken:
+                case TokenKind::AsteriskEqualsToken:
+                case TokenKind::SlashEqualsToken:
+                case TokenKind::PercentEqualsToken:
+                case TokenKind::PlusEqualsToken:
+                case TokenKind::MinusEqualsToken:
+                case TokenKind::DotEqualsToken:
+                case TokenKind::LessThanLessThanEqualsToken:
+                case TokenKind::GreaterThanGreaterThanEqualsToken:
+                case TokenKind::AmpersandEqualsToken:
+                case TokenKind::CaretEqualsToken:
+                case TokenKind::BarEqualsToken:
+                case TokenKind::InstanceOfKeyword:
+                    // Workarounds for https://github.com/Microsoft/tolerant-php-parser/issues/19#issue-201714377
+                    // Parse `!$a = $b` as `!($a = $b)` - PHP constrains the Left Hand Side of an assignment to a variable. A unary operator (`@`, `!`, etc.) is not a variable.
+                    // Instanceof has similar constraints for the LHS.
+                    // So does `!$a += $b`
+                    // TODO: Any other operators?
+                    if ($leftOperand instanceof UnaryOpExpression) {
+                        $shouldOperatorTakePrecedenceOverUnary = true;
+                    }
+                    break;
+            }
 
             if ($shouldOperatorTakePrecedenceOverUnary) {
                 $unaryExpression = $leftOperand;
