@@ -1015,8 +1015,10 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
+                    // TODO: Reject ${var->prop} and ${(var->prop)} without rejecting ${var+otherVar}
+                    // Currently, this fails to reject ${var->prop} (because `var` has TokenKind::Name instead of StringVarname)
                     if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
-                        $expression->children[] = $this->parseSimpleVariable($expression);
+                        $expression->children[] = $this->parseComplexDollarTemplateStringExpression($expression);
                     } else {
                         $expression->children[] = $this->parseExpression($expression);
                     }
@@ -1036,6 +1038,24 @@ class Parser {
                     continue;
             }
         }
+    }
+
+    /**
+     * This is used to parse the contents of `"${...}"` expressions.
+     *
+     * Supported: x, x[0], x[$y]
+     * Not supported: $x->p1, x[0][1], etc.
+     * @see parseTemplateStringExpression
+     *
+     * Precondition: getCurrentToken()->kind === TokenKind::StringVarname
+     */
+    private function parseComplexDollarTemplateStringExpression($parentNode) {
+        $var = $this->parseSimpleVariable($parentNode);
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::OpenBracketToken) {
+            return $this->parseTemplateStringSubscriptExpression($var);
+        }
+        return $var;
     }
 
     /**
@@ -1073,6 +1093,9 @@ class Parser {
             $subscriptExpression->accessExpression = $this->parseSimpleVariable($subscriptExpression);
         } elseif ($token->kind === TokenKind::IntegerLiteralToken) {
             $subscriptExpression->accessExpression = $this->parseNumericLiteralExpression($subscriptExpression);
+        } elseif ($token->kind === TokenKind::StringLiteralToken) {
+            // TODO: investigate if this should add other uncommon types of tokens for strings/numbers mentioned in parsePrimaryExpression()
+            $subscriptExpression->accessExpression = $this->parseStringLiteralExpression($subscriptExpression);
         } elseif ($token->kind === TokenKind::Name) {
             $subscriptExpression->accessExpression = $this->parseTemplateStringSubscriptStringLiteral($subscriptExpression);
         } else {
