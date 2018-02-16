@@ -226,7 +226,7 @@ public function getEndPosition ( )
 > TODO: add doc comment
 
 ```php
-public static function getTokenKindNameFromValue ( $kindName )
+public static function getTokenKindNameFromValue ( $kind )
 ```
 ### Token::jsonSerialize
 > TODO: add doc comment

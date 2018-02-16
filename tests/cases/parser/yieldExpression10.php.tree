@@ -53,18 +53,7 @@
                                                     "kind": "YieldKeyword",
                                                     "textLength": 5
                                                 },
-                                                "arrayElement": {
-                                                    "ArrayElement": {
-                                                        "elementKey": null,
-                                                        "arrowToken": null,
-                                                        "byRef": null,
-                                                        "elementValue": {
-                                                            "error": "MissingToken",
-                                                            "kind": "Expression",
-                                                            "textLength": 0
-                                                        }
-                                                    }
-                                                }
+                                                "arrayElement": null
                                             }
                                         },
                                         "semicolon": {

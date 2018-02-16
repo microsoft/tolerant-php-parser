@@ -1,6 +1,6 @@
 <?php
 
-// TODO technically should fail
+// Fails with the messages "';' expected.", "Unexpected '=>'"
 function gen() {
     yield from $i => $a;
 }

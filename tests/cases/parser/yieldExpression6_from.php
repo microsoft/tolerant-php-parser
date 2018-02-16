@@ -1,6 +1,6 @@
 <?php
 
-// TODO should fail
+// Fails with the message "'Expression' expected."
 function gen() {
     yield from;
 }

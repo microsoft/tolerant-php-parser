@@ -2098,7 +2098,23 @@ class Parser {
             TokenKind::YieldFromKeyword,
             TokenKind::YieldKeyword
             );
-        $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
+        if ($yieldExpression->yieldOrYieldFromKeyword->kind === TokenKind::YieldFromKeyword) {
+            // Don't use parseArrayElement. E.g. `yield from &$varName` or `yield from $key => $varName` are both syntax errors
+            $arrayElement = new ArrayElement();
+            $arrayElement->parent = $yieldExpression;
+            $arrayElement->elementValue = $this->parseExpression($arrayElement);
+            $yieldExpression->arrayElement = $arrayElement;
+        } else {
+            // This is always an ArrayElement for backwards compatibilitiy.
+            // TODO: Can this be changed to a non-ArrayElement in a future release?
+            if ($this->isExpressionStart($this->getCurrentToken())) {
+                // Both `yield expr;` and `yield;` are possible.
+                $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
+            } else {
+                $yieldExpression->arrayElement = null;
+            }
+        }
+
         return $yieldExpression;
     }
 

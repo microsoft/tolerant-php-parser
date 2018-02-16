@@ -51,19 +51,8 @@
                                                 },
                                                 "arrayElement": {
                                                     "ArrayElement": {
-                                                        "elementKey": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
-                                                        },
-                                                        "arrowToken": {
-                                                            "kind": "DoubleArrowToken",
-                                                            "textLength": 2
-                                                        },
+                                                        "elementKey": null,
+                                                        "arrowToken": null,
                                                         "byRef": null,
                                                         "elementValue": {
                                                             "Variable": {
@@ -75,6 +64,29 @@
                                                             }
                                                         }
                                                     }
+                                                }
+                                            }
+                                        },
+                                        "semicolon": {
+                                            "error": "MissingToken",
+                                            "kind": "SemicolonToken",
+                                            "textLength": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "error": "SkippedToken",
+                                    "kind": "DoubleArrowToken",
+                                    "textLength": 2
+                                },
+                                {
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
                                                 }
                                             }
                                         },

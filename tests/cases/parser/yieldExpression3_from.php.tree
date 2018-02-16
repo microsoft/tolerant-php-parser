@@ -51,18 +51,8 @@
                                                 },
                                                 "arrayElement": {
                                                     "ArrayElement": {
-                                                        "elementKey": {
-                                                            "NumericLiteral": {
-                                                                "children": {
-                                                                    "kind": "IntegerLiteralToken",
-                                                                    "textLength": 1
-                                                                }
-                                                            }
-                                                        },
-                                                        "arrowToken": {
-                                                            "kind": "DoubleArrowToken",
-                                                            "textLength": 2
-                                                        },
+                                                        "elementKey": null,
+                                                        "arrowToken": null,
                                                         "byRef": null,
                                                         "elementValue": {
                                                             "NumericLiteral": {
@@ -73,6 +63,28 @@
                                                             }
                                                         }
                                                     }
+                                                }
+                                            }
+                                        },
+                                        "semicolon": {
+                                            "error": "MissingToken",
+                                            "kind": "SemicolonToken",
+                                            "textLength": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "error": "SkippedToken",
+                                    "kind": "DoubleArrowToken",
+                                    "textLength": 2
+                                },
+                                {
+                                    "ExpressionStatement": {
+                                        "expression": {
+                                            "NumericLiteral": {
+                                                "children": {
+                                                    "kind": "IntegerLiteralToken",
+                                                    "textLength": 1
                                                 }
                                             }
                                         },
