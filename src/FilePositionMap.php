@@ -24,7 +24,7 @@ class FilePositionMap {
     /** @var int the 0-based byte offset of the most recent request for a line number. */
     private $currentOffset;
 
-    /** @var int the line number for $this->currentOffset (updated whenever currentOffset is updated) */
+    /** @var int the 1-based line number for $this->currentOffset (updated whenever currentOffset is updated) */
     private $lineForCurrentOffset;
 
     public function __construct(string $file_contents) {
@@ -45,7 +45,7 @@ class FilePositionMap {
     }
 
     /**
-     * @param Node $node the node to get the start line for.
+     * @param Token $token the token to get the start line for.
      */
     public function getTokenStartLine(Token $token) : int {
         return $this->getLineNumberForOffset($token->start);
@@ -85,13 +85,13 @@ class FilePositionMap {
      * @param Node|Token $node
      * Similar to getStartLine but includes the column
      */
-    public function getEndLineCharacterPositionForOffset($node) : LineCharacterPosition {
-        return $this->getLineCharacterPositionForOffset($node);
+    public function getEndLineCharacterPosition($node) : LineCharacterPosition {
+        return $this->getLineCharacterPositionForOffset($node->getEndPosition());
     }
 
     /**
-     * @param Node|Token $node
-     * Similar to getStartLine but includes the column
+     * @param int $offset
+     * Similar to getStartLine but includes both the line and the column
      */
     public function getLineCharacterPositionForOffset(int $offset) : LineCharacterPosition {
         $line = $this->getLineNumberForOffset($offset);
@@ -99,6 +99,10 @@ class FilePositionMap {
         return new LineCharacterPosition($line, $character);
     }
 
+    /**
+     * @param int $offset - A 0-based byte offset
+     * @return int - gets the 1-based line number for $offset
+     */
     public function getLineNumberForOffset(int $offset) : int {
         if ($offset < 0) {
             $offset = 0;
@@ -117,7 +121,8 @@ class FilePositionMap {
     }
 
     /**
-     * @return int - gets the 1-based column offset
+     * @param int $offset - A 0-based byte offset
+     * @return int - gets the 1-based column number for $offset
      */
     public function getColumnForOffset(int $offset) : int {
         $length = $this->fileContentsLength;
