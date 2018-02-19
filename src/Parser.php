@@ -2066,10 +2066,19 @@ class Parser {
                 $variable->dollar = $this->eat1(TokenKind::DollarToken);
                 $token = $this->getCurrentToken();
 
-                $variable->name =
-                    $token->kind === TokenKind::OpenBraceToken ?
-                        $this->parseBracedExpression($variable) :
-                        $this->parseSimpleVariable($variable);
+                switch ($token->kind) {
+                    case TokenKind::OpenBraceToken:
+                        $variable->name = $this->parseBracedExpression($variable);
+                        break;
+                    case TokenKind::VariableName:
+                    case TokenKind::StringVarname:
+                    case TokenKind::DollarToken:
+                        $variable->name = $this->parseSimpleVariable($variable);
+                        break;
+                    default:
+                        $variable->name = new MissingToken(TokenKind::VariableName, $token->fullStart);
+                        break;
+                }
             } elseif ($token->kind === TokenKind::VariableName || $token->kind === TokenKind::StringVarname) {
                 // TODO consider splitting into dollar and name.
                 // StringVarname is the variable name without $, used in a template string e.g. `"${foo}"`
@@ -2089,7 +2098,6 @@ class Parser {
             TokenKind::YieldFromKeyword,
             TokenKind::YieldKeyword
             );
-
         $yieldExpression->arrayElement = $this->parseArrayElement($yieldExpression);
         return $yieldExpression;
     }
