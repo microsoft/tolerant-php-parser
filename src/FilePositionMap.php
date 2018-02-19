@@ -85,7 +85,7 @@ class FilePositionMap {
      * @param Node|Token $node
      * Similar to getStartLine but includes the column
      */
-    public function getEndLineCharacterPositionForOffset($node) : LineCharacterPosition {
+    public function getEndLineCharacterPosition($node) : LineCharacterPosition {
         return $this->getLineCharacterPositionForOffset($node->getEndPosition());
     }
 
