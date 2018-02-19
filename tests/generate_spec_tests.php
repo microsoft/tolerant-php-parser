@@ -6,15 +6,16 @@
 
 
 //$testCases = array('C:\src\php-investigations\tolerant-php-parser\tests\..\php-langspec\tests\traits\traits.phpt');
-$testCases = glob(__DIR__ . "\\..\\php-langspec\\tests\\**\\*.phpt");
-$outTestCaseDir = __DIR__ . "\\cases\\php-langspec\\";
+$sep = DIRECTORY_SEPARATOR;
+$testCases = glob(__DIR__ . "${sep}..${sep}php-langspec${sep}tests${sep}**${sep}*.phpt");
+$outTestCaseDir = __DIR__ . "${sep}cases${sep}php-langspec${sep}";
 mkdir($outTestCaseDir);
 file_put_contents($outTestCaseDir . "README.md", "Auto-generated from php/php-langspec tests");
 
 foreach ($testCases as $idx=> $filename) {
     $myFile = file_get_contents($filename);
 
-    $dirPrefix = $outTestCaseDir . basename(dirname($filename)) . "\\" ;
+    $dirPrefix = $outTestCaseDir . basename(dirname($filename)) . $sep;
     $baseName = basename(basename($filename), ".phpt");
     mkdir($dirPrefix);
 
