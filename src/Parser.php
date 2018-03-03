@@ -41,7 +41,6 @@ use Microsoft\PhpParser\Node\Expression\{
     PostfixUpdateExpression,
     ScopedPropertyAccessExpression,
     SubscriptExpression,
-    TemplateExpression,
     TernaryExpression,
     UnaryExpression,
     UnaryOpExpression,
