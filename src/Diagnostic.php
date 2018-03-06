@@ -6,8 +6,6 @@
 
 namespace Microsoft\PhpParser;
 
-use Microsoft\PhpParser\Node;
-
 class Diagnostic {
     /** @var int */
     public $kind;
