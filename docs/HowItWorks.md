@@ -159,7 +159,7 @@ Node: {
 ```
 
 #### Notes
-In order to reduce memory usage, we plan to remove the NodeKind property, and instead rely soley on
+In order to reduce memory usage, we plan to remove the NodeKind property, and instead rely solely on
 subclasses in order to represent the Node's kind. This should reduce memory usage by ~16 bytes per
 Node. 
 
@@ -182,7 +182,7 @@ WIDTH(T) -> T.Width
 #### Invariants
 * Invariants for all Tokens hold true 
 * The tree contains every token
-* span of any node is sum of spans of child nodes and tokens
+* Span of any node is sum of spans of child nodes and tokens
 * The tree length exactly matches the file length
 * Every leaf node of the tree is a token
 * Every Node contains at least one Token
@@ -222,7 +222,7 @@ if ($expression // ) <- MissingToken
 ```
 
 In this case, `eat(")")` will generate a `MissingToken` because the grammar expects a
-token to  be there, but it does not exist.
+token to be there, but it does not exist.
 
 ##### Example 2
 ```php
@@ -280,7 +280,7 @@ if ($a >
 
 In this case, the user likely intended the type of `$b` to be `MyClass`. However,
 because under normal circumstances, parsers will ignore whitespace, the example above
-would produce the following tree, whic himplies that the `$b` assignment never happens.
+would produce the following tree, which implies that the `$b` assignment never happens.
 ```
 SourceFileNode
 - IfNode
