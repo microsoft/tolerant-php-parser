@@ -20,13 +20,32 @@
                     "byRefToken": null,
                     "name": {
                         "kind": "Name",
-                        "textLength": 3
+                        "textLength": 7
                     },
                     "openParen": {
                         "kind": "OpenParenToken",
                         "textLength": 1
                     },
-                    "parameters": null,
+                    "parameters": {
+                        "ParameterDeclarationList": {
+                            "children": [
+                                {
+                                    "Parameter": {
+                                        "questionToken": null,
+                                        "typeDeclaration": null,
+                                        "byRefToken": null,
+                                        "dotDotDotToken": null,
+                                        "variableName": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
+                                        },
+                                        "equalsToken": null,
+                                        "default": null
+                                    }
+                                }
+                            ]
+                        }
+                    },
                     "closeParen": {
                         "kind": "CloseParenToken",
                         "textLength": 1
@@ -46,12 +65,25 @@
                                         "expression": {
                                             "BinaryExpression": {
                                                 "leftOperand": {
-                                                    "YieldExpression": {
-                                                        "yieldOrYieldFromKeyword": {
-                                                            "kind": "YieldKeyword",
-                                                            "textLength": 5
+                                                    "BinaryExpression": {
+                                                        "leftOperand": {
+                                                            "YieldExpression": {
+                                                                "yieldOrYieldFromKeyword": {
+                                                                    "kind": "YieldKeyword",
+                                                                    "textLength": 5
+                                                                },
+                                                                "arrayElement": null
+                                                            }
                                                         },
-                                                        "arrayElement": null
+                                                        "operator": {
+                                                            "kind": "AmpersandToken",
+                                                            "textLength": 1
+                                                        },
+                                                        "rightOperand": {
+                                                            "error": "MissingToken",
+                                                            "kind": "Expression",
+                                                            "textLength": 0
+                                                        }
                                                     }
                                                 },
                                                 "operator": {

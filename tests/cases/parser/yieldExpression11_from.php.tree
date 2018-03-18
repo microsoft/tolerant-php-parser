@@ -53,16 +53,26 @@
                                                     "ArrayElement": {
                                                         "elementKey": null,
                                                         "arrowToken": null,
-                                                        "byRef": {
-                                                            "kind": "AmpersandToken",
-                                                            "textLength": 1
-                                                        },
+                                                        "byRef": null,
                                                         "elementValue": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
+                                                            "BinaryExpression": {
+                                                                "leftOperand": {
+                                                                    "error": "MissingToken",
+                                                                    "kind": "Expression",
+                                                                    "textLength": 0
+                                                                },
+                                                                "operator": {
+                                                                    "kind": "AmpersandToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                "rightOperand": {
+                                                                    "Variable": {
+                                                                        "dollar": null,
+                                                                        "name": {
+                                                                            "kind": "VariableName",
+                                                                            "textLength": 2
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
