@@ -79,10 +79,14 @@ class ParserGrammarTest extends TestCase {
     public function treeProvider() {
         $testCases = glob(self::FILE_PATTERN . ".php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
+        $hasShortOpenTag = (bool)ini_get('short_open_tag');
 
         $testProviderArray = array();
         foreach ($testCases as $testCase) {
             if (in_array(basename($testCase), $skipped)) {
+                continue;
+            }
+            if ($hasShortOpenTag && in_array(basename($testCase), ['programStructure13.php', 'programStructure21.php'])) {
                 continue;
             }
             $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
