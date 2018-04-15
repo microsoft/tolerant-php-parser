@@ -18,8 +18,7 @@ If it's not PHP 7.1, then you have a few different options for how to access it:
 1. Install [Homebrew](http://brew.sh/)
 2. Install PHP 7.1 and Composer
 ```
-brew tap homebrew/php
-brew install php71
+brew install php@7.1
 brew install composer
 ```
 
