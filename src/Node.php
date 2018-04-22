@@ -433,7 +433,7 @@ abstract class Node implements \JsonSerializable {
      * Searches descendants to find a Node at the given position.
      *
      * @param $pos
-     * @return Node|null
+     * @return Node
      */
     public function getDescendantNodeAtPosition(int $pos) {
         foreach ($this->getChildNodes() as $child) {
