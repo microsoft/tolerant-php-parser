@@ -2665,6 +2665,10 @@ class Parser {
         return $propertyDeclaration;
     }
 
+    /**
+     * @param Node $parentNode
+     * @return DelimitedList\QualifiedNameList
+     */
     private function parseQualifiedNameList($parentNode) {
         return $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
@@ -2943,8 +2947,17 @@ class Parser {
             $traitSelectAndAliasClause->asOrInsteadOfKeyword = $this->eat(TokenKind::AsKeyword, TokenKind::InsteadOfKeyword);
             $traitSelectAndAliasClause->modifiers = $this->parseModifiers(); // TODO accept all modifiers, verify later
 
-            $traitSelectAndAliasClause->targetName =
-                $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+            if ($traitSelectAndAliasClause->asOrInsteadOfKeyword->kind === TokenKind::InsteadOfKeyword) {
+                // https://github.com/Microsoft/tolerant-php-parser/issues/190
+                // TODO: In the next backwards incompatible release, convert targetName to a list?
+                $interfaceNameList = $this->parseQualifiedNameList($traitSelectAndAliasClause)->children ?? [];
+                $traitSelectAndAliasClause->targetName = $interfaceNameList[0] ?? new MissingToken(TokenKind::BarToken, $this->token->fullStart);
+                $traitSelectAndAliasClause->remainingTargetNames = array_slice($interfaceNameList, 1);
+            } else {
+                $traitSelectAndAliasClause->targetName =
+                    $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+                $traitSelectAndAliasClause->remainingTargetNames = [];
+            }
 
             // TODO errors for insteadof/as
             return $traitSelectAndAliasClause;

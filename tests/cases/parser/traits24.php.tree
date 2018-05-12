@@ -42,10 +42,39 @@
                                                 "children": [
                                                     {
                                                         "QualifiedName": {
-                                                            "globalSpecifier": {
-                                                                "kind": "BackslashToken",
-                                                                "textLength": 1
-                                                            },
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
                                                             "relativeSpecifier": null,
                                                             "nameParts": [
                                                                 {
@@ -68,44 +97,6 @@
                                                     {
                                                         "TraitSelectOrAliasClause": {
                                                             "name": {
-                                                                "QualifiedName": {
-                                                                    "globalSpecifier": null,
-                                                                    "relativeSpecifier": null,
-                                                                    "nameParts": [
-                                                                        {
-                                                                            "kind": "Name",
-                                                                            "textLength": 1
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            },
-                                                            "asOrInsteadOfKeyword": {
-                                                                "kind": "AsKeyword",
-                                                                "textLength": 2
-                                                            },
-                                                            "modifiers": [],
-                                                            "targetName": {
-                                                                "QualifiedName": {
-                                                                    "globalSpecifier": null,
-                                                                    "relativeSpecifier": null,
-                                                                    "nameParts": [
-                                                                        {
-                                                                            "kind": "Name",
-                                                                            "textLength": 1
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            },
-                                                            "remainingTargetNames": []
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "SemicolonToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "TraitSelectOrAliasClause": {
-                                                            "name": {
                                                                 "ScopedPropertyAccessExpression": {
                                                                     "scopeResolutionQualifier": {
                                                                         "QualifiedName": {
@@ -115,14 +106,6 @@
                                                                             },
                                                                             "relativeSpecifier": null,
                                                                             "nameParts": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                },
-                                                                                {
-                                                                                    "kind": "BackslashToken",
-                                                                                    "textLength": 1
-                                                                                },
                                                                                 {
                                                                                     "kind": "Name",
                                                                                     "textLength": 1
@@ -141,8 +124,8 @@
                                                                 }
                                                             },
                                                             "asOrInsteadOfKeyword": {
-                                                                "kind": "AsKeyword",
-                                                                "textLength": 2
+                                                                "kind": "InsteadOfKeyword",
+                                                                "textLength": 9
                                                             },
                                                             "modifiers": [],
                                                             "targetName": {
@@ -157,7 +140,24 @@
                                                                     ]
                                                                 }
                                                             },
-                                                            "remainingTargetNames": []
+                                                            "remainingTargetNames": [
+                                                                {
+                                                                    "kind": "CommaToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                {
+                                                                    "QualifiedName": {
+                                                                        "globalSpecifier": null,
+                                                                        "relativeSpecifier": null,
+                                                                        "nameParts": [
+                                                                            {
+                                                                                "kind": "Name",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {

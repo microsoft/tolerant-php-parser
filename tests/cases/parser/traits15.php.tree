@@ -101,7 +101,8 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": []
                                                         }
                                                     },
                                                     {

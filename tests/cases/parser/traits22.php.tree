@@ -110,7 +110,8 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": []
                                                         }
                                                     },
                                                     {
@@ -147,7 +148,8 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": []
                                                         }
                                                     },
                                                     {
