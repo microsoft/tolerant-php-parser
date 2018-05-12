@@ -41,8 +41,44 @@
                                     "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                "qualifiedName": null,
-                                "otherQualifiedNameList": [],
+                                "qualifiedName": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": [
+                                            {
+                                                "kind": "Name",
+                                                "textLength": 5
+                                            }
+                                        ]
+                                    }
+                                },
+                                "otherQualifiedNameList": [
+                                    {
+                                        "kind": "BarToken",
+                                        "textLength": 1
+                                    },
+                                    {
+                                        "QualifiedName": {
+                                            "globalSpecifier": null,
+                                            "relativeSpecifier": null,
+                                            "nameParts": [
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 2
+                                                },
+                                                {
+                                                    "kind": "BackslashToken",
+                                                    "textLength": 1
+                                                },
+                                                {
+                                                    "kind": "Name",
+                                                    "textLength": 5
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2

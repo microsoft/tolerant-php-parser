@@ -43,6 +43,7 @@
                                     "textLength": 0
                                 },
                                 "qualifiedName": null,
+                                "otherQualifiedNameList": [],
                                 "variableName": {
                                     "error": "MissingToken",
                                     "kind": "VariableName",
