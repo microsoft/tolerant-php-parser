@@ -95,7 +95,8 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": null
                                                         }
                                                     },
                                                     {
@@ -155,7 +156,8 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": null
                                                         }
                                                     },
                                                     {

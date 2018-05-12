@@ -79,52 +79,74 @@
                                                             },
                                                             "modifiers": [],
                                                             "targetName": {
-                                                                "ScopedPropertyAccessExpression": {
-                                                                    "scopeResolutionQualifier": {
-                                                                        "QualifiedName": {
-                                                                            "globalSpecifier": null,
-                                                                            "relativeSpecifier": null,
-                                                                            "nameParts": [
-                                                                                {
-                                                                                    "kind": "Name",
-                                                                                    "textLength": 1
-                                                                                }
-                                                                            ]
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 1
                                                                         }
-                                                                    },
-                                                                    "doubleColon": {
-                                                                        "kind": "ColonColonToken",
-                                                                        "textLength": 2
-                                                                    },
-                                                                    "memberName": {
-                                                                        "kind": "Name",
-                                                                        "textLength": 1
-                                                                    }
+                                                                    ]
                                                                 }
-                                                            }
+                                                            },
+                                                            "remainingTargetNames": []
                                                         }
-                                                    },
-                                                    {
-                                                        "kind": "SemicolonToken",
-                                                        "textLength": 1
                                                     }
                                                 ]
                                             }
                                         },
                                         "closeBrace": {
+                                            "error": "MissingToken",
                                             "kind": "CloseBraceToken",
-                                            "textLength": 1
+                                            "textLength": 0
                                         }
                                     }
+                                },
+                                {
+                                    "error": "SkippedToken",
+                                    "kind": "ColonColonToken",
+                                    "textLength": 2
                                 }
                             ],
                             "closeBrace": {
+                                "error": "MissingToken",
                                 "kind": "CloseBraceToken",
-                                "textLength": 1
+                                "textLength": 0
                             }
                         }
                     }
                 }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "QualifiedName": {
+                            "globalSpecifier": null,
+                            "relativeSpecifier": null,
+                            "nameParts": [
+                                {
+                                    "kind": "Name",
+                                    "textLength": 1
+                                }
+                            ]
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
+                }
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CloseBraceToken",
+                "textLength": 1
+            },
+            {
+                "error": "SkippedToken",
+                "kind": "CloseBraceToken",
+                "textLength": 1
             }
         ],
         "endOfFileToken": {

@@ -12,22 +12,25 @@
                 }
             },
             {
-                "TraitDeclaration": {
-                    "traitKeyword": {
-                        "kind": "TraitKeyword",
+                "ClassDeclaration": {
+                    "abstractOrFinalModifier": null,
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
                         "textLength": 5
                     },
                     "name": {
                         "kind": "Name",
                         "textLength": 1
                     },
-                    "traitMembers": {
-                        "TraitMembers": {
+                    "classBaseClause": null,
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
                             "openBrace": {
                                 "kind": "OpenBraceToken",
                                 "textLength": 1
                             },
-                            "traitMemberDeclarations": [
+                            "classMemberDeclarations": [
                                 {
                                     "TraitUseClause": {
                                         "useKeyword": {
@@ -37,6 +40,38 @@
                                         "traitNameList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
                                                     {
                                                         "QualifiedName": {
                                                             "globalSpecifier": null,
@@ -65,7 +100,10 @@
                                                                 "ScopedPropertyAccessExpression": {
                                                                     "scopeResolutionQualifier": {
                                                                         "QualifiedName": {
-                                                                            "globalSpecifier": null,
+                                                                            "globalSpecifier": {
+                                                                                "kind": "BackslashToken",
+                                                                                "textLength": 1
+                                                                            },
                                                                             "relativeSpecifier": null,
                                                                             "nameParts": [
                                                                                 {
@@ -102,7 +140,24 @@
                                                                     ]
                                                                 }
                                                             },
-                                                            "remainingTargetNames": []
+                                                            "remainingTargetNames": [
+                                                                {
+                                                                    "kind": "CommaToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                {
+                                                                    "QualifiedName": {
+                                                                        "globalSpecifier": null,
+                                                                        "relativeSpecifier": null,
+                                                                        "nameParts": [
+                                                                            {
+                                                                                "kind": "Name",
+                                                                                "textLength": 1
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
