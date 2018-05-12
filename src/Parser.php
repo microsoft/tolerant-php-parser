@@ -152,7 +152,13 @@ class Parser {
         $sourceFile->uri = $uri;
         $sourceFile->statementList = array();
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
-            $sourceFile->statementList[] = $this->parseInlineHtml($sourceFile);
+            $inlineHTML = $this->parseInlineHtml($sourceFile);
+            $sourceFile->statementList[] = $inlineHTML;
+            if ($inlineHTML->echoStatement) {
+                $sourceFile->statementList[] = $inlineHTML->echoStatement;
+                $inlineHTML->echoStatement->parent = $sourceFile;
+                $inlineHTML->echoStatement = null;
+            }
         }
         $sourceFile->statementList =
             \array_merge($sourceFile->statementList, $this->parseList($sourceFile, ParseContext::SourceElements));
@@ -192,6 +198,11 @@ class Parser {
                 $element = $parseListElementFn($parentNode);
                 if ($element instanceof Node) {
                     $element->parent = $parentNode;
+                    if ($element instanceof InlineHtml && $element->echoStatement && $listParseContext === ParseContext::SourceElements) {
+                        $nodeArray[] = $element->echoStatement;
+                        $element->echoStatement->parent = $parentNode;
+                        $element->echoStatement = null;
+                    }
                 }
                 $nodeArray[] = $element;
                 continue;
@@ -533,6 +544,9 @@ class Parser {
 
                 case TokenKind::SemicolonToken:
                     return $this->parseEmptyStatement($parentNode);
+
+                case TokenKind::EchoKeyword:
+                    return $this->parseEchoStatement($parentNode);
 
                 // trait-declaration
                 case TokenKind::TraitKeyword:
@@ -931,8 +945,6 @@ class Parser {
                 return $this->parseArrayCreationExpression($parentNode);
 
             // intrinsic-construct
-            case TokenKind::EchoKeyword:
-                return $this->parseEchoExpression($parentNode);
             case TokenKind::ListKeyword:
                 return $this->parseListIntrinsicExpression($parentNode);
             case TokenKind::UnsetKeyword:
@@ -2172,14 +2184,21 @@ class Parser {
         return $scriptInclusionExpression;
     }
 
-    private function parseEchoExpression($parentNode) {
+    private function parseEchoStatement($parentNode) {
+        $expressionStatement = new ExpressionStatement();
+
+        // TODO: Could flatten into EchoStatement instead?
         $echoExpression = new EchoExpression();
-        $echoExpression->parent = $parentNode;
+        $echoExpression->parent = $expressionStatement;
         $echoExpression->echoKeyword = $this->eat1(TokenKind::EchoKeyword);
         $echoExpression->expressions =
             $this->parseExpressionList($echoExpression);
 
-        return $echoExpression;
+        $expressionStatement->parent = $parentNode;
+        $expressionStatement->expression = $echoExpression;
+        $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+
+        return $expressionStatement;
     }
 
     private function parseListIntrinsicExpression($parentNode) {
@@ -3202,7 +3221,24 @@ class Parser {
         $inlineHtml->parent = $parentNode;
         $inlineHtml->scriptSectionEndTag = $this->eatOptional1(TokenKind::ScriptSectionEndTag);
         $inlineHtml->text = $this->eatOptional1(TokenKind::InlineHtml);
-        $inlineHtml->scriptSectionStartTag = $this->eatOptional1(TokenKind::ScriptSectionStartTag);
+        $inlineHtml->scriptSectionStartTag = $this->eatOptional(TokenKind::ScriptSectionStartTag, TokenKind::ScriptSectionStartWithEchoTag);
+
+        // This is the easiest way to represent `<?= "expr", "other" `
+        if (($inlineHtml->scriptSectionStartTag->kind ?? null) === TokenKind::ScriptSectionStartWithEchoTag)  {
+            $echoStatement = new ExpressionStatement();
+
+            $echoExpression = new EchoExpression();
+            $expressionList = $this->parseExpressionList($echoExpression) ?? (new MissingToken(TokenKind::Expression, $this->token->fullStart));
+            $echoExpression->expressions = $expressionList;
+            $echoExpression->parent = $echoStatement;
+
+            $echoStatement->expression = $echoExpression;
+            $echoStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+            $echoStatement->parent = $inlineHtml;
+            // Deliberately leave echoKeyword as null instead of MissingToken
+
+            $inlineHtml->echoStatement = $echoStatement;
+        }
 
         return $inlineHtml;
     }

@@ -167,7 +167,7 @@ class TokenKind {
 
     const ScriptSectionStartTag = 323;
     const ScriptSectionEndTag = 324;
-
+    const ScriptSectionStartWithEchoTag = 419;
 
     // TODO how to handle incremental parsing w/ this?
     const ScriptSectionPrependedText = 325;

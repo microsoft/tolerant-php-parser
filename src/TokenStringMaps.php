@@ -164,7 +164,7 @@ class TokenStringMaps {
         "<>" => TokenKind::LessThanGreaterThanToken,
         "..." => TokenKind::DotDotDotToken,
         "\\" => TokenKind::BackslashToken,
-        "<?=" => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
+        "<?=" => TokenKind::ScriptSectionStartWithEchoTag, // TODO, technically not an operator
         "<?php " => TokenKind::ScriptSectionStartTag, // TODO, technically not an operator
         "<?php\t" => TokenKind::ScriptSectionStartTag, // TODO add tests
         "<?php\n" => TokenKind::ScriptSectionStartTag,

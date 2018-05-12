@@ -19,9 +19,23 @@ class InlineHtml extends StatementNode {
     /** @var Token|null */
     public $scriptSectionStartTag;
 
+    /**
+     * @var ExpressionStatement|null used to represent the expression echoed by `<?=` while parsing.
+     *
+     * This should always be null in the returned AST,
+     * and is deliberately excluded from CHILD_NAMES.
+     *
+     * This will be null under any of these conditions:
+     *
+     * - The scriptSectionStartTag isn't TokenKind::ScriptSectionStartWithEchoTag,
+     * - The echoStatement was normalized and moved into a statement list.
+     *   If a caller doesn't do this, that's a bug.
+     */
+    public $echoStatement;
+
     const CHILD_NAMES = [
         'scriptSectionEndTag',
         'text',
-        'scriptSectionStartTag'
+        'scriptSectionStartTag',
     ];
 }

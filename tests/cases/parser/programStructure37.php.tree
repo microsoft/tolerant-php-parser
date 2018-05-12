@@ -24,7 +24,7 @@
                                                 "startQuote": null,
                                                 "children": {
                                                     "kind": "StringLiteralToken",
-                                                    "textLength": 7
+                                                    "textLength": 12
                                                 },
                                                 "endQuote": null
                                             }
@@ -34,17 +34,11 @@
                             }
                         }
                     },
-                    "semicolon": null
-                }
-            },
-            {
-                "InlineHtml": {
-                    "scriptSectionEndTag": {
-                        "kind": "ScriptSectionEndTag",
-                        "textLength": 2
-                    },
-                    "text": null,
-                    "scriptSectionStartTag": null
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
                 }
             }
         ],
