@@ -2950,14 +2950,14 @@ class Parser {
             if ($traitSelectAndAliasClause->asOrInsteadOfKeyword->kind === TokenKind::InsteadOfKeyword) {
                 // https://github.com/Microsoft/tolerant-php-parser/issues/190
                 // TODO: In the next backwards incompatible release, convert targetName to a list?
-                $interfaceNameList = $this->parseQualifiedNameList($traitSelectAndAliasClause)->children;
-                $traitSelectAndAliasClause->targetName = $interfaceNameList[0] ?? null;
+                $interfaceNameList = $this->parseQualifiedNameList($traitSelectAndAliasClause)->children ?? [];
+                $traitSelectAndAliasClause->targetName = $interfaceNameList[0] ?? new MissingToken(TokenKind::BarToken, $this->token->fullStart);
                 $traitSelectAndAliasClause->remainingTargetNames = array_slice($interfaceNameList, 1);
             } else {
                 $traitSelectAndAliasClause->targetName =
                     $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
+                $traitSelectAndAliasClause->remainingTargetNames = [];
             }
-
 
             // TODO errors for insteadof/as
             return $traitSelectAndAliasClause;
