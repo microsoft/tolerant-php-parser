@@ -16,6 +16,14 @@ class CatchClause extends Node {
     public $openParen;
     /** @var QualifiedName */
     public $qualifiedName;
+    /**
+     * @var QualifiedName[]|Token[] Remaining tokens and qualified names in the catch clause
+     * (e.g. `catch (FirstException|SecondException $x)` would contain
+     *  the representation of `|SecondException`)
+     *
+     * TODO: In the next backwards incompatible release, replace qualifiedName with qualifiedNameList?
+     */
+    public $otherQualifiedNameList;
     /** @var Token */
     public $variableName;
     /** @var Token */
@@ -27,6 +35,7 @@ class CatchClause extends Node {
         'catch',
         'openParen',
         'qualifiedName',
+        'otherQualifiedNameList',
         'variableName',
         'closeParen',
         'compoundStatement'

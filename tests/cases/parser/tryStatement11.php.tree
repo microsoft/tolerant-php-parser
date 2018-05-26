@@ -41,8 +41,29 @@
                                     "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                "qualifiedName": null,
-                                "otherQualifiedNameList": [],
+                                "qualifiedName": {
+                                    "QualifiedName": {
+                                        "globalSpecifier": null,
+                                        "relativeSpecifier": null,
+                                        "nameParts": [
+                                            {
+                                                "kind": "Name",
+                                                "textLength": 5
+                                            }
+                                        ]
+                                    }
+                                },
+                                "otherQualifiedNameList": [
+                                    {
+                                        "kind": "BarToken",
+                                        "textLength": 1
+                                    },
+                                    {
+                                        "error": "MissingToken",
+                                        "kind": "Name",
+                                        "textLength": 0
+                                    }
+                                ],
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2

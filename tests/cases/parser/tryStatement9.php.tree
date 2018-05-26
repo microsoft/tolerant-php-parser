@@ -53,6 +53,7 @@
                                         ]
                                     }
                                 },
+                                "otherQualifiedNameList": [],
                                 "variableName": {
                                     "error": "MissingToken",
                                     "kind": "VariableName",

@@ -42,6 +42,7 @@
                                     "textLength": 1
                                 },
                                 "qualifiedName": null,
+                                "otherQualifiedNameList": [],
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2
