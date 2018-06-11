@@ -265,7 +265,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_DNUMBER => TokenKind::FloatingLiteralToken,
 
         T_OPEN_TAG => TokenKind::ScriptSectionStartTag,
-        T_OPEN_TAG_WITH_ECHO => TokenKind::ScriptSectionStartTag,
+        T_OPEN_TAG_WITH_ECHO => TokenKind::ScriptSectionStartWithEchoTag,
         T_CLOSE_TAG => TokenKind::ScriptSectionEndTag,
 
         T_INLINE_HTML => TokenKind::InlineHtml,

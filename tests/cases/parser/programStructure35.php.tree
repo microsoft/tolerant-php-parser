@@ -20,6 +20,34 @@
                                 "ExpressionList": {
                                     "children": [
                                         {
+                                            "error": "MissingToken",
+                                            "kind": "Expression",
+                                            "textLength": 0
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "semicolon": {
+                        "error": "MissingToken",
+                        "kind": "SemicolonToken",
+                        "textLength": 0
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "EchoExpression": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "ExpressionList": {
+                                    "children": [
+                                        {
                                             "StringLiteral": {
                                                 "startQuote": null,
                                                 "children": {
@@ -34,7 +62,10 @@
                             }
                         }
                     },
-                    "semicolon": null
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
                 }
             },
             {

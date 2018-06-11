@@ -10,9 +10,18 @@ use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\DelimitedList\ExpressionList;
 use Microsoft\PhpParser\Token;
 
+/**
+ * This represents either a literal echo expression (`echo expr`)
+ * or a short echo tag (`<?= expr...`)
+ *
+ * TODO: An echo statement cannot be used as an expression.
+ * Consider refactoring this to become EchoStatement in a future backwards incompatible release.
+ */
 class EchoExpression extends Expression {
 
-    /** @var Token */
+    /**
+     * @var Token|null this is null if generated from `<?=`
+     */
     public $echoKeyword;
 
     /** @var ExpressionList */

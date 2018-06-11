@@ -9,7 +9,7 @@
                         "textLength": 4
                     },
                     "scriptSectionStartTag": {
-                        "kind": "ScriptSectionStartTag",
+                        "kind": "ScriptSectionStartWithEchoTag",
                         "textLength": 3
                     }
                 }
@@ -17,44 +17,55 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "AssignmentExpression": {
-                            "leftOperand": {
-                                "Variable": {
-                                    "dollar": null,
-                                    "name": {
-                                        "kind": "VariableName",
-                                        "textLength": 8
-                                    }
-                                }
-                            },
-                            "operator": {
-                                "kind": "EqualsToken",
-                                "textLength": 1
-                            },
-                            "byRef": null,
-                            "rightOperand": {
-                                "CallExpression": {
-                                    "callableExpression": {
-                                        "QualifiedName": {
-                                            "globalSpecifier": null,
-                                            "relativeSpecifier": null,
-                                            "nameParts": [
-                                                {
-                                                    "kind": "Name",
+                        "EchoExpression": {
+                            "echoKeyword": null,
+                            "expressions": {
+                                "ExpressionList": {
+                                    "children": [
+                                        {
+                                            "AssignmentExpression": {
+                                                "leftOperand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 8
+                                                        }
+                                                    }
+                                                },
+                                                "operator": {
+                                                    "kind": "EqualsToken",
                                                     "textLength": 1
+                                                },
+                                                "byRef": null,
+                                                "rightOperand": {
+                                                    "CallExpression": {
+                                                        "callableExpression": {
+                                                            "QualifiedName": {
+                                                                "globalSpecifier": null,
+                                                                "relativeSpecifier": null,
+                                                                "nameParts": [
+                                                                    {
+                                                                        "kind": "Name",
+                                                                        "textLength": 1
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        "openParen": {
+                                                            "kind": "OpenParenToken",
+                                                            "textLength": 1
+                                                        },
+                                                        "argumentExpressionList": null,
+                                                        "closeParen": {
+                                                            "kind": "CloseParenToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
                                                 }
-                                            ]
+                                            }
                                         }
-                                    },
-                                    "openParen": {
-                                        "kind": "OpenParenToken",
-                                        "textLength": 1
-                                    },
-                                    "argumentExpressionList": null,
-                                    "closeParen": {
-                                        "kind": "CloseParenToken",
-                                        "textLength": 1
-                                    }
+                                    ]
                                 }
                             }
                         }

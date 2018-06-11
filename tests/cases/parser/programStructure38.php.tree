@@ -6,8 +6,8 @@
                     "scriptSectionEndTag": null,
                     "text": null,
                     "scriptSectionStartTag": {
-                        "kind": "ScriptSectionStartWithEchoTag",
-                        "textLength": 3
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
                     }
                 }
             },
@@ -15,18 +15,20 @@
                 "ExpressionStatement": {
                     "expression": {
                         "EchoExpression": {
-                            "echoKeyword": null,
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
                             "expressions": {
                                 "ExpressionList": {
                                     "children": [
                                         {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 7
-                                                },
-                                                "endQuote": null
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 2
+                                                }
                                             }
                                         }
                                     ]
@@ -41,7 +43,7 @@
                 "InlineHtml": {
                     "scriptSectionEndTag": {
                         "kind": "ScriptSectionEndTag",
-                        "textLength": 2
+                        "textLength": 3
                     },
                     "text": null,
                     "scriptSectionStartTag": null
