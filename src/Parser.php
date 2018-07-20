@@ -1034,7 +1034,7 @@ class Parser {
                         $expression->children[] = $this->parseExpression($expression);
                     }
                     $expression->children[] = $this->eat1(TokenKind::CloseBraceToken);
-                    continue;
+                    break;
                 case $startQuoteKind = $expression->startQuote->kind:
                 case TokenKind::EndOfFileToken:
                 case TokenKind::HeredocEnd:
@@ -1042,11 +1042,11 @@ class Parser {
                     return $expression;
                 case TokenKind::VariableName:
                     $expression->children[] = $this->parseTemplateStringExpression($expression);
-                    continue;
+                    break;
                 default:
                     $expression->children[] = $this->getCurrentToken();
                     $this->advanceToken();
-                    continue;
+                    break;
             }
         }
     }
