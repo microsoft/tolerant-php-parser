@@ -86,11 +86,11 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                 case T_OPEN_TAG:
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
                     $start = $fullStart = $pos;
-                    continue;
+                    break;
 
                 case T_WHITESPACE:
                     $start += $strlen;
-                    continue;
+                    break;
 
                 case T_STRING:
                     $name = \strtolower($token[1]);
@@ -98,19 +98,19 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                         $newTokenKind = TokenStringMaps::RESERVED_WORDS[$name];
                         $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                         $start = $fullStart = $pos;
-                        continue;
+                        break;
                     }
 
                 default:
                     if (($tokenKind === T_COMMENT || $tokenKind === T_DOC_COMMENT) && $treatCommentsAsTrivia) {
                         $start += $strlen;
-                        continue;
+                        break;
                     }
 
                     $newTokenKind = self::TOKEN_MAP[$tokenKind] ?? TokenKind::Unknown;
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
-                    continue;
+                    break;
             }
         }
 
