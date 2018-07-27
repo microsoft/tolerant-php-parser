@@ -75,7 +75,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
      * - name resolution is not valid for this element (e.g. part of the name in a namespace definition)
      * - name cannot be resolved (unqualified namespaced function/constant names that are not explicitly imported.)
      *
-     * @return null|ResolvedName
+     * @return null|string|ResolvedName
      * @throws \Exception
      */
     public function getResolvedName($namespaceDefinition = null) {
