@@ -9,7 +9,11 @@ namespace Microsoft\PhpParser\Node\Statement;
 use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
+use Microsoft\PhpParser\Node\SourceFileNode;
 
+/**
+ * @property SourceFileNode $parent
+ */
 class NamespaceDefinition extends StatementNode {
     /** @var Token */
     public $namespaceKeyword;
