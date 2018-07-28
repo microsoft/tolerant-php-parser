@@ -1426,13 +1426,15 @@ class Parser {
         $ifStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
         $ifStatement->expression = $this->parseExpression($ifStatement);
         $ifStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
-        if ($this->checkToken(TokenKind::ColonToken)) {
+        $curTokenKind = $this->getCurrentToken()->kind;
+        if ($curTokenKind === TokenKind::ColonToken) {
             $ifStatement->colon = $this->eat1(TokenKind::ColonToken);
             $ifStatement->statements = $this->parseList($ifStatement, ParseContext::IfClause2Elements);
-        } else {
+        } else if ($curTokenKind !== TokenKind::ScriptSectionEndTag) {
+            // Fix #246 : properly parse `if (false) ?\>echoed text\<?php`
             $ifStatement->statements = $this->parseStatement($ifStatement);
         }
-        $ifStatement->elseIfClauses = array(); // TODO - should be some standard for empty arrays vs. null?
+        $ifStatement->elseIfClauses = []; // TODO - should be some standard for empty arrays vs. null?
         while ($this->checkToken(TokenKind::ElseIfKeyword)) {
             $ifStatement->elseIfClauses[] = $this->parseElseIfClause($ifStatement);
         }
@@ -1456,10 +1458,11 @@ class Parser {
         $elseIfClause->openParen = $this->eat1(TokenKind::OpenParenToken);
         $elseIfClause->expression = $this->parseExpression($elseIfClause);
         $elseIfClause->closeParen = $this->eat1(TokenKind::CloseParenToken);
-        if ($this->checkToken(TokenKind::ColonToken)) {
+        $curTokenKind = $this->getCurrentToken()->kind;
+        if ($curTokenKind === TokenKind::ColonToken) {
             $elseIfClause->colon = $this->eat1(TokenKind::ColonToken);
             $elseIfClause->statements = $this->parseList($elseIfClause, ParseContext::IfClause2Elements);
-        } else {
+        } elseif ($curTokenKind !== TokenKind::ScriptSectionEndTag) {
             $elseIfClause->statements = $this->parseStatement($elseIfClause);
         }
         return $elseIfClause;
@@ -1469,10 +1472,11 @@ class Parser {
         $elseClause = new ElseClauseNode();
         $elseClause->parent = $parentNode;
         $elseClause->elseKeyword = $this->eat1(TokenKind::ElseKeyword);
-        if ($this->checkToken(TokenKind::ColonToken)) {
+        $curTokenKind = $this->getCurrentToken()->kind;
+        if ($curTokenKind === TokenKind::ColonToken) {
             $elseClause->colon = $this->eat1(TokenKind::ColonToken);
             $elseClause->statements = $this->parseList($elseClause, ParseContext::IfClause2Elements);
-        } else {
+        } elseif ($curTokenKind !== TokenKind::ScriptSectionEndTag) {
             $elseClause->statements = $this->parseStatement($elseClause);
         }
         return $elseClause;
@@ -1525,7 +1529,7 @@ class Parser {
             $whileStatement->statements = $this->parseList($whileStatement, ParseContext::WhileStatementElements);
             $whileStatement->endWhile = $this->eat1(TokenKind::EndWhileKeyword);
             $whileStatement->semicolon = $this->eatSemicolonOrAbortStatement();
-        } else {
+        } elseif (!$this->checkToken(TokenKind::ScriptSectionEndTag)) {
             $whileStatement->statements = $this->parseStatement($whileStatement);
         }
         return $whileStatement;
@@ -1917,7 +1921,7 @@ class Parser {
             $forStatement->statements = $this->parseList($forStatement, ParseContext::ForStatementElements);
             $forStatement->endFor = $this->eat1(TokenKind::EndForKeyword);
             $forStatement->endForSemicolon = $this->eatSemicolonOrAbortStatement();
-        } else {
+        } elseif (!$this->checkToken(TokenKind::ScriptSectionEndTag)) {
             $forStatement->statements = $this->parseStatement($forStatement);
         }
         return $forStatement;
@@ -1938,7 +1942,7 @@ class Parser {
             $foreachStatement->statements = $this->parseList($foreachStatement, ParseContext::ForeachStatementElements);
             $foreachStatement->endForeach = $this->eat1(TokenKind::EndForEachKeyword);
             $foreachStatement->endForeachSemicolon = $this->eatSemicolonOrAbortStatement();
-        } else {
+        } elseif (!$this->checkToken(TokenKind::ScriptSectionEndTag)) {
             $foreachStatement->statements = $this->parseStatement($foreachStatement);
         }
         return $foreachStatement;
