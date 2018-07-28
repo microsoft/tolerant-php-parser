@@ -13,6 +13,8 @@ use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
 
 abstract class Node implements \JsonSerializable {
+    const CHILD_NAMES = [];
+
     /** @var array[] Map from node class to array of child keys */
     private static $childNames = [];
 
