@@ -12,13 +12,8 @@ class PositionUtilities {
 
      * Out of bounds positions are handled gracefully. Positions greater than the length of text length
      * are resolved to the end of the text, and negative positions are resolved to the beginning.
-     *
-     * @param $pos
-     * @param $length
-     * @param $text
-     * @return Range
      */
-    public static function getRangeFromPosition($pos, $length, $text): Range {
+    public static function getRangeFromPosition(int $pos, int $length, string $text): Range {
         $start = self::getLineCharacterPositionFromPosition($pos, $text);
         $end = self::getLineCharacterPositionFromPosition($pos + $length, $text);
 
@@ -31,12 +26,8 @@ class PositionUtilities {
      * Out of bounds positions are handled gracefully. Positions greater than the length of text length
      * are resolved to text length, and negative positions are resolved to 0.
      * TODO consider throwing exception instead.
-     *
-     * @param $pos
-     * @param $text
-     * @return LineCharacterPosition
      */
-    public static function getLineCharacterPositionFromPosition($pos, $text) : LineCharacterPosition {
+    public static function getLineCharacterPositionFromPosition(int $pos, string $text) : LineCharacterPosition {
         $textLength = \strlen($text);
         if ($pos >= $textLength) {
             $pos = $textLength;
