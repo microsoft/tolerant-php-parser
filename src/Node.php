@@ -440,7 +440,7 @@ abstract class Node implements \JsonSerializable {
     /**
      * Searches descendants to find a Node at the given position.
      *
-     * @param $pos
+     * @param int $pos
      * @return Node
      */
     public function getDescendantNodeAtPosition(int $pos) {
