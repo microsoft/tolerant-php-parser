@@ -3,7 +3,8 @@
     "description": "Tolerant PHP-to-AST parser designed for IDE usage scenarios",
     "type": "library",
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "phpstan/phpstan": "^0.10.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.4"
