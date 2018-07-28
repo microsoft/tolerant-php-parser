@@ -1886,7 +1886,7 @@ class Parser {
         $rightOperand->parent = $binaryExpression;
         $binaryExpression->leftOperand = $leftOperand;
         $binaryExpression->operator = $operatorToken;
-        if (isset($byRefToken)) {
+        if ($binaryExpression instanceof AssignmentExpression && isset($byRefToken)) {
             $binaryExpression->byRef = $byRefToken;
         }
         $binaryExpression->rightOperand = $rightOperand;
