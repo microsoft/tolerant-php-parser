@@ -48,23 +48,29 @@ abstract class Node implements \JsonSerializable {
      */
     public function getFullStart() : int {
         foreach($this::CHILD_NAMES as $name) {
+
             if (($child = $this->$name) !== null) {
+
                 if (\is_array($child)) {
                     if(!isset($child[0])) {
                         continue;
                     }
                     $child = $child[0];
                 }
+
                 if ($child instanceof Node) {
                     return $child->getFullStart();
-                } elseif ($child instanceof Token) {
+                }
+
+                if ($child instanceof Token) {
                     return $child->fullStart;
                 }
+
                 throw new \Exception("Unknown type in AST: " . \gettype($child));
             }
         };
 
-        throw new \Exception("Unknown type in AST: " . \gettype($child));
+        throw new \RuntimeException("Could not resolve full start position");
     }
 
     /**
