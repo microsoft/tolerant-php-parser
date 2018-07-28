@@ -72,8 +72,11 @@ class Token implements \JsonSerializable {
     }
 
     /**
+     * Returns the token kind name as a string, or the token number if the name
+     * was not found.
+     *
      * @param int $kind
-     * @return string (Or int, if the kind name for $kind wasn't found)
+     * @return int|string 
      */
     public static function getTokenKindNameFromValue($kind) {
         $mapToKindName = self::getTokenKindNameFromValueMap();

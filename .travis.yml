@@ -30,6 +30,7 @@ before_script:
 
 script:
   - composer validate
+  - ./vendor/bin/phpstan analyse src --level=2
   - |
     if [[ $VALIDATION = true ]]; then
       ./vendor/bin/phpunit --testsuite validation
