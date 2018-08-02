@@ -48,6 +48,7 @@ use Microsoft\PhpParser\Node\Expression\{
     Variable,
     YieldExpression
 };
+use Microsoft\PhpParser\Node\FunctionHeader;
 use Microsoft\PhpParser\Node\StaticVariableDeclaration;
 use Microsoft\PhpParser\Node\ClassConstDeclaration;
 use Microsoft\PhpParser\Node\DeclareDirective;
@@ -183,7 +184,7 @@ class Parser {
      * with that ParseContext is reached. Additionally abort parsing when an element is reached
      * that is invalid in the current context, but valid in an enclosing context. If an element
      * is invalid in both current and enclosing contexts, generate a SkippedToken, and continue.
-     * @param $parentNode
+     * @param Node $parentNode
      * @param int $listParseContext
      * @return array
      */
@@ -1335,7 +1336,11 @@ class Parser {
         return null;
     }
 
+    /**
+     * @param MethodDeclaration|FunctionDeclaration|AnonymousFunctionCreationExpression $functionDeclaration
+     */
     private function parseFunctionType(Node $functionDeclaration, $canBeAbstract = false, $isAnonymous = false) {
+
         $functionDeclaration->functionKeyword = $this->eat1(TokenKind::FunctionKeyword);
         $functionDeclaration->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
         $functionDeclaration->name = $isAnonymous
@@ -1881,7 +1886,7 @@ class Parser {
         $rightOperand->parent = $binaryExpression;
         $binaryExpression->leftOperand = $leftOperand;
         $binaryExpression->operator = $operatorToken;
-        if (isset($byRefToken)) {
+        if ($binaryExpression instanceof AssignmentExpression && isset($byRefToken)) {
             $binaryExpression->byRef = $byRefToken;
         }
         $binaryExpression->rightOperand = $rightOperand;
