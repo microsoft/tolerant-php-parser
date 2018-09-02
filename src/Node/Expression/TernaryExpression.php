@@ -11,7 +11,7 @@ use Microsoft\PhpParser\Token;
 
 class TernaryExpression extends Expression {
 
-    /** @var Expression */
+    /** @var Expression|Token (only a token when token before '?' is invalid/missing) */
     public $condition;
 
     /** @var Token */
