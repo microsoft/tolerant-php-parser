@@ -1763,7 +1763,7 @@ class Parser {
             }
 
             $leftOperand = $token->kind === TokenKind::QuestionToken ?
-                $this->parseTernaryExpression($leftOperand, $token) :
+                $this->parseTernaryExpression($leftOperand, $token, $parentNode) :
                 $this->makeBinaryExpression(
                     $leftOperand,
                     $token,
@@ -2646,10 +2646,19 @@ class Parser {
         );
     }
 
-    private function parseTernaryExpression($leftOperand, $questionToken):TernaryExpression {
+    /**
+     * @param Node|Token $leftOperand (should only be a token for invalid ASTs)
+     * @param Token $questionToken
+     * @param Node $fallbackParentNode
+     */
+    private function parseTernaryExpression($leftOperand, $questionToken, $fallbackParentNode):TernaryExpression {
         $ternaryExpression = new TernaryExpression();
-        $ternaryExpression->parent = $leftOperand->parent;
-        $leftOperand->parent = $ternaryExpression;
+        if ($leftOperand instanceof Node) {
+            $ternaryExpression->parent = $leftOperand->parent;
+            $leftOperand->parent = $ternaryExpression;
+        } else {
+            $ternaryExpression->parent = $fallbackParentNode;
+        }
         $ternaryExpression->condition = $leftOperand;
         $ternaryExpression->questionToken = $questionToken;
         $ternaryExpression->ifExpression = $this->isExpressionStart($this->getCurrentToken()) ? $this->parseExpression($ternaryExpression) : null;
