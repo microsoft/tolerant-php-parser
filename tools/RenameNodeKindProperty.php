@@ -36,7 +36,7 @@ foreach ($asts as $ast) {
                 if (($compoundStatement = $node->compoundStatementOrSemicolon) instanceof CompoundStatementNode) {
                     foreach ($compoundStatement->getDescendantNodes() as $descendant) {
                         if ($descendant instanceof ScopedPropertyAccessExpression) {
-                            // TODO add method to retreive arguments or parameters array
+                            // TODO add method to retrieve arguments or parameters array
 //                            if (isset($descendant->argumentExpressionList[0]) && $descendant->argumentExpressionList[0]
                             if (strpos($descendant->scopeResolutionQualifier->getText($descendant->getText()), "NodeKind") !== false) {
                                 $classDeclaration = $node->getFirstAncestor(ClassDeclaration::class);
