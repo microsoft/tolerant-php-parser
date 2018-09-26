@@ -571,6 +571,9 @@ class Parser {
 
                 case TokenKind::ScriptSectionEndTag:
                     return $this->parseInlineHtml($parentNode);
+
+                case TokenKind::UnsetKeyword:
+                    return $this->parseUnsetStatement($parentNode);
             }
 
             $expressionStatement = new ExpressionStatement();
@@ -948,8 +951,6 @@ class Parser {
             // intrinsic-construct
             case TokenKind::ListKeyword:
                 return $this->parseListIntrinsicExpression($parentNode);
-            case TokenKind::UnsetKeyword:
-                return $this->parseUnsetIntrinsicExpression($parentNode);
 
             // intrinsic-operator
             case TokenKind::EmptyKeyword:
@@ -2205,6 +2206,19 @@ class Parser {
 
         $expressionStatement->parent = $parentNode;
         $expressionStatement->expression = $echoExpression;
+        $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+
+        return $expressionStatement;
+    }
+
+    private function parseUnsetStatement($parentNode) {
+        $expressionStatement = new ExpressionStatement();
+
+        // TODO: Could flatten into UnsetStatement instead?
+        $unsetExpression = $this->parseUnsetIntrinsicExpression($expressionStatement);
+
+        $expressionStatement->parent = $parentNode;
+        $expressionStatement->expression = $unsetExpression;
         $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $expressionStatement;
