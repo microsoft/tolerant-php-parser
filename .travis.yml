@@ -35,7 +35,7 @@ before_script:
 
 script:
   - composer validate
-  - if [[ $STATIC_ANALYSIS = true ]]; then ./vendor/bin/phpstan analyse src --level=2; fi
+  - if [[ $STATIC_ANALYSIS = true ]]; then ./vendor/bin/phpstan analyse; fi
   - |
     if [[ $VALIDATION = true ]]; then
       ./vendor/bin/phpunit --testsuite validation
