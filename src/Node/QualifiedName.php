@@ -92,7 +92,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return null;
         }
 
-        if (array_search($lowerText = strtolower($this->getText()), ["self", "static", "parent"]) !== false) {
+        if (in_array($lowerText = strtolower($this->getText()), ["self", "static", "parent"])) {
             return $lowerText;
         }
 
