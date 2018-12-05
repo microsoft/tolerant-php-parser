@@ -1844,13 +1844,13 @@ class Parser {
             TokenKind::LessThanGreaterThanToken => [17, Associativity::None],
             TokenKind::EqualsEqualsEqualsToken => [17, Associativity::None],
             TokenKind::ExclamationEqualsEqualsToken => [17, Associativity::None],
+            TokenKind::LessThanEqualsGreaterThanToken => [17, Associativity::None],
 
             // relational-expression (X)
             TokenKind::LessThanToken => [18, Associativity::None],
             TokenKind::GreaterThanToken => [18, Associativity::None],
             TokenKind::LessThanEqualsToken => [18, Associativity::None],
             TokenKind::GreaterThanEqualsToken => [18, Associativity::None],
-            TokenKind::LessThanEqualsGreaterThanToken => [18, Associativity::None],
 
             // shift-expression (L)
             TokenKind::LessThanLessThanToken => [19, Associativity::Left],
@@ -1883,8 +1883,33 @@ class Parser {
         return self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
     }
 
+    /**
+     * @internal Do not use outside this class, this may be changed or removed.
+     */
+    const KNOWN_ASSIGNMENT_TOKEN_SET = [
+        TokenKind::AsteriskAsteriskEqualsToken => true,
+        TokenKind::AsteriskEqualsToken => true,
+        TokenKind::SlashEqualsToken => true,
+        TokenKind::PercentEqualsToken => true,
+        TokenKind::PlusEqualsToken => true,
+        TokenKind::MinusEqualsToken => true,
+        TokenKind::DotEqualsToken => true,
+        TokenKind::LessThanLessThanEqualsToken => true,
+        TokenKind::GreaterThanGreaterThanEqualsToken => true,
+        TokenKind::AmpersandEqualsToken => true,
+        TokenKind::CaretEqualsToken => true,
+        TokenKind::BarEqualsToken => true,
+        // InstanceOf has other remaining issues, but this heuristic is an improvement for many common cases such as `$x && $y = $z`
+    ];
+
     private function makeBinaryExpression($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
         $assignmentExpression = $operatorToken->kind === TokenKind::EqualsToken;
+        if ($assignmentExpression || \array_key_exists($operatorToken->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
+            if ($leftOperand instanceof BinaryExpression && !\array_key_exists($leftOperand->operator->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
+                // Handle cases without parenthesis, such as $x ** $y === $z, as $x ** ($y === $z)
+                return $this->shiftBinaryOperands($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode);
+            }
+        }
         $binaryExpression = $assignmentExpression ? new AssignmentExpression() : new BinaryExpression();
         $binaryExpression->parent = $parentNode;
         $leftOperand->parent = $binaryExpression;
@@ -1896,6 +1921,25 @@ class Parser {
         }
         $binaryExpression->rightOperand = $rightOperand;
         return $binaryExpression;
+    }
+
+    private function shiftBinaryOperands(BinaryExpression $leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
+        $inner = $this->makeBinaryExpression(
+            $leftOperand->rightOperand,
+            $operatorToken,
+            $byRefToken,
+            $rightOperand,
+            $parentNode
+        );
+        $outer = $this->makeBinaryExpression(
+            $leftOperand->leftOperand,
+            $leftOperand->operator,
+            null,
+            $inner,
+            $parentNode
+        );
+        $inner->parent = $outer;
+        return $outer;
     }
 
     private function parseDoStatement($parentNode) {
