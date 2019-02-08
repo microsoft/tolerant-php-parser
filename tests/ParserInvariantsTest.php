@@ -96,6 +96,10 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     public function testParentOfNodeHasSameChildNode($filename, Node $sourceFileNode) {
         foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
             if ($child instanceof Node) {
+                if (!$child->parent) {
+                    $this->fail("Missing parent for " . var_export($child, true));
+                }
+
                 $this->assertContains(
                     $child, $child->parent->getChildNodesAndTokens(),
                     "Invariant: Parent of Node contains same child node."

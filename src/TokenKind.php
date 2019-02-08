@@ -185,6 +185,7 @@ class TokenKind {
     const RealReservedWord = 335;
     const ReturnType = 336;
     const InlineHtml = 337;
+    const PropertyType = 338;
 
 //    const DollarOpenCurly = 339;
     const EncapsedAndWhitespace = 400;

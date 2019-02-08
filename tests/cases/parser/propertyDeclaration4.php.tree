@@ -43,6 +43,8 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "questionToken": null,
+                                        "typeDeclaration": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
