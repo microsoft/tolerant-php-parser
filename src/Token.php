@@ -6,6 +6,8 @@
 
 namespace Microsoft\PhpParser;
 
+use function substr;
+
 class Token implements \JsonSerializable {
     // TODO optimize memory - ideally this would be a struct of 4 ints
     public $kind;
