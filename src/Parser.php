@@ -48,7 +48,6 @@ use Microsoft\PhpParser\Node\Expression\{
     Variable,
     YieldExpression
 };
-use Microsoft\PhpParser\Node\FunctionHeader;
 use Microsoft\PhpParser\Node\StaticVariableDeclaration;
 use Microsoft\PhpParser\Node\ClassConstDeclaration;
 use Microsoft\PhpParser\Node\DeclareDirective;
@@ -1357,7 +1356,7 @@ class Parser {
 
         if ($isAnonymous && isset($functionDeclaration->name)) {
             // Anonymous functions should not have names
-            $functionDeclaration->name = new SkippedToken($functionDeclaration->name); // TODO instaed handle this during post-walk
+            $functionDeclaration->name = new SkippedToken($functionDeclaration->name); // TODO instead handle this during post-walk
         }
 
         $functionDeclaration->openParen = $this->eat1(TokenKind::OpenParenToken);
