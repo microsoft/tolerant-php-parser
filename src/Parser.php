@@ -596,6 +596,12 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
+                case TokenKind::QuestionToken:
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
+                        $parentNode,
+                        $modifiers,
+                        $this->eat1(TokenKind::QuestionToken)
+                    );
                 case TokenKind::VariableName:
                     return $this->parsePropertyDeclaration($parentNode, $modifiers);
 
@@ -603,10 +609,7 @@ class Parser {
                     return $this->parseTraitUseClause($parentNode);
 
                 default:
-                    $missingClassMemberDeclaration = new MissingMemberDeclaration();
-                    $missingClassMemberDeclaration->parent = $parentNode;
-                    $missingClassMemberDeclaration->modifiers = $modifiers;
-                    return $missingClassMemberDeclaration;
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
             }
         };
     }
@@ -2771,11 +2774,39 @@ class Parser {
         return $classConstDeclaration;
     }
 
-    private function parsePropertyDeclaration($parentNode, $modifiers) {
+    /**
+     * @param Node $parentNode
+     * @param Token[] $modifiers
+     * @param Token|null $questionToken
+     */
+    private function parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers, $questionToken = null)
+    {
+        $typeDeclaration = $this->tryParseParameterTypeDeclaration(null);
+        if ($questionToken !== null && $typeDeclaration === null) {
+            $typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->getCurrentToken()->fullStart);
+        }
+        if ($this->getCurrentToken()->kind !== TokenKind::VariableName) {
+            return $this->makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken, $typeDeclaration);
+        }
+        return $this->parsePropertyDeclaration($parentNode, $modifiers, $questionToken, $typeDeclaration);
+    }
+
+    /**
+     * @param Node $parentNode
+     * @param Token[] $modifiers
+     * @param Token|null $questionToken
+     * @param QualifiedName|Token|null $typeDeclaration
+     */
+    private function parsePropertyDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclaration = null) {
         $propertyDeclaration = new PropertyDeclaration();
         $propertyDeclaration->parent = $parentNode;
 
         $propertyDeclaration->modifiers = $modifiers;
+        $propertyDeclaration->questionToken = $questionToken;  //
+        $propertyDeclaration->typeDeclaration = $typeDeclaration;
+        if ($typeDeclaration instanceof Node) {
+            $typeDeclaration->parent = $propertyDeclaration;
+        }
         $propertyDeclaration->propertyElements = $this->parseExpressionList($propertyDeclaration);
         $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
 
@@ -3029,6 +3060,12 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
+                case TokenKind::QuestionToken:
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
+                        $parentNode,
+                        $modifiers,
+                        $this->eat1(TokenKind::QuestionToken)
+                    );
                 case TokenKind::VariableName:
                     return $this->parsePropertyDeclaration($parentNode, $modifiers);
 
@@ -3036,12 +3073,27 @@ class Parser {
                     return $this->parseTraitUseClause($parentNode);
 
                 default:
-                    $missingTraitMemberDeclaration = new MissingMemberDeclaration();
-                    $missingTraitMemberDeclaration->parent = $parentNode;
-                    $missingTraitMemberDeclaration->modifiers = $modifiers;
-                    return $missingTraitMemberDeclaration;
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
             }
         };
+    }
+
+    /**
+     * @param Node $parentNode
+     * @param Token[] $modifiers
+     * @param Token $questionToken
+     * @param QualifiedName|Token|null $typeDeclaration
+     */
+    private function makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclaration = null) {
+        $missingTraitMemberDeclaration = new MissingMemberDeclaration();
+        $missingTraitMemberDeclaration->parent = $parentNode;
+        $missingTraitMemberDeclaration->modifiers = $modifiers;
+        $missingTraitMemberDeclaration->questionToken = $questionToken;
+        $missingTraitMemberDeclaration->typeDeclaration = $typeDeclaration;
+        if ($typeDeclaration instanceof Node) {
+            $typeDeclaration->parent = $missingTraitMemberDeclaration;
+        }
+        return $missingTraitMemberDeclaration;
     }
 
     private function parseTraitUseClause($parentNode) {

@@ -15,6 +15,12 @@ class PropertyDeclaration extends Node {
     /** @var Token[] */
     public $modifiers;
 
+    /** @var Token|null question token for PHP 7.4 type declaration */
+    public $questionToken;
+
+    /** @var QualifiedName|Token|null */
+    public $typeDeclaration;
+
     /** @var DelimitedList\ExpressionList */
     public $propertyElements;
 
@@ -23,6 +29,8 @@ class PropertyDeclaration extends Node {
 
     const CHILD_NAMES = [
         'modifiers',
+        'questionToken',
+        'typeDeclaration',
         'propertyElements',
         'semicolon'
     ];
