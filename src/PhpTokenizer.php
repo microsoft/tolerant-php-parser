@@ -6,6 +6,10 @@
 
 namespace Microsoft\PhpParser;
 
+// If this predates PHP 7.4, T_COALESCE_EQUAL is unavailable.
+// The replacement value is arbitrary - it just has to be different from other values of token constants.
+define(__NAMESPACE__ . '\T_COALESCE_EQUAL', defined('T_COALESCE_EQUAL') ? constant('T_COALESCE_EQUAL') : 'T_COALESCE_EQUAL');
+
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
  *
@@ -249,6 +253,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_XOR_EQUAL => TokenKind::CaretEqualsToken,
         T_OR_EQUAL => TokenKind::BarEqualsToken,
         "," => TokenKind::CommaToken,
+        namespace\T_COALESCE_EQUAL => TokenKind::QuestionQuestionEqualsToken,
         T_COALESCE => TokenKind::QuestionQuestionToken,
         T_SPACESHIP => TokenKind::LessThanEqualsGreaterThanToken,
         T_ELLIPSIS => TokenKind::DotDotDotToken,
