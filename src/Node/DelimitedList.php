@@ -43,7 +43,8 @@ abstract class DelimitedList extends Node {
             return;
         }
         if ($this->children === null) {
-            $this->children = [];
+            $this->children = [$node];
+            return;
         }
         $this->children[] = $node;
     }
