@@ -1742,7 +1742,6 @@ class Parser {
                 case TokenKind::AmpersandEqualsToken:
                 case TokenKind::CaretEqualsToken:
                 case TokenKind::BarEqualsToken:
-                case TokenKind::InstanceOfKeyword:
                 case TokenKind::QuestionQuestionEqualsToken:
                     // Workarounds for https://github.com/Microsoft/tolerant-php-parser/issues/19#issue-201714377
                     // Parse `!$a = $b` as `!($a = $b)` - PHP constrains the Left Hand Side of an assignment to a variable. A unary operator (`@`, `!`, etc.) is not a variable.
@@ -1751,6 +1750,15 @@ class Parser {
                     // TODO: Any other operators?
                     if ($leftOperand instanceof UnaryOpExpression) {
                         $shouldOperatorTakePrecedenceOverUnary = true;
+                    }
+                    break;
+                case TokenKind::InstanceOfKeyword:
+                    // Unlike assignment, the instanceof operator doesn't have restrictions on what can go in the left hand side.
+                    // `!` is the only unary operator with lower precedence than instanceof.
+                    if ($leftOperand instanceof UnaryOpExpression) {
+                        if ($leftOperand->operator->kind === TokenKind::ExclamationToken) {
+                            $shouldOperatorTakePrecedenceOverUnary = true;
+                        }
                     }
                     break;
             }
@@ -1910,9 +1918,13 @@ class Parser {
     private function makeBinaryExpression($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
         $assignmentExpression = $operatorToken->kind === TokenKind::EqualsToken;
         if ($assignmentExpression || \array_key_exists($operatorToken->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
-            if ($leftOperand instanceof BinaryExpression && !\array_key_exists($leftOperand->operator->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
-                // Handle cases without parenthesis, such as $x ** $y === $z, as $x ** ($y === $z)
-                return $this->shiftBinaryOperands($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode);
+            if ($leftOperand instanceof BinaryExpression) {
+                if (!\array_key_exists($leftOperand->operator->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
+                    // Handle cases without parenthesis, such as $x ** $y === $z, as $x ** ($y === $z)
+                    return $this->shiftBinaryOperands($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode);
+                }
+            } elseif ($leftOperand instanceof UnaryOpExpression || $leftOperand instanceof ErrorControlExpression) {
+                return $this->shiftUnaryOperands($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode);
             }
         }
         $binaryExpression = $assignmentExpression ? new AssignmentExpression() : new BinaryExpression();
@@ -1926,6 +1938,26 @@ class Parser {
         }
         $binaryExpression->rightOperand = $rightOperand;
         return $binaryExpression;
+    }
+
+    /**
+     * @param ErrorControlExpression|UnaryOpExpression $leftOperand
+     */
+    private function shiftUnaryOperands(UnaryExpression $leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
+        $outerUnaryOpExpression = clone($leftOperand);
+        $inner = $this->makeBinaryExpression(
+            $leftOperand->operand,
+            $operatorToken,
+            $byRefToken,
+            $rightOperand,
+            $outerUnaryOpExpression
+        );
+        // Either ErrorControlExpression or a UnaryOpExpression
+        $outerUnaryOpExpression->parent = $parentNode;
+        // TODO should this binaryExpression be wrapped in a UnaryExpression?
+        $outerUnaryOpExpression->operand = $inner;
+
+        return $outerUnaryOpExpression;
     }
 
     private function shiftBinaryOperands(BinaryExpression $leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
