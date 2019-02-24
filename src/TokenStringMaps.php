@@ -160,6 +160,7 @@ class TokenStringMaps {
         "|=" => TokenKind::BarEqualsToken,
         "," => TokenKind::CommaToken,
         "??" => TokenKind::QuestionQuestionToken,
+        "??=" => TokenKind::QuestionQuestionEqualsToken,
         "<=>" => TokenKind::LessThanEqualsGreaterThanToken,
         "<>" => TokenKind::LessThanGreaterThanToken,
         "..." => TokenKind::DotDotDotToken,

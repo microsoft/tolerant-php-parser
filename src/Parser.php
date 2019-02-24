@@ -1743,6 +1743,7 @@ class Parser {
                 case TokenKind::CaretEqualsToken:
                 case TokenKind::BarEqualsToken:
                 case TokenKind::InstanceOfKeyword:
+                case TokenKind::QuestionQuestionEqualsToken:
                     // Workarounds for https://github.com/Microsoft/tolerant-php-parser/issues/19#issue-201714377
                     // Parse `!$a = $b` as `!($a = $b)` - PHP constrains the Left Hand Side of an assignment to a variable. A unary operator (`@`, `!`, etc.) is not a variable.
                     // Instanceof has similar constraints for the LHS.
@@ -1817,6 +1818,7 @@ class Parser {
             TokenKind::AmpersandEqualsToken => [9, Associativity::Right],
             TokenKind::CaretEqualsToken => [9, Associativity::Right],
             TokenKind::BarEqualsToken => [9, Associativity::Right],
+            TokenKind::QuestionQuestionEqualsToken => [9, Associativity::Right],
 
             // TODO conditional-expression (L)
             TokenKind::QuestionToken => [10, Associativity::Left],
@@ -1901,6 +1903,7 @@ class Parser {
         TokenKind::AmpersandEqualsToken => true,
         TokenKind::CaretEqualsToken => true,
         TokenKind::BarEqualsToken => true,
+        TokenKind::QuestionQuestionEqualsToken => true,
         // InstanceOf has other remaining issues, but this heuristic is an improvement for many common cases such as `$x && $y = $z`
     ];
 

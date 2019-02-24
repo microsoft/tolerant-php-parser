@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Microsoft\PhpParser\TokenKind;
 
 class ParserInvariantsTest extends LexerInvariantsTest {
-    const FILENAME_PATTERN = __dir__ . "/cases/{parser,}/*.php";
+    const FILENAME_PATTERN = __dir__ . "/cases/{parser,parser74,}/*.php";
 
     public static function sourceFileNodeProvider() {
         $testFiles = array();
