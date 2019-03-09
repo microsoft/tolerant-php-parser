@@ -10,11 +10,21 @@ use function substr;
 
 class Token implements \JsonSerializable {
     // TODO optimize memory - ideally this would be a struct of 4 ints
+    /** @var int */
     public $kind;
+    /** @var int */
     public $fullStart;
+    /** @var int */
     public $start;
+    /** @var int */
     public $length;
 
+    /**
+     * @param int $kind
+     * @param int $fullStart
+     * @param int $start
+     * @param int $length
+     */
     public function __construct($kind, $fullStart, $start, $length) {
         $this->kind = $kind;
         $this->fullStart = $fullStart;
@@ -41,22 +51,37 @@ class Token implements \JsonSerializable {
         return substr($document, $this->fullStart, $this->length);
     }
 
+    /**
+     * @return int
+     */
     public function getStartPosition() {
         return $this->start;
     }
 
+    /**
+     * @return int
+     */
     public function getFullStart() {
         return $this->fullStart;
     }
 
+    /**
+     * @return int
+     */
     public function getWidth() {
         return $this->length + $this->fullStart - $this->start;
     }
 
+    /**
+     * @return int
+     */
     public function getFullWidth() {
         return $this->length;
     }
 
+    /**
+     * @return int
+     */
     public function getEndPosition() {
         return $this->fullStart + $this->length;
     }
@@ -78,7 +103,7 @@ class Token implements \JsonSerializable {
      * was not found.
      *
      * @param int $kind
-     * @return int|string 
+     * @return int|string
      */
     public static function getTokenKindNameFromValue($kind) {
         $mapToKindName = self::getTokenKindNameFromValueMap();
