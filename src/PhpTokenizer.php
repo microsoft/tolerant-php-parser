@@ -53,64 +53,88 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         return $this->tokensArray;
     }
 
+    /**
+     * Return an array of Token object instances created from $content.
+     *
+     * This method is optimized heavily - this processes every single token being created.
+     *
+     * @param string $content the raw php code
+     * @param ?int $parseContext can be SourceElements when extracting doc comments
+     * @param int $initialPos
+     * @param bool $treatCommentsAsTrivia
+     * @return Token[]
+     */
     public static function getTokensArrayFromContent(
         $content, $parseContext = null, $initialPos = 0, $treatCommentsAsTrivia = true
     ) : array {
         if ($parseContext !== null) {
+            // If needed, add a prefix so that token_get_all will tokenize the remaining $contents
             $prefix = self::PARSE_CONTEXT_TO_PREFIX[$parseContext];
             $content = $prefix . $content;
-            $passedPrefix = false;
         }
 
         $tokens = @\token_get_all($content);
 
         $arr = array();
         $fullStart = $start = $pos = $initialPos;
+        if ($parseContext !== null) {
+            // If needed, skip over the prefix we added for token_get_all and remove those tokens.
+            // This was moved out of the below main loop as an optimization.
+            // (the common case of parsing an entire file uses a null parseContext)
+            foreach ($tokens as $i => $token) {
+                unset($tokens[$i]);
+                if (\is_array($token)) {
+                    $pos += \strlen($token[1]);
+                } else {
+                    $pos += \strlen($token);
+                }
+                if (\strlen($prefix) < $pos) {
+                    $fullStart = $start = $pos = $initialPos;
+                    break;
+                }
+            }
+        }
 
+        // Convert tokens from token_get_all to Token instances,
+        // skipping whitespace and (usually, when parseContext is null) comments.
         foreach ($tokens as $token) {
             if (\is_array($token)) {
                 $tokenKind = $token[0];
                 $strlen = \strlen($token[1]);
             } else {
-                $tokenKind = $token;
-                $strlen = \strlen($token);
+                $pos += \strlen($token);
+                $newTokenKind = self::TOKEN_MAP[$token] ?? TokenKind::Unknown;
+                $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
+                $start = $fullStart = $pos;
+                continue;
             }
 
             $pos += $strlen;
 
-            if ($parseContext !== null && !$passedPrefix) {
-                $passedPrefix = \strlen($prefix) < $pos;
-                if ($passedPrefix) {
-                    $fullStart = $start = $pos = $initialPos;
-                }
-                continue;
-            }
-
+            // Optimization note: In PHP < 7.2, the switch statement would check case by case,
+            // so putting the most common cases first is slightly faster
             switch ($tokenKind) {
+                case \T_WHITESPACE:
+                    $start += $strlen;
+                    break;
+                case \T_STRING:
+                    $name = \strtolower($token[1]);
+                    $newTokenKind = TokenStringMaps::RESERVED_WORDS[$name] ?? TokenKind::Name;
+                    $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
+                    $start = $fullStart = $pos;
+                    break;
                 case \T_OPEN_TAG:
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
                     $start = $fullStart = $pos;
                     break;
-
-                case \T_WHITESPACE:
-                    $start += $strlen;
-                    break;
-
-                case \T_STRING:
-                    $name = \strtolower($token[1]);
-                    if (isset(TokenStringMaps::RESERVED_WORDS[$name])) {
-                        $newTokenKind = TokenStringMaps::RESERVED_WORDS[$name];
-                        $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
-                        $start = $fullStart = $pos;
-                        break;
-                    }
-
-                default:
-                    if (($tokenKind === \T_COMMENT || $tokenKind === \T_DOC_COMMENT) && $treatCommentsAsTrivia) {
+                case \T_COMMENT:
+                case \T_DOC_COMMENT:
+                    if ($treatCommentsAsTrivia) {
                         $start += $strlen;
                         break;
                     }
-
+                    // fall through
+                default:
                     $newTokenKind = self::TOKEN_MAP[$tokenKind] ?? TokenKind::Unknown;
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
