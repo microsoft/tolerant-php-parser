@@ -1554,7 +1554,8 @@ class Parser {
             return new MissingToken(TokenKind::Expression, $token->fullStart);
         }
 
-        $expression = ($this->parseExpressionFn())($parentNode);
+        // Equivalent to (parseExpressionFn())($parentNode)
+        $expression = $this->parseBinaryExpressionOrHigher(0, $parentNode);
         if ($force && $expression instanceof MissingToken) {
             $expression = [$expression, new SkippedToken($token)];
             $this->advanceToken();
@@ -1888,11 +1889,7 @@ class Parser {
     const UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY = [-1, -1];
 
     private function getBinaryOperatorPrecedenceAndAssociativity($token) {
-        if (isset(self::OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY[$token->kind])) {
-            return self::OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY[$token->kind];
-        }
-
-        return self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
+        return self::OPERATOR_PRECEDENCE_AND_ASSOCIATIVITY[$token->kind] ?? self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
     }
 
     /**
