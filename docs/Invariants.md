@@ -13,7 +13,6 @@ reason about the tree as we continue to build up our understanding.
 - A token's content exactly matches the range of the file its span specifies
 - FullText of each token matches Trivia plus Text
 - Concatenating FullText of each token returns the document
-- a token's FullText length is equivalent to Length
 - a token's FullText length is equivalent to Length - (Start - FullStart)
 - a token's Trivia length is equivalent to (Start - FullStart)
 - End-of-file token text should have zero length
