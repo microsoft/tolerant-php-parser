@@ -1234,13 +1234,13 @@ class Parser {
                 break;
             }
 
-            $delimeterToken = $this->eatOptional($delimiter);
-            if ($delimeterToken !== null) {
-                $node->addElement($delimeterToken);
+            $delimiterToken = $this->eatOptional($delimiter);
+            if ($delimiterToken !== null) {
+                $node->addElement($delimiterToken);
             }
             $token = $this->getCurrentToken();
             // TODO ERROR CASE - no delimiter, but a param follows
-        } while ($delimeterToken !== null);
+        } while ($delimiterToken !== null);
 
 
         $node->parent = $parentNode;
