@@ -85,6 +85,7 @@ class TokenKind {
     const XorKeyword = 165;
     const YieldKeyword = 166;
     const YieldFromKeyword = 167;
+    const FnKeyword = 168;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;

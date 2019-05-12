@@ -10,6 +10,7 @@ use Microsoft\PhpParser\NamespacedNameInterface;
 use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\Expression\AnonymousFunctionCreationExpression;
+use Microsoft\PhpParser\Node\Expression\ArrowFunctionCreationExpression;
 use Microsoft\PhpParser\Node\Expression\CallExpression;
 use Microsoft\PhpParser\Node\Expression\ObjectCreationExpression;
 use Microsoft\PhpParser\ResolvedName;
@@ -180,6 +181,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
                 $this->parent instanceof Node\Expression\MemberAccessExpression || $this->parent instanceof CallExpression ||
                 $this->parent instanceof ObjectCreationExpression ||
                 $this->parent instanceof Node\Expression\ScopedPropertyAccessExpression || $this->parent instanceof AnonymousFunctionCreationExpression ||
+                $this->parent instanceof ArrowFunctionCreationExpression ||
                 ($this->parent instanceof Node\Expression\BinaryExpression && $this->parent->operator->kind === TokenKind::InstanceOfKeyword)
             );
     }

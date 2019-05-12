@@ -19,6 +19,7 @@ use Microsoft\PhpParser\Node\Expression\{
     AnonymousFunctionCreationExpression,
     ArgumentExpression,
     ArrayCreationExpression,
+    ArrowFunctionCreationExpression,
     AssignmentExpression,
     BinaryExpression,
     BracedExpression,
@@ -563,7 +564,7 @@ class Parser {
                 // function-static-declaration
                 case TokenKind::StaticKeyword:
                     // Check that this is not an anonymous-function-creation-expression
-                    if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::OpenParenToken, TokenKind::ColonColonToken])) {
+                    if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::OpenParenToken, TokenKind::ColonColonToken])) {
                         return $this->parseFunctionStaticDeclaration($parentNode);
                     }
                     break;
@@ -899,6 +900,7 @@ class Parser {
                 // anonymous-function-creation-expression
                 case TokenKind::StaticKeyword:
                 case TokenKind::FunctionKeyword:
+                case TokenKind::FnKeyword:
                     return true;
             }
             return \in_array($token->kind, $this->reservedWordTokens, true);
@@ -978,12 +980,13 @@ class Parser {
             case TokenKind::StaticKeyword:
                 // handle `static::`, `static(`, `new static;`, `instanceof static`
                 if (($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) ||
-                    (!$this->lookahead(TokenKind::FunctionKeyword))
+                    (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword]))
                 ) {
                     return $this->parseQualifiedName($parentNode);
                 }
                 // Could be `static function` anonymous function creation expression, so flow through
             case TokenKind::FunctionKeyword:
+            case TokenKind::FnKeyword:
                 return $this->parseAnonymousFunctionCreationExpression($parentNode);
 
             case TokenKind::TrueReservedWord:
@@ -3326,13 +3329,54 @@ class Parser {
     }
 
     private function parseAnonymousFunctionCreationExpression($parentNode) {
+        $staticModifier = $this->eatOptional1(TokenKind::StaticKeyword);
+        if ($this->getCurrentToken()->kind === TokenKind::FnKeyword) {
+            return $this->parseArrowFunctionCreationExpression($parentNode, $staticModifier);
+        }
         $anonymousFunctionCreationExpression = new AnonymousFunctionCreationExpression();
         $anonymousFunctionCreationExpression->parent = $parentNode;
 
-        $anonymousFunctionCreationExpression->staticModifier = $this->eatOptional1(TokenKind::StaticKeyword);
+        $anonymousFunctionCreationExpression->staticModifier = $staticModifier;
         $this->parseFunctionType($anonymousFunctionCreationExpression, false, true);
 
         return $anonymousFunctionCreationExpression;
+    }
+
+    private function parseArrowFunctionCreationExpression($parentNode, $staticModifier) : ArrowFunctionCreationExpression {
+        $arrowFunction = new ArrowFunctionCreationExpression();
+        $arrowFunction->parent = $parentNode;
+        $arrowFunction->staticModifier = $staticModifier;
+
+        $arrowFunction->functionKeyword = $this->eat1(TokenKind::FnKeyword);
+        $arrowFunction->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
+        $arrowFunction->name = $this->eatOptional($this->nameOrKeywordOrReservedWordTokens);
+
+        if (isset($arrowFunction->name)) {
+            // Anonymous functions should not have names.
+            // This is based on the code for AnonymousFunctionCreationExpression.
+            $arrowFunction->name->kind = TokenKind::Name;
+            $arrowFunction->name = new SkippedToken($arrowFunction->name); // TODO instead handle this during post-walk
+        }
+
+        $arrowFunction->openParen = $this->eat1(TokenKind::OpenParenToken);
+        $arrowFunction->parameters = $this->parseDelimitedList(
+            DelimitedList\ParameterDeclarationList::class,
+            TokenKind::CommaToken,
+            $this->isParameterStartFn(),
+            $this->parseParameterFn(),
+            $arrowFunction);
+        $arrowFunction->closeParen = $this->eat1(TokenKind::CloseParenToken);
+
+        if ($this->checkToken(TokenKind::ColonToken)) {
+            $arrowFunction->colonToken = $this->eat1(TokenKind::ColonToken);
+            $arrowFunction->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
+            $arrowFunction->returnType = $this->parseReturnTypeDeclaration($arrowFunction);
+        }
+
+        $arrowFunction->arrowToken = $this->eat1(TokenKind::DoubleArrowToken);
+        $arrowFunction->resultExpression = $this->parseExpression($arrowFunction);
+
+        return $arrowFunction;
     }
 
     private function parseAnonymousFunctionUseClause($parentNode) {
