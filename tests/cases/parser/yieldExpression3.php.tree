@@ -64,6 +64,7 @@
                                                             "textLength": 2
                                                         },
                                                         "byRef": null,
+                                                        "dotDotDot": null,
                                                         "elementValue": {
                                                             "NumericLiteral": {
                                                                 "children": {

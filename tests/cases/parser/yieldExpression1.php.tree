@@ -24,6 +24,7 @@
                                     "elementKey": null,
                                     "arrowToken": null,
                                     "byRef": null,
+                                    "dotDotDot": null,
                                     "elementValue": {
                                         "NumericLiteral": {
                                             "children": {

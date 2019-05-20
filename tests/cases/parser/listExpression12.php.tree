@@ -33,6 +33,7 @@
                                                         "elementKey": null,
                                                         "arrowToken": null,
                                                         "byRef": null,
+                                                        "dotDotDot": null,
                                                         "elementValue": {
                                                             "ListIntrinsicExpression": {
                                                                 "listKeyword": {
@@ -51,6 +52,7 @@
                                                                                     "elementKey": null,
                                                                                     "arrowToken": null,
                                                                                     "byRef": null,
+                                                                                    "dotDotDot": null,
                                                                                     "elementValue": {
                                                                                         "ListIntrinsicExpression": {
                                                                                             "listKeyword": {
@@ -69,6 +71,7 @@
                                                                                                                 "elementKey": null,
                                                                                                                 "arrowToken": null,
                                                                                                                 "byRef": null,
+                                                                                                                "dotDotDot": null,
                                                                                                                 "elementValue": {
                                                                                                                     "Variable": {
                                                                                                                         "dollar": null,
@@ -138,6 +141,7 @@
                                                         "elementKey": null,
                                                         "arrowToken": null,
                                                         "byRef": null,
+                                                        "dotDotDot": null,
                                                         "elementValue": {
                                                             "ArrayCreationExpression": {
                                                                 "arrayKeyword": {
@@ -156,6 +160,7 @@
                                                                                     "elementKey": null,
                                                                                     "arrowToken": null,
                                                                                     "byRef": null,
+                                                                                    "dotDotDot": null,
                                                                                     "elementValue": {
                                                                                         "NumericLiteral": {
                                                                                             "children": {
