@@ -849,7 +849,7 @@ class Parser {
                     return true;
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
-                    return $this->checkToken(TokenKind::BackslashToken);
+                    return $this->isNamespaceKeywordStartOfExpression($token);
 
                 // literal
                 case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
@@ -903,6 +903,24 @@ class Parser {
             }
             return \in_array($token->kind, $this->reservedWordTokens, true);
         };
+    }
+
+    /**
+     * Handles the fact that $token may either be getCurrentToken or the token immediately before it in isExpressionStartFn().
+     * An expression can be namespace\CONST, namespace\fn(), or namespace\ClassName
+     */
+    private function isNamespaceKeywordStartOfExpression(Token $token) : bool {
+        $nextToken = $this->getCurrentToken();
+        if ($nextToken->kind === TokenKind::BackslashToken) {
+            return true;
+        }
+        if ($nextToken !== $token) {
+            return false;
+        }
+        $oldPosition = $this->lexer->getCurrentPosition();
+        $nextToken = $this->lexer->scanNextToken();
+        $this->lexer->setCurrentPosition($oldPosition);
+        return $nextToken->kind === TokenKind::BackslashToken;
     }
 
     /**
