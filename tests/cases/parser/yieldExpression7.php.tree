@@ -70,6 +70,7 @@
                                                                 "elementKey": null,
                                                                 "arrowToken": null,
                                                                 "byRef": null,
+                                                                "dotDotDot": null,
                                                                 "elementValue": {
                                                                     "Variable": {
                                                                         "dollar": null,

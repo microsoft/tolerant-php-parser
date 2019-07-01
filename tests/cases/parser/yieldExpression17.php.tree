@@ -54,6 +54,7 @@
                                                         "elementKey": null,
                                                         "arrowToken": null,
                                                         "byRef": null,
+                                                        "dotDotDot": null,
                                                         "elementValue": {
                                                             "YieldExpression": {
                                                                 "yieldOrYieldFromKeyword": {
@@ -65,6 +66,7 @@
                                                                         "elementKey": null,
                                                                         "arrowToken": null,
                                                                         "byRef": null,
+                                                                        "dotDotDot": null,
                                                                         "elementValue": {
                                                                             "NumericLiteral": {
                                                                                 "children": {

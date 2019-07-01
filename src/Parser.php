@@ -2324,7 +2324,7 @@ class Parser {
 
     private function isArrayElementStartFn() {
         return function ($token) {
-            return $token->kind === TokenKind::AmpersandToken || $this->isExpressionStart($token);
+            return $token->kind === TokenKind::AmpersandToken || $token->kind === TokenKind::DotDotDotToken || $this->isExpressionStart($token);
         };
     }
 
@@ -2339,6 +2339,9 @@ class Parser {
 
             if ($this->checkToken(TokenKind::AmpersandToken)) {
                 $arrayElement->byRef = $this->eat1(TokenKind::AmpersandToken);
+                $arrayElement->elementValue = $this->parseExpression($arrayElement);
+            } elseif ($this->checkToken(TokenKind::DotDotDotToken)) {
+                $arrayElement->dotDotDot = $this->eat1(TokenKind::DotDotDotToken);
                 $arrayElement->elementValue = $this->parseExpression($arrayElement);
             } else {
                 $expression = $this->parseExpression($arrayElement);

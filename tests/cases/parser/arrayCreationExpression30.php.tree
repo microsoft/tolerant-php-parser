@@ -45,6 +45,7 @@
                                                     "kind": "AmpersandToken",
                                                     "textLength": 1
                                                 },
+                                                "dotDotDot": null,
                                                 "elementValue": {
                                                     "Variable": {
                                                         "dollar": null,

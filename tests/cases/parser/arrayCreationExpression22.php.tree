@@ -41,6 +41,7 @@
                                                     "textLength": 2
                                                 },
                                                 "byRef": null,
+                                                "dotDotDot": null,
                                                 "elementValue": {
                                                     "Variable": {
                                                         "dollar": null,

@@ -20,6 +20,9 @@ class ArrayElement extends Node {
     /** @var Token|null */
     public $byRef;
 
+    /** @var Token|null if this is set for PHP 7.4's array spread operator, then other preceding tokens aren't */
+    public $dotDotDot;
+
     /** @var Expression */
     public $elementValue;
 
@@ -27,6 +30,7 @@ class ArrayElement extends Node {
         'elementKey',
         'arrowToken',
         'byRef',
+        'dotDotDot',
         'elementValue'
     ];
 }
