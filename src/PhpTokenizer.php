@@ -6,9 +6,10 @@
 
 namespace Microsoft\PhpParser;
 
-// If this predates PHP 7.4, T_COALESCE_EQUAL is unavailable.
+// If this predates PHP 7.4, T_COALESCE_EQUAL and T_FN are unavailable.
 // The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_COALESCE_EQUAL', defined('T_COALESCE_EQUAL') ? constant('T_COALESCE_EQUAL') : 'T_COALESCE_EQUAL');
+define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -192,6 +193,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_FINALLY => TokenKind::FinallyKeyword,
         T_FOR => TokenKind::ForKeyword,
         T_FOREACH => TokenKind::ForeachKeyword,
+        T_FN => TokenKind::FnKeyword,
         T_FUNCTION => TokenKind::FunctionKeyword,
         T_GLOBAL => TokenKind::GlobalKeyword,
         T_GOTO => TokenKind::GotoKeyword,

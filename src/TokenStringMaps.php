@@ -43,6 +43,7 @@ class TokenStringMaps {
         "finally" => TokenKind::FinallyKeyword,
         "for" => TokenKind::ForKeyword,
         "foreach" => TokenKind::ForeachKeyword,
+        "fn" => TokenKind::FnKeyword,
         "function" => TokenKind::FunctionKeyword,
         "global" => TokenKind::GlobalKeyword,
         "goto" => TokenKind::GotoKeyword,
