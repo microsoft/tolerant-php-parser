@@ -1783,6 +1783,12 @@ class Parser {
                         }
                     }
                     break;
+                case TokenKind::QuestionToken:
+                    if ($parentNode instanceof TernaryExpression) {
+                        // Workaround to parse "a ? b : c ? d : e" as "(a ? b : c) ? d : e"
+                        break 2;
+                    }
+                    break;
             }
 
             if ($shouldOperatorTakePrecedenceOverUnary) {
