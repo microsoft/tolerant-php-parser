@@ -445,6 +445,10 @@ class Parser {
         return null;
     }
 
+    /**
+     *
+     * @var Token
+     */
     private $token;
 
     private function getCurrentToken() : Token {
@@ -732,71 +736,17 @@ class Parser {
 
     private function isStatementStart(Token $token) {
         // https://github.com/php/php-langspec/blob/master/spec/19-grammar.md#statements
-        switch ($token->kind) {
-            // Compound Statements
-            case TokenKind::OpenBraceToken:
 
+        if ($token->isStatementStart()) {
+            return true;
+        }
+        switch ($token->kind) {
             // Labeled Statements
             case TokenKind::Name:
-//            case TokenKind::CaseKeyword: // TODO update spec
-//            case TokenKind::DefaultKeyword:
-
-            // Expression Statements
-            case TokenKind::SemicolonToken:
-            case TokenKind::IfKeyword:
-            case TokenKind::SwitchKeyword:
-
-            // Iteration Statements
-            case TokenKind::WhileKeyword:
-            case TokenKind::DoKeyword:
-            case TokenKind::ForKeyword:
-            case TokenKind::ForeachKeyword:
-
-            // Jump Statements
-            case TokenKind::GotoKeyword:
-            case TokenKind::ContinueKeyword:
-            case TokenKind::BreakKeyword:
-            case TokenKind::ReturnKeyword:
-            case TokenKind::ThrowKeyword:
-
-            // The try Statement
-            case TokenKind::TryKeyword:
-
-            // The declare Statement
-            case TokenKind::DeclareKeyword:
-
-            // const-declaration
-            case TokenKind::ConstKeyword:
-
-            // function-definition
-            case TokenKind::FunctionKeyword:
-
-            // class-declaration
-            case TokenKind::ClassKeyword:
+            // case TokenKind::CaseKeyword: TODO update spec
+            // case TokenKind::DefaultKeyword:
             case TokenKind::AbstractKeyword:
-            case TokenKind::FinalKeyword:
-
-            // interface-declaration
-            case TokenKind::InterfaceKeyword:
-
-            // trait-declaration
-            case TokenKind::TraitKeyword:
-
-            // namespace-definition
-            case TokenKind::NamespaceKeyword:
-
-            // namespace-use-declaration
-            case TokenKind::UseKeyword:
-
-            // global-declaration
-            case TokenKind::GlobalKeyword:
-
-            // function-static-declaration
-            case TokenKind::StaticKeyword:
-
-            case TokenKind::ScriptSectionEndTag:
                 return true;
-
             default:
                 return $this->isExpressionStart($token);
         }
@@ -806,104 +756,23 @@ class Parser {
         return ($this->isExpressionStartFn())($token);
     }
 
-    private function isExpressionStartFn() {
-        return function ($token) {
+    private function isExpressionStartFn()
+    {
+        return function($token) {
+
+            if ($token->isExpressionStart()) {
+                return true;
+            }
+
             switch ($token->kind) {
-                // Script Inclusion Expression
-                case TokenKind::RequireKeyword:
-                case TokenKind::RequireOnceKeyword:
-                case TokenKind::IncludeKeyword:
-                case TokenKind::IncludeOnceKeyword:
-
-                // yield-expression
-                case TokenKind::YieldKeyword:
-                case TokenKind::YieldFromKeyword:
-
-                // object-creation-expression
-                case TokenKind::NewKeyword:
-                case TokenKind::CloneKeyword:
-                    return true;
-
-                // unary-op-expression
-                case TokenKind::PlusToken:
-                case TokenKind::MinusToken:
-                case TokenKind::ExclamationToken:
-                case TokenKind::TildeToken:
-
-                // error-control-expression
-                case TokenKind::AtSymbolToken:
-
-                // prefix-increment-expression
-                case TokenKind::PlusPlusToken:
-                // prefix-decrement-expression
-                case TokenKind::MinusMinusToken:
-                    return true;
-
-                // variable-name
-                case TokenKind::VariableName:
-                case TokenKind::DollarToken:
-                    return true;
-
-                // qualified-name
                 case TokenKind::Name:
-                case TokenKind::BackslashToken:
+                case TokenKind::ArrayKeyword:
                     return true;
                 case TokenKind::NamespaceKeyword:
                     // TODO currently only supports qualified-names, but eventually parse namespace declarations
                     return $this->isNamespaceKeywordStartOfExpression($token);
-
-                // literal
-                case TokenKind::DecimalLiteralToken: // TODO merge dec, oct, hex, bin, float -> NumericLiteral
-                case TokenKind::OctalLiteralToken:
-                case TokenKind::HexadecimalLiteralToken:
-                case TokenKind::BinaryLiteralToken:
-                case TokenKind::FloatingLiteralToken:
-                case TokenKind::InvalidOctalLiteralToken:
-                case TokenKind::InvalidHexadecimalLiteral:
-                case TokenKind::InvalidBinaryLiteral:
-                case TokenKind::IntegerLiteralToken:
-
-                case TokenKind::StringLiteralToken:
-
-                case TokenKind::SingleQuoteToken:
-                case TokenKind::DoubleQuoteToken:
-                case TokenKind::HeredocStart:
-                case TokenKind::BacktickToken:
-
-                // array-creation-expression
-                case TokenKind::ArrayKeyword:
-                case TokenKind::OpenBracketToken:
-
-                // intrinsic-construct
-                case TokenKind::EchoKeyword:
-                case TokenKind::ListKeyword:
-                case TokenKind::UnsetKeyword:
-
-                // intrinsic-operator
-                case TokenKind::EmptyKeyword:
-                case TokenKind::EvalKeyword:
-                case TokenKind::ExitKeyword:
-                case TokenKind::DieKeyword:
-                case TokenKind::IsSetKeyword:
-                case TokenKind::PrintKeyword:
-
-                // ( expression )
-                case TokenKind::OpenParenToken:
-                case TokenKind::ArrayCastToken:
-                case TokenKind::BoolCastToken:
-                case TokenKind::DoubleCastToken:
-                case TokenKind::IntCastToken:
-                case TokenKind::ObjectCastToken:
-                case TokenKind::StringCastToken:
-                case TokenKind::UnsetCastToken:
-
-                // anonymous-function-creation-expression
-                case TokenKind::StaticKeyword:
-                case TokenKind::FunctionKeyword:
-                case TokenKind::FnKeyword:
-                    return true;
             }
-            return \in_array($token->kind, $this->reservedWordTokens, true);
+            return $token->isReserved();
         };
     }
 
@@ -1016,7 +885,7 @@ class Parser {
                 }
                 return $this->parseReservedWordExpression($parentNode);
         }
-        if (\in_array($token->kind, TokenStringMaps::RESERVED_WORDS)) {
+        if ($token->isReserved()) {
             return $this->parseQualifiedName($parentNode);
         }
 
@@ -1297,7 +1166,7 @@ class Parser {
             }
             // Unfortunately, catch(int $x) is *syntactically valid* php which `php --syntax-check` would accept.
             // (tolerant-php-parser is concerned with syntax, not semantics)
-            return in_array($token->kind, $this->reservedWordTokens, true);
+            return $token->isReserved();
         };
     }
 
@@ -1417,9 +1286,11 @@ class Parser {
     }
 
     private function lookahead(...$expectedKinds) : bool {
+
         $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->token;
         $succeeded = true;
+        $expectedKinds = [6, 7];
         foreach ($expectedKinds as $kind) {
             $token = $this->lexer->scanNextToken();
             $currentPosition = $this->lexer->getCurrentPosition();
@@ -1439,6 +1310,29 @@ class Parser {
                 }
             }
         }
+        $this->lexer->setCurrentPosition($startPos);
+        $this->token = $startToken;
+        return $succeeded;
+    }
+
+    /**
+     *
+     * @param int $kind
+     */
+    private function lookAhead1($kind)
+    {
+        $startPos = $this->lexer->getCurrentPosition();
+        $startToken = $this->token;
+        $succeeded = true;
+
+        $tok = $this->lexer->scanNextToken();
+        $pos = $this->lexer->getCurrentPosition();
+        $eofPos = $this->lexer->getEndOfFilePosition();
+
+        if ($pos > $eofPos || $tok->kind !== $kind) {
+            $succeeded = false;
+        }
+
         $this->lexer->setCurrentPosition($startPos);
         $this->token = $startToken;
         return $succeeded;
@@ -1939,9 +1833,18 @@ class Parser {
         // InstanceOf has other remaining issues, but this heuristic is an improvement for many common cases such as `$x && $y = $z`
     ];
 
+    /**
+     *
+     * @param Expression $leftOperand
+     * @param Token $operatorToken
+     * @param Token|null $byRefToken
+     * @param Expression $rightOperand
+     * @param Node $parentNode
+     * @return AssignmentExpression|BinaryExpression
+     */
     private function makeBinaryExpression($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
-        $assignmentExpression = $operatorToken->kind === TokenKind::EqualsToken;
-        if ($assignmentExpression || \array_key_exists($operatorToken->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
+        $isAssignmentExpr = $operatorToken->kind === TokenKind::EqualsToken;
+        if ($isAssignmentExpr || \array_key_exists($operatorToken->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
             if ($leftOperand instanceof BinaryExpression) {
                 if (!\array_key_exists($leftOperand->operator->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
                     // Handle cases without parenthesis, such as $x ** $y === $z, as $x ** ($y === $z)
@@ -1951,7 +1854,8 @@ class Parser {
                 return $this->shiftUnaryOperands($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode);
             }
         }
-        $binaryExpression = $assignmentExpression ? new AssignmentExpression() : new BinaryExpression();
+
+        $binaryExpression = $isAssignmentExpr ? new AssignmentExpression() : new BinaryExpression();
         $binaryExpression->parent = $parentNode;
         $leftOperand->parent = $binaryExpression;
         $rightOperand->parent = $binaryExpression;
@@ -2624,7 +2528,7 @@ class Parser {
                 return $this->parseBracedExpression($parentNode);
 
             default:
-                if (\in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens)) {
+                if ($token->isNameOrKeywordOrReserved()) {
                     $this->advanceToken();
                     $token->kind = TokenKind::Name;
                     return $token;
@@ -3291,7 +3195,7 @@ class Parser {
             DelimitedList\ConstElementList::class,
             TokenKind::CommaToken,
             function ($token) {
-                return \in_array($token->kind, $this->nameOrKeywordOrReservedWordTokens);
+                return $token->isNameOrKeywordOrReserved();
             },
             $this->parseConstElementFn(),
             $parentNode

@@ -131,4 +131,62 @@ class Token implements \JsonSerializable {
             ];
         }
     }
+
+    public function isKeyword(): bool
+    {
+        return TokenKind::isKeyword($this->kind);
+    }
+
+    public function isReserved(): bool
+    {
+        return TokenKind::isReserved($this->kind);
+    }
+
+    public function isNameOrReserved(): bool
+    {
+        return TokenKind::Name || TokenKind::isReserved($this->kind);
+    }
+    
+    public function isNameOrKeywordOrReserved(): bool
+    {
+        return TokenKind::isNameOrKeywordOrReserved($this->kind);
+    }
+    
+    public function isNameOrStaticOrReserved()
+    {
+        return TokenKind::Name || TokenKind::StaticKeyword || $this->isReserved();
+    }
+    
+    public function isReturnTypeDeclaration(): bool
+    {
+        return TokenKind::VoidReservedWord || TokenKind::isParameterTypeDeclaration($this->kind);
+    }
+    
+    public function isParameterTypeDeclaration(): bool
+    {
+        return TokenKind::isParameterTypeDeclaration($this->kind);
+    }
+    
+    /**
+     * Missing tokens in this functions are
+     * TokenKind::Name
+     * TokenKind::ArrayKeyword
+     * TokenKind::NamespaceKeyword
+     * @return bool
+     */
+    public function isExpressionStart(): bool
+    {
+        return TokenKind::isExpression($this->kind);
+    }
+    
+    /**
+     * Missing tokens in this functions are
+     * TokenKind::Name
+     * TokenKind::AbstractKeyword
+     * @return bool
+     */
+    public function isStatementStart(): bool
+    {
+        return TokenKind::isStatement($this->kind);
+    }
 }

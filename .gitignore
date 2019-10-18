@@ -6,3 +6,4 @@ tests/output
 *.ast
 .*.swp
 .*.swo
+/nbproject/private/
