@@ -7,7 +7,7 @@ namespace Microsoft\PhpParser\Token;
  * Borrowed from Twig's compiler
  */
 class Compiler {
-    
+
     /**
      * @var int
      */
@@ -35,11 +35,7 @@ class Compiler {
         return $this->source;
     }
 
-    public function compile(array $tokens, int $indentation = 0)
-    {
-    }
-
-        /**
+    /**
      * Adds a raw string to the compiled code.
      *
      * @param string $string The string
