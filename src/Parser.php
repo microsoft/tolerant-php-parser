@@ -473,7 +473,7 @@ class Parser {
 
                 // labeled-statement
                 case TokenKind::Name:
-                    if ($this->lookahead(TokenKind::ColonToken)) {
+                    if ($this->lookahead1(TokenKind::ColonToken)) {
                         return $this->parseNamedLabelStatement($parentNode);
                     }
                     break;
@@ -524,7 +524,7 @@ class Parser {
                 // class-declaration
                 case TokenKind::FinalKeyword:
                 case TokenKind::AbstractKeyword:
-                    if (!$this->lookahead(TokenKind::ClassKeyword)) {
+                    if (!$this->lookahead1(TokenKind::ClassKeyword)) {
                         $this->advanceToken();
                         return new SkippedToken($token);
                     }
@@ -537,7 +537,7 @@ class Parser {
 
                 // namespace-definition
                 case TokenKind::NamespaceKeyword:
-                    if (!$this->lookahead(TokenKind::BackslashToken)) {
+                    if (!$this->lookahead1(TokenKind::BackslashToken)) {
                         // TODO add error handling for the case where a namespace definition does not occur in the outer-most scope
                         return $this->parseNamespaceDefinition($parentNode);
                     }
@@ -1100,7 +1100,7 @@ class Parser {
             }
 
             // scalar-type
-            return \in_array($token->kind, $this->parameterTypeDeclarationTokens);
+            return $token->isParameterTypeDeclaration();
         };
     }
 
@@ -1195,12 +1195,12 @@ class Parser {
                         // a\b\true <-VALID
                         // a\static::b <-VALID
                         // TODO more tests
-                        return $this->lookahead(TokenKind::BackslashToken)
-                            ? in_array($token->kind, $this->nameOrReservedWordTokens)
-                            : in_array($token->kind, $this->nameOrStaticOrReservedWordTokens);
+                        return $this->lookahead1(TokenKind::BackslashToken)
+                            ? $token->isNameOrReserved()
+                            : $token->isNameOrStaticOrReserved();
                     },
                     function ($parentNode) {
-                        $name = $this->lookahead(TokenKind::BackslashToken)
+                        $name = $this->lookahead1(TokenKind::BackslashToken)
                             ? $this->eat($this->nameOrReservedWordTokens)
                             : $this->eat($this->nameOrStaticOrReservedWordTokens); // TODO support keyword name
                         $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
@@ -1290,7 +1290,7 @@ class Parser {
         $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->token;
         $succeeded = true;
-        $expectedKinds = [6, 7];
+
         foreach ($expectedKinds as $kind) {
             $token = $this->lexer->scanNextToken();
             $currentPosition = $this->lexer->getCurrentPosition();
