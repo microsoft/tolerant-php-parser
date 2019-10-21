@@ -121,12 +121,12 @@ $tokens = [
     "comment anonymous function creation expression",
 
     "FnKeyword",
-    
+
     "begin_statement",
-    
+
     "FunctionKeyword",
     "StaticKeyword",
-    
+
     "end_statement",
 
     "end_expression",
