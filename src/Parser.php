@@ -1319,7 +1319,7 @@ class Parser {
      *
      * @param int $kind
      */
-    private function lookAhead1($kind)
+    private function lookahead1($kind)
     {
         $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->token;
