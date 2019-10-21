@@ -282,7 +282,7 @@ class TokenKind {
 
     public static function isExpression(int $tokenKind): bool
     {
-        return (2 === $tokenKind) || (147 < $tokenKind && $tokenKind < 201) || (263 < $tokenKind && $tokenKind < 317);
+        return (2 === $tokenKind) || (147 < $tokenKind && $tokenKind < 201) ||(263 < $tokenKind && $tokenKind < 317);
     }
 
     public static function isNameOrKeywordOrReserved(int $tokenKind): bool

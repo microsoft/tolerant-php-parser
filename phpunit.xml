@@ -42,6 +42,9 @@
     <testsuite name="performance">
       <!-- TODO: Validates that there are no performance regressions. -->
     </testsuite>
+    <testsuite name="tokens">
+      <file>tests/cases/tokens/TokenTest.php</file>
+    </testsuite>
   </testsuites>
 
   <filter>
