@@ -131,8 +131,8 @@ class Parser {
         $this->parameterTypeDeclarationTokens =
             [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
             TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
-            TokenKind::ObjectReservedWord]; // TODO update spec
-        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord], $this->parameterTypeDeclarationTokens);
+            TokenKind::ObjectReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord]; // TODO update spec
+        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord], $this->parameterTypeDeclarationTokens);
     }
 
     /**
@@ -656,7 +656,14 @@ class Parser {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
-            $parameter->typeDeclaration = $this->tryParseParameterTypeDeclaration($parameter);
+            $typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
+            if ($typeDeclarationList) {
+                $parameter->typeDeclaration = array_shift($typeDeclarationList->children);
+                $parameter->typeDeclaration->parent = $parameter;
+                if ($typeDeclarationList->children) {
+                    $parameter->otherTypeDeclarations = $typeDeclarationList;
+                }
+            }
             $parameter->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
             // TODO add post-parse rule that prevents assignment
             // TODO add post-parse rule that requires only last parameter be variadic
@@ -671,19 +678,83 @@ class Parser {
         };
     }
 
-    private function parseReturnTypeDeclaration($parentNode) {
-        $returnTypeDeclaration =
-            $this->eatOptional($this->returnTypeDeclarationTokens)
-            ?? $this->parseQualifiedName($parentNode)
-            ?? new MissingToken(TokenKind::ReturnType, $this->getCurrentToken()->fullStart);
+    /**
+     * @param ArrowFunctionCreationExpression|AnonymousFunctionCreationExpression|FunctionDeclaration|MethodDeclaration $parentNode a node with FunctionReturnType trait
+     */
+    private function parseAndSetReturnTypeDeclarationList($parentNode) {
+        $returnTypeList = $this->parseReturnTypeDeclarationList($parentNode);
+        if (!$returnTypeList)  {
+            $parentNode->returnType = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
+            return;
+        }
+        $returnType = array_shift($returnTypeList->children);
+        $parentNode->returnType = $returnType;
+        $returnType->parent = $parentNode;
+        if ($returnTypeList->children) {
+            $parentNode->otherReturnTypes = $returnTypeList;
+        }
+    }
 
-        return $returnTypeDeclaration;
+    /**
+     * Attempt to parse the return type after the `:` and optional `?` token.
+     *
+     * @return DelimitedList\QualifiedNameList|null
+     */
+    private function parseReturnTypeDeclarationList($parentNode) {
+        $result = $this->parseDelimitedList(
+            DelimitedList\QualifiedNameList::class,
+            TokenKind::BarToken,
+            function ($token) {
+                return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
+            },
+            function ($parentNode) {
+                return $this->parseReturnTypeDeclaration($parentNode);
+            },
+            $parentNode,
+            false);
+
+        // Add a MissingToken so that this will warn about `function () : T| {}`
+        // TODO: Make this a reusable abstraction?
+        if ($result && (end($result->children)->kind ?? null) === TokenKind::BarToken) {
+            $result->children[] = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
+        }
+        return $result;
+    }
+
+    private function parseReturnTypeDeclaration($parentNode) {
+        return $this->eatOptional($this->returnTypeDeclarationTokens)
+            ?? $this->parseQualifiedName($parentNode);
     }
 
     private function tryParseParameterTypeDeclaration($parentNode) {
         $parameterTypeDeclaration =
             $this->eatOptional($this->parameterTypeDeclarationTokens) ?? $this->parseQualifiedName($parentNode);
         return $parameterTypeDeclaration;
+    }
+
+    /**
+     * @param Node $parentNode
+     * @return DelimitedList\QualifiedNameList|null
+     */
+    private function tryParseParameterTypeDeclarationList($parentNode) {
+        $result = $this->parseDelimitedList(
+            DelimitedList\QualifiedNameList::class,
+            TokenKind::BarToken,
+            function ($token) {
+                return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
+            },
+            function ($parentNode) {
+                return $this->tryParseParameterTypeDeclaration($parentNode);
+            },
+            $parentNode,
+            true);
+
+        // Add a MissingToken so that this will Warn about `function (T| $x) {}`
+        // TODO: Make this a reusable abstraction?
+        if ($result && (end($result->children)->kind ?? null) === TokenKind::BarToken) {
+            $result->children[] = new MissingToken(TokenKind::Name, $this->token->fullStart);
+        }
+        return $result;
     }
 
     private function parseCompoundStatement($parentNode) {
@@ -1231,7 +1302,7 @@ class Parser {
             }
 
             // scalar-type
-            return \in_array($token->kind, $this->parameterTypeDeclarationTokens);
+            return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true);
         };
     }
 
@@ -1271,33 +1342,31 @@ class Parser {
         return $node;
     }
 
+    /**
+     * @internal
+     */
+    const QUALIFIED_NAME_START_TOKENS = [
+        TokenKind::BackslashToken,
+        TokenKind::NamespaceKeyword,
+        TokenKind::Name,
+    ];
+
     private function isQualifiedNameStart($token) {
-        return ($this->isQualifiedNameStartFn())($token);
+        return \in_array($token->kind, self::QUALIFIED_NAME_START_TOKENS, true);
     }
 
     private function isQualifiedNameStartFn() {
         return function ($token) {
-            switch ($token->kind) {
-                case TokenKind::BackslashToken:
-                case TokenKind::NamespaceKeyword:
-                case TokenKind::Name:
-                    return true;
-            }
-            return false;
+            return \in_array($token->kind, self::QUALIFIED_NAME_START_TOKENS, true);
         };
     }
 
     private function isQualifiedNameStartForCatchFn() {
         return function ($token) {
-            switch ($token->kind) {
-                case TokenKind::BackslashToken:
-                case TokenKind::NamespaceKeyword:
-                case TokenKind::Name:
-                    return true;
-            }
             // Unfortunately, catch(int $x) is *syntactically valid* php which `php --syntax-check` would accept.
             // (tolerant-php-parser is concerned with syntax, not semantics)
-            return in_array($token->kind, $this->reservedWordTokens, true);
+            return \in_array($token->kind, self::QUALIFIED_NAME_START_TOKENS, true) ||
+                \in_array($token->kind, $this->reservedWordTokens, true);
         };
     }
 
@@ -1395,7 +1464,7 @@ class Parser {
         if ($this->checkToken(TokenKind::ColonToken)) {
             $functionDeclaration->colonToken = $this->eat1(TokenKind::ColonToken);
             $functionDeclaration->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
-            $functionDeclaration->returnType = $this->parseReturnTypeDeclaration($functionDeclaration);
+            $this->parseAndSetReturnTypeDeclarationList($functionDeclaration);
         }
 
         if ($canBeAbstract) {
@@ -2842,31 +2911,38 @@ class Parser {
      */
     private function parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers, $questionToken = null)
     {
-        $typeDeclaration = $this->tryParseParameterTypeDeclaration(null);
-        if ($questionToken !== null && $typeDeclaration === null) {
-            $typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->getCurrentToken()->fullStart);
-        }
+        $typeDeclarationList = $this->tryParseParameterTypeDeclarationList(null);
         if ($this->getCurrentToken()->kind !== TokenKind::VariableName) {
-            return $this->makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken, $typeDeclaration);
+            return $this->makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken, $typeDeclarationList);
         }
-        return $this->parsePropertyDeclaration($parentNode, $modifiers, $questionToken, $typeDeclaration);
+        return $this->parsePropertyDeclaration($parentNode, $modifiers, $questionToken, $typeDeclarationList);
     }
 
     /**
      * @param Node $parentNode
      * @param Token[] $modifiers
      * @param Token|null $questionToken
-     * @param QualifiedName|Token|null $typeDeclaration
+     * @param DelimitedList\QualifiedNameList|null $typeDeclarationList
      */
-    private function parsePropertyDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclaration = null) {
+    private function parsePropertyDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclarationList = null) {
         $propertyDeclaration = new PropertyDeclaration();
         $propertyDeclaration->parent = $parentNode;
 
         $propertyDeclaration->modifiers = $modifiers;
-        $propertyDeclaration->questionToken = $questionToken;  //
-        $propertyDeclaration->typeDeclaration = $typeDeclaration;
-        if ($typeDeclaration instanceof Node) {
-            $typeDeclaration->parent = $propertyDeclaration;
+        $propertyDeclaration->questionToken = $questionToken;
+        if ($typeDeclarationList) {
+            /** $typeDeclarationList is a Node or a Token (e.g. IntKeyword) */
+            $typeDeclaration = \array_shift($typeDeclarationList->children);
+            $propertyDeclaration->typeDeclaration = $typeDeclaration;
+            if ($typeDeclaration instanceof Node) {
+                $typeDeclaration->parent = $propertyDeclaration;
+            }
+            if ($typeDeclarationList->children) {
+                $propertyDeclaration->otherTypeDeclarations = $typeDeclarationList;
+                $typeDeclarationList->parent = $propertyDeclaration;
+            }
+        } elseif ($questionToken) {
+            $propertyDeclaration->typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
         $propertyDeclaration->propertyElements = $this->parseExpressionList($propertyDeclaration);
         $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
@@ -3143,16 +3219,22 @@ class Parser {
      * @param Node $parentNode
      * @param Token[] $modifiers
      * @param Token $questionToken
-     * @param QualifiedName|Token|null $typeDeclaration
+     * @param DelimitedList\QualifiedNameList|null $typeDeclarationList
      */
-    private function makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclaration = null) {
+    private function makeMissingMemberDeclaration($parentNode, $modifiers, $questionToken = null, $typeDeclarationList = null) {
         $missingTraitMemberDeclaration = new MissingMemberDeclaration();
         $missingTraitMemberDeclaration->parent = $parentNode;
         $missingTraitMemberDeclaration->modifiers = $modifiers;
         $missingTraitMemberDeclaration->questionToken = $questionToken;
-        $missingTraitMemberDeclaration->typeDeclaration = $typeDeclaration;
-        if ($typeDeclaration instanceof Node) {
-            $typeDeclaration->parent = $missingTraitMemberDeclaration;
+        if ($typeDeclarationList) {
+            $missingTraitMemberDeclaration->typeDeclaration = \array_shift($typeDeclarationList->children);
+            $missingTraitMemberDeclaration->typeDeclaration->parent = $missingTraitMemberDeclaration;
+            if ($typeDeclarationList->children) {
+                $missingTraitMemberDeclaration->otherTypeDeclarations = $typeDeclarationList;
+                $typeDeclarationList->parent = $missingTraitMemberDeclaration;
+            }
+        } elseif ($questionToken) {
+            $missingTraitMemberDeclaration->typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
         return $missingTraitMemberDeclaration;
     }
@@ -3397,7 +3479,6 @@ class Parser {
         if ($this->checkToken(TokenKind::ColonToken)) {
             $arrowFunction->colonToken = $this->eat1(TokenKind::ColonToken);
             $arrowFunction->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
-            $arrowFunction->returnType = $this->parseReturnTypeDeclaration($arrowFunction);
         }
 
         $arrowFunction->arrowToken = $this->eat1(TokenKind::DoubleArrowToken);

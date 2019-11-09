@@ -57,6 +57,7 @@
                                                         "Parameter": {
                                                             "questionToken": null,
                                                             "typeDeclaration": null,
+                                                            "otherTypeDeclarations": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -75,6 +76,7 @@
                                                         "Parameter": {
                                                             "questionToken": null,
                                                             "typeDeclaration": null,
+                                                            "otherTypeDeclarations": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -95,6 +97,7 @@
                                         "colonToken": null,
                                         "questionToken": null,
                                         "returnType": null,
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

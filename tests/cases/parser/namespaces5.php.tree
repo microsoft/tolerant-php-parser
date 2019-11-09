@@ -85,6 +85,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

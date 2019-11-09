@@ -31,6 +31,7 @@ class FunctionDeclaration extends StatementNode implements NamespacedNameInterfa
         'colonToken',
         'questionToken',
         'returnType',
+        'otherReturnTypes',
 
         // FunctionBody
         'compoundStatementOrSemicolon'

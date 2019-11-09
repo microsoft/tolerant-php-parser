@@ -21,6 +21,12 @@ class PropertyDeclaration extends Node {
     /** @var QualifiedName|Token|null */
     public $typeDeclaration;
 
+    /**
+     * @var DelimitedList\QualifiedNameList|null
+     * TODO: Unify with typeDeclaration in a future backwards incompatible release
+     */
+    public $otherTypeDeclarations;
+
     /** @var DelimitedList\ExpressionList */
     public $propertyElements;
 
@@ -31,6 +37,7 @@ class PropertyDeclaration extends Node {
         'modifiers',
         'questionToken',
         'typeDeclaration',
+        'otherTypeDeclarations',
         'propertyElements',
         'semicolon'
     ];

@@ -33,6 +33,7 @@
                                     "Parameter": {
                                         "questionToken": null,
                                         "typeDeclaration": null,
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -62,6 +63,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": {
                                             "kind": "DotDotDotToken",
@@ -83,6 +85,7 @@
                                     "Parameter": {
                                         "questionToken": null,
                                         "typeDeclaration": null,
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -103,6 +106,7 @@
                     "colonToken": null,
                     "questionToken": null,
                     "returnType": null,
+                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

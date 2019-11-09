@@ -35,6 +35,7 @@ class MethodDeclaration extends Node implements FunctionLike {
         'colonToken',
         'questionToken',
         'returnType',
+        'otherReturnTypes',
 
         // FunctionBody
         'compoundStatementOrSemicolon'

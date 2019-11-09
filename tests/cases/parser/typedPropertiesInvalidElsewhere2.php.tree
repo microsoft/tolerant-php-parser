@@ -51,7 +51,8 @@
                                             "error": "MissingToken",
                                             "kind": "PropertyType",
                                             "textLength": 0
-                                        }
+                                        },
+                                        "otherTypeDeclarations": null
                                     }
                                 },
                                 {
@@ -78,6 +79,7 @@
                                         "colonToken": null,
                                         "questionToken": null,
                                         "returnType": null,
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

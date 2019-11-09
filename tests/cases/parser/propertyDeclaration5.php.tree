@@ -45,6 +45,7 @@
                                         ],
                                         "questionToken": null,
                                         "typeDeclaration": null,
+                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
