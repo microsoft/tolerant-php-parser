@@ -3479,6 +3479,7 @@ class Parser {
         if ($this->checkToken(TokenKind::ColonToken)) {
             $arrowFunction->colonToken = $this->eat1(TokenKind::ColonToken);
             $arrowFunction->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
+            $this->parseAndSetReturnTypeDeclarationList($arrowFunction);
         }
 
         $arrowFunction->arrowToken = $this->eat1(TokenKind::DoubleArrowToken);
