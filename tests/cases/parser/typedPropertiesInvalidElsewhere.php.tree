@@ -43,7 +43,8 @@
                                         "typeDeclaration": {
                                             "kind": "IntReservedWord",
                                             "textLength": 3
-                                        }
+                                        },
+                                        "otherTypeDeclarations": null
                                     }
                                 },
                                 {
@@ -70,6 +71,7 @@
                                         "colonToken": null,
                                         "questionToken": null,
                                         "returnType": null,
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

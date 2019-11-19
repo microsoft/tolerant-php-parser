@@ -87,6 +87,7 @@
                                         "kind": "VoidReservedWord",
                                         "textLength": 4
                                     },
+                                    "otherReturnTypes": null,
                                     "compoundStatementOrSemicolon": {
                                         "CompoundStatementNode": {
                                             "openBrace": {

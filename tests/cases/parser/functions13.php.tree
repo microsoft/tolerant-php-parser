@@ -33,6 +33,7 @@
                                     "Parameter": {
                                         "questionToken": null,
                                         "typeDeclaration": null,
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -62,6 +63,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": {
                                             "kind": "DotDotDotToken",
@@ -89,6 +91,7 @@
                     "colonToken": null,
                     "questionToken": null,
                     "returnType": null,
+                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

@@ -44,6 +44,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -65,6 +66,7 @@
                                             "kind": "IntReservedWord",
                                             "textLength": 3
                                         },
+                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -94,6 +96,7 @@
                         "kind": "IntReservedWord",
                         "textLength": 3
                     },
+                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

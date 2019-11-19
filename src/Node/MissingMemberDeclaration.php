@@ -20,9 +20,13 @@ class MissingMemberDeclaration extends Node {
     /** @var QualifiedName|Token|null */
     public $typeDeclaration;
 
+    /** @var DelimitedList\QualifiedNameList|null */
+    public $otherTypeDeclarations;
+
     const CHILD_NAMES = [
         'modifiers',
         'questionToken',
         'typeDeclaration',
+        'otherTypeDeclarations',
     ];
 }

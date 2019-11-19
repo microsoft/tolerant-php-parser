@@ -51,6 +51,7 @@
                                             "kind": "IntReservedWord",
                                             "textLength": 3
                                         },
+                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -110,6 +111,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -167,6 +169,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -220,6 +223,7 @@
                                                 ]
                                             }
                                         },
+                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [

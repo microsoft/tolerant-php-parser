@@ -15,4 +15,6 @@ trait FunctionReturnType {
     public $questionToken;
     /** @var Token|QualifiedName */
     public $returnType;
+    /** @var DelimitedList\QualifiedNameList|null TODO: Merge with returnType in a future backwards incompatible release */
+    public $otherReturnTypes;
 }

@@ -40,6 +40,7 @@ class ArrowFunctionCreationExpression extends Expression implements FunctionLike
         'colonToken',
         'questionToken',
         'returnType',
+        'otherReturnTypes',
 
         // body
         'arrowToken',

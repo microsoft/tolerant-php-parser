@@ -74,6 +74,7 @@
                                             "kind": "BoolReservedWord",
                                             "textLength": 4
                                         },
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

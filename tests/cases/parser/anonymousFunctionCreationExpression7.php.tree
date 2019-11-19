@@ -94,6 +94,7 @@
                                     "colonToken": null,
                                     "questionToken": null,
                                     "returnType": null,
+                                    "otherReturnTypes": null,
                                     "compoundStatementOrSemicolon": {
                                         "CompoundStatementNode": {
                                             "openBrace": {

@@ -14,6 +14,11 @@ class Parameter extends Node {
     public $questionToken;
     /** @var QualifiedName|Token|null */
     public $typeDeclaration;
+    /**
+     * @var DelimitedList\QualifiedNameList a list of other types, to support php 8 union types while remaining backwards compatible.
+     * TODO: Merge with typeDeclaration in a future backwards incompatible release.
+     */
+    public $otherTypeDeclarations;
     /** @var Token|null */
     public $byRefToken;
     /** @var Token|null */
@@ -28,6 +33,7 @@ class Parameter extends Node {
     const CHILD_NAMES = [
         'questionToken',
         'typeDeclaration',
+        'otherTypeDeclarations',
         'byRefToken',
         'dotDotDotToken',
         'variableName',

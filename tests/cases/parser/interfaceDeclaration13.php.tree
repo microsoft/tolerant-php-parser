@@ -62,6 +62,7 @@
                                         "colonToken": null,
                                         "questionToken": null,
                                         "returnType": null,
+                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1
