@@ -40,7 +40,7 @@ class MethodDeclaration extends Node implements FunctionLike {
         // FunctionBody
         'compoundStatementOrSemicolon'
     ];
-    
+
     public function hasModifier(int $targetModifier) : bool {
 	    if ($this->modifiers === null) {
 		    return false;
@@ -56,22 +56,6 @@ class MethodDeclaration extends Node implements FunctionLike {
     public function isStatic() : bool {
         return $this->hasModifier(TokenKind::StaticKeyword);
     }
-	
-	public function isPublic() : bool {
-		return $this->hasModifier(TokenKind::PublicKeyword);
-	}
-	
-	public function isProtected() : bool {
-		return $this->hasModifier(TokenKind::ProtectedKeyword);
-	}
-	
-	public function isPrivate() : bool {
-		return $this->hasModifier(TokenKind::PrivateKeyword);
-	}
-	
-	public function isAbstract() : bool {
-		return $this->hasModifier(TokenKind::AbstractKeyword);
-	}
 
     public function getName() {
         return $this->name->getText($this->getFileContents());
