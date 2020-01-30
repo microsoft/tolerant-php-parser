@@ -83,6 +83,7 @@ class DiagnosticsProvider {
                 $token->getEndPosition() - $token->start
             );
         }
+        return null;
     }
 
     /**

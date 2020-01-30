@@ -77,5 +77,6 @@ class MethodDeclaration extends Node implements FunctionLike {
                 );
             }
         }
+        return null;
     }
 }

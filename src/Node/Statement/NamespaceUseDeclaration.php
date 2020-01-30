@@ -51,5 +51,6 @@ class NamespaceUseDeclaration extends StatementNode {
                 }
             }
         }
+        return null;
     }
 }
