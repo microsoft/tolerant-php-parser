@@ -197,6 +197,7 @@ class Parser {
         while (!$this->isListTerminator($listParseContext)) {
             if ($this->isValidListElement($listParseContext, $this->getCurrentToken())) {
                 $element = $parseListElementFn($parentNode);
+                $nodeArray[] = $element;
                 if ($element instanceof Node) {
                     $element->parent = $parentNode;
                     if ($element instanceof InlineHtml && $element->echoStatement && $listParseContext === ParseContext::SourceElements) {
@@ -205,7 +206,6 @@ class Parser {
                         $element->echoStatement = null;
                     }
                 }
-                $nodeArray[] = $element;
                 continue;
             }
 
