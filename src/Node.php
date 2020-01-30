@@ -383,6 +383,7 @@ abstract class Node implements \JsonSerializable {
         foreach ($this->getDescendantTokens() as $token) {
             return $token->getLeadingCommentsAndWhitespaceText($fileContents);
         }
+        return '';
     }
 
     protected function getChildrenKvPairs() {
