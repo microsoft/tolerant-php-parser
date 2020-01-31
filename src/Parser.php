@@ -200,7 +200,7 @@ class Parser {
                 $nodeArray[] = $element;
                 if ($element instanceof Node) {
                     $element->parent = $parentNode;
-                    if ($element instanceof InlineHtml && $element->echoStatement && $listParseContext === ParseContext::SourceElements) {
+                    if ($element instanceof InlineHtml && $element->echoStatement) {
                         $nodeArray[] = $element->echoStatement;
                         $element->echoStatement->parent = $parentNode;
                         $element->echoStatement = null;
