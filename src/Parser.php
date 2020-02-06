@@ -1068,10 +1068,9 @@ class Parser {
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
                 // handle `static::`, `static(`, `new static;`, `instanceof static`
-                if (($this->lookahead([TokenKind::ColonColonToken, TokenKind::OpenParenToken])) ||
-                    (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword]))
-                ) {
-                    return $this->parseQualifiedName($parentNode);
+                if ((!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword]))) {
+                    // TODO: Should this check the parent type to reject `$x = static;`, `$x = static();`, etc.
+                    return $this->parseStaticQualifiedName($parentNode);
                 }
                 // Could be `static function` anonymous function creation expression, so flow through
             case TokenKind::FunctionKeyword:
@@ -1370,6 +1369,21 @@ class Parser {
         };
     }
 
+    /**
+     * @return QualifiedName
+     */
+    private function parseStaticQualifiedName($parentNode) {
+        $node = new QualifiedName();
+        $token = $this->eat(TokenKind::StaticKeyword);
+        $token->kind = TokenKind::Name;
+        $node->parent = $parentNode;
+        $node->nameParts = [$token];
+        return $node;
+    }
+
+    /**
+     * @return QualifiedName|null - returns null for invalid qualified names such as `static\` (use parseStaticQualifiedName for that)
+     */
     private function parseQualifiedName($parentNode) {
         return ($this->parseQualifiedNameFn())($parentNode);
     }
@@ -1388,7 +1402,9 @@ class Parser {
                     DelimitedList\QualifiedNameParts::class,
                     TokenKind::BackslashToken,
                     function ($token) {
-                        // a\static() <- VALID
+                        // a\static() <- INVALID (but not checked for right now)
+                        // new a\static() <- INVALID
+                        // new static() <- VALID
                         // a\static\b <- INVALID
                         // a\function <- INVALID
                         // a\true\b <-VALID
@@ -1485,6 +1501,9 @@ class Parser {
         return $namedLabelStatement;
     }
 
+    /**
+     * @param int|int[] ...$expectedKinds an array of one or more kinds/sets of allowed kinds in each position
+     */
     private function lookahead(...$expectedKinds) : bool {
         $startPos = $this->lexer->getCurrentPosition();
         $startToken = $this->token;
