@@ -1068,7 +1068,7 @@ class Parser {
             // anonymous-function-creation-expression
             case TokenKind::StaticKeyword:
                 // handle `static::`, `static(`, `new static;`, `instanceof static`
-                if ((!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword]))) {
+                if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
                     // TODO: Should this check the parent type to reject `$x = static;`, `$x = static();`, etc.
                     return $this->parseStaticQualifiedName($parentNode);
                 }
