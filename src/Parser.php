@@ -132,7 +132,7 @@ class Parser {
             [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
             TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
             TokenKind::ObjectReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord]; // TODO update spec
-        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord], $this->parameterTypeDeclarationTokens);
+        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord, TokenKind::StaticKeyword], $this->parameterTypeDeclarationTokens);
     }
 
     /**
