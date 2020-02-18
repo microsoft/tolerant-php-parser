@@ -2678,7 +2678,7 @@ class Parser {
             return $this->parsePostfixExpressionRest($expression);
         }
 
-        if ($tokenKind === TokenKind::OpenParenToken && !$this->isParsingObjectCreationExpression) {
+        if ($tokenKind === TokenKind::OpenParenToken && !$this->isParsingUnparenthesizedObjectCreationExpression($expression)) {
             $expression = $this->parseCallExpressionRest($expression);
 
             if (!$this->checkToken(TokenKind::OpenParenToken)) {
@@ -2822,6 +2822,23 @@ class Parser {
         return $scopedPropertyAccessExpression;
     }
 
+    public function isParsingUnparenthesizedObjectCreationExpression($expression) {
+        if (!$this->isParsingObjectCreationExpression) {
+            return false;
+        }
+        if ($expression instanceof Token) {
+            return true;
+        }
+        while ($expression->parent) {
+            $expression = $expression->parent;
+            if ($expression instanceof ObjectCreationExpression) {
+                return true;
+            } elseif ($expression instanceof ParenthesizedExpression) {
+                return false;
+            }
+        }
+    }
+
     private $isParsingObjectCreationExpression = false;
 
     private function parseObjectCreationExpression($parentNode) {
@@ -2829,12 +2846,13 @@ class Parser {
         $objectCreationExpression->parent = $parentNode;
         $objectCreationExpression->newKeword = $this->eat1(TokenKind::NewKeyword);
         // TODO - add tests for this scenario
+        $oldIsParsingObjectCreationExpression = $this->isParsingObjectCreationExpression;
         $this->isParsingObjectCreationExpression = true;
         $objectCreationExpression->classTypeDesignator =
             $this->eatOptional1(TokenKind::ClassKeyword) ??
             $this->parseExpression($objectCreationExpression);
 
-        $this->isParsingObjectCreationExpression = false;
+        $this->isParsingObjectCreationExpression = $oldIsParsingObjectCreationExpression;
 
         $objectCreationExpression->openParen = $this->eatOptional1(TokenKind::OpenParenToken);
         if ($objectCreationExpression->openParen !== null) {

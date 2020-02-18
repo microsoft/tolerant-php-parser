@@ -1,0 +1,124 @@
+{
+    "SourceFileNode": {
+        "statementList": [
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    }
+                }
+            },
+            {
+                "ExpressionStatement": {
+                    "expression": {
+                        "ObjectCreationExpression": {
+                            "newKeword": {
+                                "kind": "NewKeyword",
+                                "textLength": 3
+                            },
+                            "classTypeDesignator": {
+                                "ParenthesizedExpression": {
+                                    "openParen": {
+                                        "kind": "OpenParenToken",
+                                        "textLength": 1
+                                    },
+                                    "expression": {
+                                        "ObjectCreationExpression": {
+                                            "newKeword": {
+                                                "kind": "NewKeyword",
+                                                "textLength": 3
+                                            },
+                                            "classTypeDesignator": {
+                                                "ParenthesizedExpression": {
+                                                    "openParen": {
+                                                        "kind": "OpenParenToken",
+                                                        "textLength": 1
+                                                    },
+                                                    "expression": {
+                                                        "ObjectCreationExpression": {
+                                                            "newKeword": {
+                                                                "kind": "NewKeyword",
+                                                                "textLength": 3
+                                                            },
+                                                            "classTypeDesignator": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 4
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "openParen": {
+                                                                "kind": "OpenParenToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "argumentExpressionList": null,
+                                                            "closeParen": {
+                                                                "kind": "CloseParenToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "classBaseClause": null,
+                                                            "classInterfaceClause": null,
+                                                            "classMembers": null
+                                                        }
+                                                    },
+                                                    "closeParen": {
+                                                        "kind": "CloseParenToken",
+                                                        "textLength": 1
+                                                    }
+                                                }
+                                            },
+                                            "openParen": {
+                                                "kind": "OpenParenToken",
+                                                "textLength": 1
+                                            },
+                                            "argumentExpressionList": null,
+                                            "closeParen": {
+                                                "kind": "CloseParenToken",
+                                                "textLength": 1
+                                            },
+                                            "classBaseClause": null,
+                                            "classInterfaceClause": null,
+                                            "classMembers": null
+                                        }
+                                    },
+                                    "closeParen": {
+                                        "kind": "CloseParenToken",
+                                        "textLength": 1
+                                    }
+                                }
+                            },
+                            "openParen": {
+                                "kind": "OpenParenToken",
+                                "textLength": 1
+                            },
+                            "argumentExpressionList": null,
+                            "closeParen": {
+                                "kind": "CloseParenToken",
+                                "textLength": 1
+                            },
+                            "classBaseClause": null,
+                            "classInterfaceClause": null,
+                            "classMembers": null
+                        }
+                    },
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
+                    }
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}
