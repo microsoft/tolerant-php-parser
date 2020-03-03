@@ -136,6 +136,21 @@ class Parser {
     }
 
     /**
+     * This method exists so that it can be overridden in subclasses.
+     * Any subclass must return a token stream that is equivalent to the contents in $fileContents for this to work properly.
+     *
+     * Possible reasons for applications to override the lexer:
+     *
+     * - Imitate token stream of a newer/older PHP version (e.g. T_FN is only available in php 7.4)
+     * - Reuse the result of token_get_all to create a Node again.
+     * - Reuse the result of token_get_all in a different library.
+     */
+    protected function makeLexer(string $fileContents): TokenStreamProviderInterface
+    {
+        return TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
+    }
+
+    /**
      * Generates AST from source file contents. Returns an instance of SourceFileNode, which is always the top-most
      * Node-type of the tree.
      *
@@ -143,7 +158,7 @@ class Parser {
      * @return SourceFileNode
      */
     public function parseSourceFile(string $fileContents, string $uri = null) : SourceFileNode {
-        $this->lexer = TokenStreamProviderFactory::GetTokenStreamProvider($fileContents);
+        $this->lexer = $this->makeLexer($fileContents);
 
         $this->reset();
 
