@@ -4,24 +4,19 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Microsoft\PhpParser\Node\Statement;
+namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Node\Expression;
-use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
-// TODO: Remove this and replace with ThrowExpression in a backwards incompatible major release
-class ThrowStatement extends StatementNode {
+class ThrowExpression extends Expression {
     /** @var Token */
     public $throwKeyword;
     /** @var Expression */
     public $expression;
-    /** @var Token */
-    public $semicolon;
 
     const CHILD_NAMES = [
         'throwKeyword',
         'expression',
-        'semicolon'
     ];
 }
