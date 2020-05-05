@@ -1,31 +1,31 @@
 # Getting Started
 
-## Set up your PHP Environment (PHP 7.1 and Composer)
+## Set up your PHP Environment (PHP 7.2 and Composer)
 Any version of PHP 7 should work, but as we are still in our early
-stages, the "golden path" for now will be PHP 7.1
+stages, the "golden path" for now will be PHP 7.2
 
 ### Windows
-1. Download [PHP 7.1](http://windows.php.net/download#php-7.1)
+1. Download [PHP 7.2](http://windows.php.net/download#php-7.2)
 2. Download and install [Composer](https://getcomposer.org/download/)
 
 Ensure your version of PHP is properly configured by running `php -v` in the command prompt.
-If it's not PHP 7.1, then you have a few different options for how to access it:
-1. reference it directly: `c:\PHP7.1\php.exe -v`
+If it's not PHP 7.2, then you have a few different options for how to access it:
+1. reference it directly: `c:\PHP7.2\php.exe -v`
 2. Prepend the directory to your system `PATH`
-3. create an alias using `doskey`: `doskey php7="C:\PHP7.1\php.exe" $*`
+3. create an alias using `doskey`: `doskey php7="C:\PHP7.2\php.exe" $*`
 
 ### Mac
 1. Install [Homebrew](http://brew.sh/)
-2. Install PHP 7.1 and Composer
+2. Install PHP 7.2 and Composer
 ```
-brew install php@7.1
+brew install php@7.2
 brew install composer
 ```
 
-Ensure your version of PHP is properly configured by running `php -v`. 
+Ensure your version of PHP is properly configured by running `php -v`.
 If it's not PHP7, then you have a few different options for how to access it:
-1. reference it directly: `/usr/local/Cellar/php71/7.1.0_11/bin/php -v`
-2. alias it in your `~/.bash_profile`: `alias php7=/usr/local/Cellar/php71/7.1.0_11/bin/php`
+1. reference it directly: `/usr/local/Cellar/php@7.2/7.2.30/bin/php -v`
+2. alias it in your `~/.bash_profile`: `alias php7=/usr/local/Cellar/php@7.2/7.2.30/bin/php`
 3. add it to your PATH in `~/.bash_profile`: `export PATH="/usr/local/sbin:$PATH"`
 
 ## Reference `tolerant-php-parser` from your PHP project
@@ -40,11 +40,11 @@ In your project's `composer.json`, specify the `minimum-stability`,
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/Microsoft/tolerant-php-parser.git"
+            "url": "https://github.com/microsoft/tolerant-php-parser.git"
         }
     ],
     "require": {
-        "Microsoft/tolerant-php-parser": "master"
+        "microsoft/tolerant-php-parser": "master"
     }
 }
 ```
