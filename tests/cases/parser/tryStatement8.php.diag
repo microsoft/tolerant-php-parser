@@ -7,12 +7,6 @@
     },
     {
         "kind": 0,
-        "message": "'VariableName' expected.",
-        "start": 21,
-        "length": 0
-    },
-    {
-        "kind": 0,
         "message": "')' expected.",
         "start": 21,
         "length": 0

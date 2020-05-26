@@ -2249,7 +2249,7 @@ class Parser {
         $qualifiedNameList = $this->parseQualifiedNameCatchList($catchClause)->children ?? [];
         $catchClause->qualifiedName = $qualifiedNameList[0] ?? null; // TODO generate missing token or error if null
         $catchClause->otherQualifiedNameList = array_slice($qualifiedNameList, 1);  // TODO: Generate error if the name list has missing tokens
-        $catchClause->variableName = $this->eat1(TokenKind::VariableName);
+        $catchClause->variableName = $this->eatOptional1(TokenKind::VariableName);
         $catchClause->closeParen = $this->eat1(TokenKind::CloseParenToken);
         $catchClause->compoundStatement = $this->parseCompoundStatement($catchClause);
 
