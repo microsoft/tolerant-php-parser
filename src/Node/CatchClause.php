@@ -24,7 +24,7 @@ class CatchClause extends Node {
      * TODO: In the next backwards incompatible release, replace qualifiedName with qualifiedNameList?
      */
     public $otherQualifiedNameList;
-    /** @var Token */
+    /** @var Token|null */
     public $variableName;
     /** @var Token */
     public $closeParen;

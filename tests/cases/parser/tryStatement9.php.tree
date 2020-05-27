@@ -54,11 +54,7 @@
                                     }
                                 },
                                 "otherQualifiedNameList": [],
-                                "variableName": {
-                                    "error": "MissingToken",
-                                    "kind": "VariableName",
-                                    "textLength": 0
-                                },
+                                "variableName": null,
                                 "closeParen": {
                                     "kind": "CloseParenToken",
                                     "textLength": 1
