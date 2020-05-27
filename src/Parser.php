@@ -43,6 +43,7 @@ use Microsoft\PhpParser\Node\Expression\{
     ScopedPropertyAccessExpression,
     SubscriptExpression,
     TernaryExpression,
+    ThrowExpression,
     UnaryExpression,
     UnaryOpExpression,
     UnsetIntrinsicExpression,
@@ -1762,6 +1763,8 @@ class Parser {
             case TokenKind::RequireKeyword:
             case TokenKind::RequireOnceKeyword:
                 return $this->parseScriptInclusionExpression($parentNode);
+            case TokenKind::ThrowKeyword: // throw-statement will become an expression in php 8.0
+                return $this->parseThrowExpression($parentNode);
         }
 
         $expression = $this->parsePrimaryExpression($parentNode);
@@ -2221,6 +2224,16 @@ class Parser {
         $throwStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $throwStatement;
+    }
+
+    private function parseThrowExpression($parentNode) {
+        $throwExpression = new ThrowExpression();
+        $throwExpression->parent = $parentNode;
+        $throwExpression->throwKeyword = $this->eat1(TokenKind::ThrowKeyword);
+        // TODO error for failures to parse expressions when not optional
+        $throwExpression->expression = $this->parseExpression($throwExpression);
+
+        return $throwExpression;
     }
 
     private function parseTryStatement($parentNode) {

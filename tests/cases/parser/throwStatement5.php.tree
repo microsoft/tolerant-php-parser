@@ -18,29 +18,19 @@
                         "textLength": 5
                     },
                     "expression": {
-                        "error": "MissingToken",
-                        "kind": "Expression",
-                        "textLength": 0
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
-                    }
-                }
-            },
-            {
-                "ThrowStatement": {
-                    "throwKeyword": {
-                        "kind": "ThrowKeyword",
-                        "textLength": 5
-                    },
-                    "expression": {
-                        "Variable": {
-                            "dollar": null,
-                            "name": {
-                                "kind": "VariableName",
-                                "textLength": 2
+                        "ThrowExpression": {
+                            "throwKeyword": {
+                                "kind": "ThrowKeyword",
+                                "textLength": 5
+                            },
+                            "expression": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
                             }
                         }
                     },
