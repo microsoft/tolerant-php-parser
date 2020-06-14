@@ -656,6 +656,7 @@ class Parser {
         return function ($parentNode) {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
+            $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
             $typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
             if ($typeDeclarationList) {
@@ -1294,10 +1295,14 @@ class Parser {
                 case TokenKind::AmpersandToken:
 
                 case TokenKind::VariableName:
-                    return true;
 
                 // nullable-type
                 case TokenKind::QuestionToken:
+
+                // parameter promotion
+                case TokenKind::PublicKeyword:
+                case TokenKind::ProtectedKeyword:
+                case TokenKind::PrivateKeyword:
                     return true;
             }
 

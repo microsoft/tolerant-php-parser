@@ -47,6 +47,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": {
                                                             "QualifiedName": {
@@ -239,6 +240,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": null,
                                                         "otherTypeDeclarations": null,
@@ -348,6 +350,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": null,
                                                         "otherTypeDeclarations": null,
@@ -437,6 +440,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": {
                                                             "QualifiedName": {
@@ -561,6 +565,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": null,
                                                         "otherTypeDeclarations": null,
