@@ -31,6 +31,7 @@
                             "children": [
                                 {
                                     "Parameter": {
+                                        "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": {
                                             "kind": "IntReservedWord",

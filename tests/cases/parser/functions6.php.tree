@@ -31,6 +31,7 @@
                             "children": [
                                 {
                                     "Parameter": {
+                                        "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": null,
                                         "otherTypeDeclarations": null,
@@ -61,6 +62,7 @@
                                 },
                                 {
                                     "Parameter": {
+                                        "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": null,
                                         "otherTypeDeclarations": null,

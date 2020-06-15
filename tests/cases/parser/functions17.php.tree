@@ -31,6 +31,7 @@
                             "children": [
                                 {
                                     "Parameter": {
+                                        "visibilityToken": null,
                                         "questionToken": {
                                             "kind": "QuestionToken",
                                             "textLength": 1
@@ -64,6 +65,7 @@
                                 },
                                 {
                                     "Parameter": {
+                                        "visibilityToken": null,
                                         "questionToken": {
                                             "kind": "QuestionToken",
                                             "textLength": 1
