@@ -3566,7 +3566,7 @@ class Parser {
                 return $useVariableName;
             },
             $anonymousFunctionUseClause
-        );
+        ) ?: (new MissingToken(TokenKind::VariableName, $this->token->fullStart));
         $anonymousFunctionUseClause->closeParen = $this->eat1(TokenKind::CloseParenToken);
 
         return $anonymousFunctionUseClause;
