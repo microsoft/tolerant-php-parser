@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\DelimitedList\UseVariableNameList;
 use Microsoft\PhpParser\Token;
@@ -17,7 +18,7 @@ class AnonymousFunctionUseClause extends Node {
     /** @var Token */
     public $openParen;
 
-    /** @var UseVariableNameList */
+    /** @var UseVariableNameList|MissingToken */
     public $useVariableNameList;
 
     /** @var Token */
