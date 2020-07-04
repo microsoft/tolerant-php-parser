@@ -76,6 +76,7 @@ class ParserGrammarTest extends TestCase {
 
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";
     const PHP74_FILE_PATTERN = __DIR__ . "/cases/parser74/*";
+    const PHP80_FILE_PATTERN = __DIR__ . "/cases/parser80/*";
 
     public function treeProvider() {
         $testCases = glob(self::FILE_PATTERN . ".php");
@@ -98,6 +99,13 @@ class ParserGrammarTest extends TestCase {
                 $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
             }
         }
+        if (PHP_VERSION_ID >= 80000) {
+            $testCases = glob(self::PHP80_FILE_PATTERN . ".php");
+            foreach ($testCases as $testCase) {
+                $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
+            }
+        }
+
 
         return $testProviderArray;
     }
