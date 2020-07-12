@@ -10,6 +10,8 @@ namespace Microsoft\PhpParser;
 // The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_COALESCE_EQUAL', defined('T_COALESCE_EQUAL') ? constant('T_COALESCE_EQUAL') : 'T_COALESCE_EQUAL');
 define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
+// If this predaates PHP 8.0, T_MATCH is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
+define(__NAMESPACE__ . '\T_MATCH', defined('T_MATCH') ? constant('T_MATCH') : 'T_MATCH');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -206,6 +208,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_INTERFACE => TokenKind::InterfaceKeyword,
         T_ISSET => TokenKind::IsSetKeyword,
         T_LIST => TokenKind::ListKeyword,
+        T_MATCH => TokenKind::MatchKeyword,
         T_NAMESPACE => TokenKind::NamespaceKeyword,
         T_NEW => TokenKind::NewKeyword,
         T_LOGICAL_OR => TokenKind::OrKeyword,
