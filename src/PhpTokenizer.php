@@ -76,7 +76,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
             $content = $prefix . $content;
         }
 
-        $tokens = @\token_get_all($content);
+        $tokens = static::tokenGetAll($content, $parseContext);
 
         $arr = array();
         $fullStart = $start = $pos = $initialPos;
@@ -147,6 +147,22 @@ class PhpTokenizer implements TokenStreamProviderInterface {
 
         $arr[] = new Token(TokenKind::EndOfFileToken, $fullStart, $start, $pos - $fullStart);
         return $arr;
+    }
+
+    /**
+     * @param string $content the raw php code
+     * @param ?int $parseContext can be SourceElements when extracting doc comments.
+     *                           Having this available may be useful for subclasses to decide whether or not to post-process results, cache results, etc.
+     * @return array[]|string[] an array of tokens. When concatenated, these tokens must equal $content.
+     *
+     * This exists so that it can be overridden in subclasses, e.g. to cache the result of tokenizing entire files.
+     * Applications using tolerant-php-parser may often end up needing to use the token stream for other reasons that are hard to do in the resulting AST,
+     * such as iterating over T_COMMENTS, checking for inline html,
+     * looking up all tokens (including skipped tokens) on a given line, etc.
+     */
+    protected static function tokenGetAll(string $content, $parseContext): array
+    {
+        return @\token_get_all($content);
     }
 
     const TOKEN_MAP = [
