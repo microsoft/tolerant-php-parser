@@ -84,11 +84,16 @@
                                         "textLength": 1
                                     },
                                     "questionToken": null,
-                                    "returnType": {
-                                        "kind": "VoidReservedWord",
-                                        "textLength": 4
+                                    "returnTypeList": {
+                                        "QualifiedNameList": {
+                                            "children": [
+                                                {
+                                                    "kind": "VoidReservedWord",
+                                                    "textLength": 4
+                                                }
+                                            ]
+                                        }
                                     },
-                                    "otherReturnTypes": null,
                                     "compoundStatementOrSemicolon": {
                                         "CompoundStatementNode": {
                                             "openBrace": {

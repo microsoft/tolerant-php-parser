@@ -35,13 +35,13 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
-                                        },
-                                        "otherTypeDeclarations": {
+                                        "typeDeclarationList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    },
                                                     {
                                                         "kind": "BarToken",
                                                         "textLength": 1
@@ -72,8 +72,7 @@
                     },
                     "colonToken": null,
                     "questionToken": null,
-                    "returnType": null,
-                    "otherReturnTypes": null,
+                    "returnTypeList": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

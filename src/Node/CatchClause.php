@@ -7,6 +7,8 @@
 namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\QualifiedNameList;
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Token;
 
 class CatchClause extends Node {
@@ -14,16 +16,8 @@ class CatchClause extends Node {
     public $catch;
     /** @var Token */
     public $openParen;
-    /** @var QualifiedName */
-    public $qualifiedName;
-    /**
-     * @var QualifiedName[]|Token[] Remaining tokens and qualified names in the catch clause
-     * (e.g. `catch (FirstException|SecondException $x)` would contain
-     *  the representation of `|SecondException`)
-     *
-     * TODO: In the next backwards incompatible release, replace qualifiedName with qualifiedNameList?
-     */
-    public $otherQualifiedNameList;
+    /** @var QualifiedNameList[]|MissingToken */
+    public $qualifiedNameList;
     /** @var Token|null */
     public $variableName;
     /** @var Token */
@@ -34,8 +28,7 @@ class CatchClause extends Node {
     const CHILD_NAMES = [
         'catch',
         'openParen',
-        'qualifiedName',
-        'otherQualifiedNameList',
+        'qualifiedNameList',
         'variableName',
         'closeParen',
         'compoundStatement'

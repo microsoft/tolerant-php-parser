@@ -42,8 +42,7 @@
                             "anonymousFunctionUseClause": null,
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "compoundStatementOrSemicolon": {
                                 "CompoundStatementNode": {
                                     "openBrace": {

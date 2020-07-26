@@ -50,19 +50,24 @@
                                     "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                "qualifiedName": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": [
+                                "qualifiedNameList": {
+                                    "QualifiedNameList": {
+                                        "children": [
                                             {
-                                                "kind": "Name",
-                                                "textLength": 5
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": [
+                                                        {
+                                                            "kind": "Name",
+                                                            "textLength": 5
+                                                        }
+                                                    ]
+                                                }
                                             }
                                         ]
                                     }
                                 },
-                                "otherQualifiedNameList": [],
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2

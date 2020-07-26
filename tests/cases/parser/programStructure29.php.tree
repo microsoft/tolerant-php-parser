@@ -39,29 +39,25 @@
                     },
                     "statements": [
                         {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": {
-                                            "kind": "EchoKeyword",
-                                            "textLength": 4
-                                        },
-                                        "expressions": {
-                                            "ExpressionList": {
-                                                "children": [
-                                                    {
-                                                        "StringLiteral": {
-                                                            "startQuote": null,
-                                                            "children": {
-                                                                "kind": "StringLiteralToken",
-                                                                "textLength": 7
-                                                            },
-                                                            "endQuote": null
-                                                        }
-                                                    }
-                                                ]
+                            "EchoStatement": {
+                                "echoKeyword": {
+                                    "kind": "EchoKeyword",
+                                    "textLength": 4
+                                },
+                                "expressions": {
+                                    "ExpressionList": {
+                                        "children": [
+                                            {
+                                                "StringLiteral": {
+                                                    "startQuote": null,
+                                                    "children": {
+                                                        "kind": "StringLiteralToken",
+                                                        "textLength": 7
+                                                    },
+                                                    "endQuote": null
+                                                }
                                             }
-                                        }
+                                        ]
                                     }
                                 },
                                 "semicolon": null

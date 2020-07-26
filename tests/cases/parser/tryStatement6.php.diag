@@ -1,6 +1,12 @@
 [
     {
         "kind": 0,
+        "message": "'QualifiedName' expected.",
+        "start": 23,
+        "length": 0
+    },
+    {
+        "kind": 0,
         "message": "Unexpected 'finally'",
         "start": 71,
         "length": 7

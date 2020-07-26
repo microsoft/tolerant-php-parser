@@ -15,59 +15,55 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": null,
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "AssignmentExpression": {
-                                                "leftOperand": {
-                                                    "Variable": {
-                                                        "dollar": null,
-                                                        "name": {
-                                                            "kind": "VariableName",
-                                                            "textLength": 8
-                                                        }
+                "EchoStatement": {
+                    "echoKeyword": null,
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "AssignmentExpression": {
+                                        "leftOperand": {
+                                            "Variable": {
+                                                "dollar": null,
+                                                "name": {
+                                                    "kind": "VariableName",
+                                                    "textLength": 8
+                                                }
+                                            }
+                                        },
+                                        "operator": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "byRef": null,
+                                        "rightOperand": {
+                                            "CallExpression": {
+                                                "callableExpression": {
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 1
+                                                            }
+                                                        ]
                                                     }
                                                 },
-                                                "operator": {
-                                                    "kind": "EqualsToken",
+                                                "openParen": {
+                                                    "kind": "OpenParenToken",
                                                     "textLength": 1
                                                 },
-                                                "byRef": null,
-                                                "rightOperand": {
-                                                    "CallExpression": {
-                                                        "callableExpression": {
-                                                            "QualifiedName": {
-                                                                "globalSpecifier": null,
-                                                                "relativeSpecifier": null,
-                                                                "nameParts": [
-                                                                    {
-                                                                        "kind": "Name",
-                                                                        "textLength": 1
-                                                                    }
-                                                                ]
-                                                            }
-                                                        },
-                                                        "openParen": {
-                                                            "kind": "OpenParenToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "argumentExpressionList": null,
-                                                        "closeParen": {
-                                                            "kind": "CloseParenToken",
-                                                            "textLength": 1
-                                                        }
-                                                    }
+                                                "argumentExpressionList": null,
+                                                "closeParen": {
+                                                    "kind": "CloseParenToken",
+                                                    "textLength": 1
                                                 }
                                             }
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {
@@ -99,8 +95,7 @@
                     },
                     "colonToken": null,
                     "questionToken": null,
-                    "returnType": null,
-                    "otherReturnTypes": null,
+                    "returnTypeList": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {
@@ -138,28 +133,24 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 8
-                                                }
-                                            }
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 8
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

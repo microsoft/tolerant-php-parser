@@ -37,11 +37,16 @@
                         "textLength": 1
                     },
                     "questionToken": null,
-                    "returnType": {
-                        "kind": "IntReservedWord",
-                        "textLength": 3
+                    "returnTypeList": {
+                        "QualifiedNameList": {
+                            "children": [
+                                {
+                                    "kind": "IntReservedWord",
+                                    "textLength": 3
+                                }
+                            ]
+                        }
                     },
-                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

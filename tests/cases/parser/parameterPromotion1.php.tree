@@ -65,8 +65,7 @@
                                                                 "textLength": 6
                                                             },
                                                             "questionToken": null,
-                                                            "typeDeclaration": null,
-                                                            "otherTypeDeclarations": null,
+                                                            "typeDeclarationList": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -89,11 +88,16 @@
                                                                 "textLength": 9
                                                             },
                                                             "questionToken": null,
-                                                            "typeDeclaration": {
-                                                                "kind": "IntReservedWord",
-                                                                "textLength": 3
+                                                            "typeDeclarationList": {
+                                                                "QualifiedNameList": {
+                                                                    "children": [
+                                                                        {
+                                                                            "kind": "IntReservedWord",
+                                                                            "textLength": 3
+                                                                        }
+                                                                    ]
+                                                                }
                                                             },
-                                                            "otherTypeDeclarations": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -116,8 +120,7 @@
                                                                 "textLength": 7
                                                             },
                                                             "questionToken": null,
-                                                            "typeDeclaration": null,
-                                                            "otherTypeDeclarations": null,
+                                                            "typeDeclarationList": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -137,8 +140,7 @@
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
-                                        "returnType": null,
-                                        "otherReturnTypes": null,
+                                        "returnTypeList": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

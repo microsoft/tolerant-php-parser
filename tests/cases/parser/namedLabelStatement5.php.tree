@@ -34,8 +34,7 @@
                     },
                     "colonToken": null,
                     "questionToken": null,
-                    "returnType": null,
-                    "otherReturnTypes": null,
+                    "returnTypeList": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {
@@ -52,8 +51,7 @@
                                         "colon": {
                                             "kind": "ColonToken",
                                             "textLength": 1
-                                        },
-                                        "statement": null
+                                        }
                                     }
                                 }
                             ],

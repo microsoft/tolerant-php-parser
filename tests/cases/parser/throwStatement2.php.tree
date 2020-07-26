@@ -12,15 +12,19 @@
                 }
             },
             {
-                "ThrowStatement": {
-                    "throwKeyword": {
-                        "kind": "ThrowKeyword",
-                        "textLength": 5
-                    },
+                "ExpressionStatement": {
                     "expression": {
-                        "error": "MissingToken",
-                        "kind": "Expression",
-                        "textLength": 0
+                        "ThrowExpression": {
+                            "throwKeyword": {
+                                "kind": "ThrowKeyword",
+                                "textLength": 5
+                            },
+                            "expression": {
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
+                            }
+                        }
                     },
                     "semicolon": {
                         "kind": "SemicolonToken",

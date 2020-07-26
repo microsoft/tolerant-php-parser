@@ -64,11 +64,16 @@
                                             "textLength": 1
                                         },
                                         "questionToken": null,
-                                        "returnType": {
-                                            "kind": "StaticKeyword",
-                                            "textLength": 6
+                                        "returnTypeList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "StaticKeyword",
+                                                        "textLength": 6
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

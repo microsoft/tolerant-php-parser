@@ -84,7 +84,7 @@
                                                                     "textLength": 6
                                                                 }
                                                             ],
-                                                            "targetName": {
+                                                            "targetNameList": {
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
@@ -95,8 +95,7 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            },
-                                                            "remainingTargetNames": []
+                                                            }
                                                         }
                                                     },
                                                     {

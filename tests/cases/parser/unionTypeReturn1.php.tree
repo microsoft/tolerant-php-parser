@@ -37,13 +37,13 @@
                         "textLength": 1
                     },
                     "questionToken": null,
-                    "returnType": {
-                        "kind": "IntReservedWord",
-                        "textLength": 3
-                    },
-                    "otherReturnTypes": {
+                    "returnTypeList": {
                         "QualifiedNameList": {
                             "children": [
+                                {
+                                    "kind": "IntReservedWord",
+                                    "textLength": 3
+                                },
                                 {
                                     "kind": "BarToken",
                                     "textLength": 1
@@ -117,24 +117,24 @@
                         "textLength": 1
                     },
                     "questionToken": null,
-                    "returnType": {
-                        "QualifiedName": {
-                            "globalSpecifier": {
-                                "kind": "BackslashToken",
-                                "textLength": 1
-                            },
-                            "relativeSpecifier": null,
-                            "nameParts": [
-                                {
-                                    "kind": "Name",
-                                    "textLength": 8
-                                }
-                            ]
-                        }
-                    },
-                    "otherReturnTypes": {
+                    "returnTypeList": {
                         "QualifiedNameList": {
                             "children": [
+                                {
+                                    "QualifiedName": {
+                                        "globalSpecifier": {
+                                            "kind": "BackslashToken",
+                                            "textLength": 1
+                                        },
+                                        "relativeSpecifier": null,
+                                        "nameParts": [
+                                            {
+                                                "kind": "Name",
+                                                "textLength": 8
+                                            }
+                                        ]
+                                    }
+                                },
                                 {
                                     "kind": "BarToken",
                                     "textLength": 1

@@ -11,10 +11,9 @@ use Microsoft\PhpParser\Token;
 trait FunctionReturnType {
     /** @var Token */
     public $colonToken;
+    // TODO: This may be the wrong choice if ?type can ever be mixed with other types in union types
     /** @var Token|null */
     public $questionToken;
-    /** @var Token|QualifiedName */
-    public $returnType;
-    /** @var DelimitedList\QualifiedNameList|null TODO: Merge with returnType in a future backwards incompatible release */
-    public $otherReturnTypes;
+    /** @var DelimitedList\QualifiedNameList|null */
+    public $returnTypeList;
 }

@@ -129,12 +129,7 @@
                                                                 "textLength": 9
                                                             },
                                                             "modifiers": [],
-                                                            "targetName": {
-                                                                "error": "MissingToken",
-                                                                "kind": "BarToken",
-                                                                "textLength": 0
-                                                            },
-                                                            "remainingTargetNames": []
+                                                            "targetNameList": null
                                                         }
                                                     },
                                                     {

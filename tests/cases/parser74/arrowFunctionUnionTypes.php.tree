@@ -35,13 +35,13 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": {
-                                                    "kind": "IntReservedWord",
-                                                    "textLength": 3
-                                                },
-                                                "otherTypeDeclarations": {
+                                                "typeDeclarationList": {
                                                     "QualifiedNameList": {
                                                         "children": [
+                                                            {
+                                                                "kind": "IntReservedWord",
+                                                                "textLength": 3
+                                                            },
                                                             {
                                                                 "kind": "BarToken",
                                                                 "textLength": 1
@@ -78,11 +78,16 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "kind": "IntReservedWord",
-                                "textLength": 3
+                            "returnTypeList": {
+                                "QualifiedNameList": {
+                                    "children": [
+                                        {
+                                            "kind": "IntReservedWord",
+                                            "textLength": 3
+                                        }
+                                    ]
+                                }
                             },
-                            "otherReturnTypes": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -128,21 +133,21 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
-                                                    }
-                                                },
-                                                "otherTypeDeclarations": {
+                                                "typeDeclarationList": {
                                                     "QualifiedNameList": {
                                                         "children": [
+                                                            {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 8
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
                                                             {
                                                                 "kind": "BarToken",
                                                                 "textLength": 1
@@ -177,13 +182,13 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "kind": "IntReservedWord",
-                                "textLength": 3
-                            },
-                            "otherReturnTypes": {
+                            "returnTypeList": {
                                 "QualifiedNameList": {
                                     "children": [
+                                        {
+                                            "kind": "IntReservedWord",
+                                            "textLength": 3
+                                        },
                                         {
                                             "kind": "BarToken",
                                             "textLength": 1
@@ -240,13 +245,13 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": {
-                                                    "kind": "IterableReservedWord",
-                                                    "textLength": 8
-                                                },
-                                                "otherTypeDeclarations": {
+                                                "typeDeclarationList": {
                                                     "QualifiedNameList": {
                                                         "children": [
+                                                            {
+                                                                "kind": "IterableKeyword",
+                                                                "textLength": 8
+                                                            },
                                                             {
                                                                 "kind": "BarToken",
                                                                 "textLength": 1
@@ -288,24 +293,24 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "QualifiedName": {
-                                    "globalSpecifier": {
-                                        "kind": "BackslashToken",
-                                        "textLength": 1
-                                    },
-                                    "relativeSpecifier": null,
-                                    "nameParts": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 8
-                                        }
-                                    ]
-                                }
-                            },
-                            "otherReturnTypes": {
+                            "returnTypeList": {
                                 "QualifiedNameList": {
                                     "children": [
+                                        {
+                                            "QualifiedName": {
+                                                "globalSpecifier": {
+                                                    "kind": "BackslashToken",
+                                                    "textLength": 1
+                                                },
+                                                "relativeSpecifier": null,
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 8
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         {
                                             "kind": "BarToken",
                                             "textLength": 1
@@ -397,13 +402,13 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": {
-                                                    "kind": "IterableReservedWord",
-                                                    "textLength": 8
-                                                },
-                                                "otherTypeDeclarations": {
+                                                "typeDeclarationList": {
                                                     "QualifiedNameList": {
                                                         "children": [
+                                                            {
+                                                                "kind": "IterableKeyword",
+                                                                "textLength": 8
+                                                            },
                                                             {
                                                                 "kind": "BarToken",
                                                                 "textLength": 1
@@ -449,24 +454,24 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "QualifiedName": {
-                                    "globalSpecifier": {
-                                        "kind": "BackslashToken",
-                                        "textLength": 1
-                                    },
-                                    "relativeSpecifier": null,
-                                    "nameParts": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 8
-                                        }
-                                    ]
-                                }
-                            },
-                            "otherReturnTypes": {
+                            "returnTypeList": {
                                 "QualifiedNameList": {
                                     "children": [
+                                        {
+                                            "QualifiedName": {
+                                                "globalSpecifier": {
+                                                    "kind": "BackslashToken",
+                                                    "textLength": 1
+                                                },
+                                                "relativeSpecifier": null,
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 8
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         {
                                             "kind": "BarToken",
                                             "textLength": 1
@@ -526,32 +531,32 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "QualifiedName": {
-                                    "globalSpecifier": null,
-                                    "relativeSpecifier": {
-                                        "RelativeSpecifier": {
-                                            "namespaceKeyword": {
-                                                "kind": "NamespaceKeyword",
-                                                "textLength": 9
-                                            },
-                                            "backslash": {
-                                                "kind": "BackslashToken",
-                                                "textLength": 1
-                                            }
-                                        }
-                                    },
-                                    "nameParts": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 8
-                                        }
-                                    ]
-                                }
-                            },
-                            "otherReturnTypes": {
+                            "returnTypeList": {
                                 "QualifiedNameList": {
                                     "children": [
+                                        {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": {
+                                                    "RelativeSpecifier": {
+                                                        "namespaceKeyword": {
+                                                            "kind": "NamespaceKeyword",
+                                                            "textLength": 9
+                                                        },
+                                                        "backslash": {
+                                                            "kind": "BackslashToken",
+                                                            "textLength": 1
+                                                        }
+                                                    }
+                                                },
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 8
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         {
                                             "kind": "BarToken",
                                             "textLength": 1

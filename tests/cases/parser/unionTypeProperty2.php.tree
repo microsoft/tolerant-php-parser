@@ -86,8 +86,7 @@
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
-                                        "returnType": null,
-                                        "otherReturnTypes": null,
+                                        "returnTypeList": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {
@@ -113,13 +112,13 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
-                                        },
-                                        "otherTypeDeclarations": {
+                                        "typeDeclarationList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    },
                                                     {
                                                         "kind": "BarToken",
                                                         "textLength": 1

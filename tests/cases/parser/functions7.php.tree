@@ -35,8 +35,7 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "otherTypeDeclarations": null,
+                                        "typeDeclarationList": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -63,8 +62,7 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "otherTypeDeclarations": null,
+                                        "typeDeclarationList": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -84,8 +82,7 @@
                     },
                     "colonToken": null,
                     "questionToken": null,
-                    "returnType": null,
-                    "otherReturnTypes": null,
+                    "returnTypeList": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

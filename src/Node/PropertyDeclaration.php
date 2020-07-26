@@ -6,9 +6,11 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\ModifiedTypeInterface;
 use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\QualifiedNameList;
 use Microsoft\PhpParser\Token;
 
 class PropertyDeclaration extends Node implements ModifiedTypeInterface {
@@ -20,14 +22,8 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     /** @var Token|null question token for PHP 7.4 type declaration */
     public $questionToken;
 
-    /** @var QualifiedName|Token|null */
-    public $typeDeclaration;
-
-    /**
-     * @var DelimitedList\QualifiedNameList|null
-     * TODO: Unify with typeDeclaration in a future backwards incompatible release
-     */
-    public $otherTypeDeclarations;
+    /** @var QualifiedNameList|MissingToken|null */
+    public $typeDeclarationList;
 
     /** @var DelimitedList\ExpressionList */
     public $propertyElements;
@@ -39,8 +35,7 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
         'attributes',
         'modifiers',
         'questionToken',
-        'typeDeclaration',
-        'otherTypeDeclarations',
+        'typeDeclarationList',
         'propertyElements',
         'semicolon'
     ];

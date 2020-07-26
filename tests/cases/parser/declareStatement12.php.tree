@@ -21,26 +21,11 @@
                         "kind": "OpenParenToken",
                         "textLength": 1
                     },
-                    "declareDirective": {
-                        "DeclareDirective": {
-                            "name": {
-                                "error": "MissingToken",
-                                "kind": "Name",
-                                "textLength": 0
-                            },
-                            "equals": {
-                                "error": "MissingToken",
-                                "kind": "EqualsToken",
-                                "textLength": 0
-                            },
-                            "literal": {
-                                "error": "MissingToken",
-                                "kind": "FloatingLiteralToken",
-                                "textLength": 0
-                            }
-                        }
+                    "declareDirectiveList": {
+                        "error": "MissingToken",
+                        "kind": "Name",
+                        "textLength": 0
                     },
-                    "otherDeclareDirectives": null,
                     "closeParen": {
                         "kind": "CloseParenToken",
                         "textLength": 1

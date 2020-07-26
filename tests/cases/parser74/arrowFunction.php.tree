@@ -51,11 +51,16 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": {
-                                                            "kind": "ArrayKeyword",
-                                                            "textLength": 5
+                                                        "typeDeclarationList": {
+                                                            "QualifiedNameList": {
+                                                                "children": [
+                                                                    {
+                                                                        "kind": "ArrayKeyword",
+                                                                        "textLength": 5
+                                                                    }
+                                                                ]
+                                                            }
                                                         },
-                                                        "otherTypeDeclarations": null,
                                                         "byRefToken": null,
                                                         "dotDotDotToken": null,
                                                         "variableName": {
@@ -75,8 +80,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -126,11 +130,16 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "kind": "IntReservedWord",
-                                "textLength": 3
+                            "returnTypeList": {
+                                "QualifiedNameList": {
+                                    "children": [
+                                        {
+                                            "kind": "IntReservedWord",
+                                            "textLength": 3
+                                        }
+                                    ]
+                                }
                             },
-                            "otherReturnTypes": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -176,8 +185,7 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "variableName": {
@@ -207,8 +215,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -270,8 +277,7 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": {
                                                     "kind": "AmpersandToken",
                                                     "textLength": 1
@@ -294,8 +300,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -344,8 +349,7 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "variableName": {
@@ -365,8 +369,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -412,8 +415,7 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "variableName": {
@@ -433,8 +435,7 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": {
                                                     "kind": "DotDotDotToken",
@@ -457,8 +458,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -506,8 +506,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "kind": "DoubleArrowToken",
                                 "textLength": 2
@@ -570,8 +569,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2

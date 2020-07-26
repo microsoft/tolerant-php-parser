@@ -44,7 +44,6 @@
                                                     "kind": "ColonToken",
                                                     "textLength": 1
                                                 },
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "ReservedWord": {
@@ -105,7 +104,6 @@
                                                     "kind": "ColonToken",
                                                     "textLength": 1
                                                 },
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "NumericLiteral": {
@@ -166,7 +164,6 @@
                                                     "kind": "ColonToken",
                                                     "textLength": 1
                                                 },
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "NumericLiteral": {
@@ -226,7 +223,6 @@
                                                     "kind": "ColonToken",
                                                     "textLength": 1
                                                 },
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "error": "MissingToken",

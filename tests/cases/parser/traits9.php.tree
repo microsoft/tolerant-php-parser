@@ -79,7 +79,7 @@
                                                                 "textLength": 2
                                                             },
                                                             "modifiers": [],
-                                                            "targetName": {
+                                                            "targetNameList": {
                                                                 "QualifiedName": {
                                                                     "globalSpecifier": null,
                                                                     "relativeSpecifier": null,
@@ -90,8 +90,7 @@
                                                                         }
                                                                     ]
                                                                 }
-                                                            },
-                                                            "remainingTargetNames": []
+                                                            }
                                                         }
                                                     },
                                                     {

@@ -12,29 +12,25 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 13
-                                                },
-                                                "endQuote": null
-                                            }
-                                        }
-                                    ]
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "StringLiteral": {
+                                        "startQuote": null,
+                                        "children": {
+                                            "kind": "StringLiteralToken",
+                                            "textLength": 13
+                                        },
+                                        "endQuote": null
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

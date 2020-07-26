@@ -18,7 +18,7 @@ class ParserGrammarTest extends TestCase {
     public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
             $GLOBALS["GIT_CHECKOUT_PARSER"] = true;
-            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree *.php.diag");
+            // exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree *.php.diag");
         }
 
         $result->addListener(new CallbackTestListener(function (Test $test) {
@@ -44,12 +44,12 @@ class ParserGrammarTest extends TestCase {
         $fileContents = file_get_contents($testCaseFile);
         if (!file_exists($expectedTokensFile)) {
             file_put_contents($expectedTokensFile, $fileContents);
-            exec("git add " . $expectedTokensFile);
+            // exec("git add " . $expectedTokensFile);
         }
 
         if (!file_exists($expectedDiagnosticsFile)) {
             file_put_contents($expectedDiagnosticsFile, $fileContents);
-            exec("git add " . $expectedDiagnosticsFile);
+            // exec("git add " . $expectedDiagnosticsFile);
         }
 
         $parser = new \Microsoft\PhpParser\Parser();

@@ -40,7 +40,6 @@ use Microsoft\PhpParser\Node\Expression\{
     ParenthesizedExpression,
     PrefixUpdateExpression,
     PrintIntrinsicExpression,
-    EchoExpression,
     ListIntrinsicExpression,
     ObjectCreationExpression,
     ScriptInclusionExpression,
@@ -89,6 +88,7 @@ use Microsoft\PhpParser\Node\Statement\{
     BreakOrContinueStatement,
     DeclareStatement,
     DoStatement,
+    EchoStatement,
     EmptyStatement,
     EnumDeclaration,
     ExpressionStatement,
@@ -104,7 +104,6 @@ use Microsoft\PhpParser\Node\Statement\{
     NamedLabelStatement,
     ReturnStatement,
     SwitchStatementNode,
-    ThrowStatement,
     TraitDeclaration,
     TryStatement,
     WhileStatement
@@ -830,13 +829,10 @@ class Parser {
             }
             $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
-            $typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
-            if ($typeDeclarationList) {
-                $parameter->typeDeclaration = array_shift($typeDeclarationList->children);
-                $parameter->typeDeclaration->parent = $parameter;
-                if ($typeDeclarationList->children) {
-                    $parameter->otherTypeDeclarations = $typeDeclarationList;
-                }
+            $parameter->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
+            if ($parameter->questionToken && !$parameter->typeDeclarationList) {
+                // TODO ParameterType?
+                $parameter->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
             }
             $parameter->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
             // TODO add post-parse rule that prevents assignment
@@ -858,15 +854,10 @@ class Parser {
     private function parseAndSetReturnTypeDeclarationList($parentNode) {
         $returnTypeList = $this->parseReturnTypeDeclarationList($parentNode);
         if (!$returnTypeList)  {
-            $parentNode->returnType = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
+            $parentNode->returnTypeList = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
             return;
         }
-        $returnType = array_shift($returnTypeList->children);
-        $parentNode->returnType = $returnType;
-        $returnType->parent = $parentNode;
-        if ($returnTypeList->children) {
-            $parentNode->otherReturnTypes = $returnTypeList;
-        }
+        $parentNode->returnTypeList = $returnTypeList;
     }
 
     /**
@@ -2410,17 +2401,17 @@ class Parser {
         return $returnStatement;
     }
 
+    /** @return ExpressionStatement */
     private function parseThrowStatement($parentNode) {
-        $throwStatement = new ThrowStatement();
+        $throwStatement = new ExpressionStatement();
+        $throwStatement->expression = $this->parseThrowExpression($throwStatement);
         $throwStatement->parent = $parentNode;
-        $throwStatement->throwKeyword = $this->eat1(TokenKind::ThrowKeyword);
-        // TODO error for failures to parse expressions when not optional
-        $throwStatement->expression = $this->parseExpression($throwStatement);
         $throwStatement->semicolon = $this->eatSemicolonOrAbortStatement();
 
         return $throwStatement;
     }
 
+    /** @return ThrowExpression */
     private function parseThrowExpression($parentNode) {
         $throwExpression = new ThrowExpression();
         $throwExpression->parent = $parentNode;
@@ -2454,9 +2445,7 @@ class Parser {
         $catchClause->parent = $parentNode;
         $catchClause->catch = $this->eat1(TokenKind::CatchKeyword);
         $catchClause->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $qualifiedNameList = $this->parseQualifiedNameCatchList($catchClause)->children ?? [];
-        $catchClause->qualifiedName = $qualifiedNameList[0] ?? null; // TODO generate missing token or error if null
-        $catchClause->otherQualifiedNameList = array_slice($qualifiedNameList, 1);  // TODO: Generate error if the name list has missing tokens
+        $catchClause->qualifiedNameList = $this->parseQualifiedNameCatchList($catchClause) ?? new MissingToken(TokenKind::QualifiedName, $this->token->fullStart); // TODO generate missing token or error if null
         $catchClause->variableName = $this->eatOptional1(TokenKind::VariableName);
         $catchClause->closeParen = $this->eat1(TokenKind::CloseParenToken);
         $catchClause->compoundStatement = $this->parseCompoundStatement($catchClause);
@@ -2501,27 +2490,7 @@ class Parser {
     private function parseAndSetDeclareDirectiveList($parentNode) {
         $declareDirectiveList = $this->parseDeclareDirectiveList($parentNode);
 
-        if (!$declareDirectiveList) {
-            $declareDirective = new DeclareDirective();
-            $declareDirective->parent = $parentNode;
-
-            $declareDirective->name = new MissingToken(TokenKind::Name, $this->token->fullStart);
-            $declareDirective->equals = new MissingToken(TokenKind::EqualsToken, $this->token->fullStart);
-            // TODO: This is matching the first token in $this::parseDeclareDirectiveFn.
-            //       Probably best to emit a more general "literal error".
-            $declareDirective->literal = new MissingToken(TokenKind::FloatingLiteralToken, $this->token->fullStart);
-
-            $parentNode->declareDirective = $declareDirective;
-            return;
-        }
-
-        $declareDirective = array_shift($declareDirectiveList->children);
-        $parentNode->declareDirective = $declareDirective;
-        $declareDirective->parent = $parentNode;
-
-        if ($declareDirectiveList->children) {
-            $parentNode->otherDeclareDirectives = $declareDirectiveList;
-        }
+        $parentNode->declareDirectiveList = $declareDirectiveList ?? new MissingToken(TokenKind::Name, $this->token->fullStart);
     }
 
     /**
@@ -2645,27 +2614,22 @@ class Parser {
         return $scriptInclusionExpression;
     }
 
+    /** @return EchoStatement */
     private function parseEchoStatement($parentNode) {
-        $expressionStatement = new ExpressionStatement();
-
-        // TODO: Could flatten into EchoStatement instead?
-        $echoExpression = new EchoExpression();
-        $echoExpression->parent = $expressionStatement;
-        $echoExpression->echoKeyword = $this->eat1(TokenKind::EchoKeyword);
-        $echoExpression->expressions =
-            $this->parseExpressionList($echoExpression);
-
-        $expressionStatement->parent = $parentNode;
-        $expressionStatement->expression = $echoExpression;
-        $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
-
-        return $expressionStatement;
+        $echoStatement = new EchoStatement();
+        $echoStatement->parent = $parentNode;
+        $echoStatement->echoKeyword = $this->eat1(TokenKind::EchoKeyword);
+        $echoStatement->expressions =
+            $this->parseExpressionList($echoStatement);
+        $echoStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+        return $echoStatement;
     }
 
+    /** @return ExpressionStatement */
     private function parseUnsetStatement($parentNode) {
         $expressionStatement = new ExpressionStatement();
 
-        // TODO: Could flatten into UnsetStatement instead?
+        // FIXME: flatten into UnsetStatement instead?
         $unsetExpression = $this->parseUnsetIntrinsicExpression($expressionStatement);
 
         $expressionStatement->parent = $parentNode;
@@ -3003,7 +2967,6 @@ class Parser {
                 $argumentExpression->name = $name;
                 $argumentExpression->colonToken = $this->eat1(TokenKind::ColonToken);
             } else {
-                $argumentExpression->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
                 $argumentExpression->dotDotDotToken = $this->eatOptional1(TokenKind::DotDotDotToken);
             }
             $argumentExpression->expression = $this->parseExpression($argumentExpression);
@@ -3261,18 +3224,9 @@ class Parser {
         $propertyDeclaration->modifiers = $modifiers;
         $propertyDeclaration->questionToken = $questionToken;
         if ($typeDeclarationList) {
-            /** $typeDeclarationList is a Node or a Token (e.g. IntKeyword) */
-            $typeDeclaration = \array_shift($typeDeclarationList->children);
-            $propertyDeclaration->typeDeclaration = $typeDeclaration;
-            if ($typeDeclaration instanceof Node) {
-                $typeDeclaration->parent = $propertyDeclaration;
-            }
-            if ($typeDeclarationList->children) {
-                $propertyDeclaration->otherTypeDeclarations = $typeDeclarationList;
-                $typeDeclarationList->parent = $propertyDeclaration;
-            }
+            $propertyDeclaration->typeDeclarationList = $typeDeclarationList;
         } elseif ($questionToken) {
-            $propertyDeclaration->typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
+            $propertyDeclaration->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
         $propertyDeclaration->propertyElements = $this->parseExpressionList($propertyDeclaration);
         $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
@@ -3713,15 +3667,10 @@ class Parser {
             $traitSelectAndAliasClause->modifiers = $this->parseModifiers(); // TODO accept all modifiers, verify later
 
             if ($traitSelectAndAliasClause->asOrInsteadOfKeyword->kind === TokenKind::InsteadOfKeyword) {
-                // https://github.com/Microsoft/tolerant-php-parser/issues/190
-                // TODO: In the next backwards incompatible release, convert targetName to a list?
-                $interfaceNameList = $this->parseQualifiedNameList($traitSelectAndAliasClause)->children ?? [];
-                $traitSelectAndAliasClause->targetName = $interfaceNameList[0] ?? new MissingToken(TokenKind::BarToken, $this->token->fullStart);
-                $traitSelectAndAliasClause->remainingTargetNames = array_slice($interfaceNameList, 1);
+                $traitSelectAndAliasClause->targetNameList = $this->parseQualifiedNameList($traitSelectAndAliasClause);
             } else {
-                $traitSelectAndAliasClause->targetName =
+                $traitSelectAndAliasClause->targetNameList =
                     $this->parseQualifiedNameOrScopedPropertyAccessExpression($traitSelectAndAliasClause);
-                $traitSelectAndAliasClause->remainingTargetNames = [];
             }
 
             // TODO errors for insteadof/as
@@ -4033,14 +3982,10 @@ class Parser {
 
         // This is the easiest way to represent `<?= "expr", "other" `
         if (($inlineHtml->scriptSectionStartTag->kind ?? null) === TokenKind::ScriptSectionStartWithEchoTag)  {
-            $echoStatement = new ExpressionStatement();
+            $echoStatement = new EchoStatement();
+            $expressionList = $this->parseExpressionList($echoStatement) ?? (new MissingToken(TokenKind::Expression, $this->token->fullStart));
+            $echoStatement->expressions = $expressionList;
 
-            $echoExpression = new EchoExpression();
-            $expressionList = $this->parseExpressionList($echoExpression) ?? (new MissingToken(TokenKind::Expression, $this->token->fullStart));
-            $echoExpression->expressions = $expressionList;
-            $echoExpression->parent = $echoStatement;
-
-            $echoStatement->expression = $echoExpression;
             $echoStatement->semicolon = $this->eatSemicolonOrAbortStatement();
             $echoStatement->parent = $inlineHtml;
             // Deliberately leave echoKeyword as null instead of MissingToken

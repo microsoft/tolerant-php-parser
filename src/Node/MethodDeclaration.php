@@ -34,8 +34,7 @@ class MethodDeclaration extends Node implements FunctionLike, ModifiedTypeInterf
         // FunctionReturnType
         'colonToken',
         'questionToken',
-        'returnType',
-        'otherReturnTypes',
+        'returnTypeList',
 
         // FunctionBody
         'compoundStatementOrSemicolon'

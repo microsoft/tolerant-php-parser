@@ -12,26 +12,22 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": null,
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 12
-                                                },
-                                                "endQuote": null
-                                            }
-                                        }
-                                    ]
+                "EchoStatement": {
+                    "echoKeyword": null,
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "StringLiteral": {
+                                        "startQuote": null,
+                                        "children": {
+                                            "kind": "StringLiteralToken",
+                                            "textLength": 12
+                                        },
+                                        "endQuote": null
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

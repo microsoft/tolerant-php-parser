@@ -62,8 +62,7 @@
                                                             "attributes": null,
                                                             "visibilityToken": null,
                                                             "questionToken": null,
-                                                            "typeDeclaration": null,
-                                                            "otherTypeDeclarations": null,
+                                                            "typeDeclarationList": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -83,8 +82,7 @@
                                                             "attributes": null,
                                                             "visibilityToken": null,
                                                             "questionToken": null,
-                                                            "typeDeclaration": null,
-                                                            "otherTypeDeclarations": null,
+                                                            "typeDeclarationList": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
@@ -107,11 +105,16 @@
                                             "textLength": 1
                                         },
                                         "questionToken": null,
-                                        "returnType": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
+                                        "returnTypeList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

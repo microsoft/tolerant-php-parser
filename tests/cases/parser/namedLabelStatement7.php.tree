@@ -47,8 +47,7 @@
                                 "colon": {
                                     "kind": "ColonToken",
                                     "textLength": 1
-                                },
-                                "statement": null
+                                }
                             }
                         }
                     ],

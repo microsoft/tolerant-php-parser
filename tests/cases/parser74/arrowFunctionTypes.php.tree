@@ -51,22 +51,27 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": {
-                                                            "QualifiedName": {
-                                                                "globalSpecifier": {
-                                                                    "kind": "BackslashToken",
-                                                                    "textLength": 1
-                                                                },
-                                                                "relativeSpecifier": null,
-                                                                "nameParts": [
+                                                        "typeDeclarationList": {
+                                                            "QualifiedNameList": {
+                                                                "children": [
                                                                     {
-                                                                        "kind": "Name",
-                                                                        "textLength": 8
+                                                                        "QualifiedName": {
+                                                                            "globalSpecifier": {
+                                                                                "kind": "BackslashToken",
+                                                                                "textLength": 1
+                                                                            },
+                                                                            "relativeSpecifier": null,
+                                                                            "nameParts": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 8
+                                                                                }
+                                                                            ]
+                                                                        }
                                                                     }
                                                                 ]
                                                             }
                                                         },
-                                                        "otherTypeDeclarations": null,
                                                         "byRefToken": null,
                                                         "dotDotDotToken": null,
                                                         "variableName": {
@@ -89,19 +94,24 @@
                                         "textLength": 1
                                     },
                                     "questionToken": null,
-                                    "returnType": {
-                                        "QualifiedName": {
-                                            "globalSpecifier": null,
-                                            "relativeSpecifier": null,
-                                            "nameParts": [
+                                    "returnTypeList": {
+                                        "QualifiedNameList": {
+                                            "children": [
                                                 {
-                                                    "kind": "Name",
-                                                    "textLength": 8
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 8
+                                                            }
+                                                        ]
+                                                    }
                                                 }
                                             ]
                                         }
                                     },
-                                    "otherReturnTypes": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -167,11 +177,16 @@
                                         "textLength": 1
                                     },
                                     "questionToken": null,
-                                    "returnType": {
-                                        "kind": "IntReservedWord",
-                                        "textLength": 3
+                                    "returnTypeList": {
+                                        "QualifiedNameList": {
+                                            "children": [
+                                                {
+                                                    "kind": "IntReservedWord",
+                                                    "textLength": 3
+                                                }
+                                            ]
+                                        }
                                     },
-                                    "otherReturnTypes": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -247,8 +262,7 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": null,
-                                                        "otherTypeDeclarations": null,
+                                                        "typeDeclarationList": null,
                                                         "byRefToken": null,
                                                         "dotDotDotToken": null,
                                                         "variableName": {
@@ -278,8 +292,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -359,8 +372,7 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": null,
-                                                        "otherTypeDeclarations": null,
+                                                        "typeDeclarationList": null,
                                                         "byRefToken": {
                                                             "kind": "AmpersandToken",
                                                             "textLength": 1
@@ -383,8 +395,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -451,27 +462,32 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": {
-                                                            "QualifiedName": {
-                                                                "globalSpecifier": null,
-                                                                "relativeSpecifier": null,
-                                                                "nameParts": [
+                                                        "typeDeclarationList": {
+                                                            "QualifiedNameList": {
+                                                                "children": [
                                                                     {
-                                                                        "kind": "Name",
-                                                                        "textLength": 2
-                                                                    },
-                                                                    {
-                                                                        "kind": "BackslashToken",
-                                                                        "textLength": 1
-                                                                    },
-                                                                    {
-                                                                        "kind": "Name",
-                                                                        "textLength": 7
+                                                                        "QualifiedName": {
+                                                                            "globalSpecifier": null,
+                                                                            "relativeSpecifier": null,
+                                                                            "nameParts": [
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 2
+                                                                                },
+                                                                                {
+                                                                                    "kind": "BackslashToken",
+                                                                                    "textLength": 1
+                                                                                },
+                                                                                {
+                                                                                    "kind": "Name",
+                                                                                    "textLength": 7
+                                                                                }
+                                                                            ]
+                                                                        }
                                                                     }
                                                                 ]
                                                             }
                                                         },
-                                                        "otherTypeDeclarations": null,
                                                         "byRefToken": null,
                                                         "dotDotDotToken": null,
                                                         "variableName": {
@@ -494,27 +510,32 @@
                                         "textLength": 1
                                     },
                                     "questionToken": null,
-                                    "returnType": {
-                                        "QualifiedName": {
-                                            "globalSpecifier": null,
-                                            "relativeSpecifier": null,
-                                            "nameParts": [
+                                    "returnTypeList": {
+                                        "QualifiedNameList": {
+                                            "children": [
                                                 {
-                                                    "kind": "Name",
-                                                    "textLength": 2
-                                                },
-                                                {
-                                                    "kind": "BackslashToken",
-                                                    "textLength": 1
-                                                },
-                                                {
-                                                    "kind": "Name",
-                                                    "textLength": 7
+                                                    "QualifiedName": {
+                                                        "globalSpecifier": null,
+                                                        "relativeSpecifier": null,
+                                                        "nameParts": [
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 2
+                                                            },
+                                                            {
+                                                                "kind": "BackslashToken",
+                                                                "textLength": 1
+                                                            },
+                                                            {
+                                                                "kind": "Name",
+                                                                "textLength": 7
+                                                            }
+                                                        ]
+                                                    }
                                                 }
                                             ]
                                         }
                                     },
-                                    "otherReturnTypes": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -578,8 +599,7 @@
                                                         "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
-                                                        "typeDeclaration": null,
-                                                        "otherTypeDeclarations": null,
+                                                        "typeDeclarationList": null,
                                                         "byRefToken": null,
                                                         "dotDotDotToken": null,
                                                         "variableName": {
@@ -599,8 +619,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -632,7 +651,6 @@
                                                                     "ArgumentExpression": {
                                                                         "name": null,
                                                                         "colonToken": null,
-                                                                        "byRefToken": null,
                                                                         "dotDotDotToken": null,
                                                                         "expression": {
                                                                             "Variable": {
@@ -653,7 +671,6 @@
                                                                     "ArgumentExpression": {
                                                                         "name": null,
                                                                         "colonToken": null,
-                                                                        "byRefToken": null,
                                                                         "dotDotDotToken": null,
                                                                         "expression": {
                                                                             "Variable": {
@@ -674,7 +691,6 @@
                                                                     "ArgumentExpression": {
                                                                         "name": null,
                                                                         "colonToken": null,
-                                                                        "byRefToken": null,
                                                                         "dotDotDotToken": null,
                                                                         "expression": {
                                                                             "Variable": {
@@ -824,8 +840,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -851,8 +866,7 @@
                                             },
                                             "colonToken": null,
                                             "questionToken": null,
-                                            "returnType": null,
-                                            "otherReturnTypes": null,
+                                            "returnTypeList": null,
                                             "arrowToken": {
                                                 "kind": "DoubleArrowToken",
                                                 "textLength": 2
@@ -917,8 +931,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2
@@ -948,7 +961,6 @@
                                                             "ArgumentExpression": {
                                                                 "name": null,
                                                                 "colonToken": null,
-                                                                "byRefToken": null,
                                                                 "dotDotDotToken": null,
                                                                 "expression": {
                                                                     "AnonymousFunctionCreationExpression": {
@@ -1002,8 +1014,7 @@
                                                                         },
                                                                         "colonToken": null,
                                                                         "questionToken": null,
-                                                                        "returnType": null,
-                                                                        "otherReturnTypes": null,
+                                                                        "returnTypeList": null,
                                                                         "compoundStatementOrSemicolon": {
                                                                             "CompoundStatementNode": {
                                                                                 "openBrace": {
@@ -1038,7 +1049,6 @@
                                                                                                                     "ArgumentExpression": {
                                                                                                                         "name": null,
                                                                                                                         "colonToken": null,
-                                                                                                                        "byRefToken": null,
                                                                                                                         "dotDotDotToken": null,
                                                                                                                         "expression": {
                                                                                                                             "Variable": {

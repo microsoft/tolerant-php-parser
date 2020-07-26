@@ -35,24 +35,24 @@
                                                 "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": {
-                                                            "kind": "BackslashToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
-                                                    }
-                                                },
-                                                "otherTypeDeclarations": {
+                                                "typeDeclarationList": {
                                                     "QualifiedNameList": {
                                                         "children": [
+                                                            {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": {
+                                                                        "kind": "BackslashToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 8
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
                                                             {
                                                                 "kind": "BarToken",
                                                                 "textLength": 1
@@ -122,11 +122,16 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "kind": "FalseReservedWord",
-                                "textLength": 5
+                            "returnTypeList": {
+                                "QualifiedNameList": {
+                                    "children": [
+                                        {
+                                            "kind": "FalseReservedWord",
+                                            "textLength": 5
+                                        }
+                                    ]
+                                }
                             },
-                            "otherReturnTypes": null,
                             "compoundStatementOrSemicolon": {
                                 "CompoundStatementNode": {
                                     "openBrace": {
