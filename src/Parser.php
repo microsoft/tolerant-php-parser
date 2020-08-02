@@ -1199,7 +1199,7 @@ class Parser {
             $token = $this->getCurrentToken();
             if ($token->kind === TokenKind::OpenBracketToken) {
                 return $this->parseTemplateStringSubscriptExpression($var);
-            } else if ($token->kind === TokenKind::ArrowToken) {
+            } else if ($token->kind === TokenKind::ArrowToken || $token->kind === TokenKind::QuestionArrowToken) {
                 return $this->parseTemplateStringMemberAccessExpression($var);
             } else {
                 return $var;
@@ -1248,7 +1248,7 @@ class Parser {
         $expression->parent = $memberAccessExpression;
 
         $memberAccessExpression->dereferencableExpression = $expression;
-        $memberAccessExpression->arrowToken = $this->eat1(TokenKind::ArrowToken);
+        $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken, TokenKind::QuestionArrowToken);
         $memberAccessExpression->memberName = $this->eat1(TokenKind::Name);
 
         return $memberAccessExpression;
@@ -2711,7 +2711,7 @@ class Parser {
             return $expression;
         }
 
-        if ($tokenKind === TokenKind::ArrowToken) {
+        if ($tokenKind === TokenKind::ArrowToken || $tokenKind === TokenKind::QuestionArrowToken) {
             $expression = $this->parseMemberAccessExpression($expression);
             return $this->parsePostfixExpressionRest($expression);
         }
@@ -2836,7 +2836,7 @@ class Parser {
         $expression->parent = $memberAccessExpression;
 
         $memberAccessExpression->dereferencableExpression = $expression;
-        $memberAccessExpression->arrowToken = $this->eat1(TokenKind::ArrowToken);
+        $memberAccessExpression->arrowToken = $this->eat(TokenKind::ArrowToken, TokenKind::QuestionArrowToken);
         $memberAccessExpression->memberName = $this->parseMemberName($memberAccessExpression);
 
         return $memberAccessExpression;
