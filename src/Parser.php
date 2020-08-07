@@ -2308,7 +2308,14 @@ class Parser {
         $declareStatement->parent = $parentNode;
         $declareStatement->declareKeyword = $this->eat1(TokenKind::DeclareKeyword);
         $declareStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $declareStatement->declareDirective = $this->parseDeclareDirective($declareStatement);
+        $declareStatement->declareDirectives = $this->parseDelimitedList(
+            DelimitedList\DeclareDirectiveList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::Name;
+            },
+            $this->parseDeclareDirectiveFn(),
+            $declareStatement);
         $declareStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
 
         if ($this->checkToken(TokenKind::SemicolonToken)) {
@@ -2325,26 +2332,28 @@ class Parser {
         return $declareStatement;
     }
 
-    private function parseDeclareDirective($parentNode) {
-        $declareDirective = new DeclareDirective();
-        $declareDirective->parent = $parentNode;
-        $declareDirective->name = $this->eat1(TokenKind::Name);
-        $declareDirective->equals = $this->eat1(TokenKind::EqualsToken);
-        $declareDirective->literal =
-            $this->eat(
-                TokenKind::FloatingLiteralToken,
-                TokenKind::IntegerLiteralToken,
-                TokenKind::DecimalLiteralToken,
-                TokenKind::OctalLiteralToken,
-                TokenKind::HexadecimalLiteralToken,
-                TokenKind::BinaryLiteralToken,
-                TokenKind::InvalidOctalLiteralToken,
-                TokenKind::InvalidHexadecimalLiteral,
-                TokenKind::InvalidBinaryLiteral,
-                TokenKind::StringLiteralToken
-            ); // TODO simplify
+    private function parseDeclareDirectiveFn() {
+        return function ($parentNode) {
+            $declareDirective = new DeclareDirective();
+            $declareDirective->parent = $parentNode;
+            $declareDirective->name = $this->eat1(TokenKind::Name);
+            $declareDirective->equals = $this->eat1(TokenKind::EqualsToken);
+            $declareDirective->literal =
+                $this->eat(
+                    TokenKind::FloatingLiteralToken,
+                    TokenKind::IntegerLiteralToken,
+                    TokenKind::DecimalLiteralToken,
+                    TokenKind::OctalLiteralToken,
+                    TokenKind::HexadecimalLiteralToken,
+                    TokenKind::BinaryLiteralToken,
+                    TokenKind::InvalidOctalLiteralToken,
+                    TokenKind::InvalidHexadecimalLiteral,
+                    TokenKind::InvalidBinaryLiteral,
+                    TokenKind::StringLiteralToken
+                ); // TODO simplify
 
-        return $declareDirective;
+            return $declareDirective;
+        };
     }
 
     private function parseSimpleVariable($parentNode) {

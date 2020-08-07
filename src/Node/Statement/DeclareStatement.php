@@ -6,7 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\DeclareDirectiveList;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
@@ -15,8 +15,8 @@ class DeclareStatement extends StatementNode {
     public $declareKeyword;
     /** @var Token */
     public $openParen;
-    /** @var Node */
-    public $declareDirective;
+    /** @var DeclareDirectiveList */
+    public $declareDirectives;
     /** @var Token */
     public $closeParen;
     /** @var Token|null */
@@ -31,7 +31,7 @@ class DeclareStatement extends StatementNode {
     const CHILD_NAMES = [
         'declareKeyword',
         'openParen',
-        'declareDirective',
+        'declareDirectives',
         'closeParen',
         'colon',
         'statements',
