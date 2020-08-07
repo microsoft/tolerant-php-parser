@@ -149,6 +149,7 @@ class TokenKind {
     const BacktickToken = 260;
     const QuestionToken = 261;
     const QuestionQuestionEqualsToken = 262;
+    const QuestionArrowToken = 263;
 
     const DecimalLiteralToken = 301;
     const OctalLiteralToken = 302;

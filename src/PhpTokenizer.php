@@ -10,8 +10,9 @@ namespace Microsoft\PhpParser;
 // The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_COALESCE_EQUAL', defined('T_COALESCE_EQUAL') ? constant('T_COALESCE_EQUAL') : 'T_COALESCE_EQUAL');
 define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
-// If this predaates PHP 8.0, T_MATCH is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
+// If this predates PHP 8.0, T_MATCH is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_MATCH', defined('T_MATCH') ? constant('T_MATCH') : 'T_MATCH');
+define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT_OPERATOR') ? constant('T_NULLSAFE_OBJECT_OPERATOR') : 'T_MATCH');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -129,6 +130,57 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                 case \T_OPEN_TAG:
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
                     $start = $fullStart = $pos;
+                    break;
+                case \PHP_VERSION_ID >= 80000 ? \T_NAME_QUALIFIED : -1000:
+                case \PHP_VERSION_ID >= 80000 ? \T_NAME_FULLY_QUALIFIED : -1001:
+                    // NOTE: This switch is called on every token of every file being parsed, so this traded performance for readability.
+                    //
+                    // PHP's Opcache is able to optimize switches that are exclusively known longs,
+                    // but not switches that mix strings and longs or have unknown longs.
+                    // Longs are only known if they're declared within the same *class* or an internal constant (tokenizer).
+                    //
+                    // For some reason, the SWITCH_LONG opcode was not generated when the expression was part of a class constant.
+                    // (seen with php -d opcache.opt_debug_level=0x20000)
+                    //
+                    // Use negative values because that's not expected to overlap with token kinds that token_get_all() will return.
+                    //
+                    // T_NAME_* was added in php 8.0 to forbid whitespace between parts of names.
+                    // Here, emulate the tokenization of php 7 by splitting it up into 1 or more tokens.
+                    foreach (\explode('\\', $token[1]) as $i => $name) {
+                        if ($i) {
+                            $arr[] = new Token(TokenKind::BackslashToken, $fullStart, $start, 1 + $start - $fullStart);
+                            $start++;
+                            $fullStart = $start;
+                        }
+                        if ($name === '') {
+                            continue;
+                        }
+                        // TODO: TokenStringMaps::RESERVED_WORDS[$name] ?? TokenKind::Name for compatibility?
+                        $len = \strlen($name);
+                        $arr[] = new Token(TokenKind::Name, $fullStart, $start, $len + $start - $fullStart);
+                        $start += $len;
+                        $fullStart = $start;
+                    }
+                    break;
+                case \PHP_VERSION_ID >= 80000 ? \T_NAME_RELATIVE : -1002:
+                    // This is a namespace-relative name: namespace\...
+                    foreach (\explode('\\', $token[1]) as $i => $name) {
+                        $len = \strlen($name);
+                        if (!$i) {
+                            $arr[] = new Token(TokenKind::NamespaceKeyword, $fullStart, $start, $len + $start - $fullStart);
+                            $start += $len;
+                            $fullStart = $start;
+                            continue;
+                        }
+                        $arr[] = new Token(TokenKind::BackslashToken, $fullStart, $start, 1);
+                        $start++;
+
+                        // TODO: TokenStringMaps::RESERVED_WORDS[$name] ?? TokenKind::Name for compatibility?
+                        $arr[] = new Token(TokenKind::Name, $start, $start, $len);
+
+                        $start += $len;
+                        $fullStart = $start;
+                    }
                     break;
                 case \T_COMMENT:
                 case \T_DOC_COMMENT:
@@ -256,6 +308,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         "}" => TokenKind::CloseBraceToken,
         "." => TokenKind::DotToken,
         T_OBJECT_OPERATOR => TokenKind::ArrowToken,
+        T_NULLSAFE_OBJECT_OPERATOR => TokenKind::QuestionArrowToken,
         T_INC => TokenKind::PlusPlusToken,
         T_DEC => TokenKind::MinusMinusToken,
         T_POW => TokenKind::AsteriskAsteriskToken,
