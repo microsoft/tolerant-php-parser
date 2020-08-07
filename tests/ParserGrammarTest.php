@@ -4,7 +4,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-use Microsoft\PhpParser\Token;
 use Microsoft\PhpParser\DiagnosticsProvider;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -123,7 +122,7 @@ class ParserGrammarTest extends TestCase {
     }
 
     public function outTreeProvider() {
-        $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
+        $testCases = glob(__DIR__ . "/cases/php-langspec/**/*.php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
         $testProviderArray = array();
