@@ -21,20 +21,26 @@
                         "kind": "OpenParenToken",
                         "textLength": 1
                     },
-                    "declareDirective": {
-                        "DeclareDirective": {
-                            "name": {
-                                "kind": "Name",
-                                "textLength": 5
-                            },
-                            "equals": {
-                                "kind": "EqualsToken",
-                                "textLength": 1
-                            },
-                            "literal": {
-                                "kind": "FloatingLiteralToken",
-                                "textLength": 3
-                            }
+                    "declareDirectives": {
+                        "DeclareDirectiveList": {
+                            "children": [
+                                {
+                                    "DeclareDirective": {
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 5
+                                        },
+                                        "equals": {
+                                            "kind": "EqualsToken",
+                                            "textLength": 1
+                                        },
+                                        "literal": {
+                                            "kind": "FloatingLiteralToken",
+                                            "textLength": 3
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "closeParen": {
