@@ -71,6 +71,8 @@
                                     "children": [
                                         {
                                             "ArgumentExpression": {
+                                                "name": null,
+                                                "colonToken": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {

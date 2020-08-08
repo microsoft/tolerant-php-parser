@@ -121,6 +121,7 @@ class Parser {
     private $nameOrStaticOrReservedWordTokens;
     private $reservedWordTokens;
     private $keywordTokens;
+    private $argumentStartTokensSet;
     // TODO consider validating parameter and return types on post-parse instead so we can be more permissive
     private $parameterTypeDeclarationTokens;
     private $returnTypeDeclarationTokens;
@@ -128,6 +129,9 @@ class Parser {
     public function __construct() {
         $this->reservedWordTokens = \array_values(TokenStringMaps::RESERVED_WORDS);
         $this->keywordTokens = \array_values(TokenStringMaps::KEYWORDS);
+        $this->argumentStartTokensSet = \array_flip(TokenStringMaps::KEYWORDS);
+        unset($this->argumentStartTokensSet[TokenKind::YieldFromKeyword]);
+        $this->argumentStartTokensSet[TokenKind::DotDotDotToken] = '...';
         $this->nameOrKeywordOrReservedWordTokens = \array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
         $this->nameOrReservedWordTokens = \array_merge([TokenKind::Name], $this->reservedWordTokens);
         $this->nameOrStaticOrReservedWordTokens = \array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
@@ -2762,7 +2766,7 @@ class Parser {
     private function isArgumentExpressionStartFn() {
         return function ($token) {
             return
-                $token->kind === TokenKind::DotDotDotToken ? true : $this->isExpressionStart($token);
+                isset($this->argumentStartTokensSet[$token->kind]) || $this->isExpressionStart($token);
         };
     }
 
@@ -2770,8 +2774,22 @@ class Parser {
         return function ($parentNode) {
             $argumentExpression = new ArgumentExpression();
             $argumentExpression->parent = $parentNode;
-            $argumentExpression->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
-            $argumentExpression->dotDotDotToken = $this->eatOptional1(TokenKind::DotDotDotToken);
+
+            $nextToken = $this->lexer->getTokensArray()[$this->lexer->getCurrentPosition()] ?? null;
+            if ($nextToken && $nextToken->kind === TokenKind::ColonToken) {
+                $name = $this->token;
+                $this->advanceToken();
+                if ($name->kind === TokenKind::YieldFromKeyword || !\in_array($name->kind, $this->nameOrKeywordOrReservedWordTokens)) {
+                    $name = new SkippedToken($name);
+                } else {
+                    $name->kind = TokenKind::Name;
+                }
+                $argumentExpression->name = $name;
+                $argumentExpression->colonToken = $this->eat1(TokenKind::ColonToken);
+            } else {
+                $argumentExpression->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
+                $argumentExpression->dotDotDotToken = $this->eatOptional1(TokenKind::DotDotDotToken);
+            }
             $argumentExpression->expression = $this->parseExpression($argumentExpression);
             return $argumentExpression;
         };
