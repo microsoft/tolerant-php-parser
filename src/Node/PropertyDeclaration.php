@@ -6,14 +6,13 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\ModifiedTypeInterface;
+use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
-use Microsoft\PhpParser\TokenKind;
 
-class PropertyDeclaration extends Node {
-
-    /** @var Token[] */
-    public $modifiers;
+class PropertyDeclaration extends Node implements ModifiedTypeInterface {
+    use ModifiedTypeTrait;
 
     /** @var Token|null question token for PHP 7.4 type declaration */
     public $questionToken;
@@ -41,16 +40,4 @@ class PropertyDeclaration extends Node {
         'propertyElements',
         'semicolon'
     ];
-
-    public function isStatic() : bool {
-        if ($this->modifiers === null) {
-            return false;
-        }
-        foreach ($this->modifiers as $modifier) {
-            if ($modifier->kind === TokenKind::StaticKeyword) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

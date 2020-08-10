@@ -6,13 +6,13 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\ModifiedTypeInterface;
+use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
-class ClassConstDeclaration extends Node {
-
-    /** @var Token[] */
-    public $modifiers;
+class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
+    use ModifiedTypeTrait;
 
     /** @var Token */
     public $constKeyword;
