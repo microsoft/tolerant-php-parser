@@ -21,25 +21,25 @@
                         "kind": "OpenParenToken",
                         "textLength": 1
                     },
-                    "declareDirectives": {
+                    "declareDirective": {
+                        "DeclareDirective": {
+                            "name": {
+                                "kind": "Name",
+                                "textLength": 12
+                            },
+                            "equals": {
+                                "kind": "EqualsToken",
+                                "textLength": 1
+                            },
+                            "literal": {
+                                "kind": "IntegerLiteralToken",
+                                "textLength": 1
+                            }
+                        }
+                    },
+                    "otherDeclareDirectives": {
                         "DeclareDirectiveList": {
                             "children": [
-                                {
-                                    "DeclareDirective": {
-                                        "name": {
-                                            "kind": "Name",
-                                            "textLength": 12
-                                        },
-                                        "equals": {
-                                            "kind": "EqualsToken",
-                                            "textLength": 1
-                                        },
-                                        "literal": {
-                                            "kind": "IntegerLiteralToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                },
                                 {
                                     "kind": "CommaToken",
                                     "textLength": 1
@@ -70,38 +70,6 @@
                     "colon": null,
                     "statements": null,
                     "enddeclareKeyword": null,
-                    "semicolon": {
-                        "kind": "SemicolonToken",
-                        "textLength": 1
-                    }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 22
-                                                },
-                                                "endQuote": null
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

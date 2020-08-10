@@ -1,20 +1,14 @@
 [
     {
         "kind": 0,
-        "message": "'Name' expected.",
-        "start": 16,
-        "length": 0
-    },
-    {
-        "kind": 0,
         "message": "'=' expected.",
-        "start": 16,
+        "start": 36,
         "length": 0
     },
     {
         "kind": 0,
         "message": "'FloatingLiteralToken' expected.",
-        "start": 16,
+        "start": 36,
         "length": 0
     }
 ]
