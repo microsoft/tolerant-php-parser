@@ -14,6 +14,9 @@ use Microsoft\PhpParser\Token;
 class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     use ModifiedTypeTrait;
 
+    /** @var AttributeGroup[]|null */
+    public $attributes;
+
     /** @var Token|null question token for PHP 7.4 type declaration */
     public $questionToken;
 
@@ -33,6 +36,7 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     public $semicolon;
 
     const CHILD_NAMES = [
+        'attributes',
         'modifiers',
         'questionToken',
         'typeDeclaration',

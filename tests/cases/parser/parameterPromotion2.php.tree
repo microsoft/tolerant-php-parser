@@ -13,6 +13,7 @@
             },
             {
                 "ClassDeclaration": {
+                    "attributes": null,
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -33,6 +34,7 @@
                             "classMemberDeclarations": [
                                 {
                                     "MethodDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
@@ -57,6 +59,7 @@
                                                 "children": [
                                                     {
                                                         "Parameter": {
+                                                            "attributes": null,
                                                             "visibilityToken": {
                                                                 "kind": "PublicKeyword",
                                                                 "textLength": 6
@@ -106,6 +109,7 @@
                                 },
                                 {
                                     "PropertyDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "ProtectedKeyword",

@@ -13,6 +13,7 @@
             },
             {
                 "ClassDeclaration": {
+                    "attributes": null,
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -33,6 +34,7 @@
                             "classMemberDeclarations": [
                                 {
                                     "ClassConstDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [],
                                         "constKeyword": {
                                             "kind": "ConstKeyword",

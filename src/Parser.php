@@ -8,6 +8,8 @@ namespace Microsoft\PhpParser;
 
 use Microsoft\PhpParser\Node\AnonymousFunctionUseClause;
 use Microsoft\PhpParser\Node\ArrayElement;
+use Microsoft\PhpParser\Node\Attribute;
+use Microsoft\PhpParser\Node\AttributeGroup;
 use Microsoft\PhpParser\Node\CaseStatementNode;
 use Microsoft\PhpParser\Node\CatchClause;
 use Microsoft\PhpParser\Node\ClassBaseClause;
@@ -63,6 +65,7 @@ use Microsoft\PhpParser\Node\ForeachValue;
 use Microsoft\PhpParser\Node\InterfaceBaseClause;
 use Microsoft\PhpParser\Node\InterfaceMembers;
 use Microsoft\PhpParser\Node\MatchArm;
+use Microsoft\PhpParser\Node\MissingDeclaration;
 use Microsoft\PhpParser\Node\MissingMemberDeclaration;
 use Microsoft\PhpParser\Node\NamespaceAliasingClause;
 use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
@@ -531,6 +534,10 @@ class Parser {
                 case TokenKind::DeclareKeyword:
                     return $this->parseDeclareStatement($parentNode);
 
+                // attribute before statement or anonymous function
+                case TokenKind::AttributeToken:
+                    return $this->parseAttributeStatement($parentNode);
+
                 // function-declaration
                 case TokenKind::FunctionKeyword:
                     // Check that this is not an anonymous-function-creation-expression
@@ -630,6 +637,9 @@ class Parser {
                 case TokenKind::UseKeyword:
                     return $this->parseTraitUseClause($parentNode);
 
+                case TokenKind::AttributeToken:
+                    return $this->parseAttributeStatement($parentNode);
+
                 default:
                     return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
             }
@@ -665,6 +675,115 @@ class Parser {
         return $functionNode;
     }
 
+    /**
+     * @return Node
+     */
+    private function parseAttributeExpression($parentNode) {
+        $attributeGroups = $this->parseAttributeGroups(null);
+        // TODO: Lookahead for static, function, or fn?
+        // Warn about invalid syntax for attributed declarations
+        if (in_array($this->token->kind, [TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::StaticKeyword], true)) {
+            $expression = $this->parsePrimaryExpression($parentNode);
+        } else {
+            // Create a MissingToken so that diagnostics indicate that the attributes did not match up with an expression/declaration.
+            $expression = new MissingDeclaration();
+            $expression->parent = $parentNode;
+            $expression->declaration = new MissingToken(TokenKind::Expression, $this->token->fullStart);
+        }
+        if ($expression instanceof AnonymousFunctionCreationExpression ||
+            $expression instanceof ArrowFunctionCreationExpression ||
+            $expression instanceof MissingDeclaration) {
+            $expression->attributes = $attributeGroups;
+            foreach ($attributeGroups as $attributeGroup) {
+                $attributeGroup->parent = $expression;
+            }
+        }
+        return $expression;
+    }
+
+    /**
+     * Precondition: The next token is an AttributeToken
+     * @return Node
+     */
+    private function parseAttributeStatement($parentNode) {
+        $attributeGroups = $this->parseAttributeGroups(null);
+        if ($parentNode instanceof ClassMembersNode) {
+            // Create a class element or a MissingMemberDeclaration
+            $statement = $this->parseClassElementFn()($parentNode);
+        } else {
+            // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
+            if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword], true) ||
+                $this->token->kind === TokenKind::StaticKeyword && $this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
+                $statement = $this->parseStatement($parentNode);
+            } else {
+                // Create a MissingToken so that diagnostics indicate that the attributes did not match up with an expression/declaration.
+                $statement = new MissingDeclaration();
+                $statement->parent = $parentNode;
+                $statement->declaration = new MissingToken(TokenKind::Expression, $this->token->fullStart);
+            }
+        }
+
+        if ($statement instanceof FunctionLike ||
+            $statement instanceof ClassDeclaration ||
+            $statement instanceof ClassConstDeclaration ||
+            $statement instanceof PropertyDeclaration ||
+            $statement instanceof MissingDeclaration ||
+            $statement instanceof MissingMemberDeclaration) {
+
+            $statement->attributes = $attributeGroups;
+            foreach ($attributeGroups as $attributeGroup) {
+                $attributeGroup->parent = $statement;
+            }
+        }
+        return $statement;
+    }
+
+    /**
+     * @param Node|null $parentNode
+     * @return AttributeGroup[]
+     */
+    private function parseAttributeGroups($parentNode): array
+    {
+        $attributeGroups = [];
+        while ($attributeToken = $this->eatOptional1(TokenKind::AttributeToken)) {
+            $attributeGroup = new AttributeGroup();
+            $attributeGroup->startToken = $attributeToken;
+            $attributeGroup->attributes = $this->parseAttributeElementList($attributeGroup);
+            $attributeGroup->endToken = $this->eat1(TokenKind::CloseBracketToken);
+            $attributeGroup->parent = $parentNode;
+            $attributeGroups[] = $attributeGroup;
+        }
+        return $attributeGroups;
+    }
+
+    /**
+     * @return DelimitedList\AttributeElementList
+     */
+    private function parseAttributeElementList(AttributeGroup $parentNode) {
+        return $this->parseDelimitedList(
+            DelimitedList\AttributeElementList::class,
+            TokenKind::CommaToken,
+            $this->isQualifiedNameStartFn(),
+            $this->parseAttributeFn(),
+            $parentNode,
+            false);
+    }
+
+    private function parseAttributeFn()
+    {
+        return function ($parentNode): Attribute {
+            $attribute = new Attribute();
+            $attribute->parent = $parentNode;
+            $attribute->name = $this->parseQualifiedName($attribute);
+            $attribute->openParen = $this->eatOptional1(TokenKind::OpenParenToken);
+            if ($attribute->openParen) {
+                $attribute->argumentExpressionList = $this->parseArgumentExpressionList($attribute);
+                $attribute->closeParen = $this->eat1(TokenKind::CloseParenToken);
+            }
+            return $attribute;
+        };
+    }
+
     private function parseMethodDeclaration($parentNode, $modifiers) {
         $methodDeclaration = new MethodDeclaration();
         $methodDeclaration->modifiers = $modifiers;
@@ -677,6 +796,9 @@ class Parser {
         return function ($parentNode) {
             $parameter = new Parameter();
             $parameter->parent = $parentNode;
+            if ($this->token->kind === TokenKind::AttributeToken) {
+                $parameter->attributes = $this->parseAttributeGroups($parameter);
+            }
             $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
             $typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
@@ -817,6 +939,9 @@ class Parser {
             case TokenKind::FunctionKeyword:
 
             case TokenKind::UseKeyword:
+
+            // attributes
+            case TokenKind::AttributeToken:
                 return true;
 
         }
@@ -889,6 +1014,9 @@ class Parser {
             case TokenKind::StaticKeyword:
 
             case TokenKind::ScriptSectionEndTag:
+
+            // attributes
+            case TokenKind::AttributeToken:
                 return true;
 
             default:
@@ -996,6 +1124,7 @@ class Parser {
                 case TokenKind::StaticKeyword:
                 case TokenKind::FunctionKeyword:
                 case TokenKind::FnKeyword:
+                case TokenKind::AttributeToken:
                     return true;
             }
             return \in_array($token->kind, $this->reservedWordTokens, true);
@@ -1090,6 +1219,9 @@ class Parser {
                 return $this->parseParenthesizedExpression($parentNode);
 
             // anonymous-function-creation-expression
+            case TokenKind::AttributeToken:
+                return $this->parseAttributeExpression($parentNode);
+
             case TokenKind::StaticKeyword:
                 // handle `static::`, `static(`, `new static;`, `instanceof static`
                 if (!$this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
@@ -1327,6 +1459,7 @@ class Parser {
                 case TokenKind::PublicKeyword:
                 case TokenKind::ProtectedKeyword:
                 case TokenKind::PrivateKeyword:
+                case TokenKind::AttributeToken:
                     return true;
             }
 
@@ -3158,6 +3291,8 @@ class Parser {
             case TokenKind::ConstKeyword:
 
             case TokenKind::FunctionKeyword:
+
+            case TokenKind::AttributeToken:
                 return true;
         }
         return false;
@@ -3326,6 +3461,9 @@ class Parser {
 
             // trait-use-clauses
             case TokenKind::UseKeyword:
+
+            // attributes
+            case TokenKind::AttributeToken:
                 return true;
         }
         return false;

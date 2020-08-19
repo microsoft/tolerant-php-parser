@@ -84,6 +84,7 @@
                                     "classMemberDeclarations": [
                                         {
                                             "MethodDeclaration": {
+                                                "attributes": null,
                                                 "modifiers": [
                                                     {
                                                         "kind": "PublicKeyword",

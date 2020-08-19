@@ -13,6 +13,7 @@
             },
             {
                 "FunctionDeclaration": {
+                    "attributes": null,
                     "functionKeyword": {
                         "kind": "FunctionKeyword",
                         "textLength": 8
@@ -31,6 +32,7 @@
                             "children": [
                                 {
                                     "Parameter": {
+                                        "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": null,
@@ -51,6 +53,7 @@
                                 },
                                 {
                                     "Parameter": {
+                                        "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": {
@@ -85,6 +88,7 @@
                                 },
                                 {
                                     "Parameter": {
+                                        "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclaration": null,

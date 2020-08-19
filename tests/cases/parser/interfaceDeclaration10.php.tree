@@ -31,6 +31,7 @@
                             "interfaceMemberDeclarations": [
                                 {
                                     "MethodDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
@@ -55,6 +56,7 @@
                                                 "children": [
                                                     {
                                                         "Parameter": {
+                                                            "attributes": null,
                                                             "visibilityToken": null,
                                                             "questionToken": null,
                                                             "typeDeclaration": null,
@@ -75,6 +77,7 @@
                                                     },
                                                     {
                                                         "Parameter": {
+                                                            "attributes": null,
                                                             "visibilityToken": null,
                                                             "questionToken": null,
                                                             "typeDeclaration": null,

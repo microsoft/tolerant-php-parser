@@ -26,6 +26,7 @@ class ArrowFunctionCreationExpression extends Expression implements FunctionLike
     public $resultExpression;
 
     const CHILD_NAMES = [
+        'attributes',
         'staticModifier',
 
         // FunctionHeader

@@ -6,8 +6,12 @@
 
 namespace Microsoft\PhpParser;
 
+use Microsoft\PhpParser\Node\AttributeGroup;
+
 /**
  * Interface for recognizing functions easily.
  * Each Node that implements this interface can be considered a function.
+ *
+ * @property AttributeGroup[] $attributes
  */
 interface FunctionLike {}

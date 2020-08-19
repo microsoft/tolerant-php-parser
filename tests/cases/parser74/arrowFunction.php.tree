@@ -31,6 +31,7 @@
                             "byRef": null,
                             "rightOperand": {
                                 "ArrowFunctionCreationExpression": {
+                                    "attributes": null,
                                     "staticModifier": null,
                                     "functionKeyword": {
                                         "kind": "FnKeyword",
@@ -47,6 +48,7 @@
                                             "children": [
                                                 {
                                                     "Parameter": {
+                                                        "attributes": null,
                                                         "visibilityToken": null,
                                                         "questionToken": null,
                                                         "typeDeclaration": {
@@ -102,6 +104,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FnKeyword",
@@ -153,6 +156,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FnKeyword",
@@ -169,6 +173,7 @@
                                     "children": [
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": null,
@@ -245,6 +250,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FnKeyword",
@@ -261,6 +267,7 @@
                                     "children": [
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": null,
@@ -314,6 +321,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FnKeyword",
@@ -333,6 +341,7 @@
                                     "children": [
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": null,
@@ -383,6 +392,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FnKeyword",
@@ -399,6 +409,7 @@
                                     "children": [
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": null,
@@ -419,6 +430,7 @@
                                         },
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": null,
@@ -472,6 +484,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "ArrowFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": {
                                 "kind": "StaticKeyword",
                                 "textLength": 6
@@ -535,6 +548,7 @@
                             "byRef": null,
                             "rightOperand": {
                                 "ArrowFunctionCreationExpression": {
+                                    "attributes": null,
                                     "staticModifier": {
                                         "kind": "StaticKeyword",
                                         "textLength": 6

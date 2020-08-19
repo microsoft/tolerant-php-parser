@@ -20,6 +20,7 @@ class FunctionDeclaration extends StatementNode implements NamespacedNameInterfa
 
     const CHILD_NAMES = [
         // FunctionHeader
+        'attributes',
         'functionKeyword',
         'byRefToken',
         'name',

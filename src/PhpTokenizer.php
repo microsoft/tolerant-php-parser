@@ -13,6 +13,7 @@ define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
 // If this predates PHP 8.0, T_MATCH is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_MATCH', defined('T_MATCH') ? constant('T_MATCH') : 'T_MATCH');
 define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT_OPERATOR') ? constant('T_NULLSAFE_OBJECT_OPERATOR') : 'T_MATCH');
+define(__NAMESPACE__ . '\T_ATTRIBUTE', defined('T_ATTRIBUTE') ? constant('T_ATTRIBUTE') : 'T_ATTRIBUTE');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -309,6 +310,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         "." => TokenKind::DotToken,
         T_OBJECT_OPERATOR => TokenKind::ArrowToken,
         T_NULLSAFE_OBJECT_OPERATOR => TokenKind::QuestionArrowToken,
+        T_ATTRIBUTE => TokenKind::AttributeToken,
         T_INC => TokenKind::PlusPlusToken,
         T_DEC => TokenKind::MinusMinusToken,
         T_POW => TokenKind::AsteriskAsteriskToken,
