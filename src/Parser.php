@@ -2312,7 +2312,7 @@ class Parser {
         $declareStatement->parent = $parentNode;
         $declareStatement->declareKeyword = $this->eat1(TokenKind::DeclareKeyword);
         $declareStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $declareStatement->declareDirective = $this->parseDeclareDirective($declareStatement);
+        $this->parseAndSetDeclareDirectiveList($declareStatement);
         $declareStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
 
         if ($this->checkToken(TokenKind::SemicolonToken)) {
@@ -2329,26 +2329,76 @@ class Parser {
         return $declareStatement;
     }
 
-    private function parseDeclareDirective($parentNode) {
-        $declareDirective = new DeclareDirective();
-        $declareDirective->parent = $parentNode;
-        $declareDirective->name = $this->eat1(TokenKind::Name);
-        $declareDirective->equals = $this->eat1(TokenKind::EqualsToken);
-        $declareDirective->literal =
-            $this->eat(
-                TokenKind::FloatingLiteralToken,
-                TokenKind::IntegerLiteralToken,
-                TokenKind::DecimalLiteralToken,
-                TokenKind::OctalLiteralToken,
-                TokenKind::HexadecimalLiteralToken,
-                TokenKind::BinaryLiteralToken,
-                TokenKind::InvalidOctalLiteralToken,
-                TokenKind::InvalidHexadecimalLiteral,
-                TokenKind::InvalidBinaryLiteral,
-                TokenKind::StringLiteralToken
-            ); // TODO simplify
+    /**
+     * @param DeclareStatement $parentNode
+     */
+    private function parseAndSetDeclareDirectiveList($parentNode) {
+        $declareDirectiveList = $this->parseDeclareDirectiveList($parentNode);
 
-        return $declareDirective;
+        if (!$declareDirectiveList) {
+            $declareDirective = new DeclareDirective();
+            $declareDirective->parent = $parentNode;
+
+            $declareDirective->name = new MissingToken(TokenKind::Name, $this->token->fullStart);
+            $declareDirective->equals = new MissingToken(TokenKind::EqualsToken, $this->token->fullStart);
+            // TODO: This is matching the first token in $this::parseDeclareDirectiveFn.
+            //       Probably best to emit a more general "literal error".
+            $declareDirective->literal = new MissingToken(TokenKind::FloatingLiteralToken, $this->token->fullStart);
+
+            $parentNode->declareDirective = $declareDirective;
+            return;
+        }
+
+        $declareDirective = array_shift($declareDirectiveList->children);
+        $parentNode->declareDirective = $declareDirective;
+        $declareDirective->parent = $parentNode;
+
+        if ($declareDirectiveList->children) {
+            $parentNode->otherDeclareDirectives = $declareDirectiveList;
+        }
+    }
+
+    /**
+     * @param DeclareStatement $parentNode
+     * @return DelimitedList\DeclareDirectiveList|null
+     */
+    private function parseDeclareDirectiveList($parentNode) {
+        $declareDirectiveList = $this->parseDelimitedList(
+            DelimitedList\DeclareDirectiveList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::Name;
+            },
+            $this->parseDeclareDirectiveFn(),
+            $parentNode,
+            false
+        );
+
+        return $declareDirectiveList;
+    }
+
+    private function parseDeclareDirectiveFn() {
+        return function ($parentNode) {
+            $declareDirective = new DeclareDirective();
+            $declareDirective->parent = $parentNode;
+            $declareDirective->name = $this->eat1(TokenKind::Name);
+            $declareDirective->equals = $this->eat1(TokenKind::EqualsToken);
+            $declareDirective->literal =
+                $this->eat(
+                    TokenKind::FloatingLiteralToken,
+                    TokenKind::IntegerLiteralToken,
+                    TokenKind::DecimalLiteralToken,
+                    TokenKind::OctalLiteralToken,
+                    TokenKind::HexadecimalLiteralToken,
+                    TokenKind::BinaryLiteralToken,
+                    TokenKind::InvalidOctalLiteralToken,
+                    TokenKind::InvalidHexadecimalLiteral,
+                    TokenKind::InvalidBinaryLiteral,
+                    TokenKind::StringLiteralToken
+                ); // TODO simplify
+
+            return $declareDirective;
+        };
     }
 
     private function parseSimpleVariable($parentNode) {

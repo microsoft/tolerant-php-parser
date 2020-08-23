@@ -37,6 +37,7 @@
                             }
                         }
                     },
+                    "otherDeclareDirectives": null,
                     "closeParen": {
                         "kind": "CloseParenToken",
                         "textLength": 1

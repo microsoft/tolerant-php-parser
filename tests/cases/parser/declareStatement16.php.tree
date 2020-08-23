@@ -25,7 +25,7 @@
                         "DeclareDirective": {
                             "name": {
                                 "kind": "Name",
-                                "textLength": 5
+                                "textLength": 14
                             },
                             "equals": {
                                 "kind": "EqualsToken",
@@ -42,32 +42,9 @@
                         "kind": "CloseParenToken",
                         "textLength": 1
                     },
-                    "colon": {
-                        "kind": "ColonToken",
-                        "textLength": 1
-                    },
-                    "statements": [
-                        {
-                            "EmptyStatement": {
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        },
-                        {
-                            "EmptyStatement": {
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        }
-                    ],
-                    "enddeclareKeyword": {
-                        "kind": "EndDeclareKeyword",
-                        "textLength": 10
-                    },
+                    "colon": null,
+                    "statements": null,
+                    "enddeclareKeyword": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

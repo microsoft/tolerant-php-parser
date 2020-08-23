@@ -25,7 +25,7 @@
                         "DeclareDirective": {
                             "name": {
                                 "kind": "Name",
-                                "textLength": 5
+                                "textLength": 12
                             },
                             "equals": {
                                 "kind": "EqualsToken",
@@ -37,37 +37,41 @@
                             }
                         }
                     },
-                    "otherDeclareDirectives": null,
+                    "otherDeclareDirectives": {
+                        "DeclareDirectiveList": {
+                            "children": [
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "DeclareDirective": {
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 5
+                                        },
+                                        "equals": {
+                                            "error": "MissingToken",
+                                            "kind": "EqualsToken",
+                                            "textLength": 0
+                                        },
+                                        "literal": {
+                                            "error": "MissingToken",
+                                            "kind": "FloatingLiteralToken",
+                                            "textLength": 0
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
                     "closeParen": {
                         "kind": "CloseParenToken",
                         "textLength": 1
                     },
-                    "colon": {
-                        "kind": "ColonToken",
-                        "textLength": 1
-                    },
-                    "statements": [
-                        {
-                            "EmptyStatement": {
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        },
-                        {
-                            "EmptyStatement": {
-                                "semicolon": {
-                                    "kind": "SemicolonToken",
-                                    "textLength": 1
-                                }
-                            }
-                        }
-                    ],
-                    "enddeclareKeyword": {
-                        "kind": "EndDeclareKeyword",
-                        "textLength": 10
-                    },
+                    "colon": null,
+                    "statements": null,
+                    "enddeclareKeyword": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1
