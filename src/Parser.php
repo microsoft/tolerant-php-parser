@@ -680,9 +680,10 @@ class Parser {
      */
     private function parseAttributeExpression($parentNode) {
         $attributeGroups = $this->parseAttributeGroups(null);
-        // TODO: Lookahead for static, function, or fn?
         // Warn about invalid syntax for attributed declarations
-        if (in_array($this->token->kind, [TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::StaticKeyword], true)) {
+        // Lookahead for static, function, or fn for the only type of expressions that can have attributes (anonymous functions)
+        if (in_array($this->token->kind, [TokenKind::FunctionKeyword, TokenKind::FnKeyword], true) ||
+            $this->token->kind === TokenKind::StaticKeyword && $this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
             $expression = $this->parsePrimaryExpression($parentNode);
         } else {
             // Create a MissingToken so that diagnostics indicate that the attributes did not match up with an expression/declaration.
