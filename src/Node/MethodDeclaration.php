@@ -20,6 +20,7 @@ class MethodDeclaration extends Node implements FunctionLike, ModifiedTypeInterf
     use FunctionHeader, FunctionReturnType, FunctionBody, ModifiedTypeTrait;
 
     const CHILD_NAMES = [
+        'attributes',
         'modifiers',
 
         // FunctionHeader

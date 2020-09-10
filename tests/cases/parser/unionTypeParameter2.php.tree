@@ -15,6 +15,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "AnonymousFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FunctionKeyword",
@@ -31,6 +32,7 @@
                                     "children": [
                                         {
                                             "Parameter": {
+                                                "attributes": null,
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": {

@@ -14,6 +14,12 @@ use Microsoft\PhpParser\Token;
 class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
     use ModifiedTypeTrait;
 
+    /** @var AttributeGroup[]|null */
+    public $attributes;
+
+    /** @var Token[] */
+    public $modifiers;
+
     /** @var Token */
     public $constKeyword;
 
@@ -24,6 +30,7 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
     public $semicolon;
 
     const CHILD_NAMES = [
+        'attributes',
         'modifiers',
         'constKeyword',
         'constElements',

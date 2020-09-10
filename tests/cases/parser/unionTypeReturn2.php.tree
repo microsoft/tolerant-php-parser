@@ -15,6 +15,7 @@
                 "ExpressionStatement": {
                     "expression": {
                         "AnonymousFunctionCreationExpression": {
+                            "attributes": null,
                             "staticModifier": null,
                             "functionKeyword": {
                                 "kind": "FunctionKeyword",
@@ -101,6 +102,7 @@
             },
             {
                 "ClassDeclaration": {
+                    "attributes": null,
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -121,6 +123,7 @@
                             "classMemberDeclarations": [
                                 {
                                     "MethodDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",

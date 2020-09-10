@@ -13,6 +13,7 @@
             },
             {
                 "ClassDeclaration": {
+                    "attributes": null,
                     "abstractOrFinalModifier": null,
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -33,6 +34,7 @@
                             "classMemberDeclarations": [
                                 {
                                     "MissingMemberDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
@@ -62,6 +64,7 @@
                                 },
                                 {
                                     "MethodDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [],
                                         "functionKeyword": {
                                             "kind": "FunctionKeyword",
@@ -102,6 +105,7 @@
                                 },
                                 {
                                     "PropertyDeclaration": {
+                                        "attributes": null,
                                         "modifiers": [
                                             {
                                                 "kind": "PublicKeyword",
