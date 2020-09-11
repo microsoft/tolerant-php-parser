@@ -12,27 +12,63 @@
                 }
             },
             {
-                "ExpressionStatement": {
+                "ReturnStatement": {
+                    "returnKeyword": {
+                        "kind": "ReturnKeyword",
+                        "textLength": 6
+                    },
                     "expression": {
                         "ObjectCreationExpression": {
                             "newKeword": {
                                 "kind": "NewKeyword",
                                 "textLength": 3
                             },
-                            "attributes": null,
+                            "attributes": [
+                                {
+                                    "AttributeGroup": {
+                                        "startToken": {
+                                            "kind": "AttributeToken",
+                                            "textLength": 2
+                                        },
+                                        "attributes": {
+                                            "AttributeElementList": {
+                                                "children": [
+                                                    {
+                                                        "Attribute": {
+                                                            "name": {
+                                                                "QualifiedName": {
+                                                                    "globalSpecifier": null,
+                                                                    "relativeSpecifier": null,
+                                                                    "nameParts": [
+                                                                        {
+                                                                            "kind": "Name",
+                                                                            "textLength": 6
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "openParen": null,
+                                                            "argumentExpressionList": null,
+                                                            "closeParen": null
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "endToken": {
+                                            "kind": "CloseBracketToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                }
+                            ],
                             "classTypeDesignator": {
                                 "kind": "ClassKeyword",
                                 "textLength": 5
                             },
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
+                            "openParen": null,
                             "argumentExpressionList": null,
-                            "closeParen": {
-                                "kind": "CloseParenToken",
-                                "textLength": 1
-                            },
+                            "closeParen": null,
                             "classBaseClause": {
                                 "ClassBaseClause": {
                                     "extendsKeyword": {
@@ -46,7 +82,7 @@
                                             "nameParts": [
                                                 {
                                                     "kind": "Name",
-                                                    "textLength": 1
+                                                    "textLength": 10
                                                 }
                                             ]
                                         }

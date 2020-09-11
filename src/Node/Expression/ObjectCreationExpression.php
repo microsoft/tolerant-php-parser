@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Expression;
 
+use Microsoft\PhpParser\Node\AttributeGroup;
 use Microsoft\PhpParser\Node\ClassBaseClause;
 use Microsoft\PhpParser\Node\ClassInterfaceClause;
 use Microsoft\PhpParser\Node\ClassMembersNode;
@@ -18,6 +19,9 @@ class ObjectCreationExpression extends Expression {
 
     /** @var Token */
     public $newKeword;
+
+    /** @var AttributeGroup[]|null optional attributes of an anonymous class. */
+    public $attributes;
 
     /** @var QualifiedName|Variable|Token */
     public $classTypeDesignator;
@@ -41,7 +45,8 @@ class ObjectCreationExpression extends Expression {
     public $classMembers;
 
     const CHILD_NAMES = [
-        'newKeword', // TODO
+        'newKeword',
+        'attributes',
         'classTypeDesignator',
         'openParen',
         'argumentExpressionList',

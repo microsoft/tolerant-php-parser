@@ -27,6 +27,7 @@
                                                 "kind": "NewKeyword",
                                                 "textLength": 3
                                             },
+                                            "attributes": null,
                                             "classTypeDesignator": {
                                                 "QualifiedName": {
                                                     "globalSpecifier": null,

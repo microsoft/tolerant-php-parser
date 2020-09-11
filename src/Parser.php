@@ -3088,6 +3088,12 @@ class Parser {
         // TODO - add tests for this scenario
         $oldIsParsingObjectCreationExpression = $this->isParsingObjectCreationExpression;
         $this->isParsingObjectCreationExpression = true;
+
+        if ($this->getCurrentToken()->kind === TokenKind::AttributeToken) {
+            // Attributes such as `new #[MyAttr] class` can only be used with anonymous class declarations.
+            // But handle this like $objectCreationExpression->classMembers and leave it up to the applications to detect the invalid combination.
+            $objectCreationExpression->attributes = $this->parseAttributeGroups($objectCreationExpression);
+        }
         $objectCreationExpression->classTypeDesignator =
             $this->eatOptional1(TokenKind::ClassKeyword) ??
             $this->parseExpression($objectCreationExpression);
