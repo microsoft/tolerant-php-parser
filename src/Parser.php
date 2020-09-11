@@ -726,6 +726,8 @@ class Parser {
 
         if ($statement instanceof FunctionLike ||
             $statement instanceof ClassDeclaration ||
+            $statement instanceof TraitDeclaration ||
+            $statement instanceof InterfaceDeclaration ||
             $statement instanceof ClassConstDeclaration ||
             $statement instanceof PropertyDeclaration ||
             $statement instanceof MissingDeclaration ||
