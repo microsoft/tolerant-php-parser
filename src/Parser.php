@@ -711,6 +711,12 @@ class Parser {
         if ($parentNode instanceof ClassMembersNode) {
             // Create a class element or a MissingMemberDeclaration
             $statement = $this->parseClassElementFn()($parentNode);
+        } elseif ($parentNode instanceof TraitMembers) {
+            // Create a trait element or a MissingMemberDeclaration
+            $statement = $this->parseTraitElementFn()($parentNode);
+        } elseif ($parentNode instanceof InterfaceMembers) {
+            // Create an interface element or a MissingMemberDeclaration
+            $statement = $this->parseInterfaceElementFn()($parentNode);
         } else {
             // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
             if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword], true) ||
@@ -726,6 +732,8 @@ class Parser {
 
         if ($statement instanceof FunctionLike ||
             $statement instanceof ClassDeclaration ||
+            $statement instanceof TraitDeclaration ||
+            $statement instanceof InterfaceDeclaration ||
             $statement instanceof ClassConstDeclaration ||
             $statement instanceof PropertyDeclaration ||
             $statement instanceof MissingDeclaration ||
@@ -3088,6 +3096,12 @@ class Parser {
         // TODO - add tests for this scenario
         $oldIsParsingObjectCreationExpression = $this->isParsingObjectCreationExpression;
         $this->isParsingObjectCreationExpression = true;
+
+        if ($this->getCurrentToken()->kind === TokenKind::AttributeToken) {
+            // Attributes such as `new #[MyAttr] class` can only be used with anonymous class declarations.
+            // But handle this like $objectCreationExpression->classMembers and leave it up to the applications to detect the invalid combination.
+            $objectCreationExpression->attributes = $this->parseAttributeGroups($objectCreationExpression);
+        }
         $objectCreationExpression->classTypeDesignator =
             $this->eatOptional1(TokenKind::ClassKeyword) ??
             $this->parseExpression($objectCreationExpression);
@@ -3311,6 +3325,9 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
+                case TokenKind::AttributeToken:
+                    return $this->parseAttributeStatement($parentNode);
+
                 default:
                     $missingInterfaceMemberDeclaration = new MissingMemberDeclaration();
                     $missingInterfaceMemberDeclaration->parent = $parentNode;
@@ -3490,6 +3507,9 @@ class Parser {
 
                 case TokenKind::UseKeyword:
                     return $this->parseTraitUseClause($parentNode);
+
+                case TokenKind::AttributeToken:
+                    return $this->parseAttributeStatement($parentNode);
 
                 default:
                     return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);

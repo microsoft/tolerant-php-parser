@@ -35,6 +35,7 @@
                                         "kind": "NewKeyword",
                                         "textLength": 3
                                     },
+                                    "attributes": null,
                                     "classTypeDesignator": {
                                         "kind": "ClassKeyword",
                                         "textLength": 5

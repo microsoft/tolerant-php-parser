@@ -13,6 +13,7 @@
             },
             {
                 "InterfaceDeclaration": {
+                    "attributes": null,
                     "interfaceKeyword": {
                         "kind": "InterfaceKeyword",
                         "textLength": 9
