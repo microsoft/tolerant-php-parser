@@ -757,7 +757,8 @@ class Parser {
         while ($attributeToken = $this->eatOptional1(TokenKind::AttributeToken)) {
             $attributeGroup = new AttributeGroup();
             $attributeGroup->startToken = $attributeToken;
-            $attributeGroup->attributes = $this->parseAttributeElementList($attributeGroup);
+            $attributeGroup->attributes = $this->parseAttributeElementList($attributeGroup)
+                ?: (new MissingToken(TokenKind::Name, $this->token->fullStart));
             $attributeGroup->endToken = $this->eat1(TokenKind::CloseBracketToken);
             $attributeGroup->parent = $parentNode;
             $attributeGroups[] = $attributeGroup;

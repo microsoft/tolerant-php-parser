@@ -40,7 +40,11 @@
                                                                 "kind": "AttributeToken",
                                                                 "textLength": 2
                                                             },
-                                                            "attributes": null,
+                                                            "attributes": {
+                                                                "error": "MissingToken",
+                                                                "kind": "Name",
+                                                                "textLength": 0
+                                                            },
                                                             "endToken": {
                                                                 "error": "MissingToken",
                                                                 "kind": "CloseBracketToken",
