@@ -1669,7 +1669,8 @@ class Parser {
         $namedLabelStatement->parent = $parentNode;
         $namedLabelStatement->name = $this->eat1(TokenKind::Name);
         $namedLabelStatement->colon = $this->eat1(TokenKind::ColonToken);
-        $namedLabelStatement->statement = $this->parseStatement($namedLabelStatement);
+        // A named label is a statement on its own. E.g. `while (false) label: echo "test";`
+        // is parsed as `while (false) { label: } echo "test";
         return $namedLabelStatement;
     }
 

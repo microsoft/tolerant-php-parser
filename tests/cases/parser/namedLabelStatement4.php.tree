@@ -21,25 +21,27 @@
                         "kind": "ColonToken",
                         "textLength": 1
                     },
-                    "statement": {
-                        "NamedLabelStatement": {
-                            "name": {
-                                "kind": "Name",
-                                "textLength": 4
-                            },
-                            "colon": {
-                                "kind": "ColonToken",
-                                "textLength": 1
-                            },
-                            "statement": {
-                                "EmptyStatement": {
-                                    "semicolon": {
-                                        "kind": "SemicolonToken",
-                                        "textLength": 1
-                                    }
-                                }
-                            }
-                        }
+                    "statement": null
+                }
+            },
+            {
+                "NamedLabelStatement": {
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 4
+                    },
+                    "colon": {
+                        "kind": "ColonToken",
+                        "textLength": 1
+                    },
+                    "statement": null
+                }
+            },
+            {
+                "EmptyStatement": {
+                    "semicolon": {
+                        "kind": "SemicolonToken",
+                        "textLength": 1
                     }
                 }
             }

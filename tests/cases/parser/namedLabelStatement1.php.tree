@@ -21,35 +21,36 @@
                         "kind": "ColonToken",
                         "textLength": 1
                     },
-                    "statement": {
-                        "CompoundStatementNode": {
-                            "openBrace": {
-                                "kind": "OpenBraceToken",
-                                "textLength": 1
-                            },
-                            "statements": [
-                                {
-                                    "EmptyStatement": {
-                                        "semicolon": {
-                                            "kind": "SemicolonToken",
-                                            "textLength": 1
-                                        }
-                                    }
-                                },
-                                {
-                                    "EmptyStatement": {
-                                        "semicolon": {
-                                            "kind": "SemicolonToken",
-                                            "textLength": 1
-                                        }
-                                    }
+                    "statement": null
+                }
+            },
+            {
+                "CompoundStatementNode": {
+                    "openBrace": {
+                        "kind": "OpenBraceToken",
+                        "textLength": 1
+                    },
+                    "statements": [
+                        {
+                            "EmptyStatement": {
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
                                 }
-                            ],
-                            "closeBrace": {
-                                "kind": "CloseBraceToken",
-                                "textLength": 1
+                            }
+                        },
+                        {
+                            "EmptyStatement": {
+                                "semicolon": {
+                                    "kind": "SemicolonToken",
+                                    "textLength": 1
+                                }
                             }
                         }
+                    ],
+                    "closeBrace": {
+                        "kind": "CloseBraceToken",
+                        "textLength": 1
                     }
                 }
             }
