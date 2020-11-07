@@ -87,6 +87,7 @@ class TokenKind {
     const YieldFromKeyword = 167;
     const FnKeyword = 168;
     const MatchKeyword = 169;
+    const IterableKeyword = 170;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;
