@@ -241,16 +241,8 @@
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
-                                                    }
+                                                    "kind": "IterableKeyword",
+                                                    "textLength": 8
                                                 },
                                                 "otherTypeDeclarations": {
                                                     "QualifiedNameList": {
@@ -406,16 +398,8 @@
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
-                                                    }
+                                                    "kind": "IterableKeyword",
+                                                    "textLength": 8
                                                 },
                                                 "otherTypeDeclarations": {
                                                     "QualifiedNameList": {
@@ -589,16 +573,8 @@
                                             "textLength": 1
                                         },
                                         {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 8
-                                                    }
-                                                ]
-                                            }
+                                            "kind": "IterableKeyword",
+                                            "textLength": 8
                                         }
                                     ]
                                 }
