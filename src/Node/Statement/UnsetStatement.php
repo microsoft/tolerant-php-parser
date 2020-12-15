@@ -4,13 +4,13 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Microsoft\PhpParser\Node\Expression;
+namespace Microsoft\PhpParser\Node\Statement;
 
 use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
-class UnsetIntrinsicExpression extends Expression {
+class UnsetStatement extends Expression {
 
     /** @var Token */
     public $unsetKeyword;
@@ -24,10 +24,14 @@ class UnsetIntrinsicExpression extends Expression {
     /** @var Token */
     public $closeParen;
 
+    /** @var Token */
+    public $semicolon;
+
     const CHILD_NAMES = [
         'unsetKeyword',
         'openParen',
         'expressions',
-        'closeParen'
+        'closeParen',
+        'semicolon',
     ];
 }

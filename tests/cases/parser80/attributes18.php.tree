@@ -55,8 +55,7 @@
                                                 ],
                                                 "visibilityToken": null,
                                                 "questionToken": null,
-                                                "typeDeclaration": null,
-                                                "otherTypeDeclarations": null,
+                                                "typeDeclarationList": null,
                                                 "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "variableName": {
@@ -78,8 +77,7 @@
                             },
                             "colonToken": null,
                             "questionToken": null,
-                            "returnType": null,
-                            "otherReturnTypes": null,
+                            "returnTypeList": null,
                             "arrowToken": {
                                 "error": "MissingToken",
                                 "kind": "DoubleArrowToken",

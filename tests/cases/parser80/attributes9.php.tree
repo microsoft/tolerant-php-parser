@@ -98,8 +98,7 @@
                                     },
                                     "colonToken": null,
                                     "questionToken": null,
-                                    "returnType": null,
-                                    "otherReturnTypes": null,
+                                    "returnTypeList": null,
                                     "arrowToken": {
                                         "kind": "DoubleArrowToken",
                                         "textLength": 2

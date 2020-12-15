@@ -18,7 +18,7 @@ class LexicalGrammarTest extends TestCase {
     public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_LEXER"])) {
             $GLOBALS["GIT_CHECKOUT_LEXER"] = true;
-            // exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
+            exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
         }
 
         $result->addListener(new CallbackTestListener(function (Test $test) {
@@ -39,7 +39,7 @@ class LexicalGrammarTest extends TestCase {
         $fileContents = file_get_contents($testCaseFile);
         if (!file_exists($expectedTokensFile)) {
             file_put_contents($expectedTokensFile, $fileContents);
-            // exec("git add " . $expectedTokensFile);
+            exec("git add " . $expectedTokensFile);
         }
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));

@@ -20,17 +20,13 @@ class MissingMemberDeclaration extends Node implements ModifiedTypeInterface {
     /** @var Token|null needed along with typeDeclaration for what looked like typed property declarations but was missing VariableName */
     public $questionToken;
 
-    /** @var QualifiedName|Token|null */
-    public $typeDeclaration;
-
     /** @var DelimitedList\QualifiedNameList|null */
-    public $otherTypeDeclarations;
+    public $typeDeclarationList;
 
     const CHILD_NAMES = [
         'attributes',
         'modifiers',
         'questionToken',
-        'typeDeclaration',
-        'otherTypeDeclarations',
+        'typeDeclarationList',
     ];
 }

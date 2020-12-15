@@ -49,12 +49,11 @@
                                             "kind": "QuestionToken",
                                             "textLength": 1
                                         },
-                                        "typeDeclaration": {
+                                        "typeDeclarationList": {
                                             "error": "MissingToken",
                                             "kind": "PropertyType",
                                             "textLength": 0
-                                        },
-                                        "otherTypeDeclarations": null
+                                        }
                                     }
                                 },
                                 {

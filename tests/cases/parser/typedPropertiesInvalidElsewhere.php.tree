@@ -42,11 +42,16 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
-                                        },
-                                        "otherTypeDeclarations": null
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    }
+                                                ]
+                                            }
+                                        }
                                     }
                                 },
                                 {

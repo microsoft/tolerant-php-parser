@@ -50,7 +50,6 @@ use Microsoft\PhpParser\Node\Expression\{
     ThrowExpression,
     UnaryExpression,
     UnaryOpExpression,
-    UnsetIntrinsicExpression,
     Variable,
     YieldExpression
 };
@@ -106,6 +105,7 @@ use Microsoft\PhpParser\Node\Statement\{
     SwitchStatementNode,
     TraitDeclaration,
     TryStatement,
+    UnsetStatement,
     WhileStatement
 };
 use Microsoft\PhpParser\Node\TraitMembers;
@@ -533,8 +533,6 @@ class Parser {
                     return $this->parseBreakOrContinueStatement($parentNode);
                 case TokenKind::ReturnKeyword: // return-statement
                     return $this->parseReturnStatement($parentNode);
-                case TokenKind::ThrowKeyword: // throw-statement
-                    return $this->parseThrowStatement($parentNode);
 
                 // try-statement
                 case TokenKind::TryKeyword:
@@ -2401,16 +2399,6 @@ class Parser {
         return $returnStatement;
     }
 
-    /** @return ExpressionStatement */
-    private function parseThrowStatement($parentNode) {
-        $throwStatement = new ExpressionStatement();
-        $throwStatement->expression = $this->parseThrowExpression($throwStatement);
-        $throwStatement->parent = $parentNode;
-        $throwStatement->semicolon = $this->eatSemicolonOrAbortStatement();
-
-        return $throwStatement;
-    }
-
     /** @return ThrowExpression */
     private function parseThrowExpression($parentNode) {
         $throwExpression = new ThrowExpression();
@@ -2625,20 +2613,6 @@ class Parser {
         return $echoStatement;
     }
 
-    /** @return ExpressionStatement */
-    private function parseUnsetStatement($parentNode) {
-        $expressionStatement = new ExpressionStatement();
-
-        // FIXME: flatten into UnsetStatement instead?
-        $unsetExpression = $this->parseUnsetIntrinsicExpression($expressionStatement);
-
-        $expressionStatement->parent = $parentNode;
-        $expressionStatement->expression = $unsetExpression;
-        $expressionStatement->semicolon = $this->eatSemicolonOrAbortStatement();
-
-        return $expressionStatement;
-    }
-
     private function parseListIntrinsicExpression($parentNode) {
         $listExpression = new ListIntrinsicExpression();
         $listExpression->parent = $parentNode;
@@ -2703,16 +2677,16 @@ class Parser {
         );
     }
 
-    private function parseUnsetIntrinsicExpression($parentNode) {
-        $unsetExpression = new UnsetIntrinsicExpression();
-        $unsetExpression->parent = $parentNode;
+    private function parseUnsetStatement($parentNode) {
+        $unsetStatement = new UnsetStatement();
+        $unsetStatement->parent = $parentNode;
 
-        $unsetExpression->unsetKeyword = $this->eat1(TokenKind::UnsetKeyword);
-        $unsetExpression->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $unsetExpression->expressions = $this->parseExpressionList($unsetExpression);
-        $unsetExpression->closeParen = $this->eat1(TokenKind::CloseParenToken);
-
-        return $unsetExpression;
+        $unsetStatement->unsetKeyword = $this->eat1(TokenKind::UnsetKeyword);
+        $unsetStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
+        $unsetStatement->expressions = $this->parseExpressionList($unsetStatement);
+        $unsetStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        $unsetStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+        return $unsetStatement;
     }
 
     private function parseArrayCreationExpression($parentNode) {
@@ -3225,6 +3199,7 @@ class Parser {
         $propertyDeclaration->questionToken = $questionToken;
         if ($typeDeclarationList) {
             $propertyDeclaration->typeDeclarationList = $typeDeclarationList;
+            $typeDeclarationList->parent = $propertyDeclaration;
         } elseif ($questionToken) {
             $propertyDeclaration->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
@@ -3618,14 +3593,10 @@ class Parser {
         $missingTraitMemberDeclaration->modifiers = $modifiers;
         $missingTraitMemberDeclaration->questionToken = $questionToken;
         if ($typeDeclarationList) {
-            $missingTraitMemberDeclaration->typeDeclaration = \array_shift($typeDeclarationList->children);
-            $missingTraitMemberDeclaration->typeDeclaration->parent = $missingTraitMemberDeclaration;
-            if ($typeDeclarationList->children) {
-                $missingTraitMemberDeclaration->otherTypeDeclarations = $typeDeclarationList;
-                $typeDeclarationList->parent = $missingTraitMemberDeclaration;
-            }
+            $missingTraitMemberDeclaration->typeDeclarationList = $typeDeclarationList;
+            $missingTraitMemberDeclaration->typeDeclarationList->parent = $missingTraitMemberDeclaration;
         } elseif ($questionToken) {
-            $missingTraitMemberDeclaration->typeDeclaration = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
+            $missingTraitMemberDeclaration->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
         return $missingTraitMemberDeclaration;
     }

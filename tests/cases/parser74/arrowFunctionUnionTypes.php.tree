@@ -249,7 +249,7 @@
                                                     "QualifiedNameList": {
                                                         "children": [
                                                             {
-                                                                "kind": "IterableKeyword",
+                                                                "kind": "IterableReservedWord",
                                                                 "textLength": 8
                                                             },
                                                             {
@@ -406,7 +406,7 @@
                                                     "QualifiedNameList": {
                                                         "children": [
                                                             {
-                                                                "kind": "IterableKeyword",
+                                                                "kind": "IterableReservedWord",
                                                                 "textLength": 8
                                                             },
                                                             {

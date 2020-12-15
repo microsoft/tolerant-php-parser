@@ -61,7 +61,7 @@ class Token implements \JsonSerializable {
     /**
      * @return int
      */
-    public function getFullStart() {
+    public function getFullStartPosition() {
         return $this->fullStart;
     }
 
