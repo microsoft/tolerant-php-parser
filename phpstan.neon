@@ -5,4 +5,3 @@ parameters:
     ignoreErrors:
         # phpstan issue, see: https://github.com/phpstan/phpstan/issues/1306
         - "/Variable .unaryExpression might not be defined./"
-        - "/Variable .prefix might not be defined./"
