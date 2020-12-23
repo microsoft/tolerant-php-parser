@@ -241,7 +241,7 @@
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": {
-                                                    "kind": "IterableKeyword",
+                                                    "kind": "IterableReservedWord",
                                                     "textLength": 8
                                                 },
                                                 "otherTypeDeclarations": {
@@ -398,7 +398,7 @@
                                                 "visibilityToken": null,
                                                 "questionToken": null,
                                                 "typeDeclaration": {
-                                                    "kind": "IterableKeyword",
+                                                    "kind": "IterableReservedWord",
                                                     "textLength": 8
                                                 },
                                                 "otherTypeDeclarations": {
@@ -573,7 +573,7 @@
                                             "textLength": 1
                                         },
                                         {
-                                            "kind": "IterableKeyword",
+                                            "kind": "IterableReservedWord",
                                             "textLength": 8
                                         }
                                     ]
