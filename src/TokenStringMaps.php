@@ -105,6 +105,7 @@ class TokenStringMaps {
         "real" => TokenKind::RealReservedWord,
         "void" => TokenKind::VoidReservedWord,
         "iterable" => TokenKind::IterableKeyword,
+        "mixed" => TokenKind::MixedReservedWord,
     ];
 
     const OPERATORS_AND_PUNCTUATORS = array(
