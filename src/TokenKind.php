@@ -171,7 +171,7 @@ class TokenKind {
     const StringReservedWord = 320;
     const BoolReservedWord = 321;
     const NullReservedWord = 322;
-    const MixedReservedWord = 420;
+    const MixedReservedWord = 340;
     const IterableReservedWord = 170;
 
     const ScriptSectionStartTag = 323;
