@@ -87,7 +87,8 @@ class TokenKind {
     const YieldFromKeyword = 167;
     const FnKeyword = 168;
     const MatchKeyword = 169;
-    const IterableKeyword = 170;
+    /** @deprecated use IterableReservedWord */
+    const IterableKeyword = self::IterableReservedWord;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;
@@ -170,6 +171,8 @@ class TokenKind {
     const StringReservedWord = 320;
     const BoolReservedWord = 321;
     const NullReservedWord = 322;
+    const MixedReservedWord = 340;
+    const IterableReservedWord = 170;
 
     const ScriptSectionStartTag = 323;
     const ScriptSectionEndTag = 324;
