@@ -76,6 +76,13 @@ class ParserGrammarTest extends TestCase {
     const FILE_PATTERN = __DIR__ . "/cases/parser/*";
     const PHP74_FILE_PATTERN = __DIR__ . "/cases/parser74/*";
     const PHP80_FILE_PATTERN = __DIR__ . "/cases/parser80/*";
+    const PHP81_FILE_PATTERN = __DIR__ . "/cases/parser81/*";
+
+    const PATTERNS_FOR_MINIMUM_PHP_VERSION = [
+        [70400, self::PHP74_FILE_PATTERN],
+        [80000, self::PHP80_FILE_PATTERN],
+        [80100, self::PHP81_FILE_PATTERN],
+    ];
 
     public function treeProvider() {
         $testCases = glob(self::FILE_PATTERN . ".php");
@@ -89,22 +96,14 @@ class ParserGrammarTest extends TestCase {
             $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
         }
 
-        if (PHP_VERSION_ID >= 70400) {
-            // There are some test cases that depend on the php 7.3/php 7.4 lexer (e.g. the `??=` token).
-            // If this project goes that route, these could be moved in the regular parser/ directory.
-            // - It might be possible to emulate being able to parse this token instead (e.g. merge tokens if strpos($contents, `??=`) is not false.
-            $testCases = glob(self::PHP74_FILE_PATTERN . ".php");
-            foreach ($testCases as $testCase) {
-                $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
+        foreach (self::PATTERNS_FOR_MINIMUM_PHP_VERSION as list($minVersionId, $filePattern)) {
+            if (PHP_VERSION_ID >= $minVersionId) {
+                $testCases = glob($filePattern . ".php");
+                foreach ($testCases as $testCase) {
+                    $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
+                }
             }
         }
-        if (PHP_VERSION_ID >= 80000) {
-            $testCases = glob(self::PHP80_FILE_PATTERN . ".php");
-            foreach ($testCases as $testCase) {
-                $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree", $testCase . ".diag"];
-            }
-        }
-
 
         return $testProviderArray;
     }

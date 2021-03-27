@@ -16,6 +16,8 @@ use Microsoft\PhpParser\Node\ClassBaseClause;
 use Microsoft\PhpParser\Node\ClassInterfaceClause;
 use Microsoft\PhpParser\Node\ClassMembersNode;
 use Microsoft\PhpParser\Node\ConstElement;
+use Microsoft\PhpParser\Node\EnumCaseDeclaration;
+use Microsoft\PhpParser\Node\EnumMembers;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression\{
     AnonymousFunctionCreationExpression,
@@ -88,6 +90,7 @@ use Microsoft\PhpParser\Node\Statement\{
     DeclareStatement,
     DoStatement,
     EmptyStatement,
+    EnumDeclaration,
     ExpressionStatement,
     ForeachStatement,
     ForStatement,
@@ -292,6 +295,7 @@ class Parser {
             case ParseContext::ClassMembers:
             case ParseContext::BlockStatements:
             case ParseContext::TraitMembers:
+            case ParseContext::EnumMembers:
                 return $tokenKind === TokenKind::CloseBraceToken;
             case ParseContext::SwitchStatementElements:
                 return $tokenKind === TokenKind::CloseBraceToken || $tokenKind === TokenKind::EndSwitchKeyword;
@@ -343,6 +347,9 @@ class Parser {
             case ParseContext::TraitMembers:
                 return $this->isTraitMemberDeclarationStart($token);
 
+            case ParseContext::EnumMembers:
+                return $this->isEnumMemberDeclarationStart($token);
+
             case ParseContext::InterfaceMembers:
                 return $this->isInterfaceMemberDeclarationStart($token);
 
@@ -373,6 +380,9 @@ class Parser {
 
             case ParseContext::InterfaceMembers:
                 return $this->parseInterfaceElementFn();
+
+            case ParseContext::EnumMembers:
+                return $this->parseEnumElementFn();
 
             case ParseContext::SwitchStatementElements:
                 return $this->parseCaseOrDefaultStatement();
@@ -583,6 +593,9 @@ class Parser {
                 case TokenKind::TraitKeyword:
                     return $this->parseTraitDeclaration($parentNode);
 
+                case TokenKind::EnumKeyword:
+                    return $this->parseEnumDeclaration($parentNode);
+
                 // global-declaration
                 case TokenKind::GlobalKeyword:
                     return $this->parseGlobalDeclaration($parentNode);
@@ -715,12 +728,15 @@ class Parser {
         } elseif ($parentNode instanceof TraitMembers) {
             // Create a trait element or a MissingMemberDeclaration
             $statement = $this->parseTraitElementFn()($parentNode);
+        } elseif ($parentNode instanceof EnumMembers) {
+            // Create a enum element or a MissingMemberDeclaration
+            $statement = $this->parseEnumElementFn()($parentNode);
         } elseif ($parentNode instanceof InterfaceMembers) {
             // Create an interface element or a MissingMemberDeclaration
             $statement = $this->parseInterfaceElementFn()($parentNode);
         } else {
             // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
-            if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword], true) ||
+            if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword], true) ||
                 $this->token->kind === TokenKind::StaticKeyword && $this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
                 $statement = $this->parseStatement($parentNode);
             } else {
@@ -734,6 +750,8 @@ class Parser {
         if ($statement instanceof FunctionLike ||
             $statement instanceof ClassDeclaration ||
             $statement instanceof TraitDeclaration ||
+            $statement instanceof EnumDeclaration ||
+            $statement instanceof EnumCaseDeclaration ||
             $statement instanceof InterfaceDeclaration ||
             $statement instanceof ClassConstDeclaration ||
             $statement instanceof PropertyDeclaration ||
@@ -1011,6 +1029,9 @@ class Parser {
 
             // trait-declaration
             case TokenKind::TraitKeyword:
+
+            // enum-declaration
+            case TokenKind::EnumKeyword:
 
             // namespace-definition
             case TokenKind::NamespaceKeyword:
@@ -3198,6 +3219,21 @@ class Parser {
         return $classConstDeclaration;
     }
 
+    private function parseEnumCaseDeclaration($parentNode) {
+        $classConstDeclaration = new EnumCaseDeclaration();
+        $classConstDeclaration->parent = $parentNode;
+        $classConstDeclaration->caseKeyword = $this->eat1(TokenKind::CaseKeyword);
+        $classConstDeclaration->name = $this->eat($this->nameOrKeywordOrReservedWordTokens);
+        $classConstDeclaration->equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
+        if ($classConstDeclaration->equalsToken !== null) {
+            // TODO add post-parse rule that checks for invalid assignments
+            $classConstDeclaration->assignment = $this->parseExpression($classConstDeclaration);
+        }
+        $classConstDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
+
+        return $classConstDeclaration;
+    }
+
     /**
      * @param Node $parentNode
      * @param Token[] $modifiers
@@ -3519,6 +3555,102 @@ class Parser {
             }
         };
     }
+
+    private function parseEnumDeclaration($parentNode) {
+        $enumDeclaration = new EnumDeclaration();
+        $enumDeclaration->parent = $parentNode;
+
+        $enumDeclaration->enumKeyword = $this->eat1(TokenKind::EnumKeyword);
+        $enumDeclaration->name = $this->eat1(TokenKind::Name);
+        $enumDeclaration->colonToken = $this->eatOptional1(TokenKind::ColonToken);
+        if ($enumDeclaration->colonToken !== null) {
+            $enumDeclaration->enumType = $this->tryParseParameterTypeDeclaration($enumDeclaration)
+                ?: new MissingToken(TokenKind::EnumType, $this->token->fullStart);
+        }
+
+        $enumDeclaration->enumMembers = $this->parseEnumMembers($enumDeclaration);
+
+        return $enumDeclaration;
+    }
+
+    private function parseEnumMembers($parentNode) {
+        $enumMembers = new EnumMembers();
+        $enumMembers->parent = $parentNode;
+
+        $enumMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
+
+        $enumMembers->enumMemberDeclarations = $this->parseList($enumMembers, ParseContext::EnumMembers);
+
+        $enumMembers->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
+
+        return $enumMembers;
+    }
+
+    private function isEnumMemberDeclarationStart($token) {
+        switch ($token->kind) {
+            // modifiers
+            case TokenKind::PublicKeyword:
+            case TokenKind::ProtectedKeyword:
+            case TokenKind::PrivateKeyword:
+            // case TokenKind::VarKeyword:
+            case TokenKind::StaticKeyword:
+            case TokenKind::AbstractKeyword:
+            case TokenKind::FinalKeyword:
+
+            // method-declaration
+            case TokenKind::FunctionKeyword:
+
+            // trait-use-clauses (enums can use traits)
+            case TokenKind::UseKeyword:
+
+            // cases and constants
+            case TokenKind::CaseKeyword:
+            case TokenKind::ConstKeyword:
+
+            // attributes
+            case TokenKind::AttributeToken:
+                return true;
+        }
+        return false;
+    }
+
+    private function parseEnumElementFn() {
+        return function ($parentNode) {
+            $modifiers = $this->parseModifiers();
+
+            $token = $this->getCurrentToken();
+            switch ($token->kind) {
+                // TODO: CaseKeyword
+                case TokenKind::CaseKeyword:
+                    return $this->parseEnumCaseDeclaration($parentNode);
+
+                case TokenKind::ConstKeyword:
+                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
+
+                case TokenKind::FunctionKeyword:
+                    return $this->parseMethodDeclaration($parentNode, $modifiers);
+
+                case TokenKind::QuestionToken:
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
+                        $parentNode,
+                        $modifiers,
+                        $this->eat1(TokenKind::QuestionToken)
+                    );
+                case TokenKind::VariableName:
+                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
+
+                case TokenKind::UseKeyword:
+                    return $this->parseTraitUseClause($parentNode);
+
+                case TokenKind::AttributeToken:
+                    return $this->parseAttributeStatement($parentNode);
+
+                default:
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
+            }
+        };
+    }
+
 
     /**
      * @param Node $parentNode

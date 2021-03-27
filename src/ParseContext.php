@@ -20,4 +20,5 @@ class ParseContext {
     const InterfaceMembers = 10;
     const TraitMembers = 11;
     const Count = 12;
+    const EnumMembers = 13;
 }
