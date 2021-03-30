@@ -12,8 +12,10 @@ define(__NAMESPACE__ . '\T_COALESCE_EQUAL', defined('T_COALESCE_EQUAL') ? consta
 define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
 // If this predates PHP 8.0, T_MATCH is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_MATCH', defined('T_MATCH') ? constant('T_MATCH') : 'T_MATCH');
-define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT_OPERATOR') ? constant('T_NULLSAFE_OBJECT_OPERATOR') : 'T_MATCH');
+define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT_OPERATOR') ? constant('T_NULLSAFE_OBJECT_OPERATOR') : 'T_NULLSAFE_OBJECT_OPERATOR');
 define(__NAMESPACE__ . '\T_ATTRIBUTE', defined('T_ATTRIBUTE') ? constant('T_ATTRIBUTE') : 'T_ATTRIBUTE');
+// If this predates PHP 8.1, T_ENUM is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
+define(__NAMESPACE__ . '\T_ENUM', defined('T_ENUM') ? constant('T_ENUM') : 'T_ENUM');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -257,6 +259,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_ENDIF => TokenKind::EndIfKeyword,
         T_ENDSWITCH => TokenKind::EndSwitchKeyword,
         T_ENDWHILE => TokenKind::EndWhileKeyword,
+        T_ENUM => TokenKind::EnumKeyword,
         T_EVAL => TokenKind::EvalKeyword,
         T_EXIT => TokenKind::ExitKeyword,
         T_EXTENDS => TokenKind::ExtendsKeyword,

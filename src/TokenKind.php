@@ -89,6 +89,7 @@ class TokenKind {
     const MatchKeyword = 169;
     /** @deprecated use IterableReservedWord */
     const IterableKeyword = self::IterableReservedWord;
+    const EnumKeyword = 171;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;
@@ -195,6 +196,7 @@ class TokenKind {
     const ReturnType = 336;
     const InlineHtml = 337;
     const PropertyType = 338;
+    const EnumType = 339;
 
 //    const DollarOpenCurly = 339;
     const EncapsedAndWhitespace = 400;

@@ -36,6 +36,7 @@ class TokenStringMaps {
         "endif" => TokenKind::EndIfKeyword,
         "endswitch" => TokenKind::EndSwitchKeyword,
         "endwhile" => TokenKind::EndWhileKeyword,
+        "enum" => TokenKind::EnumKeyword,
         "eval" => TokenKind::EvalKeyword,
         "exit" => TokenKind::ExitKeyword,
         "extends" => TokenKind::ExtendsKeyword,
