@@ -32,13 +32,7 @@ abstract class Node implements \JsonSerializable {
      * @throws \Exception
      */
     public function getStartPosition() : int {
-        $child = $this->getChildNodesAndTokens()->current();
-        if ($child instanceof Node) {
-            return $child->getStartPosition();
-        } elseif ($child instanceof Token) {
-            return $child->start;
-        }
-        throw new \Exception("Unknown type in AST");
+        return $this->getChildNodesAndTokens()->current()->getStartPosition();
     }
 
     /**
@@ -58,15 +52,7 @@ abstract class Node implements \JsonSerializable {
                     $child = $child[0];
                 }
 
-                if ($child instanceof Node) {
-                    return $child->getFullStartPosition();
-                }
-
-                if ($child instanceof Token) {
-                    return $child->fullStart;
-                }
-
-                throw new \Exception("Unknown type in AST: " . \gettype($child));
+                return $child->getFullStartPosition();
             }
         };
 

@@ -7,7 +7,7 @@ an experiment and the start of a conversation.
 
 ![image](https://cloud.githubusercontent.com/assets/762848/19023070/4ab01c92-889a-11e6-9bb5-ec1a6816aba2.png)
 
-This is the v1 branch, which changes data structures to support syntax added after the initial release for php 7.0.
+This is the v0.1 branch, which changes data structures to support syntax added after the initial 0.0.x release line.
 
 ## Get Started
 After you've [configured your machine](docs/GettingStarted.md), you can use the parser to generate and work
