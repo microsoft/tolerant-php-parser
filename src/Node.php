@@ -373,7 +373,7 @@ abstract class Node implements \JsonSerializable {
     }
 
     protected function getChildrenKvPairs() {
-        $result = array();
+        $result = [];
         foreach ($this::CHILD_NAMES as $name) {
             $result[$name] = $this->$name;
         }
@@ -657,20 +657,20 @@ abstract class Node implements \JsonSerializable {
                 // namespaces are case-insensitive
 //                $alias = \strtolower($alias);
                 $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
                 // functions are case-insensitive
 //                $alias = \strtolower($alias);
                 $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
                 // constants are case-sensitive
                 $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             }
-            return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            return [$namespaceImportTable, $functionImportTable, $constImportTable];
         }
-        return array($namespaceImportTable, $functionImportTable, $constImportTable);
+        return [$namespaceImportTable, $functionImportTable, $constImportTable];
     }
 
     /**

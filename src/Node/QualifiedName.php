@@ -110,7 +110,7 @@ class QualifiedName extends Node implements NamespacedNameInterface {
             return $this->getNamespacedName();
         }
 
-        list($namespaceImportTable, $functionImportTable, $constImportTable) = $this->getImportTablesForCurrentScope();
+        [$namespaceImportTable, $functionImportTable, $constImportTable] = $this->getImportTablesForCurrentScope();
 
         // QUALIFIED NAMES
         // - first segment of the name is translated according to the current class/namespace import table.

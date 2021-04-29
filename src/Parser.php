@@ -179,7 +179,7 @@ class Parser {
         $this->sourceFile = $sourceFile;
         $sourceFile->fileContents = $fileContents;
         $sourceFile->uri = $uri;
-        $sourceFile->statementList = array();
+        $sourceFile->statementList = [];
         if ($this->getCurrentToken()->kind !== TokenKind::EndOfFileToken) {
             $inlineHTML = $this->parseInlineHtml($sourceFile);
             $sourceFile->statementList[] = $inlineHTML;
@@ -221,7 +221,7 @@ class Parser {
         $this->currentParseContext |= 1 << $listParseContext;
         $parseListElementFn = $this->getParseListElementFn($listParseContext);
 
-        $nodeArray = array();
+        $nodeArray = [];
         while (!$this->isListTerminator($listParseContext)) {
             if ($this->isValidListElement($listParseContext, $this->getCurrentToken())) {
                 $element = $parseListElementFn($parentNode);
@@ -1293,7 +1293,7 @@ class Parser {
         $expression = new StringLiteral();
         $expression->parent = $parentNode;
         $expression->startQuote = $this->eat(TokenKind::SingleQuoteToken, TokenKind::DoubleQuoteToken, TokenKind::HeredocStart, TokenKind::BacktickToken);
-        $expression->children = array();
+        $expression->children = [];
 
         while (true) {
             switch ($this->getCurrentToken()->kind) {
@@ -1449,7 +1449,7 @@ class Parser {
     }
 
     private function parseModifiers() {
-        $modifiers = array();
+        $modifiers = [];
         $token = $this->getCurrentToken();
         while ($this->isModifier($token)) {
             $modifiers[] = $token;
@@ -1963,12 +1963,12 @@ class Parser {
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
         $leftOperand = $this->parseUnaryExpressionOrHigher($parentNode);
 
-        list($prevNewPrecedence, $prevAssociativity) = self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
+        [$prevNewPrecedence, $prevAssociativity] = self::UNKNOWN_PRECEDENCE_AND_ASSOCIATIVITY;
 
         while (true) {
             $token = $this->getCurrentToken();
 
-            list($newPrecedence, $associativity) = $this->getBinaryOperatorPrecedenceAndAssociativity($token);
+            [$newPrecedence, $associativity] = $this->getBinaryOperatorPrecedenceAndAssociativity($token);
 
             // Expressions using operators w/o associativity (equality, relational, instanceof)
             // cannot reference identical expression types within one of their operands.
@@ -2416,7 +2416,7 @@ class Parser {
         $tryStatement->tryKeyword = $this->eat1(TokenKind::TryKeyword);
         $tryStatement->compoundStatement = $this->parseCompoundStatement($tryStatement); // TODO verifiy this is only compound
 
-        $tryStatement->catchClauses = array(); // TODO - should be some standard for empty arrays vs. null?
+        $tryStatement->catchClauses = []; // TODO - should be some standard for empty arrays vs. null?
         while ($this->checkToken(TokenKind::CatchKeyword)) {
             $tryStatement->catchClauses[] = $this->parseCatchClause($tryStatement);
         }

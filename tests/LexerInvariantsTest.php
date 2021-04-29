@@ -10,13 +10,13 @@ use PHPUnit\Framework\TestCase;
 use Microsoft\PhpParser\TokenKind;
 
 class LexerInvariantsTest extends TestCase {
-    const FILENAMES = array(
+    const FILENAMES = [
         __dir__ . "/cases/testfile.php",
         __dir__ . "/cases/commentsFile.php"
-    );
+    ];
 
     public static function tokensArrayProvider() {
-        $fileToTokensMap = array();
+        $fileToTokensMap = [];
         foreach (self::FILENAMES as $filename) {
             $lexer = \Microsoft\PhpParser\TokenStreamProviderFactory::GetTokenStreamProvider(file_get_contents($filename));
             $fileToTokensMap[basename($filename)] = [$filename, $lexer->getTokensArray()];

@@ -57,7 +57,7 @@ class LexicalGrammarTest extends TestCase {
 
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
-        $testProviderArray = array();
+        $testProviderArray = [];
         foreach ($testCases as $testCase) {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
@@ -90,7 +90,7 @@ class LexicalGrammarTest extends TestCase {
     public function lexicalSpecProvider() {
         $testCases = glob(__dir__ . "/cases/php-langspec/**/*.php");
 
-        $testProviderArray = array();
+        $testProviderArray = [];
         foreach ($testCases as $testCase) {
             $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tree"];
         }

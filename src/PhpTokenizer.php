@@ -82,7 +82,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
 
         $tokens = static::tokenGetAll($content, $parseContext);
 
-        $arr = array();
+        $arr = [];
         $fullStart = $start = $pos = $initialPos;
         if ($parseContext !== null) {
             // If needed, skip over the prefix we added for token_get_all and remove those tokens.
