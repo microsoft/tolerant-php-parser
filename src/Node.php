@@ -11,6 +11,7 @@ use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
+use ReturnTypeWillChange;
 
 abstract class Node implements \JsonSerializable {
     const CHILD_NAMES = [];
@@ -380,6 +381,7 @@ abstract class Node implements \JsonSerializable {
         return $result;
     }
 
+    #[ReturnTypeWillChange]
     public function jsonSerialize() {
         $kindName = $this->getNodeKindName();
         return ["$kindName" => $this->getChildrenKvPairs()];
