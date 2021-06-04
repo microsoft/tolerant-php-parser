@@ -16,6 +16,8 @@ define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT
 define(__NAMESPACE__ . '\T_ATTRIBUTE', defined('T_ATTRIBUTE') ? constant('T_ATTRIBUTE') : 'T_ATTRIBUTE');
 // If this predates PHP 8.1, T_ENUM is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_ENUM', defined('T_ENUM') ? constant('T_ENUM') : 'T_ENUM');
+define(__NAMESPACE__ . '\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG', defined('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') ? constant('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') : 'T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG');
+define(__NAMESPACE__ . '\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG', defined('T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG') ? constant('T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG') : 'T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -338,6 +340,8 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         "^" => TokenKind::CaretToken,
         "|" => TokenKind::BarToken,
         "&" => TokenKind::AmpersandToken,
+        T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG => TokenKind::AmpersandToken,
+        T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG => TokenKind::AmpersandToken,
         T_BOOLEAN_AND => TokenKind::AmpersandAmpersandToken,
         T_BOOLEAN_OR => TokenKind::BarBarToken,
         ":" => TokenKind::ColonToken,

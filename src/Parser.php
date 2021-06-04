@@ -828,11 +828,22 @@ class Parser {
             $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
             $parameter->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
-            if ($parameter->questionToken && !$parameter->typeDeclarationList) {
+            if ($parameter->typeDeclarationList) {
+                $children = $parameter->typeDeclarationList->children;
+                if (end($children) instanceof MissingToken && ($children[count($children) - 2]->kind ?? null) === TokenKind::AmpersandToken) {
+                    array_pop($parameter->typeDeclarationList->children);
+                    $parameter->byRefToken = array_pop($parameter->typeDeclarationList->children);
+                    if (!$parameter->typeDeclarationList->children) {
+                        unset($parameter->typeDeclarationList);
+                    }
+                }
+            } elseif ($parameter->questionToken) {
                 // TODO ParameterType?
                 $parameter->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
             }
-            $parameter->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
+            if (!$parameter->byRefToken) {
+                $parameter->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
+            }
             // TODO add post-parse rule that prevents assignment
             // TODO add post-parse rule that requires only last parameter be variadic
             $parameter->dotDotDotToken = $this->eatOptional1(TokenKind::DotDotDotToken);
@@ -858,6 +869,11 @@ class Parser {
         $parentNode->returnTypeList = $returnTypeList;
     }
 
+    const TYPE_DELIMITER_TOKENS = [
+        TokenKind::BarToken,
+        TokenKind::AmpersandToken,
+    ];
+
     /**
      * Attempt to parse the return type after the `:` and optional `?` token.
      *
@@ -866,7 +882,7 @@ class Parser {
     private function parseReturnTypeDeclarationList($parentNode) {
         $result = $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
-            TokenKind::BarToken,
+            self::TYPE_DELIMITER_TOKENS,
             function ($token) {
                 return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
             },
@@ -878,7 +894,7 @@ class Parser {
 
         // Add a MissingToken so that this will warn about `function () : T| {}`
         // TODO: Make this a reusable abstraction?
-        if ($result && (end($result->children)->kind ?? null) === TokenKind::BarToken) {
+        if ($result && in_array(end($result->children)->kind ?? null, self::TYPE_DELIMITER_TOKENS)) {
             $result->children[] = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
         }
         return $result;
@@ -902,7 +918,7 @@ class Parser {
     private function tryParseParameterTypeDeclarationList($parentNode) {
         $result = $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
-            TokenKind::BarToken,
+            self::TYPE_DELIMITER_TOKENS,
             function ($token) {
                 return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
             },
@@ -914,7 +930,7 @@ class Parser {
 
         // Add a MissingToken so that this will Warn about `function (T| $x) {}`
         // TODO: Make this a reusable abstraction?
-        if ($result && (end($result->children)->kind ?? null) === TokenKind::BarToken) {
+        if ($result && in_array(end($result->children)->kind ?? null, self::TYPE_DELIMITER_TOKENS)) {
             $result->children[] = new MissingToken(TokenKind::Name, $this->token->fullStart);
         }
         return $result;
