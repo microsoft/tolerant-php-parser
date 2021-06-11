@@ -12,24 +12,20 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "UnsetIntrinsicExpression": {
-                            "unsetKeyword": {
-                                "kind": "UnsetKeyword",
-                                "textLength": 5
-                            },
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
-                            "expressions": null,
-                            "closeParen": {
-                                "error": "MissingToken",
-                                "kind": "CloseParenToken",
-                                "textLength": 0
-                            }
-                        }
+                "UnsetStatement": {
+                    "unsetKeyword": {
+                        "kind": "UnsetKeyword",
+                        "textLength": 5
+                    },
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expressions": null,
+                    "closeParen": {
+                        "error": "MissingToken",
+                        "kind": "CloseParenToken",
+                        "textLength": 0
                     },
                     "semicolon": {
                         "error": "MissingToken",

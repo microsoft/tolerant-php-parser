@@ -59,19 +59,24 @@
                                             "textLength": 1
                                         },
                                         "questionToken": null,
-                                        "returnType": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
+                                        "returnTypeList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 9
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 9
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

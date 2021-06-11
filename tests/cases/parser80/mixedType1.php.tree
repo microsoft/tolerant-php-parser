@@ -35,11 +35,16 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "MixedReservedWord",
-                                            "textLength": 5
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "MixedReservedWord",
+                                                        "textLength": 5
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -62,11 +67,16 @@
                         "textLength": 1
                     },
                     "questionToken": null,
-                    "returnType": {
-                        "kind": "MixedReservedWord",
-                        "textLength": 5
+                    "returnTypeList": {
+                        "QualifiedNameList": {
+                            "children": [
+                                {
+                                    "kind": "MixedReservedWord",
+                                    "textLength": 5
+                                }
+                            ]
+                        }
                     },
-                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

@@ -52,26 +52,22 @@
                             }
                         },
                         {
-                            "ExpressionStatement": {
-                                "expression": {
-                                    "EchoExpression": {
-                                        "echoKeyword": null,
-                                        "expressions": {
-                                            "ExpressionList": {
-                                                "children": [
-                                                    {
-                                                        "StringLiteral": {
-                                                            "startQuote": null,
-                                                            "children": {
-                                                                "kind": "StringLiteralToken",
-                                                                "textLength": 3
-                                                            },
-                                                            "endQuote": null
-                                                        }
-                                                    }
-                                                ]
+                            "EchoStatement": {
+                                "echoKeyword": null,
+                                "expressions": {
+                                    "ExpressionList": {
+                                        "children": [
+                                            {
+                                                "StringLiteral": {
+                                                    "startQuote": null,
+                                                    "children": {
+                                                        "kind": "StringLiteralToken",
+                                                        "textLength": 3
+                                                    },
+                                                    "endQuote": null
+                                                }
                                             }
-                                        }
+                                        ]
                                     }
                                 },
                                 "semicolon": null

@@ -60,12 +60,7 @@ class BreakOrContinueStatement extends StatementNode {
             }
         }
 
-        if ($breakoutLevel instanceof Token) {
-            $start = $breakoutLevel->getStartPosition();
-        }
-        else {
-            $start = $breakoutLevel->getStart();
-        }
+        $start = $breakoutLevel->getStartPosition();
         $end = $breakoutLevel->getEndPosition();
 
         return new Diagnostic(

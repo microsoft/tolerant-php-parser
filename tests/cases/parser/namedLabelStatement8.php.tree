@@ -43,8 +43,7 @@
                             "colon": {
                                 "kind": "ColonToken",
                                 "textLength": 1
-                            },
-                            "statement": null
+                            }
                         }
                     },
                     "endWhile": null,
@@ -52,29 +51,25 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 6
-                                                },
-                                                "endQuote": null
-                                            }
-                                        }
-                                    ]
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "StringLiteral": {
+                                        "startQuote": null,
+                                        "children": {
+                                            "kind": "StringLiteralToken",
+                                            "textLength": 6
+                                        },
+                                        "endQuote": null
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

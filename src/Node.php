@@ -11,6 +11,7 @@ use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\SourceFileNode;
 use Microsoft\PhpParser\Node\Statement\NamespaceDefinition;
 use Microsoft\PhpParser\Node\Statement\NamespaceUseDeclaration;
+use ReturnTypeWillChange;
 
 abstract class Node implements \JsonSerializable {
     const CHILD_NAMES = [];
@@ -31,14 +32,8 @@ abstract class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getStart() : int {
-        $child = $this->getChildNodesAndTokens()->current();
-        if ($child instanceof Node) {
-            return $child->getStart();
-        } elseif ($child instanceof Token) {
-            return $child->start;
-        }
-        throw new \Exception("Unknown type in AST");
+    public function getStartPosition() : int {
+        return $this->getChildNodesAndTokens()->current()->getStartPosition();
     }
 
     /**
@@ -46,7 +41,7 @@ abstract class Node implements \JsonSerializable {
      * @return int
      * @throws \Exception
      */
-    public function getFullStart() : int {
+    public function getFullStartPosition() : int {
         foreach($this::CHILD_NAMES as $name) {
 
             if (($child = $this->$name) !== null) {
@@ -58,15 +53,7 @@ abstract class Node implements \JsonSerializable {
                     $child = $child[0];
                 }
 
-                if ($child instanceof Node) {
-                    return $child->getFullStart();
-                }
-
-                if ($child instanceof Token) {
-                    return $child->fullStart;
-                }
-
-                throw new \Exception("Unknown type in AST: " . \gettype($child));
+                return $child->getFullStartPosition();
             }
         };
 
@@ -330,7 +317,7 @@ abstract class Node implements \JsonSerializable {
      * @return int
      */
     public function getWidth() : int {
-        $first = $this->getStart();
+        $first = $this->getStartPosition();
         $last = $this->getEndPosition();
 
         return $last - $first;
@@ -342,7 +329,7 @@ abstract class Node implements \JsonSerializable {
      * @return int
      */
     public function getFullWidth() : int {
-        $first = $this->getFullStart();
+        $first = $this->getFullStartPosition();
         $last = $this->getEndPosition();
 
         return $last - $first;
@@ -353,7 +340,7 @@ abstract class Node implements \JsonSerializable {
      * @return string
      */
     public function getText() : string {
-        $start = $this->getStart();
+        $start = $this->getStartPosition();
         $end = $this->getEndPosition();
 
         $fileContents = $this->getFileContents();
@@ -365,7 +352,7 @@ abstract class Node implements \JsonSerializable {
      * @return string
      */
     public function getFullText() : string {
-        $start = $this->getFullStart();
+        $start = $this->getFullStartPosition();
         $end = $this->getEndPosition();
 
         $fileContents = $this->getFileContents();
@@ -387,13 +374,14 @@ abstract class Node implements \JsonSerializable {
     }
 
     protected function getChildrenKvPairs() {
-        $result = array();
+        $result = [];
         foreach ($this::CHILD_NAMES as $name) {
             $result[$name] = $this->$name;
         }
         return $result;
     }
 
+    #[ReturnTypeWillChange]
     public function jsonSerialize() {
         $kindName = $this->getNodeKindName();
         return ["$kindName" => $this->getChildrenKvPairs()];
@@ -463,7 +451,7 @@ abstract class Node implements \JsonSerializable {
      * @return bool
      */
     private function containsPosition(int $pos): bool {
-        return $this->getStart() <= $pos && $pos <= $this->getEndPosition();
+        return $this->getStartPosition() <= $pos && $pos <= $this->getEndPosition();
     }
 
     /**
@@ -476,7 +464,7 @@ abstract class Node implements \JsonSerializable {
     public function getDocCommentText() {
         $leadingTriviaText = $this->getLeadingCommentAndWhitespaceText();
         $leadingTriviaTokens = PhpTokenizer::getTokensArrayFromContent(
-            $leadingTriviaText, ParseContext::SourceElements, $this->getFullStart(), false
+            $leadingTriviaText, ParseContext::SourceElements, $this->getFullStartPosition(), false
         );
         for ($i = \count($leadingTriviaTokens) - 1; $i >= 0; $i--) {
             $token = $leadingTriviaTokens[$i];
@@ -509,13 +497,13 @@ abstract class Node implements \JsonSerializable {
             $topLevelNamespaceStatements = $namespaceDefinition->compoundStatementOrSemicolon instanceof Token
                 ? $namespaceDefinition->parent->statementList // we need to start from the namespace definition.
                 : $namespaceDefinition->compoundStatementOrSemicolon->statements;
-            $namespaceFullStart = $namespaceDefinition->getFullStart();
+            $namespaceFullStart = $namespaceDefinition->getFullStartPosition();
         } else {
             $topLevelNamespaceStatements = $this->getRoot()->statementList;
             $namespaceFullStart = 0;
         }
 
-        $nodeFullStart = $this->getFullStart();
+        $nodeFullStart = $this->getFullStartPosition();
 
         // TODO optimize performance
         // Currently we rebuild the import tables on every call (and therefore every name resolution operation)
@@ -535,10 +523,10 @@ abstract class Node implements \JsonSerializable {
         $contents = $this->getFileContents();
 
         foreach ($topLevelNamespaceStatements as $useDeclaration) {
-            if ($useDeclaration->getFullStart() <= $namespaceFullStart) {
+            if ($useDeclaration->getFullStartPosition() <= $namespaceFullStart) {
                 continue;
             }
-            if ($useDeclaration->getFullStart() > $nodeFullStart) {
+            if ($useDeclaration->getFullStartPosition() > $nodeFullStart) {
                 break;
             } elseif (!($useDeclaration instanceof NamespaceUseDeclaration)) {
                 continue;
@@ -609,11 +597,11 @@ abstract class Node implements \JsonSerializable {
             throw new \Exception("Invalid tree - SourceFileNode must always exist at root of tree.");
         }
 
-        $fullStart = $this->getFullStart();
+        $fullStart = $this->getFullStartPosition();
         $lastNamespaceDefinition = null;
         if ($namespaceDefinition instanceof SourceFileNode) {
             foreach ($namespaceDefinition->getChildNodes() as $childNode) {
-                if ($childNode instanceof NamespaceDefinition && $childNode->getFullStart() < $fullStart) {
+                if ($childNode instanceof NamespaceDefinition && $childNode->getFullStartPosition() < $fullStart) {
                     $lastNamespaceDefinition = $childNode;
                 }
             }
@@ -662,7 +650,7 @@ abstract class Node implements \JsonSerializable {
      * Add the alias and resolved name to the corresponding namespace, function, or const import table.
      * If the alias already exists, it will get replaced by the most recent using.
      *
-     * TODO - worth throwing an error here in stead?
+     * TODO - worth throwing an error here instead?
      */
     private function addToImportTable($alias, $functionOrConst, $namespaceNameParts, $contents, & $namespaceImportTable, & $functionImportTable, & $constImportTable):array
     {
@@ -671,20 +659,20 @@ abstract class Node implements \JsonSerializable {
                 // namespaces are case-insensitive
 //                $alias = \strtolower($alias);
                 $namespaceImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             } elseif ($functionOrConst->kind === TokenKind::FunctionKeyword) {
                 // functions are case-insensitive
 //                $alias = \strtolower($alias);
                 $functionImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             } elseif ($functionOrConst->kind === TokenKind::ConstKeyword) {
                 // constants are case-sensitive
                 $constImportTable[$alias] = ResolvedName::buildName($namespaceNameParts, $contents);
-                return array($namespaceImportTable, $functionImportTable, $constImportTable);
+                return [$namespaceImportTable, $functionImportTable, $constImportTable];
             }
-            return array($namespaceImportTable, $functionImportTable, $constImportTable);
+            return [$namespaceImportTable, $functionImportTable, $constImportTable];
         }
-        return array($namespaceImportTable, $functionImportTable, $constImportTable);
+        return [$namespaceImportTable, $functionImportTable, $constImportTable];
     }
 
     /**

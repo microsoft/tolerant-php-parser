@@ -35,8 +35,7 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "otherTypeDeclarations": null,
+                                        "typeDeclarationList": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -56,19 +55,24 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 6
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 6
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": {
                                             "kind": "DotDotDotToken",
@@ -91,8 +95,7 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "otherTypeDeclarations": null,
+                                        "typeDeclarationList": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": {
                                             "kind": "DotDotDotToken",
@@ -115,8 +118,7 @@
                     },
                     "colonToken": null,
                     "questionToken": null,
-                    "returnType": null,
-                    "otherReturnTypes": null,
+                    "returnTypeList": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

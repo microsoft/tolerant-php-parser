@@ -12,53 +12,49 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "UnaryOpExpression": {
-                                                "operator": {
-                                                    "kind": "ExclamationToken",
-                                                    "textLength": 1
-                                                },
-                                                "operand": {
-                                                    "BinaryExpression": {
-                                                        "leftOperand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
-                                                        },
-                                                        "operator": {
-                                                            "kind": "PlusEqualsToken",
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "UnaryOpExpression": {
+                                        "operator": {
+                                            "kind": "ExclamationToken",
+                                            "textLength": 1
+                                        },
+                                        "operand": {
+                                            "BinaryExpression": {
+                                                "leftOperand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
                                                             "textLength": 2
-                                                        },
-                                                        "rightOperand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "operator": {
+                                                    "kind": "PlusEqualsToken",
+                                                    "textLength": 2
+                                                },
+                                                "rightOperand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

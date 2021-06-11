@@ -12,56 +12,52 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "BinaryExpression": {
-                                                "leftOperand": {
-                                                    "ErrorControlExpression": {
-                                                        "operator": {
-                                                            "kind": "AtSymbolToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "operand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                },
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "BinaryExpression": {
+                                        "leftOperand": {
+                                            "ErrorControlExpression": {
                                                 "operator": {
-                                                    "kind": "InstanceOfKeyword",
-                                                    "textLength": 10
+                                                    "kind": "AtSymbolToken",
+                                                    "textLength": 1
                                                 },
-                                                "rightOperand": {
-                                                    "QualifiedName": {
-                                                        "globalSpecifier": null,
-                                                        "relativeSpecifier": null,
-                                                        "nameParts": [
-                                                            {
-                                                                "kind": "Name",
-                                                                "textLength": 8
-                                                            }
-                                                        ]
+                                                "operand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
                                                     }
                                                 }
                                             }
+                                        },
+                                        "operator": {
+                                            "kind": "InstanceOfKeyword",
+                                            "textLength": 10
+                                        },
+                                        "rightOperand": {
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 8
+                                                    }
+                                                ]
+                                            }
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

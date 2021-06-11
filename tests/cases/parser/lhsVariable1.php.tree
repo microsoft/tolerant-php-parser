@@ -12,54 +12,50 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "UnaryOpExpression": {
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "UnaryOpExpression": {
+                                        "operator": {
+                                            "kind": "TildeToken",
+                                            "textLength": 1
+                                        },
+                                        "operand": {
+                                            "AssignmentExpression": {
+                                                "leftOperand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
+                                                        }
+                                                    }
+                                                },
                                                 "operator": {
-                                                    "kind": "TildeToken",
+                                                    "kind": "EqualsToken",
                                                     "textLength": 1
                                                 },
-                                                "operand": {
-                                                    "AssignmentExpression": {
-                                                        "leftOperand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
-                                                        },
-                                                        "operator": {
-                                                            "kind": "EqualsToken",
-                                                            "textLength": 1
-                                                        },
-                                                        "byRef": null,
-                                                        "rightOperand": {
-                                                            "Variable": {
-                                                                "dollar": null,
-                                                                "name": {
-                                                                    "kind": "VariableName",
-                                                                    "textLength": 2
-                                                                }
-                                                            }
+                                                "byRef": null,
+                                                "rightOperand": {
+                                                    "Variable": {
+                                                        "dollar": null,
+                                                        "name": {
+                                                            "kind": "VariableName",
+                                                            "textLength": 2
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": {

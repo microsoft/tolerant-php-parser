@@ -59,30 +59,35 @@
                                             "textLength": 1
                                         },
                                         "questionToken": null,
-                                        "returnType": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": {
-                                                    "RelativeSpecifier": {
-                                                        "namespaceKeyword": {
-                                                            "kind": "NamespaceKeyword",
-                                                            "textLength": 9
-                                                        },
-                                                        "backslash": {
-                                                            "kind": "BackslashToken",
-                                                            "textLength": 1
-                                                        }
-                                                    }
-                                                },
-                                                "nameParts": [
+                                        "returnTypeList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 9
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": {
+                                                                "RelativeSpecifier": {
+                                                                    "namespaceKeyword": {
+                                                                        "kind": "NamespaceKeyword",
+                                                                        "textLength": 9
+                                                                    },
+                                                                    "backslash": {
+                                                                        "kind": "BackslashToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            },
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 9
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherReturnTypes": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

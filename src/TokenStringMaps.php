@@ -9,7 +9,7 @@ namespace Microsoft\PhpParser;
 use Microsoft\PhpParser\TokenKind;
 
 class TokenStringMaps {
-    const KEYWORDS = array(
+    const KEYWORDS = [
         "abstract" => TokenKind::AbstractKeyword,
         "and" => TokenKind::AndKeyword,
         "array" => TokenKind::ArrayKeyword,
@@ -82,7 +82,7 @@ class TokenStringMaps {
 
 
         // TODO soft reserved words?
-    );
+    ];
 
     const RESERVED_WORDS = [
         // http://php.net/manual/en/reserved.constants.php
@@ -109,7 +109,7 @@ class TokenStringMaps {
         "mixed" => TokenKind::MixedReservedWord,
     ];
 
-    const OPERATORS_AND_PUNCTUATORS = array(
+    const OPERATORS_AND_PUNCTUATORS = [
         "[" => TokenKind::OpenBracketToken,
         "]" => TokenKind::CloseBracketToken,
         "(" => TokenKind::OpenParenToken,
@@ -182,7 +182,7 @@ class TokenStringMaps {
         "?>\r" => TokenKind::ScriptSectionEndTag, // TODO, technically not an operator
         "@" => TokenKind::AtSymbolToken, // TODO not in spec
         "`" => TokenKind::BacktickToken
-    );
+    ];
 
 // TODO add new tokens
 }

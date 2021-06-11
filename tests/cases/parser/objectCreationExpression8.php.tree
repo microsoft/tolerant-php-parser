@@ -35,7 +35,6 @@
                                             "ArgumentExpression": {
                                                 "name": null,
                                                 "colonToken": null,
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "NumericLiteral": {
@@ -55,7 +54,6 @@
                                             "ArgumentExpression": {
                                                 "name": null,
                                                 "colonToken": null,
-                                                "byRefToken": null,
                                                 "dotDotDotToken": null,
                                                 "expression": {
                                                     "NumericLiteral": {
@@ -112,8 +110,7 @@
                                                 },
                                                 "colonToken": null,
                                                 "questionToken": null,
-                                                "returnType": null,
-                                                "otherReturnTypes": null,
+                                                "returnTypeList": null,
                                                 "compoundStatementOrSemicolon": {
                                                     "CompoundStatementNode": {
                                                         "openBrace": {

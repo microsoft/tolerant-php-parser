@@ -81,29 +81,25 @@
                     },
                     "colon": null,
                     "statements": {
-                        "ExpressionStatement": {
-                            "expression": {
-                                "EchoExpression": {
-                                    "echoKeyword": {
-                                        "kind": "EchoKeyword",
-                                        "textLength": 4
-                                    },
-                                    "expressions": {
-                                        "ExpressionList": {
-                                            "children": [
-                                                {
-                                                    "StringLiteral": {
-                                                        "startQuote": null,
-                                                        "children": {
-                                                            "kind": "StringLiteralToken",
-                                                            "textLength": 3
-                                                        },
-                                                        "endQuote": null
-                                                    }
-                                                }
-                                            ]
+                        "EchoStatement": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "ExpressionList": {
+                                    "children": [
+                                        {
+                                            "StringLiteral": {
+                                                "startQuote": null,
+                                                "children": {
+                                                    "kind": "StringLiteralToken",
+                                                    "textLength": 3
+                                                },
+                                                "endQuote": null
+                                            }
                                         }
-                                    }
+                                    ]
                                 }
                             },
                             "semicolon": {
@@ -185,29 +181,25 @@
                     },
                     "colon": null,
                     "statements": {
-                        "ExpressionStatement": {
-                            "expression": {
-                                "EchoExpression": {
-                                    "echoKeyword": {
-                                        "kind": "EchoKeyword",
-                                        "textLength": 4
-                                    },
-                                    "expressions": {
-                                        "ExpressionList": {
-                                            "children": [
-                                                {
-                                                    "StringLiteral": {
-                                                        "startQuote": null,
-                                                        "children": {
-                                                            "kind": "StringLiteralToken",
-                                                            "textLength": 8
-                                                        },
-                                                        "endQuote": null
-                                                    }
-                                                }
-                                            ]
+                        "EchoStatement": {
+                            "echoKeyword": {
+                                "kind": "EchoKeyword",
+                                "textLength": 4
+                            },
+                            "expressions": {
+                                "ExpressionList": {
+                                    "children": [
+                                        {
+                                            "StringLiteral": {
+                                                "startQuote": null,
+                                                "children": {
+                                                    "kind": "StringLiteralToken",
+                                                    "textLength": 8
+                                                },
+                                                "endQuote": null
+                                            }
                                         }
-                                    }
+                                    ]
                                 }
                             },
                             "semicolon": {

@@ -12,37 +12,33 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "UnsetIntrinsicExpression": {
-                            "unsetKeyword": {
-                                "kind": "UnsetKeyword",
-                                "textLength": 5
-                            },
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 2
-                                                }
-                                            }
+                "UnsetStatement": {
+                    "unsetKeyword": {
+                        "kind": "UnsetKeyword",
+                        "textLength": 5
+                    },
+                    "openParen": {
+                        "kind": "OpenParenToken",
+                        "textLength": 1
+                    },
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 2
                                         }
-                                    ]
+                                    }
                                 }
-                            },
-                            "closeParen": {
-                                "kind": "CloseParenToken",
-                                "textLength": 1
-                            }
+                            ]
                         }
+                    },
+                    "closeParen": {
+                        "kind": "CloseParenToken",
+                        "textLength": 1
                     },
                     "semicolon": {
                         "kind": "SemicolonToken",

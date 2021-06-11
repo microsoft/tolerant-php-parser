@@ -20,8 +20,7 @@
                     "colon": {
                         "kind": "ColonToken",
                         "textLength": 1
-                    },
-                    "statement": null
+                    }
                 }
             },
             {
@@ -33,8 +32,7 @@
                     "colon": {
                         "kind": "ColonToken",
                         "textLength": 1
-                    },
-                    "statement": null
+                    }
                 }
             },
             {

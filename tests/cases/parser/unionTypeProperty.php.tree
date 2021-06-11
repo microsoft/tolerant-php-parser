@@ -42,13 +42,13 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "NullReservedWord",
-                                            "textLength": 4
-                                        },
-                                        "otherTypeDeclarations": {
+                                        "typeDeclarationList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "kind": "NullReservedWord",
+                                                        "textLength": 4
+                                                    },
                                                     {
                                                         "kind": "BarToken",
                                                         "textLength": 1
@@ -103,21 +103,21 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 9
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "otherTypeDeclarations": {
+                                        "typeDeclarationList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 9
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
                                                     {
                                                         "kind": "BarToken",
                                                         "textLength": 1

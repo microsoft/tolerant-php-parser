@@ -41,29 +41,33 @@
                                     "kind": "OpenParenToken",
                                     "textLength": 1
                                 },
-                                "qualifiedName": {
-                                    "QualifiedName": {
-                                        "globalSpecifier": null,
-                                        "relativeSpecifier": null,
-                                        "nameParts": [
+                                "qualifiedNameList": {
+                                    "QualifiedNameList": {
+                                        "children": [
                                             {
+                                                "QualifiedName": {
+                                                    "globalSpecifier": null,
+                                                    "relativeSpecifier": null,
+                                                    "nameParts": [
+                                                        {
+                                                            "kind": "Name",
+                                                            "textLength": 5
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "kind": "BarToken",
+                                                "textLength": 1
+                                            },
+                                            {
+                                                "error": "MissingToken",
                                                 "kind": "Name",
-                                                "textLength": 5
+                                                "textLength": 0
                                             }
                                         ]
                                     }
                                 },
-                                "otherQualifiedNameList": [
-                                    {
-                                        "kind": "BarToken",
-                                        "textLength": 1
-                                    },
-                                    {
-                                        "error": "MissingToken",
-                                        "kind": "Name",
-                                        "textLength": 0
-                                    }
-                                ],
                                 "variableName": {
                                     "kind": "VariableName",
                                     "textLength": 2

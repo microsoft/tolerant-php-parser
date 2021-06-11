@@ -12,16 +12,12 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": {
-                                "kind": "EchoKeyword",
-                                "textLength": 4
-                            },
-                            "expressions": null
-                        }
+                "EchoStatement": {
+                    "echoKeyword": {
+                        "kind": "EchoKeyword",
+                        "textLength": 4
                     },
+                    "expressions": null,
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

@@ -49,11 +49,16 @@
                                             "kind": "QuestionToken",
                                             "textLength": 1
                                         },
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -102,19 +107,24 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 8
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 8
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -150,30 +160,35 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": {
-                                                    "kind": "BackslashToken",
-                                                    "textLength": 1
-                                                },
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 3
-                                                    },
-                                                    {
-                                                        "kind": "BackslashToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 3
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": {
+                                                                "kind": "BackslashToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 3
+                                                                },
+                                                                {
+                                                                    "kind": "BackslashToken",
+                                                                    "textLength": 1
+                                                                },
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 3
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [
@@ -205,30 +220,35 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": {
-                                                    "RelativeSpecifier": {
-                                                        "namespaceKeyword": {
-                                                            "kind": "NamespaceKeyword",
-                                                            "textLength": 9
-                                                        },
-                                                        "backslash": {
-                                                            "kind": "BackslashToken",
-                                                            "textLength": 1
-                                                        }
-                                                    }
-                                                },
-                                                "nameParts": [
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 8
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": {
+                                                                "RelativeSpecifier": {
+                                                                    "namespaceKeyword": {
+                                                                        "kind": "NamespaceKeyword",
+                                                                        "textLength": 9
+                                                                    },
+                                                                    "backslash": {
+                                                                        "kind": "BackslashToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            },
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 8
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "propertyElements": {
                                             "ExpressionList": {
                                                 "children": [

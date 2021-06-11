@@ -88,7 +88,7 @@ class ParserGrammarTest extends TestCase {
         $testCases = glob(self::FILE_PATTERN . ".php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
-        $testProviderArray = array();
+        $testProviderArray = [];
         foreach ($testCases as $testCase) {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
@@ -124,7 +124,7 @@ class ParserGrammarTest extends TestCase {
         $testCases = glob(__DIR__ . "/cases/php-langspec/**/*.php");
         $skipped = json_decode(file_get_contents(__DIR__ . "/skipped.json"));
 
-        $testProviderArray = array();
+        $testProviderArray = [];
         foreach ($testCases as $case) {
             if (in_array(basename($case), $skipped)) {
                 continue;

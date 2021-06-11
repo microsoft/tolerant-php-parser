@@ -13,7 +13,7 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     const FILENAME_PATTERN = __dir__ . "/cases/{parser,parser74,}/*.php";
 
     public static function sourceFileNodeProvider() {
-        $testFiles = array();
+        $testFiles = [];
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
@@ -24,13 +24,13 @@ class ParserInvariantsTest extends LexerInvariantsTest {
     }
 
     public static function tokensArrayProvider() {
-        $testFiles = array();
+        $testFiles = [];
         $testCases = glob(self::FILENAME_PATTERN, GLOB_BRACE);
 
         foreach ($testCases as $filename) {
             $parser = new \Microsoft\PhpParser\Parser();
             $sourceFileNode = $parser->parseSourceFile(file_get_contents($filename));
-            $tokensArray = array();
+            $tokensArray = [];
             foreach ($sourceFileNode->getDescendantNodesAndTokens() as $child) {
                 if ($child instanceof \Microsoft\PhpParser\Token) {
                     $tokensArray[] = $child;

@@ -12,7 +12,7 @@ class ParserFrameworkValidationTests extends TestCase {
         $totalSize = 0;
         $frameworks = glob(__DIR__ . "/../validation/frameworks/*", GLOB_ONLYDIR);
 
-        $testProviderArray = array();
+        $testProviderArray = [];
         foreach ($frameworks as $frameworkDir) {
             $frameworkName = basename($frameworkDir);
             $iterator = new RecursiveDirectoryIterator(__DIR__ . "/../validation/frameworks/" . $frameworkName);

@@ -4,20 +4,17 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-namespace Microsoft\PhpParser\Node\Expression;
+namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Node\DelimitedList\ExpressionList;
 use Microsoft\PhpParser\Token;
 
 /**
- * This represents either a literal echo expression (`echo expr`)
+ * This represents either a literal echo statement (`echo expr`)
  * or a short echo tag (`<?= expr...`)
- *
- * TODO: An echo statement cannot be used as an expression.
- * Consider refactoring this to become EchoStatement in a future backwards incompatible release.
  */
-class EchoExpression extends Expression {
+class EchoStatement extends StatementNode {
 
     /**
      * @var Token|null this is null if generated from `<?=`
@@ -27,8 +24,12 @@ class EchoExpression extends Expression {
     /** @var ExpressionList */
     public $expressions;
 
+    /** @var Token */
+    public $semicolon;
+
     const CHILD_NAMES = [
         'echoKeyword',
-        'expressions'
+        'expressions',
+        'semicolon',
     ];
 }

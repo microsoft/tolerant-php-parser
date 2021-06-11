@@ -12,11 +12,7 @@
                 }
             },
             {
-                "ThrowStatement": {
-                    "throwKeyword": {
-                        "kind": "ThrowKeyword",
-                        "textLength": 5
-                    },
+                "ExpressionStatement": {
                     "expression": {
                         "ThrowExpression": {
                             "throwKeyword": {
@@ -24,13 +20,9 @@
                                 "textLength": 5
                             },
                             "expression": {
-                                "Variable": {
-                                    "dollar": null,
-                                    "name": {
-                                        "kind": "VariableName",
-                                        "textLength": 2
-                                    }
-                                }
+                                "error": "MissingToken",
+                                "kind": "Expression",
+                                "textLength": 0
                             }
                         }
                     },

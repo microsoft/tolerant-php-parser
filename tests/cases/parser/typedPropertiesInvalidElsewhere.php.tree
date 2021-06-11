@@ -42,11 +42,16 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
-                                        },
-                                        "otherTypeDeclarations": null
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    }
+                                                ]
+                                            }
+                                        }
                                     }
                                 },
                                 {
@@ -73,8 +78,7 @@
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
-                                        "returnType": null,
-                                        "otherReturnTypes": null,
+                                        "returnTypeList": null,
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {

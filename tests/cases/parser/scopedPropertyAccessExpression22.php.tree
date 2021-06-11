@@ -110,7 +110,7 @@
                                                                 "textLength": 2
                                                             },
                                                             "modifiers": [],
-                                                            "targetName": {
+                                                            "targetNameList": {
                                                                 "ScopedPropertyAccessExpression": {
                                                                     "scopeResolutionQualifier": null,
                                                                     "doubleColon": {
@@ -122,8 +122,7 @@
                                                                         "textLength": 3
                                                                     }
                                                                 }
-                                                            },
-                                                            "remainingTargetNames": []
+                                                            }
                                                         }
                                                     }
                                                 ]

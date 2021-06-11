@@ -55,8 +55,7 @@
                                         ],
                                         "modifiers": [],
                                         "questionToken": null,
-                                        "typeDeclaration": null,
-                                        "otherTypeDeclarations": null
+                                        "typeDeclarationList": null
                                     }
                                 }
                             ],

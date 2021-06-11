@@ -35,19 +35,24 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
                                                     {
-                                                        "kind": "Name",
-                                                        "textLength": 7
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 7
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -67,11 +72,16 @@
                                         "attributes": null,
                                         "visibilityToken": null,
                                         "questionToken": null,
-                                        "typeDeclaration": {
-                                            "kind": "IntReservedWord",
-                                            "textLength": 3
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    }
+                                                ]
+                                            }
                                         },
-                                        "otherTypeDeclarations": null,
                                         "byRefToken": null,
                                         "dotDotDotToken": null,
                                         "variableName": {
@@ -94,11 +104,16 @@
                         "textLength": 1
                     },
                     "questionToken": null,
-                    "returnType": {
-                        "kind": "IntReservedWord",
-                        "textLength": 3
+                    "returnTypeList": {
+                        "QualifiedNameList": {
+                            "children": [
+                                {
+                                    "kind": "IntReservedWord",
+                                    "textLength": 3
+                                }
+                            ]
+                        }
                     },
-                    "otherReturnTypes": null,
                     "compoundStatementOrSemicolon": {
                         "CompoundStatementNode": {
                             "openBrace": {

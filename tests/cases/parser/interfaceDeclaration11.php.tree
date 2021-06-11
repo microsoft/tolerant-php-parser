@@ -59,8 +59,7 @@
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
-                                        "returnType": null,
-                                        "otherReturnTypes": null,
+                                        "returnTypeList": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1
@@ -96,8 +95,7 @@
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
-                                        "returnType": null,
-                                        "otherReturnTypes": null,
+                                        "returnTypeList": null,
                                         "compoundStatementOrSemicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

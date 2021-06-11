@@ -35,32 +35,10 @@ class FilePositionMap {
     }
 
     /**
-     * @param Node $node the node to get the start line for.
-     * TODO deprecate and merge this and getTokenStartLine into getStartLine
-     * if https://github.com/Microsoft/tolerant-php-parser/issues/166 is fixed,
-     * (i.e. if there is a consistent way to get the start offset)
-     */
-    public function getNodeStartLine(Node $node) : int {
-        return $this->getLineNumberForOffset($node->getStart());
-    }
-
-    /**
-     * @param Token $token the token to get the start line for.
-     */
-    public function getTokenStartLine(Token $token) : int {
-        return $this->getLineNumberForOffset($token->start);
-    }
-
-    /**
      * @param Node|Token $node
      */
     public function getStartLine($node) : int {
-        if ($node instanceof Token) {
-            $offset = $node->start;
-        } else {
-            $offset = $node->getStart();
-        }
-        return $this->getLineNumberForOffset($offset);
+        return $this->getLineNumberForOffset($node->getStartPosition());
     }
 
     /**
@@ -68,12 +46,7 @@ class FilePositionMap {
      * Similar to getStartLine but includes the column
      */
     public function getStartLineCharacterPositionForOffset($node) : LineCharacterPosition {
-        if ($node instanceof Token) {
-            $offset = $node->start;
-        } else {
-            $offset = $node->getStart();
-        }
-        return $this->getLineCharacterPositionForOffset($offset);
+        return $this->getLineCharacterPositionForOffset($node->getStartPosition());
     }
 
     /** @param Node|Token $node */

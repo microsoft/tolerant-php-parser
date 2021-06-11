@@ -38,13 +38,13 @@
                                 "textLength": 1
                             },
                             "questionToken": null,
-                            "returnType": {
-                                "kind": "IntReservedWord",
-                                "textLength": 3
-                            },
-                            "otherReturnTypes": {
+                            "returnTypeList": {
                                 "QualifiedNameList": {
                                     "children": [
+                                        {
+                                            "kind": "IntReservedWord",
+                                            "textLength": 3
+                                        },
                                         {
                                             "kind": "BarToken",
                                             "textLength": 1
@@ -153,21 +153,21 @@
                                             "textLength": 1
                                         },
                                         "questionToken": null,
-                                        "returnType": {
-                                            "QualifiedName": {
-                                                "globalSpecifier": null,
-                                                "relativeSpecifier": null,
-                                                "nameParts": [
-                                                    {
-                                                        "kind": "Name",
-                                                        "textLength": 12
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "otherReturnTypes": {
+                                        "returnTypeList": {
                                             "QualifiedNameList": {
                                                 "children": [
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 12
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
                                                     {
                                                         "kind": "BarToken",
                                                         "textLength": 1

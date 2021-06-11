@@ -12,40 +12,36 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": null,
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 7
-                                                },
-                                                "endQuote": null
-                                            }
+                "EchoStatement": {
+                    "echoKeyword": null,
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "StringLiteral": {
+                                        "startQuote": null,
+                                        "children": {
+                                            "kind": "StringLiteralToken",
+                                            "textLength": 7
                                         },
-                                        {
-                                            "kind": "CommaToken",
-                                            "textLength": 1
+                                        "endQuote": null
+                                    }
+                                },
+                                {
+                                    "kind": "CommaToken",
+                                    "textLength": 1
+                                },
+                                {
+                                    "StringLiteral": {
+                                        "startQuote": null,
+                                        "children": {
+                                            "kind": "StringLiteralToken",
+                                            "textLength": 7
                                         },
-                                        {
-                                            "StringLiteral": {
-                                                "startQuote": null,
-                                                "children": {
-                                                    "kind": "StringLiteralToken",
-                                                    "textLength": 7
-                                                },
-                                                "endQuote": null
-                                            }
-                                        }
-                                    ]
+                                        "endQuote": null
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": null

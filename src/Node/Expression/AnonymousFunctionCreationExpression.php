@@ -38,8 +38,7 @@ class AnonymousFunctionCreationExpression extends Expression implements Function
         // FunctionReturnType
         'colonToken',
         'questionToken',
-        'returnType',
-        'otherReturnTypes',
+        'returnTypeList',
 
         // FunctionBody
         'compoundStatementOrSemicolon'

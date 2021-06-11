@@ -15,25 +15,21 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": null,
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 5
-                                                }
-                                            }
+                "EchoStatement": {
+                    "echoKeyword": null,
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 5
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": null
@@ -56,25 +52,21 @@
                 }
             },
             {
-                "ExpressionStatement": {
-                    "expression": {
-                        "EchoExpression": {
-                            "echoKeyword": null,
-                            "expressions": {
-                                "ExpressionList": {
-                                    "children": [
-                                        {
-                                            "Variable": {
-                                                "dollar": null,
-                                                "name": {
-                                                    "kind": "VariableName",
-                                                    "textLength": 5
-                                                }
-                                            }
+                "EchoStatement": {
+                    "echoKeyword": null,
+                    "expressions": {
+                        "ExpressionList": {
+                            "children": [
+                                {
+                                    "Variable": {
+                                        "dollar": null,
+                                        "name": {
+                                            "kind": "VariableName",
+                                            "textLength": 5
                                         }
-                                    ]
+                                    }
                                 }
-                            }
+                            ]
                         }
                     },
                     "semicolon": null

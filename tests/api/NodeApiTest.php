@@ -25,7 +25,7 @@ PHP;
 
     public static $sourceFileNode;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         $parser = new Parser();
         self::$sourceFileNode = $parser->parseSourceFile(self::FILE_CONTENTS);
         parent::setUpBeforeClass();

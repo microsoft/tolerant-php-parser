@@ -14,15 +14,9 @@ class NamedLabelStatement extends StatementNode {
     public $name;
     /** @var Token */
     public $colon;
-    /**
-     * @var null this is always null as of 0.0.23
-     * TODO: Clean this up in the next major release.
-     */
-    public $statement;
 
     const CHILD_NAMES = [
         'name',
         'colon',
-        'statement'
     ];
 }

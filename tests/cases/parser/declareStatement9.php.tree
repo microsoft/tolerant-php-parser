@@ -21,24 +21,29 @@
                         "kind": "OpenParenToken",
                         "textLength": 1
                     },
-                    "declareDirective": {
-                        "DeclareDirective": {
-                            "name": {
-                                "kind": "Name",
-                                "textLength": 5
-                            },
-                            "equals": {
-                                "error": "MissingToken",
-                                "kind": "EqualsToken",
-                                "textLength": 0
-                            },
-                            "literal": {
-                                "kind": "IntegerLiteralToken",
-                                "textLength": 3
-                            }
+                    "declareDirectiveList": {
+                        "DeclareDirectiveList": {
+                            "children": [
+                                {
+                                    "DeclareDirective": {
+                                        "name": {
+                                            "kind": "Name",
+                                            "textLength": 5
+                                        },
+                                        "equals": {
+                                            "error": "MissingToken",
+                                            "kind": "EqualsToken",
+                                            "textLength": 0
+                                        },
+                                        "literal": {
+                                            "kind": "IntegerLiteralToken",
+                                            "textLength": 3
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
-                    "otherDeclareDirectives": null,
                     "closeParen": {
                         "kind": "CloseParenToken",
                         "textLength": 1
