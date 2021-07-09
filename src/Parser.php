@@ -825,7 +825,12 @@ class Parser {
             if ($this->token->kind === TokenKind::AttributeToken) {
                 $parameter->attributes = $this->parseAttributeGroups($parameter);
             }
+            // Note that parameter modifiers are allowed to be repeated by the parser in php 8.1 (it is a compiler error)
+            //
+            // TODO: Remove the visibilityToken in a future backwards incompatible release
             $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
+            $parameter->modifiers = $this->parseParameterModifiers() ?: null;
+
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
             $parameter->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
             if ($parameter->typeDeclarationList) {
@@ -963,6 +968,9 @@ class Parser {
 
             // static-modifier
             case TokenKind::StaticKeyword:
+
+            // readonly-modifier
+            case TokenKind::ReadonlyKeyword:
 
             // class-modifier
             case TokenKind::AbstractKeyword:
@@ -1443,7 +1451,7 @@ class Parser {
         return $reservedWord;
     }
 
-    private function isModifier($token) {
+    private function isModifier($token): bool {
         switch ($token->kind) {
             // class-modifier
             case TokenKind::AbstractKeyword:
@@ -1457,6 +1465,9 @@ class Parser {
             // static-modifier
             case TokenKind::StaticKeyword:
 
+            // readonly-modifier
+            case TokenKind::ReadonlyKeyword:
+
             // var
             case TokenKind::VarKeyword:
                 return true;
@@ -1464,7 +1475,35 @@ class Parser {
         return false;
     }
 
-    private function parseModifiers() {
+    private function isParameterModifier($token): bool {
+        switch ($token->kind) {
+            // visibility-modifier
+            case TokenKind::PublicKeyword:
+            case TokenKind::ProtectedKeyword:
+            case TokenKind::PrivateKeyword:
+
+            // readonly-modifier
+            case TokenKind::ReadonlyKeyword:
+
+                return true;
+        }
+        return false;
+    }
+
+    /** @return Token[] */
+    private function parseParameterModifiers(): array {
+        $modifiers = [];
+        $token = $this->getCurrentToken();
+        while ($this->isParameterModifier($token)) {
+            $modifiers[] = $token;
+            $this->advanceToken();
+            $token = $this->getCurrentToken();
+        }
+        return $modifiers;
+    }
+
+    /** @return Token[] */
+    private function parseModifiers(): array {
         $modifiers = [];
         $token = $this->getCurrentToken();
         while ($this->isModifier($token)) {
@@ -3283,6 +3322,9 @@ class Parser {
             // static-modifier
             case TokenKind::StaticKeyword:
 
+            // readonly-modifier
+            case TokenKind::ReadonlyKeyword:
+
             // class-modifier
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
@@ -3457,6 +3499,7 @@ class Parser {
             case TokenKind::StaticKeyword:
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
+            case TokenKind::ReadonlyKeyword:
 
             // method-declaration
             case TokenKind::FunctionKeyword:
@@ -3538,6 +3581,7 @@ class Parser {
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
             // case TokenKind::VarKeyword:
+            // case TokenKind::ReadonlyKeyword:
             case TokenKind::StaticKeyword:
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:

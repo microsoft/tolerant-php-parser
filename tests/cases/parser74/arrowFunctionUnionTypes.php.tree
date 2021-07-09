@@ -34,6 +34,7 @@
                                             "Parameter": {
                                                 "attributes": null,
                                                 "visibilityToken": null,
+                                                "modifiers": null,
                                                 "questionToken": null,
                                                 "typeDeclarationList": {
                                                     "QualifiedNameList": {
@@ -132,6 +133,7 @@
                                             "Parameter": {
                                                 "attributes": null,
                                                 "visibilityToken": null,
+                                                "modifiers": null,
                                                 "questionToken": null,
                                                 "typeDeclarationList": {
                                                     "QualifiedNameList": {
@@ -244,6 +246,7 @@
                                             "Parameter": {
                                                 "attributes": null,
                                                 "visibilityToken": null,
+                                                "modifiers": null,
                                                 "questionToken": null,
                                                 "typeDeclarationList": {
                                                     "QualifiedNameList": {
@@ -401,6 +404,7 @@
                                             "Parameter": {
                                                 "attributes": null,
                                                 "visibilityToken": null,
+                                                "modifiers": null,
                                                 "questionToken": null,
                                                 "typeDeclarationList": {
                                                     "QualifiedNameList": {

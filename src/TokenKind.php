@@ -90,6 +90,7 @@ class TokenKind {
     /** @deprecated use IterableReservedWord */
     const IterableKeyword = self::IterableReservedWord;
     const EnumKeyword = 171;
+    const ReadonlyKeyword = 172;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;

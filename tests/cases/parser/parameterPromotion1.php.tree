@@ -64,6 +64,7 @@
                                                                 "kind": "PublicKeyword",
                                                                 "textLength": 6
                                                             },
+                                                            "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": null,
                                                             "byRefToken": null,
@@ -87,6 +88,7 @@
                                                                 "kind": "ProtectedKeyword",
                                                                 "textLength": 9
                                                             },
+                                                            "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": {
                                                                 "QualifiedNameList": {
@@ -119,6 +121,7 @@
                                                                 "kind": "PrivateKeyword",
                                                                 "textLength": 7
                                                             },
+                                                            "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": null,
                                                             "byRefToken": null,

@@ -18,6 +18,7 @@ define(__NAMESPACE__ . '\T_ATTRIBUTE', defined('T_ATTRIBUTE') ? constant('T_ATTR
 define(__NAMESPACE__ . '\T_ENUM', defined('T_ENUM') ? constant('T_ENUM') : 'T_ENUM');
 define(__NAMESPACE__ . '\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG', defined('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') ? constant('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') : 'T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG');
 define(__NAMESPACE__ . '\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG', defined('T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG') ? constant('T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG') : 'T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG');
+define(__NAMESPACE__ . '\T_READONLY', defined('T_READONLY') ? constant('T_READONLY') : 'T_READONLY');
 
 /**
  * Tokenizes content using PHP's built-in `token_get_all`, and converts to "lightweight" Token representation.
@@ -290,6 +291,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_PRIVATE => TokenKind::PrivateKeyword,
         T_PROTECTED => TokenKind::ProtectedKeyword,
         T_PUBLIC => TokenKind::PublicKeyword,
+        T_READONLY => TokenKind::ReadonlyKeyword,
         T_REQUIRE => TokenKind::RequireKeyword,
         T_REQUIRE_ONCE => TokenKind::RequireOnceKeyword,
         T_RETURN => TokenKind::ReturnKeyword,

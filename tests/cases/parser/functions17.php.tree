@@ -34,6 +34,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "modifiers": null,
                                         "questionToken": {
                                             "kind": "QuestionToken",
                                             "textLength": 1
@@ -74,6 +75,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "modifiers": null,
                                         "questionToken": {
                                             "kind": "QuestionToken",
                                             "textLength": 1

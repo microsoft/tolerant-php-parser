@@ -64,14 +64,19 @@
                                                                 "kind": "PublicKeyword",
                                                                 "textLength": 6
                                                             },
+                                                            "modifiers": [
+                                                                {
+                                                                    "kind": "ProtectedKeyword",
+                                                                    "textLength": 9
+                                                                }
+                                                            ],
                                                             "questionToken": null,
                                                             "typeDeclarationList": null,
                                                             "byRefToken": null,
                                                             "dotDotDotToken": null,
                                                             "variableName": {
-                                                                "error": "MissingToken",
                                                                 "kind": "VariableName",
-                                                                "textLength": 0
+                                                                "textLength": 4
                                                             },
                                                             "equalsToken": null,
                                                             "default": null
@@ -81,9 +86,8 @@
                                             }
                                         },
                                         "closeParen": {
-                                            "error": "MissingToken",
                                             "kind": "CloseParenToken",
-                                            "textLength": 0
+                                            "textLength": 1
                                         },
                                         "colonToken": null,
                                         "questionToken": null,
@@ -91,85 +95,26 @@
                                         "compoundStatementOrSemicolon": {
                                             "CompoundStatementNode": {
                                                 "openBrace": {
-                                                    "error": "MissingToken",
                                                     "kind": "OpenBraceToken",
-                                                    "textLength": 0
+                                                    "textLength": 1
                                                 },
                                                 "statements": [],
                                                 "closeBrace": {
-                                                    "error": "MissingToken",
                                                     "kind": "CloseBraceToken",
-                                                    "textLength": 0
+                                                    "textLength": 1
                                                 }
                                             }
                                         }
                                     }
-                                },
-                                {
-                                    "PropertyDeclaration": {
-                                        "attributes": null,
-                                        "modifiers": [
-                                            {
-                                                "kind": "ProtectedKeyword",
-                                                "textLength": 9
-                                            }
-                                        ],
-                                        "questionToken": null,
-                                        "typeDeclarationList": null,
-                                        "propertyElements": {
-                                            "ExpressionList": {
-                                                "children": [
-                                                    {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 4
-                                                            }
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "semicolon": {
-                                            "error": "MissingToken",
-                                            "kind": "SemicolonToken",
-                                            "textLength": 0
-                                        }
-                                    }
-                                },
-                                {
-                                    "error": "SkippedToken",
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
                                 }
                             ],
                             "closeBrace": {
-                                "error": "MissingToken",
                                 "kind": "CloseBraceToken",
-                                "textLength": 0
+                                "textLength": 1
                             }
                         }
                     }
                 }
-            },
-            {
-                "CompoundStatementNode": {
-                    "openBrace": {
-                        "kind": "OpenBraceToken",
-                        "textLength": 1
-                    },
-                    "statements": [],
-                    "closeBrace": {
-                        "kind": "CloseBraceToken",
-                        "textLength": 1
-                    }
-                }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "CloseBraceToken",
-                "textLength": 1
             }
         ],
         "endOfFileToken": {
