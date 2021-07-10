@@ -835,7 +835,7 @@ class Parser {
             $parameter->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
             if ($parameter->typeDeclarationList) {
                 $children = $parameter->typeDeclarationList->children;
-                if (end($children) instanceof MissingToken && ($children[count($children) - 2]->kind ?? null) === TokenKind::AmpersandToken) {
+                if (end($children) instanceof MissingToken && ($children[\count($children) - 2]->kind ?? null) === TokenKind::AmpersandToken) {
                     array_pop($parameter->typeDeclarationList->children);
                     $parameter->byRefToken = array_pop($parameter->typeDeclarationList->children);
                     if (!$parameter->typeDeclarationList->children) {
@@ -3140,14 +3140,27 @@ class Parser {
         return $objectCreationExpression;
     }
 
+    /**
+     * @return DelimitedList\ArgumentExpressionList|null
+     */
     private function parseArgumentExpressionList($parentNode) {
-        return $this->parseDelimitedList(
+        $list = $this->parseDelimitedList(
             DelimitedList\ArgumentExpressionList::class,
             TokenKind::CommaToken,
             $this->isArgumentExpressionStartFn(),
             $this->parseArgumentExpressionFn(),
             $parentNode
         );
+        $children = $list->children ?? null;
+        if (is_array($children) && \count($children) === 1) {
+            $arg = $children[0];
+            if ($arg instanceof ArgumentExpression) {
+                if ($arg->dotDotDotToken && $arg->expression instanceof MissingToken && !$arg->colonToken && !$arg->name) {
+                    $arg->expression = null;
+                }
+            }
+        }
+        return $list;
     }
 
     /**
