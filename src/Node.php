@@ -584,7 +584,7 @@ abstract class Node implements \JsonSerializable {
      * @return NamespaceDefinition|null
      */
     public function getNamespaceDefinition() {
-        $namespaceDefinition = $this instanceof NamespaceDefinition
+        $namespaceDefinition = ($this instanceof NamespaceDefinition || $this instanceof SourceFileNode)
             ? $this
             : $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
 
