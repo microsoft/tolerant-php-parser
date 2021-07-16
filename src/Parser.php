@@ -3593,8 +3593,6 @@ class Parser {
             case TokenKind::PublicKeyword:
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
-            // case TokenKind::VarKeyword:
-            // case TokenKind::ReadonlyKeyword:
             case TokenKind::StaticKeyword:
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
