@@ -64,6 +64,7 @@ class TokenStringMaps {
         "private" => TokenKind::PrivateKeyword,
         "protected" => TokenKind::ProtectedKeyword,
         "public" => TokenKind::PublicKeyword,
+        "readonly" => TokenKind::ReadonlyKeyword,
         "require" => TokenKind::RequireKeyword,
         "require_once" => TokenKind::RequireOnceKeyword,
         "return" => TokenKind::ReturnKeyword,

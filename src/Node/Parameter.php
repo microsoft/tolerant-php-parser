@@ -15,6 +15,8 @@ class Parameter extends Node {
     public $attributes;
     /** @var Token|null */
     public $visibilityToken;
+    /** @var Token[]|null */
+    public $modifiers;
     /** @var Token|null */
     public $questionToken;
     /** @var DelimitedList\QualifiedNameList|MissingToken|null */
@@ -33,6 +35,7 @@ class Parameter extends Node {
     const CHILD_NAMES = [
         'attributes',
         'visibilityToken',
+        'modifiers',
         'questionToken',
         'typeDeclarationList',
         'byRefToken',

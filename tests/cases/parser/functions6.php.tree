@@ -34,6 +34,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
                                         "byRefToken": null,
@@ -65,6 +66,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
                                         "byRefToken": null,

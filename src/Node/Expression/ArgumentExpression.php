@@ -19,7 +19,7 @@ class ArgumentExpression extends Expression {
     /** @var Token|null */
     public $dotDotDotToken;
 
-    /** @var Expression */
+    /** @var Expression|null null for first-class callable syntax */
     public $expression;
 
     const CHILD_NAMES = [
