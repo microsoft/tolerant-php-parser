@@ -839,7 +839,7 @@ class Parser {
                     array_pop($parameter->typeDeclarationList->children);
                     $parameter->byRefToken = array_pop($parameter->typeDeclarationList->children);
                     if (!$parameter->typeDeclarationList->children) {
-                        unset($parameter->typeDeclarationList);
+                        $parameter->typeDeclarationList = null;
                     }
                 }
             } elseif ($parameter->questionToken) {
@@ -1546,7 +1546,7 @@ class Parser {
 
     /**
      * @param string $className (name of subclass of DelimitedList)
-     * @param int $delimiter
+     * @param int|int[] $delimiter
      * @param callable $isElementStartFn
      * @param callable $parseElementFn
      * @param Node $parentNode
@@ -1560,7 +1560,7 @@ class Parser {
         do {
             if ($isElementStartFn($token)) {
                 $node->addElement($parseElementFn($node));
-            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkToken($delimiter))) {
+            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkAnyToken($delimiter))) {
                 break;
             }
 
@@ -1571,7 +1571,6 @@ class Parser {
             $token = $this->getCurrentToken();
             // TODO ERROR CASE - no delimiter, but a param follows
         } while ($delimiterToken !== null);
-
 
         $node->parent = $parentNode;
         if ($node->children === null) {
@@ -1772,8 +1771,15 @@ class Parser {
         return $succeeded;
     }
 
+    /** @param int $expectedKind */
     private function checkToken($expectedKind) : bool {
         return $this->getCurrentToken()->kind === $expectedKind;
+    }
+
+    /** @param int|int[] $expectedKind */
+    private function checkAnyToken($expectedKind) : bool {
+        $kind = $this->getCurrentToken()->kind;
+        return \is_array($expectedKind) ? \in_array($kind, $expectedKind, true) : $kind === $expectedKind;
     }
 
     private function parseIfStatement($parentNode) {
