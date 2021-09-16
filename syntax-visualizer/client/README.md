@@ -8,7 +8,7 @@ VSCode Extension that demonstrates some of the basic usage and functionality of 
 ### Error Diagnostics from AST
 ![image](https://cloud.githubusercontent.com/assets/762848/21705272/d5f2f7d8-d373-11e6-9688-46ead75b2fd3.png)
 ## Install from VSIX
-1. [Download the VSIX](https://github.com/Microsoft/tolerant-php-parser/raw/master/syntax-visualizer/client/php-syntax-visualizer-0.0.1.vsix), and load into VS Code by running
+1. [Download the VSIX](https://github.com/microsoft/tolerant-php-parser/raw/main/syntax-visualizer/client/php-syntax-visualizer-0.0.1.vsix), and load into VS Code by running
 `code --install-extension <my-vsix-path>` or by selecting `Install from VSIX...`
 from the Command Palette (`Ctrl+Shift+P`).
 ![image](https://cloud.githubusercontent.com/assets/762848/21704944/62191a56-d371-11e6-97f6-8cc9ea0bbdec.png)
