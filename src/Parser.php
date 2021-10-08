@@ -2120,7 +2120,7 @@ class Parser {
                     }
                     break;
                 case TokenKind::QuestionToken:
-                    if ($parentNode instanceof TernaryExpression) {
+                    if ($parentNode instanceof TernaryExpression && !isset($parentNode->questionToken)) {
                         // Workaround to parse "a ? b : c ? d : e" as "(a ? b : c) ? d : e"
                         break 2;
                     }

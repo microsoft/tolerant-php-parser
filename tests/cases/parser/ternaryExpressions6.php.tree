@@ -16,6 +16,32 @@
                     "expression": {
                         "TernaryExpression": {
                             "condition": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
+                            },
+                            "questionToken": {
+                                "kind": "QuestionToken",
+                                "textLength": 1
+                            },
+                            "ifExpression": {
+                                "Variable": {
+                                    "dollar": null,
+                                    "name": {
+                                        "kind": "VariableName",
+                                        "textLength": 2
+                                    }
+                                }
+                            },
+                            "colonToken": {
+                                "kind": "ColonToken",
+                                "textLength": 1
+                            },
+                            "elseExpression": {
                                 "TernaryExpression": {
                                     "condition": {
                                         "Variable": {
@@ -30,15 +56,7 @@
                                         "kind": "QuestionToken",
                                         "textLength": 1
                                     },
-                                    "ifExpression": {
-                                        "Variable": {
-                                            "dollar": null,
-                                            "name": {
-                                                "kind": "VariableName",
-                                                "textLength": 2
-                                            }
-                                        }
-                                    },
+                                    "ifExpression": null,
                                     "colonToken": {
                                         "kind": "ColonToken",
                                         "textLength": 1
@@ -51,24 +69,6 @@
                                                 "textLength": 2
                                             }
                                         }
-                                    }
-                                }
-                            },
-                            "questionToken": {
-                                "kind": "QuestionToken",
-                                "textLength": 1
-                            },
-                            "ifExpression": null,
-                            "colonToken": {
-                                "kind": "ColonToken",
-                                "textLength": 1
-                            },
-                            "elseExpression": {
-                                "Variable": {
-                                    "dollar": null,
-                                    "name": {
-                                        "kind": "VariableName",
-                                        "textLength": 2
                                     }
                                 }
                             }
