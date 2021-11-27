@@ -14,6 +14,8 @@ use PHPUnit\Framework\AssertionFailedError;
 require_once __DIR__ . '/CallbackTestListener.php';
 
 class LexicalGrammarTest extends TestCase {
+    private $expectedTokensFile;
+    private $tokens;
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
     public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_LEXER"])) {
