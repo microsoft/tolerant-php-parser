@@ -15,6 +15,10 @@ use PHPUnit\Framework\AssertionFailedError;
 require_once __DIR__ . '/CallbackTestListener.php';
 
 class ParserGrammarTest extends TestCase {
+    private $expectedTokensFile;
+    private $expectedDiagnosticsFile;
+    private $tokens;
+    private $diagnostics;
     public function run(TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
             $GLOBALS["GIT_CHECKOUT_PARSER"] = true;

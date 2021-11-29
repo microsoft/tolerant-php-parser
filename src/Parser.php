@@ -2128,6 +2128,7 @@ class Parser {
             }
 
             if ($shouldOperatorTakePrecedenceOverUnary) {
+                /** @var UnaryOpExpression $unaryExpression */
                 $unaryExpression = $leftOperand;
                 $leftOperand = $unaryExpression->operand;
             }
@@ -2149,6 +2150,7 @@ class Parser {
 
             // Rebuild the unary expression if we deconstructed it earlier.
             if ($shouldOperatorTakePrecedenceOverUnary) {
+                /** @var UnaryOpExpression $unaryExpression */
                 $leftOperand->parent = $unaryExpression;
                 $unaryExpression->operand = $leftOperand;
                 $leftOperand = $unaryExpression;
@@ -2275,6 +2277,14 @@ class Parser {
         // InstanceOf has other remaining issues, but this heuristic is an improvement for many common cases such as `$x && $y = $z`
     ];
 
+    /**
+     * @param Token|Node $leftOperand
+     * @param Token $operatorToken
+     * @param Token|null $byRefToken
+     * @param Token|Node $rightOperand
+     * @param Node $parentNode
+     * @return BinaryExpression|AssignmentExpression
+     */
     private function makeBinaryExpression($leftOperand, $operatorToken, $byRefToken, $rightOperand, $parentNode) {
         $assignmentExpression = $operatorToken->kind === TokenKind::EqualsToken;
         if ($assignmentExpression || \array_key_exists($operatorToken->kind, self::KNOWN_ASSIGNMENT_TOKEN_SET)) {
@@ -2289,8 +2299,12 @@ class Parser {
         }
         $binaryExpression = $assignmentExpression ? new AssignmentExpression() : new BinaryExpression();
         $binaryExpression->parent = $parentNode;
-        $leftOperand->parent = $binaryExpression;
-        $rightOperand->parent = $binaryExpression;
+        if ($leftOperand instanceof Node) {
+            $leftOperand->parent = $binaryExpression;
+        }
+        if ($rightOperand instanceof Node) {
+            $rightOperand->parent = $binaryExpression;
+        }
         $binaryExpression->leftOperand = $leftOperand;
         $binaryExpression->operator = $operatorToken;
         if ($binaryExpression instanceof AssignmentExpression && isset($byRefToken)) {
