@@ -8,10 +8,11 @@ namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Node\QualifiedName;
 use Microsoft\PhpParser\Token;
 
 class CallExpression extends Expression {
-    /** @var Expression */
+    /** @var QualifiedName|Expression */
     public $callableExpression;
 
     /** @var Token */
