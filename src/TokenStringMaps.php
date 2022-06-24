@@ -57,6 +57,7 @@ class TokenStringMaps {
         "interface" => TokenKind::InterfaceKeyword,
         "isset" => TokenKind::IsSetKeyword,
         "list" => TokenKind::ListKeyword,
+        "match" => TokenKind::MatchKeyword,
         "namespace" => TokenKind::NamespaceKeyword,
         "new" => TokenKind::NewKeyword,
         "or" => TokenKind::OrKeyword,
