@@ -14,7 +14,10 @@
             {
                 "ClassDeclaration": {
                     "attributes": null,
-                    "abstractOrFinalModifier": null,
+                    "abstractOrFinalModifier": {
+                        "kind": "ReadonlyKeyword",
+                        "textLength": 8
+                    },
                     "modifiers": [],
                     "classKeyword": {
                         "kind": "ClassKeyword",
@@ -24,15 +27,45 @@
                         "kind": "Name",
                         "textLength": 1
                     },
-                    "classBaseClause": {
-                        "ClassBaseClause": {
-                            "extendsKeyword": {
-                                "kind": "ExtendsKeyword",
-                                "textLength": 7
+                    "classBaseClause": null,
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
                             },
-                            "baseClass": null
+                            "classMemberDeclarations": [],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
+                    }
+                }
+            },
+            {
+                "ClassDeclaration": {
+                    "attributes": null,
+                    "abstractOrFinalModifier": {
+                        "kind": "ReadonlyKeyword",
+                        "textLength": 8
                     },
+                    "modifiers": [
+                        {
+                            "kind": "FinalKeyword",
+                            "textLength": 5
+                        }
+                    ],
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
+                        "textLength": 5
+                    },
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 1
+                    },
+                    "classBaseClause": null,
                     "classInterfaceClause": null,
                     "classMembers": {
                         "ClassMembersNode": {

@@ -23,6 +23,7 @@
                         "kind": "AbstractKeyword",
                         "textLength": 8
                     },
+                    "modifiers": [],
                     "classKeyword": {
                         "kind": "ClassKeyword",
                         "textLength": 5
