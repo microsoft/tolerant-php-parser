@@ -3,6 +3,7 @@
 /tests/cases/**/*.php text eol=lf
 
 /.vscode export-ignore
+/ci export-ignore
 /docs export-ignore
 /experiments export-ignore
 /php-langspec export-ignore
@@ -17,3 +18,4 @@
 /Contributing.md export-ignore
 /README.md export-ignore
 /phpunit.xml export-ignore
+/.dockerignore export-ignore
