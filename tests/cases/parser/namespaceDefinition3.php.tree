@@ -48,6 +48,7 @@
                                     "ClassDeclaration": {
                                         "attributes": null,
                                         "abstractOrFinalModifier": null,
+                                        "modifiers": [],
                                         "classKeyword": {
                                             "kind": "ClassKeyword",
                                             "textLength": 5

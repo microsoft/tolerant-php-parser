@@ -22,8 +22,11 @@ class ClassDeclaration extends StatementNode implements NamespacedNameInterface,
     /** @var AttributeGroup[]|null */
     public $attributes;
 
-    /** @var Token */
+    /** @var Token abstract/final/readonly modifier */
     public $abstractOrFinalModifier;
+
+    /** @var Token[] additional abstract/final/readonly modifiers */
+    public $modifiers;
 
     /** @var Token */
     public $classKeyword;
@@ -43,6 +46,7 @@ class ClassDeclaration extends StatementNode implements NamespacedNameInterface,
     const CHILD_NAMES = [
         'attributes',
         'abstractOrFinalModifier',
+        'modifiers',
         'classKeyword',
         'name',
         'classBaseClause',

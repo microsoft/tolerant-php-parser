@@ -144,8 +144,9 @@ class Parser {
             [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
             TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
             TokenKind::ObjectReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord,
+            TokenKind::TrueReservedWord,
             TokenKind::IterableReservedWord, TokenKind::MixedReservedWord]; // TODO update spec
-        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord, TokenKind::StaticKeyword], $this->parameterTypeDeclarationTokens);
+        $this->returnTypeDeclarationTokens = \array_merge([TokenKind::VoidReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord, TokenKind::TrueReservedWord, TokenKind::StaticKeyword], $this->parameterTypeDeclarationTokens);
     }
 
     /**
@@ -557,10 +558,8 @@ class Parser {
                 // class-declaration
                 case TokenKind::FinalKeyword:
                 case TokenKind::AbstractKeyword:
-                    if (!$this->lookahead(TokenKind::ClassKeyword)) {
-                        $this->advanceToken();
-                        return new SkippedToken($token);
-                    }
+                case TokenKind::ReadonlyKeyword:
+                    // fallthrough
                 case TokenKind::ClassKeyword:
                     return $this->parseClassDeclaration($parentNode);
 
@@ -657,10 +656,20 @@ class Parser {
         };
     }
 
+    /** @return Token[] */
+    private function parseClassModifiers(): array {
+        $modifiers = [];
+        while ($token = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::ReadonlyKeyword)) {
+            $modifiers[] = $token;
+        }
+        return $modifiers;
+    }
+
     private function parseClassDeclaration($parentNode) : Node {
         $classNode = new ClassDeclaration(); // TODO verify not nested
         $classNode->parent = $parentNode;
-        $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword);
+        $classNode->abstractOrFinalModifier = $this->eatOptional(TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::ReadonlyKeyword);
+        $classNode->modifiers = $this->parseClassModifiers();
         $classNode->classKeyword = $this->eat1(TokenKind::ClassKeyword);
         $classNode->name = $this->eat($this->nameOrReservedWordTokens); // TODO should be any
         $classNode->name->kind = TokenKind::Name;
@@ -1036,6 +1045,7 @@ class Parser {
             case TokenKind::ClassKeyword:
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
+            case TokenKind::ReadonlyKeyword:
 
             // interface-declaration
             case TokenKind::InterfaceKeyword:
@@ -3531,6 +3541,7 @@ class Parser {
             case TokenKind::AbstractKeyword:
             case TokenKind::FinalKeyword:
             case TokenKind::ReadonlyKeyword:
+            case TokenKind::ConstKeyword:
 
             // method-declaration
             case TokenKind::FunctionKeyword:
@@ -3551,6 +3562,9 @@ class Parser {
 
             $token = $this->getCurrentToken();
             switch ($token->kind) {
+                case TokenKind::ConstKeyword:
+                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
+
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 

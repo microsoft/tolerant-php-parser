@@ -12,17 +12,18 @@
                 }
             },
             {
-                "error": "SkippedToken",
-                "kind": "AbstractKeyword",
-                "textLength": 8
-            },
-            {
                 "ClassDeclaration": {
                     "attributes": null,
                     "abstractOrFinalModifier": {
-                        "kind": "FinalKeyword",
-                        "textLength": 5
+                        "kind": "AbstractKeyword",
+                        "textLength": 8
                     },
+                    "modifiers": [
+                        {
+                            "kind": "FinalKeyword",
+                            "textLength": 5
+                        }
+                    ],
                     "classKeyword": {
                         "kind": "ClassKeyword",
                         "textLength": 5
