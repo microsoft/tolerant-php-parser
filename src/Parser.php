@@ -1324,8 +1324,6 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    // TODO: Reject ${var->prop} and ${(var->prop)} without rejecting ${var+otherVar}
-                    // Currently, this fails to reject ${var->prop} (because `var` has TokenKind::Name instead of StringVarname)
                     if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
                         $expression->children[] = $this->parseComplexDollarTemplateStringExpression($expression);
                     } else {
