@@ -19,4 +19,4 @@ fi
 
 DOCKER_IMAGE="tolerant-php-parser-test-runner:$PHP_VERSION"
 docker build --build-arg="PHP_VERSION=$PHP_VERSION" --build-arg="COMPOSER_OPTIONS=$COMPOSER_OPTIONS" --tag="$DOCKER_IMAGE" -f ci/Dockerfile .
-docker run --rm $DOCKER_IMAGE ci/run_tests
+docker run --rm $DOCKER_IMAGE ci/run_tests.sh

@@ -40,4 +40,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build and test in docker
-        run: bash ci/run_tests_dockerized ${{ matrix.PHP_VERSION }}
+        run: bash ci/run_tests_dockerized.sh ${{ matrix.PHP_VERSION }}
