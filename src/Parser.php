@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser;
 
+use Closure;
 use Microsoft\PhpParser\Node\AnonymousFunctionUseClause;
 use Microsoft\PhpParser\Node\ArrayElement;
 use Microsoft\PhpParser\Node\Attribute;
@@ -70,6 +71,7 @@ use Microsoft\PhpParser\Node\MissingMemberDeclaration;
 use Microsoft\PhpParser\Node\NamespaceAliasingClause;
 use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\NumericLiteral;
+use Microsoft\PhpParser\Node\ParenthesizedIntersectionType;
 use Microsoft\PhpParser\Node\PropertyDeclaration;
 use Microsoft\PhpParser\Node\ReservedWord;
 use Microsoft\PhpParser\Node\StringLiteral;
@@ -894,13 +896,31 @@ class Parser {
      * @return DelimitedList\QualifiedNameList|null
      */
     private function parseReturnTypeDeclarationList($parentNode) {
+        // TODO: Forbid mixing `|` and `&` in another PR, that's a parse error.
+        // TODO: Forbid mixing (A&B)&C in another PR, that's a parse error.
         $result = $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
             self::TYPE_DELIMITER_TOKENS,
             function ($token) {
-                return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
+                return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) ||
+                    $token->kind === TokenKind::OpenParenToken ||
+                    $this->isQualifiedNameStart($token);
             },
             function ($parentNode) {
+                $openParen = $this->eatOptional(TokenKind::OpenParenToken);
+                if ($openParen) {
+                    return $this->parseParenthesizedIntersectionType(
+                        $parentNode,
+                        $openParen,
+                        function ($token) {
+                            return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) ||
+                                $this->isQualifiedNameStart($token);
+                        },
+                        function ($parentNode) {
+                            return $this->parseReturnTypeDeclaration($parentNode);
+                        }
+                    );
+                }
                 return $this->parseReturnTypeDeclaration($parentNode);
             },
             $parentNode,
@@ -925,8 +945,36 @@ class Parser {
         return $parameterTypeDeclaration;
     }
 
+    private function parseParenthesizedIntersectionType($parentNode, Token $openParen, Closure $isTypeStart, Closure $parseType): ParenthesizedIntersectionType {
+        $node = new ParenthesizedIntersectionType();
+        $node->parent = $parentNode;
+        $node->openParen = $openParen;
+        $node->children = $this->parseDelimitedList(
+            DelimitedList\QualifiedNameList::class,
+            TokenKind::AmpersandToken,
+            $isTypeStart,
+            $parseType,
+            $node,
+            true);
+        if ($node->children) {
+            // https://wiki.php.net/rfc/dnf_types
+            if ((end($node->children->children)->kind ?? null) === TokenKind::OpenParenToken) {
+                // Add a MissingToken so that this will Warn about `function (A|(B&) $x) {}`
+                $node->children->children[] = new MissingToken(TokenKind::Name, $this->token->fullStart);
+            } elseif (count($node->children->children) === 1) {
+                // Must have at least 2 parts for A|(B&C)
+                $node->children->children[] = new MissingToken(TokenKind::AmpersandToken, $this->token->fullStart);
+            }
+        } else {
+            // Having less than 2 types (no types) in A|() is a parse error
+            $node->children = new MissingToken(TokenKind::Name, $this->token->fullStart);
+        }
+        $node->closeParen = $this->eat(TokenKind::CloseParenToken);
+        return $node;
+    }
+
     /**
-     * @param Node $parentNode
+     * @param Node|null $parentNode
      * @return DelimitedList\QualifiedNameList|null
      */
     private function tryParseParameterTypeDeclarationList($parentNode) {
@@ -934,9 +982,25 @@ class Parser {
             DelimitedList\QualifiedNameList::class,
             self::TYPE_DELIMITER_TOKENS,
             function ($token) {
-                return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) || $this->isQualifiedNameStart($token);
+                return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) ||
+                    $token->kind === TokenKind::OpenParenToken ||
+                    $this->isQualifiedNameStart($token);
             },
             function ($parentNode) {
+                $openParen = $this->eatOptional(TokenKind::OpenParenToken);
+                if ($openParen) {
+                    return $this->parseParenthesizedIntersectionType(
+                        $parentNode,
+                        $openParen,
+                        function ($token) {
+                            return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) ||
+                                $this->isQualifiedNameStart($token);
+                        },
+                        function ($parentNode) {
+                            return $this->tryParseParameterTypeDeclaration($parentNode);
+                        }
+                    );
+                }
                 return $this->tryParseParameterTypeDeclaration($parentNode);
             },
             $parentNode,
@@ -957,12 +1021,6 @@ class Parser {
         $compoundStatement->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
         $compoundStatement->parent = $parentNode;
         return $compoundStatement;
-    }
-
-    private function array_push_list(& $array, $list) {
-        foreach ($list as $item) {
-            $array[] = $item;
-        }
     }
 
     private function isClassMemberDeclarationStart(Token $token) {
@@ -1544,6 +1602,9 @@ class Parser {
                 case TokenKind::ProtectedKeyword:
                 case TokenKind::PrivateKeyword:
                 case TokenKind::AttributeToken:
+
+                // dnf types (A&B)|C
+                case TokenKind::OpenParenToken:
                     return true;
             }
 
@@ -3306,6 +3367,8 @@ class Parser {
     }
 
     /**
+     * Parse a comma separated qualified name list (e.g. interfaces implemented by a class)
+     *
      * @param Node $parentNode
      * @return DelimitedList\QualifiedNameList
      */
@@ -3319,6 +3382,7 @@ class Parser {
     }
 
     private function parseQualifiedNameCatchList($parentNode) {
+        // catch blocks don't support intersection types.
         $result = $this->parseDelimitedList(
             DelimitedList\QualifiedNameList::class,
             TokenKind::BarToken,
