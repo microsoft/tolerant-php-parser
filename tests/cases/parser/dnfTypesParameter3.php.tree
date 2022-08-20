@@ -55,6 +55,11 @@
                                                                 "textLength": 1
                                                             }
                                                         }
+                                                    },
+                                                    {
+                                                        "error": "MissingToken",
+                                                        "kind": "BarToken",
+                                                        "textLength": 0
                                                     }
                                                 ]
                                             }

@@ -893,45 +893,22 @@ class Parser {
     /**
      * Attempt to parse the return type after the `:` and optional `?` token.
      *
+     * TODO: Consider changing the return type to a new class TypeList in a future major release?
+     * ParenthesizedIntersectionType is not a qualified name.
      * @return DelimitedList\QualifiedNameList|null
      */
     private function parseReturnTypeDeclarationList($parentNode) {
-        // TODO: Forbid mixing `|` and `&` in another PR, that's a parse error.
-        // TODO: Forbid mixing (A&B)&C in another PR, that's a parse error.
-        $result = $this->parseDelimitedList(
-            DelimitedList\QualifiedNameList::class,
-            self::TYPE_DELIMITER_TOKENS,
-            function ($token) {
+        return $this->parseUnionTypeDeclarationList(
+            $parentNode,
+            function ($token): bool {
                 return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) ||
-                    $token->kind === TokenKind::OpenParenToken ||
                     $this->isQualifiedNameStart($token);
             },
             function ($parentNode) {
-                $openParen = $this->eatOptional(TokenKind::OpenParenToken);
-                if ($openParen) {
-                    return $this->parseParenthesizedIntersectionType(
-                        $parentNode,
-                        $openParen,
-                        function ($token) {
-                            return \in_array($token->kind, $this->returnTypeDeclarationTokens, true) ||
-                                $this->isQualifiedNameStart($token);
-                        },
-                        function ($parentNode) {
-                            return $this->parseReturnTypeDeclaration($parentNode);
-                        }
-                    );
-                }
                 return $this->parseReturnTypeDeclaration($parentNode);
             },
-            $parentNode,
-            false);
-
-        // Add a MissingToken so that this will warn about `function () : T| {}`
-        // TODO: Make this a reusable abstraction?
-        if ($result && in_array(end($result->children)->kind ?? null, self::TYPE_DELIMITER_TOKENS)) {
-            $result->children[] = new MissingToken(TokenKind::ReturnType, $this->token->fullStart);
-        }
-        return $result;
+            TokenKind::ReturnType
+        );
     }
 
     private function parseReturnTypeDeclaration($parentNode) {
@@ -945,6 +922,68 @@ class Parser {
         return $parameterTypeDeclaration;
     }
 
+    /**
+     * Parse a union type such as A, A|B, A&B, A|(B&C), rejecting invalid syntax combinations.
+     *
+     * @param Node $parentNode
+     * @param Closure(Token):bool $isTypeStart
+     * @param Closure(Node):(Node|Token|null) $parseType
+     * @param int $expectedTypeKind expected kind for token type
+     * @return DelimitedList\QualifiedNameList|null
+     */
+    private function parseUnionTypeDeclarationList($parentNode, Closure $isTypeStart, Closure $parseType, int $expectedTypeKind) {
+        $result = new DelimitedList\QualifiedNameList();
+        $token = $this->getCurrentToken();
+        $delimiter = self::TYPE_DELIMITER_TOKENS;
+        do {
+            if ($token->kind === TokenKind::OpenParenToken || $isTypeStart($token)) {
+                // Forbid mixing A&(B&C) if '&' was already seen
+                $openParen = in_array(TokenKind::BarToken, $delimiter, true)
+                    ? $this->eatOptional(TokenKind::OpenParenToken)
+                    : null;
+                if ($openParen) {
+                    $element = $this->parseParenthesizedIntersectionType($parentNode, $openParen, $isTypeStart, $parseType);
+                    // Forbid mixing (A&B)&C by forbidding `&` separator after a parenthesized intersection type.
+                    $delimiter = [TokenKind::BarToken];
+                } else {
+                    $element = $parseType($parentNode);
+                }
+                $result->addElement($element);
+            } else {
+                break;
+            }
+
+            $delimiterToken = $this->eatOptional($delimiter);
+            if ($delimiterToken !== null) {
+                $result->addElement($delimiterToken);
+                $delimiter = [$delimiterToken->kind];
+            }
+            $token = $this->getCurrentToken();
+            // TODO ERROR CASE - no delimiter, but a param follows
+        } while ($delimiterToken !== null);
+
+        $result->parent = $parentNode;
+        if ($result->children === null) {
+            return null;
+        }
+
+        // Add a MissingToken so that this will warn about `function () : T| {}`
+        // TODO: Make this a reusable abstraction?
+        if (in_array(end($result->children)->kind ?? null, $delimiter, true)) {
+            $result->children[] = new MissingToken($expectedTypeKind, $this->token->fullStart);
+        } elseif (count($result->children) === 1 && $result->children[0] instanceof ParenthesizedIntersectionType) {
+            // dnf types with parenthesized intersection types are a union type of at least 2 types.
+            $result->children[] = new MissingToken(TokenKind::BarToken, $this->token->fullStart);
+        }
+        return $result;
+    }
+
+    /**
+     * @param Node $parentNode
+     * @param Token $openParen
+     * @param Closure(Token):bool $isTypeStart
+     * @param Closure(Node):(Node|Token|null) $parseType
+     */
     private function parseParenthesizedIntersectionType($parentNode, Token $openParen, Closure $isTypeStart, Closure $parseType): ParenthesizedIntersectionType {
         $node = new ParenthesizedIntersectionType();
         $node->parent = $parentNode;
@@ -978,40 +1017,17 @@ class Parser {
      * @return DelimitedList\QualifiedNameList|null
      */
     private function tryParseParameterTypeDeclarationList($parentNode) {
-        $result = $this->parseDelimitedList(
-            DelimitedList\QualifiedNameList::class,
-            self::TYPE_DELIMITER_TOKENS,
+        return $this->parseUnionTypeDeclarationList(
+            $parentNode,
             function ($token) {
                 return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) ||
-                    $token->kind === TokenKind::OpenParenToken ||
                     $this->isQualifiedNameStart($token);
             },
             function ($parentNode) {
-                $openParen = $this->eatOptional(TokenKind::OpenParenToken);
-                if ($openParen) {
-                    return $this->parseParenthesizedIntersectionType(
-                        $parentNode,
-                        $openParen,
-                        function ($token) {
-                            return \in_array($token->kind, $this->parameterTypeDeclarationTokens, true) ||
-                                $this->isQualifiedNameStart($token);
-                        },
-                        function ($parentNode) {
-                            return $this->tryParseParameterTypeDeclaration($parentNode);
-                        }
-                    );
-                }
                 return $this->tryParseParameterTypeDeclaration($parentNode);
             },
-            $parentNode,
-            true);
-
-        // Add a MissingToken so that this will Warn about `function (T| $x) {}`
-        // TODO: Make this a reusable abstraction?
-        if ($result && in_array(end($result->children)->kind ?? null, self::TYPE_DELIMITER_TOKENS)) {
-            $result->children[] = new MissingToken(TokenKind::Name, $this->token->fullStart);
-        }
-        return $result;
+            TokenKind::Name
+        );
     }
 
     private function parseCompoundStatement($parentNode) {

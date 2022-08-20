@@ -40,27 +40,32 @@
                                             "QualifiedNameList": {
                                                 "children": [
                                                     {
-                                                        "ParenthesizedIntersectionType": {
-                                                            "openParen": {
-                                                                "kind": "OpenParenToken",
-                                                                "textLength": 1
-                                                            },
-                                                            "children": {
-                                                                "error": "MissingToken",
-                                                                "kind": "Name",
-                                                                "textLength": 0
-                                                            },
-                                                            "closeParen": {
-                                                                "error": "MissingToken",
-                                                                "kind": "CloseParenToken",
-                                                                "textLength": 0
-                                                            }
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
-                                                        "error": "MissingToken",
-                                                        "kind": "BarToken",
-                                                        "textLength": 0
+                                                        "kind": "AmpersandToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -96,22 +101,22 @@
                             },
                             "statements": [
                                 {
+                                    "error": "SkippedToken",
+                                    "kind": "BarToken",
+                                    "textLength": 1
+                                },
+                                {
                                     "ExpressionStatement": {
                                         "expression": {
-                                            "ParenthesizedExpression": {
-                                                "openParen": {
-                                                    "kind": "OpenParenToken",
-                                                    "textLength": 1
-                                                },
-                                                "expression": {
-                                                    "error": "MissingToken",
-                                                    "kind": "Expression",
-                                                    "textLength": 0
-                                                },
-                                                "closeParen": {
-                                                    "kind": "CloseParenToken",
-                                                    "textLength": 1
-                                                }
+                                            "QualifiedName": {
+                                                "globalSpecifier": null,
+                                                "relativeSpecifier": null,
+                                                "nameParts": [
+                                                    {
+                                                        "kind": "Name",
+                                                        "textLength": 1
+                                                    }
+                                                ]
                                             }
                                         },
                                         "semicolon": {
@@ -120,11 +125,6 @@
                                             "textLength": 0
                                         }
                                     }
-                                },
-                                {
-                                    "error": "SkippedToken",
-                                    "kind": "CloseParenToken",
-                                    "textLength": 1
                                 },
                                 {
                                     "ExpressionStatement": {
