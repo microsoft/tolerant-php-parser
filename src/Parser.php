@@ -959,7 +959,6 @@ class Parser {
                 $delimiter = [$delimiterToken->kind];
             }
             $token = $this->getCurrentToken();
-            // TODO ERROR CASE - no delimiter, but a param follows
         } while ($delimiterToken !== null);
 
         $result->parent = $parentNode;
@@ -967,9 +966,8 @@ class Parser {
             return null;
         }
 
-        // Add a MissingToken so that this will warn about `function () : T| {}`
-        // TODO: Make this a reusable abstraction?
         if (in_array(end($result->children)->kind ?? null, $delimiter, true)) {
+            // Add a MissingToken so that this will warn about `function () : T| {}`
             $result->children[] = new MissingToken($expectedTypeKind, $this->token->fullStart);
         } elseif (count($result->children) === 1 && $result->children[0] instanceof ParenthesizedIntersectionType) {
             // dnf types with parenthesized intersection types are a union type of at least 2 types.
