@@ -942,11 +942,11 @@ class Parser {
                     ? $this->eatOptional(TokenKind::OpenParenToken)
                     : null;
                 if ($openParen) {
-                    $element = $this->parseParenthesizedIntersectionType($parentNode, $openParen, $isTypeStart, $parseType);
+                    $element = $this->parseParenthesizedIntersectionType($result, $openParen, $isTypeStart, $parseType);
                     // Forbid mixing (A&B)&C by forbidding `&` separator after a parenthesized intersection type.
                     $delimiter = [TokenKind::BarToken];
                 } else {
-                    $element = $parseType($parentNode);
+                    $element = $parseType($result);
                 }
                 $result->addElement($element);
             } else {
