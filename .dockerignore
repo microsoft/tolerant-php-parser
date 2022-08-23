@@ -1,0 +1,16 @@
+.git/
+.github/
+validation/
+vendor/
+docs/
+tools/
+**/.DS_Store
+**/.idea
+**/composer.lock
+tests/output
+.phpunit.result.cache
+**/*.ast
+**/.*.swp
+**/.*.swo
+**/Dockerfile
+.dockerignore
