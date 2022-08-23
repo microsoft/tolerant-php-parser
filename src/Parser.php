@@ -849,9 +849,6 @@ class Parser {
                 if (end($children) instanceof MissingToken && ($children[\count($children) - 2]->kind ?? null) === TokenKind::AmpersandToken) {
                     array_pop($parameter->typeDeclarationList->children);
                     $parameter->byRefToken = array_pop($parameter->typeDeclarationList->children);
-                    if (!$parameter->typeDeclarationList->children) {
-                        $parameter->typeDeclarationList = null;
-                    }
                 }
             } elseif ($parameter->questionToken) {
                 // TODO ParameterType?
