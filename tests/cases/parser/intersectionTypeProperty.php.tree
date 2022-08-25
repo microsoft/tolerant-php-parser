@@ -43,12 +43,45 @@
                                             }
                                         ],
                                         "questionToken": null,
-                                        "typeDeclarationList": null
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "BarToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": null,
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": [
+                                                                {
+                                                                    "kind": "Name",
+                                                                    "textLength": 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
                                     }
                                 },
                                 {
                                     "error": "SkippedToken",
-                                    "kind": "BarToken",
+                                    "kind": "AmpersandToken",
                                     "textLength": 1
                                 }
                             ],
@@ -70,7 +103,7 @@
                             "nameParts": [
                                 {
                                     "kind": "Name",
-                                    "textLength": 6
+                                    "textLength": 1
                                 }
                             ]
                         }
@@ -89,7 +122,7 @@
                             "dollar": null,
                             "name": {
                                 "kind": "VariableName",
-                                "textLength": 4
+                                "textLength": 2
                             }
                         }
                     },
