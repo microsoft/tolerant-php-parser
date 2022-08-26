@@ -30,7 +30,11 @@
                                 "kind": "ExtendsKeyword",
                                 "textLength": 7
                             },
-                            "baseClass": null
+                            "baseClass": {
+                                "error": "MissingToken",
+                                "kind": "QualifiedName",
+                                "textLength": 0
+                            }
                         }
                     },
                     "classInterfaceClause": null,
