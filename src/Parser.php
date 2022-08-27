@@ -97,6 +97,7 @@ use Microsoft\PhpParser\Node\Statement\{
     ForStatement,
     FunctionDeclaration,
     GotoStatement,
+    HaltCompilerStatement,
     IfStatementNode,
     InlineHtml,
     InterfaceDeclaration,
@@ -615,6 +616,15 @@ class Parser {
 
                 case TokenKind::UnsetKeyword:
                     return $this->parseUnsetStatement($parentNode);
+
+                case TokenKind::HaltCompilerKeyword:
+                    if ($parentNode instanceof SourceFileNode) {
+                        return $this->parseHaltCompilerStatement($parentNode);
+                    }
+                    // __halt_compiler is a fatal compile error anywhere other than the top level.
+                    // It won't be seen elsewhere in other programs - warn about the token being unexpected.
+                    $this->advanceToken();
+                    return new SkippedToken($token);
             }
 
             $expressionStatement = new ExpressionStatement();
@@ -1141,6 +1151,9 @@ class Parser {
 
             // attributes
             case TokenKind::AttributeToken:
+
+            // __halt_compiler
+            case TokenKind::HaltCompilerKeyword:
                 return true;
 
             default:
@@ -2841,6 +2854,18 @@ class Parser {
         $unsetStatement->expressions = $this->parseExpressionList($unsetStatement);
         $unsetStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
         $unsetStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+        return $unsetStatement;
+    }
+
+    private function parseHaltCompilerStatement($parentNode) {
+        $unsetStatement = new HaltCompilerStatement();
+        $unsetStatement->parent = $parentNode;
+
+        $unsetStatement->haltCompilerKeyword = $this->eat1(TokenKind::HaltCompilerKeyword);
+        $unsetStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
+        $unsetStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        $unsetStatement->semicolon = $this->eatSemicolonOrAbortStatement();
+        $unsetStatement->data = $this->eatOptional1(TokenKind::InlineHtml);
         return $unsetStatement;
     }
 
