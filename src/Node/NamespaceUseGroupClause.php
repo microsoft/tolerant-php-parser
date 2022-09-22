@@ -11,7 +11,7 @@ use Microsoft\PhpParser\Token;
 
 class NamespaceUseGroupClause extends Node {
 
-    /** @var Token */
+    /** @var Token|null */
     public $functionOrConst;
     /** @var QualifiedName */
     public $namespaceName;

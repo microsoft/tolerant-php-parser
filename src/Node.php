@@ -437,10 +437,7 @@ abstract class Node implements \JsonSerializable {
     public function getDescendantNodeAtPosition(int $pos) {
         foreach ($this->getChildNodes() as $child) {
             if ($child->containsPosition($pos)) {
-                $node = $child->getDescendantNodeAtPosition($pos);
-                if (!is_null($node)) {
-                    return $node;
-                }
+                return $child->getDescendantNodeAtPosition($pos);
             }
         }
 
@@ -590,6 +587,7 @@ abstract class Node implements \JsonSerializable {
             ? $this
             : $this->getFirstAncestor(NamespaceDefinition::class, SourceFileNode::class);
 
+        /** @phpstan-ignore-next-line TODO: can this happen? test with framework test cases */
         if ($namespaceDefinition instanceof NamespaceDefinition && !($namespaceDefinition->parent instanceof SourceFileNode)) {
             $namespaceDefinition = $namespaceDefinition->getFirstAncestor(SourceFileNode::class);
         }

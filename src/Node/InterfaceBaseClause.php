@@ -10,7 +10,7 @@ use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Token;
 
 class InterfaceBaseClause extends Node {
-    /** @var Token */
+    /** @var Token|null */
     public $extendsKeyword;
 
     /** @var DelimitedList\QualifiedNameList */

@@ -51,6 +51,8 @@ class DiagnosticsProvider {
         if ($node instanceof Node) {
             return $node->getDiagnosticForNode();
         }
+
+        /** @phpstan-ignore-next-line because it says "unreachable" statement */
         return null;
     }
 
