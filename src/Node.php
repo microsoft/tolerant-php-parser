@@ -417,7 +417,7 @@ abstract class Node implements \JsonSerializable {
         return $this->getRoot()->fileContents;
     }
 
-    public function getUri() : string {
+    public function getUri() : ?string {
         return $this->getRoot()->uri;
     }
 
