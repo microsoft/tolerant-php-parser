@@ -6,7 +6,6 @@
 
 namespace Microsoft\PhpParser\Node\Statement;
 
-use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
