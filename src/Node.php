@@ -91,7 +91,7 @@ abstract class Node implements \JsonSerializable {
      * Gets first child that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
-     * @param array ...$classNames
+     * @param string ...$classNames
      * @return Node|null
      */
     public function getFirstChildNode(...$classNames) {
@@ -117,7 +117,7 @@ abstract class Node implements \JsonSerializable {
      * Gets first descendant node that is an instance of one of the provided classes.
      * Returns null if there is no match.
      *
-     * @param array ...$classNames
+     * @param string ...$classNames
      * @return Node|null
      */
     public function getFirstDescendantNode(...$classNames) {
