@@ -11,7 +11,7 @@ use Microsoft\PhpParser\Token;
 
 class AssignmentExpression extends BinaryExpression {
 
-    /** @var Expression */
+    /** @var Expression|Token */
     public $leftOperand;
 
     /** @var Token */

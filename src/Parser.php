@@ -691,7 +691,7 @@ class Parser {
         return $classNode;
     }
 
-    private function parseClassMembers($parentNode) : Node {
+    private function parseClassMembers($parentNode) : ClassMembersNode {
         $classMembers = new ClassMembersNode();
         $classMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
         $classMembers->classMemberDeclarations = $this->parseList($classMembers, ParseContext::ClassMembers);
@@ -804,7 +804,7 @@ class Parser {
     }
 
     /**
-     * @return DelimitedList\AttributeElementList
+     * @return DelimitedList\AttributeElementList|null
      */
     private function parseAttributeElementList(AttributeGroup $parentNode) {
         return $this->parseDelimitedList(
@@ -1638,13 +1638,14 @@ class Parser {
     }
 
     /**
-     * @param string $className (name of subclass of DelimitedList)
+     * @template TDelimitedList of DelimitedList
+     * @param class-string<TDelimitedList> $className (name of subclass of DelimitedList)
      * @param int|int[] $delimiter
      * @param callable $isElementStartFn
      * @param callable $parseElementFn
      * @param Node $parentNode
      * @param bool $allowEmptyElements
-     * @return DelimitedList|null instance of $className
+     * @return TDelimitedList|null instance of $className
      */
     private function parseDelimitedList($className, $delimiter, $isElementStartFn, $parseElementFn, $parentNode, $allowEmptyElements = false) {
         // TODO consider allowing empty delimiter to be more tolerant
@@ -1994,7 +1995,7 @@ class Parser {
     /**
      * @param Node $parentNode
      * @param bool $force
-     * @return Node|MissingToken|array - The expression, or a missing token, or (if $force) an array containing a missed and skipped token
+     * @return Expression|MissingToken|array - The expression, or a missing token, or (if $force) an array containing a missed and skipped token
      */
     private function parseExpression($parentNode, $force = false) {
         $token = $this->getCurrentToken();
@@ -2020,7 +2021,7 @@ class Parser {
 
     /**
      * @param Node $parentNode
-     * @return Expression
+     * @return UnaryExpression|MissingToken|Variable|ThrowExpression
      */
     private function parseUnaryExpressionOrHigher($parentNode) {
         $token = $this->getCurrentToken();
@@ -3212,9 +3213,16 @@ class Parser {
     private function parseScopedPropertyAccessExpression($expression, $fallbackParentNode): ScopedPropertyAccessExpression {
         $scopedPropertyAccessExpression = new ScopedPropertyAccessExpression();
         $scopedPropertyAccessExpression->parent = $expression->parent ?? $fallbackParentNode;
+
         if ($expression instanceof Node) {
             $expression->parent = $scopedPropertyAccessExpression;
-            $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression; // TODO ensure always a Node
+
+            // scopeResolutionQualifier does not accept `Node` but
+            // `Expression|QualifiedName|Token`. I'm not sure if we can depend
+            // on that being the case.
+            //
+            // @phpstan-ignore-next-line
+            $scopedPropertyAccessExpression->scopeResolutionQualifier = $expression;
         }
 
         $scopedPropertyAccessExpression->doubleColon = $this->eat1(TokenKind::ColonColonToken);
@@ -3362,18 +3370,18 @@ class Parser {
     }
 
     private function parseEnumCaseDeclaration($parentNode) {
-        $classConstDeclaration = new EnumCaseDeclaration();
-        $classConstDeclaration->parent = $parentNode;
-        $classConstDeclaration->caseKeyword = $this->eat1(TokenKind::CaseKeyword);
-        $classConstDeclaration->name = $this->eat($this->nameOrKeywordOrReservedWordTokens);
-        $classConstDeclaration->equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
-        if ($classConstDeclaration->equalsToken !== null) {
+        $enumCaseDeclaration = new EnumCaseDeclaration();
+        $enumCaseDeclaration->parent = $parentNode;
+        $enumCaseDeclaration->caseKeyword = $this->eat1(TokenKind::CaseKeyword);
+        $enumCaseDeclaration->name = $this->eat($this->nameOrKeywordOrReservedWordTokens);
+        $enumCaseDeclaration->equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
+        if ($enumCaseDeclaration->equalsToken !== null) {
             // TODO add post-parse rule that checks for invalid assignments
-            $classConstDeclaration->assignment = $this->parseExpression($classConstDeclaration);
+            $enumCaseDeclaration->assignment = $this->parseExpression($enumCaseDeclaration);
         }
-        $classConstDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
+        $enumCaseDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
 
-        return $classConstDeclaration;
+        return $enumCaseDeclaration;
     }
 
     /**
@@ -3446,7 +3454,7 @@ class Parser {
         return $result;
     }
 
-    private function parseInterfaceDeclaration($parentNode) {
+    private function parseInterfaceDeclaration($parentNode): InterfaceDeclaration {
         $interfaceDeclaration = new InterfaceDeclaration(); // TODO verify not nested
         $interfaceDeclaration->parent = $parentNode;
         $interfaceDeclaration->interfaceKeyword = $this->eat1(TokenKind::InterfaceKeyword);
@@ -3456,7 +3464,7 @@ class Parser {
         return $interfaceDeclaration;
     }
 
-    private function parseInterfaceMembers($parentNode) : Node {
+    private function parseInterfaceMembers($parentNode) : InterfaceMembers {
         $interfaceMembers = new InterfaceMembers();
         $interfaceMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
         $interfaceMembers->interfaceMemberDeclarations = $this->parseList($interfaceMembers, ParseContext::InterfaceMembers);

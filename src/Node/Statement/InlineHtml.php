@@ -20,7 +20,7 @@ class InlineHtml extends StatementNode {
     public $scriptSectionStartTag;
 
     /**
-     * @var ExpressionStatement|null used to represent the expression echoed by `<?=` while parsing.
+     * @var EchoStatement|null used to represent the expression echoed by `<?=` while parsing.
      *
      * This should always be null in the returned AST,
      * and is deliberately excluded from CHILD_NAMES.
