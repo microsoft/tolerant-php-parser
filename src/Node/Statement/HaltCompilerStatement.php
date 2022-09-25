@@ -20,17 +20,27 @@ class HaltCompilerStatement extends Expression {
     /** @var Token */
     public $closeParen;
 
-    /** @var Token */
-    public $semicolon;
+    /** @var Token (there is an implicit ')' before php close tags (`?>`)) */
+    public $semicolonOrCloseTag;
 
-    /** @var Token */
+    /** @var Token|null TokenKind::InlineHtml data unless there are no bytes (This is optional if there is nothing after the semicolon) */
     public $data;
 
     const CHILD_NAMES = [
         'haltCompilerKeyword',
         'openParen',
         'closeParen',
-        'semicolon',
+        'semicolonOrCloseTag',
         'data',
     ];
+
+    /**
+     * @return int
+     */
+    public function getHaltCompilerOffset()
+    {
+        // This accounts for the fact that PHP close tags may include a single newline,
+        // and that $this->data may be null.
+        return $this->semicolonOrCloseTag->getEndPosition();
+    }
 }

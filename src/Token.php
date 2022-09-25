@@ -18,7 +18,7 @@ class Token implements \JsonSerializable {
     public $fullStart;
     /** @var int */
     public $start;
-    /** @var int */
+    /** @var int the length is equal to $this->getEndPosition() - $this->fullStart. */
     public $length;
 
     /**

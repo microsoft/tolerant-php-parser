@@ -26,12 +26,13 @@
                         "textLength": 1
                     },
                     "semicolonOrCloseTag": {
+                        "error": "MissingToken",
                         "kind": "SemicolonToken",
-                        "textLength": 1
+                        "textLength": 0
                     },
                     "data": {
                         "kind": "InlineHtml",
-                        "textLength": 1
+                        "textLength": 5
                     }
                 }
             }
