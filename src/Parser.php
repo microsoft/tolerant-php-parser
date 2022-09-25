@@ -2858,14 +2858,14 @@ class Parser {
     }
 
     private function parseHaltCompilerStatement($parentNode) {
-        $unsetStatement = new HaltCompilerStatement();
-        $unsetStatement->parent = $parentNode;
+        $haltCompilerStatement = new HaltCompilerStatement();
+        $haltCompilerStatement->parent = $parentNode;
 
-        $unsetStatement->haltCompilerKeyword = $this->eat1(TokenKind::HaltCompilerKeyword);
-        $unsetStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $unsetStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        $haltCompilerStatement->haltCompilerKeyword = $this->eat1(TokenKind::HaltCompilerKeyword);
+        $haltCompilerStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
+        $haltCompilerStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
         // There is an implicit ';' before the closing php tag.
-        $unsetStatement->semicolonOrCloseTag = $this->eat(TokenKind::SemicolonToken, TokenKind::ScriptSectionEndTag);
+        $haltCompilerStatement->semicolonOrCloseTag = $this->eat(TokenKind::SemicolonToken, TokenKind::ScriptSectionEndTag);
         // token_get_all() will return up to 3 tokens after __halt_compiler regardless of whether they're the right ones.
         // For invalid php snippets, combine the remaining tokens into InlineHtml
         $remainingTokens = [];
@@ -2876,9 +2876,9 @@ class Parser {
         if ($remainingTokens) {
             $firstToken = $remainingTokens[0];
             $lastToken = end($remainingTokens);
-            $unsetStatement->data = new Token(TokenKind::InlineHtml, $firstToken->fullStart, $firstToken->start, $lastToken->fullStart + $lastToken->length - $firstToken->fullStart);
+            $haltCompilerStatement->data = new Token(TokenKind::InlineHtml, $firstToken->fullStart, $firstToken->start, $lastToken->fullStart + $lastToken->length - $firstToken->fullStart);
         }
-        return $unsetStatement;
+        return $haltCompilerStatement;
     }
 
     private function parseArrayCreationExpression($parentNode) {
