@@ -2876,7 +2876,7 @@ class Parser {
         if ($remainingTokens) {
             $firstToken = $remainingTokens[0];
             $lastToken = end($remainingTokens);
-            $haltCompilerStatement->data = new Token(TokenKind::InlineHtml, $firstToken->fullStart, $firstToken->start, $lastToken->fullStart + $lastToken->length - $firstToken->fullStart);
+            $haltCompilerStatement->data = new Token(TokenKind::InlineHtml, $firstToken->fullStart, $firstToken->fullStart, $lastToken->fullStart + $lastToken->length - $firstToken->fullStart);
         }
         return $haltCompilerStatement;
     }

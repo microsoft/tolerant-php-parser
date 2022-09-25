@@ -4,4 +4,5 @@
 // no matter what those tokens happen to be, so tolerant-php-parser combines unexpected tokens into T_INLINE_HTML
 // so that no subsequent statements get emitted.
 // (T_HALT_COMPILER is forbidden in other node types)
-__halt_compiler() + 1;
+// In this invalid AST, treat "     + 1;\n" as the inline data after the missing semicolon.
+__halt_compiler()     + 1;
