@@ -17,7 +17,11 @@
                         "kind": "NamespaceKeyword",
                         "textLength": 9
                     },
-                    "name": null,
+                    "name": {
+                        "error": "MissingToken",
+                        "kind": "QualifiedName",
+                        "textLength": 0
+                    },
                     "compoundStatementOrSemicolon": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",
@@ -31,7 +35,11 @@
                         "kind": "NamespaceKeyword",
                         "textLength": 9
                     },
-                    "name": null,
+                    "name": {
+                        "error": "MissingToken",
+                        "kind": "QualifiedName",
+                        "textLength": 0
+                    },
                     "compoundStatementOrSemicolon": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",

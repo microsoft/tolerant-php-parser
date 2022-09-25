@@ -3307,7 +3307,7 @@ class Parser {
         if ($classBaseClause->extendsKeyword === null) {
             return null;
         }
-        $classBaseClause->baseClass = $this->parseQualifiedName($classBaseClause);
+        $classBaseClause->baseClass = $this->parseQualifiedName($classBaseClause) ?? new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
 
         return $classBaseClause;
     }
@@ -3500,12 +3500,18 @@ class Parser {
         $namespaceDefinition->namespaceKeyword = $this->eat1(TokenKind::NamespaceKeyword);
 
         if (!$this->checkToken(TokenKind::NamespaceKeyword)) {
-            $namespaceDefinition->name = $this->parseQualifiedName($namespaceDefinition); // TODO only optional with compound statement block
+            $namespaceDefinition->name = $this->parseQualifiedName($namespaceDefinition);
         }
 
-        $namespaceDefinition->compoundStatementOrSemicolon =
-            $this->checkToken(TokenKind::OpenBraceToken) ?
-                $this->parseCompoundStatement($namespaceDefinition) : $this->eatSemicolonOrAbortStatement();
+        if ($this->checkToken(TokenKind::OpenBraceToken)) {
+            $namespaceDefinition->compoundStatementOrSemicolon = $this->parseCompoundStatement($namespaceDefinition);
+        } else {
+            if (!$namespaceDefinition->name) {
+                // only optional with compound statement block
+                $namespaceDefinition->name = new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
+            }
+            $namespaceDefinition->compoundStatementOrSemicolon = $this->eatSemicolonOrAbortStatement();
+        }
 
         return $namespaceDefinition;
     }
@@ -3531,13 +3537,17 @@ class Parser {
                 $namespaceUseClause = new NamespaceUseClause();
                 $namespaceUseClause->parent = $parentNode;
                 $namespaceUseClause->namespaceName = $this->parseQualifiedName($namespaceUseClause);
-                if ($this->checkToken(TokenKind::AsKeyword)) {
-                    $namespaceUseClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseClause);
-                }
-                elseif ($this->checkToken(TokenKind::OpenBraceToken)) {
+                if ($this->checkToken(TokenKind::OpenBraceToken)) {
                     $namespaceUseClause->openBrace = $this->eat1(TokenKind::OpenBraceToken);
                     $namespaceUseClause->groupClauses = $this->parseNamespaceUseGroupClauseList($namespaceUseClause);
                     $namespaceUseClause->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
+                } else {
+                    if (!$namespaceUseClause->namespaceName) {
+                        $namespaceUseClause->namespaceName = new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
+                    }
+                    if ($this->checkToken(TokenKind::AsKeyword)) {
+                        $namespaceUseClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseClause);
+                    }
                 }
 
                 return $namespaceUseClause;
@@ -3558,7 +3568,7 @@ class Parser {
                 $namespaceUseGroupClause->parent = $parentNode;
 
                 $namespaceUseGroupClause->functionOrConst = $this->eatOptional(TokenKind::FunctionKeyword, TokenKind::ConstKeyword);
-                $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause);
+                $namespaceUseGroupClause->namespaceName = $this->parseQualifiedName($namespaceUseGroupClause) ?? new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
                 if ($this->checkToken(TokenKind::AsKeyword)) {
                     $namespaceUseGroupClause->namespaceAliasingClause = $this->parseNamespaceAliasingClause($namespaceUseGroupClause);
                 }
