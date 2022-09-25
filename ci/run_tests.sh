@@ -7,3 +7,4 @@ set -xe
 php -d short_open_tag=0 ./vendor/bin/phpunit --testsuite invariants
 php -d short_open_tag=0 ./vendor/bin/phpunit --testsuite grammar
 php -d short_open_tag=0 ./vendor/bin/phpunit --testsuite api
+php -d short_open_tag=0 ./vendor/bin/phpunit --testsuite validation

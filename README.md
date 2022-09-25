@@ -1,5 +1,5 @@
 # Tolerant PHP Parser
-[![Build Status](https://travis-ci.org/Microsoft/tolerant-php-parser.svg?branch=master)](https://travis-ci.org/Microsoft/tolerant-php-parser)
+[![Build Status](https://github.com/microsoft/tolerant-php-parser/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/microsoft/tolerant-php-parser/actions/workflows/main.yml?query=branch%3Amain)
 
 This is an early-stage PHP parser designed, from the beginning, for IDE usage scenarios (see [Design Goals](#design-goals) for more details). There is
 still a ton of work to be done, so at this point, this repo mostly serves as
