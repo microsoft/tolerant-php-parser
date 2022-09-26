@@ -37,8 +37,7 @@ class HaltCompilerStatement extends Expression {
     /**
      * @return int
      */
-    public function getHaltCompilerOffset()
-    {
+    public function getHaltCompilerOffset() {
         // This accounts for the fact that PHP close tags may include a single newline,
         // and that $this->data may be null.
         return $this->semicolonOrCloseTag->getEndPosition();
