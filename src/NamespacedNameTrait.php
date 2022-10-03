@@ -31,7 +31,7 @@ trait NamespacedNameTrait {
             return ResolvedName::buildName($this->getNameParts(), $content);
         }
 
-        if ($namespaceDefinition->name !== null) {
+        if ($namespaceDefinition->name instanceof QualifiedName) {
             $resolvedName = ResolvedName::buildName($namespaceDefinition->name->nameParts, $content);
         } else {
             $resolvedName = ResolvedName::buildName([], $content);
