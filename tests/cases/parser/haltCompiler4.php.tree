@@ -27,58 +27,16 @@
                         "kind": "CloseParenToken",
                         "textLength": 0
                     },
-                    "semicolon": {
+                    "semicolonOrCloseTag": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",
                         "textLength": 0
                     },
-                    "data": null
-                }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "ColonColonToken",
-                "textLength": 2
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "CallExpression": {
-                            "callableExpression": {
-                                "QualifiedName": {
-                                    "globalSpecifier": null,
-                                    "relativeSpecifier": null,
-                                    "nameParts": [
-                                        {
-                                            "kind": "Name",
-                                            "textLength": 3
-                                        }
-                                    ]
-                                }
-                            },
-                            "openParen": {
-                                "kind": "OpenParenToken",
-                                "textLength": 1
-                            },
-                            "argumentExpressionList": null,
-                            "closeParen": {
-                                "error": "MissingToken",
-                                "kind": "CloseParenToken",
-                                "textLength": 0
-                            }
-                        }
-                    },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
+                    "data": {
+                        "kind": "InlineHtml",
+                        "textLength": 9
                     }
                 }
-            },
-            {
-                "error": "SkippedToken",
-                "kind": "InlineHtml",
-                "textLength": 3
             }
         ],
         "endOfFileToken": {

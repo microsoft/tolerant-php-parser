@@ -26,13 +26,10 @@
                         "textLength": 1
                     },
                     "semicolonOrCloseTag": {
-                        "kind": "SemicolonToken",
-                        "textLength": 1
+                        "kind": "ScriptSectionEndTag",
+                        "textLength": 2
                     },
-                    "data": {
-                        "kind": "InlineHtml",
-                        "textLength": 1
-                    }
+                    "data": null
                 }
             }
         ],

@@ -2858,15 +2858,27 @@ class Parser {
     }
 
     private function parseHaltCompilerStatement($parentNode) {
-        $unsetStatement = new HaltCompilerStatement();
-        $unsetStatement->parent = $parentNode;
+        $haltCompilerStatement = new HaltCompilerStatement();
+        $haltCompilerStatement->parent = $parentNode;
 
-        $unsetStatement->haltCompilerKeyword = $this->eat1(TokenKind::HaltCompilerKeyword);
-        $unsetStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
-        $unsetStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
-        $unsetStatement->semicolon = $this->eatSemicolonOrAbortStatement();
-        $unsetStatement->data = $this->eatOptional1(TokenKind::InlineHtml);
-        return $unsetStatement;
+        $haltCompilerStatement->haltCompilerKeyword = $this->eat1(TokenKind::HaltCompilerKeyword);
+        $haltCompilerStatement->openParen = $this->eat1(TokenKind::OpenParenToken);
+        $haltCompilerStatement->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        // There is an implicit ';' before the closing php tag.
+        $haltCompilerStatement->semicolonOrCloseTag = $this->eat(TokenKind::SemicolonToken, TokenKind::ScriptSectionEndTag);
+        // token_get_all() will return up to 3 tokens after __halt_compiler regardless of whether they're the right ones.
+        // For invalid php snippets, combine the remaining tokens into InlineHtml
+        $remainingTokens = [];
+        while ($this->token->kind !== TokenKind::EndOfFileToken) {
+            $remainingTokens[] = $this->token;
+            $this->advanceToken();
+        }
+        if ($remainingTokens) {
+            $firstToken = $remainingTokens[0];
+            $lastToken = end($remainingTokens);
+            $haltCompilerStatement->data = new Token(TokenKind::InlineHtml, $firstToken->fullStart, $firstToken->fullStart, $lastToken->fullStart + $lastToken->length - $firstToken->fullStart);
+        }
+        return $haltCompilerStatement;
     }
 
     private function parseArrayCreationExpression($parentNode) {

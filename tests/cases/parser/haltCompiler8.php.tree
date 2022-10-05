@@ -18,21 +18,21 @@
                         "textLength": 15
                     },
                     "openParen": {
+                        "error": "MissingToken",
                         "kind": "OpenParenToken",
-                        "textLength": 1
+                        "textLength": 0
                     },
                     "closeParen": {
+                        "error": "MissingToken",
                         "kind": "CloseParenToken",
-                        "textLength": 1
+                        "textLength": 0
                     },
                     "semicolonOrCloseTag": {
+                        "error": "MissingToken",
                         "kind": "SemicolonToken",
-                        "textLength": 1
+                        "textLength": 0
                     },
-                    "data": {
-                        "kind": "InlineHtml",
-                        "textLength": 1
-                    }
+                    "data": null
                 }
             }
         ],
