@@ -12,10 +12,12 @@
 /tools export-ignore
 /validation export-ignore
 /.gitattributes export-ignore
+/.github export-ignore
 /.gitignore export-ignore
 /.gitmodules export-ignore
 /.travis.yml export-ignore
 /Contributing.md export-ignore
 /README.md export-ignore
+/phpstan.neon export-ignore
 /phpunit.xml export-ignore
 /.dockerignore export-ignore
