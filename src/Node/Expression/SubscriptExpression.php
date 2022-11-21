@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Expression;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
@@ -17,7 +18,7 @@ class SubscriptExpression extends Expression {
     /** @var Token */
     public $openBracketOrBrace;
 
-    /** @var Expression */
+    /** @var Expression|MissingToken */
     public $accessExpression;
 
     /** @var Token */

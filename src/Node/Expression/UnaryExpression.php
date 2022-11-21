@@ -7,9 +7,10 @@
 namespace Microsoft\PhpParser\Node\Expression;
 
 use Microsoft\PhpParser\Node\Expression;
+use Microsoft\PhpParser\Token;
 
 class UnaryExpression extends Expression {
-    /** @var UnaryExpression|Variable */
+    /** @var Expression|Variable|Token */
     public $operand;
 
     const CHILD_NAMES = [

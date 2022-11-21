@@ -140,6 +140,8 @@ abstract class Node implements \JsonSerializable {
         while ($node->parent !== null) {
             $node = $node->parent;
         }
+
+        /** @var SourceFileNode $node */
         return $node;
     }
 
@@ -613,6 +615,7 @@ abstract class Node implements \JsonSerializable {
             $namespaceDefinition = null;
         }
 
+        /** @var NamespaceDefinition|null $namespaceDefinition */
         return $namespaceDefinition;
     }
 

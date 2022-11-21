@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Token;
 
 trait FunctionReturnType {
@@ -14,6 +15,6 @@ trait FunctionReturnType {
     // TODO: This may be the wrong choice if ?type can ever be mixed with other types in union types
     /** @var Token|null */
     public $questionToken;
-    /** @var DelimitedList\QualifiedNameList|null */
+    /** @var DelimitedList\QualifiedNameList|null|MissingToken */
     public $returnTypeList;
 }

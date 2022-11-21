@@ -11,13 +11,13 @@ use Microsoft\PhpParser\Token;
 
 class BinaryExpression extends Expression {
 
-    /** @var Expression */
+    /** @var Expression|Token */
     public $leftOperand;
 
     /** @var Token */
     public $operator;
 
-    /** @var Expression */
+    /** @var Expression|Token */
     public $rightOperand;
 
     const CHILD_NAMES = [

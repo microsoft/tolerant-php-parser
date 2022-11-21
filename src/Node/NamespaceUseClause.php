@@ -6,12 +6,13 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\Node\DelimitedList;
 use Microsoft\PhpParser\Token;
 
 class NamespaceUseClause extends Node {
-    /** @var QualifiedName */
+    /** @var QualifiedName|MissingToken */
     public $namespaceName;
     /** @var NamespaceAliasingClause */
     public $namespaceAliasingClause;

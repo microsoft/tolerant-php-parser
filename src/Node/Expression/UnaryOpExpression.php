@@ -13,9 +13,6 @@ class UnaryOpExpression extends UnaryExpression {
     /** @var Token */
     public $operator;
 
-    /** @var UnaryExpression */
-    public $operand;
-
     const CHILD_NAMES = [
         'operator',
         'operand'

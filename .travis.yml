@@ -25,7 +25,6 @@ cache:
     - validation/frameworks
 
 before_script:
-  - if [[ $STATIC_ANALYSIS = true ]]; then composer require phpstan/phpstan --no-update; fi
   - composer install
   - set -e # Stop on first error.
   - phpenv config-rm xdebug.ini || true
