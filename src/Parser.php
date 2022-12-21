@@ -3516,10 +3516,7 @@ class Parser {
                     return $this->parseAttributeStatement($parentNode);
 
                 default:
-                    $missingInterfaceMemberDeclaration = new MissingMemberDeclaration();
-                    $missingInterfaceMemberDeclaration->parent = $parentNode;
-                    $missingInterfaceMemberDeclaration->modifiers = $modifiers;
-                    return $missingInterfaceMemberDeclaration;
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
             }
         };
     }
