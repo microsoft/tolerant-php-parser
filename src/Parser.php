@@ -1416,7 +1416,11 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    /** @phpstan-ignore-next-line getCurrentToken is not pure, but PHPStan thinks its DollarOpenBrace or OpenBraceDollarToken */
+                    /** 
+                     * @phpstan-ignore-next-line "Strict comparison using
+                     * === between 403|404 and 408 will always evaluate to
+                     * false" is wrong because those tokens were eaten above
+                     */
                     if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
                         $expression->children[] = $this->parseComplexDollarTemplateStringExpression($expression);
                     } else {
