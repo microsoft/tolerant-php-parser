@@ -18,5 +18,8 @@
     ],
     "autoload": {
         "psr-4": { "Microsoft\\PhpParser\\": ["src/"] }
+    },
+    "autoload-dev": {
+        "psr-4": { "Microsoft\\PhpParser\\Tests\\Unit\\": ["tests/unit/"] }
     }
 }

@@ -1404,7 +1404,7 @@ class Parser {
         return $expression;
     }
 
-    private function parseStringLiteralExpression2($parentNode) {
+    private function parseStringLiteralExpression2($parentNode): StringLiteral {
         // TODO validate input token
         $expression = new StringLiteral();
         $expression->parent = $parentNode;
@@ -1416,6 +1416,11 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
+                    /** 
+                     * @phpstan-ignore-next-line "Strict comparison using
+                     * === between 403|404 and 408 will always evaluate to
+                     * false" is wrong because those tokens were eaten above
+                     */
                     if ($this->getCurrentToken()->kind === TokenKind::StringVarname) {
                         $expression->children[] = $this->parseComplexDollarTemplateStringExpression($expression);
                     } else {
@@ -1654,7 +1659,7 @@ class Parser {
         do {
             if ($isElementStartFn($token)) {
                 $node->addElement($parseElementFn($node));
-            } elseif (!$allowEmptyElements || ($allowEmptyElements && !$this->checkAnyToken($delimiter))) {
+            } elseif (!$allowEmptyElements || !$this->checkAnyToken($delimiter)) {
                 break;
             }
 
@@ -1764,7 +1769,7 @@ class Parser {
         };
     }
 
-    private function parseRelativeSpecifier($parentNode) {
+    private function parseRelativeSpecifier($parentNode): ?RelativeSpecifier {
         $node = new RelativeSpecifier();
         $node->parent = $parentNode;
         $node->namespaceKeyword = $this->eatOptional1(TokenKind::NamespaceKeyword);
@@ -2113,7 +2118,7 @@ class Parser {
     /**
      * @param int $precedence
      * @param Node $parentNode
-     * @return Expression
+     * @return Expression|MissingToken
      */
     private function parseBinaryExpressionOrHigher($precedence, $parentNode) {
         $leftOperand = $this->parseUnaryExpressionOrHigher($parentNode);
@@ -2214,6 +2219,7 @@ class Parser {
                     }
                     break;
                 case TokenKind::QuestionToken:
+                    /** @phpstan-ignore-next-line This seems impossible, questionToken is always set AFAICS but ignoring to be safe */
                     if ($parentNode instanceof TernaryExpression && !isset($parentNode->questionToken)) {
                         // Workaround to parse "a ? b : c ? d : e" as "(a ? b : c) ? d : e"
                         break 2;
@@ -3571,7 +3577,7 @@ class Parser {
         return $namespaceUseDeclaration;
     }
 
-    private function parseNamespaceUseClauseList($parentNode) {
+    private function parseNamespaceUseClauseList($parentNode): ?DelimitedList\NamespaceUseClauseList {
         return $this->parseDelimitedList(
             DelimitedList\NamespaceUseClauseList::class,
             TokenKind::CommaToken,
@@ -3601,7 +3607,7 @@ class Parser {
         );
     }
 
-    private function parseNamespaceUseGroupClauseList($parentNode) {
+    private function parseNamespaceUseGroupClauseList($parentNode): ?DelimitedList\NamespaceUseGroupClauseList {
         return $this->parseDelimitedList(
             DelimitedList\NamespaceUseGroupClauseList::class,
             TokenKind::CommaToken,

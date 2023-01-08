@@ -18,7 +18,7 @@ class NamespaceUseDeclaration extends StatementNode {
     public $useKeyword;
     /** @var Token */
     public $functionOrConst;
-    /** @var DelimitedList\NamespaceUseClauseList */
+    /** @var DelimitedList\NamespaceUseClauseList|null */
     public $useClauses;
     /** @var Token */
     public $semicolon;

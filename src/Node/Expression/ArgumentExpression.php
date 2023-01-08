@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node\Expression;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Token;
 
@@ -19,7 +20,7 @@ class ArgumentExpression extends Expression {
     /** @var Token|null */
     public $dotDotDotToken;
 
-    /** @var Expression|null null for first-class callable syntax */
+    /** @var Expression|MissingToken|null for first-class callable syntax */
     public $expression;
 
     const CHILD_NAMES = [
