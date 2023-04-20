@@ -30,6 +30,7 @@
                         "kind": "StringReservedWord",
                         "textLength": 6
                     },
+                    "enumInterfaceClause": null,
                     "enumMembers": {
                         "EnumMembers": {
                             "openBrace": {
