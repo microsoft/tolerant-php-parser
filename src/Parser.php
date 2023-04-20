@@ -18,6 +18,7 @@ use Microsoft\PhpParser\Node\ClassInterfaceClause;
 use Microsoft\PhpParser\Node\ClassMembersNode;
 use Microsoft\PhpParser\Node\ConstElement;
 use Microsoft\PhpParser\Node\EnumCaseDeclaration;
+use Microsoft\PhpParser\Node\EnumInterfaceClause;
 use Microsoft\PhpParser\Node\EnumMembers;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression\{
@@ -3386,6 +3387,22 @@ class Parser {
         return $enumCaseDeclaration;
     }
 
+    private function parseEnumInterfaceClause(EnumDeclaration $enumDeclaration): ?EnumInterfaceClause {
+        $enumInterfaceClause = new EnumInterfaceClause();
+        $enumInterfaceClause->parent = $enumDeclaration;
+        $enumInterfaceClause->implementsKeyword = $this->eatOptional1(TokenKind::ImplementsKeyword);
+
+        if ($enumInterfaceClause->implementsKeyword === null) {
+            return null;
+        }
+
+        $enumInterfaceClause->interfaceNameList =
+            $this->parseQualifiedNameList($enumInterfaceClause);
+        return $enumInterfaceClause;
+    }
+
+
+
     /**
      * @param Node $parentNode
      * @param Token[] $modifiers
@@ -3724,7 +3741,6 @@ class Parser {
     private function parseEnumDeclaration($parentNode) {
         $enumDeclaration = new EnumDeclaration();
         $enumDeclaration->parent = $parentNode;
-
         $enumDeclaration->enumKeyword = $this->eat1(TokenKind::EnumKeyword);
         $enumDeclaration->name = $this->eat1(TokenKind::Name);
         $enumDeclaration->colonToken = $this->eatOptional1(TokenKind::ColonToken);
@@ -3732,6 +3748,7 @@ class Parser {
             $enumDeclaration->enumType = $this->tryParseParameterTypeDeclaration($enumDeclaration)
                 ?: new MissingToken(TokenKind::EnumType, $this->token->fullStart);
         }
+        $enumDeclaration->enumInterfaceClause = $this->parseEnumInterfaceClause($enumDeclaration);
 
         $enumDeclaration->enumMembers = $this->parseEnumMembers($enumDeclaration);
 

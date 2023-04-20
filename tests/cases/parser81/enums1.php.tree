@@ -24,6 +24,7 @@
                     },
                     "colonToken": null,
                     "enumType": null,
+                    "enumInterfaceClause": null,
                     "enumMembers": {
                         "EnumMembers": {
                             "openBrace": {
