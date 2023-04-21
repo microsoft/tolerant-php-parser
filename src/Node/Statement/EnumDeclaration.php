@@ -10,6 +10,7 @@ use Microsoft\PhpParser\ClassLike;
 use Microsoft\PhpParser\NamespacedNameInterface;
 use Microsoft\PhpParser\NamespacedNameTrait;
 use Microsoft\PhpParser\Node\AttributeGroup;
+use Microsoft\PhpParser\Node\EnumInterfaceClause;
 use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Node\EnumMembers;
 use Microsoft\PhpParser\Token;
@@ -22,6 +23,9 @@ class EnumDeclaration extends StatementNode implements NamespacedNameInterface, 
 
     /** @var Token */
     public $enumKeyword;
+
+    /** @var EnumInterfaceClause|null */
+    public $enumInterfaceClause;
 
     /** @var Token */
     public $name;
@@ -41,6 +45,7 @@ class EnumDeclaration extends StatementNode implements NamespacedNameInterface, 
         'name',
         'colonToken',
         'enumType',
+        'enumInterfaceClause',
         'enumMembers',
     ];
 

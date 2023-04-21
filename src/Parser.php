@@ -18,6 +18,7 @@ use Microsoft\PhpParser\Node\ClassInterfaceClause;
 use Microsoft\PhpParser\Node\ClassMembersNode;
 use Microsoft\PhpParser\Node\ConstElement;
 use Microsoft\PhpParser\Node\EnumCaseDeclaration;
+use Microsoft\PhpParser\Node\EnumInterfaceClause;
 use Microsoft\PhpParser\Node\EnumMembers;
 use Microsoft\PhpParser\Node\Expression;
 use Microsoft\PhpParser\Node\Expression\{
@@ -3737,10 +3738,26 @@ class Parser {
                 ?: new MissingToken(TokenKind::EnumType, $this->token->fullStart);
         }
 
+        $enumDeclaration->enumInterfaceClause = $this->parseEnumInterfaceClause($enumDeclaration);
         $enumDeclaration->enumMembers = $this->parseEnumMembers($enumDeclaration);
 
         return $enumDeclaration;
     }
+
+    private function parseEnumInterfaceClause(EnumDeclaration $enumDeclaration): ?EnumInterfaceClause {
+        $enumInterfaceClause = new EnumInterfaceClause();
+        $enumInterfaceClause->parent = $enumDeclaration;
+        $enumInterfaceClause->implementsKeyword = $this->eatOptional1(TokenKind::ImplementsKeyword);
+
+        if ($enumInterfaceClause->implementsKeyword === null) {
+            return null;
+        }
+
+        $enumInterfaceClause->interfaceNameList =
+            $this->parseQualifiedNameList($enumInterfaceClause);
+        return $enumInterfaceClause;
+    }
+
 
     private function parseEnumMembers($parentNode) {
         $enumMembers = new EnumMembers();
