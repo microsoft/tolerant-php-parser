@@ -25,8 +25,6 @@ class GetResolvedNameTest extends TestCase {
         'use _A as C' => null,
         'use A\B\{C, D_}' => null,
         'use A\B\{C, D_}' => null,
-        'class Foo { use _BarTrait; }' => null,
-        'class Foo { use BarTrait, Baz_Trait; }' => null,
         'class Foo { use A, B { A::Foo as _foo }' => null,
 
         // Relative scope resolution qualifiers
@@ -39,7 +37,8 @@ class GetResolvedNameTest extends TestCase {
         '\Fo_o' => 'Foo',
         'use A\Foo;\_Foo\Bar' => 'Foo\Bar',
         '$f = new \_Foo\Bar()' => 'Foo\Bar',
-        'class Foo { use A, B { \Foo\_Bar::A as _foo }' => 'Foo\Bar',
+        'class Foo { use A, B { \Foo\_Bar::A as foo }' => 'Foo\Bar',
+        'class Foo { use \A\BTr_ait; }' => 'A\BTrait',
 
         // Relative name
         'namespace Foo; namespace\Bar_' => 'Foo\Bar',
@@ -65,6 +64,9 @@ class GetResolvedNameTest extends TestCase {
         'use A\B; new _B()' => 'A\B', // Class imported
         'use A\B; _B()' => 'B', // Not imported as function
         'use A\B; function xyz(): _B { };' => 'A\B',
+        'class Foo { use _BarTrait; }' => 'BarTrait',
+        'class Foo { use BarTrait, Baz_Trait; }' => 'BazTrait',
+        'use A\BarTrait; class Foo { use _BarTrait; }' => 'A\BarTrait',
     );
 
     public function dataProvider() {
