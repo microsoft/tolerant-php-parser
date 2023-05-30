@@ -75,5 +75,5 @@ all incorrect constructs (e.g. including a non-constant expression as the defaul
 a method parameter). Instead, it attaches these errors on a post-parse walk of the tree.
 
 ## Next Steps
-Check out the [Readme](../README.md) and [Getting Started](GettingStarted.md) pages for more information on how consume
-the parser, or the [How It Works](HowItWorks.md) section if you want to dive deeper into the implementation.
+Check out the [Readme](../README.md) and [Getting Started](GettingStarted.md) pages for more information on how to 
+consume the parser, or the [How It Works](HowItWorks.md) section if you want to dive deeper into the implementation.
