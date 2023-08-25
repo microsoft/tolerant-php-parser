@@ -1,0 +1,1338 @@
+
+[files]
+exclude = tests
+		, experiments
+		, php-langspec
+        , vendor
+
+[domain]
+terms = 0b
+      , 0x feff
+      , 0x08
+      , 0x09
+      , 0x0a
+      , 0x0b
+      , 0x0c
+      , 0x0d
+      , 0x20
+      , 0x21
+      , 0x22
+      , 0x23
+      , 0x24
+      , 0x25
+      , 0x26
+      , 0x27
+      , 0x28
+      , 0x29
+      , 0x2a
+      , 0x2b
+      , 0x2c
+      , 0x2d
+      , 0x2e
+      , 0x2f
+      , 0x30
+      , 0x31
+      , 0x32
+      , 0x33
+      , 0x34
+      , 0x35
+      , 0x36
+      , 0x37
+      , 0x38
+      , 0x39
+      , 0x3a
+      , 0x3b
+      , 0x3c
+      , 0x3d
+      , 0x3e
+      , 0x3f
+      , 0x40
+      , 0x41
+      , 0x42
+      , 0x43
+      , 0x44
+      , 0x45
+      , 0x46
+      , 0x47
+      , 0x48
+      , 0x49
+      , 0x4a
+      , 0x4b
+      , 0x4c
+      , 0x4d
+      , 0x4e
+      , 0x4f
+      , 0x50
+      , 0x51
+      , 0x52
+      , 0x53
+      , 0x54
+      , 0x55
+      , 0x56
+      , 0x57
+      , 0x58
+      , 0x59
+      , 0x5a
+      , 0x5b
+      , 0x5c
+      , 0x5d
+      , 0x5e
+      , 0x5f
+      , 0x60
+      , 0x61
+      , 0x62
+      , 0x63
+      , 0x64
+      , 0x65
+      , 0x66
+      , 0x67
+      , 0x68
+      , 0x69
+      , 0x6a
+      , 0x6b
+      , 0x6c
+      , 0x6d
+      , 0x6e
+      , 0x6f
+      , 0x70
+      , 0x71
+      , 0x72
+      , 0x73
+      , 0x74
+      , 0x75
+      , 0x76
+      , 0x77
+      , 0x78
+      , 0x79
+      , 0x7a
+      , 0x7b
+      , 0x7c
+      , 0x7d
+      , 0x7e
+      , about
+      , abstract keyword
+      , abstract or final modifier
+      , access expression
+      , add
+      , add element
+      , add name parts
+      , add to import table
+      , addition
+      , advance token
+      , against
+      , alias
+      , all
+      , allow empty elements
+      , allow update expression
+      , always
+      , ampersand
+      , ampersand ampersand token
+      , ampersand equals token
+      , ampersand token
+      , ancestor
+      , and
+      , and keyword
+      , anonymous function creation expression
+      , anonymous function use clause
+      , api
+      , applied
+      , apply edits
+      , archive
+      , arg
+      , argument expression
+      , argument expression list
+      , argument start tokens set
+      , arms
+      , arr
+      , array
+      , array cast token
+      , array creation expression
+      , array element
+      , array element list
+      , array elements
+      , array expression
+      , array keyword
+      , arrow
+      , arrow function
+      , arrow function creation expression
+      , arrow token
+      , as keyword
+      , as or instead of keyword
+      , assignment
+      , assignment expression
+      , associativity
+      , ast
+      , asterisk
+      , asterisk asterisk equals token
+      , asterisk asterisk token
+      , asterisk equals token
+      , asterisk token
+      , asts
+      , at
+      , at symbol token
+      , attribute
+      , attribute element list
+      , attribute group
+      , attribute groups
+      , attribute token
+      , attributes
+      , auto
+      , backslash
+      , backslash token
+      , backspace
+      , backtick
+      , backtick token
+      , bar
+      , bar bar token
+      , bar equals token
+      , bar token
+      , base
+      , base class
+      , be
+      , binary
+      , binary expression
+      , binary literal token
+      , binary reserved word
+      , block statements
+      , body
+      , bool
+      , bool cast token
+      , bool reserved word
+      , boolean
+      , boolean reserved word
+      , bootstrap
+      , both
+      , bounds
+      , braced expression
+      , branch
+      , break keyword
+      , break or continue keyword
+      , break or continue statement
+      , breakout level
+      , browse
+      , build
+      , build name
+      , by ref
+      , by ref token
+      , byte order mark
+      , call expression
+      , callable
+      , callable expression
+      , callable keyword
+      , callback
+      , can be abstract
+      , caret
+      , caret equals token
+      , caret token
+      , case keyword
+      , case statement
+      , case statement elements
+      , case statement node
+      , case statements
+      , cast expression
+      , cast token
+      , cast type
+      , catch clause
+      , catch clauses
+      , catch keyword
+      , cd
+      , char
+      , character
+      , character codes
+      , characteristics
+      , check any token
+      , check diagnostic for unexpected token
+      , check diagnostics
+      , check token
+      , child
+      , child element
+      , child keys
+      , child names
+      , child node
+      , child path
+      , children
+      , class base clause
+      , class const declaration
+      , class declaration
+      , class interface clause
+      , class keyword
+      , class like
+      , class member declarations
+      , class members
+      , class members node
+      , class name
+      , class names
+      , class node
+      , class type designator
+      , clone
+      , clone expression
+      , clone keyword
+      , close
+      , close brace
+      , close brace token
+      , close bracket
+      , close bracket or brace
+      , close bracket token
+      , close paren
+      , close paren or bracket
+      , close paren token
+      , closure
+      , colon
+      , colon colon token
+      , colon token
+      , comma
+      , comma token
+      , comment
+      , comment parts
+      , comment token
+      , complete
+      , compound statement
+      , compound statement node
+      , compound statement or semicolon
+      , condition
+      , condition list
+      , confidently
+      , config
+      , consistent
+      , const declaration
+      , const element
+      , const element list
+      , const elements
+      , const import table
+      , const keyword
+      , constants
+      , construct
+      , contains position
+      , content
+      , contents
+      , context
+      , context kind
+      , context to check
+      , continue keyword
+      , continue statement
+      , contribute
+      , could
+      , cur token kind
+      , current offset
+      , current parse context
+      , current position
+      , data
+      , decimal literal token
+      , declaration
+      , declare
+      , declare directive
+      , declare directive list
+      , declare keyword
+      , declare statement
+      , declare statement elements
+      , default keyword
+      , default label terminator
+      , default statement node
+      , delimited list
+      , delimiter
+      , delimiter token
+      , delimiters
+      , dereferencable expression
+      , descendant
+      , description
+      , description formatted
+      , diagnostic
+      , diagnostic kind
+      , diagnostics
+      , diagnostics as line col
+      , diagnostics provider
+      , die
+      , die keyword
+      , diff
+      , dir
+      , directory
+      , directory iterator
+      , do keyword
+      , do statement
+      , doc
+      , doc comment token
+      , document
+      , documentation
+      , does
+      , dogfood
+      , dollar
+      , dollar open brace token
+      , dollar token
+      , dot
+      , dot dot dot
+      , dot dot dot token
+      , dot equals token
+      , dot token
+      , double
+      , double arrow token
+      , double cast token
+      , double colon
+      , double quote
+      , double quote token
+      , double reserved word
+      , easier
+      , eat
+      , eat optional
+      , eat optional1
+      , eat semicolon or abort statement
+      , eat1
+      , echo keyword
+      , echo statement
+      , edit
+      , edits
+      , element
+      , element key
+      , element value
+      , else
+      , else clause
+      , else clause node
+      , else expression
+      , else if clause
+      , else if clause node
+      , else if clauses
+      , else if keyword
+      , else keyword
+      , empty expression
+      , empty intrinsic expression
+      , empty keyword
+      , empty statement
+      , encapsed and whitespace
+      , end declare keyword
+      , end for
+      , end for each keyword
+      , end for keyword
+      , end for semicolon
+      , end foreach
+      , end foreach semicolon
+      , end if keyword
+      , end memory
+      , end of file pos
+      , end of file position
+      , end of file token
+      , end quote
+      , end switch keyword
+      , end time
+      , end token
+      , end while
+      , end while keyword
+      , enddeclare
+      , enddeclare keyword
+      , endfor
+      , endforeach
+      , endif
+      , endif keyword
+      , endswitch
+      , endwhile
+      , ensure
+      , enum
+      , enum case declaration
+      , enum declaration
+      , enum interface clause
+      , enum keyword
+      , enum member declarations
+      , enum members
+      , enum type
+      , equals
+      , equals equals equals token
+      , equals equals token
+      , equals token
+      , error
+      , error control expression
+      , eval
+      , eval expression
+      , eval intrinsic expression
+      , eval keyword
+      , every
+      , exception
+      , exclamation
+      , exclamation equals equals token
+      , exclamation equals token
+      , exclamation token
+      , exist
+      , exit expression
+      , exit intrinsic expression
+      , exit keyword
+      , exit or die keyword
+      , expected
+      , expected kind
+      , expected kinds
+      , expected type kind
+      , explore
+      , expr group semicolon1
+      , expr group semicolon2
+      , expression
+      , expression list
+      , expression statement
+      , expressions
+      , extends keyword
+      , extract to
+      , fallback parent node
+      , false reserved word
+      , file contents
+      , file contents length
+      , file position map
+      , files
+      , final keyword
+      , finally clause
+      , finally keyword
+      , finally token
+      , first
+      , first token
+      , first two chars
+      , fixes
+      , float
+      , float reserved word
+      , floating literal token
+      , fn
+      , fn keyword
+      , for control
+      , for each collection name
+      , for end of loop
+      , for initializer
+      , for keyword
+      , for statement
+      , for statement elements
+      , force
+      , foreach key
+      , foreach keyword
+      , foreach statement
+      , foreach statement elements
+      , foreach value
+      , form feed
+      , format
+      , foundation
+      , frameworks
+      , from
+      , from array
+      , full
+      , full start
+      , function body
+      , function declaration
+      , function header
+      , function import table
+      , function keyword
+      , function like
+      , function node
+      , function or const
+      , function return type
+      , function static declaration
+      , function use clause
+      , generated
+      , generator
+      , get binary operator precedence and associativity
+      , get child names
+      , get child nodes
+      , get child nodes and tokens
+      , get child tokens
+      , get children kv pairs
+      , get column for offset
+      , get constants
+      , get current position
+      , get current token
+      , get descendant node at position
+      , get descendant nodes
+      , get descendant nodes and tokens
+      , get descendant tokens
+      , get description formatted
+      , get diagnostic for node
+      , get diagnostics
+      , get doc comment text
+      , get elements
+      , get end line
+      , get end line character position
+      , get end of file position
+      , get end position
+      , get file contents
+      , get first ancestor
+      , get first child node
+      , get first descendant node
+      , get full start position
+      , get full text
+      , get full width
+      , get fully qualified name text
+      , get halt compiler offset
+      , get import tables for current scope
+      , get last child
+      , get last name part
+      , get leading comment and whitespace text
+      , get leading comments and whitespace text
+      , get line character position for offset
+      , get line character position from position
+      , get line number for offset
+      , get name
+      , get name parts
+      , get namespace definition
+      , get namespaced name
+      , get node kind name
+      , get parent
+      , get parse list element fn
+      , get pathname
+      , get previous sibling
+      , get range from position
+      , get resolved name
+      , get root
+      , get signature formatted
+      , get signature parts
+      , get size
+      , get start line
+      , get start line character position for offset
+      , get start position
+      , get string contents text
+      , get text for token kind
+      , get token kind name from value
+      , get token kind name from value map
+      , get token stream provider
+      , get tokens array
+      , get tokens array from content
+      , get uri
+      , get values
+      , get width
+      , git
+      , global declaration
+      , global keyword
+      , global specifier
+      , globals
+      , goto
+      , goto keyword
+      , goto statement
+      , greater than
+      , greater than equals token
+      , greater than greater than equals token
+      , greater than greater than token
+      , greater than token
+      , group clause
+      , group clauses
+      , halt compiler keyword
+      , halt compiler statement
+      , has
+      , has modifier
+      , hash
+      , head
+      , help
+      , helper
+      , heredoc end
+      , heredoc start
+      , hexadecimal literal token
+      , hold
+      , hr
+      , idx
+      , if clause2elements
+      , if expression
+      , if keyword
+      , if statement
+      , if statement node
+      , implements keyword
+      , import table
+      , improvements
+      , in
+      , include keyword
+      , include once keyword
+      , incomplete
+      , increasing
+      , increment or decrement operator
+      , index
+      , info
+      , init
+      , init token kind to text
+      , initial pos
+      , inline html
+      , inner
+      , input
+      , instance of keyword
+      , instanceof
+      , instead of keyword
+      , insteadof
+      , int
+      , int cast token
+      , int reserved word
+      , integer
+      , integer literal token
+      , integer reserved word
+      , interface base clause
+      , interface declaration
+      , interface keyword
+      , interface member declarations
+      , interface members
+      , interface name list
+      , invalid
+      , invalid binary literal
+      , invalid hexadecimal literal
+      , invalid octal literal token
+      , invariant
+      , invariant text
+      , invariants
+      , is
+      , is anonymous
+      , is argument expression start fn
+      , is array element start
+      , is array element start fn
+      , is case sensitive
+      , is class member declaration start
+      , is constant name
+      , is current token valid in enclosing contexts
+      , is element start fn
+      , is enum member declaration start
+      , is expression start
+      , is expression start fn
+      , is fully qualified name
+      , is in parse context
+      , is interface member declaration start
+      , is list terminator
+      , is match condition start fn
+      , is modifier
+      , is namespace keyword start of expression
+      , is parameter modifier
+      , is parameter start fn
+      , is parsing object creation expression
+      , is parsing unparenthesized object creation expression
+      , is public
+      , is qualified name
+      , is qualified name start
+      , is qualified name start fn
+      , is qualified name start for catch fn
+      , is relative name
+      , is set keyword
+      , is statement start
+      , is static
+      , is trait member declaration start
+      , is type start
+      , is unqualified name
+      , is valid list element
+      , is variable name start fn
+      , is variadic
+      , isset expression
+      , isset intrinsic expression
+      , isset keyword
+      , it
+      , iterable
+      , iterable keyword
+      , iterable reserved word
+      , json serializable
+      , json serialize
+      , keyword tokens
+      , keywords
+      , kind
+      , kind name
+      , kind option
+      , kinds
+      , known assignment token set
+      , last
+      , last child
+      , last child key
+      , last namespace definition
+      , last newline pos
+      , last token
+      , leading trivia text
+      , leading trivia tokens
+      , left
+      , left operand
+      , len
+      , length
+      , less than
+      , less than equals greater than token
+      , less than equals token
+      , less than greater than token
+      , less than less than equals token
+      , less than less than token
+      , less than token
+      , lexer
+      , lexer invariants
+      , lexer invariants ast
+      , lexer invariants test
+      , line
+      , line character position
+      , line for current offset
+      , list
+      , list elements
+      , list expression
+      , list expression list
+      , list intrinsic expression
+      , list keyword
+      , list parse context
+      , literal
+      , literal string
+      , lookahead
+      , lower text
+      , machine
+      , make binary expression
+      , make lexer
+      , make missing member declaration
+      , makes
+      , map to kind name
+      , master
+      , match
+      , match arm
+      , match arm condition list
+      , match expression
+      , match expression arm list
+      , match keyword
+      , match token
+      , matter
+      , may
+      , mb
+      , member
+      , member access expression
+      , member name
+      , memory
+      , memory usage
+      , message
+      , method declaration
+      , methods
+      , microsoft
+      , minus
+      , minus equals token
+      , minus minus token
+      , minus token
+      , missing declaration
+      , missing interface member declaration
+      , missing member declaration
+      , missing token
+      , missing trait member declaration
+      , mixed
+      , mixed reserved word
+      , modified type interface
+      , modified type trait
+      , modifier
+      , modifiers
+      , msft
+      , must
+      , name
+      , name or keyword or reserved word tokens
+      , name or reserved word tokens
+      , name or static or reserved word tokens
+      , name parts
+      , named label statement
+      , namespace
+      , namespace aliasing clause
+      , namespace definition
+      , namespace full start
+      , namespace import table
+      , namespace keyword
+      , namespace name
+      , namespace name parts
+      , namespace name parts prefix
+      , namespace use clause
+      , namespace use clause list
+      , namespace use declaration
+      , namespace use group clause
+      , namespace use group clause list
+      , namespaced name interface
+      , namespaced name trait
+      , never
+      , never reserved word
+      , new keword
+      , new keyword
+      , new node text
+      , new precedence
+      , new text
+      , new token kind
+      , newline
+      , next token
+      , no
+      , node
+      , node array
+      , node full start
+      , node kind
+      , node text
+      , none
+      , not
+      , note
+      , null reserved word
+      , numeric literal
+      , object
+      , object cast token
+      , object creation expression
+      , object reserved word
+      , octal literal token
+      , of
+      , offset
+      , old is parsing object creation expression
+      , old position
+      , on
+      , open
+      , open brace
+      , open brace dollar token
+      , open brace token
+      , open bracket
+      , open bracket or brace
+      , open bracket token
+      , open paren
+      , open paren or bracket
+      , open paren token
+      , operand
+      , operator
+      , operator precedence and associativity
+      , operator token
+      , operators and punctuators
+      , or
+      , or keyword
+      , order
+      , os
+      , our
+      , out
+      , out dir
+      , out of bounds exception
+      , out zip
+      , outer
+      , outer unary op expression
+      , output
+      , overlap
+      , parameter
+      , parameter declaration list
+      , parameter type declaration
+      , parameter type declaration tokens
+      , parameters
+      , parent expression
+      , parent node
+      , parenthesized expression
+      , parenthesized intersection type
+      , parse
+      , parse and set declare directive list
+      , parse and set return type declaration list
+      , parse anonymous function creation expression
+      , parse anonymous function use clause
+      , parse argument expression fn
+      , parse argument expression list
+      , parse array creation expression
+      , parse array element
+      , parse array element fn
+      , parse array element list
+      , parse arrow function creation expression
+      , parse attribute element list
+      , parse attribute expression
+      , parse attribute fn
+      , parse attribute groups
+      , parse attribute statement
+      , parse binary expression or higher
+      , parse braced expression
+      , parse break or continue statement
+      , parse call expression rest
+      , parse case or default statement
+      , parse cast expression
+      , parse cast expression granular
+      , parse catch clause
+      , parse class base clause
+      , parse class const declaration
+      , parse class declaration
+      , parse class element fn
+      , parse class interface clause
+      , parse class members
+      , parse class modifiers
+      , parse clone expression
+      , parse complex dollar template string expression
+      , parse compound statement
+      , parse const declaration
+      , parse const element fn
+      , parse const elements
+      , parse context
+      , parse context to prefix
+      , parse declare directive fn
+      , parse declare directive list
+      , parse declare statement
+      , parse delimited list
+      , parse do statement
+      , parse echo statement
+      , parse element fn
+      , parse else clause
+      , parse else if clause
+      , parse empty intrinsic expression
+      , parse empty statement
+      , parse enum case declaration
+      , parse enum declaration
+      , parse enum element fn
+      , parse enum interface clause
+      , parse enum members
+      , parse error control expression
+      , parse eval intrinsic expression
+      , parse exit intrinsic expression
+      , parse expression
+      , parse expression fn
+      , parse expression list
+      , parse finally clause
+      , parse for statement
+      , parse foreach statement
+      , parse foreach value
+      , parse function declaration
+      , parse function static declaration
+      , parse function type
+      , parse global declaration
+      , parse goto statement
+      , parse halt compiler statement
+      , parse if statement
+      , parse inline html
+      , parse interface base clause
+      , parse interface declaration
+      , parse interface element fn
+      , parse interface members
+      , parse isset intrinsic expression
+      , parse list
+      , parse list element fn
+      , parse list intrinsic expression
+      , parse match arm fn
+      , parse match condition fn
+      , parse match expression
+      , parse member access expression
+      , parse member name
+      , parse method declaration
+      , parse modifiers
+      , parse named label statement
+      , parse namespace aliasing clause
+      , parse namespace definition
+      , parse namespace use clause list
+      , parse namespace use declaration
+      , parse namespace use group clause list
+      , parse numeric literal expression
+      , parse object creation expression
+      , parse parameter fn
+      , parse parameter modifiers
+      , parse parenthesized expression
+      , parse parenthesized intersection type
+      , parse parse postfix update expression
+      , parse postfix expression rest
+      , parse prefix update expression
+      , parse primary expression
+      , parse print intrinsic expression
+      , parse property declaration
+      , parse qualified name
+      , parse qualified name catch list
+      , parse qualified name fn
+      , parse qualified name list
+      , parse qualified name or scoped property access expression
+      , parse relative specifier
+      , parse remaining property declaration or missing member declaration
+      , parse reserved word expression
+      , parse return statement
+      , parse return type declaration
+      , parse return type declaration list
+      , parse scoped property access expression
+      , parse script inclusion expression
+      , parse simple variable
+      , parse simple variable fn
+      , parse source file
+      , parse statement
+      , parse statement fn
+      , parse static qualified name
+      , parse static variable declaration fn
+      , parse string literal expression
+      , parse string literal expression2
+      , parse subscript expression
+      , parse switch statement
+      , parse template string expression
+      , parse template string member access expression
+      , parse template string subscript expression
+      , parse template string subscript string literal
+      , parse ternary expression
+      , parse throw expression
+      , parse trait declaration
+      , parse trait element fn
+      , parse trait members
+      , parse trait select and alias clause list
+      , parse trait select or alias clause fn
+      , parse trait use clause
+      , parse try statement
+      , parse type
+      , parse unary expression or higher
+      , parse unary op expression
+      , parse union type declaration list
+      , parse unset statement
+      , parse while statement
+      , parse yield expression
+      , parser
+      , parser invariants
+      , parser invariants ast
+      , parser invariants test
+      , parser path
+      , part
+      , parts
+      , path
+      , percent
+      , percent equals token
+      , percent token
+      , perf
+      , php
+      , php parser
+      , php tokenizer
+      , please
+      , plus
+      , plus equals token
+      , plus plus token
+      , plus token
+      , position
+      , position utilities
+      , positive
+      , postfix expression
+      , postfix update expression
+      , precedence
+      , prefix
+      , prefix expression
+      , prefix update expression
+      , prev associativity
+      , prev edit start
+      , prev new precedence
+      , prev sibling
+      , print
+      , print api documentation
+      , print expression
+      , print intrinsic expression
+      , print invariants
+      , print keyword
+      , private keyword
+      , produced
+      , project
+      , properties
+      , property declaration
+      , property elements
+      , property type
+      , protected keyword
+      , provides
+      , public keyword
+      , qualified name
+      , qualified name list
+      , qualified name or scoped property
+      , qualified name parts
+      , qualified name start tokens
+      , question
+      , question arrow token
+      , question question equals token
+      , question question token
+      , question token
+      , readonly
+      , readonly keyword
+      , real
+      , real reserved word
+      , reason
+      , recursive
+      , recursive directory iterator
+      , recursive iterator iterator
+      , reflection class
+      , relative specifier
+      , remaining tokens
+      , replace
+      , require keyword
+      , require once keyword
+      , require or include keyword
+      , reserved word
+      , reserved word tokens
+      , reserved words
+      , resolve
+      , resolved name
+      , result
+      , result expression
+      , return
+      , return keyword
+      , return statement
+      , return type
+      , return type declaration tokens
+      , return type list
+      , return type will change
+      , rev
+      , right
+      , right operand
+      , rmdir recursive
+      , root
+      , run
+      , runtime exception
+      , saved parse context
+      , scan next token
+      , scope resolution qualifier
+      , scoped property access expression
+      , script inclusion expression
+      , script section end tag
+      , script section prepended text
+      , script section start tag
+      , script section start with echo tag
+      , search
+      , search replace
+      , seconds
+      , semicolon
+      , semicolon or close tag
+      , semicolon or open brace
+      , semicolon token
+      , server
+      , set
+      , set current position
+      , shift binary operands
+      , shift unary operands
+      , short token serialize
+      , should consume current operator
+      , should descend into children fn
+      , should operator take precedence over unary
+      , show
+      , sibling
+      , signature
+      , single quote
+      , single quote token
+      , size
+      , skipped token
+      , slash
+      , slash equals token
+      , slash token
+      , sound
+      , source
+      , source elements
+      , source file
+      , source file node
+      , space
+      , specific
+      , spl fixed array
+      , src
+      , start
+      , start at
+      , start memory
+      , start pos
+      , start quote
+      , start quote kind
+      , start time
+      , start token
+      , statement
+      , statement list
+      , statement node
+      , statements
+      , static keyword
+      , static modifier
+      , static variable declaration
+      , static variable name list
+      , stats
+      , string
+      , string cast token
+      , string contents
+      , string literal
+      , string literal token
+      , string reserved word
+      , string varname
+      , structurally
+      , submodule
+      , subscript expression
+      , succeeded
+      , suggest
+      , supplied
+      , switch keyword
+      , switch statement
+      , switch statement elements
+      , switch statement node
+      , tab
+      , tail
+      , target modifier
+      , target name list
+      , temp
+      , ternary expression
+      , test
+      , test case file
+      , test provider array
+      , tests
+      , text
+      , text edit
+      , text length
+      , that
+      , the
+      , these
+      , this
+      , throw expression
+      , throw keyword
+      , tilde
+      , tilde token
+      , time usage
+      , to
+      , to string
+      , todo
+      , token
+      , token get all
+      , token kind
+      , token kind to text
+      , token map
+      , token stream provider factory
+      , token stream provider interface
+      , token string maps
+      , tokens
+      , tokens array
+      , tools
+      , top level namespace statements
+      , toplevel
+      , total size
+      , trait
+      , trait declaration
+      , trait keyword
+      , trait member declarations
+      , trait members
+      , trait name list
+      , trait select and alias clause
+      , trait select and alias clauses
+      , trait select or alias clause
+      , trait select or alias clause list
+      , trait use clause
+      , treat comments as trivia
+      , tree
+      , trlen
+      , trrpos
+      , trtolower
+      , true reserved word
+      , try keyword
+      , try parse foreach key
+      , try parse parameter type declaration
+      , try parse parameter type declaration list
+      , try resolve from import table
+      , try statement
+      , type
+      , type declaration list
+      , type delimiter tokens
+      , types
+      , ubstr
+      , ubstr count
+      , unary expression
+      , unary op expression
+      , underscore
+      , understanding
+      , unexpected
+      , unhandled
+      , unknown
+      , unknown precedence and associativity
+      , unrecognized
+      , unset
+      , unset cast token
+      , unset keyword
+      , unset statement
+      , up
+      , update
+      , update master output
+      , uri
+      , usage
+      , use clause
+      , use clauses
+      , use declaration
+      , use keyword
+      , use variable name
+      , use variable name list
+      , using
+      , val
+      , validation
+      , value
+      , var
+      , var keyword
+      , variable
+      , variable name
+      , variable name list
+      , version
+      , vertical tab
+      , visibility token
+      , void
+      , void reserved word
+      , walk descendant nodes and tokens
+      , warning
+      , was
+      , we
+      , what
+      , while keyword
+      , while statement
+      , while statement elements
+      , while token
+      , with
+      , word press
+      , xor
+      , xor keyword
+      , yield
+      , yield expression
+      , yield from keyword
+      , yield keyword
+      , yield or yield from keyword
+      , zip
+      , zip archive
