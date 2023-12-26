@@ -1417,7 +1417,7 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    /** 
+                    /**
                      * @phpstan-ignore-next-line "Strict comparison using
                      * === between 403|404 and 408 will always evaluate to
                      * false" is wrong because those tokens were eaten above
@@ -2802,10 +2802,6 @@ class Parser {
         return $listExpression;
     }
 
-    private function isArrayElementStart($token) {
-        return ($this->isArrayElementStartFn())($token);
-    }
-
     private function isArrayElementStartFn() {
         return function ($token) {
             return $token->kind === TokenKind::AmpersandToken || $token->kind === TokenKind::DotDotDotToken || $this->isExpressionStart($token);
@@ -3370,6 +3366,16 @@ class Parser {
 
         $classConstDeclaration->modifiers = $modifiers;
         $classConstDeclaration->constKeyword = $this->eat1(TokenKind::ConstKeyword);
+        // Handle class constant declarations such as `const X|Y Z = 123;` or `const X = 123;`.
+        // This is similar to lookahead().
+        $startPos = $this->lexer->getCurrentPosition();
+        $startToken = $this->token;
+        $classConstDeclaration->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($classConstDeclaration);
+        if (in_array($this->token->kind, [TokenKind::EqualsToken, TokenKind::CommaToken, TokenKind::SemicolonToken]) && $this->lexer->getCurrentPosition() <= $startPos + 1) {
+            $classConstDeclaration->typeDeclarationList = null;
+            $this->lexer->setCurrentPosition($startPos);
+            $this->token = $startToken;
+        }
         $classConstDeclaration->constElements = $this->parseConstElements($classConstDeclaration);
         $classConstDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
 
