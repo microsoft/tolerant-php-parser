@@ -50,6 +50,7 @@
                                             "kind": "ConstKeyword",
                                             "textLength": 5
                                         },
+                                        "typeDeclarationList": null,
                                         "constElements": {
                                             "ConstElementList": {
                                                 "children": [
