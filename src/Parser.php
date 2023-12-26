@@ -295,11 +295,8 @@ class Parser {
             case ParseContext::SourceElements:
                 return false;
 
-            case ParseContext::InterfaceMembers:
-            case ParseContext::ClassMembers:
+            case ParseContext::ClasslikeMembers:
             case ParseContext::BlockStatements:
-            case ParseContext::TraitMembers:
-            case ParseContext::EnumMembers:
                 return $tokenKind === TokenKind::CloseBraceToken;
             case ParseContext::SwitchStatementElements:
                 return $tokenKind === TokenKind::CloseBraceToken || $tokenKind === TokenKind::EndSwitchKeyword;
@@ -345,17 +342,8 @@ class Parser {
             case ParseContext::DeclareStatementElements:
                 return $this->isStatementStart($token);
 
-            case ParseContext::ClassMembers:
-                return $this->isClassMemberDeclarationStart($token);
-
-            case ParseContext::TraitMembers:
-                return $this->isTraitMemberDeclarationStart($token);
-
-            case ParseContext::EnumMembers:
-                return $this->isEnumMemberDeclarationStart($token);
-
-            case ParseContext::InterfaceMembers:
-                return $this->isInterfaceMemberDeclarationStart($token);
+            case ParseContext::ClasslikeMembers:
+                return $this->isClasslikeMemberDeclarationStart($token);
 
             case ParseContext::SwitchStatementElements:
                 return
@@ -376,17 +364,8 @@ class Parser {
             case ParseContext::ForeachStatementElements:
             case ParseContext::DeclareStatementElements:
                 return $this->parseStatementFn();
-            case ParseContext::ClassMembers:
-                return $this->parseClassElementFn();
-
-            case ParseContext::TraitMembers:
-                return $this->parseTraitElementFn();
-
-            case ParseContext::InterfaceMembers:
-                return $this->parseInterfaceElementFn();
-
-            case ParseContext::EnumMembers:
-                return $this->parseEnumElementFn();
+            case ParseContext::ClasslikeMembers:
+                return $this->parseClasslikeElementFn();
 
             case ParseContext::SwitchStatementElements:
                 return $this->parseCaseOrDefaultStatement();
@@ -636,14 +615,18 @@ class Parser {
         };
     }
 
-    private function parseClassElementFn() {
+    private function parseClasslikeElementFn() {
         return function ($parentNode) {
             $modifiers = $this->parseModifiers();
 
             $token = $this->getCurrentToken();
+            // Note that parsing the wrong type of class element in a classlike is a compile-time error, not a parse error.
             switch ($token->kind) {
                 case TokenKind::ConstKeyword:
                     return $this->parseClassConstDeclaration($parentNode, $modifiers);
+
+                case TokenKind::CaseKeyword:
+                    return $this->parseEnumCaseDeclaration($parentNode);
 
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
@@ -695,7 +678,7 @@ class Parser {
     private function parseClassMembers($parentNode) : ClassMembersNode {
         $classMembers = new ClassMembersNode();
         $classMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
-        $classMembers->classMemberDeclarations = $this->parseList($classMembers, ParseContext::ClassMembers);
+        $classMembers->classMemberDeclarations = $this->parseList($classMembers, ParseContext::ClasslikeMembers);
         $classMembers->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
         $classMembers->parent = $parentNode;
         return $classMembers;
@@ -741,18 +724,9 @@ class Parser {
      */
     private function parseAttributeStatement($parentNode) {
         $attributeGroups = $this->parseAttributeGroups(null);
-        if ($parentNode instanceof ClassMembersNode) {
+        if ($parentNode instanceof ClassMembersNode || $parentNode instanceof TraitMembers || $parentNode instanceof EnumMembers || $parentNode instanceof InterfaceMembers) {
             // Create a class element or a MissingMemberDeclaration
-            $statement = $this->parseClassElementFn()($parentNode);
-        } elseif ($parentNode instanceof TraitMembers) {
-            // Create a trait element or a MissingMemberDeclaration
-            $statement = $this->parseTraitElementFn()($parentNode);
-        } elseif ($parentNode instanceof EnumMembers) {
-            // Create a enum element or a MissingMemberDeclaration
-            $statement = $this->parseEnumElementFn()($parentNode);
-        } elseif ($parentNode instanceof InterfaceMembers) {
-            // Create an interface element or a MissingMemberDeclaration
-            $statement = $this->parseInterfaceElementFn()($parentNode);
+            $statement = $this->parseClasslikeElementFn()($parentNode);
         } else {
             // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
             if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword], true) ||
@@ -1045,7 +1019,7 @@ class Parser {
         return $compoundStatement;
     }
 
-    private function isClassMemberDeclarationStart(Token $token) {
+    private function isClasslikeMemberDeclarationStart(Token $token) {
         switch ($token->kind) {
             // const-modifier
             case TokenKind::ConstKeyword:
@@ -1073,6 +1047,9 @@ class Parser {
 
             // attributes
             case TokenKind::AttributeToken:
+
+            // enum
+            case TokenKind::CaseKeyword:
                 return true;
 
         }
@@ -1417,7 +1394,7 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    /** 
+                    /**
                      * @phpstan-ignore-next-line "Strict comparison using
                      * === between 403|404 and 408 will always evaluate to
                      * false" is wrong because those tokens were eaten above
@@ -3474,61 +3451,10 @@ class Parser {
     private function parseInterfaceMembers($parentNode) : InterfaceMembers {
         $interfaceMembers = new InterfaceMembers();
         $interfaceMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
-        $interfaceMembers->interfaceMemberDeclarations = $this->parseList($interfaceMembers, ParseContext::InterfaceMembers);
+        $interfaceMembers->interfaceMemberDeclarations = $this->parseList($interfaceMembers, ParseContext::ClasslikeMembers);
         $interfaceMembers->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
         $interfaceMembers->parent = $parentNode;
         return $interfaceMembers;
-    }
-
-    private function isInterfaceMemberDeclarationStart(Token $token) {
-        switch ($token->kind) {
-            // visibility-modifier
-            case TokenKind::PublicKeyword:
-            case TokenKind::ProtectedKeyword:
-            case TokenKind::PrivateKeyword:
-
-            // static-modifier
-            case TokenKind::StaticKeyword:
-
-            // readonly-modifier
-            case TokenKind::ReadonlyKeyword:
-
-            // class-modifier
-            case TokenKind::AbstractKeyword:
-            case TokenKind::FinalKeyword:
-
-            case TokenKind::ConstKeyword:
-
-            case TokenKind::FunctionKeyword:
-
-            case TokenKind::AttributeToken:
-                return true;
-        }
-        return false;
-    }
-
-    private function parseInterfaceElementFn() {
-        return function ($parentNode) {
-            $modifiers = $this->parseModifiers();
-
-            $token = $this->getCurrentToken();
-            switch ($token->kind) {
-                case TokenKind::ConstKeyword:
-                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
-
-                case TokenKind::FunctionKeyword:
-                    return $this->parseMethodDeclaration($parentNode, $modifiers);
-
-                case TokenKind::AttributeToken:
-                    return $this->parseAttributeStatement($parentNode);
-
-                default:
-                    $missingInterfaceMemberDeclaration = new MissingMemberDeclaration();
-                    $missingInterfaceMemberDeclaration->parent = $parentNode;
-                    $missingInterfaceMemberDeclaration->modifiers = $modifiers;
-                    return $missingInterfaceMemberDeclaration;
-            }
-        };
     }
 
     private function parseInterfaceBaseClause($parentNode) {
@@ -3657,73 +3583,11 @@ class Parser {
 
         $traitMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
 
-        $traitMembers->traitMemberDeclarations = $this->parseList($traitMembers, ParseContext::TraitMembers);
+        $traitMembers->traitMemberDeclarations = $this->parseList($traitMembers, ParseContext::ClasslikeMembers);
 
         $traitMembers->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
 
         return $traitMembers;
-    }
-
-    private function isTraitMemberDeclarationStart($token) {
-        switch ($token->kind) {
-            // property-declaration
-            case TokenKind::VariableName:
-
-            // modifiers
-            case TokenKind::PublicKeyword:
-            case TokenKind::ProtectedKeyword:
-            case TokenKind::PrivateKeyword:
-            case TokenKind::VarKeyword:
-            case TokenKind::StaticKeyword:
-            case TokenKind::AbstractKeyword:
-            case TokenKind::FinalKeyword:
-            case TokenKind::ReadonlyKeyword:
-            case TokenKind::ConstKeyword:
-
-            // method-declaration
-            case TokenKind::FunctionKeyword:
-
-            // trait-use-clauses
-            case TokenKind::UseKeyword:
-
-            // attributes
-            case TokenKind::AttributeToken:
-                return true;
-        }
-        return false;
-    }
-
-    private function parseTraitElementFn() {
-        return function ($parentNode) {
-            $modifiers = $this->parseModifiers();
-
-            $token = $this->getCurrentToken();
-            switch ($token->kind) {
-                case TokenKind::ConstKeyword:
-                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
-
-                case TokenKind::FunctionKeyword:
-                    return $this->parseMethodDeclaration($parentNode, $modifiers);
-
-                case TokenKind::QuestionToken:
-                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
-                        $parentNode,
-                        $modifiers,
-                        $this->eat1(TokenKind::QuestionToken)
-                    );
-                case TokenKind::VariableName:
-                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
-
-                case TokenKind::UseKeyword:
-                    return $this->parseTraitUseClause($parentNode);
-
-                case TokenKind::AttributeToken:
-                    return $this->parseAttributeStatement($parentNode);
-
-                default:
-                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
-            }
-        };
     }
 
     private function parseEnumDeclaration($parentNode) {
@@ -3765,77 +3629,12 @@ class Parser {
 
         $enumMembers->openBrace = $this->eat1(TokenKind::OpenBraceToken);
 
-        $enumMembers->enumMemberDeclarations = $this->parseList($enumMembers, ParseContext::EnumMembers);
+        $enumMembers->enumMemberDeclarations = $this->parseList($enumMembers, ParseContext::ClasslikeMembers);
 
         $enumMembers->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
 
         return $enumMembers;
     }
-
-    private function isEnumMemberDeclarationStart($token) {
-        switch ($token->kind) {
-            // modifiers
-            case TokenKind::PublicKeyword:
-            case TokenKind::ProtectedKeyword:
-            case TokenKind::PrivateKeyword:
-            case TokenKind::StaticKeyword:
-            case TokenKind::AbstractKeyword:
-            case TokenKind::FinalKeyword:
-
-            // method-declaration
-            case TokenKind::FunctionKeyword:
-
-            // trait-use-clauses (enums can use traits)
-            case TokenKind::UseKeyword:
-
-            // cases and constants
-            case TokenKind::CaseKeyword:
-            case TokenKind::ConstKeyword:
-
-            // attributes
-            case TokenKind::AttributeToken:
-                return true;
-        }
-        return false;
-    }
-
-    private function parseEnumElementFn() {
-        return function ($parentNode) {
-            $modifiers = $this->parseModifiers();
-
-            $token = $this->getCurrentToken();
-            switch ($token->kind) {
-                // TODO: CaseKeyword
-                case TokenKind::CaseKeyword:
-                    return $this->parseEnumCaseDeclaration($parentNode);
-
-                case TokenKind::ConstKeyword:
-                    return $this->parseClassConstDeclaration($parentNode, $modifiers);
-
-                case TokenKind::FunctionKeyword:
-                    return $this->parseMethodDeclaration($parentNode, $modifiers);
-
-                case TokenKind::QuestionToken:
-                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
-                        $parentNode,
-                        $modifiers,
-                        $this->eat1(TokenKind::QuestionToken)
-                    );
-                case TokenKind::VariableName:
-                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
-
-                case TokenKind::UseKeyword:
-                    return $this->parseTraitUseClause($parentNode);
-
-                case TokenKind::AttributeToken:
-                    return $this->parseAttributeStatement($parentNode);
-
-                default:
-                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
-            }
-        };
-    }
-
 
     /**
      * @param Node $parentNode
