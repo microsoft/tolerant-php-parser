@@ -3372,7 +3372,8 @@ class Parser {
         $startToken = $this->token;
         $classConstDeclaration->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($classConstDeclaration);
         if ($startToken->kind !== TokenKind::BackslashToken &&
-            in_array($this->token->kind, [TokenKind::EqualsToken, TokenKind::CommaToken, TokenKind::SemicolonToken]) && $this->lexer->getCurrentPosition() <= $startPos + 1) {
+            in_array($this->token->kind, [TokenKind::EqualsToken, TokenKind::CommaToken, TokenKind::SemicolonToken, TokenKind::EndOfFileToken]) &&
+            $this->lexer->getCurrentPosition() <= $startPos + 1) {
             $classConstDeclaration->typeDeclarationList = null;
             $this->lexer->setCurrentPosition($startPos);
             $this->token = $startToken;
