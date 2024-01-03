@@ -27,6 +27,7 @@ jobs:
          # NOTE: If this is not quoted, the yaml parser will convert numbers such as 8.0 to the number 8,
          # and the docker image `php:8` is the latest minor version of php 8.x (8.1).
          - PHP_VERSION: '7.2'
+           STATIC_ANALYSIS: true
          - PHP_VERSION: '7.3'
          - PHP_VERSION: '7.4'
          - PHP_VERSION: '8.0'
@@ -38,6 +39,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Clone submodules
+      - name: Checkout submodules for validation tests
+        run: git submodule update --init --recursive --depth 1
+
       # Runs a single command using the runners shell
       - name: Build and test in docker
         run: bash ci/run_tests_dockerized.sh ${{ matrix.PHP_VERSION }}
+
+      - name: Run static analysis (PHP 7.2 only)
+        run: if [[ "${{ matrix.STATIC_ANALYSIS }}" == true ]]; then bash ci/run_phpstan_dockerized.sh ${{ matrix.PHP_VERSION }}; fi

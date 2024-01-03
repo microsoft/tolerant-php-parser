@@ -13,4 +13,5 @@ tests/output
 **/.*.swp
 **/.*.swo
 **/Dockerfile
+ci/*_dockerized.sh
 .dockerignore

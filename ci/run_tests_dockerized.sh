@@ -11,12 +11,10 @@ fi
 # -u fail for undefined variables
 set -xeu
 PHP_VERSION=$1
-COMPOSER_OPTIONS=""
-# lexicographic comparison
-if [ "$PHP_VERSION" > "8.1" ]; then
-	COMPOSER_OPTIONS="--ignore-platform-reqs"
-fi
 
 DOCKER_IMAGE="tolerant-php-parser-test-runner:$PHP_VERSION"
-docker build --build-arg="PHP_VERSION=$PHP_VERSION" --build-arg="COMPOSER_OPTIONS=$COMPOSER_OPTIONS" --tag="$DOCKER_IMAGE" -f ci/Dockerfile .
-docker run --rm $DOCKER_IMAGE ci/run_tests.sh
+docker build --build-arg="PHP_VERSION=$PHP_VERSION" --tag="$DOCKER_IMAGE" -f ci/Dockerfile .
+# Run all of the phpunit test suites in CI.
+# - Add the validation folder as a read-only volume for running "phpunit --testsuite validation"
+#   (This is around 180MB, so it is not added to the docker image)
+docker run --volume="$PWD/validation:/tolerant-php-parser/validation:ro" --rm $DOCKER_IMAGE ci/run_tests.sh
