@@ -755,7 +755,7 @@ class Parser {
             $statement = $this->parseInterfaceElementFn()($parentNode);
         } else {
             // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
-            if (in_array($this->token->kind, [TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword], true) ||
+            if (in_array($this->token->kind, [TokenKind::ReadonlyKeyword, TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword], true) ||
                 $this->token->kind === TokenKind::StaticKeyword && $this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
                 $statement = $this->parseStatement($parentNode);
             } else {
