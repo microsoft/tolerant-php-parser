@@ -41,7 +41,24 @@
                                             "kind": "ConstKeyword",
                                             "textLength": 5
                                         },
-                                        "typeDeclarationList": null,
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "IntReservedWord",
+                                                        "textLength": 3
+                                                    },
+                                                    {
+                                                        "kind": "BarToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "kind": "StringReservedWord",
+                                                        "textLength": 6
+                                                    }
+                                                ]
+                                            }
+                                        },
                                         "constElements": {
                                             "ConstElementList": {
                                                 "children": [
@@ -52,14 +69,16 @@
                                                                 "textLength": 1
                                                             },
                                                             "equalsToken": {
-                                                                "error": "MissingToken",
                                                                 "kind": "EqualsToken",
-                                                                "textLength": 0
+                                                                "textLength": 1
                                                             },
                                                             "assignment": {
-                                                                "error": "MissingToken",
-                                                                "kind": "Expression",
-                                                                "textLength": 0
+                                                                "NumericLiteral": {
+                                                                    "children": {
+                                                                        "kind": "IntegerLiteralToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }

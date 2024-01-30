@@ -41,34 +41,27 @@
                                             "kind": "ConstKeyword",
                                             "textLength": 5
                                         },
-                                        "typeDeclarationList": null,
-                                        "constElements": {
-                                            "ConstElementList": {
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
                                                 "children": [
                                                     {
-                                                        "ConstElement": {
-                                                            "name": {
-                                                                "kind": "Name",
+                                                        "QualifiedName": {
+                                                            "globalSpecifier": {
+                                                                "kind": "BackslashToken",
                                                                 "textLength": 1
                                                             },
-                                                            "equalsToken": {
-                                                                "error": "MissingToken",
-                                                                "kind": "EqualsToken",
-                                                                "textLength": 0
-                                                            },
-                                                            "assignment": {
-                                                                "error": "MissingToken",
-                                                                "kind": "Expression",
-                                                                "textLength": 0
-                                                            }
+                                                            "relativeSpecifier": null,
+                                                            "nameParts": []
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
+                                        "constElements": null,
                                         "semicolon": {
+                                            "error": "MissingToken",
                                             "kind": "SemicolonToken",
-                                            "textLength": 1
+                                            "textLength": 0
                                         }
                                     }
                                 }
