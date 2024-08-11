@@ -74,6 +74,8 @@ use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\NumericLiteral;
 use Microsoft\PhpParser\Node\ParenthesizedIntersectionType;
 use Microsoft\PhpParser\Node\PropertyDeclaration;
+use Microsoft\PhpParser\Node\PropertyHooks;
+use Microsoft\PhpParser\Node\PropertyHook;
 use Microsoft\PhpParser\Node\ReservedWord;
 use Microsoft\PhpParser\Node\StringLiteral;
 use Microsoft\PhpParser\Node\MethodDeclaration;
@@ -175,7 +177,7 @@ class Parser {
      * @param string $fileContents
      * @return SourceFileNode
      */
-    public function parseSourceFile(string $fileContents, string $uri = null) : SourceFileNode {
+    public function parseSourceFile(string $fileContents, ?string $uri = null) : SourceFileNode {
         $this->lexer = $this->makeLexer($fileContents);
 
         $this->reset();
@@ -877,6 +879,10 @@ class Parser {
                 // TODO add post-parse rule that checks for invalid assignments
                 $parameter->default = $this->parseExpression($parameter);
             }
+
+            if ($this->token->kind === TokenKind::OpenBraceToken) {
+                $parameter->propertyHooks = $this->parsePropertyHooks($parameter);
+            }
             return $parameter;
         };
     }
@@ -1417,7 +1423,7 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    /** 
+                    /**
                      * @phpstan-ignore-next-line "Strict comparison using
                      * === between 403|404 and 408 will always evaluate to
                      * false" is wrong because those tokens were eaten above
@@ -3423,10 +3429,113 @@ class Parser {
         } elseif ($questionToken) {
             $propertyDeclaration->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
-        $propertyDeclaration->propertyElements = $this->parseExpressionList($propertyDeclaration);
-        $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
+        $propertyDeclaration->propertyElements = $this->parsePropertyNameList($propertyDeclaration);
+        if ($this->token->kind === TokenKind::OpenBraceToken) {
+            $propertyDeclaration->propertyHooks = $this->parsePropertyHooks($propertyDeclaration);
+        } else {
+            $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
+        }
 
         return $propertyDeclaration;
+    }
+
+    /**
+     * @param PropertyDeclaration $parentNode
+     * @return DelimitedList\VariableNameList
+     */
+    private function parsePropertyNameList($parentNode) {
+        // XXX this used to be implemented with parseExpressionList so keep the same classes.
+        return $this->parseDelimitedList(
+            DelimitedList\ExpressionList::class,
+            TokenKind::CommaToken,
+            function ($token) {
+                return $token->kind === TokenKind::VariableName;
+            },
+            $this->parsePropertyVariableNameAndDefault(),
+            $parentNode
+        );
+    }
+
+    private function parsePropertyVariableNameAndDefault() {
+        return function ($parentNode) {
+            // Imitate the format that parseExpression would have returned from when
+            // parseExpression was originally used.
+            // This is more precise and rules out parse errors such as `public $propName + 2;`
+            // This approach also avoids conflict with the deprecated $x{expr} array access syntax.
+            $variable = new Variable();
+            $variable->name = $this->eat1(TokenKind::VariableName);
+            $equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
+            if ($equalsToken === null) {
+                $variable->parent = $parentNode;
+                return $variable;
+            }
+
+            $byRefToken = $this->eatOptional1(TokenKind::AmpersandToken); // byRef default is nonsense, but this is a compile-time error instead of a parse error.
+            $rightOperand = $this->parseExpression($parentNode); // gets overridden in makeBinaryExpression
+            return $this->makeBinaryExpression($variable, $equalsToken, $byRefToken, $rightOperand, $parentNode);
+        };
+    }
+
+    /**
+     * @param PropertyDeclaration|Parameter $parent
+     * @return PropertyHooks
+     */
+    private function parsePropertyHooks(Node $parent) {
+        $propertyHooks = new PropertyHooks();
+        $propertyHooks->parent = $parent;
+        $propertyHooks->openBrace = $this->eat1(TokenKind::OpenBraceToken);
+        $hooks = [];
+        while (in_array($this->getCurrentToken()->kind, self::PROPERTY_HOOK_START_TOKENS, true)) {
+            $hooks[] = $this->parsePropertyHook($propertyHooks);
+        }
+        $propertyHooks->hookDeclarations = $hooks;
+        $propertyHooks->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
+        return $propertyHooks;
+    }
+
+    const PROPERTY_HOOK_START_TOKENS = [
+        TokenKind::Name,
+        TokenKind::AmpersandToken, // by reference
+        TokenKind::AttributeToken,
+    ];
+
+    private function isPropertyHookStart() {
+        return function ($token) {
+            return \in_array($token->kind, self::PROPERTY_HOOK_START_TOKENS, true);
+        };
+    }
+
+    /**
+     * @param PropertyHooks $parentNode
+     * @return PropertyHook
+     */
+    private function parsePropertyHook($parentNode) {
+        $node = new PropertyHook();
+        $node->parent = $parentNode;
+        if ($this->getCurrentToken()->kind === TokenKind::AttributeToken) {
+            $node->attributes = $this->parseAttributeGroups($node);
+        }
+        $node->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
+        $node->name = $this->eat1(TokenKind::Name); // "get" or "set" - other values are compile errors, not parse errors.
+        $node->openParen = $this->eatOptional1(TokenKind::OpenParenToken);
+        if ($node->openParen) {
+            $node->parameters = $this->parseDelimitedList(
+                DelimitedList\ParameterDeclarationList::class,
+                TokenKind::CommaToken,
+                $this->isParameterStartFn(),
+                $this->parseParameterFn(),
+                $node);
+            $node->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        }
+        // e.g. `get => expr;` or `get { return $expr; }`
+        $node->arrowToken = $this->eatOptional1(TokenKind::DoubleArrowToken);
+        if ($node->arrowToken) {
+            $node->body = $this->parseExpression($node);
+            $node->semicolon = $this->eat1(TokenKind::SemicolonToken);
+        } else {
+            $node->body = $this->parseCompoundStatement($node);
+        }
+        return $node;
     }
 
     /**

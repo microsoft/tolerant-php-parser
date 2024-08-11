@@ -10,6 +10,7 @@ use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\ModifiedTypeInterface;
 use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\PropertyHooks;
 use Microsoft\PhpParser\Node\DelimitedList\QualifiedNameList;
 use Microsoft\PhpParser\Token;
 
@@ -28,6 +29,9 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     /** @var DelimitedList\ExpressionList */
     public $propertyElements;
 
+    /** @var PropertyHooks|null */
+    public $propertyHooks;
+
     /** @var Token */
     public $semicolon;
 
@@ -37,6 +41,7 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
         'questionToken',
         'typeDeclarationList',
         'propertyElements',
+        'propertyHooks',
         'semicolon'
     ];
 }

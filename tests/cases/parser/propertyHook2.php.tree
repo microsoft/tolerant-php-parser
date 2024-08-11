@@ -1,0 +1,303 @@
+{
+    "SourceFileNode": {
+        "statementList": [
+            {
+                "InlineHtml": {
+                    "scriptSectionEndTag": null,
+                    "text": null,
+                    "scriptSectionStartTag": {
+                        "kind": "ScriptSectionStartTag",
+                        "textLength": 6
+                    }
+                }
+            },
+            {
+                "ClassDeclaration": {
+                    "attributes": null,
+                    "abstractOrFinalModifier": null,
+                    "modifiers": [],
+                    "classKeyword": {
+                        "kind": "ClassKeyword",
+                        "textLength": 5
+                    },
+                    "name": {
+                        "kind": "Name",
+                        "textLength": 3
+                    },
+                    "classBaseClause": null,
+                    "classInterfaceClause": null,
+                    "classMembers": {
+                        "ClassMembersNode": {
+                            "openBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "classMemberDeclarations": [
+                                {
+                                    "PropertyDeclaration": {
+                                        "attributes": null,
+                                        "modifiers": [
+                                            {
+                                                "kind": "PrivateKeyword",
+                                                "textLength": 7
+                                            }
+                                        ],
+                                        "questionToken": null,
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "StringReservedWord",
+                                                        "textLength": 6
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "propertyElements": {
+                                            "ExpressionList": {
+                                                "children": [
+                                                    {
+                                                        "Variable": {
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 5
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "propertyHooks": null,
+                                        "semicolon": {
+                                            "kind": "SemicolonToken",
+                                            "textLength": 1
+                                        }
+                                    }
+                                },
+                                {
+                                    "PropertyDeclaration": {
+                                        "attributes": null,
+                                        "modifiers": [
+                                            {
+                                                "kind": "PublicKeyword",
+                                                "textLength": 6
+                                            }
+                                        ],
+                                        "questionToken": null,
+                                        "typeDeclarationList": {
+                                            "QualifiedNameList": {
+                                                "children": [
+                                                    {
+                                                        "kind": "StringReservedWord",
+                                                        "textLength": 6
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "propertyElements": {
+                                            "ExpressionList": {
+                                                "children": [
+                                                    {
+                                                        "Variable": {
+                                                            "dollar": null,
+                                                            "name": {
+                                                                "kind": "VariableName",
+                                                                "textLength": 4
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "propertyHooks": {
+                                            "PropertyHooks": {
+                                                "openBrace": {
+                                                    "kind": "OpenBraceToken",
+                                                    "textLength": 1
+                                                },
+                                                "hookDeclarations": [
+                                                    {
+                                                        "PropertyHook": {
+                                                            "attributes": null,
+                                                            "byRefToken": {
+                                                                "kind": "AmpersandToken",
+                                                                "textLength": 1
+                                                            },
+                                                            "name": {
+                                                                "kind": "Name",
+                                                                "textLength": 3
+                                                            },
+                                                            "openParen": null,
+                                                            "parameters": null,
+                                                            "closeParen": null,
+                                                            "arrowToken": {
+                                                                "kind": "DoubleArrowToken",
+                                                                "textLength": 2
+                                                            },
+                                                            "body": {
+                                                                "MemberAccessExpression": {
+                                                                    "dereferencableExpression": {
+                                                                        "Variable": {
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 5
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "arrowToken": {
+                                                                        "kind": "ArrowToken",
+                                                                        "textLength": 2
+                                                                    },
+                                                                    "memberName": {
+                                                                        "kind": "Name",
+                                                                        "textLength": 4
+                                                                    }
+                                                                }
+                                                            },
+                                                            "semicolon": {
+                                                                "kind": "SemicolonToken",
+                                                                "textLength": 1
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "PropertyHook": {
+                                                            "attributes": null,
+                                                            "byRefToken": null,
+                                                            "name": {
+                                                                "kind": "Name",
+                                                                "textLength": 3
+                                                            },
+                                                            "openParen": null,
+                                                            "parameters": null,
+                                                            "closeParen": null,
+                                                            "arrowToken": null,
+                                                            "body": {
+                                                                "CompoundStatementNode": {
+                                                                    "openBrace": {
+                                                                        "kind": "OpenBraceToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "statements": [
+                                                                        {
+                                                                            "ExpressionStatement": {
+                                                                                "expression": {
+                                                                                    "AssignmentExpression": {
+                                                                                        "leftOperand": {
+                                                                                            "MemberAccessExpression": {
+                                                                                                "dereferencableExpression": {
+                                                                                                    "Variable": {
+                                                                                                        "dollar": null,
+                                                                                                        "name": {
+                                                                                                            "kind": "VariableName",
+                                                                                                            "textLength": 5
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "arrowToken": {
+                                                                                                    "kind": "ArrowToken",
+                                                                                                    "textLength": 2
+                                                                                                },
+                                                                                                "memberName": {
+                                                                                                    "kind": "Name",
+                                                                                                    "textLength": 4
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "operator": {
+                                                                                            "kind": "EqualsToken",
+                                                                                            "textLength": 1
+                                                                                        },
+                                                                                        "byRef": null,
+                                                                                        "rightOperand": {
+                                                                                            "CallExpression": {
+                                                                                                "callableExpression": {
+                                                                                                    "QualifiedName": {
+                                                                                                        "globalSpecifier": null,
+                                                                                                        "relativeSpecifier": null,
+                                                                                                        "nameParts": [
+                                                                                                            {
+                                                                                                                "kind": "Name",
+                                                                                                                "textLength": 10
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                },
+                                                                                                "openParen": {
+                                                                                                    "kind": "OpenParenToken",
+                                                                                                    "textLength": 1
+                                                                                                },
+                                                                                                "argumentExpressionList": {
+                                                                                                    "ArgumentExpressionList": {
+                                                                                                        "children": [
+                                                                                                            {
+                                                                                                                "ArgumentExpression": {
+                                                                                                                    "name": null,
+                                                                                                                    "colonToken": null,
+                                                                                                                    "dotDotDotToken": null,
+                                                                                                                    "expression": {
+                                                                                                                        "Variable": {
+                                                                                                                            "dollar": null,
+                                                                                                                            "name": {
+                                                                                                                                "kind": "VariableName",
+                                                                                                                                "textLength": 6
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                },
+                                                                                                "closeParen": {
+                                                                                                    "kind": "CloseParenToken",
+                                                                                                    "textLength": 1
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "semicolon": {
+                                                                                    "kind": "SemicolonToken",
+                                                                                    "textLength": 1
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ],
+                                                                    "closeBrace": {
+                                                                        "kind": "CloseBraceToken",
+                                                                        "textLength": 1
+                                                                    }
+                                                                }
+                                                            },
+                                                            "semicolon": null
+                                                        }
+                                                    }
+                                                ],
+                                                "closeBrace": {
+                                                    "kind": "CloseBraceToken",
+                                                    "textLength": 1
+                                                }
+                                            }
+                                        },
+                                        "semicolon": null
+                                    }
+                                }
+                            ],
+                            "closeBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "endOfFileToken": {
+            "kind": "EndOfFileToken",
+            "textLength": 0
+        }
+    }
+}

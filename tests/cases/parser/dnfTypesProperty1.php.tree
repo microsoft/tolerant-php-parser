@@ -135,6 +135,7 @@
                                                 ]
                                             }
                                         },
+                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1
