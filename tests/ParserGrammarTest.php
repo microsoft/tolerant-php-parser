@@ -19,7 +19,7 @@ class ParserGrammarTest extends TestCase {
     private $expectedDiagnosticsFile;
     private $tokens;
     private $diagnostics;
-    public function run(TestResult $result = null) : TestResult {
+    public function run(?TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_PARSER"])) {
             $GLOBALS["GIT_CHECKOUT_PARSER"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tree *.php.diag");

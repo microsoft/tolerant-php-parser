@@ -42,7 +42,7 @@ class Token implements \JsonSerializable {
      * @param string|null $document
      * @return bool|null|string
      */
-    public function getText(string $document = null) {
+    public function getText(?string $document = null) {
         if ($document === null) {
             return null;
         }
