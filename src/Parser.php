@@ -175,7 +175,7 @@ class Parser {
      * @param string $fileContents
      * @return SourceFileNode
      */
-    public function parseSourceFile(string $fileContents, string $uri = null) : SourceFileNode {
+    public function parseSourceFile(string $fileContents, ?string $uri = null) : SourceFileNode {
         $this->lexer = $this->makeLexer($fileContents);
 
         $this->reset();
@@ -1417,7 +1417,7 @@ class Parser {
                 case TokenKind::DollarOpenBraceToken:
                 case TokenKind::OpenBraceDollarToken:
                     $expression->children[] = $this->eat(TokenKind::DollarOpenBraceToken, TokenKind::OpenBraceDollarToken);
-                    /** 
+                    /**
                      * @phpstan-ignore-next-line "Strict comparison using
                      * === between 403|404 and 408 will always evaluate to
                      * false" is wrong because those tokens were eaten above

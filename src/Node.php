@@ -151,7 +151,7 @@ abstract class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]|Token[]
      */
-    public function getDescendantNodesAndTokens(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantNodesAndTokens(?callable $shouldDescendIntoChildrenFn = null) {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
         foreach ($this->getChildNodesAndTokens() as $child) {
@@ -176,7 +176,7 @@ abstract class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return void
      */
-    public function walkDescendantNodesAndTokens(callable $callback, callable $shouldDescendIntoChildrenFn = null) {
+    public function walkDescendantNodesAndTokens(callable $callback, ?callable $shouldDescendIntoChildrenFn = null) {
         // TODO - write unit tests to prove invariants
         // (concatenating all descendant Tokens should produce document, concatenating all Nodes should produce document)
         foreach (static::CHILD_NAMES as $name) {
@@ -209,7 +209,7 @@ abstract class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Node[]
      */
-    public function getDescendantNodes(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantNodes(?callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodes() as $child) {
             yield $child;
             if ($shouldDescendIntoChildrenFn === null || $shouldDescendIntoChildrenFn($child)) {
@@ -223,7 +223,7 @@ abstract class Node implements \JsonSerializable {
      * @param callable|null $shouldDescendIntoChildrenFn
      * @return \Generator|Token[]
      */
-    public function getDescendantTokens(callable $shouldDescendIntoChildrenFn = null) {
+    public function getDescendantTokens(?callable $shouldDescendIntoChildrenFn = null) {
         foreach ($this->getChildNodesAndTokens() as $child) {
             if ($child instanceof Node) {
                 if ($shouldDescendIntoChildrenFn == null || $shouldDescendIntoChildrenFn($child)) {

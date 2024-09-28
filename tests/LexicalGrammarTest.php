@@ -17,7 +17,7 @@ class LexicalGrammarTest extends TestCase {
     private $expectedTokensFile;
     private $tokens;
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
-    public function run(TestResult $result = null) : TestResult {
+    public function run(?TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_LEXER"])) {
             $GLOBALS["GIT_CHECKOUT_LEXER"] = true;
             exec("git -C " . dirname(self::FILE_PATTERN) . " checkout *.php.tokens");
