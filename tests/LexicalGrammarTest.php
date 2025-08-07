@@ -17,6 +17,10 @@ class LexicalGrammarTest extends TestCase {
     private $expectedTokensFile;
     private $tokens;
     const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
+    const PHP84_FILE_PATTERN = __DIR__ . "/cases/lexical84/*";
+    const PATTERNS_FOR_MINIMUM_PHP_VERSION = [
+        [80400, self::PHP84_FILE_PATTERN],
+    ];
     public function run(?TestResult $result = null) : TestResult {
         if (!isset($GLOBALS["GIT_CHECKOUT_LEXER"])) {
             $GLOBALS["GIT_CHECKOUT_LEXER"] = true;
@@ -64,7 +68,21 @@ class LexicalGrammarTest extends TestCase {
             if (in_array(basename($testCase), $skipped)) {
                 continue;
             }
+
+            if (PHP_VERSION_ID >= 80400 && basename($testCase) === 'keyword5.php') {
+                continue;
+            }
+
             $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tokens"];
+        }
+
+        foreach (self::PATTERNS_FOR_MINIMUM_PHP_VERSION as list($minVersionId, $filePattern)) {
+            if (PHP_VERSION_ID >= $minVersionId) {
+                $testCases = glob($filePattern . ".php");
+                foreach ($testCases as $testCase) {
+                    $testProviderArray[basename($testCase)] = [$testCase, $testCase . ".tokens"];
+                }
+            }
         }
 
         return $testProviderArray;
