@@ -9,6 +9,7 @@ namespace Microsoft\PhpParser\Node;
 use Microsoft\PhpParser\ModifiedTypeInterface;
 use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\QualifiedNameList;
 use Microsoft\PhpParser\Token;
 
 class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
@@ -23,6 +24,9 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
     /** @var Token */
     public $constKeyword;
 
+    /** @var QualifiedNameList|null */
+    public $typeDeclarationList;
+
     /** @var DelimitedList\ConstElementList */
     public $constElements;
 
@@ -33,6 +37,7 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
         'attributes',
         'modifiers',
         'constKeyword',
+        'typeDeclarationList',
         'constElements',
         'semicolon'
     ];
