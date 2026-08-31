@@ -1,0 +1,14 @@
+[
+    {
+        "kind": "ScriptSectionStartTag",
+        "textLength": 6
+    },
+    {
+        "kind": "YieldFromKeyword",
+        "textLength": 22
+    },
+    {
+        "kind": "EndOfFileToken",
+        "textLength": 0
+    }
+]
