@@ -64,7 +64,8 @@
                                                     "textLength": 7
                                                 },
                                                 "equalsToken": null,
-                                                "default": null
+                                                "default": null,
+                                                "propertyHooks": null
                                             }
                                         }
                                     ]
@@ -169,7 +170,8 @@
                                                     "textLength": 2
                                                 },
                                                 "equalsToken": null,
-                                                "default": null
+                                                "default": null,
+                                                "propertyHooks": null
                                             }
                                         }
                                     ]
@@ -281,7 +283,8 @@
                                                     "textLength": 6
                                                 },
                                                 "equalsToken": null,
-                                                "default": null
+                                                "default": null,
+                                                "propertyHooks": null
                                             }
                                         }
                                     ]
@@ -443,7 +446,8 @@
                                                     "textLength": 0
                                                 },
                                                 "equalsToken": null,
-                                                "default": null
+                                                "default": null,
+                                                "propertyHooks": null
                                             }
                                         }
                                     ]

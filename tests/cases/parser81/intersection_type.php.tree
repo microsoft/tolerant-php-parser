@@ -93,7 +93,8 @@
                                             "textLength": 6
                                         },
                                         "equalsToken": null,
-                                        "default": null
+                                        "default": null,
+                                        "propertyHooks": null
                                     }
                                 },
                                 {
@@ -150,7 +151,8 @@
                                             "textLength": 7
                                         },
                                         "equalsToken": null,
-                                        "default": null
+                                        "default": null,
+                                        "propertyHooks": null
                                     }
                                 }
                             ]
@@ -295,6 +297,7 @@
                                                 ]
                                             }
                                         },
+                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

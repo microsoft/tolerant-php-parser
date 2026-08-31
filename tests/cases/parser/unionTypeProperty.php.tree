@@ -84,6 +84,7 @@
                                                 ]
                                             }
                                         },
+                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1
@@ -183,6 +184,7 @@
                                                 ]
                                             }
                                         },
+                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

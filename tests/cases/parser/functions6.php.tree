@@ -55,7 +55,8 @@
                                                     "textLength": 2
                                                 }
                                             }
-                                        }
+                                        },
+                                        "propertyHooks": null
                                     }
                                 },
                                 {
@@ -76,7 +77,8 @@
                                             "textLength": 2
                                         },
                                         "equalsToken": null,
-                                        "default": null
+                                        "default": null,
+                                        "propertyHooks": null
                                     }
                                 }
                             ]
