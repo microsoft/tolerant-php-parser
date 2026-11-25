@@ -1,6 +1,6 @@
 # this is a WIP flake for development and experimentation only
 {
-  description = "phpactor/phpactor";
+  description = "phpbench/phpbench";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -25,12 +25,10 @@
         system,
         ...
       }: let 
-        phpWithXdebug = (pkgs.php84.buildEnv {
+        php = (pkgs.php86.buildEnv {
           extensions = ({ enabled, all }: enabled ++ (with all; [
-            xdebug
           ]));
           extraConfig = ''
-            xdebug.mode=debug
           '';
         });
       in {
@@ -42,16 +40,20 @@
           name = "php-devshell";
 
           buildInputs = [
-            phpWithXdebug
-            pkgs.php84.packages.composer
+            pkgs.bash
+            pkgs.python3
+            # note using 8.5 for composer install until prophecy supports PHP 8.6
+            pkgs.php85.packages.composer
+            php
           ];
           shellHook = ''
           if [ ! -d ".venv" ]; then
             python3 -m venv .venv;
           fi
-          source .venv/bin/activate;'';
+          source .venv/bin/activate;
+          (cd docs && pip install -r requirements.txt);
+          '';
         };
       };
     };
 }
-

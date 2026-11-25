@@ -19,6 +19,7 @@
                                 "kind": "CloneKeyword",
                                 "textLength": 5
                             },
+                            "openParen": null,
                             "expression": {
                                 "PrefixUpdateExpression": {
                                     "incrementOrDecrementOperator": {
@@ -35,7 +36,10 @@
                                         }
                                     }
                                 }
-                            }
+                            },
+                            "commaToken": null,
+                            "modifications": null,
+                            "closeParen": null
                         }
                     },
                     "semicolon": {

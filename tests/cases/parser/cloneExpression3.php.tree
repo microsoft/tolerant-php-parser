@@ -19,19 +19,27 @@
                                 "kind": "CloneKeyword",
                                 "textLength": 5
                             },
+                            "openParen": null,
                             "expression": {
                                 "CloneExpression": {
                                     "cloneKeyword": {
                                         "kind": "CloneKeyword",
                                         "textLength": 5
                                     },
+                                    "openParen": null,
                                     "expression": {
                                         "error": "MissingToken",
                                         "kind": "Expression",
                                         "textLength": 0
-                                    }
+                                    },
+                                    "commaToken": null,
+                                    "modifications": null,
+                                    "closeParen": null
                                 }
-                            }
+                            },
+                            "commaToken": null,
+                            "modifications": null,
+                            "closeParen": null
                         }
                     },
                     "semicolon": {

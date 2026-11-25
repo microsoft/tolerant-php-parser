@@ -96,39 +96,30 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": [
-                                {
-                                    "kind": "Name",
-                                    "textLength": 1
+                        "SubscriptExpression": {
+                            "postfixExpression": {
+                                "QualifiedName": {
+                                    "globalSpecifier": null,
+                                    "relativeSpecifier": null,
+                                    "nameParts": [
+                                        {
+                                            "kind": "Name",
+                                            "textLength": 1
+                                        }
+                                    ]
                                 }
-                            ]
+                            },
+                            "openBracketOrBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "accessExpression": null,
+                            "closeBracketOrBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
                     },
-                    "semicolon": {
-                        "error": "MissingToken",
-                        "kind": "SemicolonToken",
-                        "textLength": 0
-                    }
-                }
-            },
-            {
-                "CompoundStatementNode": {
-                    "openBrace": {
-                        "kind": "OpenBraceToken",
-                        "textLength": 1
-                    },
-                    "statements": [],
-                    "closeBrace": {
-                        "kind": "CloseBraceToken",
-                        "textLength": 1
-                    }
-                }
-            },
-            {
-                "EmptyStatement": {
                     "semicolon": {
                         "kind": "SemicolonToken",
                         "textLength": 1

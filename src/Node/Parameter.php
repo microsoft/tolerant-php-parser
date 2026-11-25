@@ -33,8 +33,6 @@ class Parameter extends Node {
     public $equalsToken;
     /** @var null|Expression */
     public $default;
-    /** @var PropertyHooks|null */
-    public $propertyHooks;
 
     const CHILD_NAMES = [
         'attributes',
@@ -47,8 +45,7 @@ class Parameter extends Node {
         'dotDotDotToken',
         'variableName',
         'equalsToken',
-        'default',
-        'propertyHooks',
+        'default'
     ];
 
     public function isVariadic() {

@@ -10,11 +10,5 @@
         "message": "Unexpected 'extends'",
         "start": 37,
         "length": 7
-    },
-    {
-        "kind": 0,
-        "message": "';' expected.",
-        "start": 46,
-        "length": 0
     }
 ]

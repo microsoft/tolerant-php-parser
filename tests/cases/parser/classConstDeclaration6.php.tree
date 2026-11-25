@@ -39,6 +39,8 @@
                                                         "kind": "ConstKeyword",
                                                         "textLength": 5
                                                     },
+                                                    "questionToken": null,
+                                                    "typeDeclarationList": null,
                                                     "constElements": {
                                                         "DelimitedList": {
                                                             "children": [

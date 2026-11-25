@@ -6,6 +6,7 @@
 
 namespace Microsoft\PhpParser\Node;
 
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\ModifiedTypeInterface;
 use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
@@ -24,7 +25,10 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
     /** @var Token */
     public $constKeyword;
 
-    /** @var QualifiedNameList|null */
+    /** @var Token|null question token when a nullable type is declared */
+    public $questionToken;
+
+    /** @var QualifiedNameList|MissingToken|null */
     public $typeDeclarationList;
 
     /** @var DelimitedList\ConstElementList */
@@ -37,6 +41,7 @@ class ClassConstDeclaration extends Node implements ModifiedTypeInterface {
         'attributes',
         'modifiers',
         'constKeyword',
+        'questionToken',
         'typeDeclarationList',
         'constElements',
         'semicolon'

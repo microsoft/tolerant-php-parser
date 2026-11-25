@@ -12,9 +12,6 @@ use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\AssertionFailedError;
 
 class LexicalGrammarTest extends TestCase {
-    private $expectedTokensFile;
-    private $tokens;
-    const FILE_PATTERN = __DIR__ . "/cases/lexical/*";
     /**
      * @dataProvider lexicalProvider
      */
@@ -28,12 +25,16 @@ class LexicalGrammarTest extends TestCase {
 
         if (!file_exists($expectedTokensFile)) {
             file_put_contents($expectedTokensFile, $tokens);
-            self::markTestSkipped('Snapshot updated');
+            self::markTestSkipped('Snapshot generated');
         }
 
         $expectedTokens = str_replace("\r\n", "\n", file_get_contents($expectedTokensFile));
 
-        $this->assertEquals($expectedTokens, $tokens, "input: $testCaseFile\r\nexpected: $expectedTokensFile");
+        $this->assertEquals(
+            $expectedTokens,
+            $tokens,
+            "input: $testCaseFile\r\nexpected: $expectedTokensFile (delete expected to regenerate)"
+        );
     }
 
     public function lexicalProvider() {

@@ -46,14 +46,15 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "AssignmentExpression": {
-                                                            "leftOperand": {
+                                                        "PropertyElement": {
+                                                            "variable": {
                                                                 "Variable": {
                                                                     "dollar": null,
                                                                     "name": {
@@ -62,25 +63,24 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "operator": {
+                                                            "equalsToken": {
                                                                 "kind": "EqualsToken",
                                                                 "textLength": 1
                                                             },
-                                                            "byRef": null,
-                                                            "rightOperand": {
+                                                            "initializer": {
                                                                 "NumericLiteral": {
                                                                     "children": {
                                                                         "kind": "IntegerLiteralToken",
                                                                         "textLength": 1
                                                                     }
                                                                 }
-                                                            }
+                                                            },
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

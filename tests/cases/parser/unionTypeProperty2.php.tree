@@ -112,6 +112,7 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
                                             "QualifiedNameList": {
@@ -141,11 +142,11 @@
                                             }
                                         },
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "AssignmentExpression": {
-                                                            "leftOperand": {
+                                                        "PropertyElement": {
+                                                            "variable": {
                                                                 "Variable": {
                                                                     "dollar": null,
                                                                     "name": {
@@ -154,12 +155,11 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "operator": {
+                                                            "equalsToken": {
                                                                 "kind": "EqualsToken",
                                                                 "textLength": 1
                                                             },
-                                                            "byRef": null,
-                                                            "rightOperand": {
+                                                            "initializer": {
                                                                 "StringLiteral": {
                                                                     "startQuote": null,
                                                                     "children": {
@@ -168,13 +168,13 @@
                                                                     },
                                                                     "endQuote": null
                                                                 }
-                                                            }
+                                                            },
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

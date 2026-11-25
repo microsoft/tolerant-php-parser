@@ -18,6 +18,7 @@
             },
             {
                 "ConstDeclaration": {
+                    "attributes": null,
                     "constKeyword": {
                         "kind": "ConstKeyword",
                         "textLength": 5

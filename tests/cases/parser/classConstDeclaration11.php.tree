@@ -36,25 +36,23 @@
                                 {
                                     "ClassConstDeclaration": {
                                         "attributes": null,
-                                        "modifiers": [],
+                                        "modifiers": [
+                                            {
+                                                "kind": "PublicKeyword",
+                                                "textLength": 6
+                                            }
+                                        ],
                                         "constKeyword": {
                                             "kind": "ConstKeyword",
                                             "textLength": 5
                                         },
+                                        "questionToken": null,
                                         "typeDeclarationList": {
                                             "QualifiedNameList": {
                                                 "children": [
                                                     {
                                                         "kind": "IntReservedWord",
                                                         "textLength": 3
-                                                    },
-                                                    {
-                                                        "kind": "BarToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "kind": "StringReservedWord",
-                                                        "textLength": 6
                                                     }
                                                 ]
                                             }
@@ -66,7 +64,7 @@
                                                         "ConstElement": {
                                                             "name": {
                                                                 "kind": "Name",
-                                                                "textLength": 1
+                                                                "textLength": 2
                                                             },
                                                             "equalsToken": {
                                                                 "kind": "EqualsToken",

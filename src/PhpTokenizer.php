@@ -14,6 +14,7 @@ define(__NAMESPACE__ . '\T_FN', defined('T_FN') ? constant('T_FN') : 'T_FN');
 define(__NAMESPACE__ . '\T_MATCH', defined('T_MATCH') ? constant('T_MATCH') : 'T_MATCH');
 define(__NAMESPACE__ . '\T_NULLSAFE_OBJECT_OPERATOR', defined('T_NULLSAFE_OBJECT_OPERATOR') ? constant('T_NULLSAFE_OBJECT_OPERATOR') : 'T_NULLSAFE_OBJECT_OPERATOR');
 define(__NAMESPACE__ . '\T_ATTRIBUTE', defined('T_ATTRIBUTE') ? constant('T_ATTRIBUTE') : 'T_ATTRIBUTE');
+define(__NAMESPACE__ . '\T_PIPE', defined('T_PIPE') ? constant('T_PIPE') : 'T_PIPE');
 // If this predates PHP 8.1, T_ENUM is unavailable. The replacement value is arbitrary - it just has to be different from other values of token constants.
 define(__NAMESPACE__ . '\T_ENUM', defined('T_ENUM') ? constant('T_ENUM') : 'T_ENUM');
 define(__NAMESPACE__ . '\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG', defined('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') ? constant('T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG') : 'T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG');
@@ -107,11 +108,25 @@ class PhpTokenizer implements TokenStreamProviderInterface {
 
         // Convert tokens from token_get_all to Token instances,
         // skipping whitespace and (usually, when parseContext is null) comments.
-        foreach ($tokens as $token) {
+        $keys = \array_keys($tokens);
+        $tokenCount = \count($keys);
+        for ($i = 0; $i < $tokenCount; $i++) {
+            $token = $tokens[$keys[$i]];
             if (\is_array($token)) {
                 $tokenKind = $token[0];
                 $strlen = \strlen($token[1]);
             } else {
+                if ($token === '|' && $i + 1 < $tokenCount) {
+                    $nextToken = $tokens[$keys[$i + 1]];
+                    if (!\is_array($nextToken) && $nextToken === '>') {
+                        $pos += 1; // '|'
+                        $i++;
+                        $pos += 1; // '>'
+                        $arr[] = new Token(TokenKind::PipeToken, $fullStart, $start, $pos - $fullStart);
+                        $start = $fullStart = $pos;
+                        continue;
+                    }
+                }
                 $pos += \strlen($token);
                 $newTokenKind = self::TOKEN_MAP[$token] ?? TokenKind::Unknown;
                 $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
@@ -134,7 +149,48 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                     $start = $fullStart = $pos;
                     break;
                 case \T_OPEN_TAG:
+                    if ($token[1] === '<?' && $i + 1 < $tokenCount) {
+                        $nextToken = $tokens[$keys[$i + 1]];
+                        if (\is_array($nextToken) && $nextToken[0] === \T_STRING && \strcasecmp($nextToken[1], 'php') === 0) {
+                            $pos += \strlen($nextToken[1]);
+                            $i++;
+                            $strlen += \strlen($nextToken[1]);
+                        }
+                    }
                     $arr[] = new Token(TokenKind::ScriptSectionStartTag, $fullStart, $start, $pos-$fullStart);
+                    $start = $fullStart = $pos;
+                    break;
+                case \T_YIELD:
+                    if ($treatCommentsAsTrivia) {
+                        $yieldFromEndIndex = $i;
+                        for ($lookahead = $i + 1; $lookahead < $tokenCount; $lookahead++) {
+                            $lookaheadToken = $tokens[$keys[$lookahead]];
+                            if (\is_array($lookaheadToken)) {
+                                $lookaheadKind = $lookaheadToken[0];
+                                if ($lookaheadKind === \T_WHITESPACE) {
+                                    continue;
+                                }
+                                if (($lookaheadKind === \T_COMMENT || $lookaheadKind === \T_DOC_COMMENT) && $treatCommentsAsTrivia) {
+                                    continue;
+                                }
+                                if ($lookaheadKind === \T_STRING && \strcasecmp($lookaheadToken[1], 'from') === 0) {
+                                    $yieldFromEndIndex = $lookahead;
+                                }
+                            }
+                            break;
+                        }
+                        if ($yieldFromEndIndex !== $i) {
+                            for ($consume = $i + 1; $consume <= $yieldFromEndIndex; $consume++) {
+                                $consumed = $tokens[$keys[$consume]];
+                                $pos += \is_array($consumed) ? \strlen($consumed[1]) : \strlen($consumed);
+                            }
+                            $i = $yieldFromEndIndex;
+                            $arr[] = new Token(TokenKind::YieldFromKeyword, $fullStart, $start, $pos - $fullStart);
+                            $start = $fullStart = $pos;
+                            break;
+                        }
+                    }
+                    $arr[] = new Token(TokenKind::YieldKeyword, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
                     break;
                 case \PHP_VERSION_ID >= 80000 ? \T_NAME_QUALIFIED : -1000:
@@ -152,8 +208,8 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                     //
                     // T_NAME_* was added in php 8.0 to forbid whitespace between parts of names.
                     // Here, emulate the tokenization of php 7 by splitting it up into 1 or more tokens.
-                    foreach (\explode('\\', $token[1]) as $i => $name) {
-                        if ($i) {
+                    foreach (\explode('\\', $token[1]) as $segmentIndex => $name) {
+                        if ($segmentIndex) {
                             $arr[] = new Token(TokenKind::BackslashToken, $fullStart, $start, 1 + $start - $fullStart);
                             $start++;
                             $fullStart = $start;
@@ -170,9 +226,9 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                     break;
                 case \PHP_VERSION_ID >= 80000 ? \T_NAME_RELATIVE : -1002:
                     // This is a namespace-relative name: namespace\...
-                    foreach (\explode('\\', $token[1]) as $i => $name) {
+                    foreach (\explode('\\', $token[1]) as $segmentIndex => $name) {
                         $len = \strlen($name);
-                        if (!$i) {
+                        if (!$segmentIndex) {
                             $arr[] = new Token(TokenKind::NamespaceKeyword, $fullStart, $start, $len + $start - $fullStart);
                             $start += $len;
                             $fullStart = $start;
@@ -196,7 +252,19 @@ class PhpTokenizer implements TokenStreamProviderInterface {
                     }
                     // fall through
                 default:
-                    $newTokenKind = self::TOKEN_MAP[$tokenKind] ?? TokenKind::Unknown;
+                    $newTokenKind = self::TOKEN_MAP[$tokenKind] ?? null;
+                    // Handle PHP 8.4+ asymmetric visibility tokens
+                    if ($newTokenKind === null) {
+                        if ($tokenKind === 327 && defined('T_PRIVATE_SET') && T_PRIVATE_SET === 327) {
+                            $newTokenKind = TokenKind::PrivateSetKeyword;
+                        } elseif ($tokenKind === 328 && defined('T_PROTECTED_SET') && T_PROTECTED_SET === 328) {
+                            $newTokenKind = TokenKind::ProtectedSetKeyword;
+                        } elseif ($tokenKind === 329 && defined('T_PUBLIC_SET') && T_PUBLIC_SET === 329) {
+                            $newTokenKind = TokenKind::PublicSetKeyword;
+                        } else {
+                            $newTokenKind = TokenKind::Unknown;
+                        }
+                    }
                     $arr[] = new Token($newTokenKind, $fullStart, $start, $pos - $fullStart);
                     $start = $fullStart = $pos;
                     break;
@@ -289,8 +357,6 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_LOGICAL_OR => TokenKind::OrKeyword,
         T_PRINT => TokenKind::PrintKeyword,
         T_PRIVATE => TokenKind::PrivateKeyword,
-        327 => TokenKind::PrivateSetKeyword, // T_PRIVATE_SET 
-        328 => TokenKind::ProtectedSetKeyword, // T_PROTECTED_SET
         T_PROTECTED => TokenKind::ProtectedKeyword,
         T_PUBLIC => TokenKind::PublicKeyword,
         T_READONLY => TokenKind::ReadonlyKeyword,
@@ -348,6 +414,7 @@ class PhpTokenizer implements TokenStreamProviderInterface {
         T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG => TokenKind::AmpersandToken,
         T_BOOLEAN_AND => TokenKind::AmpersandAmpersandToken,
         T_BOOLEAN_OR => TokenKind::BarBarToken,
+        T_PIPE => TokenKind::PipeToken,
         ":" => TokenKind::ColonToken,
         ";" => TokenKind::SemicolonToken,
         "=" => TokenKind::EqualsToken,

@@ -96,6 +96,11 @@ class DiagnosticsProvider {
     public static function getDiagnostics(Node $n) : array {
         $diagnostics = [];
 
+        // Check the root node itself first
+        if (($diagnostic = self::checkDiagnostics($n)) !== null) {
+            $diagnostics[] = $diagnostic;
+        }
+
         /**
          * @param \Microsoft\PhpParser\Node|\Microsoft\PhpParser\Token $node
          */

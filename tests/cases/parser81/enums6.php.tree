@@ -57,34 +57,34 @@
             {
                 "ExpressionStatement": {
                     "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": [
-                                {
-                                    "kind": "Name",
-                                    "textLength": 6
+                        "SubscriptExpression": {
+                            "postfixExpression": {
+                                "QualifiedName": {
+                                    "globalSpecifier": null,
+                                    "relativeSpecifier": null,
+                                    "nameParts": [
+                                        {
+                                            "kind": "Name",
+                                            "textLength": 6
+                                        }
+                                    ]
                                 }
-                            ]
+                            },
+                            "openBracketOrBrace": {
+                                "kind": "OpenBraceToken",
+                                "textLength": 1
+                            },
+                            "accessExpression": null,
+                            "closeBracketOrBrace": {
+                                "kind": "CloseBraceToken",
+                                "textLength": 1
+                            }
                         }
                     },
                     "semicolon": {
                         "error": "MissingToken",
                         "kind": "SemicolonToken",
                         "textLength": 0
-                    }
-                }
-            },
-            {
-                "CompoundStatementNode": {
-                    "openBrace": {
-                        "kind": "OpenBraceToken",
-                        "textLength": 1
-                    },
-                    "statements": [],
-                    "closeBrace": {
-                        "kind": "CloseBraceToken",
-                        "textLength": 1
                     }
                 }
             }

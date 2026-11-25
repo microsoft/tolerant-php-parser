@@ -7,39 +7,52 @@
 namespace Microsoft\PhpParser\Node;
 
 use Microsoft\PhpParser\FunctionLike;
+use Microsoft\PhpParser\ModifiedTypeInterface;
+use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
+use Microsoft\PhpParser\Node\DelimitedList\ParameterDeclarationList;
 use Microsoft\PhpParser\Node\Statement\CompoundStatementNode;
 use Microsoft\PhpParser\Token;
 
-class PropertyHook extends Node implements FunctionLike {
+class PropertyHook extends Node implements ModifiedTypeInterface, FunctionLike {
+    use ModifiedTypeTrait;
     /** @var AttributeGroup[]|null */
     public $attributes;
-    /** @var Token */
-    public $byRefToken;
-    /** @var Token */
-    public $name;
+
+    /** @var Token|null */
+    public $hookKeyword;
+
     /** @var Token|null */
     public $openParen;
-    /** @var DelimitedList\ParameterDeclarationList|null */
-    public $parameters;
+
+    /** @var ParameterDeclarationList|null */
+    public $parameterList;
+
     /** @var Token|null */
     public $closeParen;
+
     /** @var Token|null */
     public $arrowToken;
-    /** @var CompoundStatementNode|Expression|Token|null */
-    public $body;
+
+    /** @var Node|null */
+    public $expression;
+
+    /** @var CompoundStatementNode|null */
+    public $compoundStatement;
+
     /** @var Token|null */
     public $semicolon;
 
     const CHILD_NAMES = [
         'attributes',
-        'byRefToken',
-        'name',
+        'modifiers',
+        'hookKeyword',
         'openParen',
-        'parameters',
+        'parameterList',
         'closeParen',
         'arrowToken',
-        'body',
+        'expression',
+        'compoundStatement',
         'semicolon',
     ];
 }

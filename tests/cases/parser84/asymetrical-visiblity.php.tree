@@ -88,8 +88,7 @@
                                                                 "textLength": 6
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     },
                                                     {
@@ -126,8 +125,7 @@
                                                                 "textLength": 7
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     },
                                                     {
@@ -161,8 +159,7 @@
                                                                 "textLength": 4
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     },
                                                     {

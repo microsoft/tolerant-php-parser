@@ -7,25 +7,8 @@
                     "text": null,
                     "scriptSectionStartTag": {
                         "kind": "ScriptSectionStartTag",
-                        "textLength": 2
+                        "textLength": 5
                     }
-                }
-            },
-            {
-                "ExpressionStatement": {
-                    "expression": {
-                        "QualifiedName": {
-                            "globalSpecifier": null,
-                            "relativeSpecifier": null,
-                            "nameParts": [
-                                {
-                                    "kind": "Name",
-                                    "textLength": 3
-                                }
-                            ]
-                        }
-                    },
-                    "semicolon": null
                 }
             },
             {

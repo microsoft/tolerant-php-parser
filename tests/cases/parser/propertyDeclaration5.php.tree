@@ -46,14 +46,15 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "AssignmentExpression": {
-                                                            "leftOperand": {
+                                                        "PropertyElement": {
+                                                            "variable": {
                                                                 "Variable": {
                                                                     "dollar": null,
                                                                     "name": {
@@ -62,19 +63,19 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "operator": {
+                                                            "equalsToken": {
                                                                 "kind": "EqualsToken",
                                                                 "textLength": 1
                                                             },
-                                                            "byRef": null,
-                                                            "rightOperand": {
+                                                            "initializer": {
                                                                 "NumericLiteral": {
                                                                     "children": {
                                                                         "kind": "IntegerLiteralToken",
                                                                         "textLength": 1
                                                                     }
                                                                 }
-                                                            }
+                                                            },
+                                                            "hookList": null
                                                         }
                                                     },
                                                     {
@@ -82,21 +83,8 @@
                                                         "textLength": 1
                                                     },
                                                     {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 2
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        "kind": "CommaToken",
-                                                        "textLength": 1
-                                                    },
-                                                    {
-                                                        "AssignmentExpression": {
-                                                            "leftOperand": {
+                                                        "PropertyElement": {
+                                                            "variable": {
                                                                 "Variable": {
                                                                     "dollar": null,
                                                                     "name": {
@@ -105,12 +93,31 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "operator": {
+                                                            "equalsToken": null,
+                                                            "initializer": null,
+                                                            "hookList": null
+                                                        }
+                                                    },
+                                                    {
+                                                        "kind": "CommaToken",
+                                                        "textLength": 1
+                                                    },
+                                                    {
+                                                        "PropertyElement": {
+                                                            "variable": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 2
+                                                                    }
+                                                                }
+                                                            },
+                                                            "equalsToken": {
                                                                 "kind": "EqualsToken",
                                                                 "textLength": 1
                                                             },
-                                                            "byRef": null,
-                                                            "rightOperand": {
+                                                            "initializer": {
                                                                 "ArrayCreationExpression": {
                                                                     "arrayKeyword": {
                                                                         "kind": "ArrayKeyword",
@@ -126,13 +133,13 @@
                                                                         "textLength": 1
                                                                     }
                                                                 }
-                                                            }
+                                                            },
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

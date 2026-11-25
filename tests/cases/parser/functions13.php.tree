@@ -34,6 +34,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "setVisibilityToken": null,
                                         "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
@@ -44,8 +45,7 @@
                                             "textLength": 2
                                         },
                                         "equalsToken": null,
-                                        "default": null,
-                                        "propertyHooks": null
+                                        "default": null
                                     }
                                 },
                                 {
@@ -56,6 +56,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "setVisibilityToken": null,
                                         "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
@@ -86,8 +87,7 @@
                                             "textLength": 2
                                         },
                                         "equalsToken": null,
-                                        "default": null,
-                                        "propertyHooks": null
+                                        "default": null
                                     }
                                 },
                                 {

@@ -65,6 +65,7 @@
                                                                 "kind": "PublicKeyword",
                                                                 "textLength": 6
                                                             },
+                                                            "setVisibilityToken": null,
                                                             "modifiers": [
                                                                 {
                                                                     "kind": "ProtectedKeyword",
@@ -80,8 +81,7 @@
                                                                 "textLength": 4
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     }
                                                 ]

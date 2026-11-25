@@ -13,11 +13,6 @@ use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\AssertionFailedError;
 
 class ParserGrammarTest extends TestCase {
-    private $expectedTokensFile;
-    private $expectedDiagnosticsFile;
-    private $tokens;
-    private $diagnostics;
-
     /**
      * @dataProvider treeProvider
      */
@@ -52,8 +47,8 @@ class ParserGrammarTest extends TestCase {
             self::markTestSkipped('Snapshot generated');
         }
 
-        $tokensOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile";
-        $diagnosticsOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedDiagnosticsFile";
+        $tokensOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedTokensFile (deleted expected file to regenerate)";
+        $diagnosticsOutputStr = "input doc:\r\n$fileContents\r\n\r\ninput: $testCaseFile\r\nexpected: $expectedDiagnosticsFile (delete expected file to regenerate)";
 
         $this->assertEquals($expectedTokens, $tokens, $tokensOutputStr);
         $this->assertEquals($expectedDiagnostics, $diagnostics, $diagnosticsOutputStr);
@@ -64,12 +59,14 @@ class ParserGrammarTest extends TestCase {
     const PHP80_FILE_PATTERN = __DIR__ . "/cases/parser80/*";
     const PHP81_FILE_PATTERN = __DIR__ . "/cases/parser81/*";
     const PHP84_FILE_PATTERN = __DIR__ . "/cases/parser84/*";
+    const PHP85_FILE_PATTERN = __DIR__ . "/cases/parser85/*";
 
     const PATTERNS_FOR_MINIMUM_PHP_VERSION = [
         [70400, self::PHP74_FILE_PATTERN],
         [80000, self::PHP80_FILE_PATTERN],
         [80100, self::PHP81_FILE_PATTERN],
         [80400, self::PHP84_FILE_PATTERN],
+        [80500, self::PHP85_FILE_PATTERN],
     ];
 
     public function treeProvider() {

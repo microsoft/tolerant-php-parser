@@ -94,6 +94,7 @@ class TokenKind {
     const HaltCompilerKeyword = 173;
     const PrivateSetKeyword = 174;
     const ProtectedSetKeyword = 175;
+    const PublicSetKeyword = 176;
 
     const OpenBracketToken = 201;
     const CloseBracketToken = 202;
@@ -158,6 +159,7 @@ class TokenKind {
     const QuestionQuestionEqualsToken = 262;
     const QuestionArrowToken = 263;
     const AttributeToken = 264;
+    const PipeToken = 265;
 
     const DecimalLiteralToken = 301;
     const OctalLiteralToken = 302;
@@ -202,6 +204,7 @@ class TokenKind {
     const InlineHtml = 337;
     const PropertyType = 338;
     const EnumType = 339;
+    const ClassConstType = 420;
 
 //    const DollarOpenCurly = 339;
     const EncapsedAndWhitespace = 400;

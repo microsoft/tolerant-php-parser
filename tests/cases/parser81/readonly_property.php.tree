@@ -46,6 +46,7 @@
                                                 "textLength": 8
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
                                             "QualifiedNameList": {
@@ -58,21 +59,27 @@
                                             }
                                         },
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 4
-                                                            }
+                                                        "PropertyElement": {
+                                                            "variable": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 4
+                                                                    }
+                                                                }
+                                                            },
+                                                            "equalsToken": null,
+                                                            "initializer": null,
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1
@@ -130,6 +137,7 @@
                                                 "textLength": 8
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": {
                                             "kind": "QuestionToken",
                                             "textLength": 1
@@ -153,21 +161,27 @@
                                             }
                                         },
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 4
-                                                            }
+                                                        "PropertyElement": {
+                                                            "variable": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 4
+                                                                    }
+                                                                }
+                                                            },
+                                                            "equalsToken": null,
+                                                            "initializer": null,
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

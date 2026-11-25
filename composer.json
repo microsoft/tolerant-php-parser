@@ -1,5 +1,5 @@
 {
-    "name": "microsoft/tolerant-php-parser",
+    "name": "phan/tolerant-php-parser",
     "description": "Tolerant PHP-to-AST parser designed for IDE usage scenarios",
     "type": "library",
     "require": {

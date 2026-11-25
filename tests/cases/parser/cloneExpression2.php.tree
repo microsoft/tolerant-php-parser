@@ -19,6 +19,7 @@
                                 "kind": "CloneKeyword",
                                 "textLength": 5
                             },
+                            "openParen": null,
                             "expression": {
                                 "Variable": {
                                     "dollar": null,
@@ -27,7 +28,10 @@
                                         "textLength": 2
                                     }
                                 }
-                            }
+                            },
+                            "commaToken": null,
+                            "modifications": null,
+                            "closeParen": null
                         }
                     },
                     "semicolon": {

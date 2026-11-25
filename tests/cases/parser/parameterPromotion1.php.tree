@@ -65,6 +65,7 @@
                                                                 "kind": "PublicKeyword",
                                                                 "textLength": 6
                                                             },
+                                                            "setVisibilityToken": null,
                                                             "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": null,
@@ -75,8 +76,7 @@
                                                                 "textLength": 2
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     },
                                                     {
@@ -90,6 +90,7 @@
                                                                 "kind": "ProtectedKeyword",
                                                                 "textLength": 9
                                                             },
+                                                            "setVisibilityToken": null,
                                                             "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": {
@@ -109,8 +110,7 @@
                                                                 "textLength": 2
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     },
                                                     {
@@ -124,6 +124,7 @@
                                                                 "kind": "PrivateKeyword",
                                                                 "textLength": 7
                                                             },
+                                                            "setVisibilityToken": null,
                                                             "modifiers": null,
                                                             "questionToken": null,
                                                             "typeDeclarationList": null,
@@ -134,8 +135,7 @@
                                                                 "textLength": 2
                                                             },
                                                             "equalsToken": null,
-                                                            "default": null,
-                                                            "propertyHooks": null
+                                                            "default": null
                                                         }
                                                     }
                                                 ]

@@ -34,6 +34,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "setVisibilityToken": null,
                                         "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
@@ -93,8 +94,7 @@
                                             "textLength": 6
                                         },
                                         "equalsToken": null,
-                                        "default": null,
-                                        "propertyHooks": null
+                                        "default": null
                                     }
                                 },
                                 {
@@ -105,6 +105,7 @@
                                     "Parameter": {
                                         "attributes": null,
                                         "visibilityToken": null,
+                                        "setVisibilityToken": null,
                                         "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
@@ -151,8 +152,7 @@
                                             "textLength": 7
                                         },
                                         "equalsToken": null,
-                                        "default": null,
-                                        "propertyHooks": null
+                                        "default": null
                                     }
                                 }
                             ]
@@ -247,6 +247,7 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": {
                                             "QualifiedNameList": {
@@ -283,21 +284,27 @@
                                             }
                                         },
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "Variable": {
-                                                            "dollar": null,
-                                                            "name": {
-                                                                "kind": "VariableName",
-                                                                "textLength": 10
-                                                            }
+                                                        "PropertyElement": {
+                                                            "variable": {
+                                                                "Variable": {
+                                                                    "dollar": null,
+                                                                    "name": {
+                                                                        "kind": "VariableName",
+                                                                        "textLength": 10
+                                                                    }
+                                                                }
+                                                            },
+                                                            "equalsToken": null,
+                                                            "initializer": null,
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

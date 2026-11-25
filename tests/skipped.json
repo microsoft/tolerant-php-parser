@@ -61,5 +61,13 @@
     "traits23.php",
 
     "core_predefined_constants2.php",
-    "void_parameter.php"
+    "void_parameter.php",
+
+    "programStructure13.php",
+    "programStructure21.php",
+
+    "storage_duration-AfterAv1Reinit.php",
+    "storage_duration-AfterSv1Init.php",
+    "storage_duration-AfterSv2Init.php",
+    "storage_duration-AfterSv3Init.php"
 ]

@@ -1,4 +1,4 @@
 <?php
 class A {
-    const int| a = 3;
+    public const int|string VALUE = 3;
 }

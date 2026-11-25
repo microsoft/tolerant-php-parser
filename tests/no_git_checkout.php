@@ -1,0 +1,3 @@
+<?php
+$GLOBALS['GIT_CHECKOUT_PARSER'] = true;
+$GLOBALS['GIT_CHECKOUT_LEXER'] = true;

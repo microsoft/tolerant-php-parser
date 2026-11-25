@@ -42,14 +42,15 @@
                                                 "textLength": 6
                                             }
                                         ],
+                                        "setVisibilityToken": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
                                         "propertyElements": {
-                                            "ExpressionList": {
+                                            "PropertyElementList": {
                                                 "children": [
                                                     {
-                                                        "AssignmentExpression": {
-                                                            "leftOperand": {
+                                                        "PropertyElement": {
+                                                            "variable": {
                                                                 "Variable": {
                                                                     "dollar": null,
                                                                     "name": {
@@ -58,29 +59,38 @@
                                                                     }
                                                                 }
                                                             },
-                                                            "operator": {
+                                                            "equalsToken": {
                                                                 "kind": "EqualsToken",
                                                                 "textLength": 1
                                                             },
-                                                            "byRef": {
-                                                                "kind": "AmpersandToken",
-                                                                "textLength": 1
-                                                            },
-                                                            "rightOperand": {
-                                                                "Variable": {
-                                                                    "dollar": null,
-                                                                    "name": {
-                                                                        "kind": "VariableName",
-                                                                        "textLength": 2
+                                                            "initializer": {
+                                                                "BinaryExpression": {
+                                                                    "leftOperand": {
+                                                                        "error": "MissingToken",
+                                                                        "kind": "Expression",
+                                                                        "textLength": 0
+                                                                    },
+                                                                    "operator": {
+                                                                        "kind": "AmpersandToken",
+                                                                        "textLength": 1
+                                                                    },
+                                                                    "rightOperand": {
+                                                                        "Variable": {
+                                                                            "dollar": null,
+                                                                            "name": {
+                                                                                "kind": "VariableName",
+                                                                                "textLength": 2
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
-                                                            }
+                                                            },
+                                                            "hookList": null
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        "propertyHooks": null,
                                         "semicolon": {
                                             "kind": "SemicolonToken",
                                             "textLength": 1

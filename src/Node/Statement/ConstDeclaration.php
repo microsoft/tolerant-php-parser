@@ -11,6 +11,9 @@ use Microsoft\PhpParser\Node\StatementNode;
 use Microsoft\PhpParser\Token;
 
 class ConstDeclaration extends StatementNode {
+    /** @var array|null */
+    public $attributes;
+
     /** @var Token */
     public $constKeyword;
 
@@ -21,6 +24,7 @@ class ConstDeclaration extends StatementNode {
     public $semicolon;
 
     const CHILD_NAMES = [
+        'attributes',
         'constKeyword',
         'constElements',
         'semicolon'

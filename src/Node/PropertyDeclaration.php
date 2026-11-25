@@ -10,7 +10,7 @@ use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\ModifiedTypeInterface;
 use Microsoft\PhpParser\ModifiedTypeTrait;
 use Microsoft\PhpParser\Node;
-use Microsoft\PhpParser\Node\PropertyHooks;
+use Microsoft\PhpParser\Node\DelimitedList\PropertyElementList;
 use Microsoft\PhpParser\Node\DelimitedList\QualifiedNameList;
 use Microsoft\PhpParser\Token;
 
@@ -20,17 +20,17 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     /** @var AttributeGroup[]|null */
     public $attributes;
 
+    /** @var Token|null asymmetric visibility for set operations (PHP 8.4+) */
+    public $setVisibilityToken;
+
     /** @var Token|null question token for PHP 7.4 type declaration */
     public $questionToken;
 
     /** @var QualifiedNameList|MissingToken|null */
     public $typeDeclarationList;
 
-    /** @var DelimitedList\ExpressionList */
+    /** @var PropertyElementList */
     public $propertyElements;
-
-    /** @var PropertyHooks|null */
-    public $propertyHooks;
 
     /** @var Token */
     public $semicolon;
@@ -38,10 +38,10 @@ class PropertyDeclaration extends Node implements ModifiedTypeInterface {
     const CHILD_NAMES = [
         'attributes',
         'modifiers',
+        'setVisibilityToken',
         'questionToken',
         'typeDeclarationList',
         'propertyElements',
-        'propertyHooks',
         'semicolon'
     ];
 }

@@ -73,9 +73,11 @@ use Microsoft\PhpParser\Node\NamespaceAliasingClause;
 use Microsoft\PhpParser\Node\NamespaceUseGroupClause;
 use Microsoft\PhpParser\Node\NumericLiteral;
 use Microsoft\PhpParser\Node\ParenthesizedIntersectionType;
+use Microsoft\PhpParser\MissingToken;
 use Microsoft\PhpParser\Node\PropertyDeclaration;
-use Microsoft\PhpParser\Node\PropertyHooks;
+use Microsoft\PhpParser\Node\PropertyElement;
 use Microsoft\PhpParser\Node\PropertyHook;
+use Microsoft\PhpParser\Node\PropertyHookList;
 use Microsoft\PhpParser\Node\ReservedWord;
 use Microsoft\PhpParser\Node\StringLiteral;
 use Microsoft\PhpParser\Node\MethodDeclaration;
@@ -130,6 +132,7 @@ class Parser {
     private $nameOrKeywordOrReservedWordTokens;
     private $nameOrReservedWordTokens;
     private $nameOrStaticOrReservedWordTokens;
+    private $nameOrKeywordOrReservedWordTokensExceptNamespace;
     private $reservedWordTokens;
     private $keywordTokens;
     private $argumentStartTokensSet;
@@ -146,12 +149,19 @@ class Parser {
         $this->nameOrKeywordOrReservedWordTokens = \array_merge([TokenKind::Name], $this->keywordTokens, $this->reservedWordTokens);
         $this->nameOrReservedWordTokens = \array_merge([TokenKind::Name], $this->reservedWordTokens);
         $this->nameOrStaticOrReservedWordTokens = \array_merge([TokenKind::Name, TokenKind::StaticKeyword], $this->reservedWordTokens);
+        $this->nameOrKeywordOrReservedWordTokensExceptNamespace = \array_values(\array_diff(
+            $this->nameOrKeywordOrReservedWordTokens,
+            [TokenKind::NamespaceKeyword]
+        ));
         $this->parameterTypeDeclarationTokens =
             [TokenKind::ArrayKeyword, TokenKind::CallableKeyword, TokenKind::BoolReservedWord,
             TokenKind::FloatReservedWord, TokenKind::IntReservedWord, TokenKind::StringReservedWord,
             TokenKind::ObjectReservedWord, TokenKind::NullReservedWord, TokenKind::FalseReservedWord,
             TokenKind::TrueReservedWord, TokenKind::IterableReservedWord, TokenKind::MixedReservedWord,
-            TokenKind::VoidReservedWord, TokenKind::NeverReservedWord]; // TODO update spec
+            TokenKind::VoidReservedWord, TokenKind::NeverReservedWord,
+            // Legacy type aliases (invalid in actual code, but parser should accept them for error recovery)
+            TokenKind::BooleanReservedWord, TokenKind::IntegerReservedWord, TokenKind::DoubleReservedWord,
+            TokenKind::RealReservedWord, TokenKind::BinaryReservedWord]; // TODO update spec
         $this->returnTypeDeclarationTokens = \array_merge([TokenKind::StaticKeyword], $this->parameterTypeDeclarationTokens);
     }
 
@@ -202,9 +212,53 @@ class Parser {
         $this->sourceFile->endOfFileToken = $this->eat1(TokenKind::EndOfFileToken);
         $this->advanceToken();
 
+        // Check for unterminated comments in the trivia before EOF
+        $this->checkForUnterminatedComment($sourceFile);
+
         $sourceFile->parent = null;
 
         return $sourceFile;
+    }
+
+    private function checkForUnterminatedComment($sourceFile) {
+        // Check if the trivia before EOF contains an unterminated /* or /** comment
+        $eofToken = $sourceFile->endOfFileToken;
+        $trivia = substr($sourceFile->fileContents, $eofToken->fullStart, $eofToken->start - $eofToken->fullStart);
+
+        // Look for /* or /** that doesn't have a matching */
+        // We need to make sure it's not inside a single-line comment
+        if (preg_match('/\/\*\*?(?:(?!\*\/).)*$/s', $trivia, $matches, PREG_OFFSET_CAPTURE)) {
+            // Found potential unterminated comment - verify it's not in a // comment
+            $commentStart = $eofToken->fullStart + $matches[0][1];
+
+            // Check if this /* appears after a // on the same line
+            // Get the line containing the /* by looking back to the last newline
+            // Clamp the offset to avoid ValueError when $commentStart is near the beginning
+            $offset = $commentStart - strlen($sourceFile->fileContents) - 1;
+            $offset = max($offset, -strlen($sourceFile->fileContents));
+            $lastNewline = strrpos($sourceFile->fileContents, "\n", $offset);
+            $lineStart = $lastNewline !== false ? $lastNewline + 1 : 0;
+            $currentLine = substr($sourceFile->fileContents, $lineStart, $commentStart - $lineStart + 2); // +2 to include /*
+
+            // If there's a // before /* on the same line, it's inside a single-line comment
+            $doubleSlashPos = strpos($currentLine, '//');
+            $slashStarPos = strpos($currentLine, '/*');
+            if ($doubleSlashPos !== false && $doubleSlashPos < $slashStarPos) {
+                return; // The /* is inside a // comment
+            }
+
+            $commentText = $matches[0][0];
+
+            // Find the line number where the comment starts
+            $lineNumber = 1 + substr_count(substr($sourceFile->fileContents, 0, $commentStart), "\n");
+
+            $sourceFile->unterminatedCommentDiagnostic = new Diagnostic(
+                DiagnosticKind::Error,
+                "Unterminated comment starting line $lineNumber",
+                $commentStart,
+                strlen($commentText)
+            );
+        }
     }
 
     private function reset() {
@@ -643,7 +697,6 @@ class Parser {
             $modifiers = $this->parseModifiers();
 
             $token = $this->getCurrentToken();
-
             switch ($token->kind) {
                 case TokenKind::ConstKeyword:
                     return $this->parseClassConstDeclaration($parentNode, $modifiers);
@@ -662,6 +715,10 @@ class Parser {
 
                 case TokenKind::UseKeyword:
                     return $this->parseTraitUseClause($parentNode);
+
+                case TokenKind::CaseKeyword:
+                    // enum case in a class - error but parse for recovery
+                    return $this->parseEnumCaseDeclaration($parentNode);
 
                 case TokenKind::AttributeToken:
                     return $this->parseAttributeStatement($parentNode);
@@ -757,8 +814,8 @@ class Parser {
             // Create an interface element or a MissingMemberDeclaration
             $statement = $this->parseInterfaceElementFn()($parentNode);
         } else {
-            // Classlikes, anonymous functions, global functions, and arrow functions can have attributes. Global constants cannot.
-            if (in_array($this->token->kind, [TokenKind::ReadonlyKeyword, TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword], true) ||
+            // Classlikes, anonymous functions, global functions, arrow functions, and global constants (PHP 8.5+) can have attributes.
+            if (in_array($this->token->kind, [TokenKind::ReadonlyKeyword, TokenKind::ClassKeyword, TokenKind::TraitKeyword, TokenKind::InterfaceKeyword, TokenKind::AbstractKeyword, TokenKind::FinalKeyword, TokenKind::FunctionKeyword, TokenKind::FnKeyword, TokenKind::EnumKeyword, TokenKind::ConstKeyword], true) ||
                 $this->token->kind === TokenKind::StaticKeyword && $this->lookahead([TokenKind::FunctionKeyword, TokenKind::FnKeyword])) {
                 $statement = $this->parseStatement($parentNode);
             } else {
@@ -777,6 +834,7 @@ class Parser {
             $statement instanceof InterfaceDeclaration ||
             $statement instanceof ClassConstDeclaration ||
             $statement instanceof PropertyDeclaration ||
+            $statement instanceof ConstDeclaration ||
             $statement instanceof MissingDeclaration ||
             $statement instanceof MissingMemberDeclaration) {
 
@@ -852,17 +910,30 @@ class Parser {
             }
             // Note that parameter modifiers are allowed to be repeated by the parser in php 8.1 (it is a compiler error)
             //
-            // TODO: Remove the visibilityToken in a future backwards incompatible release
-            $parameter->visibilityToken = $this->eatOptional([
-                TokenKind::PublicKeyword,
-                TokenKind::ProtectedKeyword,
-                TokenKind::PrivateKeyword,
-            ]);
-            $parameter->setVisibilityToken = $this->eatOptional([
-                TokenKind::ProtectedSetKeyword,
-                TokenKind::PrivateSetKeyword,
-            ]);
+            // PHP 8.5+ allows final/readonly to precede visibility, so we need to parse all modifiers first
+            // then extract visibility from the modifiers list
+            $parameter->visibilityToken = $this->eatOptional([TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword]);
+            $parameter->setVisibilityToken = $this->eatOptional([TokenKind::PublicSetKeyword, TokenKind::ProtectedSetKeyword, TokenKind::PrivateSetKeyword]);
             $parameter->modifiers = $this->parseParameterModifiers() ?: null;
+
+            // If visibilityToken is null but we have modifiers, check if there's a visibility modifier
+            // in the modifiers array (e.g., for "final public" where final comes first)
+            if ($parameter->visibilityToken === null && $parameter->modifiers) {
+                foreach ($parameter->modifiers as $index => $modifier) {
+                    if (in_array($modifier->kind, [TokenKind::PublicKeyword, TokenKind::ProtectedKeyword, TokenKind::PrivateKeyword], true)) {
+                        $parameter->visibilityToken = $modifier;
+                        // Remove from modifiers array to avoid duplication
+                        array_splice($parameter->modifiers, $index, 1);
+                        // Re-index the array
+                        $parameter->modifiers = array_values($parameter->modifiers);
+                        break;
+                    }
+                }
+                // If modifiers is now empty, set to null
+                if (empty($parameter->modifiers)) {
+                    $parameter->modifiers = null;
+                }
+            }
 
             $parameter->questionToken = $this->eatOptional1(TokenKind::QuestionToken);
             $parameter->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($parameter);
@@ -871,6 +942,16 @@ class Parser {
                 if (end($children) instanceof MissingToken && ($children[\count($children) - 2]->kind ?? null) === TokenKind::AmpersandToken) {
                     array_pop($parameter->typeDeclarationList->children);
                     $parameter->byRefToken = array_pop($parameter->typeDeclarationList->children);
+                }
+                // Check for invalid ?Type|OtherType syntax (nullable with union types)
+                if ($parameter->questionToken) {
+                    foreach ($children as $index => $child) {
+                        if ($child instanceof Token && $child->kind === TokenKind::BarToken) {
+                            // Mark the BarToken as a SkippedToken to generate a diagnostic error
+                            $parameter->typeDeclarationList->children[$index] = new SkippedToken($child);
+                            break;
+                        }
+                    }
                 }
             } elseif ($parameter->questionToken) {
                 // TODO ParameterType?
@@ -887,10 +968,6 @@ class Parser {
             if ($parameter->equalsToken !== null) {
                 // TODO add post-parse rule that checks for invalid assignments
                 $parameter->default = $this->parseExpression($parameter);
-            }
-
-            if ($this->token->kind === TokenKind::OpenBraceToken) {
-                $parameter->propertyHooks = $this->parsePropertyHooks($parameter);
             }
             return $parameter;
         };
@@ -1086,6 +1163,9 @@ class Parser {
 
             case TokenKind::UseKeyword:
 
+            // case (enum case in class - error but accept for recovery)
+            case TokenKind::CaseKeyword:
+
             // attributes
             case TokenKind::AttributeToken:
                 return true;
@@ -1193,6 +1273,9 @@ class Parser {
                 // yield-expression
                 case TokenKind::YieldKeyword:
                 case TokenKind::YieldFromKeyword:
+
+                // throw-expression (PHP 8.0+)
+                case TokenKind::ThrowKeyword:
 
                 // object-creation-expression
                 case TokenKind::NewKeyword:
@@ -1575,6 +1658,11 @@ class Parser {
             case TokenKind::ProtectedKeyword:
             case TokenKind::PrivateKeyword:
 
+            // asymmetric visibility (PHP 8.4+)
+            case TokenKind::PrivateSetKeyword:
+            case TokenKind::ProtectedSetKeyword:
+            case TokenKind::PublicSetKeyword:
+
             // static-modifier
             case TokenKind::StaticKeyword:
 
@@ -1597,6 +1685,9 @@ class Parser {
 
             // readonly-modifier
             case TokenKind::ReadonlyKeyword:
+
+            // final-modifier (PHP 8.5+)
+            case TokenKind::FinalKeyword:
 
                 return true;
         }
@@ -1627,6 +1718,30 @@ class Parser {
         return $modifiers;
     }
 
+    /**
+     * Parse modifiers that are allowed on property hooks (visibility, static, final).
+     *
+     * @return Token[]
+     */
+    private function parsePropertyHookModifiers(): array {
+        $modifiers = [];
+        while (true) {
+            $token = $this->getCurrentToken();
+            switch ($token->kind) {
+                case TokenKind::PublicKeyword:
+                case TokenKind::ProtectedKeyword:
+                case TokenKind::PrivateKeyword:
+                case TokenKind::StaticKeyword:
+                case TokenKind::FinalKeyword:
+                    $modifiers[] = $token;
+                    $this->advanceToken();
+                    continue 2;
+            }
+            break;
+        }
+        return $modifiers;
+    }
+
     private function isParameterStartFn() {
         return function ($token) {
             switch ($token->kind) {
@@ -1648,7 +1763,14 @@ class Parser {
                 case TokenKind::PublicKeyword:
                 case TokenKind::ProtectedKeyword:
                 case TokenKind::PrivateKeyword:
+                case TokenKind::ReadonlyKeyword:
+                case TokenKind::FinalKeyword:
                 case TokenKind::AttributeToken:
+
+                // asymmetric visibility (PHP 8.4+)
+                case TokenKind::PublicSetKeyword:
+                case TokenKind::ProtectedSetKeyword:
+                case TokenKind::PrivateSetKeyword:
 
                 // dnf types (A&B)|C
                 case TokenKind::OpenParenToken:
@@ -1757,23 +1879,13 @@ class Parser {
                     DelimitedList\QualifiedNameParts::class,
                     TokenKind::BackslashToken,
                     function ($token) {
-                        // a\static() <- INVALID (but not checked for right now)
-                        // new a\static() <- INVALID
-                        // new static() <- VALID
-                        // a\static\b <- INVALID
-                        // a\function <- INVALID
-                        // a\true\b <-VALID
-                        // a\b\true <-VALID
-                        // a\static::b <-VALID
-                        // TODO more tests
-                        return $this->lookahead(TokenKind::BackslashToken)
-                            ? in_array($token->kind, $this->nameOrReservedWordTokens)
-                            : in_array($token->kind, $this->nameOrStaticOrReservedWordTokens);
+                        if ($token->kind === TokenKind::NamespaceKeyword) {
+                            return false;
+                        }
+                        return \in_array($token->kind, $this->nameOrKeywordOrReservedWordTokensExceptNamespace, true);
                     },
                     function ($parentNode) {
-                        $name = $this->lookahead(TokenKind::BackslashToken)
-                            ? $this->eat($this->nameOrReservedWordTokens)
-                            : $this->eat($this->nameOrStaticOrReservedWordTokens); // TODO support keyword name
+                        $name = $this->eat($this->nameOrKeywordOrReservedWordTokensExceptNamespace); // TODO support keyword name
                         $name->kind = TokenKind::Name; // bool/true/null/static should not be treated as keywords in this case
                         return $name;
                     }, $node);
@@ -2317,11 +2429,14 @@ class Parser {
             TokenKind::QuestionToken => [10, Associativity::Left],
 //            TokenKind::ColonToken => [9, Associativity::Left],
 
-            // TODO coalesce-expression (R)
-            TokenKind::QuestionQuestionToken => [9, Associativity::Right],
+        // TODO coalesce-expression (R)
+        TokenKind::QuestionQuestionToken => [9, Associativity::Right],
 
-            //logical-inc-OR-expression-1 (L)
-            TokenKind::BarBarToken => [12, Associativity::Left],
+        // pipe-expression (L)
+        TokenKind::PipeToken => [11, Associativity::Left],
+
+        //logical-inc-OR-expression-1 (L)
+        TokenKind::BarBarToken => [12, Associativity::Left],
 
             // logical-AND-expression-1 (L)
             TokenKind::AmpersandAmpersandToken => [13, Associativity::Left],
@@ -2820,6 +2935,10 @@ class Parser {
         return $listExpression;
     }
 
+    private function isArrayElementStart($token) {
+        return ($this->isArrayElementStartFn())($token);
+    }
+
     private function isArrayElementStartFn() {
         return function ($token) {
             return $token->kind === TokenKind::AmpersandToken || $token->kind === TokenKind::DotDotDotToken || $this->isExpressionStart($token);
@@ -3066,9 +3185,7 @@ class Parser {
         )) {
             return $expression;
         }
-        if ($tokenKind === TokenKind::OpenBraceToken) {
-            return $expression;
-        }
+
         if ($tokenKind === TokenKind::ColonColonToken) {
             $expression = $this->parseScopedPropertyAccessExpression($expression, null);
             return $this->parsePostfixExpressionRest($expression);
@@ -3078,6 +3195,14 @@ class Parser {
 
         if ($tokenKind === TokenKind::OpenBraceToken ||
             $tokenKind === TokenKind::OpenBracketToken) {
+            // Property hooks: don't parse `{` after certain expression types
+            // as those are property hook lists, not subscript expressions
+            if ($tokenKind === TokenKind::OpenBraceToken &&
+                ($expression instanceof StringLiteral ||
+                 $expression instanceof ArrayCreationExpression ||
+                 $expression instanceof ObjectCreationExpression)) {
+                return $expression;
+            }
             $expression = $this->parseSubscriptExpression($expression);
             return $this->parsePostfixExpressionRest($expression);
         }
@@ -3307,8 +3432,13 @@ class Parser {
             $objectCreationExpression->classMembers = $this->parseClassMembers($objectCreationExpression);
         }
 
-        // PHP8.4 new with no parenthesis
-        if ($this->getCurrentToken()->kind === TokenKind::ArrowToken) {
+        // PHP 8.4: new without parenthesis - allow chaining directly after new expression
+        $tokenKind = $this->getCurrentToken()->kind;
+        if ($tokenKind === TokenKind::ArrowToken ||
+            $tokenKind === TokenKind::QuestionArrowToken ||
+            $tokenKind === TokenKind::OpenBracketToken ||
+            $tokenKind === TokenKind::OpenParenToken ||
+            $tokenKind === TokenKind::ColonColonToken) {
             return $this->parsePostfixExpressionRest($objectCreationExpression);
         }
 
@@ -3393,20 +3523,41 @@ class Parser {
 
         $classConstDeclaration->modifiers = $modifiers;
         $classConstDeclaration->constKeyword = $this->eat1(TokenKind::ConstKeyword);
-        // Handle class constant declarations such as `const X|Y Z = 123;` or `const X = 123;`.
-        // This is similar to lookahead().
-        $startPos = $this->lexer->getCurrentPosition();
-        $startToken = $this->token;
-        $classConstDeclaration->typeDeclarationList = $this->tryParseParameterTypeDeclarationList($classConstDeclaration);
-        if (in_array($this->token->kind, [TokenKind::EqualsToken, TokenKind::CommaToken, TokenKind::SemicolonToken]) && $this->lexer->getCurrentPosition() <= $startPos + 1) {
-            $classConstDeclaration->typeDeclarationList = null;
-            $this->lexer->setCurrentPosition($startPos);
-            $this->token = $startToken;
-        }
+        $this->parseClassConstType($classConstDeclaration);
         $classConstDeclaration->constElements = $this->parseConstElements($classConstDeclaration);
         $classConstDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
 
         return $classConstDeclaration;
+    }
+
+    private function parseClassConstType(ClassConstDeclaration $classConstDeclaration): void
+    {
+        $startPosition = $this->lexer->getCurrentPosition();
+        $startToken = $this->token;
+
+        $questionToken = $this->eatOptional1(TokenKind::QuestionToken);
+        $typeDeclarationList = $this->tryParseParameterTypeDeclarationList($classConstDeclaration);
+
+        if ($questionToken !== null || $typeDeclarationList !== null) {
+            if (\in_array($this->getCurrentToken()->kind, $this->nameOrKeywordOrReservedWordTokens, true)) {
+                $classConstDeclaration->questionToken = $questionToken;
+                if ($typeDeclarationList !== null) {
+                    $classConstDeclaration->typeDeclarationList = $typeDeclarationList;
+                } else {
+                    $classConstDeclaration->typeDeclarationList = new MissingToken(TokenKind::ClassConstType, $this->token->fullStart);
+                }
+                return;
+            }
+
+            if ($questionToken !== null && $typeDeclarationList === null) {
+                $classConstDeclaration->questionToken = $questionToken;
+                $classConstDeclaration->typeDeclarationList = new MissingToken(TokenKind::ClassConstType, $this->token->fullStart);
+                return;
+            }
+        }
+
+        $this->lexer->setCurrentPosition($startPosition);
+        $this->token = $startToken;
     }
 
     private function parseEnumCaseDeclaration($parentNode) {
@@ -3448,7 +3599,16 @@ class Parser {
         $propertyDeclaration = new PropertyDeclaration();
         $propertyDeclaration->parent = $parentNode;
 
-        $propertyDeclaration->modifiers = $modifiers;
+        // Extract setVisibilityToken from modifiers (PHP 8.4+)
+        $filteredModifiers = [];
+        foreach ($modifiers as $modifier) {
+            if ($modifier->kind === TokenKind::PublicSetKeyword || $modifier->kind === TokenKind::PrivateSetKeyword || $modifier->kind === TokenKind::ProtectedSetKeyword) {
+                $propertyDeclaration->setVisibilityToken = $modifier;
+            } else {
+                $filteredModifiers[] = $modifier;
+            }
+        }
+        $propertyDeclaration->modifiers = $filteredModifiers ?: null;
         $propertyDeclaration->questionToken = $questionToken;
         if ($typeDeclarationList) {
             $propertyDeclaration->typeDeclarationList = $typeDeclarationList;
@@ -3456,113 +3616,144 @@ class Parser {
         } elseif ($questionToken) {
             $propertyDeclaration->typeDeclarationList = new MissingToken(TokenKind::PropertyType, $this->token->fullStart);
         }
-        $propertyDeclaration->propertyElements = $this->parsePropertyNameList($propertyDeclaration);
-        if ($this->token->kind === TokenKind::OpenBraceToken) {
-            $propertyDeclaration->propertyHooks = $this->parsePropertyHooks($propertyDeclaration);
-        } else {
+        $propertyDeclaration->propertyElements = $this->parsePropertyElementList($propertyDeclaration);
+        $hasPropertyWithHooks = false;
+        $hasPlainProperty = false;
+        foreach ($propertyDeclaration->propertyElements->children ?? [] as $child) {
+            if (!$child instanceof PropertyElement) {
+                continue;
+            }
+            if ($child->hookList !== null) {
+                $hasPropertyWithHooks = true;
+                continue;
+            }
+            $hasPlainProperty = true;
+            break;
+        }
+        if ($hasPlainProperty || !$hasPropertyWithHooks) {
             $propertyDeclaration->semicolon = $this->eat1(TokenKind::SemicolonToken);
+        } else {
+            $propertyDeclaration->semicolon = $this->eatOptional1(TokenKind::SemicolonToken);
         }
 
         return $propertyDeclaration;
     }
 
-    /**
-     * @param PropertyDeclaration $parentNode
-     * @return DelimitedList\VariableNameList
-     */
-    private function parsePropertyNameList($parentNode) {
-        // XXX this used to be implemented with parseExpressionList so keep the same classes.
+    private function parsePropertyElementList($parentNode): DelimitedList\PropertyElementList
+    {
         return $this->parseDelimitedList(
-            DelimitedList\ExpressionList::class,
+            DelimitedList\PropertyElementList::class,
             TokenKind::CommaToken,
-            function (Token $token) {
-                return $token->kind === TokenKind::VariableName;
+            $this->isPropertyElementStartFn(),
+            function ($list) {
+                return $this->parsePropertyElement($list);
             },
-            $this->parsePropertyVariableNameAndDefault(),
             $parentNode
-        );
+        ) ?? new DelimitedList\PropertyElementList();
     }
 
-    private function parsePropertyVariableNameAndDefault() {
-        return function ($parentNode) {
-            // Imitate the format that parseExpression would have returned from when
-            // parseExpression was originally used.
-            // This is more precise and rules out parse errors such as `public $propName + 2;`
-            // This approach also avoids conflict with the deprecated $x{expr} array access syntax.
-            $variable = new Variable();
-            $variable->name = $this->eat1(TokenKind::VariableName);
-            $equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
-            if ($equalsToken === null) {
-                $variable->parent = $parentNode;
-                return $variable;
+    private function isPropertyElementStartFn()
+    {
+        return function (Token $token): bool {
+            return $token->kind === TokenKind::VariableName || $token->kind === TokenKind::DollarToken;
+        };
+    }
+
+    private function parsePropertyElement($parentNode): PropertyElement
+    {
+        $element = new PropertyElement();
+        $element->parent = $parentNode;
+        $element->variable = $this->parseSimpleVariable($element);
+        $element->equalsToken = $this->eatOptional1(TokenKind::EqualsToken);
+        if ($element->equalsToken !== null) {
+            $element->initializer = $this->parseExpression($element);
+        }
+        if ($this->getCurrentToken()->kind === TokenKind::OpenBraceToken) {
+            $element->hookList = $this->parsePropertyHookList($element);
+        }
+        return $element;
+    }
+
+    private function parsePropertyHookList(PropertyElement $parentNode): PropertyHookList
+    {
+        $hookList = new PropertyHookList();
+        $hookList->parent = $parentNode;
+        $hookList->openBrace = $this->eat1(TokenKind::OpenBraceToken);
+        $hookList->hooks = [];
+
+        while (true) {
+            $token = $this->getCurrentToken();
+            if ($token->kind === TokenKind::CloseBraceToken || $token->kind === TokenKind::EndOfFileToken) {
+                break;
             }
-
-            $byRefToken = $this->eatOptional1(TokenKind::AmpersandToken); // byRef default is nonsense, but this is a compile-time error instead of a parse error.
-            $rightOperand = $this->parseExpression($parentNode); // gets overridden in makeBinaryExpression
-            return $this->makeBinaryExpression($variable, $equalsToken, $byRefToken, $rightOperand, $parentNode);
-        };
-    }
-
-    /**
-     * @param PropertyDeclaration|Parameter $parent
-     * @return PropertyHooks
-     */
-    private function parsePropertyHooks(Node $parent) {
-        $propertyHooks = new PropertyHooks();
-        $propertyHooks->parent = $parent;
-        $propertyHooks->openBrace = $this->eat1(TokenKind::OpenBraceToken);
-        $hooks = [];
-        while (in_array($this->getCurrentToken()->kind, self::PROPERTY_HOOK_START_TOKENS, true)) {
-            $hooks[] = $this->parsePropertyHook($propertyHooks);
+            $previousFullStart = $token->fullStart;
+            $hook = $this->parsePropertyHook($hookList);
+            if ($hook instanceof PropertyHook) {
+                $hookList->hooks[] = $hook;
+            } else {
+                // Ensure forward progress to avoid infinite loops.
+                $this->advanceToken();
+            }
+            if ($this->getCurrentToken()->fullStart === $previousFullStart) {
+                // No progress was made; advance once to prevent infinite loops.
+                $this->advanceToken();
+            }
         }
-        $propertyHooks->hookDeclarations = $hooks;
-        $propertyHooks->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
-        return $propertyHooks;
+
+        $hookList->closeBrace = $this->eat1(TokenKind::CloseBraceToken);
+        return $hookList;
     }
 
-    const PROPERTY_HOOK_START_TOKENS = [
-        TokenKind::Name,
-        TokenKind::AmpersandToken, // by reference
-        TokenKind::AttributeToken,
-    ];
+    private function parsePropertyHook(PropertyHookList $parentNode): ?PropertyHook
+    {
+        $hook = new PropertyHook();
+        $hook->parent = $parentNode;
 
-    private function isPropertyHookStart() {
-        return function ($token) {
-            return \in_array($token->kind, self::PROPERTY_HOOK_START_TOKENS, true);
-        };
-    }
-
-    /**
-     * @param PropertyHooks $parentNode
-     * @return PropertyHook
-     */
-    private function parsePropertyHook($parentNode) {
-        $node = new PropertyHook();
-        $node->parent = $parentNode;
         if ($this->getCurrentToken()->kind === TokenKind::AttributeToken) {
-            $node->attributes = $this->parseAttributeGroups($node);
+            $hook->attributes = $this->parseAttributeGroups($hook);
         }
-        $node->byRefToken = $this->eatOptional1(TokenKind::AmpersandToken);
-        $node->name = $this->eat1(TokenKind::Name); // "get" or "set" - other values are compile errors, not parse errors.
-        $node->openParen = $this->eatOptional1(TokenKind::OpenParenToken);
-        if ($node->openParen) {
-            $node->parameters = $this->parseDelimitedList(
+
+        $hook->modifiers = $this->parsePropertyHookModifiers();
+
+        $token = $this->getCurrentToken();
+        if ($token->kind === TokenKind::Name) {
+            $text = \strtolower(\trim($token->getText($this->sourceFile->fileContents)));
+            if (\in_array($text, ['get', 'set', 'init'], true)) {
+                $hook->hookKeyword = $token;
+                $this->advanceToken();
+            } else {
+                $hook->hookKeyword = new MissingToken(TokenKind::Name, $token->fullStart);
+                return $hook;
+            }
+        } else {
+            $hook->hookKeyword = new MissingToken(TokenKind::Name, $token->fullStart);
+            return $hook;
+        }
+
+        if ($this->checkToken(TokenKind::OpenParenToken)) {
+            $hook->openParen = $this->eat1(TokenKind::OpenParenToken);
+            $hook->parameterList = $this->parseDelimitedList(
                 DelimitedList\ParameterDeclarationList::class,
                 TokenKind::CommaToken,
                 $this->isParameterStartFn(),
                 $this->parseParameterFn(),
-                $node);
-            $node->closeParen = $this->eat1(TokenKind::CloseParenToken);
+                $hook
+            );
+            $hook->closeParen = $this->eat1(TokenKind::CloseParenToken);
         }
-        // e.g. `get => expr;` or `get { return $expr; }`
-        $node->arrowToken = $this->eatOptional1(TokenKind::DoubleArrowToken);
-        if ($node->arrowToken) {
-            $node->body = $this->parseExpression($node);
-            $node->semicolon = $this->eat1(TokenKind::SemicolonToken);
+
+        if ($this->checkToken(TokenKind::DoubleArrowToken)) {
+            $hook->arrowToken = $this->eat1(TokenKind::DoubleArrowToken);
+            $hook->expression = $this->parseExpression($hook);
+            $hook->semicolon = $this->eatOptional1(TokenKind::SemicolonToken) ?? new MissingToken(TokenKind::SemicolonToken, $this->getCurrentToken()->fullStart);
+        } elseif ($this->checkToken(TokenKind::SemicolonToken)) {
+            // Abstract hook (interface or abstract class)
+            $hook->semicolon = $this->eat1(TokenKind::SemicolonToken);
         } else {
-            $node->body = $this->parseCompoundStatement($node);
+            $hook->compoundStatement = $this->parseCompoundStatement($hook);
         }
-        return $node;
+
+        return $hook;
     }
 
     /**
@@ -3637,7 +3828,43 @@ class Parser {
 
             case TokenKind::FunctionKeyword:
 
+            // trait use (not allowed but parse for error recovery)
+            case TokenKind::UseKeyword:
+
             case TokenKind::AttributeToken:
+
+            // PHP 8.4: interface property hooks without explicit visibility
+            case TokenKind::QuestionToken:  // nullable type: ?Foo $bar
+            case TokenKind::VariableName:   // no type: $bar
+
+            // Type tokens that can start a property declaration
+            case TokenKind::Name:           // qualified names: Foo $bar
+            case TokenKind::BackslashToken: // fully qualified: \Foo $bar
+            case TokenKind::NamespaceKeyword: // relative: namespace\Foo $bar
+            case TokenKind::OpenParenToken: // DNF types: (A&B)|C $bar
+
+            // Built-in type keywords
+            case TokenKind::ArrayKeyword:
+            case TokenKind::CallableKeyword:
+            case TokenKind::BoolReservedWord:
+            case TokenKind::FloatReservedWord:
+            case TokenKind::IntReservedWord:
+            case TokenKind::StringReservedWord:
+            case TokenKind::ObjectReservedWord:
+            case TokenKind::NullReservedWord:
+            case TokenKind::FalseReservedWord:
+            case TokenKind::TrueReservedWord:
+            case TokenKind::IterableReservedWord:
+            case TokenKind::MixedReservedWord:
+            case TokenKind::VoidReservedWord:
+            case TokenKind::NeverReservedWord:
+
+            // Legacy type aliases (for error recovery)
+            case TokenKind::BooleanReservedWord:
+            case TokenKind::IntegerReservedWord:
+            case TokenKind::DoubleReservedWord:
+            case TokenKind::RealReservedWord:
+            case TokenKind::BinaryReservedWord:
                 return true;
         }
         return false;
@@ -3655,14 +3882,28 @@ class Parser {
                 case TokenKind::FunctionKeyword:
                     return $this->parseMethodDeclaration($parentNode, $modifiers);
 
+                case TokenKind::QuestionToken:
+                    // PHP 8.4: property hooks in interfaces
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration(
+                        $parentNode,
+                        $modifiers,
+                        $this->eat1(TokenKind::QuestionToken)
+                    );
+
+                case TokenKind::VariableName:
+                    // PHP 8.4: property hooks in interfaces
+                    return $this->parsePropertyDeclaration($parentNode, $modifiers);
+
+                case TokenKind::UseKeyword:
+                    // Trait use in interface - not allowed in PHP but parse for error recovery
+                    return $this->parseTraitUseClause($parentNode);
+
                 case TokenKind::AttributeToken:
                     return $this->parseAttributeStatement($parentNode);
 
                 default:
-                    $missingInterfaceMemberDeclaration = new MissingMemberDeclaration();
-                    $missingInterfaceMemberDeclaration->parent = $parentNode;
-                    $missingInterfaceMemberDeclaration->modifiers = $modifiers;
-                    return $missingInterfaceMemberDeclaration;
+                    // PHP 8.4: property hooks in interfaces - handle type declarations
+                    return $this->parseRemainingPropertyDeclarationOrMissingMemberDeclaration($parentNode, $modifiers);
             }
         };
     }
@@ -3695,8 +3936,10 @@ class Parser {
             $namespaceDefinition->compoundStatementOrSemicolon = $this->parseCompoundStatement($namespaceDefinition);
         } else {
             if (!$namespaceDefinition->name) {
-                // only optional with compound statement block
-                $namespaceDefinition->name = new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
+                if (!$this->checkToken(TokenKind::SemicolonToken)) {
+                    // name is only optional when followed by a semicolon (global namespace)
+                    $namespaceDefinition->name = new MissingToken(TokenKind::QualifiedName, $this->token->fullStart);
+                }
             }
             $namespaceDefinition->compoundStatementOrSemicolon = $this->eatSemicolonOrAbortStatement();
         }
@@ -3865,6 +4108,7 @@ class Parser {
     private function parseEnumDeclaration($parentNode) {
         $enumDeclaration = new EnumDeclaration();
         $enumDeclaration->parent = $parentNode;
+
         $enumDeclaration->enumKeyword = $this->eat1(TokenKind::EnumKeyword);
         $enumDeclaration->name = $this->eat1(TokenKind::Name);
         $enumDeclaration->colonToken = $this->eatOptional1(TokenKind::ColonToken);
@@ -4323,7 +4567,23 @@ class Parser {
         $cloneExpression->parent = $parentNode;
 
         $cloneExpression->cloneKeyword = $this->eat1(TokenKind::CloneKeyword);
-        $cloneExpression->expression = $this->parseUnaryExpressionOrHigher($cloneExpression);
+
+        // PHP 8.5: clone can now be used like a function: clone($obj, ["prop" => $val])
+        if ($this->getCurrentToken()->kind === TokenKind::OpenParenToken) {
+            $cloneExpression->openParen = $this->eat1(TokenKind::OpenParenToken);
+            $cloneExpression->expression = $this->parseExpression($cloneExpression);
+
+            // Check for optional second argument (property modifications)
+            if ($this->getCurrentToken()->kind === TokenKind::CommaToken) {
+                $cloneExpression->commaToken = $this->eat1(TokenKind::CommaToken);
+                $cloneExpression->modifications = $this->parseExpression($cloneExpression);
+            }
+
+            $cloneExpression->closeParen = $this->eat1(TokenKind::CloseParenToken);
+        } else {
+            // Traditional syntax: clone $obj
+            $cloneExpression->expression = $this->parseUnaryExpressionOrHigher($cloneExpression);
+        }
 
         return $cloneExpression;
     }

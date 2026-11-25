@@ -72,6 +72,7 @@
                                             }
                                         ],
                                         "visibilityToken": null,
+                                        "setVisibilityToken": null,
                                         "modifiers": null,
                                         "questionToken": null,
                                         "typeDeclarationList": null,
@@ -82,8 +83,7 @@
                                             "textLength": 6
                                         },
                                         "equalsToken": null,
-                                        "default": null,
-                                        "propertyHooks": null
+                                        "default": null
                                     }
                                 },
                                 {

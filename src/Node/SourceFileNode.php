@@ -22,5 +22,12 @@ class SourceFileNode extends Node {
     /** @var Token */
     public $endOfFileToken;
 
+    /** @var \Microsoft\PhpParser\Diagnostic|null */
+    public $unterminatedCommentDiagnostic;
+
     const CHILD_NAMES = ['statementList', 'endOfFileToken'];
+
+    public function getDiagnosticForNode() {
+        return $this->unterminatedCommentDiagnostic;
+    }
 }

@@ -1,8 +1,8 @@
 [
     {
         "kind": 0,
-        "message": "';' expected.",
-        "start": 8,
+        "message": "'}' expected.",
+        "start": 10,
         "length": 0
     },
     {
@@ -16,11 +16,5 @@
         "message": "Unexpected ']'",
         "start": 10,
         "length": 1
-    },
-    {
-        "kind": 0,
-        "message": "'}' expected.",
-        "start": 12,
-        "length": 0
     }
 ]

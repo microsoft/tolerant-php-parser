@@ -14,11 +14,27 @@ class CloneExpression extends Expression {
     /** @var Token */
     public $cloneKeyword;
 
+    /** @var Token|null OpenParenToken for clone($obj, ...) syntax (PHP 8.5+) */
+    public $openParen;
+
     /** @var Expression */
     public $expression;
 
+    /** @var Token|null CommaToken between object and modifications (PHP 8.5+) */
+    public $commaToken;
+
+    /** @var Expression|null Array expression with property modifications (PHP 8.5+) */
+    public $modifications;
+
+    /** @var Token|null CloseParenToken for clone($obj, ...) syntax (PHP 8.5+) */
+    public $closeParen;
+
     const CHILD_NAMES = [
         'cloneKeyword',
-        'expression'
+        'openParen',
+        'expression',
+        'commaToken',
+        'modifications',
+        'closeParen'
     ];
 }

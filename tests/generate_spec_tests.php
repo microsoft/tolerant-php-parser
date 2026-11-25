@@ -7,8 +7,8 @@
 
 //$testCases = array('C:\src\php-investigations\tolerant-php-parser\tests\..\php-langspec\tests\traits\traits.phpt');
 $sep = DIRECTORY_SEPARATOR;
-$testCases = glob(__DIR__ . "${sep}..${sep}php-langspec${sep}tests${sep}**${sep}*.phpt");
-$outTestCaseDir = __DIR__ . "${sep}cases${sep}php-langspec${sep}";
+$testCases = glob(__DIR__ . "{$sep}..{$sep}php-langspec{$sep}tests{$sep}**{$sep}*.phpt");
+$outTestCaseDir = __DIR__ . "{$sep}cases{$sep}php-langspec{$sep}";
 mkdir($outTestCaseDir);
 file_put_contents($outTestCaseDir . "README.md", "Auto-generated from php/php-langspec tests");
 
